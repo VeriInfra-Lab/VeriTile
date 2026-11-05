@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/chunk_linear_attn'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/chunk_linear_attn'
 
 class ChunkLinearBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_all_four_original_and_candidate_stages_are_complete(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [5, 5, 12, 13, 5, 5, 20, 20])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in rows))
 
@@ -48,9 +49,9 @@ class ChunkLinearBodyMigration(unittest.TestCase):
                             'readPorts := ["q","dht","do"]')
 
     def test_candidate_only_hoists_the_existing_head_address(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        source = (CASE / meta['source']).read_text()
-        candidate = (CASE / meta['candidate']).read_text()
+        meta = variant_provenance(CASE)
+        source = variant_source(CASE / meta['source'])
+        candidate = variant_source(CASE / meta['candidate'])
         for label, text in [('source', source), ('candidate', candidate)]:
             self.assertEqual(hashlib.sha256(text.encode()).hexdigest(), meta[label + '_sha256'])
         expected = ast.parse(source)

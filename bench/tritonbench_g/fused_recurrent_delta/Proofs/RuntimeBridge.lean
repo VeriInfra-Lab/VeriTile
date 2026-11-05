@@ -1,5 +1,5 @@
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.RuntimeRegister
-import bench.tritonbench_g.fused_recurrent_delta.RuntimeIO
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.Support.RuntimeIO
 
 namespace VeriTile.Bench.Repairs.FusedRecurrentDelta.RuntimeBridge
 open VeriTile.Triton FP.Structural RuntimeTransport KernelProgram

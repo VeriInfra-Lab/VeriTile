@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.Sources.AlgorithmProjection
+import bench.tritonbench_g.attention_score.Proofs.Sources.AlgorithmProjection
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealExpressions
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Triton.Semantics.ProgramRewrite

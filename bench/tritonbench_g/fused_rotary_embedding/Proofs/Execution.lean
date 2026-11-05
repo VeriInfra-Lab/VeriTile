@@ -1,6 +1,6 @@
 import bench.tritonbench_g.fused_rotary_embedding.Kernels
 import bench.tritonbench_g.fused_rotary_embedding.Proofs.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Source
 open VeriTile.Triton FP.Structural FusedRotaryEmbedding

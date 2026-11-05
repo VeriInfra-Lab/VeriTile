@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_retention_ops.Proofs.KernelNative
-import bench.tritonbench_g.chunk_retention.Sources.ForwardHNative
-import bench.tritonbench_g.chunk_retention.Sources.ForwardONative
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.ForwardHNative
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.ForwardONative
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelNative
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open KernelBackward (PID)

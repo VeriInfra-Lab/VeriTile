@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rope_backward_transform.PairIO
+import bench.tritonbench_g.rope_backward_transform.Proofs.Support.PairIO
 import bench.tritonbench_g.rope_backward_transform.Proofs.IOBindings
 
 namespace VeriTile.Bench.Repairs.RopeBackwardTransform.PairIO

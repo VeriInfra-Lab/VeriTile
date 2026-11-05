@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_FPReference
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.Mathematical_FPReference
 
 namespace VeriTile.Bench.TritonBenchG.IvDependentMatmul.FPValue
 open VeriTile Triton FP.Structural

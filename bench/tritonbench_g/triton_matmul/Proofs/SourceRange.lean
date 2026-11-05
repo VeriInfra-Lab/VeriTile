@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.Structural
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)

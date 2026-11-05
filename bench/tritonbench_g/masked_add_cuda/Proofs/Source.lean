@@ -1,6 +1,6 @@
 import bench.tritonbench_g.masked_add_cuda.Kernels
 import bench.tritonbench_g.masked_add_cuda.Proofs.Mathematical_Source
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 
 namespace VeriTile.Bench.Repairs.MaskedAddCuda
 open VeriTile.Triton

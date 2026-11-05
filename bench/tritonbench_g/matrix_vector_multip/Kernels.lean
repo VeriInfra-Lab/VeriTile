@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_vector_multip.Sources.Parameters
+import bench.tritonbench_g.matrix_vector_multip.Proofs.Sources.Parameters
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels
 open VeriTile.Triton

@@ -1,12 +1,13 @@
 import ast
 import hashlib
-import json
 import math
 import re
 import struct
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/triton_linear_activation'
@@ -14,10 +15,10 @@ CASE = ROOT / 'bench/tritonbench_g/triton_linear_activation'
 
 class LinearActivationBodyMigrationTests(unittest.TestCase):
     def records(self):
-        return json.loads((CASE / 'jit-correspondence.json').read_text())
+        return pinned_pairs(CASE)
 
     def test_all_helpers_original_and_existing_candidate(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [2] * 8 + [27, 27])
         for r in rows[-2:]:
             self.assertEqual(set(r['runtime_parameters']), {
@@ -55,8 +56,8 @@ class LinearActivationBodyMigrationTests(unittest.TestCase):
             self.assertEqual(actual, int(declared[1], 16))
 
     def test_existing_candidate_only_changes_the_conditional_width_index(self):
-        original = ast.parse((CASE / 'triton_linear_activation.py').read_text())
-        candidate = ast.parse((CASE / 'triton_linear_activation_shifted.py').read_text())
+        original = ast.parse(variant_source(CASE / 'triton_linear_activation.py'))
+        candidate = ast.parse(variant_source(CASE / 'triton_linear_activation_shifted.py'))
 
         class Restore(ast.NodeTransformer):
             changed = 0
@@ -88,7 +89,7 @@ class LinearActivationBodyMigrationTests(unittest.TestCase):
         candidate = restore.visit(candidate)
         self.assertEqual(restore.changed, 1)
         self.assertEqual(ast.dump(candidate), ast.dump(original))
-        provenance = json.loads((CASE / 'candidate-provenance.json').read_text())
+        provenance = variant_provenance(CASE)
         for field in ['original', 'candidate']:
-            self.assertEqual(hashlib.sha256((CASE / provenance[field]).read_bytes()).hexdigest(),
+            self.assertEqual(hashlib.sha256(variant_source(CASE / provenance[field]).encode()).hexdigest(),
                              provenance[field + '_sha256'])

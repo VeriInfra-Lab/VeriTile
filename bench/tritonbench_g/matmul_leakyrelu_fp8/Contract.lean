@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu.Tensor
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Support.Tensor
 import bench.tritonbench_g.matmul_leakyrelu_fp8.Proofs.Checked_Reference
 
 /-! Actual FP32 Tensor bindings. Signed descriptor/storage bounds are ordinary

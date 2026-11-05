@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_cumsum_vector.Proofs.IndexProgram
-import bench.tritonbench_g.chunk_cumsum_vector.Sources.Mathematical_RealMath
+import bench.tritonbench_g.chunk_cumsum_vector.Proofs.Sources.Mathematical_RealMath
 
 namespace VeriTile.Bench.Repairs.ChunkCumsumVector.RealProgram
 open VeriTile.Triton IndexProgram

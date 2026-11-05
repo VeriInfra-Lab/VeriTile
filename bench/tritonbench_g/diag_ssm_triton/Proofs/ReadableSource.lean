@@ -1,5 +1,5 @@
-import bench.tritonbench_g.diag_ssm_triton.Sources.Mathematical_Kernels
-import bench.tritonbench_g.diag_ssm_triton.Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Sources.Mathematical_Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.ReadableSource

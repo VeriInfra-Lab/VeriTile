@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton3.Kernels
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.context_attn_mistral.Proofs.FPBackend
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Reference

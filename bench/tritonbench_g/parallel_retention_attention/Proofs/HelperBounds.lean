@@ -1,5 +1,5 @@
 import bench.tritonbench_g.parallel_retention_attention.Proofs.Index32
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPBackwardGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPBackwardGraph
 
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (BackwardConfig)

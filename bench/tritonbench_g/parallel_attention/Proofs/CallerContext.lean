@@ -1,6 +1,6 @@
-import bench.tritonbench_g.parallel_attention.QueryWhole
-import bench.tritonbench_g.parallel_attention.FPBackwardWhole
-import bench.tritonbench_g.parallel_attention.ShellSyntax
+import bench.tritonbench_g.parallel_attention.Proofs.Support.QueryWhole
+import bench.tritonbench_g.parallel_attention.Proofs.Support.FPBackwardWhole
+import bench.tritonbench_g.parallel_attention.Proofs.Support.ShellSyntax
 
 /-! Proof views into the complete pasted caller. These excerpts are used only
 for execution reasoning; Kernels.lean remains the source authority. -/

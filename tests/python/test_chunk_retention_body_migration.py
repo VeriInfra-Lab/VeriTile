@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/chunk_retention'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/chunk_retention'
 
 class ChunkRetentionBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_every_original_and_candidate_stage_is_complete(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [9, 9, 16, 16, 26, 26, 8, 8])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in rows))
 
@@ -47,9 +48,9 @@ class ChunkRetentionBodyMigration(unittest.TestCase):
         self.mutation(6, 'readPorts := ["q","do","d_ht"]', 'readPorts := ["q","d_ht","do"]')
 
     def test_candidate_only_commutes_the_existing_final_multiply(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        source = (CASE / meta['original']).read_text()
-        candidate = (CASE / meta['candidate']).read_text()
+        meta = variant_provenance(CASE)
+        source = variant_source(CASE / meta['original'])
+        candidate = variant_source(CASE / meta['candidate'])
         self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate.encode()).hexdigest(), meta['candidate_sha256'])
         before = 'b_o = (b_o + tl.dot(b_s.to(b_v.dtype), b_v, allow_tf32=False)) * scale'

@@ -1,5 +1,5 @@
-import bench.tritonbench_g.rotary_transform.Sources.Body
-import bench.tritonbench_g.rotary_transform_ops.Model
+import bench.tritonbench_g.rotary_transform.Kernels
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.Model
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 

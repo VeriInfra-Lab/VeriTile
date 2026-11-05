@@ -3,7 +3,7 @@ import bench.tritonbench_g.bgmv_expand_slice.Proofs.KernelRaw
 import bench.tritonbench_g.bgmv_expand_slice.Kernels
 import VeriTile.Triton.Float.ProgramIO
 import VeriTile.Triton.Float.LogicalProgramIO
-import bench.tritonbench_g.bgmv_expand_slice.Real
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Support.Real
 
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.PublicExecution
 open VeriTile.Triton FP.Structural Direct Direct.FPValues

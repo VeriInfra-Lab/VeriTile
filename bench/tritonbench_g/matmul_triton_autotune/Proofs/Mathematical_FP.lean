@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.Sources.Mathematical_Host
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Sources.Mathematical_Host
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Whole
 open VeriTile.Triton FP.Structural

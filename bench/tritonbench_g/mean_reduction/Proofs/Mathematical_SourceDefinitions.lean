@@ -1,4 +1,4 @@
-import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
+import bench.tritonbench_g.mean_reduction.Proofs.Sources.Mathematical_Kernels
 
 /-! Source selectors used by the existing complete-grid proof layers. Their
 original declaration names and complete values are retained outside Proofs;

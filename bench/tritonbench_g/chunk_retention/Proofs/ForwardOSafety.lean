@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_retention.Proofs.PureAccessSafety
-import bench.tritonbench_g.chunk_retention.Sources.ForwardOComplete
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.ForwardOComplete
 import bench.tritonbench_g.chunk_retention.Proofs.AccessSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.ForwardOSource

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.block_sparse_attn.Execution
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.Execution
 
 namespace VeriTile.Bench.Repairs.BlockSparseAttn.KernelOnly
 open VeriTile.Triton FP.Structural

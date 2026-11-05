@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.SourceTypes
+import bench.tritonbench_g.fp4_to_bf16.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.StatementJitCallConstants
 
 namespace VeriTile.Bench.Repairs.Fp4ToBf16.Pasted

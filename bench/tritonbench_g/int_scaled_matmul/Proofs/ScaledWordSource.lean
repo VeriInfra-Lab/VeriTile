@@ -1,12 +1,12 @@
 import VeriTile.Triton.Float.StructuralSafety
-import bench.tritonbench_g.int_scaled_matmul.Sources.Word32
-import bench.tritonbench_g.int_scaled_matmul.Sources.Kernels
-import bench.tritonbench_g.int_scaled_matmul.Sources.Mathematical_IntScaledMatmul
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.Word32
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.Kernels
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.Mathematical_IntScaledMatmul
 import VeriTile.Triton.Float.SignedCast
 import VeriTile.Triton.Float.IntegerDot
 import VeriTile.Triton.Float.ScalarBackend
 import VeriTile.Triton.Float.IntegerConversionTotal
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.ScaledWord
 open VeriTile.Bench.TritonBenchG.IntScaledMatmul
 open VeriTile.Triton FP.Structural

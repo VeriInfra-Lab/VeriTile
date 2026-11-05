@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton2.Sources.Kernels
+import bench.tritonbench_g.attention_fwd_triton2.Proofs.Sources.Kernels
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Triton.Source
 

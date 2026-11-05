@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu.Sources.Mathematical_FPComplete
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Sources.Mathematical_FPComplete
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.OriginalSafety

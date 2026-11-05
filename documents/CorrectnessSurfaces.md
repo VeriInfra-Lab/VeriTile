@@ -73,7 +73,7 @@ provide flat-pointer relocation, allocation separation or byte-level transport.
 explicit predicate on logical input values to the regional judgment. It keeps
 the same source-safety, execution, output and frame conclusions; the domain
 cannot supply an execution-state predicate or replace those proof obligations.
-The signed-length [copy interface](../bench/tritonbench_g/var_len_copy/Correct.lean)
+The signed-length [copy interface](../bench/tritonbench_g/var_len_copy/RealCorrect.lean)
 uses this to constrain starts only when the input length is positive.
 
 [ProgramEquivalence](../VeriTile/Triton/Float/ProgramEquivalence.lean) compares two
@@ -83,7 +83,7 @@ decoded-result windows separate from writable windows; untouched result cells
 remain in the raw frame. [InputBindingIO](../VeriTile/Triton/Float/InputBindingIO.lean)
 provides explicit exact-cell input bindings when that is the originally proved
 domain. These choices preserve existing input/observation scope; they do not
-introduce numerical assumptions. See [Lion](../bench/tritonbench_g/adam_update_triton/Correct.lean)
+introduce numerical assumptions. See [Lion](../bench/tritonbench_g/adam_update_triton/RealCorrect.lean)
 for runtime scalars and two in-place outputs.
 
 [AddressedInputsIO](../VeriTile/Triton/Float/AddressedInputsIO.lean) retains source
@@ -187,7 +187,7 @@ source and linearization proof. Tests are in `FPPerAddressProgramIO.lean`.
 
 The existing TritonBench [vector addition correctness theorem](../bench/tritonbench_g/vector_addition/Proofs/Mathematical_Correct.lean)
 uses the real `addIO … ⊨ fun xs ys i => xs i + ys i` surface. The separate
-[correctness example](../bench/examples/TritonBenchVectorAddition/Correct.lean)
+[correctness example](../bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
 defines its fp32 kernel and real-valued IO specification:
 
 ```lean

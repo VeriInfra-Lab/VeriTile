@@ -1,6 +1,6 @@
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.ControlArithmetic
-import bench.tritonbench_g.int8_matmul_quantization.Sources.KernelSourceBridge
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.Sources.KernelSourceBridge
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.KernelProducer
 open VeriTile.Triton FP.Structural

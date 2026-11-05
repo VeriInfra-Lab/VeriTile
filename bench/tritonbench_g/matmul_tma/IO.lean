@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.matmul_tma.Contract
-import bench.tritonbench_g.matmul_tma.Sources.Native
+import bench.tritonbench_g.matmul_tma.Proofs.Sources.Native
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.PublicIO

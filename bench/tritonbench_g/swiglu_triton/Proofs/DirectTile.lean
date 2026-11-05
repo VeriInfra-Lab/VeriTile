@@ -1,4 +1,4 @@
-import bench.tritonbench_g.swiglu_triton.Sources.Mathematical_Kernels
+import bench.tritonbench_g.swiglu_triton.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.swiglu_triton.Kernels
 import bench.tritonbench_g.swiglu_backward.Proofs.Mathematical_WholeTile
 

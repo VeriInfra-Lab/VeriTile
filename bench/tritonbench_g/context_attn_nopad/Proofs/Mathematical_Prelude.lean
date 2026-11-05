@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.Sources.Mathematical_Program
+import bench.tritonbench_g.context_attn_nopad.Proofs.Sources.Mathematical_Program
 import VeriTile.Triton.Semantics.BroadcastReshape
 namespace VeriTile.Bench.TritonBenchG.ContextAttnNopad.Prelude
 open VeriTile.Triton Formula Program

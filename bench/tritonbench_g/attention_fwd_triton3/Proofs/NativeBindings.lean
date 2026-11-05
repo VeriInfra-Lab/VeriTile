@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton3.NativeIO
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Support.NativeIO
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.NativeLocality
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.SourceSafetyGeometry
 

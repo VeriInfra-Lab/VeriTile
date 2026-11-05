@@ -6,6 +6,8 @@ import unittest
 
 from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function, quotation
 
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, split_swiglu_fixture, variant_provenance, variant_source
+
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / "bench/tritonbench_g/triton_argmax"
 
@@ -14,14 +16,14 @@ class JITCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.python = (DIRECTORY / "triton_argmax.py").read_text()
         self.lean = (DIRECTORY / "Kernels.lean").read_text()
-        self.record = json.loads((DIRECTORY / "jit-correspondence.json").read_text())[0]
+        self.record = pinned_pairs(DIRECTORY)[0]
 
     def compare(self, python, lean):
-        return check(python, lean, "argmax_kernel_1_repaired", "stage1",
+        return check(python, lean, "argmax_kernel_1_repaired", self.record["lean_definition"],
                      self.record["signature_definition"], self.record["expected_signature"])
 
     def test_all_original_and_candidate_bodies(self):
-        self.assertEqual(len(check_manifest(ROOT, DIRECTORY / "jit-correspondence.json")), 6)
+        self.assertEqual(len(check_pinned_pairs(ROOT, DIRECTORY)), 6)
 
     def test_cast_nan_clamp_store_and_parameter_changes_are_rejected(self):
         mutations = [
@@ -56,7 +58,7 @@ class InlineAssemblyBodyTests(unittest.TestCase):
         self.directory = ROOT / "bench/tritonbench_g/int8_matmul_kernel"
         self.python = (self.directory / "int8_matmul_kernel.py").read_text()
         self.lean = (self.directory / "Kernels.lean").read_text()
-        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def compare(self, lean):
         return check(self.python, lean, "matmul_kernel", "sourceBody", "callSignature",
@@ -87,7 +89,7 @@ class PastedBodyTests(unittest.TestCase):
         self.directory = ROOT / "bench/tritonbench_g/dequantize_rowwise"
         self.python = (self.directory / "dequantize_rowwise.py").read_text()
         self.lean = (self.directory / "Kernels.lean").read_text()
-        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def compare(self, lean):
         return check(self.python, lean, self.record["python_function"], self.record["lean_definition"],
@@ -152,7 +154,7 @@ class MatmulSourceTests(unittest.TestCase):
         for task in ("matmul_triton1", "matmul_triton2"):
             directory = ROOT / "bench/tritonbench_g" / task
             with self.subTest(task=task):
-                result = check_manifest(ROOT, directory / "jit-correspondence.json")
+                result = check_pinned_pairs(ROOT, directory)
                 self.assertEqual(result[0]["mode"], "pasted_body")
                 self.assertEqual(result[0]["status"], "PASS")
 
@@ -166,7 +168,7 @@ class MatmulSourceTests(unittest.TestCase):
             directory = ROOT / "bench/tritonbench_g" / task
             python = (directory / (task + ".py")).read_text()
             lean = (directory / "Kernels.lean").read_text()
-            record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+            record = pinned_pairs(directory)[0]
             declaration = "def " + record["lean_definition"]
             prefix, body = lean.split(declaration, 1)
             for original, changed in ((before, after), (".to(tl.uint64)", "")):
@@ -181,7 +183,7 @@ class MatmulSourceTests(unittest.TestCase):
         directory = ROOT / "bench/tritonbench_g/matmul_triton1"
         python = (directory / "matmul_triton1.py").read_text()
         lean = (directory / "Kernels.lean").read_text()
-        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        record = pinned_pairs(directory)[0]
         declaration = "def " + record["lean_definition"]
         prefix, body = lean.split(declaration, 1)
         for before, after in (("(m_block_size, n_block_size)", "(n_block_size, m_block_size)"),
@@ -201,7 +203,7 @@ class BlockSparseBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/block_sparse_attn'
         self.python = (self.directory / 'block_sparse_attn.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, lean):
         r = self.records[0]
@@ -210,7 +212,7 @@ class BlockSparseBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_both_complete_programs(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [31, 31])
         self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
 
@@ -231,8 +233,8 @@ class BlockSparseBodyCorrespondenceTests(unittest.TestCase):
     def test_candidate_changes_only_the_existing_integer_head_expression(self):
         original_path = self.directory / 'block_sparse_attn.py'
         candidate_path = self.directory / 'block_sparse_attn_quotient_remainder.py'
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef)
                   and n.name == 'block_sparse_attention_kernel')
         stmt = next(n for n in fn.body if isinstance(n, ast.Assign)
@@ -241,9 +243,9 @@ class BlockSparseBodyCorrespondenceTests(unittest.TestCase):
         stmt.value = ast.parse('off_bh % num_heads', mode='eval').body
         self.assertEqual(ast.dump(original), ast.dump(candidate))
         import hashlib
-        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
-        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+        provenance = variant_provenance(self.directory)
+        self.assertEqual(hashlib.sha256(variant_source(original_path).encode()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance['candidate_sha256'])
 
 
 class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
@@ -251,7 +253,7 @@ class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/chunk_bwd_dqkg'
         self.python = (self.directory / 'chunk_bwd_dqkg.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, lean):
         r = self.records[0]
@@ -260,7 +262,7 @@ class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_original_and_existing_tail_bound_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [33, 33])
         self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
 
@@ -283,8 +285,8 @@ class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
     def test_candidate_changes_only_the_existing_integer_tail_bound(self):
         original_path = self.directory / 'chunk_bwd_dqkg.py'
         candidate_path = self.directory / 'chunk_bwd_dqkg_tail_bound.py'
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef)
                   and n.name == 'chunk_simple_gla_bwd_kernel_dqkg')
         stmt = next(n for n in fn.body if isinstance(n, ast.Assign)
@@ -295,9 +297,9 @@ class ChunkBwdDqkgBodyCorrespondenceTests(unittest.TestCase):
         stmt.value.args[0] = ast.parse('o_i < min(BT, T-i_t*BT) - 1', mode='eval').body
         self.assertEqual(ast.dump(original), ast.dump(candidate))
         import hashlib
-        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
-        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+        provenance = variant_provenance(self.directory)
+        self.assertEqual(hashlib.sha256(variant_source(original_path).encode()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance['candidate_sha256'])
 
 
 class RebindingProcedureBodyTests(unittest.TestCase):
@@ -305,10 +307,10 @@ class RebindingProcedureBodyTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/parallel_retention_attention'
         self.python = (self.directory / 'parallel_retention_attention.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def test_all_seven_complete_rebinding_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [34, 32, 34, 17, 34, 32, 17])
 
     def test_rebinding_and_cast_width_are_not_erased(self):
@@ -343,14 +345,14 @@ class PastedLoopBodyTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/matrix_vector_multip'
         self.python = (self.directory / 'matrix_vector_multip.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def compare(self, lean):
         return check(self.python, lean, self.record['python_function'], self.record['lean_definition'],
                      self.record['signature_definition'], self.record['expected_signature'])
 
     def test_both_complete_python_while_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([18, 18], [r['statements'] for r in results])
         self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
 
@@ -522,8 +524,8 @@ class GatedCumulativeBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / "bench/tritonbench_g/chunk_gated_attention"
         self.python = (self.directory / "chunk_gated_attention.py").read_text()
-        self.lean = (self.directory / "Sources/Kernels.lean").read_text()
-        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[0]
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.record = pinned_pairs(self.directory)[0]
 
     def compare(self, lean):
         return check(self.python, lean, self.record["python_function"], self.record["lean_definition"],
@@ -548,8 +550,8 @@ class GatedRecurrentBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / "bench/tritonbench_g/chunk_gated_attention"
         self.python = (self.directory / "chunk_gated_attention.py").read_text()
-        self.lean = (self.directory / "Sources/Kernels.lean").read_text()
-        self.record = json.loads((self.directory / "jit-correspondence.json").read_text())[1]
+        self.lean = (self.directory / "Kernels.lean").read_text()
+        self.record = pinned_pairs(self.directory)[1]
 
     def compare(self, lean):
         return check(self.python, lean, self.record["python_function"], self.record["lean_definition"],
@@ -577,7 +579,7 @@ class PastedGroupedMatmulTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/triton_matmul'
         self.python = (self.directory / 'triton_matmul.py').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
         self.lean = (ROOT / self.record['lean']).read_text()
 
     def compare(self, python=None, lean=None):
@@ -611,7 +613,7 @@ class RuntimeCallBindingTests(unittest.TestCase):
         directory = ROOT / 'bench/tritonbench_g/add_example'
         self.python = (directory / 'add_example.py').read_text()
         self.lean = (directory / 'Kernels.lean').read_text()
-        self.record = json.loads((directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(directory)[0]
 
     def compare(self, lean, record=None):
         record = self.record if record is None else record
@@ -681,14 +683,14 @@ class RuntimeCallBindingTests(unittest.TestCase):
                  'swiglu_fwd vector_addition vector_addition_custom').split()
         for case in cases:
             with self.subTest(case=case):
-                results = check_manifest(ROOT, ROOT / 'bench/tritonbench_g' / case / 'jit-correspondence.json')
+                results = check_pinned_pairs(ROOT, ROOT / 'bench/tritonbench_g' / case)
                 self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
 
 
 class ReductionBodyCopyTests(unittest.TestCase):
     def compare(self, case, lean):
         directory = ROOT / 'bench/tritonbench_g' / case
-        record = json.loads((directory / 'jit-correspondence.json').read_text())[0]
+        record = pinned_pairs(directory)[0]
         return check((ROOT / record['python']).read_text(), lean,
                      record['python_function'], record['lean_definition'],
                      record['signature_definition'], record['expected_signature'],
@@ -697,7 +699,7 @@ class ReductionBodyCopyTests(unittest.TestCase):
     def test_all_selected_and_candidate_reduction_bodies(self):
         for case in ('triton_mul2', 'log_softmax', 'mean_reduction', 'max_reduction'):
             with self.subTest(case=case):
-                results = check_manifest(ROOT, ROOT / 'bench/tritonbench_g' / case / 'jit-correspondence.json')
+                results = check_pinned_pairs(ROOT, ROOT / 'bench/tritonbench_g' / case)
                 self.assertTrue(all(x['mode'] == 'pasted_body' for x in results))
 
     def test_logsoftmax_retains_tuple_and_explicit_index_casts(self):
@@ -724,14 +726,14 @@ class FloatingCallBindingTests(unittest.TestCase):
         for name in ('AdamUpdateGridLaunch', 'FusedLayerNorm',
                      'HyperConnectionsDepth', 'HyperConnectionsWidth'):
             with self.subTest(example=name):
-                results = check_manifest(ROOT, Path('bench/examples') / name / 'jit-correspondence.json')
+                results = check_pinned_pairs(ROOT, Path('bench/examples') / name)
                 self.assertTrue(results)
                 self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
 
     def test_runtime_fp32_binding_value_and_abi_remain_reviewed(self):
         from scripts.bench.jit_correspondence import check
         import json
-        records = json.loads((ROOT / 'bench/examples/HyperConnectionsDepth/jit-correspondence.json').read_text())
+        records = pinned_pairs(ROOT / 'bench/examples/HyperConnectionsDepth')
         record = records[0]
         py = (ROOT / record['python']).read_text()
         lean = (ROOT / record['lean']).read_text()
@@ -1090,9 +1092,10 @@ class PureJITFunctionCorrespondenceTests(unittest.TestCase):
         self.directory = self.root / 'bench/tritonbench_g/swiglu_triton'
         self.directory.mkdir(parents=True)
         original = ROOT / 'bench/tritonbench_g/swiglu_triton'
-        for name in ['Kernels.lean', 'swiglu_triton.py', 'index_commuted.py', 'jit-correspondence.json']:
+        for name in ['Kernels.lean', 'swiglu_triton.py']:
             (self.directory / name).write_text((original / name).read_text())
         self.manifest = self.directory / 'jit-correspondence.json'
+        self.manifest.write_text(json.dumps(pinned_pairs(original)))
 
     def test_original_helper_both_kernels_and_candidates_are_checked(self):
         results = check_manifest(self.root, self.manifest)
@@ -1119,13 +1122,13 @@ class PureJITFunctionCorrespondenceTests(unittest.TestCase):
             check_manifest(self.root, self.manifest)
 
     def test_import_of_a_different_helper_is_rejected(self):
-        p = self.directory / 'index_commuted.py'
+        p = split_swiglu_fixture(self.directory, self.manifest)
         p.write_text(p.read_text().replace('from swiglu_triton import silu', 'from another_kernel import silu'))
         with self.assertRaisesRegex(ValueError, 'import differs'):
             check_manifest(self.root, self.manifest)
 
     def test_global_helper_rebinding_is_rejected(self):
-        p = self.directory / 'index_commuted.py'
+        p = self.directory / 'swiglu_triton.py'
         p.write_text(p.read_text() + '\nsilu = lambda x: x\n')
         with self.assertRaisesRegex(ValueError, 'one static binding'):
             check_manifest(self.root, self.manifest)
@@ -1135,7 +1138,7 @@ class IntegerCallArgumentCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/seeded_dropout'
         self.lean = (self.directory / 'Kernels.lean').read_text()
         self.python = (self.directory / 'seeded_dropout.py').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1144,7 +1147,7 @@ class IntegerCallArgumentCorrespondenceTests(unittest.TestCase):
                      expected_integer_args=r['expected_integer_args'], expected_arange_args=r['expected_arange_args'])
 
     def test_original_and_candidate_bodies_and_call_profiles(self):
-        result = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(result), 2)
         self.assertTrue(all(p['mode'] == 'pasted_body' for p in result))
 
@@ -1172,7 +1175,7 @@ class ApplyPenaltyBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/apply_penalty'
         self.lean = (self.directory / 'Kernels.lean').read_text()
         self.python = (self.directory / 'apply_penalty.py').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1180,7 +1183,7 @@ class ApplyPenaltyBodyCorrespondenceTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_both_complete_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 17 for r in results))
 
@@ -1216,7 +1219,7 @@ class FastRmsCopiedBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/fast_rms_layernorm'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index, lean):
         r = self.records[index]
@@ -1225,7 +1228,7 @@ class FastRmsCopiedBodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_all_stages_and_existing_index_candidates(self):
-        self.assertEqual(len(check_manifest(ROOT, self.directory / 'jit-correspondence.json')), 7)
+        self.assertEqual(len(check_pinned_pairs(ROOT, self.directory)), 7)
 
     def test_docstring_text_and_rebased_indentation(self):
         self.verify(0, self.lean)
@@ -1267,7 +1270,7 @@ class TokenAttnReduceVCopiedBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/token_attn_reduceV'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1276,7 +1279,7 @@ class TokenAttnReduceVCopiedBodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_original_and_existing_affine_candidate(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 19 for r in results))
 
@@ -1299,7 +1302,7 @@ class KvCacheCopyBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/kv_cache_copy'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1308,7 +1311,7 @@ class KvCacheCopyBodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_both_complete_copy_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 11 for r in results))
 
@@ -1327,7 +1330,7 @@ class TokenAttnMistralBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/token_attn_mistral'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1336,7 +1339,7 @@ class TokenAttnMistralBodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_both_complete_sliding_window_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 20 for r in results))
 
@@ -1360,7 +1363,7 @@ class SoftmaxReduceVBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/softmax_reducev'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1369,7 +1372,7 @@ class SoftmaxReduceVBodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_both_complete_original_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 18 for r in results))
 
@@ -1388,7 +1391,7 @@ class TokenAttnLlama2BodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/token_attn_llama2'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, lean):
         r = self.record
@@ -1397,7 +1400,7 @@ class TokenAttnLlama2BodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_both_complete_score_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual(len(results), 2)
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['statements'] == 15 for r in results))
 
@@ -1416,7 +1419,7 @@ class KsoftmaxBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/ksoftmax_triton'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, lean, backward=False):
         r = self.records[1 if backward else 0]
@@ -1425,7 +1428,7 @@ class KsoftmaxBodyTests(unittest.TestCase):
                      r['signature_definition'], r['expected_signature'], r['expected_call_bindings'])
 
     def test_both_complete_forward_backward_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in results], [17, 15])
         self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
 
@@ -1452,10 +1455,10 @@ class BinaryPureJITFunctionCorrespondenceTests(unittest.TestCase):
         self.directory = self.root / 'bench/tritonbench_g/softmax_optimize'
         self.directory.mkdir(parents=True)
         original = ROOT / 'bench/tritonbench_g/softmax_optimize'
-        for name in ['Kernels.lean', 'softmax_optimize.py',
-                     'softmax_optimize_index_commuted.py', 'jit-correspondence.json']:
+        for name in ['Kernels.lean', 'softmax_optimize.py']:
             (self.directory / name).write_text((original / name).read_text())
         self.manifest = self.directory / 'jit-correspondence.json'
+        self.manifest.write_text(json.dumps(pinned_pairs(original)))
 
     def test_two_original_helpers_and_two_complete_callers(self):
         rows = check_manifest(self.root, self.manifest)
@@ -1495,7 +1498,7 @@ class RotaryEmbNopadBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/rotary_emb_nopad'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def compare(self, record, lean):
         r = record
@@ -1504,8 +1507,8 @@ class RotaryEmbNopadBodyCorrespondenceTests(unittest.TestCase):
                      r['expected_signature'], r['expected_call_bindings'])
 
     def test_all_four_complete_sources(self):
-        self.assertEqual([r['statements'] for r in check_manifest(
-            ROOT, self.directory / 'jit-correspondence.json')], [19, 19, 32, 32])
+        self.assertEqual([r['statements'] for r in check_pinned_pairs(
+            ROOT, self.directory)], [19, 19, 32, 32])
 
     def test_early_return_casts_metadata_and_store_order_are_preserved(self):
         cached = self.records[2]
@@ -1523,8 +1526,8 @@ class RotaryEmbNopadBodyCorrespondenceTests(unittest.TestCase):
                 self.compare(cached, self.lean.replace(old, new, 1))
 
     def test_new_python_candidates_change_only_existing_q_address_reuse(self):
-        original = ast.parse((self.directory / 'rotary_emb_nopad.py').read_text())
-        candidate = ast.parse((self.directory / 'rotary_emb_nopad_shared.py').read_text())
+        original = ast.parse(variant_source(self.directory / 'rotary_emb_nopad.py'))
+        candidate = ast.parse(variant_source(self.directory / 'rotary_emb_nopad_shared.py'))
         originals = [n for n in original.body if isinstance(n, ast.FunctionDef) and
                      any('jit' in ast.unparse(d) for d in n.decorator_list)]
         candidates = [n for n in candidate.body if isinstance(n, ast.FunctionDef)]
@@ -1542,7 +1545,7 @@ class FusedRotaryBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/fused_rotary_embedding'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, lean):
         r = self.records[0]
@@ -1551,7 +1554,7 @@ class FusedRotaryBodyCorrespondenceTests(unittest.TestCase):
                      r['expected_signature'], r['expected_call_bindings'])
 
     def test_complete_q_k_v_sources(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [21, 21])
 
     def test_metadata_widenings_cache_pitches_and_grouped_v_branch_are_checked(self):
@@ -1569,7 +1572,7 @@ class FusedRotaryBodyCorrespondenceTests(unittest.TestCase):
 
     def test_derived_python_candidate_changes_only_q_address_reuse(self):
         def selected(name):
-            return next(n for n in ast.parse((self.directory / name).read_text()).body
+            return next(n for n in ast.parse(variant_source(self.directory / name)).body
                         if isinstance(n, ast.FunctionDef) and
                         n.name.startswith('decoding_fused_rotary_embedding_kernel'))
         original = selected('fused_rotary_embedding.py')
@@ -1585,7 +1588,7 @@ class FusedRotaryBodyCorrespondenceTests(unittest.TestCase):
 class LayerNormLigerBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/layer_norm_liger'
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def compare(self, record, lean):
         return check((ROOT / record['python']).read_text(), lean,
@@ -1593,7 +1596,7 @@ class LayerNormLigerBodyCorrespondenceTests(unittest.TestCase):
                      record['expected_signature'], record['expected_call_bindings'])
 
     def test_all_four_complete_sources(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [23, 22, 25, 24])
 
     def test_backward_signed_range_casts_and_scalar_divisions_are_preserved(self):
@@ -1629,7 +1632,7 @@ class TritonArgmaxBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/triton_argmax'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -1637,7 +1640,7 @@ class TritonArgmaxBodyCorrespondenceTests(unittest.TestCase):
                      record['expected_signature'])
 
     def test_three_complete_original_kernels(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [20, 9, 12, 20, 12, 9])
 
     def test_nan_selection_original_address_reload_and_clamp_are_preserved(self):
@@ -1669,7 +1672,7 @@ class TritonArgmaxBodyCorrespondenceTests(unittest.TestCase):
 
     def test_existing_candidates_only_replace_the_selected_integer_product(self):
         def functions(name):
-            return {n.name: n for n in ast.parse((self.directory / name).read_text()).body
+            return {n.name: n for n in ast.parse(variant_source(self.directory / name)).body
                     if isinstance(n, ast.FunctionDef)}
         original = functions('triton_argmax.py')
         shifted = functions('triton_argmax_shifted.py')
@@ -1695,7 +1698,7 @@ class CrossEntropy1BodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/cross_entropy1'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -1703,7 +1706,7 @@ class CrossEntropy1BodyCorrespondenceTests(unittest.TestCase):
                      record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
 
     def test_complete_forward_backward_and_both_existing_candidates(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [12, 15, 12, 15])
 
     def test_caller_offsets_ignored_branch_and_original_scalar_division_are_preserved(self):
@@ -1730,7 +1733,7 @@ class CrossEntropy1BodyCorrespondenceTests(unittest.TestCase):
 
     def test_derived_candidates_change_only_the_column_index_product(self):
         def selected(name):
-            return [n for n in ast.parse((self.directory / name).read_text()).body
+            return [n for n in ast.parse(variant_source(self.directory / name)).body
                     if isinstance(n, ast.FunctionDef) and n.name.startswith('cross_entropy_')]
         original = selected('cross_entropy1.py')[:2]
         candidates = selected('cross_entropy1_index_commuted.py')
@@ -1750,7 +1753,7 @@ class CrossEntropy2BodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/cross_entropy2'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -1758,7 +1761,7 @@ class CrossEntropy2BodyCorrespondenceTests(unittest.TestCase):
                      record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
 
     def test_all_four_complete_bodies_and_signed_label_width(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [15, 15, 17, 17])
         with self.assertRaises(ValueError):
             self.verify(self.records[0], self.source.replace('("labels_ptr",.i32)', '("labels_ptr",.i64)', 1))
@@ -1790,7 +1793,7 @@ class CrossEntropy2BodyCorrespondenceTests(unittest.TestCase):
 
     def test_candidates_change_only_the_existing_integer_product(self):
         def functions(name):
-            return [n for n in ast.parse((self.directory / name).read_text()).body
+            return [n for n in ast.parse(variant_source(self.directory / name)).body
                     if isinstance(n, ast.FunctionDef) and n.name.startswith('cross_entropy_')][:2]
         original = functions('cross_entropy2.py')
         candidates = functions('cross_entropy2_index_commuted.py')
@@ -1810,7 +1813,7 @@ class CrossEntropyOpsBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/cross_entropy_ops'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -1818,7 +1821,7 @@ class CrossEntropyOpsBodyCorrespondenceTests(unittest.TestCase):
                      record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
 
     def test_both_resident_functions_and_existing_candidates(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [14, 14, 16, 16])
         with self.assertRaises(ValueError):
             self.verify(self.records[0], self.source.replace('("ignored_index",.integer)', '("ignored_index",.i64)', 1))
@@ -1847,11 +1850,11 @@ class CrossEntropyOpsBodyCorrespondenceTests(unittest.TestCase):
                     self.verify(self.records[2], prefix + 'def backwardBody' + backward.replace(old, new, 1))
 
     def test_candidates_change_only_the_selected_integer_product(self):
-        def functions(name):
-            return [n for n in ast.parse((self.directory / name).read_text()).body
-                    if isinstance(n, ast.FunctionDef) and n.name.startswith('cross_entropy_')][:2]
-        original = functions('cross_entropy_ops_conditional.py')
-        candidates = functions('cross_entropy_ops_index_commuted.py')
+        tree = ast.parse((self.directory / 'cross_entropy_ops.py').read_text())
+        definitions = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
+        original = [definitions[name] for name in ('cross_entropy_fwd_kernel', 'cross_entropy_bwd_kernel')]
+        candidates = [definitions[name] for name in
+                      ('cross_entropy_fwd_kernel_index_commuted', 'cross_entropy_bwd_kernel_index_commuted')]
         self.assertEqual(len(original), len(candidates))
         for before, after in zip(original, candidates):
             self.assertEqual(ast.dump(before.args), ast.dump(after.args))
@@ -1868,7 +1871,7 @@ class FastLayernormBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/fast_layernorm'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -1876,7 +1879,7 @@ class FastLayernormBodyCorrespondenceTests(unittest.TestCase):
                      record['expected_signature'], expected_pointer_offsets=record['expected_pointer_offsets'])
 
     def test_six_complete_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [19, 19, 20, 20, 12, 12])
 
     def test_forward_casts_constructor_and_store_statements_are_exact(self):
@@ -1913,7 +1916,7 @@ class FastLayernormBodyCorrespondenceTests(unittest.TestCase):
 
     def test_derived_candidates_change_only_their_existing_integer_address(self):
         def selected(name):
-            return [n for n in ast.parse((self.directory / name).read_text()).body
+            return [n for n in ast.parse(variant_source(self.directory / name)).body
                     if isinstance(n, ast.FunctionDef) and n.name.startswith('layernorm_')]
         original = selected('fast_layernorm.py')
         candidates = selected('fast_layernorm_candidates.py')
@@ -1942,7 +1945,7 @@ class MultinomialBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/multinomial_sampling'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -1952,7 +1955,7 @@ class MultinomialBodyCorrespondenceTests(unittest.TestCase):
                      expected_arange_args=record['expected_arange_args'])
 
     def test_complete_original_and_static_unroll_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [12, 12])
 
     def test_seed_offset_and_score_conversions_are_retained(self):
@@ -1991,7 +1994,7 @@ class KldivBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/kldiv_ops'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, record, source):
         return check((ROOT / record['python']).read_text(), source,
@@ -2000,7 +2003,7 @@ class KldivBodyCorrespondenceTests(unittest.TestCase):
                      expected_pointer_offsets=record['expected_pointer_offsets'])
 
     def test_complete_original_and_candidate_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [12, 12, 9, 9])
 
     def test_forward_int64_casts_are_not_erased(self):
@@ -2041,7 +2044,7 @@ class ImportedFiniteCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/isfinite_kernel'
         self.source = (self.directory / 'Kernels.lean').read_text()
         self.python = (self.directory / 'isfinite_kernel.py').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, source):
         r = self.records[1]
@@ -2059,7 +2062,7 @@ class ImportedFiniteCorrespondenceTests(unittest.TestCase):
                                    expected_imports=r['expected_imports'])
 
     def test_helper_and_both_complete_callers(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [1, 7, 7])
 
     def test_source_stride_and_pointer_element_casts_cannot_disappear(self):
@@ -2105,7 +2108,7 @@ class BmmOptimizedBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/bmm_optimized'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, source):
         r = self.records[0]
@@ -2114,7 +2117,7 @@ class BmmOptimizedBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_complete_original_and_existing_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [20, 20])
 
     def test_original_tuple_assignment_and_counter_spelling_are_retained(self):
@@ -2153,7 +2156,7 @@ class BmmChunkBwdBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/bmm_chunk_bwd'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, source):
         r = self.records[0]
@@ -2162,7 +2165,7 @@ class BmmChunkBwdBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_original_and_existing_index_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [45, 45])
 
     def test_all_twenty_one_argument_casts_are_required(self):
@@ -2203,7 +2206,7 @@ class LayerNormWelfoldBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/layer_norm_welfold'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
         self.python = (ROOT / self.record['python']).read_text()
 
     def verify(self, source=None, python=None):
@@ -2218,7 +2221,7 @@ class LayerNormWelfoldBodyCorrespondenceTests(unittest.TestCase):
                      expected_scalar_infinity_where=r.get('expected_scalar_infinity_where', False))
 
     def test_complete_original_and_existing_address_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [23, 23])
 
     def test_unused_source_assignments_and_dynamic_loops_are_retained(self):
@@ -2271,7 +2274,7 @@ class UniformSamplingBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/uniform_sampling'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
         self.python = (ROOT / self.records[1]['python']).read_text()
 
     def verify(self, source=None, python=None, arguments=None):
@@ -2283,7 +2286,7 @@ class UniformSamplingBodyCorrespondenceTests(unittest.TestCase):
                      expected_philox_call=r['expected_philox_call'] if arguments is None else arguments)
 
     def test_complete_helper_original_and_index_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [3, 22, 22])
 
     def test_signed_casts_counter_widths_and_all_fields_are_retained(self):
@@ -2334,7 +2337,7 @@ class AttentionFwdTriton1BodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/attention_fwd_triton1'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, source, candidate=False):
         r = self.records[1 if candidate else 0]
@@ -2344,7 +2347,7 @@ class AttentionFwdTriton1BodyCorrespondenceTests(unittest.TestCase):
                      expected_constexpr_bindings=r.get('expected_constexpr_bindings'))
 
     def test_both_complete_sources_and_static_assertion(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [3, 4])
 
     def test_pointer_geometry_and_pre_update_history_remain(self):
@@ -2429,7 +2432,7 @@ class MatmulAutotuneBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/matmul_triton_autotune'
         self.source = (self.directory / 'Kernels.lean').read_text()
         self.python = (self.directory / 'matmul_triton_autotune.py').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, python=None, source=None):
         r = self.records[1]
@@ -2441,7 +2444,7 @@ class MatmulAutotuneBodyCorrespondenceTests(unittest.TestCase):
                      expected_pure_functions=r['expected_pure_functions'])
 
     def test_both_full_bodies_and_shared_documented_helper(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [2, 28, 28])
 
     def test_real_autotune_decorator_and_builtin_min_are_not_helper_calls(self):
@@ -2474,7 +2477,7 @@ class ReluStridedBodyCorrespondenceTests(unittest.TestCase):
         self.base = 'bench/tritonbench_g/relu_strided_buffer'
         self.directory = ROOT / self.base
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
         self.python = (self.directory / 'relu_strided_buffer.py').read_text()
 
     def verify(self, python=None, source=None):
@@ -2490,23 +2493,24 @@ class ReluStridedBodyCorrespondenceTests(unittest.TestCase):
                      expected_scalar_infinity_where=r.get('expected_scalar_infinity_where', False))
 
     def test_both_complete_callers_and_copied_helpers(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [1, 3, 1, 3])
         self.assertEqual(self.records[0]['lean_definition'], self.records[2]['lean_definition'])
 
-    def test_each_python_helper_requires_its_own_checked_body(self):
+    def test_shared_python_helper_requires_a_checked_body(self):
         from tempfile import TemporaryDirectory
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
             directory = root / self.base
             directory.mkdir(parents=True)
-            for name in ['Kernels.lean', 'relu_strided_buffer.py', 'relu_strided_buffer_folded.py']:
+            for name in ['Kernels.lean', 'relu_strided_buffer.py']:
                 (directory / name).write_text((self.directory / name).read_text())
             manifest = directory / 'jit-correspondence.json'
-            for index in [0, 2]:
-                manifest.write_text(json.dumps([r for i, r in enumerate(self.records) if i != index]))
-                with self.subTest(index=index), self.assertRaises(ValueError):
-                    check_manifest(root, manifest)
+            callers = [row for row in self.records if row.get('expected_pure_functions')]
+            self.assertEqual(len(callers), 2)
+            manifest.write_text(json.dumps(callers))
+            with self.assertRaisesRegex(ValueError, 'separately checked helper body'):
+                check_manifest(root, manifest)
 
     def test_cast_boundary_order_and_helper_call_are_preserved(self):
         for old, new in [('.to(in0_ptr.type.element_ty)', ''),
@@ -2542,7 +2546,7 @@ class RwkvBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/fused_rwkv6_kernel'
         self.source = (self.directory / 'Kernels.lean').read_text()
         self.python = (self.directory / 'fused_rwkv6_kernel.py').read_text()
-        self.record = json.loads((self.directory / 'jit-correspondence.json').read_text())[0]
+        self.record = pinned_pairs(self.directory)[0]
 
     def verify(self, source=None):
         r = self.record
@@ -2552,7 +2556,7 @@ class RwkvBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_both_complete_sources_keep_sixteen_top_level_statements(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [16, 16])
 
     def test_tuple_program_axes_and_reverse_pointer_updates_are_exact(self):
@@ -2586,7 +2590,7 @@ class RecurrentRetentionBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/fused_recurrent_retention'
         self.source = (self.directory / 'Kernels.lean').read_text()
         self.python = (self.directory / 'fused_recurrent_retention.py').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index, source):
         r = self.records[index]
@@ -2595,7 +2599,7 @@ class RecurrentRetentionBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_all_four_complete_forward_backward_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [14, 23, 14, 23])
 
     def test_python_do_pointer_and_all_runtime_strides_are_preserved(self):
@@ -2629,7 +2633,7 @@ class ChunkGateRecurrenceBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/chunk_gate_recurrence'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index, source):
         r = self.records[index]
@@ -2640,7 +2644,7 @@ class ChunkGateRecurrenceBodyTests(unittest.TestCase):
                      expected_optional_pointers=r.get('expected_optional_pointers'))
 
     def test_four_complete_bodies_and_storage_profiles(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [10, 17, 10, 17])
 
     def test_four_seed_strides_and_presence_cannot_change(self):
@@ -2677,7 +2681,7 @@ class AttentionKernelBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/attention_kernel'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index, source):
         r = self.records[index]
@@ -2686,7 +2690,7 @@ class AttentionKernelBodyTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_original_and_early_query_bodies_are_complete(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [27, 27])
 
     def test_output_dtype_and_probability_casts_are_retained(self):
@@ -2724,7 +2728,7 @@ class AlignedAttentionBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/attention_kernel_aligned'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index, source):
         r = self.records[index]
@@ -2735,7 +2739,7 @@ class AlignedAttentionBodyTests(unittest.TestCase):
                      expected_scalar_infinity_where=r.get('expected_scalar_infinity_where', False))
 
     def test_all_four_complete_storage_specific_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [27, 27, 27, 27])
 
     def test_closed_output_dtype_matches_the_reviewed_branch(self):
@@ -2772,7 +2776,7 @@ class FusedLayernormBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/fused_layernorm_triton'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index=0, source=None, python=None, **overrides):
         r = dict(self.records[index], **overrides)
@@ -2782,7 +2786,7 @@ class FusedLayernormBodyTests(unittest.TestCase):
                      **{k: v for k, v in r.items() if k.startswith('expected_') and k != 'expected_signature'})
 
     def test_complete_original_and_existing_hoisted_body(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [26, 29])
 
     def test_intrinsic_casts_unused_mask_and_original_shapes_are_preserved(self):
@@ -2821,7 +2825,7 @@ class ChunkGLASimpleBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/chunk_gla_simple'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index=0, source=None):
         r = self.records[index]
@@ -2831,7 +2835,7 @@ class ChunkGLASimpleBodyTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_complete_original_and_row_reuse_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in rows], [23, 23])
 
     def test_signed_addresses_loop_and_typed_dots_cannot_be_erased(self):
@@ -2856,10 +2860,8 @@ class ChunkGLASimpleBodyTests(unittest.TestCase):
                 self.verify(source=self.source.replace(old, new))
 
     def test_materialized_candidate_only_reuses_the_row_lane_vector(self):
-        import hashlib
         original = (ROOT / self.records[0]['python']).read_text()
         candidate = (ROOT / self.records[1]['python']).read_text()
-        self.assertIn(hashlib.sha256(original.encode()).hexdigest(), candidate)
         def body(text, name):
             return next(n for n in ast.parse(text).body
                         if isinstance(n, ast.FunctionDef) and n.name == name).body
@@ -2877,7 +2879,7 @@ class ScalarTensorPowerBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/pow_scalar_tensor'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index=1, source=None, python=None):
         r = self.records[index]
@@ -2894,7 +2896,7 @@ class ScalarTensorPowerBodyTests(unittest.TestCase):
                                    r['lean_definition'], 2, r['expected_imports'])
 
     def test_both_complete_branches_and_their_copied_binary_helpers(self):
-        checks = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        checks = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in checks], [1, 3, 1, 3])
 
     def test_original_casts_block_boundaries_and_control_cannot_be_erased(self):
@@ -2929,10 +2931,8 @@ class ScalarTensorPowerBodyTests(unittest.TestCase):
                 self.verify(source=self.source.replace(old, new))
 
     def test_candidate_only_commutes_the_two_integer_offset_products(self):
-        import hashlib
         original = (ROOT / self.records[0]['python']).read_text()
         candidate = (ROOT / self.records[2]['python']).read_text()
-        self.assertIn(hashlib.sha256(original.encode()).hexdigest(), candidate)
         def body(text, name):
             return next(f for f in ast.parse(text).body
                         if isinstance(f, ast.FunctionDef) and f.name == name).body
@@ -2959,7 +2959,7 @@ class IvDependentMatmulBodyTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/iv_dependent_matmul'
         self.source = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, index=0, source=None):
         record = self.records[index]
@@ -2969,7 +2969,7 @@ class IvDependentMatmulBodyTests(unittest.TestCase):
                      expected_call_bindings=record['expected_call_bindings'])
 
     def test_both_copied_bodies_cover_all_five_schedules(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [29, 29])
         self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
 
@@ -2995,10 +2995,8 @@ class IvDependentMatmulBodyTests(unittest.TestCase):
                 self.verify(source=self.source.replace(old, new))
 
     def test_retained_candidate_changes_only_the_live_dot_operand(self):
-        import hashlib
-        original = (ROOT / self.records[0]['python']).read_text()
-        candidate = (ROOT / self.records[1]['python']).read_text()
-        self.assertIn(hashlib.sha256(original.encode()).hexdigest(), candidate)
+        original = variant_source(self.directory / 'iv_dependent_matmul.py')
+        candidate = variant_source(self.directory / 'iv_dependent_matmul_dotacc.py')
         class Undo(ast.NodeTransformer):
             count = 0
             def visit_Assign(self, node):
@@ -3023,7 +3021,7 @@ class StatementHelperBodyTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/rbe_triton_transform'
         self.python = (self.directory / 'rbe_triton_transform.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def caller(self, lean):
         record = self.records[1]
@@ -3033,7 +3031,7 @@ class StatementHelperBodyTests(unittest.TestCase):
                      expected_jit_functions=record['expected_jit_functions'])
 
     def test_complete_caller_and_helper_bodies(self):
-        results = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([r['statements'] for r in results], [6, 31, 6, 31])
         self.assertTrue(all(r['mode'] == 'pasted_body' for r in results))
 
@@ -3061,9 +3059,10 @@ class StatementHelperBodyTests(unittest.TestCase):
                                          'get_freq_multi_tokens', 'frequencyFunction')
 
     def test_existing_candidate_changes_only_the_two_store_masks(self):
-        original = ast.parse(self.python)
+        original_source = variant_source(self.directory / 'rbe_triton_transform.py')
+        original = ast.parse(original_source)
         candidate_path = self.directory / 'rbe_triton_transform_mask_reuse.py'
-        candidate = ast.parse(candidate_path.read_text())
+        candidate = ast.parse(variant_source(candidate_path))
         fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef) and n.name == 'rbe_triton')
         source_fn = next(n for n in original.body if isinstance(n, ast.FunctionDef) and n.name == 'rbe_triton')
         assignments = {n.targets[0].id: n for n in fn.body
@@ -3074,10 +3073,10 @@ class StatementHelperBodyTests(unittest.TestCase):
             self.assertEqual(ast.dump(assignments[target].value), ast.dump(ast.Name(id=value, ctx=ast.Load())))
             assignments[target].value = sources[target].value
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
+        provenance = variant_provenance(self.directory)
         import hashlib
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
-        self.assertEqual(hashlib.sha256(self.python.encode()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance['candidate_sha256'])
+        self.assertEqual(hashlib.sha256(original_source.encode()).hexdigest(), provenance['original_sha256'])
 
 
 class FP4BodyCorrespondenceTests(unittest.TestCase):
@@ -3085,7 +3084,7 @@ class FP4BodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/fp4_to_bf16'
         self.python = (self.directory / 'fp4_to_bf16.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def caller(self, lean):
         record = self.records[1]
@@ -3096,7 +3095,7 @@ class FP4BodyCorrespondenceTests(unittest.TestCase):
                      expected_constexpr_bindings=record['expected_constexpr_bindings'])
 
     def test_complete_helper_and_caller(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [22, 13])
         self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
 
@@ -3152,7 +3151,7 @@ class AttentionScoreBodyCorrespondenceTests(unittest.TestCase):
     def setUp(self):
         self.directory = ROOT / 'bench/tritonbench_g/attention_score'
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, source):
         r = self.records[0]
@@ -3161,7 +3160,7 @@ class AttentionScoreBodyCorrespondenceTests(unittest.TestCase):
                      r['expected_signature'], expected_call_bindings=r['expected_call_bindings'])
 
     def test_complete_original_and_existing_scalar_left_candidate(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [21, 21])
         self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
 
@@ -3181,8 +3180,8 @@ class AttentionScoreBodyCorrespondenceTests(unittest.TestCase):
     def test_materialized_candidate_changes_only_the_existing_multiplication(self):
         original_path = self.directory / 'attention_score.py'
         candidate_path = self.directory / 'attention_score_scalar_left.py'
-        original = ast.parse(original_path.read_text())
-        candidate = ast.parse(candidate_path.read_text())
+        original = ast.parse(variant_source(original_path))
+        candidate = ast.parse(variant_source(candidate_path))
         fn = next(n for n in candidate.body if isinstance(n, ast.FunctionDef) and n.name == '_score_kernel')
         loop = next(n for n in fn.body if isinstance(n, ast.For))
         stmt = next(n for n in loop.body if isinstance(n, ast.Assign)
@@ -3190,9 +3189,9 @@ class AttentionScoreBodyCorrespondenceTests(unittest.TestCase):
         stmt.value.left, stmt.value.right = stmt.value.right, stmt.value.left
         self.assertEqual(ast.dump(original), ast.dump(candidate))
         import hashlib
-        provenance = json.loads((self.directory / 'candidate-provenance.json').read_text())
-        self.assertEqual(hashlib.sha256(original_path.read_bytes()).hexdigest(), provenance['original_sha256'])
-        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), provenance['candidate_sha256'])
+        provenance = variant_provenance(self.directory)
+        self.assertEqual(hashlib.sha256(variant_source(original_path).encode()).hexdigest(), provenance['original_sha256'])
+        self.assertEqual(hashlib.sha256(variant_source(candidate_path).encode()).hexdigest(), provenance['candidate_sha256'])
 
 
 class FlashAttentionBodyCorrespondenceTests(unittest.TestCase):
@@ -3200,7 +3199,7 @@ class FlashAttentionBodyCorrespondenceTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/flash_attn'
         self.python = (self.directory / 'flash_attn.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def verify(self, lean):
         r = self.records[0]
@@ -3209,7 +3208,7 @@ class FlashAttentionBodyCorrespondenceTests(unittest.TestCase):
                      expected_call_bindings=r['expected_call_bindings'])
 
     def test_both_complete_existing_sources(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [27, 27])
         self.assertTrue(all(row['mode'] == 'pasted_body' for row in rows))
 
@@ -3245,7 +3244,7 @@ class ProcedureHelperBodyTests(unittest.TestCase):
         self.directory = ROOT / 'bench/tritonbench_g/parallel_attention'
         self.python = (self.directory / 'parallel_attention.py').read_text()
         self.lean = (self.directory / 'Kernels.lean').read_text()
-        self.records = json.loads((self.directory / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(self.directory)
 
     def helper(self, lean):
         from scripts.bench.jit_correspondence import check_procedure_function
@@ -3261,7 +3260,7 @@ class ProcedureHelperBodyTests(unittest.TestCase):
                      expected_jit_procedures=record['expected_jit_procedures'])
 
     def test_all_seven_complete_original_and_fused_bodies(self):
-        rows = check_manifest(ROOT, self.directory / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, self.directory)
         self.assertEqual([row['statements'] for row in rows], [22, 20, 13, 8, 22, 20, 8])
         self.assertEqual(sum(row.get('kind') == 'procedure_jit_function' for row in rows), 3)
 

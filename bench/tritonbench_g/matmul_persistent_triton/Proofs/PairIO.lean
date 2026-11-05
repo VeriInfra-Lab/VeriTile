@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_persistent_triton.PairIO
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Support.PairIO
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Pair
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

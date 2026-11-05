@@ -1,10 +1,11 @@
 import ast
 import copy
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/mixed_sparse_attention'
@@ -12,11 +13,11 @@ CASE = ROOT / 'bench/tritonbench_g/mixed_sparse_attention'
 
 class MixedSparseBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.rows = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.rows = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_both_complete_functions_and_storage_specializations(self):
-        rows = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, CASE)
         self.assertEqual([r['statements'] for r in rows], [30, 30, 30, 30])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in rows))
 

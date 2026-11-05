@@ -1,4 +1,4 @@
-import bench.tritonbench_g.sgmv_expand_slice.SourceTypes
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.SignedSingleArgumentRange
 namespace VeriTile.Bench.Repairs.SgmvExpandSlice.Pasted
 open VeriTile.Triton

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.layer_norm_triton.Proofs.PythonSource
-import bench.tritonbench_g.layer_norm_triton.Kernels
+import bench.tritonbench_g.layer_norm_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 

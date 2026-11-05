@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_attention.QueryGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Support.QueryGraph
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel.IOLogical
 open VeriTile.Triton FP.Structural

@@ -1,6 +1,6 @@
 import bench.tritonbench_g.triton_conv2d_fwd.Proofs.KernelReal
 import bench.tritonbench_g.triton_conv2d_fwd.Proofs.KernelDefaultNative
-import bench.tritonbench_g.triton_conv2d_fwd.CandidateKernels
+import bench.tritonbench_g.triton_conv2d_fwd.Proofs.Support.CandidateKernels
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 import VeriTile.Triton.Float.LogicalProgramIO
 

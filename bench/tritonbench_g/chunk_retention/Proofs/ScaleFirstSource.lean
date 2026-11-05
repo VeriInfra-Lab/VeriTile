@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_retention.Sources.ForwardOResult
-import bench.tritonbench_g.chunk_retention.Sources.KernelStaging
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.ForwardOResult
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.KernelStaging
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.ScaleFirstSource
 open VeriTile Triton FP.Structural FP.ProfiledRewrite KernelModel ForwardOSource

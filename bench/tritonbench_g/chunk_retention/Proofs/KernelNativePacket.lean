@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention.Sources.KernelPacket
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.KernelPacket
 import bench.tritonbench_g.chunk_retention.Proofs.Numeric
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.KernelPacket

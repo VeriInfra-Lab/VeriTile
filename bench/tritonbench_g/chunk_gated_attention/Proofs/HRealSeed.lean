@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.HRealIndices
-import bench.tritonbench_g.chunk_gated_attention.Sources.RebasedInit
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.RebasedInit
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.HSource.Real
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ChunkGatedAttention

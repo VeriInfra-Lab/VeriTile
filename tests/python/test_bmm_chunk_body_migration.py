@@ -1,9 +1,10 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/bmm_chunk_fwd'
@@ -11,8 +12,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/bmm_chunk_fwd'
 
 class BmmChunkBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, text, index=0):
         r = self.records[index]
@@ -23,7 +24,7 @@ class BmmChunkBodyMigrationTests(unittest.TestCase):
                      expected_arange_args=r.get('expected_arange_args', {}))
 
     def test_six_complete_source_pairs(self):
-        results = check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, DIRECTORY)
         self.assertEqual([r['statements'] for r in results], [45,45,45,10,10,10])
 
     def test_cast_return_mask_and_sequence_mutations_are_rejected(self):
@@ -53,12 +54,12 @@ class BmmChunkBodyMigrationTests(unittest.TestCase):
                     self.verify(self.lean.replace(before, after))
 
     def test_only_documented_candidate_transformations(self):
-        provenance = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
-        original_text = (DIRECTORY / 'bmm_chunk_fwd.py').read_text()
+        provenance = variant_provenance(DIRECTORY)
+        original_text = variant_source(DIRECTORY / 'bmm_chunk_fwd.py')
         self.assertEqual(hashlib.sha256(original_text.encode()).hexdigest(), provenance['original_sha256'])
         original = ast.parse(original_text)
         for variant in provenance['candidates']:
-            text = (DIRECTORY / variant['python']).read_text()
+            text = variant_source(DIRECTORY / variant['python'])
             self.assertEqual(hashlib.sha256(text.encode()).hexdigest(), variant['sha256'])
             module = ast.parse(text)
             if variant['kind'] == 'integer_product_commutation':

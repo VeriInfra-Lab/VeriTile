@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gate_recurrence.SourceTypes
+import bench.tritonbench_g.chunk_gate_recurrence.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.GuardedOptionalRebinding
 import VeriTile.Meta.StatementAudit
 

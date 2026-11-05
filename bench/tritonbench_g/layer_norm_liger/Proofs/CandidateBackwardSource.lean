@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_liger.Kernels
+import bench.tritonbench_g.layer_norm_liger.Proofs.Support.KernelEntryAdapters
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward.Candidate
 open VeriTile.Triton

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_persistent_triton.Model
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Support.Model
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast.SourceSafety

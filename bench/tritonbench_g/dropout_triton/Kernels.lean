@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.CallSignature
-import bench.tritonbench_g.dropout_triton.Sources.Parameters
+import bench.tritonbench_g.dropout_triton.Proofs.Sources.Parameters
 
 /-! Both complete Python bodies are quoted once. Caller metadata supplies
 all three floating storage choices and both keep-buffer representations;

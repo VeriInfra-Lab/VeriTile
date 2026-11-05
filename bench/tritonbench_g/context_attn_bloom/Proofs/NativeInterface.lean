@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_bloom.NativeIO
+import bench.tritonbench_g.context_attn_bloom.Proofs.Support.NativeIO
 import bench.tritonbench_g.context_attn_bloom.Proofs.IOGrid
 
 namespace VeriTile.Bench.Repairs.ContextAttnBloomWhole001.NativeIO

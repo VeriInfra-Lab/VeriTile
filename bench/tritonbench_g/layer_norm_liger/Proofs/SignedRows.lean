@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.Structural
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPForwardGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPForwardGraph
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.LayerNormLiger.SignedRows

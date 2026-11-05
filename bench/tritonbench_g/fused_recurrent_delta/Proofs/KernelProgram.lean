@@ -1,5 +1,5 @@
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.ScalarView
-import bench.tritonbench_g.fused_recurrent_delta.GeometrySource
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.Support.GeometrySource
 import VeriTile.Triton.Float.Control
 import VeriTile.Triton.Float.ProfiledRewrite
 namespace VeriTile.Bench.Repairs.FusedRecurrentDelta.KernelProgram

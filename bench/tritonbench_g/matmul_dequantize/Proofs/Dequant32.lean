@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_dequantize.Sources.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Kernels
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 import VeriTile.Triton.Float.FixedInteger
 import VeriTile.Triton.Float.ScalarOps
 namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001.Dequant32

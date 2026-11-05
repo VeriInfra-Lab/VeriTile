@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Sources.Selected
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Sources.Selected
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Contracts
 
 /-! Symbolic complete-source fp32 checkpoint. Other storage profiles remain

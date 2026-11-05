@@ -1,5 +1,5 @@
 import bench.tritonbench_g.quantize_kv_copy.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.QuantizeKvCopy.Kernel

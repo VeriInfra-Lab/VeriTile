@@ -82,8 +82,8 @@ jobs:
       - name: Replay matmul source scopes
         run: |
           for task in matmul_triton1 matmul_triton2; do
-            lake build "bench.tritonbench_g.$task.Correct" "bench.tritonbench_g.$task.FPEquiv"
-            for entry in Correct FPEquiv; do
+            lake build "bench.tritonbench_g.$task.RealCorrect" "bench.tritonbench_g.$task.FPEquiv"
+            for entry in RealCorrect FPEquiv; do
               python3 scripts/check_comparator.py \
                 --file "bench/tritonbench_g/$task/$entry.lean" --trust \
                 --workspace "$RUNNER_TEMP/matmul-source-replay"
@@ -91,9 +91,9 @@ jobs:
           done
       - name: Replay rotary source-entry connections
         run: |
-          lake build bench.tritonbench_g.rotary_transform_ops.Correct \
+          lake build bench.tritonbench_g.rotary_transform_ops.RealCorrect \
             bench.tritonbench_g.rotary_transform_ops.FPEquiv
-          for entry in Proofs/SourceEntry Correct FPEquiv; do
+          for entry in Proofs/SourceEntry RealCorrect FPEquiv; do
             python3 scripts/check_comparator.py \
               --file "bench/tritonbench_g/rotary_transform_ops/$entry.lean" --trust \
               --workspace "$RUNNER_TEMP/rotary-source-replay"
@@ -102,8 +102,8 @@ jobs:
         run: |
           lake build tests.lean.ControlSource tests.lean.StreamKControlSource
           for task in spinning_lock_reduction streamk_matmul; do
-            lake build "bench.tritonbench_g.$task.Correct" "bench.tritonbench_g.$task.FPEquiv"
-            for entry in Correct FPEquiv; do
+            lake build "bench.tritonbench_g.$task.RealCorrect" "bench.tritonbench_g.$task.FPEquiv"
+            for entry in RealCorrect FPEquiv; do
               python3 scripts/check_comparator.py \
                 --file "bench/tritonbench_g/$task/$entry.lean" --trust \
                 --workspace "$RUNNER_TEMP/control-source-replay"

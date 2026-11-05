@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_HostDefinitions
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.Mathematical_HostDefinitions
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmul.Native
 open VeriTile.Triton FP.Structural

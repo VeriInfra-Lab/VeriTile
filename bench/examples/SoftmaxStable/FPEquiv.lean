@@ -1,3 +1,5 @@
+import bench.examples.SoftmaxStable.IO
+import bench.examples.SoftmaxStable.Contract
 import bench.examples.SoftmaxStable.Kernels
 /- Stable versus naive softmax using the shared strictly certified scalar
 theory and admitted numerical relaxations.
@@ -16,26 +18,6 @@ open scoped VeriTile.Spec
 open SoftmaxStableFPContract (rowExpressions center rowPlan)
 open _root_.VeriTile.Triton.FP.Equational (Schedules)
 open FP.GuardExpression
-
-def naiveIO (x y : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := naiveSoftmaxKernel x y B
-  inp := x
-  out := y
-  Bin := B
-  Bout := B
-  read := fun pid => pid * B
-  write := fun pid => pid * B
-
-def stableIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  (naiveIO x y B).withKernel (stableSoftmaxKernel x y B)
-
-/-- Check finite inputs, the row maximum, exponentials and sum intermediates,
-plus the nonzero denominators needed by the scalar derivation. The same
-addition tree is used by both kernels; inputs need not be positive. -/
-def requirements (x : RegionName) (B : Nat) (plans : Schedules) : Condition :=
-  let M := FP.GuardExpression.algebra MemoryInput
-  let xs := rowExpressions x B
-  FP.SoftmaxShift.checks M xs (center M xs) (rowPlan plans B).tree
 
 def naive (x y : RegionName) (B : Nat) : FP.Kernel₁ where
   io := naiveIO x y B

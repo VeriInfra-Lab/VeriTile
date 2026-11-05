@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.FPReferenceProgram
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.FPReferenceProgram
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ContextAttnLlama.KernelOnly.NativeSourceSafety

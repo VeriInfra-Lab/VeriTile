@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_argmax.CandidateKernels
+import bench.tritonbench_g.triton_argmax.Kernels
 import VeriTile.Triton.Float.ProgramIO
 import VeriTile.Meta.StatementAudit
 

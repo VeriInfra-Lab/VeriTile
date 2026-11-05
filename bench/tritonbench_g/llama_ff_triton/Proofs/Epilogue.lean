@@ -1,5 +1,5 @@
 import bench.tritonbench_g.llama_ff_triton.Proofs.Output
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution
 open VeriTile.Triton FP.Structural

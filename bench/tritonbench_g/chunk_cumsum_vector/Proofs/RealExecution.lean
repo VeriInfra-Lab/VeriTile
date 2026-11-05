@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_cumsum_vector.Proofs.RealLoop
-import bench.tritonbench_g.chunk_cumsum_vector.Sources.Mathematical_RealInit
+import bench.tritonbench_g.chunk_cumsum_vector.Proofs.Sources.Mathematical_RealInit
 import VeriTile.Triton.Semantics.ProgramRewrite
 
 namespace VeriTile.Bench.Repairs.ChunkCumsumVector.RealExecution

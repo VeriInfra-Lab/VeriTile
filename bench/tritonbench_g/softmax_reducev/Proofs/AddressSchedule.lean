@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_reducev.Candidate
+import bench.tritonbench_g.softmax_reducev.Proofs.Support.Candidate
 import bench.tritonbench_g.softmax_reducev.Proofs.IOSourceSafety
 
 namespace VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.AddressSchedule

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_kernel.Proofs.KernelScalar
-import bench.tritonbench_g.matmul_kernel.Spec
+import bench.tritonbench_g.matmul_kernel.Proofs.Support.Spec
 namespace VeriTile.Bench.Repairs.MatmulKernel.KernelReal
 open VeriTile.Triton FP.Structural KernelSource KernelScalar RealSum
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)

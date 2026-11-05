@@ -1,4 +1,4 @@
-import bench.tritonbench_g.token_attn_reduceV.Sources.Parameters
+import bench.tritonbench_g.token_attn_reduceV.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.PythonInlineSuites
 
 /-! Complete original and existing affine probability-address candidate.

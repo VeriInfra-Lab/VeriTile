@@ -1,10 +1,10 @@
 import bench.tritonbench_g.chunk_gla_fwd.Kernels
 import bench.tritonbench_g.chunk_gla_fwd.Proofs.ZeroPadding
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealOutputIO
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealInterIO
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealIntraIO
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealSplitIO
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealMergeIO
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealOutputIO
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealInterIO
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealIntraIO
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealSplitIO
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealMergeIO
 
 namespace VeriTile.Bench.Repairs.ChunkGlaFwd.SourceBridge
 open VeriTile.Triton

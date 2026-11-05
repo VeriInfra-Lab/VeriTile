@@ -1,5 +1,5 @@
 import VeriTile.Triton
-import bench.tritonbench_g.masked_select.Sources.Mathematical_Kernels
+import bench.tritonbench_g.masked_select.Proofs.Sources.Mathematical_Kernels
 
 /-! Independent coordinate helpers for the selected masked scatter. The
 canonical executable program is in Kernels.lean; the complete signed-prefix

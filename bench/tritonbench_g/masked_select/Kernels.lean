@@ -1,4 +1,4 @@
-import bench.tritonbench_g.masked_select.Sources.Parameters
+import bench.tritonbench_g.masked_select.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.CallSignature
 
 /-! Literal Python function bodies. Storage profiles and runtime arguments are

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_mistral.PairIO
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.PairIO
 import bench.tritonbench_g.context_attn_mistral.Proofs.SourcePair
 import bench.tritonbench_g.context_attn_mistral.Proofs.NativeImplementation
 

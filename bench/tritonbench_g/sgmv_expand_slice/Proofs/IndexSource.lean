@@ -1,4 +1,4 @@
-import bench.tritonbench_g.sgmv_expand_slice.Candidate
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Support.Candidate
 import bench.tritonbench_g.sgmv_expand_slice.Proofs.SourceExecution
 import VeriTile.Triton.Float.StructuralSafety
 

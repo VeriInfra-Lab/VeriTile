@@ -1,5 +1,5 @@
 import bench.tritonbench_g.context_attn_bloom.Proofs.Mathematical_Kernels
-import bench.tritonbench_g.context_attn_bloom.Sources.Mathematical_Math
+import bench.tritonbench_g.context_attn_bloom.Proofs.Sources.Mathematical_Math
 import VeriTile.Triton.Float.Erasure
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program

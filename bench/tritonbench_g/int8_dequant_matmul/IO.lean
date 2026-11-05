@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_dequant_matmul.Mathematical
+import bench.tritonbench_g.int8_dequant_matmul.Proofs.Support.Mathematical
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.QuoteModel
 import VeriTile.Triton.Float.MemoryIOJudgments
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.Coverage

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_fused_llama.Sources.Mathematical_Kernels
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.Precision

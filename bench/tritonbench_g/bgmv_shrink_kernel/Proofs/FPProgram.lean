@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.SurfaceSource
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Support.SurfaceSource
 import VeriTile.Triton.Float.Structural
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPProgram
 open VeriTile.Triton

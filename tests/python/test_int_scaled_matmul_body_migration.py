@@ -1,10 +1,11 @@
 import ast
 import copy
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTORY = ROOT / 'bench/tritonbench_g/int_scaled_matmul'
@@ -12,8 +13,8 @@ DIRECTORY = ROOT / 'bench/tritonbench_g/int_scaled_matmul'
 
 class IntScaledMatmulBodyMigrationTests(unittest.TestCase):
     def setUp(self):
-        self.lean = (DIRECTORY / 'Sources/Body.lean').read_text()
-        self.records = json.loads((DIRECTORY / 'jit-correspondence.json').read_text())
+        self.lean = (DIRECTORY / 'Kernels.lean').read_text()
+        self.records = pinned_pairs(DIRECTORY)
 
     def verify(self, lean, index):
         r = self.records[index]
@@ -23,7 +24,7 @@ class IntScaledMatmulBodyMigrationTests(unittest.TestCase):
                      expected_constexpr_bindings=r.get('expected_constexpr_bindings'))
 
     def test_all_four_complete_function_bodies(self):
-        rows = check_manifest(ROOT, DIRECTORY / 'jit-correspondence.json')
+        rows = check_pinned_pairs(ROOT, DIRECTORY)
         self.assertEqual([r['statements'] for r in rows], [17, 16, 25, 23])
 
     def test_source_mutation_masks_assembly_and_loop_are_rejected(self):
@@ -48,9 +49,9 @@ class IntScaledMatmulBodyMigrationTests(unittest.TestCase):
                 self.verify(self.lean.replace(before, after), index)
 
     def test_candidate_only_removes_the_two_existing_redundancies(self):
-        original_text = (DIRECTORY / 'int_scaled_matmul.py').read_text()
-        candidate_text = (DIRECTORY / 'int_scaled_matmul_candidates.py').read_text()
-        provenance = json.loads((DIRECTORY / 'candidate-provenance.json').read_text())
+        original_text = variant_source(DIRECTORY / 'int_scaled_matmul.py')
+        candidate_text = variant_source(DIRECTORY / 'int_scaled_matmul_candidates.py')
+        provenance = variant_provenance(DIRECTORY)
         self.assertEqual(hashlib.sha256(original_text.encode()).hexdigest(), provenance['original_sha256'])
         self.assertEqual(hashlib.sha256(candidate_text.encode()).hexdigest(), provenance['candidate_sha256'])
         original = ast.parse(original_text)

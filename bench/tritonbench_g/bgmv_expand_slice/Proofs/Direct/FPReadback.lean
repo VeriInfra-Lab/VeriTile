@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_expand_slice.SignedSetup
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Support.SignedSetup
 import bench.tritonbench_g.bgmv_expand_slice.Proofs.Direct.FPValues
 
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Direct.FPReadback

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize.CandidateIO
+import bench.tritonbench_g.matmul_dequantize.Proofs.Support.CandidateIO
 import bench.tritonbench_g.matmul_dequantize.Proofs.FirstPublicResult
 import bench.tritonbench_g.matmul_dequantize.Proofs.SecondPublicResult
 import bench.tritonbench_g.matmul_dequantize.Proofs.Dequant32IOResult

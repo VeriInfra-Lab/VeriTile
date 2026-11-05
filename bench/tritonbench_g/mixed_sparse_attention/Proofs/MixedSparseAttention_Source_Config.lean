@@ -1,5 +1,5 @@
 import bench.tritonbench_g.mixed_sparse_attention.Proofs.MixedSparseAttention_TypedSource_Kernels
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 namespace VeriTile.Bench.Repairs.MixedSparseAttention.Whole002.Source
 open VeriTile.Triton FP.Structural
 noncomputable section

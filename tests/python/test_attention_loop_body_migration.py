@@ -1,10 +1,11 @@
 import ast
 import copy
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function
+from scripts.bench.jit_correspondence import check, check_statement_function
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES = [('attention_forward_triton', 'head_mask', 'fp16', [3, 27, 3, 28]),
@@ -14,17 +15,17 @@ class AttentionLoopBodyMigrationTests(unittest.TestCase):
     def test_all_complete_helpers_callers_and_distinct_output_types(self):
         for case, _, dtype, counts in CASES:
             directory = ROOT / 'bench/tritonbench_g' / case
-            rows = check_manifest(ROOT, directory / 'jit-correspondence.json')
+            rows = check_pinned_pairs(ROOT, directory)
             self.assertEqual([r['statements'] for r in rows], counts)
             self.assertTrue(all(r['mode'] == 'pasted_body' for r in rows))
-            records = json.loads((directory / 'jit-correspondence.json').read_text())
+            records = pinned_pairs(directory)
             self.assertEqual(records[1]['expected_signature']['pointers'][-1], ['Out', dtype])
             self.assertEqual(len(records[1]['expected_call_bindings']), 19)
 
     def test_helper_loop_return_masks_and_casts_are_required(self):
         for case, _, _, _ in CASES:
             directory = ROOT / 'bench/tritonbench_g' / case
-            record = json.loads((directory / 'jit-correspondence.json').read_text())[0]
+            record = pinned_pairs(directory)[0]
             python = (ROOT / record['python']).read_text()
             lean = (ROOT / record['lean']).read_text()
             for before, after in [('range(lo, hi, BLOCK_N)', 'range(lo, hi, 1)'),
@@ -40,7 +41,7 @@ class AttentionLoopBodyMigrationTests(unittest.TestCase):
     def test_caller_casts_and_unused_helper_arguments_are_required(self):
         for case, _, _, _ in CASES:
             directory = ROOT / 'bench/tritonbench_g' / case
-            record = json.loads((directory / 'jit-correspondence.json').read_text())[1]
+            record = pinned_pairs(directory)[1]
             python = (ROOT / record['python']).read_text()
             lean = (ROOT / record['lean']).read_text()
             start = lean.index('def originalBody ')
@@ -60,8 +61,8 @@ class AttentionLoopBodyMigrationTests(unittest.TestCase):
             directory = ROOT / 'bench/tritonbench_g' / case
             original_path = directory / (case + '.py')
             candidate_path = directory / (case + '_' + suffix + '.py')
-            original = ast.parse(original_path.read_text())
-            candidate = ast.parse(candidate_path.read_text())
+            original = ast.parse(variant_source(original_path))
+            candidate = ast.parse(variant_source(candidate_path))
             for node in ast.walk(candidate):
                 if isinstance(node, ast.FunctionDef) and node.name.endswith('_' + suffix):
                     node.name = node.name.removesuffix('_' + suffix)
@@ -91,6 +92,6 @@ class AttentionLoopBodyMigrationTests(unittest.TestCase):
                 self.assertEqual(ast.unparse(assignment.value.left), 'start_m << 7')
                 assignment.value.left = ast.parse('start_m * BLOCK_M', mode='eval').body
             self.assertEqual(ast.dump(original), ast.dump(candidate))
-            provenance = json.loads((directory / 'candidate-provenance.json').read_text())
+            provenance = variant_provenance(directory)
             for label, path in [('original', original_path), ('candidate', candidate_path)]:
-                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), provenance[label + '_sha256'])
+                self.assertEqual(hashlib.sha256(variant_source(path).encode()).hexdigest(), provenance[label + '_sha256'])

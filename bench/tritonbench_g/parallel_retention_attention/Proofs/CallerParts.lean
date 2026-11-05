@@ -1,4 +1,4 @@
-import bench.tritonbench_g.parallel_retention_attention.ShellSyntax
+import bench.tritonbench_g.parallel_retention_attention.Proofs.Support.ShellSyntax
 import bench.tritonbench_g.parallel_retention_attention.Proofs.ForwardPrefix
 import bench.tritonbench_g.parallel_retention_attention.Proofs.QueryTail
 import bench.tritonbench_g.parallel_retention_attention.Proofs.BackwardTail

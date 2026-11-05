@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rbe_triton_transform.Sources.Kernels
+import bench.tritonbench_g.rbe_triton_transform.Proofs.Sources.Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.RbeTritonTransform.SignedIndex

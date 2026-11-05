@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.QuoteLoop
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote
 open VeriTile.Triton FP.Structural

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_fused.PairIO
+import bench.tritonbench_g.rmsnorm_fused.Proofs.Support.PairIO
 import bench.tritonbench_g.l2_norm_triton1.Proofs.Mathematical_FP
 
 namespace VeriTile.Bench.Repairs.RmsnormFused.SourcePair

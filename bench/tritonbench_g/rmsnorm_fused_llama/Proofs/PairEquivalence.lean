@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_fused_llama.PairIO
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Support.PairIO
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.NativePublicIO
 
 namespace VeriTile.Bench.Repairs.RmsnormFusedLlama.PairEquivalence

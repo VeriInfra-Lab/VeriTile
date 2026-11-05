@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_flaggems.Sources.Kernels
+import bench.tritonbench_g.softmax_flaggems.Proofs.Sources.Kernels
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 

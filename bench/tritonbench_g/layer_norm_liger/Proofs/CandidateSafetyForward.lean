@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_liger.Kernels
+import bench.tritonbench_g.layer_norm_liger.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.StructuralSafety
 namespace VeriTile.Bench.Repairs.LayerNormLiger.CandidateSafety
 open VeriTile.Triton FP.Structural Safety

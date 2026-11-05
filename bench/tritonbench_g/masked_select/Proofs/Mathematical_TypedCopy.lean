@@ -1,5 +1,5 @@
 import bench.tritonbench_g.masked_select.Proofs.Mathematical_MaskedSelect
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 /-! Actual typed selection-copy source. Prefix sums and selection masks are
 inputs to this stage; no prefix-sum producer or expected output is assumed.

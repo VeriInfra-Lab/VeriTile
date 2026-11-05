@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.ScalarInt64While
-import bench.tritonbench_g.kldiv_ops.Sources.Parameters
+import bench.tritonbench_g.kldiv_ops.Proofs.Sources.Parameters
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 

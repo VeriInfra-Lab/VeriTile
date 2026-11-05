@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.ProducerIO
+import bench.tritonbench_g.int8_matmul_quantization.IO
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.ProducerSafetyProgram
 
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.PublicIO.Producer

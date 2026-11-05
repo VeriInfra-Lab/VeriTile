@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.Kernels
+import bench.tritonbench_g.context_attn_fwd.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ExecutionProfile
 import VeriTile.Triton.Float.Control
 import VeriTile.Triton.Float.Integer

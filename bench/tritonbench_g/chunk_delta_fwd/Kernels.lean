@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.Sources.Parameters
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.CallSignature
 
 /-! Complete Python bodies, including positional block pointers and dtype

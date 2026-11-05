@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.rowwise_quantization_triton.Proofs.IntegerBinding
-import bench.tritonbench_g.rowwise_quantization_triton.Candidate
+import bench.tritonbench_g.rowwise_quantization_triton.Proofs.Support.Candidate
 import VeriTile.Triton.Float.IntegerProgramEquivalenceSyntax
 
 namespace VeriTile.Bench.Repairs.RowwiseQuantizationTriton.IO

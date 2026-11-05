@@ -1,4 +1,4 @@
-import bench.tritonbench_g.spinning_lock_reduction.SourceAdapter
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Support.SourceAdapter
 import VeriTile.Triton.DSL.PastedControlSource
 
 /-! Complete source programs use the shared control-flow frontend. The

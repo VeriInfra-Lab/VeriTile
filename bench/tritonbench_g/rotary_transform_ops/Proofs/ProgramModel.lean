@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rotary_transform_ops.Proofs.KernelAlgebra
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.RotaryTransformOps.ProgramModel
 open VeriTile.Triton FP.Structural

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.PairIO
+import bench.tritonbench_g.context_attn_nopad.Proofs.Support.PairIO
 import bench.tritonbench_g.context_attn_nopad.Proofs.SourcePair
 import bench.tritonbench_g.context_attn_nopad.Proofs.PublicFPResult
 

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_bloom.Kernels
+import bench.tritonbench_g.context_attn_bloom.Proofs.Support.KernelEntryAdapters
 
 /-! Compatibility names for the shared repaired source and retained dtype
 specializations. Complete bodies live only in Kernels.lean. -/

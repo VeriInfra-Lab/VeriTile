@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_gla_fwd.Kernels
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 import VeriTile.Triton.Float.ProfiledSoundness
 
 namespace VeriTile.Bench.Repairs.ChunkGlaFwd.FPMerge

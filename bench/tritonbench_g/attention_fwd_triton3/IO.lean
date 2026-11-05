@@ -7,7 +7,7 @@ import bench.tritonbench_g.attention_fwd_triton3.Proofs.NativeExpr
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Grid
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Ownership
 import VeriTile.Triton.Memory.AlgorithmProgramIO
-import bench.tritonbench_g.attention_fwd_triton3.Kernels
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Support.KernelEntryAdapters
 
 /-! Finite six-port layouts for the complete ordinary grid. Channel coordinates retain program, row and feature dimensions; repeated reads are pinned simultaneously. The explicit Real backend and native graph backend execute the same repaired source AST. M/L/O carry ports alias their outputs; END preserves L. Logical coordinate equivalences retain all input and output data. -/
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface

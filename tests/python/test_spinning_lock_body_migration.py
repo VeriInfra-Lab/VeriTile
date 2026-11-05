@@ -4,7 +4,9 @@ import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check_control_source, check_manifest
+from scripts.bench.jit_correspondence import check_control_source
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/spinning_lock_reduction'
@@ -36,7 +38,7 @@ class UndoArea(ast.NodeTransformer):
 
 class SpinningLockBodyMigration(unittest.TestCase):
     def setUp(self):
-        self.records = json.loads((CASE / 'jit-correspondence.json').read_text())
+        self.records = pinned_pairs(CASE)
         self.lean = (CASE / 'Kernels.lean').read_text()
 
     def check(self, lean, record=None):
@@ -47,7 +49,7 @@ class SpinningLockBodyMigration(unittest.TestCase):
                                     record['expected_constexpr_bools'])
 
     def test_complete_original_and_candidate(self):
-        results = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        results = check_pinned_pairs(ROOT, CASE)
         self.assertEqual(results, json.loads(json.dumps(results)))
         self.assertEqual([r['statements'] for r in results], [9, 9])
         self.assertTrue(all(r['mode'] == 'pasted_body' and r['status'] == 'PASS' for r in results))
@@ -80,8 +82,8 @@ class SpinningLockBodyMigration(unittest.TestCase):
                 self.check(self.lean.replace(before, after, 1))
 
     def test_candidate_has_only_documented_area_reassociation(self):
-        manifest = json.loads((CASE / 'candidate-provenance.json').read_text())
-        original, candidate = [(CASE / manifest[k]).read_text() for k in ['original', 'candidate']]
+        manifest = variant_provenance(CASE)
+        original, candidate = [variant_source(CASE / manifest[k]) for k in ['original', 'candidate']]
         for key, source in [('original', original), ('candidate', candidate)]:
             self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), manifest[key + '_sha256'])
         self.assertEqual(ast.dump(ast.parse(original)), ast.dump(UndoArea().visit(ast.parse(candidate))))

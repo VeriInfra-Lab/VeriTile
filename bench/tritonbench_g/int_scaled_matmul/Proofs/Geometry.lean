@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int_scaled_matmul.Sources.GroupedGrid
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GroupedGrid
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.Geometry
 open VeriTile.Triton
 set_option maxHeartbeats 4000000

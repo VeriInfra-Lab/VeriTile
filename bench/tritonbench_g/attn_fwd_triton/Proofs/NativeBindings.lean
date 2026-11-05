@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_triton.NativeIO
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.NativeIO
 import bench.tritonbench_g.attn_fwd_triton.Proofs.ProgramSafety
 
 namespace VeriTile.Bench.Repairs.AttnFwdTritonTileChecked.NativeInterface

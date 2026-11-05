@@ -1,5 +1,5 @@
-import bench.tritonbench_g.kldiv_compute.Sources.Mathematical_Kernels
-import bench.tritonbench_g.kldiv_compute.Parameters
+import bench.tritonbench_g.kldiv_compute.Proofs.Sources.Mathematical_Kernels
+import bench.tritonbench_g.kldiv_compute.Proofs.Support.Parameters
 import VeriTile.Meta.StatementAudit
 
 /-! The retained mathematical view selects the canonical raw source's FP32

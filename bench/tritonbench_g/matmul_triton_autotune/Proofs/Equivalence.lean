@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.EquivIO
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Support.EquivIO
 import bench.tritonbench_g.matmul_triton_autotune.Proofs.Refinement
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTritonAutotune.Repair.Kernel.EquivalenceProof

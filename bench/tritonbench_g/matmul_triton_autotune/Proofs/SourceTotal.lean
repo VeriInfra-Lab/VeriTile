@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.Sources.Mathematical_FPPrelude
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Sources.Mathematical_FPPrelude
 
 /-! Successful execution of the complete repaired source for arbitrary program
 IDs. This proof does not assume a successful execution, valid output geometry,

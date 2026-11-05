@@ -43,21 +43,11 @@ absent. Shared example references use the existing collection-level
 `source-references.json`; `--python path/to/shared.py` adds an external reference
 when needed. All task-local Python JITs remain part of the coverage check.
 
-For an optional checked-in metadata snapshot, use:
-
-```sh
-python3 -m scripts.bench.generate_jit_correspondence bench/examples/FloatDTypeAdd --write
-python3 -m scripts.bench.generate_jit_correspondence bench/examples/FloatDTypeAdd --check
-```
-
-`--write` explicitly generates or updates the snapshot; users do not maintain
-its fields by hand. Equivalent snapshots are preserved byte for byte.
-`--check` validates the saved expectations against the
-current source and compares the generated metadata without refreshing the
-snapshot. Older snapshots may omit newly derived, validated metadata, but every
-expectation they pin must still match. Existing proof receipts retain their
-unchanged source snapshots. Corpus inventory hashes separately guard source
-drift; refreshing metadata does not refresh or accept a proof receipt.
+The standardized TritonBench-G and examples directories use automatic discovery.
+The corpus inventory records the checked pairs and source hashes under
+`validation/`. The generator's `--write` and `--check` options remain available
+for older directories and isolated test fixtures that use a saved snapshot.
+Updating source metadata does not accept a proof receipt.
 
 Input types come from the actual input/IO declaration, including different
 typed invocation variants. Unannotated Python pointers cannot determine their

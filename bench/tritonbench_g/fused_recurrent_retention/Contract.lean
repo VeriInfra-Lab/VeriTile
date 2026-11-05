@@ -1,5 +1,5 @@
-import bench.tritonbench_g.fused_recurrent_retention.APISource
-import bench.tritonbench_g.fused_recurrent_retention.AddressCheck
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.Support.APISource
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.Support.AddressCheck
 namespace VeriTile.Bench.Repairs.FusedRecurrentRetention.Admission
 
 instance (x : TensorObject) (current : Nat) : Decidable (x.RawFP32 current) := by

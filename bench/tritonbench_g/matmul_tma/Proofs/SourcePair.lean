@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_tma.Proofs.SourceSafety
-import bench.tritonbench_g.matmul_tma.Sources.Native
+import bench.tritonbench_g.matmul_tma.Proofs.Sources.Native
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.SourcePair

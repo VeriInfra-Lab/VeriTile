@@ -1,6 +1,6 @@
-import bench.tritonbench_g.sgmv_expand_slice.Sources.Kernels
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Sources.Kernels
 import bench.tritonbench_g.sgmv_expand_slice.Proofs.HostMetadata
-import bench.tritonbench_g.bgmv_expand_slice.Sources.Contract
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Sources.Contract
 
 namespace VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.Contract
 open VeriTile.Torch

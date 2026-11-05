@@ -1,8 +1,8 @@
-import bench.tritonbench_g.matmul_triton2.Sources.Kernels
-import bench.tritonbench_g.matmul_triton1.Sources.Numerics
+import bench.tritonbench_g.matmul_triton2.Proofs.Sources.Kernels
+import bench.tritonbench_g.matmul_triton1.Proofs.Sources.Numerics
 import VeriTile.Triton.Float.TermModel
 import VeriTile.Triton.Float.ScalarBackend
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.MatmulTriton2.Revision001.Core
 open VeriTile.Triton FP.Structural

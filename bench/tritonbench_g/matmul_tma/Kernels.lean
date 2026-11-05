@@ -1,6 +1,6 @@
 import VeriTile.Triton
 import VeriTile.Triton.DSL.PythonCallSyntax
-import bench.tritonbench_g.matmul_tma.Sources.Parameters
+import bench.tritonbench_g.matmul_tma.Proofs.Sources.Parameters
 
 /-! Pasted one-tile Python source and its direct-store conversion candidate.
 All pointer storage, runtime dimensions/strides and constexpr tile/output

@@ -1,3 +1,5 @@
+import bench.examples.HyperConnectionsWidth.IO
+import bench.examples.HyperConnectionsWidth.Contract
 import VeriTile.Triton.Float.FP32ReferenceRewrite
 import bench.examples.HyperConnectionsWidth.Kernels
 import VeriTile.Triton.Float.GuardedRewrite
@@ -16,8 +18,6 @@ namespace VeriTile.Bench.Examples.HyperConnectionsWidthFPEquiv
 open VeriTile.Bench.Examples.HyperConnectionsWidth.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Check the computed weight, including the division and exponential. -/
 def residualSite (tau : ℝ) : Site where

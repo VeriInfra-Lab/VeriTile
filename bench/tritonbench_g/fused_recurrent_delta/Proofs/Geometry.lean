@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_delta.GeometrySource
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.Support.GeometrySource
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.Settings
 namespace VeriTile.Bench.Repairs.FusedRecurrentDelta.Geometry
 noncomputable section

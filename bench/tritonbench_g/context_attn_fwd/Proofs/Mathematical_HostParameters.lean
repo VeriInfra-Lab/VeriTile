@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.Sources.Mathematical_Program
+import bench.tritonbench_g.context_attn_fwd.Proofs.Sources.Mathematical_Program
 import bench.tritonbench_g.context_attn_fwd.Proofs.Mathematical_Bounds
 import VeriTile.Triton.Launch.Grid
 

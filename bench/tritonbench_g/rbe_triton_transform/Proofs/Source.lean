@@ -1,6 +1,6 @@
-import bench.tritonbench_g.rbe_triton_transform.Sources.Kernels
+import bench.tritonbench_g.rbe_triton_transform.Proofs.Sources.Kernels
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 /-! Task-local revision of the existing typed source and masked scatter proof.
 FP32 storage, signed position and stride-correct imaginary neighbours. -/

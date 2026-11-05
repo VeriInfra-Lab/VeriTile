@@ -1,18 +1,19 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
-from scripts.bench.jit_correspondence import check, check_manifest
+from scripts.bench.jit_correspondence import check
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
+
 ROOT = Path(__file__).resolve().parents[2]
 BASE = ROOT / 'bench/tritonbench_g'
 
 class RotaryBodyMigrationTests(unittest.TestCase):
     def test_complete_bodies_and_both_offset_invocations(self):
         for name in ['rotary_transform', 'rotary_transform_ops']:
-            rows = check_manifest(ROOT, BASE / name / 'jit-correspondence.json')
+            rows = check_pinned_pairs(ROOT, BASE / name)
             self.assertEqual([r['statements'] for r in rows], [11] * 4)
-            records = json.loads((BASE / name / 'jit-correspondence.json').read_text())
+            records = pinned_pairs(BASE / name)
             for r in records:
                 profile = r['expected_signature']
                 self.assertEqual(profile['dtype_parameter_types'], {'wideCu': 'Bool', 'wideOffset': 'Bool'})
@@ -23,7 +24,7 @@ class RotaryBodyMigrationTests(unittest.TestCase):
 
     def test_cast_masks_metadata_and_early_return_are_required(self):
         for name in ['rotary_transform', 'rotary_transform_ops']:
-            for r in json.loads((BASE / name / 'jit-correspondence.json').read_text()):
+            for r in pinned_pairs(BASE / name):
                 python = (ROOT / r['python']).read_text()
                 lean = (ROOT / r['lean']).read_text()
                 start = lean.index('def ' + r['lean_definition'] + ' ')
@@ -41,8 +42,8 @@ class RotaryBodyMigrationTests(unittest.TestCase):
 
     def test_cse_candidate_only_reuses_existing_index(self):
         directory = BASE / 'rotary_transform'
-        original = ast.parse((directory / 'rotary_transform.py').read_text())
-        candidate = ast.parse((directory / 'rotary_transform_index_cse.py').read_text())
+        original = ast.parse(variant_source(directory / 'rotary_transform.py'))
+        candidate = ast.parse(variant_source(directory / 'rotary_transform_index_cse.py'))
         for node in ast.walk(candidate):
             if isinstance(node, ast.FunctionDef) and node.name == 'rotary_kernel_index_cse':
                 node.name = 'rotary_kernel'
@@ -55,9 +56,9 @@ class RotaryBodyMigrationTests(unittest.TestCase):
         self.assertEqual(ast.unparse(assignments[0].value), 'rk // 2')
         assignments[0].value = ast.parse('tl.arange(0, BLOCK_K) // 2', mode='eval').body
         self.assertEqual(ast.dump(original), ast.dump(candidate))
-        provenance = json.loads((directory / 'candidate-provenance.json').read_text())
+        provenance = variant_provenance(directory)
         for field in ['original', 'candidate']:
-            self.assertEqual(hashlib.sha256((directory / provenance[field]).read_bytes()).hexdigest(),
+            self.assertEqual(hashlib.sha256(variant_source(directory / provenance[field]).encode()).hexdigest(),
                              provenance[field + '_sha256'])
 
     def test_existing_xor_candidate_changes_only_partner_index(self):

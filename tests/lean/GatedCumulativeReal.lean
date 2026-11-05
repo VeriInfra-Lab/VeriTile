@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.RebasedCumFlat
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.RebasedCumFlat
 
 /-! Actual repaired cumulative sources: flattened PID decoding, in-place
 FP32 storage, valid prefixes, full memory frame and exhausted batch guard. -/

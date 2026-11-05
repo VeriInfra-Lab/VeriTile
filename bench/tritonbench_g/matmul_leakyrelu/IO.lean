@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu.KernelInterface
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Support.KernelInterface
 import VeriTile.Triton.Float.ProgramEquivalence
 import bench.tritonbench_g.matmul_leakyrelu.Proofs.Mathematical_RealModel
 import VeriTile.Triton.Float.LogicalProgramIO

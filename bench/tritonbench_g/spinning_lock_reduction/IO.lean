@@ -1,7 +1,7 @@
 import bench.tritonbench_g.spinning_lock_reduction.Proofs.Mathematical_Real
 import VeriTile.Triton.Float.LogicalProgramIO
 import Mathlib.Tactic.FinCases
-import bench.tritonbench_g.spinning_lock_reduction.Formula
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Support.Formula
 import bench.tritonbench_g.spinning_lock_reduction.Proofs.ConcurrentKernel
 
 /-! Public finite IO for the two original source stages. P/C/locks are named,

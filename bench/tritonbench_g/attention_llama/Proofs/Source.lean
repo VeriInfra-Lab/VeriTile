@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.Kernels
+import bench.tritonbench_g.attention_llama.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Meta.StatementAudit
 

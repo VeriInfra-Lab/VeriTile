@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_layernorm_triton.Programs
+import bench.tritonbench_g.fused_layernorm_triton.Proofs.Support.Programs
 import bench.tritonbench_g.fused_layernorm_triton.Proofs.PairIO
 import bench.tritonbench_g.fused_layernorm_triton.Proofs.IOResults
 import VeriTile.Triton.Float.ProgramEquivalence

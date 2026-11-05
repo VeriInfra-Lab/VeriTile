@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunked_cumsum_fwd.Proofs.IO
+import bench.tritonbench_g.chunked_cumsum_fwd.IO
 import bench.tritonbench_g.chunked_cumsum_fwd.Proofs.PairSemantics
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

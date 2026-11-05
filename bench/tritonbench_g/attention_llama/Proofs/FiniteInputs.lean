@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.NativeIO
+import bench.tritonbench_g.attention_llama.Proofs.Support.NativeIO
 import bench.tritonbench_g.attention_llama.Proofs.Backing
 import bench.tritonbench_g.attention_llama.Proofs.AccessBounds
 import bench.tritonbench_g.attention_llama.Proofs.ReachedBytes

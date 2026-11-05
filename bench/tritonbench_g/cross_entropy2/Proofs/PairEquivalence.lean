@@ -1,4 +1,4 @@
-import bench.tritonbench_g.cross_entropy2.PairIO
+import bench.tritonbench_g.cross_entropy2.Proofs.Support.PairIO
 import bench.tritonbench_g.cross_entropy2.Proofs.SourcePair
 import bench.tritonbench_g.cross_entropy2.Proofs.PublicIO
 

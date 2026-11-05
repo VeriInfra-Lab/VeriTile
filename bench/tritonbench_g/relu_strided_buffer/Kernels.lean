@@ -1,4 +1,4 @@
-import bench.tritonbench_g.relu_strided_buffer.SourceTypes
+import bench.tritonbench_g.relu_strided_buffer.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.SignedRankOneBlockPointers
 
 namespace VeriTile.Bench.Repairs.ReluStridedBuffer

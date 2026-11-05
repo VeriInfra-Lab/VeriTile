@@ -1,5 +1,5 @@
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.ControlArithmetic
-import bench.tritonbench_g.bmm_chunk_fwd.Cleanup
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.Cleanup
 import VeriTile.Triton.Float.ProfiledRewrite
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.CleanupSource

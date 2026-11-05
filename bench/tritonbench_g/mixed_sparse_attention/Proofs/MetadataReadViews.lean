@@ -1,4 +1,4 @@
-import bench.tritonbench_g.mixed_sparse_attention.HostContract
+import bench.tritonbench_g.mixed_sparse_attention.Proofs.Support.HostContract
 import VeriTile.Triton.DSL.NonnegativeReadViews
 
 namespace VeriTile.Bench.Repairs.MixedSparseAttention.Checked

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.ksoftmax_triton.Sources.Kernels
+import bench.tritonbench_g.ksoftmax_triton.Proofs.Sources.Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.Typed

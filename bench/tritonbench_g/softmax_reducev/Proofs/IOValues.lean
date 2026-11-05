@@ -1,5 +1,5 @@
 import bench.tritonbench_g.softmax_reducev.Proofs.IOBindings
-import bench.tritonbench_g.softmax_reducev.Targets
+import bench.tritonbench_g.softmax_reducev.Proofs.Support.Targets
 
 namespace VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.PublicIO
 open VeriTile Triton FP.Structural FPValue

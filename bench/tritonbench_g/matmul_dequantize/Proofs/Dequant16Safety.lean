@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize.Sources.Mathematical_FPDequant
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Mathematical_FPDequant
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.MatmulDequantize.Dequant16Access

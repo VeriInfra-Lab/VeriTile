@@ -1,4 +1,4 @@
-import bench.tritonbench_g.max_reduction.Spec
+import bench.tritonbench_g.max_reduction.Proofs.Support.Spec
 import bench.tritonbench_g.max_reduction.Proofs.DimensionIO
 import bench.tritonbench_g.max_reduction.Proofs.KernelMath
 import bench.tritonbench_g.max_reduction.Proofs.Contract

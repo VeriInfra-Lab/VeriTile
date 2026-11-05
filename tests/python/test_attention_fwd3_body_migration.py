@@ -1,10 +1,11 @@
 import ast
 import hashlib
-import json
 from pathlib import Path
 import unittest
 
-from scripts.bench.jit_correspondence import check, check_manifest, check_statement_function
+from scripts.bench.jit_correspondence import check, check_statement_function
+
+from tests.python.layout_fixtures import check_pinned_pairs, pinned_pairs, variant_provenance, variant_source
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE = ROOT / 'bench/tritonbench_g/attention_fwd_triton3'
@@ -31,11 +32,11 @@ class UndoCSE(ast.NodeTransformer):
 
 class AttentionFwd3BodyMigration(unittest.TestCase):
     def setUp(self):
-        self.records = json.loads((CASE / 'jit-correspondence.json').read_text())
-        self.lean = (CASE / 'Sources/Body.lean').read_text()
+        self.records = pinned_pairs(CASE)
+        self.lean = (CASE / 'Kernels.lean').read_text()
 
     def test_four_complete_source_pairs(self):
-        result = check_manifest(ROOT, CASE / 'jit-correspondence.json')
+        result = check_pinned_pairs(ROOT, CASE)
         self.assertEqual(len(result), 4)
         self.assertEqual([r['statements'] for r in result], [4, 24, 4, 24])
         self.assertTrue(all(r['status'] == 'PASS' and r['mode'] == 'pasted_body' for r in result))
@@ -66,8 +67,8 @@ class AttentionFwd3BodyMigration(unittest.TestCase):
                       expected_jit_functions=r['expected_jit_functions'])
 
     def test_candidate_only_cses_the_key_mask(self):
-        meta = json.loads((CASE / 'candidate-provenance.json').read_text())
-        sources = {k: (CASE / meta[k]).read_text() for k in ['original', 'candidate']}
+        meta = variant_provenance(CASE)
+        sources = {k: variant_source(CASE / meta[k]) for k in ['original', 'candidate']}
         for k, source in sources.items():
             self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), meta[k + '_sha256'])
         def kernels(source):

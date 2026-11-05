@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.TwoLoops
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealKeys
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_RealKeys
 
 /-! The two host-stage key intervals partition precisely the causal prefix,
 including the final partial key block. This is independent of execution. -/

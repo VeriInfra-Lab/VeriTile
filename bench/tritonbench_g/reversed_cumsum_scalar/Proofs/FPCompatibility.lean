@@ -1,4 +1,4 @@
-import bench.tritonbench_g.reversed_cumsum_scalar.FPPrograms
+import bench.tritonbench_g.reversed_cumsum_scalar.Proofs.Support.FPPrograms
 import bench.tritonbench_g.reversed_cumsum_scalar.Kernels
 import bench.tritonbench_g.reversed_cumsum_scalar.Proofs.Rewrite
 import bench.tritonbench_g.reversed_cumsum_scalar.Proofs.FPExecution

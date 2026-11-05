@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_kernel.Proofs.KernelScalar
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_Binary16
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Mathematical_Binary16
 import bench.tritonbench_g.matrix_reduction.Proofs.BinaryConversion
 import VeriTile.Triton.Float.ScalarBackend
 namespace VeriTile.Bench.Repairs.MatmulKernel.KernelNative

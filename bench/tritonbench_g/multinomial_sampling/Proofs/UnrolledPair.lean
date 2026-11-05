@@ -1,4 +1,4 @@
-import bench.tritonbench_g.multinomial_sampling.PairIO
+import bench.tritonbench_g.multinomial_sampling.Proofs.Support.PairIO
 
 namespace VeriTile.Bench.Repairs.MultinomialSampling.UnrolledPair
 open VeriTile.Triton FP.Structural SourceValue Interface

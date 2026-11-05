@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rotary_transform.Proofs.KernelAlgebra
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.RotaryTransformTileChecked.ProgramModel
 open VeriTile.Bench.Repairs.RotaryTransform

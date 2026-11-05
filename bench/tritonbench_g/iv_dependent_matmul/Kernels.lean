@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.SourceTypes
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.StringCallControl
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel

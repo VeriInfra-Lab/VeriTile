@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_simple.Targets
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Support.Targets
 
 namespace VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.IOBindings
 open VeriTile Triton Host PublicIO

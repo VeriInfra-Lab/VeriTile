@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lightning_attention.Sources.Kernels
+import bench.tritonbench_g.lightning_attention.Proofs.Sources.Kernels
 import VeriTile.Triton.DSL.SignedLaneSubtraction
 import VeriTile.Triton.Source
 import VeriTile.Triton.Float.Structural

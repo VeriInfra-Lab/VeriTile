@@ -63,11 +63,11 @@ promotion correctness, or hardware behavior.
    assignments, casts, calls, branches, masks and operation order. Supply
    pointer storage, runtime scalar types and constexpr names outside the body
    with `with_triton_signature`. Bind runtime argument values at the call.
-3. Add a `jit-correspondence.json` pair for every selected JIT function and
-   separately declared Python candidate. Body mode requires
-   `signature_definition` and a reviewed `expected_signature`. It permits no
-   metadata directives or Lean antiquotes inside the body. Tuple/list and
-   positional/keyword expression changes are not normalized in body mode.
+3. Run `python3 -m scripts.bench.generate_jit_correspondence <task-dir>`.
+   It discovers every JIT and candidate from the case's Python source and
+   `Kernels.lean`. Review the call signature and use the corpus gate to check
+   every pair. Body mode permits no metadata directives or Lean antiquotes
+   inside the body and keeps tuple/list and positional/keyword distinctions.
 4. Connect the public Real and FP theorems to the migrated actual program.
    Prove complete program equality or an explicit execution connection;
    rewriting a proof to refer to a detached old helper is insufficient.

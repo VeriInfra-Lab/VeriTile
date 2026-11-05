@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_rotary_embedding.PairIO
+import bench.tritonbench_g.fused_rotary_embedding.Proofs.Support.PairIO
 import bench.tritonbench_g.fused_rotary_embedding.Proofs.SourcePair
 
 namespace VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.IOPair

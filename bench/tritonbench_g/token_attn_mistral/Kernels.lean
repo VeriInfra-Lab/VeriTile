@@ -1,4 +1,4 @@
-import bench.tritonbench_g.token_attn_mistral.Sources.Parameters
+import bench.tritonbench_g.token_attn_mistral.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.IntegerMinMaxLiterals
 
 /-! Complete current original and existing affine-candidate Python bodies.

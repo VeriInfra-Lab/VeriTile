@@ -1,7 +1,7 @@
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.KernelExecution
 import VeriTile.Triton.Float.SignedCast
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.Mathematical_GroupedGrid
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.QuantTransposeKernel.KernelResult
 open VeriTile.Triton FP.Structural KernelSource KernelExecution

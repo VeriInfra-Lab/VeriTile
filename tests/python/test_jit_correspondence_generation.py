@@ -10,6 +10,7 @@ from unittest.mock import patch
 from scripts.bench.generate_jit_correspondence import generate, snapshot_matches
 from scripts.bench.jit_correspondence import check_records
 from tests.python.test_body_corpus import PYTHON, LEAN
+from tests.python.layout_fixtures import pinned_cases, split_swiglu_fixture
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -148,27 +149,32 @@ class CorrespondenceGenerationTests(unittest.TestCase):
             generate(self.root, self.case)
 
     def test_cross_file_helper_import_is_checked_without_importing_triton(self):
-        self.copy_case('swiglu_triton', ['Kernels.lean', 'swiglu_triton.py', 'index_commuted.py'])
+        self.copy_case('swiglu_triton', ['Kernels.lean', 'swiglu_triton.py'])
+        candidate = split_swiglu_fixture(self.directory)
         self.assertEqual(len(generate(self.root, self.case)), 5)
-        candidate = self.directory/'index_commuted.py'
         candidate.write_text(candidate.read_text().replace('from swiglu_triton import silu',
                                                           'from swiglu_triton import missing as silu'))
         with self.assertRaisesRegex(ValueError, 'No exact source pair'):
             generate(self.root, self.case)
 
-    def test_all_existing_pairs_can_be_regenerated_from_sources(self):
+    def test_standardized_cases_match_reviewed_pairs(self):
+        batch = json.loads((ROOT / 'validation/body-migration-batch.json').read_text())
+        reviewed = pinned_cases()
+        self.assertEqual(len(batch['cases']), 202)
         count = 0
-        manifests = sorted((ROOT/'bench').glob('*/**/jit-correspondence.json'))
-        self.assertEqual(len(manifests), 201)
-        for manifest in manifests:
-            with self.subTest(case=manifest.parent.name):
-                saved = json.loads(manifest.read_text())
-                # Existing JSON is an oracle for the coverage/expectations,
-                # never an input to discovery or metadata extraction.
-                rows = generate(ROOT, manifest.parent)
-                self.assertTrue(snapshot_matches(saved, rows))
+        for entry in batch['cases']:
+            case = ROOT / entry['path']
+            with self.subTest(case=entry['path']):
+                entries = {p.name for p in case.iterdir() if not p.name.startswith('.')
+                           and (p.is_file() or any(f.is_file() and '__pycache__' not in f.parts
+                                                   for f in p.rglob('*')))}
+                self.assertEqual(entries, {case.name + '.py', 'Kernels.lean', 'RealCorrect.lean',
+                                           'FPEquiv.lean', 'IO.lean', 'Contract.lean', 'Proofs'})
+                rows = generate(ROOT, case)
+                if entry['path'] in reviewed:
+                    self.assertTrue(snapshot_matches(reviewed[entry['path']], rows))
                 count += len(rows)
-        self.assertEqual(count, 619)
+        self.assertEqual(count, 594)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
-import bench.tritonbench_g.lora_expand_gemv.PairIO
-import bench.tritonbench_g.lora_expand_gemv.CandidateKernels
+import bench.tritonbench_g.lora_expand_gemv.Proofs.Support.PairIO
+import bench.tritonbench_g.lora_expand_gemv.Proofs.Support.CandidateKernels
 import bench.tritonbench_g.lora_expand_gemv.Proofs.IOCorrect
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

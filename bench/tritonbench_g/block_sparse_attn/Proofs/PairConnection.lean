@@ -1,4 +1,4 @@
-import bench.tritonbench_g.block_sparse_attn.PairIO
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.PairIO
 import bench.tritonbench_g.block_sparse_attn.Proofs.PublicCorrectness
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 

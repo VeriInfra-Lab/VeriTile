@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.RealBackend
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealLoopFormula
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_RealLoopFormula
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Real
 open VeriTile Triton FP.Structural

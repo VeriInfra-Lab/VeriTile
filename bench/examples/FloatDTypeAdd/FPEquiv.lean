@@ -1,3 +1,5 @@
+import bench.examples.FloatDTypeAdd.IO
+import bench.examples.FloatDTypeAdd.Contract
 import bench.examples.FloatDTypeAdd.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -12,8 +14,6 @@ namespace VeriTile.Bench.Examples.FloatDTypeAddFPEquiv
 open VeriTile.Bench.Examples.FloatDTypeAdd.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Finite operands after the original common prefix. -/
 def additionSite (blockSize : Nat) : Site where

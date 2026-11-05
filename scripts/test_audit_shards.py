@@ -125,7 +125,7 @@ class AuditShardTests(unittest.TestCase):
                          for name in ['Kernels', 'Correct', 'FPEquiv', 'Proofs/Real']]
         self.targets += ['bench/examples/One.lean', 'bench/examples/Two.lean',
                          'bench/examples/LogExp/Kernels.lean',
-                         'bench/examples/LogExp/Correct.lean',
+                         'bench/examples/LogExp/RealCorrect.lean',
                          'bench/examples/LogExp/FPEquiv.lean',
                          'tests/lean/One.lean', 'tests/lean/Two.lean']
         for target in self.targets:

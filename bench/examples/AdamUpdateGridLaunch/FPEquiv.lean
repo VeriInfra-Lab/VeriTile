@@ -1,3 +1,5 @@
+import bench.examples.AdamUpdateGridLaunch.IO
+import bench.examples.AdamUpdateGridLaunch.Contract
 import bench.examples.AdamUpdateGridLaunch.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -13,8 +15,6 @@ namespace VeriTile.Bench.Examples.AdamUpdateGridLaunchFPEquiv
 open VeriTile.Bench.Examples.AdamUpdateGridLaunch.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Finite operands after the original common prefix. -/
 def additionSite (lr wd beta1 beta2 : ℝ) (n B : Nat) : Site where

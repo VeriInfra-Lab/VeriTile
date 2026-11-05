@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_flaggems.Sources.Mathematical_Kernels
+import bench.tritonbench_g.softmax_flaggems.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.FullSource

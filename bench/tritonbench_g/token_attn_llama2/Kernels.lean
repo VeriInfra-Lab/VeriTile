@@ -1,4 +1,4 @@
-import bench.tritonbench_g.token_attn_llama2.Sources.Parameters
+import bench.tritonbench_g.token_attn_llama2.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.IntegerWhereLiterals
 import VeriTile.Triton.Float.Structural
 

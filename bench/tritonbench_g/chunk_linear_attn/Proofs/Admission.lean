@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.Endpoint
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Endpoint
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.Admission
 open VeriTile Triton

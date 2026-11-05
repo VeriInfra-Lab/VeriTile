@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_implementation.Sources.Mathematical_Kernels
+import bench.tritonbench_g.rmsnorm_implementation.Proofs.Sources.Mathematical_Kernels
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormImplementation
 open VeriTile.Triton

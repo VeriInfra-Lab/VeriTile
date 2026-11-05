@@ -1,5 +1,5 @@
-import bench.tritonbench_g.triton_matmul.Sources.Kernels
-import bench.tritonbench_g.triton_matmul.Sources.Parameters
+import bench.tritonbench_g.triton_matmul.Kernels
+import bench.tritonbench_g.triton_matmul.Proofs.Sources.Parameters
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue

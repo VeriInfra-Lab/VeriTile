@@ -1,4 +1,4 @@
-import bench.tritonbench_g.swiglu_triton.Parameters
+import bench.tritonbench_g.swiglu_triton.Proofs.Support.Parameters
 import VeriTile.Triton.DSL.PureJitFunctions
 
 /-! Canonical repair bodies and their existing row-index commutation candidate.

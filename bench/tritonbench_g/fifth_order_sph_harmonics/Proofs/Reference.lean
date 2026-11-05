@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fifth_order_sph_harmonics.Kernels
+import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.Mathematical_TypedReference
 
 namespace VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Reference

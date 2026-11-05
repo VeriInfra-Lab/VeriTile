@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_score.Proofs.Reused.NativeIdeal
-import bench.tritonbench_g.attention_score.Sources.AlgorithmProjection
+import bench.tritonbench_g.attention_score.Proofs.Sources.AlgorithmProjection
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.NativeMath
 open VeriTile Triton FP.Structural NativeInstructions NativeStaging NativeIdeal Geometry

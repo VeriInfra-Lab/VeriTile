@@ -1,5 +1,5 @@
 import bench.tritonbench_g.softmax_triton1.Proofs.FP
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 import VeriTile.Triton.Float.ProfiledMemory
 import VeriTile.Triton.Float.ScalarArithmeticLaws
 

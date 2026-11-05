@@ -1,4 +1,4 @@
-import bench.tritonbench_g.pow_scalar_tensor.SourceTypes
+import bench.tritonbench_g.pow_scalar_tensor.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.ImportedBinaryJitFunctions
 
 namespace VeriTile.Bench.Repairs.PowScalarTensor.Checked

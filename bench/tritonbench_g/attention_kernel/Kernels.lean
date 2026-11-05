@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_kernel.SourceTypes
+import bench.tritonbench_g.attention_kernel.Proofs.Support.SourceTypes
 import VeriTile.Triton.DSL.OutputDTypeMetadata
 import VeriTile.Meta.StatementAudit
 

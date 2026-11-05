@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.PairIO
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.PairIO
 import bench.tritonbench_g.layer_norm_fwd.Proofs.OrdinaryEquivalence
 import bench.tritonbench_g.layer_norm_fwd.Proofs.PairSafety
 import bench.tritonbench_g.layer_norm_fwd.Proofs.NativeImplementation

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_expand_slice.SignedGrid
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Support.SignedGrid
 
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.KernelRaw
 open VeriTile Triton FP.Structural Direct FPValues

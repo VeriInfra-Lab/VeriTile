@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rowwise_quantization_triton.Candidate
+import bench.tritonbench_g.rowwise_quantization_triton.Proofs.Support.Candidate
 import bench.tritonbench_g.rowwise_quantization_triton.Proofs.IOImplements
 import VeriTile.Triton.Float.IntegerProgramEquivalenceSyntax
 

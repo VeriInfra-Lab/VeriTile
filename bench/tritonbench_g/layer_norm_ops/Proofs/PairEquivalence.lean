@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_ops.PairIO
+import bench.tritonbench_g.layer_norm_ops.Proofs.Support.PairIO
 import bench.tritonbench_g.layer_norm_ops.Proofs.SourcePair
 import bench.tritonbench_g.layer_norm_ops.Proofs.IOResults
 

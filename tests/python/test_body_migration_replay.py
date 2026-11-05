@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from scripts.bench import replay_body_migrations as runner
+from tests.python.layout_fixtures import pinned_pairs
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -22,10 +23,11 @@ class MigrationReceiptTests(unittest.TestCase):
         base = self.root / 'bench/tritonbench_g/dequantize_rowwise'
         base.mkdir(parents=True)
         original = ROOT / 'bench/tritonbench_g/dequantize_rowwise'
-        for name in ('dequantize_rowwise.py', 'Kernels.lean', 'jit-correspondence.json'):
+        for name in ('dequantize_rowwise.py', 'Kernels.lean'):
             (base / name).write_bytes((original / name).read_bytes())
+        (base / 'jit-correspondence.json').write_text(json.dumps(pinned_pairs(original)))
         # Body matching alone cannot certify even these displayed specifications.
-        for name in ('Correct.lean', 'FPEquiv.lean'):
+        for name in ('RealCorrect.lean', 'FPEquiv.lean'):
             (base / name).write_text('namespace Fixture'+name[:-5]+'\nspecification proved : True := by trivial\nend Fixture'+name[:-5]+'\n')
         (self.root / 'validation').mkdir()
         (self.root / runner.DEFAULT).write_text(json.dumps({
@@ -33,7 +35,7 @@ class MigrationReceiptTests(unittest.TestCase):
             'cases': [{'path': 'bench/tritonbench_g/dequantize_rowwise',
                        'python': 'bench/tritonbench_g/dequantize_rowwise/dequantize_rowwise.py',
                        'public_theorems': {
-                           'bench/tritonbench_g/dequantize_rowwise/Correct.lean': ['FixtureCorrect.proved'],
+                           'bench/tritonbench_g/dequantize_rowwise/RealCorrect.lean': ['FixtureRealCorrect.proved'],
                            'bench/tritonbench_g/dequantize_rowwise/FPEquiv.lean': ['FixtureFPEquiv.proved']}}],
         }))
         for name in ('lean-toolchain', 'lakefile.toml', 'lake-manifest.json'):
@@ -64,7 +66,7 @@ class MigrationReceiptTests(unittest.TestCase):
         self.assertFalse(receipt.exists())
 
     def test_unsolved_prop_is_not_a_public_proof(self):
-        entry = self.root / 'bench/tritonbench_g/dequantize_rowwise/Correct.lean'
+        entry = self.root / 'bench/tritonbench_g/dequantize_rowwise/RealCorrect.lean'
         entry.write_text('def unsolvedProblem : Prop := False\n')
         with self.assertRaisesRegex(ValueError, 'not a proved specification'):
             self.invoke('--check')
@@ -74,7 +76,7 @@ class MigrationReceiptTests(unittest.TestCase):
         def probe(command, **kwargs):
             self.assertEqual(command[:3], ['lake', 'env', 'lean'])
             source = Path(command[3]).read_text()
-            self.assertIn('#check FixtureCorrect.proved\n', source)
+            self.assertIn('#check FixtureRealCorrect.proved\n', source)
             self.assertIn('#check FixtureFPEquiv.proved\n', source)
             self.assertNotIn('#check proved\n', source)
             return subprocess.CompletedProcess(command, 0)
@@ -124,7 +126,7 @@ class MigrationReceiptTests(unittest.TestCase):
         dependency.write_text('def answer := 1\n')
         def replay(*_args, **_kwargs):
             dependency.write_text('def answer := 2\n')
-            return {'accepted': True, 'theorems': ['FixtureCorrect.proved','FixtureFPEquiv.proved'], 'theorem_count': 2}
+            return {'accepted': True, 'theorems': ['FixtureRealCorrect.proved','FixtureFPEquiv.proved'], 'theorem_count': 2}
         with patch.object(runner, 'require_tools'), \
                 patch.object(runner.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), \
                 patch.object(runner.check_comparator, 'check', side_effect=replay) as check:
@@ -141,7 +143,7 @@ class MigrationReceiptTests(unittest.TestCase):
         directory.mkdir()
         receipt = directory / 'body-migration-replay.json'
         proofs = {'accepted': True, 'theorem_count': 2,
-                  'theorems': ['FixtureCorrect.proved', 'FixtureFPEquiv.proved']}
+                  'theorems': ['FixtureRealCorrect.proved', 'FixtureFPEquiv.proved']}
         with patch.object(runner, 'require_tools'), \
                 patch.object(runner.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), \
                 patch.object(runner.check_comparator, 'check', return_value=proofs):
@@ -227,7 +229,7 @@ class MigrationReceiptTests(unittest.TestCase):
             for key in ('python', 'lean'):
                 row[key] = row[key].replace(first, second)
         copied.write_text(json.dumps(rows))
-        for name in ('Correct.lean', 'FPEquiv.lean'):
+        for name in ('RealCorrect.lean', 'FPEquiv.lean'):
             path = self.root / second / name
             path.write_text(path.read_text().replace('Fixture', 'FixtureOther'))
         shared = 'tests/lean/Shared.lean'
@@ -252,7 +254,7 @@ class MigrationReceiptTests(unittest.TestCase):
             if change_source and path == retained:
                 (self.root / 'lean-toolchain').write_text('changed during replay\n')
             return {'accepted': not (shared_fails and path == shared), 'theorem_count': 2,
-                    'theorems': ['FixtureCorrect.proved', 'FixtureFPEquiv.proved']}
+                    'theorems': ['FixtureRealCorrect.proved', 'FixtureFPEquiv.proved']}
         with patch.object(runner, 'require_tools'), \
                 patch.object(runner.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), \
                 patch.object(runner.check_comparator, 'check', side_effect=replay):
@@ -274,7 +276,7 @@ class MigrationReceiptTests(unittest.TestCase):
 
     def test_interrupted_case_cannot_accept_only_its_public_entries(self):
         report, order, _, retained = self.interrupted_checkpoint(stop_at_retained=True)
-        self.assertTrue(any(path.endswith('/Correct.lean') for path in order))
+        self.assertTrue(any(path.endswith('/RealCorrect.lean') for path in order))
         self.assertTrue(any(path.endswith('/FPEquiv.lean') for path in order))
         self.assertEqual(order[-1], retained)
         self.assertFalse(any(c['accepted'] for c in report['cases']))

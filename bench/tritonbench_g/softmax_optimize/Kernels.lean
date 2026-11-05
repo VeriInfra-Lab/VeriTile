@@ -82,11 +82,11 @@ def indexCommutedKernel (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) :
   let M_value : Int := M
   let N_value : Int := N
   with_triton_call callSignature call_args [M := M_value, N := N_value]
-    binary_functions [prev_multiple_of := commutedPreviousMultiple] in triton {
+    binary_functions [prev_multiple_of_candidate := commutedPreviousMultiple] in triton {
     pid_m = tl.program_id(0).to(tl.int64)
     m = tl.full((TILE_N,), value=-float("inf"), dtype=output_ptr.dtype.element_ty)
     z = tl.full((TILE_N,), value=0, dtype=output_ptr.dtype.element_ty)
-    prev_multiple = prev_multiple_of(N, TILE_N)
+    prev_multiple = prev_multiple_of_candidate(N, TILE_N)
     for start_n in range(0, prev_multiple, TILE_N):
         n_offsets = start_n + tl.arange(0, TILE_N).to(tl.int64)
         offset = N * pid_m + n_offsets
@@ -114,7 +114,7 @@ def indexCommutedKernel (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) :
     z = tl.sum(tl.exp(m - final_m) * z)
     m = final_m
 
-    prev_multiple = prev_multiple_of(N, TILE_N)
+    prev_multiple = prev_multiple_of_candidate(N, TILE_N)
     for start_n in range(0, prev_multiple, TILE_N):
         n_offsets = start_n + tl.arange(0, TILE_N).to(tl.int64)
         offset = N * pid_m + n_offsets
