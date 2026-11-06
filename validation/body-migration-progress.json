@@ -2,16 +2,16 @@
   "schema": 1,
   "scope": "177 remaining TritonBench-G tasks and all 19 worked examples",
   "baseline_source_tree": "27ad0b8964dd3567d1c022df1c0919655834633b",
-  "complete": false,
+  "complete": true,
   "target_count": 196,
-  "completed_count": 195,
+  "completed_count": 196,
   "staged_count": 196,
-  "pending_count": 1,
+  "pending_count": 0,
   "acceptance": "A body comparison or a successful build alone is not completion. Require current source bindings, actual Real/FP public theorem targets, axiom/specification gates and official proof replay; preserve numerical domains and assumptions.",
   "local_validation": {
     "staged_public_proofs": "202_CASES_LOCAL_PUBLIC_PROOFS_PASS",
-    "official_comparator": "201 of 202 current cases have complete verified independent replay coverage.",
-    "working_tree": "All 202 cases pass automatic source correspondence, the retained-module build, and public theorem resolution.",
+    "official_comparator": "202 of 202 current cases have complete verified independent replay coverage.",
+    "working_tree": "All 202 layout cases pass automatic source correspondence, the retained-module build, public theorem resolution, and independent proof replay on the verified source snapshot.",
     "source_transition_evidence": [
       "validation/kldiv-source-transition.json",
       "validation/f8-source-transition.json"
@@ -1346,28 +1346,6 @@
       ],
       "completion_certificate": false
     },
-    "current_work": {
-      "path": "bench/tritonbench_g/triton_attention",
-      "status": "COMPLETE_EXACT_CURRENT_OFFICIAL_ACCEPTANCE",
-      "complete": true,
-      "all_jit_bodies_aligned": true,
-      "body_pairs": 6,
-      "body_copy_check": "PASS_6_EXACT_PAIRS",
-      "owned_lean_modules": 130,
-      "retained_build_roots": 136,
-      "required_replay_roots": 136,
-      "retained_modules": "PASS_136_ROOTS_3489_LAKE_JOBS",
-      "public_real_fp_proofs": "PASS_2_PUBLIC_TARGETS",
-      "public_name_resolution": "PASS_2_ACTUAL_PUBLIC_TARGETS",
-      "external_trust_spec_gates": "PASS_9_FILES",
-      "python_tests": 715,
-      "note": "Six exact copied original/candidate forward/preprocess/backward JIT bodies retain names, casts, runtime scalars, pointer advances, masks and the checked compile-time static assertion. Complete causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding, exterior frame and existing whole-program fixed-128 FP candidate equivalence are accepted for the exact current source.",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
-      "replay_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
-      "frozen_closure_files": 207,
-      "receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
-      "independent_proof_replay": "PASS_136_OF_136_FROZEN_ROOTS"
-    },
     "previous_validated_source_commit": "d15a8421f561d70303550dc36a41fa209fe29c4f",
     "shared_model_revalidation": {
       "state": "full_local_pass_incremental_replay_pending",
@@ -1389,7 +1367,6 @@
       "body_corpus_check": "PASS",
       "current_frontend_regressions": []
     },
-    "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7",
     "last_full_local_snapshot": {
       "cases": 180,
       "targets": 174,
@@ -1598,81 +1575,6 @@
           "tests/lean/ImplicitAtomicOperands.lean"
         ]
       }
-    ],
-    "current_official_acceptance": [
-      "validation/body_receipts/attention-forward-pair-source-migration.json",
-      "validation/body_receipts/attention-pair-source-migration.json",
-      "validation/body_receipts/attention-score-source-migration.json",
-      "validation/body_receipts/bgmv-expand-slice-source-migration.json",
-      "validation/body_receipts/bgmv-shrink-source-migration.json",
-      "validation/body_receipts/context-attn-bloom-source-migration.json",
-      "validation/body_receipts/context-attn-fwd-source-migration.json",
-      "validation/body_receipts/context-attn-llama-source-migration.json",
-      "validation/body_receipts/context-attn-nopad-source-migration.json",
-      "validation/body_receipts/conv-source-migration.json",
-      "validation/body_receipts/decay-cumsum-source-migration.json",
-      "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
-      "validation/body_receipts/diag-ssm-kldiv-source-migration.json",
-      "validation/body_receipts/fifth-order-sph-harmonics-source-migration.json",
-      "validation/body_receipts/flash-attn-source-migration.json",
-      "validation/body_receipts/fp4-source-migration.json",
-      "validation/body_receipts/fp8-matmul-source-migration.json",
-      "validation/body_receipts/full-recovery-shard-0.json",
-      "validation/body_receipts/full-recovery-shard-1.json",
-      "validation/body_receipts/full-recovery-shard-10.json",
-      "validation/body_receipts/full-recovery-shard-11.json",
-      "validation/body_receipts/full-recovery-shard-12.json",
-      "validation/body_receipts/full-recovery-shard-13.json",
-      "validation/body_receipts/full-recovery-shard-14.json",
-      "validation/body_receipts/full-recovery-shard-15.json",
-      "validation/body_receipts/full-recovery-shard-16.json",
-      "validation/body_receipts/full-recovery-shard-17.json",
-      "validation/body_receipts/full-recovery-shard-18.json",
-      "validation/body_receipts/full-recovery-shard-19.json",
-      "validation/body_receipts/full-recovery-shard-2.json",
-      "validation/body_receipts/full-recovery-shard-20.json",
-      "validation/body_receipts/full-recovery-shard-21.json",
-      "validation/body_receipts/full-recovery-shard-22.json",
-      "validation/body_receipts/full-recovery-shard-23.json",
-      "validation/body_receipts/full-recovery-shard-3.json",
-      "validation/body_receipts/full-recovery-shard-4.json",
-      "validation/body_receipts/full-recovery-shard-5.json",
-      "validation/body_receipts/full-recovery-shard-6.json",
-      "validation/body_receipts/full-recovery-shard-7.json",
-      "validation/body_receipts/full-recovery-shard-8.json",
-      "validation/body_receipts/full-recovery-shard-9.json",
-      "validation/body_receipts/gate-source-migration.json",
-      "validation/body_receipts/gla-source-migration.json",
-      "validation/body_receipts/int-scaled-matmul-source-migration.json",
-      "validation/body_receipts/int4-source-dependency-migration.json",
-      "validation/body_receipts/int8-dequant-persistent-current-dependency-replay.json",
-      "validation/body_receipts/int8-matmul-source-migration.json",
-      "validation/body_receipts/iv-source-migration.json",
-      "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
-      "validation/body_receipts/kv-cache-filling-source-migration.json",
-      "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
-      "validation/body_receipts/layer-norm-dependent-group1-current-replay.json",
-      "validation/body_receipts/layer-norm-fwd-source-migration.json",
-      "validation/body_receipts/layer-norm-triton-source-migration.json",
-      "validation/body_receipts/layernorm-softmax-source-migration.json",
-      "validation/body_receipts/linear-activation-source-migration.json",
-      "validation/body_receipts/lora-expand-gemv-source-migration.json",
-      "validation/body_receipts/matmul-source-migration.json",
-      "validation/body_receipts/power-source-migration.json",
-      "validation/body_receipts/rbe-source-migration.json",
-      "validation/body_receipts/relu-source-migration.json",
-      "validation/body_receipts/retention-source-migration.json",
-      "validation/body_receipts/rotary-pair-source-migration.json",
-      "validation/body_receipts/rwkv-source-migration.json",
-      "validation/body_receipts/sgmv-expand-slice-source-migration.json",
-      "validation/body_receipts/welford-source-migration.json",
-      "validation/body_receipts/lightning-attention-pasted-source-replay.json",
-      "validation/body_receipts/mixed-sparse-pasted-source-replay.json",
-      "validation/body_receipts/gla-delta-simple-pasted-source-replay.json",
-      "validation/body_receipts/parallel-attention-pasted-source-replay.json",
-      "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
-      "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
-      "validation/body_receipts/triton-attention-pasted-source-replay.json"
     ],
     "full_replay_recovery": {
       "state": "all_24_official_shards_reviewed_changed_cases_require_fresh_replay",
@@ -2745,12 +2647,6 @@
       "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41736220540",
       "independent_replay": "IN_PROGRESS"
     },
-    "staged_manifest": {
-      "cases": 202,
-      "build_roots": 8723,
-      "replay_roots": 7726,
-      "boundary": "Manifest coverage is not completion or a fresh full integration build result."
-    },
     "int8_quantization_source_migration": {
       "state": "EXACT_CURRENT_OFFICIAL_REPLAY_ACCEPTED",
       "owned_roots": 34,
@@ -2785,7 +2681,8 @@
     "legacy_final_inventory": {
       "state": "STALE_PRIOR_CONTRACT_REVIEW_HASHES",
       "first_error": "adam_update_triton: reviewed source changed: bench/tritonbench_g/adam_update_triton/Kernels.lean",
-      "boundary": "The legacy contract-review inventory is separate from the current body-migration receipts. Old reviewed hashes have not been relabeled as a new review. Current source-body, named public proof, trust/spec and independent replay gates remain required."
+      "boundary": "The legacy contract-review inventory is separate from the current body-migration receipts. Old reviewed hashes have not been relabeled as a new review. Current source-body, named public proof, trust/spec and independent replay gates remain required.",
+      "current_layout_error": "adam_update_triton: selected revision changed: public_entries"
     },
     "fused_recurrent_delta_source_migration": {
       "state": "ACCEPTED_EXACT_CURRENT",
@@ -2843,15 +2740,6 @@
       "source_commit": "459cf63fc9258c11d8c71e2938dd938737edaa56",
       "frozen_source_files": 261,
       "receipt": "validation/body_receipts/causal-attention-complete-body.json"
-    },
-    "current_manifest_coverage": {
-      "cases": 202,
-      "target_cases": 196,
-      "regression_cases": 6,
-      "retained_and_shared_build_roots": 8723,
-      "explicit_replay_roots": 7726,
-      "completion_certificate": false,
-      "note": "All 183 TritonBench-G entries and 19 examples pass source correspondence. Both RMS cases pass the new local build; 194 migration targets retain exact-current official acceptance."
     },
     "previous_local_work": [
       {
@@ -3096,89 +2984,6 @@
         "historical_snapshot": true
       }
     ],
-    "current_registry": {
-      "cases": 202,
-      "targets": 196,
-      "regressions": 6,
-      "retained_modules": 8723,
-      "replay_sources": 7726,
-      "local_incremental_build": "PASS_155_ROOTS",
-      "previous_integrated_full_build": "PASS_8725_ROOTS_17301_LAKE_JOBS"
-    },
-    "newly_completed_current_source_replays": [
-      {
-        "receipt": "validation/body_receipts/attn-fwd-triton-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/chunk-linear-attn-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/chunk-retention-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/chunk-retention-ops-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/lightning-attention-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/mixed-sparse-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/gla-delta-simple-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
-        "exact_current_source": true
-      },
-      {
-        "case": "bench/tritonbench_g/parallel_retention_attention",
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
-        "source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
-        "receipt": "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
-        "retained_replay_roots": 107,
-        "accepted": true
-      },
-      {
-        "case": "bench/tritonbench_g/softmax_flaggems",
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
-        "source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5",
-        "receipt": "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
-        "retained_replay_roots": 149,
-        "accepted": true
-      },
-      {
-        "case": "bench/tritonbench_g/rms_rbe_matmul",
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
-        "source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
-        "receipt": "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
-        "retained_replay_roots": 46,
-        "accepted": true
-      },
-      {
-        "case": "bench/tritonbench_g/rms_matmul_rbe",
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
-        "source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
-        "receipt": "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
-        "retained_replay_roots": 111,
-        "accepted": true
-      },
-      {
-        "case": "bench/tritonbench_g/triton_attention",
-        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
-        "source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
-        "receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
-        "retained_replay_roots": 136,
-        "accepted": true
-      }
-    ],
     "previous_current_work": {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
       "status": "FROZEN_OFFICIAL_REPLAY_IN_PROGRESS",
@@ -3204,10 +3009,6 @@
     },
     "inflight_replays": [],
     "remaining_source_migrations": [],
-    "pending_independent_acceptance": [
-      "bench/tritonbench_g/rms_matmul_rbe",
-      "bench/tritonbench_g/rms_rbe_matmul"
-    ],
     "pending_proof_migrations": [],
     "final_selected_batch_integration": {
       "status": "PASS",
@@ -3255,7 +3056,8 @@
       "build_roots": 155,
       "lake_jobs": 3777,
       "public_theorems": 7,
-      "python_tests": 731
+      "python_tests": 731,
+      "historical_snapshot": true
     },
     "retained_case_build_modules": 8759,
     "lake_build_jobs": 17335,
@@ -3273,8 +3075,225 @@
       "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
       "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42072853634",
       "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163",
-      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
-    ]
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42138274240"
+    ],
+    "previous_layout_summary": {
+      "historical_snapshot": true,
+      "current_work": {
+        "path": "bench/tritonbench_g/triton_attention",
+        "status": "COMPLETE_EXACT_CURRENT_OFFICIAL_ACCEPTANCE",
+        "complete": true,
+        "all_jit_bodies_aligned": true,
+        "body_pairs": 6,
+        "body_copy_check": "PASS_6_EXACT_PAIRS",
+        "owned_lean_modules": 130,
+        "retained_build_roots": 136,
+        "required_replay_roots": 136,
+        "retained_modules": "PASS_136_ROOTS_3489_LAKE_JOBS",
+        "public_real_fp_proofs": "PASS_2_PUBLIC_TARGETS",
+        "public_name_resolution": "PASS_2_ACTUAL_PUBLIC_TARGETS",
+        "external_trust_spec_gates": "PASS_9_FILES",
+        "python_tests": 715,
+        "note": "Six exact copied original/candidate forward/preprocess/backward JIT bodies retain names, casts, runtime scalars, pointer advances, masks and the checked compile-time static assertion. Complete causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding, exterior frame and existing whole-program fixed-128 FP candidate equivalence are accepted for the exact current source.",
+        "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
+        "replay_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+        "frozen_closure_files": 207,
+        "receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
+        "independent_proof_replay": "PASS_136_OF_136_FROZEN_ROOTS"
+      },
+      "current_registry": {
+        "cases": 202,
+        "targets": 196,
+        "regressions": 6,
+        "retained_modules": 8723,
+        "replay_sources": 7726,
+        "local_incremental_build": "PASS_155_ROOTS",
+        "previous_integrated_full_build": "PASS_8725_ROOTS_17301_LAKE_JOBS"
+      },
+      "current_manifest_coverage": {
+        "cases": 202,
+        "target_cases": 196,
+        "regression_cases": 6,
+        "retained_and_shared_build_roots": 8723,
+        "explicit_replay_roots": 7726,
+        "completion_certificate": false,
+        "note": "All 183 TritonBench-G entries and 19 examples pass source correspondence. Both RMS cases pass the new local build; 194 migration targets retain exact-current official acceptance."
+      },
+      "current_official_acceptance": [
+        "validation/body_receipts/attention-forward-pair-source-migration.json",
+        "validation/body_receipts/attention-pair-source-migration.json",
+        "validation/body_receipts/attention-score-source-migration.json",
+        "validation/body_receipts/bgmv-expand-slice-source-migration.json",
+        "validation/body_receipts/bgmv-shrink-source-migration.json",
+        "validation/body_receipts/context-attn-bloom-source-migration.json",
+        "validation/body_receipts/context-attn-fwd-source-migration.json",
+        "validation/body_receipts/context-attn-llama-source-migration.json",
+        "validation/body_receipts/context-attn-nopad-source-migration.json",
+        "validation/body_receipts/conv-source-migration.json",
+        "validation/body_receipts/decay-cumsum-source-migration.json",
+        "validation/body_receipts/dequant-matmul-current-dependency-replay.json",
+        "validation/body_receipts/diag-ssm-kldiv-source-migration.json",
+        "validation/body_receipts/fifth-order-sph-harmonics-source-migration.json",
+        "validation/body_receipts/flash-attn-source-migration.json",
+        "validation/body_receipts/fp4-source-migration.json",
+        "validation/body_receipts/fp8-matmul-source-migration.json",
+        "validation/body_receipts/full-recovery-shard-0.json",
+        "validation/body_receipts/full-recovery-shard-1.json",
+        "validation/body_receipts/full-recovery-shard-10.json",
+        "validation/body_receipts/full-recovery-shard-11.json",
+        "validation/body_receipts/full-recovery-shard-12.json",
+        "validation/body_receipts/full-recovery-shard-13.json",
+        "validation/body_receipts/full-recovery-shard-14.json",
+        "validation/body_receipts/full-recovery-shard-15.json",
+        "validation/body_receipts/full-recovery-shard-16.json",
+        "validation/body_receipts/full-recovery-shard-17.json",
+        "validation/body_receipts/full-recovery-shard-18.json",
+        "validation/body_receipts/full-recovery-shard-19.json",
+        "validation/body_receipts/full-recovery-shard-2.json",
+        "validation/body_receipts/full-recovery-shard-20.json",
+        "validation/body_receipts/full-recovery-shard-21.json",
+        "validation/body_receipts/full-recovery-shard-22.json",
+        "validation/body_receipts/full-recovery-shard-23.json",
+        "validation/body_receipts/full-recovery-shard-3.json",
+        "validation/body_receipts/full-recovery-shard-4.json",
+        "validation/body_receipts/full-recovery-shard-5.json",
+        "validation/body_receipts/full-recovery-shard-6.json",
+        "validation/body_receipts/full-recovery-shard-7.json",
+        "validation/body_receipts/full-recovery-shard-8.json",
+        "validation/body_receipts/full-recovery-shard-9.json",
+        "validation/body_receipts/gate-source-migration.json",
+        "validation/body_receipts/gla-source-migration.json",
+        "validation/body_receipts/int-scaled-matmul-source-migration.json",
+        "validation/body_receipts/int4-source-dependency-migration.json",
+        "validation/body_receipts/int8-dequant-persistent-current-dependency-replay.json",
+        "validation/body_receipts/int8-matmul-source-migration.json",
+        "validation/body_receipts/iv-source-migration.json",
+        "validation/body_receipts/kldiv-llama-ff-current-dependency-replay.json",
+        "validation/body_receipts/kv-cache-filling-source-migration.json",
+        "validation/body_receipts/layer-norm-dependent-group0-current-replay.json",
+        "validation/body_receipts/layer-norm-dependent-group1-current-replay.json",
+        "validation/body_receipts/layer-norm-fwd-source-migration.json",
+        "validation/body_receipts/layer-norm-triton-source-migration.json",
+        "validation/body_receipts/layernorm-softmax-source-migration.json",
+        "validation/body_receipts/linear-activation-source-migration.json",
+        "validation/body_receipts/lora-expand-gemv-source-migration.json",
+        "validation/body_receipts/matmul-source-migration.json",
+        "validation/body_receipts/power-source-migration.json",
+        "validation/body_receipts/rbe-source-migration.json",
+        "validation/body_receipts/relu-source-migration.json",
+        "validation/body_receipts/retention-source-migration.json",
+        "validation/body_receipts/rotary-pair-source-migration.json",
+        "validation/body_receipts/rwkv-source-migration.json",
+        "validation/body_receipts/sgmv-expand-slice-source-migration.json",
+        "validation/body_receipts/welford-source-migration.json",
+        "validation/body_receipts/lightning-attention-pasted-source-replay.json",
+        "validation/body_receipts/mixed-sparse-pasted-source-replay.json",
+        "validation/body_receipts/gla-delta-simple-pasted-source-replay.json",
+        "validation/body_receipts/parallel-attention-pasted-source-replay.json",
+        "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
+        "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
+        "validation/body_receipts/triton-attention-pasted-source-replay.json"
+      ],
+      "newly_completed_current_source_replays": [
+        {
+          "receipt": "validation/body_receipts/attn-fwd-triton-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/chunk-linear-attn-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/chunk-retention-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/chunk-retention-ops-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/lightning-attention-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/mixed-sparse-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/gla-delta-simple-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
+          "exact_current_source": true
+        },
+        {
+          "case": "bench/tritonbench_g/parallel_retention_attention",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
+          "source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
+          "receipt": "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
+          "retained_replay_roots": 107,
+          "accepted": true
+        },
+        {
+          "case": "bench/tritonbench_g/softmax_flaggems",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
+          "source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5",
+          "receipt": "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
+          "retained_replay_roots": 149,
+          "accepted": true
+        },
+        {
+          "case": "bench/tritonbench_g/rms_rbe_matmul",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41874493212",
+          "source_commit": "1c2414087798d53fe0ccc2453ebbb629792c7630",
+          "receipt": "validation/body_receipts/rms-rbe-matmul-pasted-source-replay.json",
+          "retained_replay_roots": 46,
+          "accepted": true
+        },
+        {
+          "case": "bench/tritonbench_g/rms_matmul_rbe",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41861399374",
+          "source_commit": "65e1f7a14ea33b0d80ed6d01c12aef5d77debb33",
+          "receipt": "validation/body_receipts/rms-matmul-rbe-pasted-source-replay.json",
+          "retained_replay_roots": 111,
+          "accepted": true
+        },
+        {
+          "case": "bench/tritonbench_g/triton_attention",
+          "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
+          "source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
+          "receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
+          "retained_replay_roots": 136,
+          "accepted": true
+        }
+      ],
+      "pending_independent_acceptance": [
+        "bench/tritonbench_g/rms_matmul_rbe",
+        "bench/tritonbench_g/rms_rbe_matmul"
+      ],
+      "staged_manifest": {
+        "cases": 202,
+        "build_roots": 8723,
+        "replay_roots": 7726,
+        "boundary": "Manifest coverage is not completion or a fresh full integration build result."
+      },
+      "validated_source_commit": "9bd41dfd8be70fa1b16dbc86ec0b3c72ef077ec7"
+    },
+    "current_manifest_coverage": {
+      "cases": 202,
+      "target_cases": 196,
+      "regression_cases": 6,
+      "retained_and_shared_build_roots": 8759,
+      "explicit_replay_roots": 7762,
+      "completion_certificate": true,
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json"
+    },
+    "current_official_acceptance": [
+      "validation/body_receipts/benchmark-layout-replay.json"
+    ],
+    "pending_independent_acceptance": []
   },
   "targets": [
     {
@@ -3292,7 +3311,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/add_example",
@@ -3308,7 +3328,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/add_value",
@@ -3324,7 +3345,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/apply_penalty",
@@ -3340,7 +3362,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/attention_forward_triton",
@@ -3380,7 +3403,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/attention_fwd_triton2",
@@ -3427,7 +3451,8 @@
       "previous_validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/attention_kernel_aligned",
@@ -3442,7 +3467,8 @@
       "previous_validated_source_commit": "cb06c17f35761298aeb389a884b75a1a2560477f",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/attention_llama",
@@ -3502,13 +3528,13 @@
       "retained_modules_build": "PASS",
       "independent_replay": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
-      "replay_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a",
       "previous_receipt": "validation/body_receipts/attn-fwd-triton-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41771036410",
       "previous_validated_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163",
+      "previous_replay_source_commit": "1b23d2612faced575bad8c59c0b5315b1184e95a"
     },
     {
       "path": "bench/tritonbench_g/batched_vecmat_mult",
@@ -3524,7 +3550,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/bgmv_expand_slice",
@@ -3539,7 +3566,8 @@
       "previous_validated_source_commit": "7133f690f6d784611bed690da9407ee60988271e",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/bgmv_shrink_kernel",
@@ -3554,7 +3582,8 @@
       "previous_validated_source_commit": "68ffa92480daf3c01d8d67339e58275b1fe1c89f",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/block_sparse_attn",
@@ -3586,7 +3615,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/bmm_chunk_fwd",
@@ -3618,7 +3648,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/cache_transform_triton",
@@ -3634,7 +3665,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_bwd_dqkg",
@@ -3645,13 +3677,13 @@
       "retained_modules_build": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
-      "official_run_status": "accepted_exact_current",
       "previous_receipt": "validation/body_receipts/layer-norm-dependent-group2-current-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
       "previous_validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "previous_official_run_status": "accepted_exact_current"
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_kernel",
@@ -3667,7 +3699,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_cumsum_vector",
@@ -3683,7 +3716,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_delta_fwd",
@@ -3699,10 +3733,10 @@
       "independent_replay": "PASS",
       "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "public_name_resolution": "PASS",
-      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "previous_replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
     },
     {
       "path": "bench/tritonbench_g/chunk_gate_recurrence",
@@ -3717,21 +3751,25 @@
       "previous_validated_source_commit": "17290c3226950daa36c91b363f58f774b0477ded",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_fwd",
-      "status": "pending",
-      "complete": false,
+      "status": "complete",
+      "complete": true,
       "body_copy_check": "PASS",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "independent_replay": "PASS",
-      "reason": "Current source correspondence, retained-module build and named public theorems passed locally. Exact-current independent replay is pending.",
+      "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "public_name_resolution": "PASS",
-      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928",
       "previous_receipt": "validation/body_receipts/gla-delta-simple-pasted-source-replay.json",
-      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631"
+      "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
+      "validated_source_commit": "0f6b9225749f11fe098d0ef4be016fcf90ed2c03",
+      "receipt": "validation/body_receipts/benchmark-layout-replay.json",
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42138274240",
+      "previous_replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
     },
     {
       "path": "bench/tritonbench_g/chunk_gla_simple",
@@ -3747,10 +3785,10 @@
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41779223631",
       "previous_validated_source_commit": "da303f0edb0d3090c61d090a3e68cae63fd8fe12",
       "public_name_resolution": "PASS",
-      "replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "previous_replay_source_commit": "09cadc92c8671a9d432d4d651758d8e2c9f23928"
     },
     {
       "path": "bench/tritonbench_g/chunk_linear_attn",
@@ -3761,13 +3799,13 @@
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS",
       "independent_replay": "PASS",
-      "replay_source_commit": "52c6b3f294ce051882a71a8f14519c432a02ad36",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/chunk-linear-attn-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41782434099",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "previous_replay_source_commit": "52c6b3f294ce051882a71a8f14519c432a02ad36"
     },
     {
       "path": "bench/tritonbench_g/chunk_retention",
@@ -3778,13 +3816,13 @@
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS",
       "independent_replay": "PASS",
-      "replay_source_commit": "8afc2dc66262b2f3c17cf836d1cfad000950325f",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/chunk-retention-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41783990583",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "previous_replay_source_commit": "8afc2dc66262b2f3c17cf836d1cfad000950325f"
     },
     {
       "path": "bench/tritonbench_g/chunk_retention_ops",
@@ -3795,13 +3833,13 @@
       "retained_modules_build": "PASS",
       "public_name_resolution": "PASS_ALL_5_NAMES",
       "independent_replay": "PASS",
-      "replay_source_commit": "ab485940172d96ff3893a8f70b6b037c3a5eb59e",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/chunk-retention-ops-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41785252773",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "previous_replay_source_commit": "ab485940172d96ff3893a8f70b6b037c3a5eb59e"
     },
     {
       "path": "bench/tritonbench_g/chunked_cumsum_fwd",
@@ -3817,7 +3855,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/context_attn_bloom",
@@ -3876,13 +3915,13 @@
       "retained_modules_build": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "independent_replay": "PASS",
-      "official_run_status": "accepted_exact_current",
       "previous_receipt": "validation/body_receipts/layer-norm-dependent-group2-current-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41642024040",
       "previous_validated_source_commit": "1db88a7a0fc67bb8eae9cd7587e55823415dd582",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "previous_official_run_status": "accepted_exact_current"
     },
     {
       "path": "bench/tritonbench_g/context_attn_nopad",
@@ -3914,7 +3953,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/cross_entropy1",
@@ -3930,7 +3970,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/cross_entropy2",
@@ -3946,7 +3987,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/cross_entropy_ops",
@@ -3962,7 +4004,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/decay_cumsum",
@@ -3994,7 +4037,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy",
@@ -4010,7 +4054,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv1",
@@ -4026,7 +4071,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42072853634"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42072853634",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/destindex_copy_kv2",
@@ -4042,7 +4088,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/diag_ssm_triton",
@@ -4057,7 +4104,8 @@
       "previous_validated_source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/dropout_triton",
@@ -4074,7 +4122,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/embedding_triton_kernel",
@@ -4090,7 +4139,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/f8_conversion_utils",
@@ -4106,7 +4156,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fast_ce_loss",
@@ -4122,7 +4173,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fast_layernorm",
@@ -4155,7 +4207,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fast_rope_embedding",
@@ -4171,7 +4224,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fifth_order_sph_harmonics",
@@ -4186,7 +4240,8 @@
       "previous_validated_source_commit": "5eed40e06d43e31b0fb759af4a6ec6e345d27a22",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/flash_attn",
@@ -4201,7 +4256,8 @@
       "previous_validated_source_commit": "1f196cc6203fb1966901b5d416a99e954bc72c78",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_llama",
@@ -4217,7 +4273,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/flash_decode2_phi",
@@ -4233,7 +4290,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fp4_to_bf16",
@@ -4248,7 +4306,8 @@
       "previous_validated_source_commit": "c1d8b9aa54c27762f0af3a5204b332803afb4e76",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fused_activation",
@@ -4264,7 +4323,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fused_layernorm_triton",
@@ -4285,7 +4345,8 @@
       "previous_validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_delta",
@@ -4317,7 +4378,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fused_recurrent_retention",
@@ -4332,7 +4394,8 @@
       "previous_validated_source_commit": "ca54364d279081fc610b3eb024d00e906637254a",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fused_rotary_embedding",
@@ -4348,7 +4411,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/fused_rwkv6_kernel",
@@ -4363,7 +4427,8 @@
       "previous_validated_source_commit": "835b6ea4934140438f167a149939fac28b06be2a",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/geglu_tanh_triton",
@@ -4380,7 +4445,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/index_select_bwd",
@@ -4396,7 +4462,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/index_select_cat",
@@ -4412,7 +4479,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/int4_matmul",
@@ -4428,7 +4496,8 @@
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41550245840",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/int8_dequant_matmul",
@@ -4527,7 +4596,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/iv_dependent_matmul",
@@ -4542,7 +4612,8 @@
       "previous_validated_source_commit": "334fab3eb83ea8a0731668fc55a6a5992b08b83f",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/kcache_copy_triton",
@@ -4558,7 +4629,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/kldiv_compute",
@@ -4578,7 +4650,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/kldiv_ops",
@@ -4594,7 +4667,8 @@
       "previous_validated_source_commit": "7040583aa4fb28019504241c24bda4ebfde5258d",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/kldiv_triton",
@@ -4628,7 +4702,8 @@
       "previous_validated_source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/kv_cache_copy",
@@ -4644,7 +4719,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/kv_cache_filling",
@@ -4675,7 +4751,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton1",
@@ -4692,7 +4769,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/l2_norm_triton2",
@@ -4709,7 +4787,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_fwd",
@@ -4741,7 +4820,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/layer_norm_ops",
@@ -4795,7 +4875,8 @@
       "previous_validated_source_commit": "1fd767d72c13b374e8d3d17a00c3b508f70b6863",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/layernorm_fwd_triton",
@@ -4825,12 +4906,12 @@
       "independent_replay": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "prepared_trust_spec_audits": "PASS_ALL_3",
-      "replay_source_commit": "268c5eadc3a32545a3e1b1ac5a5432316fcdfd7a",
       "previous_receipt": "validation/body_receipts/lightning-attention-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41788176749",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "previous_replay_source_commit": "268c5eadc3a32545a3e1b1ac5a5432316fcdfd7a"
     },
     {
       "path": "bench/tritonbench_g/llama_ff_triton",
@@ -4881,7 +4962,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/lora_expand_gemv",
@@ -4896,7 +4978,8 @@
       "previous_validated_source_commit": "e6f47bf8be995dfd3413d173a1cdc39a089face7",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/masked_add_cuda",
@@ -4912,7 +4995,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/masked_select",
@@ -4928,7 +5012,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_dequant_int4",
@@ -4995,7 +5080,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_leakyrelu",
@@ -5005,13 +5091,14 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
-      "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526",
       "previous_receipt": "validation/body_receipts/matmul-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526",
       "previous_validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "previous_pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_leakyrelu_fp8",
@@ -5026,7 +5113,8 @@
       "previous_validated_source_commit": "4f81022df72da2b9ccdee44467be5fbc357fccb3",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_persistent_triton",
@@ -5059,7 +5147,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matmul_triton_autotune",
@@ -5069,13 +5158,14 @@
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
-      "pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526",
       "previous_receipt": "validation/body_receipts/matmul-source-migration.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526",
       "previous_validated_source_commit": "cafd90e9d4afa04f5a78eab0fcafa209c9bf8a14",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "previous_pending_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41380850526",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matrix_reduction",
@@ -5091,7 +5181,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/matrix_transpose",
@@ -5107,7 +5198,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/max_reduction",
@@ -5123,7 +5215,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/mean_reduction",
@@ -5139,7 +5232,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/mixed_sparse_attention",
@@ -5152,12 +5246,12 @@
       "independent_replay": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "prepared_trust_spec_audits": "PASS_ALL_4",
-      "replay_source_commit": "ebef36340004514b120c0af1b44e6f4de0399034",
       "previous_receipt": "validation/body_receipts/mixed-sparse-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41791892948",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "previous_replay_source_commit": "ebef36340004514b120c0af1b44e6f4de0399034"
     },
     {
       "path": "bench/tritonbench_g/mul_exponent_compensator",
@@ -5173,7 +5267,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/multinomial_sampling",
@@ -5189,7 +5284,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/nested_loops_processing",
@@ -5218,13 +5314,13 @@
       "retained_modules_build": "PASS",
       "independent_replay": "PASS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
-      "replay_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79",
       "public_name_resolution": "PASS",
       "previous_receipt": "validation/body_receipts/parallel-attention-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41804791660",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "previous_replay_source_commit": "c74a8a635ed30910f9d98296af2a2d342dbacf79"
     },
     {
       "path": "bench/tritonbench_g/parallel_retention_attention",
@@ -5234,14 +5330,14 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "ACCEPTED_EXACT_CURRENT_SOURCE",
+      "independent_replay": "PASS",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "replay_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1",
       "previous_receipt": "validation/body_receipts/parallel-retention-attention-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41822218926",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "previous_replay_source_commit": "49b40d99693d6d91c50bb4aea11fa7aaa005a6f1"
     },
     {
       "path": "bench/tritonbench_g/pow_scalar_tensor",
@@ -5256,7 +5352,8 @@
       "previous_validated_source_commit": "489c32adbb51cbe7b27d97164bec658cd64f534c",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/quant_transpose_kernel",
@@ -5272,7 +5369,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/quantize_copy_kv",
@@ -5288,7 +5386,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/quantize_global",
@@ -5304,7 +5403,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_copy",
@@ -5320,7 +5420,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/quantize_kv_transform",
@@ -5336,7 +5437,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rbe_triton_transform",
@@ -5351,7 +5453,8 @@
       "previous_validated_source_commit": "d45fb499833be5c220631156ee78f72f207c66ff",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/relu_strided_buffer",
@@ -5366,7 +5469,8 @@
       "previous_validated_source_commit": "3285fb9088b0f7e1c963650484eaa1f87286ef3c",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/relu_triton_kernel",
@@ -5382,7 +5486,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum",
@@ -5398,7 +5503,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/reversed_cumsum_scalar",
@@ -5414,7 +5520,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rms_matmul_rbe",
@@ -5442,7 +5549,8 @@
       "retained_modules_build": "PASS",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rms_norm_triton",
@@ -5458,7 +5566,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rms_rbe_matmul",
@@ -5483,7 +5592,8 @@
       "retained_modules_build": "PASS",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused",
@@ -5499,7 +5609,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_fused_llama",
@@ -5515,7 +5626,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_implementation",
@@ -5531,7 +5643,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42082818163",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rmsnorm_triton",
@@ -5547,7 +5660,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42072853634"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42072853634",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rope_backward_transform",
@@ -5563,7 +5677,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rope_embedding",
@@ -5579,7 +5694,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rope_transform",
@@ -5595,7 +5711,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rotary_emb",
@@ -5612,7 +5729,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42052386566",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rotary_emb_nopad",
@@ -5628,7 +5746,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/rotary_transform",
@@ -5676,7 +5795,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/seeded_dropout",
@@ -5692,7 +5812,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/sgmv_expand_slice",
@@ -5707,7 +5828,8 @@
       "previous_validated_source_commit": "be24d87a49acb49b299cc50557b7cbad9c518bd2",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/sin_computation",
@@ -5723,7 +5845,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42042183039",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/sin_kernel",
@@ -5739,7 +5862,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/softmax_flaggems",
@@ -5749,14 +5873,14 @@
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_replay": "ACCEPTED_EXACT_CURRENT_SOURCE",
+      "independent_replay": "PASS",
       "public_name_resolution": "PASS_4_ACTUAL_PUBLIC_TARGETS",
-      "replay_source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5",
       "previous_receipt": "validation/body_receipts/softmax-flaggems-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41835206670",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "previous_replay_source_commit": "df77717030e3dd39bb764e356a76f280c44d22e5"
     },
     {
       "path": "bench/tritonbench_g/softmax_optimize",
@@ -5772,7 +5896,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/softmax_reducev",
@@ -5788,7 +5913,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton1",
@@ -5804,7 +5930,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton2",
@@ -5820,7 +5947,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/softmax_triton3",
@@ -5836,7 +5964,8 @@
       "previous_validated_source_commit": "e1ef0c36f875b9b5074aa4fcd785c8edf5f7c16a",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/spinning_lock_reduction",
@@ -5868,7 +5997,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/streamk_matmul",
@@ -5900,7 +6030,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/swiglu_fwd",
@@ -5916,7 +6047,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/swiglu_triton",
@@ -5932,7 +6064,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/token_attn_llama2",
@@ -5948,7 +6081,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/token_attn_mistral",
@@ -5964,7 +6098,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/token_attn_reduceV",
@@ -5980,7 +6115,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/token_softmax_bloom",
@@ -5996,7 +6132,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/token_softmax_llama",
@@ -6012,7 +6149,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/triton_argmax",
@@ -6028,7 +6166,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/triton_attention",
@@ -6038,14 +6177,15 @@
       "note": "Six exact copied original/candidate forward/preprocess/backward JIT bodies retain names, casts, runtime scalars, pointer advances, masks and the checked compile-time static assertion. Complete causal attention and Q/K/V VJP, typed three-stage execution, native scalar ABI, source safety, initialized-DQ domain, output binding, exterior frame and existing whole-program fixed-128 FP candidate equivalence are accepted for the exact current source.",
       "public_real_fp_proofs": "PASS",
       "retained_modules_build": "PASS",
-      "independent_proof_replay": "PASS_136_OF_136_FROZEN_ROOTS",
       "reason": "Every required shared and owned replay passed on the exact current source closure. The official artifact checksum, theorem coverage and program pairs were verified.",
       "previous_receipt": "validation/body_receipts/triton-attention-pasted-source-replay.json",
       "previous_official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41881930372",
       "previous_validated_source_commit": "ce1c01e0b304a5138863480bac57ae79b337a0aa",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "previous_independent_proof_replay": "PASS_136_OF_136_FROZEN_ROOTS",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/triton_conv2d_fwd",
@@ -6060,7 +6200,8 @@
       "previous_validated_source_commit": "cec90c5829579b68185484ad463a473e13aafe40",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/triton_linear_activation",
@@ -6092,7 +6233,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/triton_softmax",
@@ -6108,7 +6250,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/uniform_sampling",
@@ -6133,7 +6276,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/var_len_copy",
@@ -6149,7 +6293,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/vector_addition",
@@ -6165,7 +6310,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/tritonbench_g/vector_addition_custom",
@@ -6181,7 +6327,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/AdamUpdateGridLaunch",
@@ -6198,7 +6345,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/FlatVectorAdd",
@@ -6214,7 +6362,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/FloatDTypeAdd",
@@ -6230,7 +6379,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/FloatDTypeSoftmax",
@@ -6246,7 +6396,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/FusedLayerNorm",
@@ -6262,7 +6413,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/FusedSiLU",
@@ -6278,7 +6430,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "8d00905e0f68cf84c5e1fd0349b3f36168bd3141",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42035060797",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/FusedSwiglu",
@@ -6294,7 +6447,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/HyperConnectionsDepth",
@@ -6310,7 +6464,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/HyperConnectionsWidth",
@@ -6326,7 +6481,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/LogExp",
@@ -6342,7 +6498,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/OnlineSoftmax",
@@ -6358,7 +6515,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/RowWiseMax",
@@ -6374,7 +6532,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/RowWiseSum",
@@ -6390,7 +6549,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/SoftmaxReciprocal",
@@ -6406,7 +6566,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42062236605",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/SoftmaxStable",
@@ -6422,7 +6583,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "de7926cbf51a97b842911c29b28f7d5bb4eeb443",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/42092854721",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/StableLogSumExp",
@@ -6438,7 +6600,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/TritonBenchVectorAddition",
@@ -6454,7 +6617,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/VectorAdd",
@@ -6470,7 +6634,8 @@
       "previous_validated_source_commit": "a7600c875ae0029449652cbc1009bc8f52e5bb49",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     },
     {
       "path": "bench/examples/Welford",
@@ -6486,7 +6651,8 @@
       "previous_validated_source_commit": "07318f5f895e9d8d656cdc0c70d28961a4304325",
       "validated_source_commit": "0558a9eeeea891a77ca7bb555df445d7d37123c0",
       "receipt": "validation/body_receipts/benchmark-layout-replay.json",
-      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439"
+      "official_run": "https://github.com/VeriInfra-Lab/VeriTile/actions/runs/41984475439",
+      "independent_replay": "PASS"
     }
   ],
   "historical_official_validation": [
