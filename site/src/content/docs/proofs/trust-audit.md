@@ -19,7 +19,7 @@ python3 scripts/check_comparator.py --library
 
 # audit bench ports, showcases, and infrastructure tests
 bash scripts/bench/audit_trust.sh --final-inventory  # whole retained corpus
-python3 scripts/check_comparator.py --file bench/examples/VectorAdd/Correct.lean --trust
+python3 scripts/check_comparator.py --file bench/examples/VectorAdd/RealCorrect.lean --trust
 
 # both, plus the port-completion checks, in one local command
 bash scripts/bench/audit_tritonbench_g.sh

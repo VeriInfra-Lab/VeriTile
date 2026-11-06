@@ -10,7 +10,7 @@ The public entries state the input conditions, execution scope and numerical ass
 
 [Proof helpers](.)
 
-[Compatibility source imports](../Sources)
+[Compatibility source imports](Sources)
 
 [Selected-task and source-correspondence records](../../../../validation) track validation and pending work separately.
 

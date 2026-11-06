@@ -2,7 +2,7 @@
 
 Planning snapshot: the metrics and dated evidence below describe the earlier
 source revisions linked in this note. Use the [current corpus guide](../documents/bench/current_source_acceptance.md)
-and [contract review](../validation/contracts.json) for present selection and proof scope.
+for present selection and the [archived contract review](../validation/archive/contracts.json) for the earlier proof scope.
 
 更新日期：2026-10-01。时间安排使用新加坡时间。
 

@@ -10,7 +10,7 @@ Lean can check and readers can inspect in the repository.
 ## Two questions a proof can answer
 
 - **Correctness:** does this kernel implement its mathematical contract?
-  The [vector addition example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/Correct.lean)
+  The [vector addition example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/RealCorrect.lean)
   proves a pointwise sum, termination, and preservation of memory outside
   the output window under its stated preconditions.
 - **Equivalence:** do two implementations agree on observable outputs?
@@ -62,7 +62,7 @@ assumptions before interpreting a result.
 
 ## Start exploring
 
-- [Read a complete vector-add proof](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/Correct.lean).
+- [Read a complete vector-add proof](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/RealCorrect.lean).
 - [Inspect corpus counts and audit evidence](/VeriTile/status/).
 - [Follow the repository quick start](https://github.com/VeriInfra-Lab/VeriTile#quick-start).
 - [Browse the source and build instructions](https://github.com/VeriInfra-Lab/VeriTile).

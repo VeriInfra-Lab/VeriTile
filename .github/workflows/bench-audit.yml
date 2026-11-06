@@ -183,11 +183,16 @@ jobs:
           exit 1
       - name: Build every selected module and its complete dependencies
         run: |
+          snapshot="$RUNNER_TEMP/final-inventory.json"
+          python3 scripts/bench/final_inventory.py --write "$snapshot"
+          inventory_targets=--ci-targets
           if [ "$AUDIT_MODE" = --final-inventory ]; then
-            python3 scripts/bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
-          else
-            python3 scripts/bench/final_inventory.py --ci-targets > "$RUNNER_TEMP/all-targets.txt"
+            inventory_targets=--targets
           fi
+          python3 scripts/bench/final_inventory.py "$inventory_targets" --snapshot "$snapshot" > "$RUNNER_TEMP/all-targets.txt"
+          snapshot_sha256=$(sha256sum -- "$snapshot")
+          printf 'AUDIT_TRUST_SNAPSHOT=%s\nAUDIT_TRUST_SNAPSHOT_SHA256=%s\n' \
+            "$snapshot" "${snapshot_sha256%% *}" >> "$GITHUB_ENV"
           python3 scripts/bench/select_audit_shard.py "$AUDIT_TRUST_SHARD_COUNT" "$AUDIT_TRUST_SHARD_INDEX" \
             < "$RUNNER_TEMP/all-targets.txt" > "$RUNNER_TEMP/shard-targets.txt"
           test -s "$RUNNER_TEMP/shard-targets.txt"

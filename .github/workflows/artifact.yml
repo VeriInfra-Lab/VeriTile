@@ -146,7 +146,7 @@ jobs:
           python3 scripts/test_check_comparator.py
 
       # The complete selected corpus is independently replayed by Bench audit.
-      - name: Check final corpus membership and scope
+      - name: Check current corpus membership and imports
         run: python3 -B scripts/bench/final_inventory.py --check
 
   body-migration:

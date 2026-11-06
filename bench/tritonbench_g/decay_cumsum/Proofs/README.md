@@ -24,6 +24,6 @@ mathematics. Validation remains pending until exact-current independent replay.
 
 [Proof helpers](.)
 
-[Source and mathematical adapters](../Sources)
+[Source and mathematical adapters](Sources)
 
 [Selected-task and source-correspondence records](../../../../validation) track validation and pending work separately.

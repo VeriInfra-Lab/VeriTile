@@ -6,22 +6,22 @@ Except for VectorAdd and TritonBenchVectorAddition, these native Python examples
 
 | Example | Selected Python | Origin |
 | --- | --- | --- |
-| AdamUpdateGridLaunch | [adam_update_triton.py](../tritonbench_g/adam_update_triton/adam_update_triton.py) | New native Python from the independent mathematical specification |
-| FlatVectorAdd | [flat_vector_add.py](FlatVectorAdd/flat_vector_add.py) | New native Python from the independent mathematical specification |
-| FloatDTypeAdd | [float_dtype_add.py](FloatDTypeAdd/float_dtype_add.py) | New native Python from the independent mathematical specification |
-| FloatDTypeSoftmax | [float_dtype_softmax.py](FloatDTypeSoftmax/float_dtype_softmax.py) | New native Python from the independent mathematical specification |
-| FusedLayerNorm | [native_kernels.py](FusedLayerNorm/native_kernels.py) | New native Python from the independent mathematical specification |
-| FusedSiLU | [fused_silu.py](FusedSiLU/fused_silu.py) | New native Python from the independent mathematical specification |
-| FusedSwiglu | [native_kernels.py](FusedSwiglu/native_kernels.py) | New native Python from the independent mathematical specification |
-| HyperConnectionsDepth | [native_kernels.py](HyperConnectionsDepth/native_kernels.py) | New native Python from the independent mathematical specification |
-| HyperConnectionsWidth | [native_kernels.py](HyperConnectionsWidth/native_kernels.py) | New native Python from the independent mathematical specification |
-| LogExp | [log_exp.py](LogExp/log_exp.py) | New native Python from the independent mathematical specification |
-| OnlineSoftmax | [native_kernels.py](OnlineSoftmax/native_kernels.py) | New native Python from the independent mathematical specification |
-| RowWiseMax | [row_wise_max.py](RowWiseMax/row_wise_max.py) | New native Python from the independent mathematical specification |
-| RowWiseSum | [row_wise_sum.py](RowWiseSum/row_wise_sum.py) | New native Python from the independent mathematical specification |
-| SoftmaxReciprocal | [softmax_reciprocal.py](SoftmaxReciprocal/softmax_reciprocal.py) | New native Python from the independent mathematical specification |
-| SoftmaxStable | [softmax_stable.py](SoftmaxStable/softmax_stable.py) | New native Python from the independent mathematical specification |
-| StableLogSumExp | [stable_log_sum_exp.py](StableLogSumExp/stable_log_sum_exp.py) | New native Python from the independent mathematical specification |
-| TritonBenchVectorAddition | [vector_addition.py](../tritonbench_g/vector_addition/vector_addition.py) | Selected repaired TritonBench task source |
-| VectorAdd | [vector_add.py](VectorAdd/vector_add.py) | Retained historical Triton source |
-| Welford | [native_kernels.py](Welford/native_kernels.py) | New native Python from the independent mathematical specification |
+| AdamUpdateGridLaunch | [AdamUpdateGridLaunch.py](AdamUpdateGridLaunch/AdamUpdateGridLaunch.py) | New native Python from the independent mathematical specification |
+| FlatVectorAdd | [FlatVectorAdd.py](FlatVectorAdd/FlatVectorAdd.py) | New native Python from the independent mathematical specification |
+| FloatDTypeAdd | [FloatDTypeAdd.py](FloatDTypeAdd/FloatDTypeAdd.py) | New native Python from the independent mathematical specification |
+| FloatDTypeSoftmax | [FloatDTypeSoftmax.py](FloatDTypeSoftmax/FloatDTypeSoftmax.py) | New native Python from the independent mathematical specification |
+| FusedLayerNorm | [FusedLayerNorm.py](FusedLayerNorm/FusedLayerNorm.py) | New native Python from the independent mathematical specification |
+| FusedSiLU | [FusedSiLU.py](FusedSiLU/FusedSiLU.py) | New native Python from the independent mathematical specification |
+| FusedSwiglu | [FusedSwiglu.py](FusedSwiglu/FusedSwiglu.py) | New native Python from the independent mathematical specification |
+| HyperConnectionsDepth | [HyperConnectionsDepth.py](HyperConnectionsDepth/HyperConnectionsDepth.py) | New native Python from the independent mathematical specification |
+| HyperConnectionsWidth | [HyperConnectionsWidth.py](HyperConnectionsWidth/HyperConnectionsWidth.py) | New native Python from the independent mathematical specification |
+| LogExp | [LogExp.py](LogExp/LogExp.py) | New native Python from the independent mathematical specification |
+| OnlineSoftmax | [OnlineSoftmax.py](OnlineSoftmax/OnlineSoftmax.py) | New native Python from the independent mathematical specification |
+| RowWiseMax | [RowWiseMax.py](RowWiseMax/RowWiseMax.py) | New native Python from the independent mathematical specification |
+| RowWiseSum | [RowWiseSum.py](RowWiseSum/RowWiseSum.py) | New native Python from the independent mathematical specification |
+| SoftmaxReciprocal | [SoftmaxReciprocal.py](SoftmaxReciprocal/SoftmaxReciprocal.py) | New native Python from the independent mathematical specification |
+| SoftmaxStable | [SoftmaxStable.py](SoftmaxStable/SoftmaxStable.py) | New native Python from the independent mathematical specification |
+| StableLogSumExp | [StableLogSumExp.py](StableLogSumExp/StableLogSumExp.py) | New native Python from the independent mathematical specification |
+| TritonBenchVectorAddition | [TritonBenchVectorAddition.py](TritonBenchVectorAddition/TritonBenchVectorAddition.py) | Selected repaired TritonBench task source |
+| VectorAdd | [VectorAdd.py](VectorAdd/VectorAdd.py) | Retained historical Triton source |
+| Welford | [Welford.py](Welford/Welford.py) | New native Python from the independent mathematical specification |

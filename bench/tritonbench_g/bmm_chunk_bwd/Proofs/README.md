@@ -18,7 +18,7 @@ are supplied outside the pasted body. The candidate changes only
 `pid_c * ngroups` to `ngroups * pid_c` in `pid_h`.
 
 [Parameters.lean](Support/Parameters.lean) holds host/call metadata. The compatibility
-imports under [Sources/](../Sources) forward to this same source; they do not
+imports under [Sources/](Sources) forward to this same source; they do not
 generate an alternative residual-order implementation. The independent
 matrix-product mathematics remains in `Sources/Mathematical_RealMath.lean`.
 

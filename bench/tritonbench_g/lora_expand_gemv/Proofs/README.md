@@ -23,7 +23,7 @@ The public entries state the input conditions, execution scope and numerical ass
 
 [Proof helpers](.)
 
-[Source and mathematical adapters](../Sources)
+[Source and mathematical adapters](Sources)
 
 [Selected-task and source-correspondence records](../../../../validation) track validation and pending work separately.
 

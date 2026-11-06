@@ -31,7 +31,7 @@ the complete actual programs on the original scalar ABI and native primitive
 interfaces, with an empty experimental rewrite rule set.
 
 [Proofs](.) contain execution, safety, scalar/native bindings and the
-mathematical connections. [Sources](../Sources) contain independent mathematical
+mathematical connections. [Sources](Sources) contain independent mathematical
 and geometry definitions. [Validation records](../../../../validation) keep
 source correspondence, local proof validation and official independent
 acceptance separate; a successful build does not complete this case.

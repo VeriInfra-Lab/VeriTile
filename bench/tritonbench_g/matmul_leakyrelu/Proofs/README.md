@@ -6,4 +6,4 @@
 
 [Correct.lean](../RealCorrect.lean) connects the complete selected grid to the independent matrix-product and Leaky ReLU formula. [FPEquiv.lean](../FPEquiv.lean) compares the two complete programs under the explicit rule. Execution, output, frame, both source safety judgments and all five retained input profiles have been rechecked locally. Fresh current independent proof replay is still required; see [validation status](../../../../validation/body-migration-progress.json).
 
-[Contract](../Contract.lean) · [IO](../IO.lean) · [Proof helpers](.) · [Typed call and mathematical adapters](../Sources).
+[Contract](../Contract.lean) · [IO](../IO.lean) · [Proof helpers](.) · [Typed call and mathematical adapters](Sources).

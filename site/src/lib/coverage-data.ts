@@ -22,16 +22,15 @@ export type CoverageRow = {
   io: { name: string; kernel: string; definition: string }[]; issue: string;
 };
 
-// One validator owns source fingerprints, explicit reviews, and the manifest.
-// A source edit without an updated review stops the website build too.
-export const coverage: { reviewed_on: string; basis: string; rows: CoverageRow[] } = JSON.parse(
+// Read the current selected Lean declarations from the same source as the spec sheets.
+export const coverage: { basis: string; rows: CoverageRow[] } = JSON.parse(
   execFileSync('python3', ['scripts/bench/coverage_review.py', '--json'], {
     cwd: resolve(process.cwd(), '..'), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
   }),
 );
 
 export const coverageLabels: Record<string, string> = {
-  selected_contract: 'Final selected contract',
+  selected_contract: 'Selected public contract',
   full_value_candidate: 'Original-kernel candidate',
   specialization: 'Configured model / stage',
   precomputed_input_slice: 'Precomputed-input slice',

@@ -1,9 +1,12 @@
 # Validation records
 
 - `task_progress.json` selects the 183 current repaired tasks.
-- `contracts.json` records reviewed specifications, conditions and numerical scope.
-- `source.json` binds current sources and imports; `source-correspondence.json`
-  separately records pasted-body coverage and pending translations.
+- `source-correspondence.json` records pasted-body coverage and pending translations.
+- `body_receipts/benchmark-layout-replay.json` records independent proof replay for the standardized task layout.
+- [`archive/contracts.json`](archive/contracts.json) preserves the earlier review of specifications,
+  conditions and numerical scope. [`archive/source.json`](archive/source.json) preserves the earlier
+  source and import inventory. Generate a current inventory with
+  `python3 scripts/bench/final_inventory.py --write PATH`.
 - `imported_kernel_review.json` preserves findings for the 334 imported challenges.
 - `bench-layout.json` records the path migration and unchanged Lean/JIT code.
 

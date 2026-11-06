@@ -1,12 +1,12 @@
 # Local verification audit
 
-Current selected public entries: [Contract.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/Contract.lean), [Correct.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/Correct.lean), [FPEquiv.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean). The [contract review](../../contracts.json) records their current scope and assumptions.
+Current selected public entries: [Contract.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/Contract.lean), [RealCorrect.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/RealCorrect.lean), [FPEquiv.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean). The [archived contract review](../../archive/contracts.json) records the scope and assumptions of the earlier review.
 
 ## Historical implementation and audit notes
 
 The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
 
-Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/Correct.lean) and [FPEquiv.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [RealCorrect.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/RealCorrect.lean) and [FPEquiv.lean](../../../bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
 
 Status: the dependency-aware public build and exhaustive theorem audit passed
 on the current shared DSL and int32 semantics. Coverage registry integration

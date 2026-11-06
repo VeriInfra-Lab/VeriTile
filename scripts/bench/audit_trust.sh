@@ -58,8 +58,6 @@ if [ "${1-}" = '--final-inventory' ] || [ "${1-}" = '--ci-targets' ]; then
   if [ "$1" = '--ci-targets' ]; then
     inventory_targets='--ci-targets'
   fi
-  catalog='validation/source.json'
-  catalog_sha256="$(sha256sum -- "${catalog}")" || exit "$?"
   shift
   if [ "$#" -ne 0 ]; then
     printf 'Final inventory modes cannot be combined with named targets\n' >&2
@@ -78,7 +76,7 @@ fi
 
 select_targets() {
   if [ "${final_inventory}" = true ]; then
-    python3 scripts/bench/final_inventory.py "${inventory_targets}" || return $?
+    python3 scripts/bench/final_inventory.py "${inventory_targets}" --snapshot "${snapshot}" || return $?
     return
   fi
   if [ -n "${catalog}" ]; then
@@ -125,6 +123,21 @@ if [[ ! "${JOBS}" =~ ^[1-9][0-9]*$ ]]; then
   exit 2
 fi
 
+TMPDIR_AUDIT="$(mktemp -d)" || exit "$?"
+trap 'rm -rf "${TMPDIR_AUDIT}"' EXIT
+if [ "${final_inventory}" = true ]; then
+  snapshot="${AUDIT_TRUST_SNAPSHOT:-${TMPDIR_AUDIT}/inventory.json}"
+  if [ -z "${AUDIT_TRUST_SNAPSHOT-}" ]; then
+    python3 scripts/bench/final_inventory.py --write "${snapshot}" >/dev/null || exit "$?"
+  fi
+  snapshot_sha256="$(sha256sum -- "${snapshot}")" || exit "$?"
+  if [ -n "${AUDIT_TRUST_SNAPSHOT_SHA256-}" ] &&
+      [ "${snapshot_sha256%% *}" != "${AUDIT_TRUST_SNAPSHOT_SHA256}" ]; then
+    printf 'Build source inventory snapshot changed before trust audit\n' >&2
+    exit 1
+  fi
+fi
+
 target_list="$(select_targets "$@")" || exit "$?"
 if [ -z "${target_list}" ]; then
   printf 'No trust audit targets selected\n' >&2
@@ -142,9 +155,6 @@ if [[ -v AUDIT_TRUST_SHARD_COUNT || -v AUDIT_TRUST_SHARD_INDEX ]]; then
   audit_scope="bench corpus shard ${AUDIT_TRUST_SHARD_INDEX}/${AUDIT_TRUST_SHARD_COUNT} (zero-based)"
   printf 'Selected %s: %s files\n' "${audit_scope}" "$(printf '%s\n' "${target_list}" | wc -l)"
 fi
-
-TMPDIR_AUDIT="$(mktemp -d)"
-trap 'rm -rf "${TMPDIR_AUDIT}"' EXIT
 
 export PROJECT_ROOT TMPDIR_AUDIT
 
@@ -179,7 +189,13 @@ fi
 
 # A worker snapshot must not hide edits after initial catalog selection. The
 # normal checks below still require every selected worker to pass independently.
-if [ -n "${catalog}" ]; then
+if [ "${final_inventory}" = true ]; then
+  if [ "$(sha256sum -- "${snapshot}")" != "${snapshot_sha256}" ] ||
+      ! python3 scripts/bench/final_inventory.py --check --snapshot "${snapshot}" >/dev/null; then
+    printf 'Source inventory changed during trust audit\n' >&2
+    exit 1
+  fi
+elif [ -n "${catalog}" ]; then
   if [ "$(sha256sum -- "${catalog}")" != "${catalog_sha256}" ]; then
     printf 'Current source catalog changed during trust audit\n' >&2
     exit 1
