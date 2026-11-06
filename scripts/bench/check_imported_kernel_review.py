@@ -209,11 +209,20 @@ def probes():
 
 def main():
     record = json.loads(RECORD.read_text())
-    assert record['source_sha256'] == snapshot(), 'reviewed sources changed; a new review is required'
+    expected_sources = record['source_sha256']
+    current_sources = snapshot()
+    changes = [
+        'reviewed input: ' + path
+        for path in sorted(expected_sources.keys() | current_sources.keys())
+        if expected_sources.get(path) != current_sources.get(path)
+    ]
     for relative, expected in record.get('main_integration', {}).get('dependency_source_sha256', {}).items():
         path = (ROOT / relative).resolve()
         assert path.is_relative_to(ROOT), 'dependency escapes the repository'
-        assert digest(path) == expected, 'validated dependency changed: ' + relative
+        if not path.is_file() or digest(path) != expected:
+            changes.append('shared Lean dependency: ' + relative)
+    if changes:
+        raise SystemExit('\n'.join(['Imported kernel review needs revalidation.', *changes]))
     assert record['probes'] == probes()
     counts = Counter()
     for key, row in record['tasks'].items():
