@@ -285,7 +285,7 @@ alongside fp32 ADD-COMMUTE, retaining explicit evidence premises for both atoms.
 The resulting derivation does not claim a whole-reduction IEEE or statistical guarantee.
 
 The [worked example](EXAMPLE.md) has separate
-[real correctness](../../bench/examples/TritonBenchVectorAddition/Correct.lean) and
+[real correctness](../../bench/examples/TritonBenchVectorAddition/RealCorrect.lean) and
 [FP equivalence](../../bench/examples/TritonBenchVectorAddition/FPEquiv.lean) files, each
 with sources shared through the sibling `Kernels.lean`. The FP file does not import the
 correctness example. It binds its fp32 ADD-COMMUTE row to the actual

@@ -331,7 +331,7 @@ surface that the bench corpus actually states its headlines on is the **KernelIO
 `⊨` triple**, defined in
 [`VeriTile/Triton/Memory/KernelSpec.lean`](../VeriTile/Triton/Memory/KernelSpec.lean). The signature variants cover different input/output arities, masks,
 indices, and streaming windows. Consult the
-[final contract review](../validation/contracts.json) for
+[historical contract review](../validation/archive/contracts.json) for
 per-port coverage.
 
 ### What a `KernelIO` is

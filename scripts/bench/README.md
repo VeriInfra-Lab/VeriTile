@@ -14,6 +14,10 @@ benchmark collections, checks imports and binds reviewed source files.
 `check_body_corpus` separately preserves Python/Lean correspondence gaps.
 `check_imported_kernel_review` guards the 334 imported challenge findings.
 
+Use `final_inventory.py --write PATH` to generate a temporary inventory of the
+selected source tree. Use `--check --snapshot PATH` to detect changes to those
+inputs across a build and audit. The archived inventory records the earlier review.
+
 ## Paste a Triton body without writing a JSON manifest
 
 The `rms_matmul_rbe` layout pilot keeps one Python module for the repaired

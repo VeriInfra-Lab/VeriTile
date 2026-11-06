@@ -77,12 +77,12 @@ Copyable build commands close the page.
 `src/lib/home-story.ts` contains this narrative; `home-copy.ts`
 contains the interactive example and shared actions.
 
-The Python and DSL excerpts come from `bench/examples/VectorAdd/Correct.lean`.
+The Python and DSL excerpts come from `bench/examples/VectorAdd/VectorAdd.py` and `bench/examples/VectorAdd/Kernels.lean`.
 The language comparison shows only the kernel bodies, with corresponding names
 matched for readability and the aligned, unmasked scope stated in the caption.
 The interactive demo retains the exact verified kernel text.
 The View proof links open the full Lean contracts and proofs in
-`bench/tritonbench_g/logsumexp_fwd/Correct.lean` and
+`bench/tritonbench_g/logsumexp_fwd/RealCorrect.lean` and
 `bench/examples/StableLogSumExp/FPEquiv.lean`.
 Both cards use log-sum-exp. The correctness formula is explicitly the unscaled,
 per-block active-lane case. The equivalence example compares direct LSE and the
@@ -101,7 +101,7 @@ identical intermediate operations.
 The featured FlashAttention link covers the forward causal/non-causal
 reference contracts with their boundary/D-tail conditions.
 The benchmark shows paired-port inventory and unique theorem statements from
-`validation/contracts.json`, with links to each current entry and its reviewed scope. Counts do not label every statement fully proved.
+the current public Lean declarations, with links to each entry and its task scope.
 
 The agent section uses two panels: reusable lemmas on the left, proof generation
 on the right. Four lemma groups link directly to the loop-invariant, matrix
@@ -219,20 +219,14 @@ The workflow can also be triggered manually from the Actions tab
 ## Coverage table and complete tutorial
 
 `/proofs/coverage/` displays every registered TritonBench-G headline with its
-exact statement, relevant IO definitions, source links, numeric model, and
-reviewed scope. Search and filters enhance an already readable HTML table.
-`scripts/bench/coverage_review.py` checks the selected public statements against
-`validation/contracts.json`. `scripts/bench/final_inventory.py --check` checks the
-complete retained source tree and dependencies. Python 3 is required during site
-builds; Lean is not. Review a changed contract's formula, scope and conditions
-before updating its source pins. Full builds and independent proof replay are
-separate required checks.
-
-
+exact statement, source link, numeric model, and task proof scope.
+`scripts/bench/coverage_review.py` reads the selected public declarations.
+`scripts/bench/final_inventory.py --check` validates the current source tree and
+dependencies. Site builds read the recorded VectorAdd proof checks and use Python 3 to generate coverage.
 
 `/cookbook/vector-add-walkthrough/` walks from the Python kernel through the
 checked DSL/IO contract, full proof, trust checks, and rejected mutation. Its
-code excerpts are extracted from the executable `bench/examples/VectorAdd/Correct.lean`
+code excerpts are extracted from the current source, IO and proof entries
 by `src/lib/vector-add-tutorial.ts`; missing anchors fail the site build.
 
 Typography separates reading paragraphs (`--vt-text-body`), expanded-example

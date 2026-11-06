@@ -30,7 +30,7 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   `R` bundles the rule table and admissions; experiment bookkeeping stays there.
   `#print_fp_assumptions name` lists only the atomic assumption names referenced
   by an FP proof, such as `add_commute`. The GPU runner and trusted-report
-  example are available, with separate [correctness](bench/examples/TritonBenchVectorAddition/Correct.lean)
+  example are available, with separate [correctness](bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
   and [FP equivalence](bench/examples/TritonBenchVectorAddition/FPEquiv.lean) specifications.
   See [specification meanings](documents/CorrectnessSurfaces.md#two-public-specification-meanings).
 - **Narrow-float / rounding-model layer** (#1): an abstract `RoundingModel`
@@ -45,7 +45,7 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   fused-vs-unfused SwiGLU showcase
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Examples**: 183 current TritonBench-G task directories, with proof
-  contracts for their selected repaired implementations. The [final contract review](./validation/contracts.json) records mathematical targets, implementation pairs, conditions and proof scope. See the
+  contracts for their selected repaired implementations. The [historical contract review](./validation/archive/contracts.json) preserves the earlier mathematical targets, implementation pairs, conditions and proof scope. See the
   [current source inventory](./documents/bench/current_source_acceptance.md) for checked
   inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
@@ -166,13 +166,13 @@ See the [worked-example index](bench/examples/README.md) for the shared-source d
 ## Minimal Example
 
 Elementwise vector add against the `addSpec xs ys i = xs i + ys i` math
-spec — see [`bench/examples/VectorAdd/Correct.lean`](bench/examples/VectorAdd/Correct.lean).
+spec — see [`bench/examples/VectorAdd/Correct.lean`](bench/examples/VectorAdd/RealCorrect.lean).
 
 ## Floating-Point Equivalence Example
 
 Vector addition with swapped operands — see
 [`VectorAdd/FPEquiv.lean`](bench/examples/VectorAdd/FPEquiv.lean), alongside
-[`VectorAdd/Correct.lean`](bench/examples/VectorAdd/Correct.lean). The FP proof
+[`VectorAdd/Correct.lean`](bench/examples/VectorAdd/RealCorrect.lean). The FP proof
 uses the experiment-selected `add_commute` atom; the real proof states the
 pointwise mathematical formula. `#print_fp_assumptions add_kernel_equiv`
 prints the atom used by the FP proof.

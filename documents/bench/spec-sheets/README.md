@@ -2,10 +2,10 @@
 
 The 347 cards and their index are retained in the
 [fixed source snapshot](https://github.com/VeriInfra-Lab/VeriTile/tree/b1aaccc3ef23290fca80fe544fddb0844c036fd8/bench/tritonbench_g/_spec-sheets).
-They describe earlier source revisions. Current public entries and reviewed
-conditions are recorded in [the final contract review](../../../validation/contracts.json).
+They describe earlier source revisions. The [historical contract review](../../../validation/archive/contracts.json) preserves
+the conditions from the earlier review.
 
-Generate cards from the current reviewed public readers with:
+Generate cards from the current selected public declarations with:
 
 ```sh
 python3 scripts/spec_sheet.py

@@ -489,12 +489,12 @@ def sheet_name(file):
 
 
 def selected_files():
-    """Use reviewed public readers; filename inference cannot select revisions."""
+    """Use the selected public Lean declarations."""
     from scripts.bench.final_inventory import coverage
     rows = coverage(Path(ROOT))['rows']
     files = sorted({str(Path(ROOT) / row['file']) for row in rows})
     if not files:
-        raise ValueError('No reviewed public specifications selected')
+        raise ValueError('No public specifications selected')
     return files
 
 
@@ -509,7 +509,7 @@ def check_output_names(files):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('files', nargs='*', help='explicit Lean files; defaults to reviewed public readers')
+    parser.add_argument('files', nargs='*', help='explicit Lean files; defaults to selected public entries')
     parser.add_argument('--out', type=Path, help='output directory; explicit files print to stdout by default')
     args = parser.parse_args()
     outdir = args.out

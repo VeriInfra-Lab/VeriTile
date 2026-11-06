@@ -9,7 +9,7 @@
 `Kernels.lean` 集中定义原始与优化 Triton kernel；`Correct.lean` 和
 `FPEquiv.lean` 分别给出实数正确性与浮点等价性证明，互不导入。
 
-[TritonBenchVectorAdditionCorrect.lean](../../bench/examples/TritonBenchVectorAddition/Correct.lean)
+[TritonBenchVectorAdditionRealCorrect.lean](../../bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
 包含 kernel、IO 接口、`real_projection` 和实数正确性规格，不引入数值原子假设：
 
 ```lean

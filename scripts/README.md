@@ -111,7 +111,7 @@ documents and verifies generated reference pages. It does not fetch external
 URLs. Edit references under `documents/`, then run
 `python3 site/scripts/sync-docs.py` to regenerate the website copies.
 
-`python3 scripts/spec_sheet.py` exports the current reviewed public readers to
+`python3 scripts/spec_sheet.py` exports the current selected public declarations to
 ignored `Logs/spec-sheets/`. Use `--out DIR` to change the output location or
 pass Lean files to print individual cards. Full source paths distinguish
 nested/repaired revisions. Generated cards are presentation aids; their lexical

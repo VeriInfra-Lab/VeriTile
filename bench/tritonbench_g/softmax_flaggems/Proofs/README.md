@@ -27,6 +27,6 @@ independent replay receipt in the validation records.
 
 [Proof helpers](.)
 
-[Source and mathematical adapters](../Sources)
+[Source and mathematical adapters](Sources)
 
 [Selected-task and source-correspondence records](../../../../validation) track validation and pending work separately.

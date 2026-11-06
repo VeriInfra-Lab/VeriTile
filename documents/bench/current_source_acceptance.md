@@ -1,6 +1,8 @@
 # Final selected corpus
 
-`validation/task_progress.json` selects the final source and public entries for all 183 tasks. `validation/contracts.json` records their independent mathematical targets, complete FP program pairs, required conditions and numerical dependencies. `validation/source.json` binds the entire retained Lean tree and its project import closure.
+`validation/task_progress.json` selects the repaired source and public entries for all 183 tasks. The inventory tool checks these entries against the current directories and imports. The specification sheets read the selected Lean declarations directly. CI generates a temporary inventory and checks the source hashes again during proof replay.
+
+The [archived contract review](../../validation/archive/contracts.json) preserves mathematical targets, FP program pairs, required conditions and numerical dependencies from the earlier review. The [proof replay receipts](../../validation/body_receipts/benchmark-layout-replay.json) record the benchmark layout validation.
 
 Run the final checks from the repository root:
 
@@ -23,7 +25,7 @@ Run the complete applicable proof checks locally before merging proof changes.
 
 Source correspondence is tracked independently in `validation/source-correspondence.json`. Pending Python-to-Lean correspondence remains pending. The 65 bug-detection and 269 pretraining benchmark tasks are explicit unsolved challenges; their successful compilation does not complete their proof or backend obligations. Native execution and compiler conformance are not established by these checks.
 
-The repository contains the final source tree and current validation records. Superseded source versions, review checkpoints and archived proof runs are not required by this workflow.
+The validation workflow reads the current source tree and records. The earlier static inventory is available in the [validation archive](../../validation/archive/source.json).
 
 The selected source is each task's repaired implementation. Current comparison
 candidates remain only where the FP entry compares a real transformation.
