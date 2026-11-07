@@ -297,6 +297,7 @@ def Bodies.qkv (input : InputStorage) (output : OutputStorage)
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
   with_triton_call (qkvSignature input output) call_args [M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_q_w_k := stride_q_w_k, stride_q_w_n := stride_q_w_n, stride_k_w_k := stride_k_w_k, stride_k_w_n := stride_k_w_n, stride_v_w_k := stride_v_w_k, stride_v_w_n := stride_v_w_n, stride_rms_w := stride_rms_w, stride_q_batch := stride_q_batch, stride_q_m := stride_q_m, stride_q_n := stride_q_n, stride_k_batch := stride_k_batch, stride_k_m := stride_k_m, stride_k_n := stride_k_n, stride_v_batch := stride_v_batch, stride_v_m := stride_v_m, stride_v_n := stride_v_n, start_token_position := start_token_position]
     fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe := Bodies.rmsSource] in triton {
+    # q
     rms_matmul_rbe(
         x_ptr=x_ptr,
         w_ptr=q_weight_ptr, rms_w_ptr=rms_w_ptr, out_ptr=q_ptr,
@@ -356,6 +357,7 @@ def Bodies.qkvIndexCommuted (input : InputStorage) (output : OutputStorage)
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
   with_triton_call (qkvSignature input output) call_args [M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_q_w_k := stride_q_w_k, stride_q_w_n := stride_q_w_n, stride_k_w_k := stride_k_w_k, stride_k_w_n := stride_k_w_n, stride_v_w_k := stride_v_w_k, stride_v_w_n := stride_v_w_n, stride_rms_w := stride_rms_w, stride_q_batch := stride_q_batch, stride_q_m := stride_q_m, stride_q_n := stride_q_n, stride_k_batch := stride_k_batch, stride_k_m := stride_k_m, stride_k_n := stride_k_n, stride_v_batch := stride_v_batch, stride_v_m := stride_v_m, stride_v_n := stride_v_n, start_token_position := start_token_position]
     fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsIndexCommutedSource] in triton {
+    # q
     rms_matmul_rbe_index_commuted(
         x_ptr=x_ptr,
         w_ptr=q_weight_ptr, rms_w_ptr=rms_w_ptr, out_ptr=q_ptr,
