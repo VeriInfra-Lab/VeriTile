@@ -16,7 +16,7 @@ def shape (c : Shape) : VeriTile.Bench.Repairs.ChunkRetention.Whole001.Shape :=
   ⟨c.B,c.H,c.T,c.K,c.V,c.BK,c.BV,c.keyPositive,c.valuePositive,c.keyTile,c.valueTile⟩
 
 def kernel (c : Shape) (scale : ℝ) : ComputeKernel :=
-  Source.forwardO "q" "k" "v" "h" "o"
+  Source.forwardOKernel "q" "k" "v" "h" "o"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV
 

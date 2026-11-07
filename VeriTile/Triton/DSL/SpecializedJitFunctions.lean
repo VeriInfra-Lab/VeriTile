@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.GuardedJitFunctions
 
 /-! JIT helpers whose definite assignments depend on a caller's closed
@@ -227,3 +228,20 @@ private structure Function where
   GuardedJitFunctions.elaborateInvocation (base.raw.setArgs (base.raw.getArgs.set! (base.raw.getArgs.size-1) raw)) expected
 end DSL.SpecializedJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.SpecializedJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceProcedures.sourceParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``SpecializedStatementJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  unless stx[8].getArgs.isEmpty do
+    throwError "symbolic FP32 constants require a SourceProcedure"
+  let body ← `(triton_function ($parameters,*) constexpr_args [$constants,*] {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.SpecializedJitFunctions

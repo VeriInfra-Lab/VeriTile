@@ -18,7 +18,7 @@ theorem iteration_shape (p : Parameters) : iteration p =
 
 theorem stop_eval {F : Type} [Inhabited F] (M : Algebra F) (p : Parameters) (s : State F) :
     evalOp M none (stop p) s=some (fun _ => (tripCount p : Int)) := by
-  simp only [stop, iteration, source, KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf,
+  simp only [stop, iteration, source, KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel,
     ComputeKernel.surfaceBody, List.getElem?_cons_succ, List.getElem?_cons_zero, Option.getD_some]
   simp [evalOp_unfold, FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, numeric, NumericDType.sub,
     Option.bind, ComputeDType.eraseDType, tripCount, integralFloorDiv, integralMod]

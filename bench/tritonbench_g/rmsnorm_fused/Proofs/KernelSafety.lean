@@ -14,10 +14,10 @@ theorem source_trace_safe (A : Algebra α) (bounds : RegionName → Nat) (s : St
     (hx : ∀ j : Fin B, j.val<N → s.pids 0*N+j.val<bounds X)
     (hw : ∀ j : Fin B, j.val<N → j.val<bounds W)
     (hy : ∀ j : Fin B, j.val<N → s.pids 0*N+j.val<bounds Y) :
-    TraceSafe A bounds (source X Y W N B) (bind s eps) := by
+    TraceSafe A bounds (sourceKernel X Y W N B) (bind s eps) := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num
-  simp [TraceSafe,source,template,bind,
+  simp [TraceSafe,sourceKernel,template,bind,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

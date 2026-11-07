@@ -18,7 +18,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
     {v : State α // FP.Structural.exec M (source x scale out inv n block lanes) u = some v} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, body, arguments, ComputeKernel.withScalarArguments,
+  simp [source, bodyKernel, arguments, ComputeKernel.withScalarArguments,
     ScalarArgument.statement, ScalarArgument.fp32, ScalarArgument.integer, ComputeKernel.surfaceBody, FP.Structural.exec,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     numeric, numericLt, numericEq, natLt, bop, ofFloat, toFloat, Region.cast, store, ComputeDType.eraseDType]
@@ -43,7 +43,7 @@ private theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (s : State 
     (x scale out : RegionName) (inv : ℝ) (n block lanes : Nat) :
     step M (rewriteSite Bool.false x scale out inv n block lanes) s =
       step M (rewriteSite Bool.true x scale out inv n block lanes) s := by
-  simp [rewriteSite, source, indexCommutedSource, body, indexCommutedBody,
+  simp [rewriteSite, source, indexCommutedSource, bodyKernel, indexCommutedBody,
     ComputeKernel.withScalarArguments, arguments, ScalarArgument.statement,
     ComputeKernel.surfaceBody, step, run, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Int.mul_comm]

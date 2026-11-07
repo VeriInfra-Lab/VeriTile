@@ -41,7 +41,7 @@ theorem forward_executes (M : Algebra α) (p : Parameters) (initial : State α)
       simp only [label,Region.cast] at readIgnored
       refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [exec,forward,TypedSource.forward,hc,hs,ComputeKernel.surfaceBody,
+      · simp [exec,forward,TypedSource.forwardKernel,hc,hs,ComputeKernel.surfaceBody,
           run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
           engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,natLt,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,Region.cast,

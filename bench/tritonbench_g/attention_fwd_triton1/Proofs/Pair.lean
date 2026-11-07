@@ -34,7 +34,7 @@ theorem offset_eval {α : Type} [Inhabited α] (M : Algebra α)
 theorem pointer_run {α : Type} [Inhabited α] (M : Algebra α)
     (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) (s : State α) :
     run M (Program.pointers c) s = run M (pointers c scale storeFlag ifcond) s := by
-  simp only [pointers,body,kernel,shiftedSource,runtimeCandidate,ComputeKernel.surfaceBody,
+  simp only [pointers,body,kernel,shiftedSource,runtimeCandidateKernel,ComputeKernel.surfaceBody,
     List.getElem?_cons_zero,List.getElem?_cons_succ,List.take_succ_cons,List.take_zero]
   simp only [Program.pointers,Program.pointer,Program.times,Program.headTimes,run,step,evalExpr,evalOp_unfold]
   simp only [evalOffsets]
@@ -81,7 +81,7 @@ theorem pointer_safe {α : Type} [Inhabited α] (M : Algebra α)
     all_goals simp only [Program.times,Program.headTimes,Safety.safeOp_unfold,true_and,and_true]
   · apply pure_list_safe
     intro st member t
-    simp only [pointers,body,kernel,shiftedSource,runtimeCandidate,ComputeKernel.surfaceBody,
+    simp only [pointers,body,kernel,shiftedSource,runtimeCandidateKernel,ComputeKernel.surfaceBody,
       List.getElem?_cons_zero,List.getElem?_cons_succ,List.take_succ_cons,List.take_zero,
       List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with rfl|rfl|rfl|rfl|rfl

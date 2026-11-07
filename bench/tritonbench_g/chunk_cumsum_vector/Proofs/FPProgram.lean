@@ -52,7 +52,7 @@ def loopBody (h : Call) (c : Config) : List ComputeStmt :=
 def body (h : Call) (c : Config) : List ComputeStmt :=
   initCode h c++[.forRangeInt "i_t" (.constInt 0) (.castNatToInt (countOp h c)) (.constNat 1) (loopBody h c)]
 
-theorem source_body (h : Call) (c : Config) : (Kernels.source h c).surfaceBody=body h c := by
+theorem source_body (h : Call) (c : Config) : (Kernels.sourceKernel h c).surfaceBody=body h c := by
   rfl
 #axiomsClean source_body
 end VeriTile.Bench.Repairs.ChunkCumsumVector.FPProgram

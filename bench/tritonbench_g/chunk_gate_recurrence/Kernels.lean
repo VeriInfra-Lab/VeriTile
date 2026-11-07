@@ -28,7 +28,7 @@ def backwardSignature (source : FloatDType) (gate incoming : Storage) : CallSign
   readPorts := ["S","d","DS"]
   writePorts := ["DI","DG","DL"]
 
-def forwardBody (S d O last_kv : RegionName) (NUM_HEAD NUM_BLOCK : Nat)
+def forwardKernel (S d O last_kv : RegionName) (NUM_HEAD NUM_BLOCK : Nat)
     (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V SEED_B SEED_H SEED_K SEED_V : Nat) (hasSeed : Bool) : ComputeKernel :=
   with_triton_call forwardSignature call_args [NUM_HEAD := NUM_HEAD, NUM_BLOCK := NUM_BLOCK] guarded_optional_pointers [last_kv := hasSeed] in triton {
     offset_bh = tl.program_id(0)
@@ -57,7 +57,7 @@ def forwardBody (S d O last_kv : RegionName) (NUM_HEAD NUM_BLOCK : Nat)
         O += D_MODEL_K * D_MODEL_V
   }
 
-def backwardBody (source : FloatDType) (gate incoming : Storage) (S d DI DG DL DS : RegionName)
+def backwardKernel (source : FloatDType) (gate incoming : Storage) (S d DI DG DL DS : RegionName)
     (NUM_HEAD NUM_BLOCK : Nat) (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat) : ComputeKernel :=
   with_triton_call (backwardSignature source gate incoming) call_args [NUM_HEAD := NUM_HEAD, NUM_BLOCK := NUM_BLOCK] in triton {
     offset_bh = tl.program_id(0)
@@ -105,7 +105,7 @@ def backwardBody (source : FloatDType) (gate incoming : Storage) (S d DI DG DL D
     tl.store(DL, Dacc.to(DL.dtype.element_ty))
   }
 
-def forwardBodySumLeft (S d O last_kv : RegionName) (NUM_HEAD NUM_BLOCK : Nat)
+def forwardBodySumLeftKernel (S d O last_kv : RegionName) (NUM_HEAD NUM_BLOCK : Nat)
     (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V SEED_B SEED_H SEED_K SEED_V : Nat) (hasSeed : Bool) : ComputeKernel :=
   with_triton_call forwardSignature call_args [NUM_HEAD := NUM_HEAD, NUM_BLOCK := NUM_BLOCK] guarded_optional_pointers [last_kv := hasSeed] in triton {
     offset_bh = tl.program_id(0)
@@ -134,7 +134,7 @@ def forwardBodySumLeft (S d O last_kv : RegionName) (NUM_HEAD NUM_BLOCK : Nat)
         O += D_MODEL_K * D_MODEL_V
   }
 
-def backwardBodySumLeft (source : FloatDType) (gate incoming : Storage) (S d DI DG DL DS : RegionName)
+def backwardBodySumLeftKernel (source : FloatDType) (gate incoming : Storage) (S d DI DG DL DS : RegionName)
     (NUM_HEAD NUM_BLOCK : Nat) (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat) : ComputeKernel :=
   with_triton_call (backwardSignature source gate incoming) call_args [NUM_HEAD := NUM_HEAD, NUM_BLOCK := NUM_BLOCK] in triton {
     offset_bh = tl.program_id(0)
@@ -184,18 +184,18 @@ def backwardBodySumLeft (source : FloatDType) (gate incoming : Storage) (S d DI 
 
 /-- Fixed 64×16 FP32 invocation retained by the full program proofs. -/
 def forward (S D O seed : RegionName) (H N K V SB SH SK SV : Nat) (hasSeed : Bool) :=
-  forwardBody S D O seed H N K V 64 16 SB SH SK SV hasSeed
+  forwardKernel S D O seed H N K V 64 16 SB SH SK SV hasSeed
 
 def forwardSumLeft (S D O seed : RegionName) (H N K V SB SH SK SV : Nat) (hasSeed : Bool) :=
-  forwardBodySumLeft S D O seed H N K V 64 16 SB SH SK SV hasSeed
+  forwardBodySumLeftKernel S D O seed H N K V 64 16 SB SH SK SV hasSeed
 
 def backwardFamily (dtype : FloatDType) (S D DI DG DL DS : RegionName)
     (NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat) :=
-  backwardBody dtype .fp32 .fp32 S D DI DG DL DS NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V
+  backwardKernel dtype .fp32 .fp32 S D DI DG DL DS NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V
 
 def backwardSumLeftFamily (dtype : FloatDType) (S D DI DG DL DS : RegionName)
     (NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat) :=
-  backwardBodySumLeft dtype .fp32 .fp32 S D DI DG DL DS NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V
+  backwardBodySumLeftKernel dtype .fp32 .fp32 S D DI DG DL DS NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V
 
 abbrev backward := backwardFamily .fp32
 abbrev backwardSumLeft := backwardSumLeftFamily .fp32

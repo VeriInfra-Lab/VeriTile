@@ -55,7 +55,7 @@ theorem initial_safe (p : Config) (BD : Nat) (s : State Expr)
   by_cases hd : p.stage=2
   all_goals
     simp only [code,source,hd,decide_true,decide_false,Bool.false_eq_true,↓reduceIte,
-      AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.take_succ_cons,List.take_zero]
+      AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.take_succ_cons,List.take_zero]
     simp [AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
@@ -89,7 +89,7 @@ theorem setup_safe (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   cases second
   all_goals simp only [setupCode,setup,preloop,parts,workName,stage,show ¬(3:Nat)=2 by decide,decide_false,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
+    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero]
   all_goals simp [Source.intRange?,AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -113,7 +113,7 @@ theorem iteration_safe (p : Config) (BD : Nat) (stage : p.stage=3)
   all_goals simp [workName,keyName,scaleName,valueName,lowerName,upperName,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hkp hks hvp hlo hhi hc0 hc1 hc2 hc3 hc4 hc5 hc6 hc7 hc8 hc9 hc10
   all_goals simp only [body,parts,workName,stage,show ¬(3:Nat)=2 by decide,decide_false,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,Source.intRange?,
+    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,Source.intRange?,
     Option.map_some,Option.getD_some,beq_self_eq_true,List.drop_succ_cons,List.drop_zero]
   all_goals simp [Source.intRange?,AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -135,7 +135,7 @@ theorem tail_safe (p : Config) (BD : Nat) (f : Fixed BD) (old : Carry BD)
     Safety.traceSafeList (engine backend) bounds (tail p BD Bool.false) s := by
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   cases hs : decide (p.stage=2)
-  all_goals simp only [tail,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,code,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,
+  all_goals simp only [tail,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,code,source,Bool.false_eq_true,↓reduceIte,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,
     ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,hs,List.drop_succ_cons,List.drop_zero]
   all_goals simp [Source.intRange?,AttnFwdTriton.ControlView.compute,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

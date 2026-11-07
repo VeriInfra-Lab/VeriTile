@@ -10,10 +10,10 @@ set_option linter.unusedSimpArgs false
 abbrev Parameters := KernelSource.GemmParameters
 
 def source : Precision → Precision → Parameters → ComputeKernel
-  | .half, .half => KernelSource.gemmHalfHalf
-  | .half, .single => KernelSource.gemmHalfSingle
-  | .single, .half => KernelSource.gemmSingleHalf
-  | .single, .single => KernelSource.gemmSingleSingle
+  | .half, .half => KernelSource.gemmHalfHalfKernel
+  | .half, .single => KernelSource.gemmHalfSingleKernel
+  | .single, .half => KernelSource.gemmSingleHalfKernel
+  | .single, .single => KernelSource.gemmSingleSingleKernel
 
 def tripCount (p : Parameters) : Nat :=
   (p.inner+p.blockInner*p.split-1)/(p.blockInner*p.split)

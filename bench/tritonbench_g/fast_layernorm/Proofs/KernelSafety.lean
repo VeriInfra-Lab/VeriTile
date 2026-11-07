@@ -19,7 +19,7 @@ theorem forward (M : Algebra α) (N B : Nat) (eps : ℝ) (bias : Bool)
     TraceSafe (engine M) bounds (forwardKernel "y" "x" "w" "b" "r" "mu" N B eps bias) u := by
   cases bias
   all_goals
-    simp [TraceSafe,forwardKernel,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,ComputeKernel.surfaceBody,
+    simp [TraceSafe,forwardKernel,forwardBodyPastedKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -38,7 +38,7 @@ theorem backward (M : Algebra α) (N B : Nat) (u : State α) (bounds : RegionNam
     (hdx : ∀ j : Fin B,j.val<N → u.pids 0*N+j.val<bounds "dx")
     (hr : u.pids 0<bounds "r") (hm : u.pids 0<bounds "mu") :
     TraceSafe (engine M) bounds (backwardKernel "dx" "dy" "x" "w" "r" "mu" N B) u := by
-  simp [TraceSafe,backwardKernel,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
+  simp [TraceSafe,backwardKernel,backwardBodyPastedKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -61,7 +61,7 @@ theorem affine_iteration (M : Algebra α) (rows N wc bc pid row : Nat) (bias : B
     (hr : row<bounds "r") (hmu : row<bounds "mu") :
     traceSafeList (engine M) bounds (body rows N wc bc bias)
       (u.setReg "row" .int [] (fun _ => (row : Int))) := by
-  simp [body,kernel,affineKernel,affineBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
+  simp [body,kernel,affineKernel,affineBodyPastedKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -119,7 +119,7 @@ theorem affine_tail (M : Algebra α) (rows N wc bc pid : Nat) (bias : Bool)
   have biasRead := (inv.args "bias_count" (by simp)).trans biasCount
   cases bias
   all_goals
-    simp [tail,kernel,affineKernel,affineBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
+    simp [tail,kernel,affineKernel,affineBodyPastedKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -155,7 +155,7 @@ theorem affine (M : Algebra α) (rows N wc bc : Nat) (bias : Bool)
   unfold TraceSafe
   rw [source_body,List.append_assoc,traceSafeList_append]
   refine ⟨?_,?_⟩
-  · simp [prefixCode,kernel,affineKernel,affineBody,ComputeKernel.withScalarArguments,
+  · simp [prefixCode,kernel,affineKernel,affineBodyPastedKernel,ComputeKernel.withScalarArguments,
       ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,natLt,numericLt,State.setReg]

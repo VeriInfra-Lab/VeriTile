@@ -83,7 +83,7 @@ def epilogueExecution (cast : Word32 → Byte) (M : Algebra Word32) (p : Paramet
     {t : State Word32 // run (backend cast M) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [-BitVec.toInt_ofInt,epilogue, source, compileAssertionProjection, quotedSource, kernel,sourceBody, ComputeKernel.surfaceBody,
+  simp [-BitVec.toInt_ofInt,epilogue, source, compileAssertionProjection, quotedSource, kernel,sourceKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

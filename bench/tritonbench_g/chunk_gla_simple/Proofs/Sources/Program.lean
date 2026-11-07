@@ -106,7 +106,7 @@ literally reused from the original program, rather than reproved here. -/
 theorem source_body (p : Layout) (r : Regions) (scale : ℝ) :
     (typed p r scale).eraseDType.toAlgKernel.body = body p r scale := by
   simp only [typed, ChunkGlaSimple.source,VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.fp32Original,
-    VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.originalBody, Bool.false_eq_true, ↓reduceIte,
+    VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.originalKernel, Bool.false_eq_true, ↓reduceIte,
     ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,

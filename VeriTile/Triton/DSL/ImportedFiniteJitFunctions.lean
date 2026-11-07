@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.PythonInlineSuites
 
 /-! Module imports and copied unary dtype-dispatch helpers supplied outside a
@@ -199,3 +200,19 @@ private def helperMetadata (st : TSyntax `tritonStmt) : Bool :=
 
 end DSL.ImportedFiniteJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.ImportedFiniteJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceSyntax.importedParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``ImportedFiniteJitFunction do throwUnsupportedSyntax
+  let imports := stx[2].getSepArgs.map (⟨·⟩ : Syntax → TSyntax `tritonCallBinding)
+  let parameters := stx[7].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let #[x] := parameters | throwError "imported unary helper requires one parameter"
+  let body ← `(with_triton_imports [$imports,*] in triton_function ($x:ident) {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.ImportedFiniteJitFunctions

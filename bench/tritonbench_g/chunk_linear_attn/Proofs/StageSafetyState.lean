@@ -16,7 +16,7 @@ theorem state_entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       (stateParts p scale rev seed final).before s := by
   cases rev <;> cases seed
   all_goals
-    simp [stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,
+    simp [stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -42,7 +42,7 @@ theorem state_finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
       (stateParts p scale rev seed final).after s := by
   cases rev <;> cases final
   all_goals
-    simp [stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,
+    simp [stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -73,7 +73,7 @@ theorem state_store_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   have clock : (p.NT : Int)-((n : Int)+1)=((p.NT-1-n : Nat) : Int) := by omega
   cases rev
   all_goals
-    simp [stateStorePrefix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,
+    simp [stateStorePrefix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -104,7 +104,7 @@ theorem state_update_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
   cases rev
   all_goals
     simp only [Bool.false_eq_true, if_false, if_true] at hl hr
-    simp [stateUpdateSuffix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,
+    simp [stateUpdateSuffix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,

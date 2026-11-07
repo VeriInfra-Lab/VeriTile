@@ -43,7 +43,7 @@ theorem accumulate_step (M : Algebra α) (base s : State α) (X Y : RegionName)
       (s.setReg "start_n" .int [] (fun _ => ((cur : Nat) : Int)))=some t ∧
       Ready base row col B C (accumulate M base X row col N K B C cur v) t := by
   rcases hs with ⟨hr,hk,hm,hz,hmem⟩
-  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
     ComputeDType.eraseDType,State.setReg,Option.bind,hr,hk,hm,hz,hmem,
     Ready,accumulate,load,active,offset,literal,add,mul,sub,exp,FPReference.max,FPReference.read]
@@ -90,7 +90,7 @@ theorem emit_step (M : Algebra α) (base s : State α) (X Y : RegionName)
   have subCast : (previous N B : Int)-(cur : Int) = ((previous N B-cur : Nat) : Int) :=
     (Int.ofNat_sub hcur).symm
   rcases hs with ⟨hr,hk,hm,hz,hprev,hmem⟩
-  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,
+  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,store,
     numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
     ComputeDType.eraseDType,State.setReg,Option.bind,hr,hk,hm,hz,hprev,hmem,
     WriteReady,emit,storedValue,load,active,offset,literal,add,mul,sub,exp,
@@ -115,7 +115,7 @@ theorem initial_exec (M : Algebra α) (s : State α) (X Y : RegionName)
     exec M (Source.forward_noninner Y X rows N K B C Bool.false) s =
     (rangeInt M "start_n" (0 : Int) (N : Int) B (rangeBody (code Y X rows N K B C) 2) (initial M s B C)).bind
       (run M ((code Y X rows N K B C).drop 3)) := by
-  simp [exec,run,step,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,code,branch,rangeBody,
+  simp [exec,run,step,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,code,branch,rangeBody,
     ComputeKernel.surfaceBody,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,natLt,
     bop,ofFloat,toFloat,Region.cast,ComputeDType.eraseDType,State.setReg,initial,literal,
     List.drop_succ_cons,List.drop_zero]
@@ -145,7 +145,7 @@ theorem after_accumulate (M : Algebra α) (base mid : State α) (X Y : RegionNam
     rw [hsum]
     exact SignedAddress.previous_eq N B hN hB
   rcases hs with ⟨hr,hk,hm,hz,hmem⟩
-  simp [code,branch,rangeBody,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,ComputeKernel.surfaceBody,
+  simp [code,branch,rangeBody,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,natLt,bop,ofFloat,toFloat,
     integralFloorDiv,Region.cast,ComputeDType.eraseDType,State.setReg,hr,hk,hm,hz,hmem,
     writeInitial,maxReduced,sumReduced,previous,WriteReady,TileShape.axisDim,hB,

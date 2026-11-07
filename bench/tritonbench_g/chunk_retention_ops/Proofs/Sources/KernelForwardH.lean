@@ -5,7 +5,7 @@ open VeriTile Triton FP.Structural FP.ProfiledRewrite
 noncomputable section
 
 def kernel (c : Shape) (seed final : Bool) :=
-  Source.forwardH "k" "v" "h" "h0" "ht"
+  Source.forwardHKernel "k" "v" "h" "h0" "ht"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     c.H c.T c.K c.V 64 c.BK c.BV c.chunks seed final
 

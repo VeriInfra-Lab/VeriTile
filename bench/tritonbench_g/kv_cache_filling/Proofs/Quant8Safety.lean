@@ -31,7 +31,7 @@ theorem quant8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
   have bvm0 : dst*2 < bounds "valueMeta" := by simpa only [Nat.add_zero] using bvm 0 (by omega)
   cases version
   all_goals
-    simp (maxSteps := 2000000) [FP.Structural.TraceSafe, QuantSource.kernel8, QuantSource.original8Kernel,Bodies.original8Body, QuantSource.commuted8Kernel,Bodies.candidate8Body, ComputeKernel.surfaceBody,
+    simp (maxSteps := 2000000) [FP.Structural.TraceSafe, QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel, QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

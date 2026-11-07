@@ -14,14 +14,14 @@ end Original
 coefficient occurrences, three old-zero gradient loads and three stores.
 The Python launch explicitly selects enable_fp_fusion=False in both phases. -/
 def backwardSource (coord_ptr coord_grad_ptr sph_grad_ptr : RegionName)
-    (block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride : Nat) : ComputeKernel := Bodies.backwardBody coord_ptr coord_grad_ptr sph_grad_ptr block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride
+    (block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride : Nat) : ComputeKernel := backwardPastedKernel coord_ptr coord_grad_ptr sph_grad_ptr block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride
 
 /-- Share left-associated rounded powers. The numerical operation tree of every
 used power is unchanged; recomputation is removed without reassociation. -/
 def forwardPowersSource (coord_ptr output_ptr : RegionName)
-    (block_size coord_numel output_numel col_offset output_stride : Nat) : ComputeKernel := Bodies.forwardPowersBody coord_ptr output_ptr block_size coord_numel output_numel col_offset output_stride
+    (block_size coord_numel output_numel col_offset output_stride : Nat) : ComputeKernel := forwardPowersPastedKernel coord_ptr output_ptr block_size coord_numel output_numel col_offset output_stride
 def backwardPowersSource (coord_ptr coord_grad_ptr sph_grad_ptr : RegionName)
-    (block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride : Nat) : ComputeKernel := Bodies.backwardPowersBody coord_ptr coord_grad_ptr sph_grad_ptr block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride
+    (block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride : Nat) : ComputeKernel := backwardPowersPastedKernel coord_ptr coord_grad_ptr sph_grad_ptr block_size coord_numel output_numel col_offset output_stride upstream_row_stride upstream_col_stride
 
 def coordinateRegion : RegionName := "coordinates"
 def outputRegion : RegionName := "output"

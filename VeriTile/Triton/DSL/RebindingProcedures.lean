@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.ProcedureJitFunctions
 
 /-! Python parameter rebinding is local to its invocation. Preserve the pasted
@@ -250,4 +251,20 @@ def elaborateCalls : TermElab := fun stx expected=>do
   let base ← `(with_triton_call $signature:term call_args [$arguments,*] jit_procedures [$procedures,*] in triton {})
   ProcedureJitFunctions.elaborateCalls
     (base.raw.setArgs (base.raw.getArgs.set! (base.raw.getArgs.size-1) raw)) expected
+end VeriTile.Triton.DSL.RebindingProcedures
+
+namespace VeriTile.Triton.DSL.RebindingProcedures
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceSyntax.rebindingParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``ProcedureJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let profileSyntax : TSyntax `term := ⟨stx[9]⟩
+  let body ← `(triton_rebinding_procedure $profileSyntax:term ($parameters,*) constexpr_args [$constants,*] {})
+  elaborateProcedure (SourceSyntax.attachBody body.raw stx) expected
+
 end VeriTile.Triton.DSL.RebindingProcedures

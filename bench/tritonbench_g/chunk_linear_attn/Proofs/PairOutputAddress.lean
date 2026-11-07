@@ -64,7 +64,7 @@ theorem first_run (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale
     run (engine (withDot M D)) ((parts p scale).body.take 2) (s.setReg "i_k" .nat [] (fun _ => kb)) =
       run (engine (withDot M D)) ((outputParts p scale).body.take 2) (s.setReg "i_k" .nat [] (fun _ => kb)) := by
   have hh : s.regs .nat [] "qk_head"=some (fun _ => pid.z*(p.T*p.K)) := head
-  simp [parts,forwardOHoisted,Bodies.forwardOHoistedBody,outputParts,forwardO,Bodies.forwardOBody,ComputeKernel.surfaceBody,
+  simp [parts,forwardOHoisted,forwardOHoistedKernel,outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,
     Source.dynamicRange?,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -117,7 +117,7 @@ theorem body_head (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale
     (ctx : OutputReady p pid input s) (ha : HasOutput p a s) (head : Head p pid s) :
     Head p pid (outputBody M D p scale pid input s kb a ctx ha).val := by
   have valid : ∀ stmt∈(outputParts p scale).body,KeepsHead stmt := by
-    simp [outputParts,forwardO,Bodies.forwardOBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,KeepsHead]
+    simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,KeepsHead]
   have preserved := run_head (engine (withDot M D)) (outputParts p scale).body valid
     (s.setReg "i_k" .nat [] (fun _ => kb))
     (outputBody M D p scale pid input s kb a ctx ha).val

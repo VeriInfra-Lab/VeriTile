@@ -99,7 +99,7 @@ def source (BM BN BD : Nat) (p : Parameters) : ComputeKernel :=
 theorem source_projection (BM BN BD : Nat) (p : Parameters) :
     (source BM BN BD p).toAlgorithm? = .ok (source BM BN BD p).toAlgKernel := by
   by_cases hd : p.stage = 2
-  all_goals simp only [source, TypedSource.repaired, Bodies.originalBody, hd,
+  all_goals simp only [source, TypedSource.repaired, originalKernel, hd,
     decide_true, decide_false, Bool.false_eq_true, Bool.true_eq, ↓reduceIte]
   all_goals rfl
 

@@ -20,7 +20,7 @@ theorem projection (swapped : Bool) (n B : Nat) (p : ℝ) :
       .ok (TypedSource.source .fp32 .int32 swapped "x" "keep" "out" n B p).eraseDType.toAlgKernel := by
   cases swapped
   all_goals simp only [TypedSource.source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
-    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginal,VeriTile.Bench.Repairs.DropoutTriton.quotedCommuted,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

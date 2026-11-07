@@ -40,7 +40,7 @@ theorem prefix_safe (a : Arithmetic α) (p : Parameters) (s : State (Replicas α
   have h0 := backed.rowFirst
   have h1 := backed.rowLast
   dsimp only [rowPointer,layout,head] at h0 h1
-  simp [prelude,source,declared,originalBody,quotientRemainderBody,ComputeKernel.surfaceBody,bindScale,
+  simp [prelude,source,declared,originalKernel,quotientRemainderKernel,ComputeKernel.surfaceBody,bindScale,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -58,7 +58,7 @@ theorem visit_prefix_safe (a : Arithmetic α) (p : Parameters)
   have cols := ints
   dsimp only [ColumnInt32,csrColumn] at cols
   have bound := backed.column slot lo hi
-  simp [body,source,declared,originalBody,quotientRemainderBody,ComputeKernel.surfaceBody,
+  simp [body,source,declared,originalKernel,quotientRemainderKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -80,7 +80,7 @@ theorem channel_safe (a : Arithmetic α) (native : Bool) (p : Parameters)
   have hk := backed.key slot lo hi block hb
   cases native <;> cases em : p.evenM <;> cases en : p.evenN
   all_goals
-    simp [channelBody,compiledScoreBody,scoreBody,body,source,declared,originalBody,quotientRemainderBody,em,en,
+    simp [channelBody,compiledScoreBody,scoreBody,body,source,declared,originalKernel,quotientRemainderKernel,em,en,
       carryNode,fp,ref2,ComputeKernel.surfaceBody,
       AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

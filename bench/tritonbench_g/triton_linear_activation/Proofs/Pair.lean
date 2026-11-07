@@ -30,20 +30,20 @@ theorem original_code (mode : Mode) (p : Parameters) :
     (source mode p).surfaceBody = before mode p ++ originalSite mode p :: after mode p := by
   cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
     cases hl : (p.inner%p.blockInner==0) <;>
-    simp only [before,after,originalSite,flagged,source,typed,Bodies.originalBody,dtype,hb,hs,hl,
+    simp only [before,after,originalSite,flagged,source,typed,originalKernel,dtype,hb,hs,hl,
       Bool.false_eq_true,if_false,if_true] <;> rfl
 
 theorem shifted_code (mode : Mode) (p : Parameters) :
     (CandidateSource.source mode p).surfaceBody = before mode p ++ shiftedSite mode p :: after mode p := by
   cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
     cases hl : (p.inner%p.blockInner==0) <;>
-    simp only [before,after,shiftedSite,candidatePrefix,flagged,source,typed,Bodies.originalBody,
-      CandidateSource.source,CandidateSource.typed,Bodies.candidateBody,dtype,hb,hs,hl,
+    simp only [before,after,shiftedSite,candidatePrefix,flagged,source,typed,originalKernel,
+      CandidateSource.source,CandidateSource.typed,candidateKernel,dtype,hb,hs,hl,
       Bool.false_eq_true,if_false,if_true] <;> rfl
 
 theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (mode : Mode) (p : Parameters) (s : State α) :
     step M (originalSite mode p) s = step M (shiftedSite mode p) s := by
-  simp only [originalSite,shiftedSite,flagged,candidatePrefix,source,typed,Bodies.originalBody,CandidateSource.source,CandidateSource.typed,Bodies.candidateBody,
+  simp only [originalSite,shiftedSite,flagged,candidatePrefix,source,typed,originalKernel,CandidateSource.source,CandidateSource.typed,candidateKernel,
     Bool.false_eq_true,if_false,if_true,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   by_cases hg : p.groupRows=8
@@ -60,7 +60,7 @@ theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionNa
     (mode : Mode) (p : Parameters) (s : State α) :
     Safety.stepSafe M bounds (originalSite mode p) s ∧
       Safety.stepSafe M bounds (shiftedSite mode p) s := by
-  simp only [originalSite,shiftedSite,flagged,candidatePrefix,source,typed,Bodies.originalBody,CandidateSource.source,CandidateSource.typed,Bodies.candidateBody,
+  simp only [originalSite,shiftedSite,flagged,candidatePrefix,source,typed,originalKernel,CandidateSource.source,CandidateSource.typed,candidateKernel,
     Bool.false_eq_true,if_false,if_true,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   by_cases hg : p.groupRows=8

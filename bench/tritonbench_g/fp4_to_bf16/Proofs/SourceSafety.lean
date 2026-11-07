@@ -27,7 +27,7 @@ private theorem middle_safe (rest : Algebra Word) (p : Parameters) (s : State Wo
     Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.drop 7 |>.take 19) s := by
   apply pure_list_safe
   intro st member t
-  simp only [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody,ComputeKernel.surfaceBody,List.drop,List.take,
+  simp only [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel,ComputeKernel.surfaceBody,List.drop,List.take,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -38,7 +38,7 @@ private theorem load_safe (rest : Algebra Word) (p : Parameters) (s : State Word
     (input : ∀ i : Fin p.block,inputOffset p s i.val<p.count →
       inputOffset p s i.val<bounds p.input) :
     Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.take 7) s := by
-  simp [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody,ComputeKernel.surfaceBody,List.take,
+  simp [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel,ComputeKernel.surfaceBody,List.take,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -71,7 +71,7 @@ private theorem tail_safe (rest : Algebra Word) (p : Parameters) (s : State Word
     (output : ∀ j : Fin (p.block*2),pid*(p.block*2)+j.val<p.count*2 →
       pid*(p.block*2)+j.val<bounds p.output) :
     Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.drop 26) s := by
-  simp [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody,ComputeKernel.surfaceBody,List.drop,
+  simp [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel,ComputeKernel.surfaceBody,List.drop,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

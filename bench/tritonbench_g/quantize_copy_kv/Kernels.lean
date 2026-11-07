@@ -23,7 +23,7 @@ def callSignature : CallSignature where
   scalars := [("stride_k_bs",.integer),("stride_k_h",.integer),("stride_k_d",.integer),("stride_dest",.integer),("stride_o_bs",.integer),("stride_o_h",.integer),("stride_o_d",.integer),("stride_os_bs",.integer),("stride_os_h",.integer),("head_num",.integer)]
   constexpr := ["BLOCK_DMODEL","BLOCK_HEAD"]
 
-def originalSource (p : Parameters) : ComputeKernel :=
+def originalSourcePastedKernel (p : Parameters) : ComputeKernel :=
   let K : RegionName := "input"
   let Dest_loc : RegionName := "destination"
   let Out : RegionName := "output"
@@ -49,7 +49,7 @@ def originalSource (p : Parameters) : ComputeKernel :=
     tl.store(os_ptrs, data_scale, mask=offs_h[:, None] < head_num)
   }
 
-def commutedSource (p : Parameters) : ComputeKernel :=
+def commutedSourcePastedKernel (p : Parameters) : ComputeKernel :=
   let K : RegionName := "input"
   let Dest_loc : RegionName := "destination"
   let Out : RegionName := "output"
@@ -76,7 +76,7 @@ def commutedSource (p : Parameters) : ComputeKernel :=
   }
 
 def kernel (version : Bool) (p : Parameters) : ComputeKernel :=
-  if version then commutedSource p else originalSource p
+  if version then commutedSourcePastedKernel p else originalSourcePastedKernel p
 
 def originalKernel := kernel Bool.false
 def commutedKernel := kernel Bool.true

@@ -14,7 +14,7 @@ def Control (M : Nat) (current : Int) (s : State α) : Prop :=
 theorem prelude_control (m : Model α) (stride M N G B : Nat) (s t : State α)
     (ran : run (engine m) (SourceGrouped.prelude stride M N G B) s=some t) :
     Control M (s.pids 0 : Int) t := by
-  simp [SourceGrouped.prelude,SourceGrouped.code,TypedSource.groupedBackward,Bodies.groupedBackward,
+  simp [SourceGrouped.prelude,SourceGrouped.code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,State.setReg,
     ComputeDType.eraseDType,TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
@@ -36,7 +36,7 @@ theorem body_control (m : Model α) (stride M N G B : Nat) (current : Int) (s t 
   obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,
     ⟨dw,hdw⟩,⟨db,hdb⟩,⟨row,hrow⟩⟩ := ready
   by_cases same : current=group PUnit.unit <;>
-    simp [SourceGrouped.body,SourceGrouped.code,TypedSource.groupedBackward,Bodies.groupedBackward,
+    simp [SourceGrouped.body,SourceGrouped.code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       engine,numeric,natLt,numericLt,numericLe,numericEq,bop,State.setReg,FP.Structural.store,
       ComputeDType.eraseDType,TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
@@ -83,7 +83,7 @@ theorem source_execution (m : Model α) (stride M N G B : Nat) (positive : 0<G)
       Trace (engine m) (signedGuard "row" "M") (SourceGrouped.body stride M N G B) first final ∧
       run (engine m) (SourceGrouped.suffix stride M N G B) final=some output ∧
       FP.Structural.exec (engine m)
-        (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) initial=some output := by
+        (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) initial=some output := by
   obtain ⟨first,hfirst,ready⟩ := SourceGrouped.prelude_success m stride M N G B initial
   have control := prelude_control m stride M N G B initial first hfirst
   have hrow := normalized_signed_read first "row" (initial.pids 0 : Int) control.1

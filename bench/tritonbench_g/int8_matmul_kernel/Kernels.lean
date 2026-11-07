@@ -13,7 +13,7 @@ def callSignature : CallSignature where
     ("stride_bk",.integer),("stride_bn",.integer),("stride_cm",.integer),("stride_cn",.integer)]
   constexpr := ["K","BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K","GROUP_SIZE_M"]
 
-def sourceBody (a_ptr b_ptr c_ptr : RegionName)
+def sourceKernel (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
   with_triton_call callSignature call_args [M := M,N := N,stride_am := stride_am,
@@ -71,7 +71,7 @@ def sourceBody (a_ptr b_ptr c_ptr : RegionName)
 def kernel (a_ptr : Region .fp32) (b_ptr : Region .nat) (c_ptr : Region .int)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
-  sourceBody a_ptr.name b_ptr.name c_ptr.name M N K stride_am stride_ak stride_bk stride_bn
+  sourceKernel a_ptr.name b_ptr.name c_ptr.name M N K stride_am stride_ak stride_bk stride_bn
     stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M
 end
 end VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked

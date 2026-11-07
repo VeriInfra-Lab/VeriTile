@@ -115,7 +115,7 @@ end
 end VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelPacket
 
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Kernels
-export Source (forwardH forwardO backwardH backwardQKV)
+export Source (forwardHKernel forwardOKernel backwardHKernel backwardQKVKernel)
 export KernelPacket (Call)
 export KernelPacket.Call (kernel state)
 end VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelOnly.Kernels

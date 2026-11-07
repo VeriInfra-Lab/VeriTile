@@ -36,7 +36,7 @@ theorem before (p : Config) (BD : Nat) (stage : p.stage=3) (s : State Expr) :
   have assembled : (code p BD).take (prefixLength p BD)=(code p BD).take 27 ++ setupCode p BD Bool.false ++
       loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := by
     by_cases hd : p.stage=2
-    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,
+    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,
       AttnFwdTriton.ControlView.compute,prefixLength,setupCode,setup,preloop,parts,finish,loopCode,body,lowerOp,lowerName,upperName,workName,Source.intRange?,hd]
   rw [assembled]
   simp only [run_append,h0,h1,h2,h3,h4,Option.bind_some]

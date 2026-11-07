@@ -58,7 +58,7 @@ def matrixOriginalProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrit
 
 def matrixOptimizedProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Program :=
   { matrixOriginalProgram S T D numIters tau with
-    kernel := matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D numIters tau }
+    kernel := matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D numIters tau }
 
 /-- Contextual equivalence for every matrix dimension and iteration count. -/
 specification mhc_depth_matrix_equiv (S T D numIters : Nat) (tau : ℝ) :

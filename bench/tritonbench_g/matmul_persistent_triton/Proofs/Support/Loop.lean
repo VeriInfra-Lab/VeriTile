@@ -48,14 +48,14 @@ theorem innerLoop (P : Source.Arithmetic α α) (p : Parameters)
   exact aux _ block current rfl hb h regs
 
 def innerStatement (p : Parameters) : ComputeStmt :=
-  (outer p)[13]'(by cases hp : p.problem.profile <;> simp [outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,hp,ComputeKernel.surfaceBody])
+  (outer p)[13]'(by cases hp : p.problem.profile <;> simp [outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,hp,ComputeKernel.surfaceBody])
 
 theorem dynamicInner (P : Source.Arithmetic α α) (p : Parameters)
     (current : State α) (pid : Nat) (h : Registers p pid current) :
     step (backend P) (innerStatement p) current=
       rangeInt (backend P) "ki" 0 (p.problem.kTiles : Int) 1 (inner p) current := by
   cases hp : p.problem.profile <;>
-    simp [innerStatement,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,hp,ComputeKernel.surfaceBody,step,
+    simp [innerStatement,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,hp,ComputeKernel.surfaceBody,step,
       evalOp_unfold,evalExpr,evalComputeOp,Option.bind,h.count]
 
 #axiomsClean innerLoop

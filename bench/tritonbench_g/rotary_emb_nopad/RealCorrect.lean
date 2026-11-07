@@ -59,8 +59,8 @@ specification rotary_cached_correct (rest : Algebra ℝ) (g : Geometry) (pid0 pi
 #stmtSurfaceSubset rotary_cached_correct ⊆
   [Spec.Real,cachedIO,cachedFormula,metadata,LogicalProgramIO.ImplementsOn,FP.Structural.Algebra,
    Geometry,Geometry.tokens,RotationIO.CachedInputs,RotationIO.CLane]
-#specNonCircular uncachedFormula avoiding [Kernels.uncached,FP.Structural.exec,Typed.uTarget]
-#specNonCircular cachedFormula avoiding [Kernels.cached,FP.Structural.exec,Typed.cReference]
+#specNonCircular uncachedFormula avoiding [Kernels.uncachedKernel,FP.Structural.exec,Typed.uTarget]
+#specNonCircular cachedFormula avoiding [Kernels.cachedKernel,FP.Structural.exec,Typed.cReference]
 #axiomsClean rotary_uncached_correct
 #axiomsClean rotary_cached_correct
 #guard_msgs (drop info) in

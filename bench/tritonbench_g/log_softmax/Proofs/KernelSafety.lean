@@ -23,10 +23,10 @@ theorem forward_source [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s : State A) (hc : 0<C) (candidate : Bool) (bounds : RegionName → Nat)
     (input : ∀ i, i<M*N*K → i<bounds X)
     (output : ∀ i, i<M*N*K → i<bounds O) :
-    TraceSafe algebra bounds (if candidate then Source.forwardCommuted O X M N K BM C
-      else Source.forward O X M N K BM C) s := by
+    TraceSafe algebra bounds (if candidate then Source.forwardCommutedKernel O X M N K BM C
+      else Source.forwardKernel O X M N K BM C) s := by
   cases candidate <;>
-  simp [TraceSafe,Source.forward,Source.forwardCommuted,ComputeKernel.surfaceBody,
+  simp [TraceSafe,Source.forwardKernel,Source.forwardCommutedKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
@@ -48,10 +48,10 @@ theorem backward_source [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (saved : ∀ i, i<M*N*K → i<bounds Y)
     (gradient : ∀ i, i<M*N*K → i<bounds G)
     (output : ∀ i, i<M*N*K → i<bounds O) :
-    TraceSafe algebra bounds (if candidate then Source.backwardCommuted Y G O M N K BM C
-      else Source.backward Y G O M N K BM C) s := by
+    TraceSafe algebra bounds (if candidate then Source.backwardCommutedKernel Y G O M N K BM C
+      else Source.backwardKernel Y G O M N K BM C) s := by
   cases candidate <;>
-  simp [TraceSafe,Source.backward,Source.backwardCommuted,ComputeKernel.surfaceBody,
+  simp [TraceSafe,Source.backwardKernel,Source.backwardCommutedKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,

@@ -17,7 +17,7 @@ def forwardCallSignature : CallSignature where
   writePorts := ["Y", "r", "mu"]
 
 /-- Complete original repaired Python body; all caller metadata is outside the quotation. -/
-def forwardBody (Y X W b r mu : RegionName) (B : Nat) (hasBias : Bool) : ComputeKernel :=
+def forwardBodyPastedKernel (Y X W b r mu : RegionName) (B : Nat) (hasBias : Bool) : ComputeKernel :=
   let BLOCK_SIZE : Nat := B
   let HAS_BIAS := hasBias
   with_triton_signature forwardCallSignature pointer_offsets [Y := 0, X := 0, W := 0, b := 0, r := 0, mu := 0] in triton {
@@ -46,7 +46,7 @@ def forwardBody (Y X W b r mu : RegionName) (B : Nat) (hasBias : Bool) : Compute
   }
 
 /-- Complete existing equivalence candidate; all caller metadata is outside the quotation. -/
-def forwardCandidateBody (Y X W b r mu : RegionName) (B : Nat) (hasBias : Bool) : ComputeKernel :=
+def forwardCandidateKernel (Y X W b r mu : RegionName) (B : Nat) (hasBias : Bool) : ComputeKernel :=
   let BLOCK_SIZE : Nat := B
   let HAS_BIAS := hasBias
   with_triton_signature forwardCallSignature pointer_offsets [Y := 0, X := 0, W := 0, b := 0, r := 0, mu := 0] in triton {
@@ -82,7 +82,7 @@ def backwardCallSignature : CallSignature where
   writePorts := ["dX"]
 
 /-- Complete original repaired Python body; all caller metadata is outside the quotation. -/
-def backwardBody (dX dY X W r mu : RegionName) (B : Nat) : ComputeKernel :=
+def backwardBodyPastedKernel (dX dY X W r mu : RegionName) (B : Nat) : ComputeKernel :=
   let BLOCK_SIZE : Nat := B
   with_triton_signature backwardCallSignature pointer_offsets [dX := 0, dY := 0, X := 0, W := 0, r := 0, mu := 0] in triton {
     n_cols = tl.cast(n_cols, tl.int64)
@@ -109,7 +109,7 @@ def backwardBody (dX dY X W r mu : RegionName) (B : Nat) : ComputeKernel :=
   }
 
 /-- Complete existing equivalence candidate; all caller metadata is outside the quotation. -/
-def backwardCandidateBody (dX dY X W r mu : RegionName) (B : Nat) : ComputeKernel :=
+def backwardCandidateKernel (dX dY X W r mu : RegionName) (B : Nat) : ComputeKernel :=
   let BLOCK_SIZE : Nat := B
   with_triton_signature backwardCallSignature pointer_offsets [dX := 0, dY := 0, X := 0, W := 0, r := 0, mu := 0] in triton {
     n_cols = tl.cast(n_cols, tl.int64)
@@ -143,7 +143,7 @@ def affineCallSignature : CallSignature where
   writePorts := ["dW", "db"]
 
 /-- Complete original repaired Python body; all caller metadata is outside the quotation. -/
-def affineBody (dW db dY X r mu : RegionName) (hasBias : Bool) : ComputeKernel :=
+def affineBodyPastedKernel (dW db dY X r mu : RegionName) (hasBias : Bool) : ComputeKernel :=
   let BLOCK_SIZE : Nat := 128
   let HAS_BIAS := hasBias
   with_triton_signature affineCallSignature pointer_offsets [dW := 0, db := 0, dY := 0, X := 0, r := 0, mu := 0] in triton {
@@ -173,7 +173,7 @@ def affineBody (dW db dY X r mu : RegionName) (hasBias : Bool) : ComputeKernel :
   }
 
 /-- Complete existing equivalence candidate; all caller metadata is outside the quotation. -/
-def affineCandidateBody (dW db dY X r mu : RegionName) (hasBias : Bool) : ComputeKernel :=
+def affineCandidateKernel (dW db dY X r mu : RegionName) (hasBias : Bool) : ComputeKernel :=
   let BLOCK_SIZE : Nat := 128
   let HAS_BIAS := hasBias
   with_triton_signature affineCallSignature pointer_offsets [dW := 0, db := 0, dY := 0, X := 0, r := 0, mu := 0] in triton {
@@ -203,42 +203,42 @@ def affineCandidateBody (dW db dY X r mu : RegionName) (hasBias : Bool) : Comput
   }
 
 def forwardKernel (Y X W b r mu : RegionName) (N B : Nat) (eps : ℝ) (hasBias : Bool) : ComputeKernel :=
-  (forwardBody Y X W b r mu B hasBias).withScalarArguments [
+  (forwardBodyPastedKernel Y X W b r mu B hasBias).withScalarArguments [
     ScalarArgument.integer "Y_row_stride" (N : Int),
     ScalarArgument.integer "X_row_stride" (N : Int),
     ScalarArgument.integer "n_cols" (N : Int),
     ScalarArgument.fp32 "eps" eps]
 
 def forwardIndexCommuted (Y X W b r mu : RegionName) (N B : Nat) (eps : ℝ) (hasBias : Bool) : ComputeKernel :=
-  (forwardCandidateBody Y X W b r mu B hasBias).withScalarArguments [
+  (forwardCandidateKernel Y X W b r mu B hasBias).withScalarArguments [
     ScalarArgument.integer "Y_row_stride" (N : Int),
     ScalarArgument.integer "X_row_stride" (N : Int),
     ScalarArgument.integer "n_cols" (N : Int),
     ScalarArgument.fp32 "eps" eps]
 
 def backwardKernel (dX dY X W r mu : RegionName) (N B : Nat) : ComputeKernel :=
-  (backwardBody dX dY X W r mu B).withScalarArguments [
+  (backwardBodyPastedKernel dX dY X W r mu B).withScalarArguments [
     ScalarArgument.integer "dX_row_stride" (N : Int),
     ScalarArgument.integer "dY_row_stride" (N : Int),
     ScalarArgument.integer "X_row_stride" (N : Int),
     ScalarArgument.integer "n_cols" (N : Int)]
 
 def backwardIndexCommuted (dX dY X W r mu : RegionName) (N B : Nat) : ComputeKernel :=
-  (backwardCandidateBody dX dY X W r mu B).withScalarArguments [
+  (backwardCandidateKernel dX dY X W r mu B).withScalarArguments [
     ScalarArgument.integer "dX_row_stride" (N : Int),
     ScalarArgument.integer "dY_row_stride" (N : Int),
     ScalarArgument.integer "X_row_stride" (N : Int),
     ScalarArgument.integer "n_cols" (N : Int)]
 
 def affineKernel (dW db dY X r mu : RegionName) (rows N weightCount biasCount : Nat) (hasBias : Bool) : ComputeKernel :=
-  (affineBody dW db dY X r mu hasBias).withScalarArguments [
+  (affineBodyPastedKernel dW db dY X r mu hasBias).withScalarArguments [
     ScalarArgument.integer "n_rows" (rows : Int),
     ScalarArgument.integer "n_cols" (N : Int),
     ScalarArgument.integer "weight_count" (weightCount : Int),
     ScalarArgument.integer "bias_count" (biasCount : Int)]
 
 def affineDirectOffsets (dW db dY X r mu : RegionName) (rows N weightCount biasCount : Nat) (hasBias : Bool) : ComputeKernel :=
-  (affineCandidateBody dW db dY X r mu hasBias).withScalarArguments [
+  (affineCandidateKernel dW db dY X r mu hasBias).withScalarArguments [
     ScalarArgument.integer "n_rows" (rows : Int),
     ScalarArgument.integer "n_cols" (N : Int),
     ScalarArgument.integer "weight_count" (weightCount : Int),

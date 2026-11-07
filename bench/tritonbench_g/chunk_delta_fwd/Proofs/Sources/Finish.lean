@@ -25,7 +25,7 @@ theorem finish_run (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     run (engine (withDot M D)) (outer p).after s=some (finishState M p pid s h) := by
   simp only [HasH] at hh
   cases hp : p.storeFinal <;>
-    simp [outer,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
+    simp [outer,sourceKernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

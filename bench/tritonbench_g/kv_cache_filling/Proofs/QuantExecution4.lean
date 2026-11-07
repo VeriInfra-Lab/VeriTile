@@ -113,8 +113,8 @@ theorem load4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       some (loaded4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
-      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,original4Kernel,
+      QuantSource.commuted4Kernel,candidate4Kernel,ComputeKernel.surfaceBody,List.take]
   all_goals
     simp [loaded4,preparedInputs,inputRow,pad,safe,hs,hd,Int.mul_comm,Nat.mul_comm,
       index_toNat,mul_index_toNat,add_index_toNat,Int.toNat_mul,Int.toNat_add,
@@ -136,8 +136,8 @@ theorem reduce4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (loaded4 a p s src dst) = some (reduced4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
-      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,original4Kernel,
+      QuantSource.commuted4Kernel,candidate4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
@@ -156,8 +156,8 @@ theorem key4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (reduced4 a p s src dst) = some (key4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
-      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,original4Kernel,
+      QuantSource.commuted4Kernel,candidate4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [quantState,helperReg,key4,reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
@@ -176,8 +176,8 @@ theorem value4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (key4 a p s src dst) = some (value4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
-      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,original4Kernel,
+      QuantSource.commuted4Kernel,candidate4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [quantState,helperReg,value4,key4,reduced4,loaded4,preparedInputs,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
@@ -196,8 +196,8 @@ theorem pack4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (value4 a p s src dst) = some (prepared4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
-      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,original4Kernel,
+      QuantSource.commuted4Kernel,candidate4Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [quantState,helperReg,packedNatural,prepared4,value4,key4,reduced4,loaded4,preparedInputs,row4Data,row4,pad,safe,scale,zero,code,hk,hv,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,numericEq,bop,
@@ -215,8 +215,8 @@ theorem stores4_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (prepared4 a p s src dst) = some (result4 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,Bodies.original4Body,
-      QuantSource.commuted4Kernel,Bodies.candidate4Body,ComputeKernel.surfaceBody,List.drop]
+    dsimp only [QuantSource.kernel4,QuantSource.original4Kernel,original4Kernel,
+      QuantSource.commuted4Kernel,candidate4Kernel,ComputeKernel.surfaceBody,List.drop]
   all_goals
     simp [quantState,helperReg,packedNatural,result4,writeMetadata,QuantExecution.scatter,prepared4,key4,row4Data,row4,
       value4,reduced4,loaded4,preparedInputs,

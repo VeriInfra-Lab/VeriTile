@@ -98,7 +98,7 @@ theorem original_arithmetic :
   subst BM
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
   rw [loopBody_erased]
-  simp only [TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     loopBody?,Option.map,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
@@ -116,7 +116,7 @@ theorem candidate_arithmetic :
   subst BM
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
   rw [loopBody_erased]
-  simp only [TypedSource.scalarLeft,TypedSource.scalarLeftBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [TypedSource.scalarLeft,TypedSource.scalarLeftKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     loopBody?,Option.map,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]

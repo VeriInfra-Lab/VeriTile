@@ -95,7 +95,7 @@ def formula (activation : Bool) (x bias input : ℝ) : ℝ :=
 
 /-- Three entry-state reads, cyclic bias indexing, and an in-place x write. -/
 def activationIO (x b input : RegionName) (W N B : Nat) (a : Bool) : GroupedMasked2DKernelIO where
-  kernel := kernel x b input W N B (1/2) a
+  kernel := sourceKernel x b input W N B (1/2) a
   projection := Projection.original_projection x b input W N B (1/2) a
   nIn := 3
   nOut := 1

@@ -17,7 +17,7 @@ def callSignature (xType yType outType : Storage) : CallSignature where
 
 -- Elaborate the finite 6×6×6 caller dtype choices for this one body.
 set_option maxHeartbeats 1000000 in
-def originalFor (xType yType outType : Storage) (x_ptr y_ptr output_ptr : RegionName)
+def originalForKernel (xType yType outType : Storage) (x_ptr y_ptr output_ptr : RegionName)
     (N BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call (callSignature xType yType outType) call_args [n_elements := N] in
   triton {
@@ -32,7 +32,7 @@ def originalFor (xType yType outType : Storage) (x_ptr y_ptr output_ptr : Region
   }
 
 set_option maxHeartbeats 1000000 in
-def commutedFor (xType yType outType : Storage) (x_ptr y_ptr output_ptr : RegionName)
+def commutedForKernel (xType yType outType : Storage) (x_ptr y_ptr output_ptr : RegionName)
     (N BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call (callSignature xType yType outType) call_args [n_elements := N] in
   triton {
@@ -48,11 +48,11 @@ def commutedFor (xType yType outType : Storage) (x_ptr y_ptr output_ptr : Region
 
 def family (xType yType outType : Storage) (version : Bool) :
     RegionName → RegionName → RegionName → Nat → Nat → ComputeKernel :=
-  if version then commutedFor xType yType outType else originalFor xType yType outType
+  if version then commutedForKernel xType yType outType else originalForKernel xType yType outType
 
 def kernel (p : Parameters) : ComputeKernel :=
-  originalFor .fp32 .fp32 .fp32 p.x p.y p.output p.n p.block
+  originalForKernel .fp32 .fp32 .fp32 p.x p.y p.output p.n p.block
 
 def commutedKernel (p : Parameters) : ComputeKernel :=
-  commutedFor .fp32 .fp32 .fp32 p.x p.y p.output p.n p.block
+  commutedForKernel .fp32 .fp32 .fp32 p.x p.y p.output p.n p.block
 end VeriTile.Bench.Repairs.KldivCompute.KernelDSL

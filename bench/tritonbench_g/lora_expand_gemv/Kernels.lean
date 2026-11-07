@@ -16,7 +16,7 @@ def callSignature (input_format weight_format output_format : OutputFormat) (ind
   constexpr := ["BLOCK_N","BLOCK_K","SPLIT_N","EVEN_K","ADD_INPUTS","CAST_TYPE"]
   readPorts := ["input_ptr","lora_ptr","out_ptr","lora_indices"]
   writePorts := ["out_ptr"]
-def originalBody (input_format weight_format output_format : OutputFormat) (index_storage : IndexStorage)
+def originalKernel (input_format weight_format output_format : OutputFormat) (index_storage : IndexStorage)
     (input_ptr lora_ptr out_ptr lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride : Nat) (BLOCK_N BLOCK_K SPLIT_N : Nat) (EVEN_K ADD_INPUTS CAST_TYPE : Bool) : ComputeKernel :=
   with_triton_call (callSignature input_format weight_format output_format index_storage)
@@ -71,7 +71,7 @@ def originalBody (input_format weight_format output_format : OutputFormat) (inde
   }
 
 
-def candidateBody (input_format weight_format output_format : OutputFormat) (index_storage : IndexStorage)
+def candidateKernel (input_format weight_format output_format : OutputFormat) (index_storage : IndexStorage)
     (input_ptr lora_ptr out_ptr lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride : Nat) (BLOCK_N BLOCK_K SPLIT_N : Nat) (EVEN_K ADD_INPUTS CAST_TYPE : Bool) : ComputeKernel :=
   with_triton_call (callSignature input_format weight_format output_format index_storage)
@@ -133,7 +133,7 @@ open FPValue (OutputFormat)
 noncomputable section
 /-- Every retained invocation profile uses the single pasted repaired body. -/
 def source (profile : InputProfile) (out : OutputFormat) (p : Parameters) : ComputeKernel :=
-  VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalBody
+  VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel
     (inputFormat profile) (weightFormat profile) out .i64 p.input p.weight p.output p.indices.cast
     p.outputSize p.inner p.inputBatchStride p.inputInnerStride p.loraStride
     p.weightRowStride p.weightInnerStride p.outputBatchStride p.outputStride

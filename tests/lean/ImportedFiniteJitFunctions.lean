@@ -39,7 +39,7 @@ def missingCast : ImportedFiniteJitFunction :=
 def mutated (in0_ptr out0_ptr : RegionName) : ComputeKernel :=
   with_triton_call (callSignature Precision.single) call_args [in0_stride := 1, out0_stride := 1, n := 1]
     signed_pointer_offsets [in0_ptr := 0, out0_ptr := 0]
-    pure_functions [isfinite_func := isfiniteHelper] in triton {
+    pure_functions [isfinite_func := isfiniteSource] in triton {
     in0_ptr += 1
   }
 
@@ -48,7 +48,7 @@ def mutated (in0_ptr out0_ptr : RegionName) : ComputeKernel :=
 def nestedAddress (in0_ptr out0_ptr : RegionName) : ComputeKernel :=
   with_triton_call (callSignature Precision.single) call_args [in0_stride := 1, out0_stride := 1, n := 1]
     signed_pointer_offsets [in0_ptr := 0, out0_ptr := 0]
-    pure_functions [isfinite_func := isfiniteHelper] in triton {
+    pure_functions [isfinite_func := isfiniteSource] in triton {
     indices = tl.arange(0, 4).to(tl.int64)
     in0 = tl.load((in0_ptr + indices) + indices)
   }

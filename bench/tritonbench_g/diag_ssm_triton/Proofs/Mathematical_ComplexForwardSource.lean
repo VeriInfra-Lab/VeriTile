@@ -21,7 +21,7 @@ theorem source_body (s x y l : RegionName) (length batch dim block : Nat) :
         [.forRangeInt "t" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1) (body x y batch dim block)] := by
   unfold prelude body Erasure.complexForward TypedSource.complexForward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,

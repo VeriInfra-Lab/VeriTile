@@ -10,8 +10,8 @@ set_option linter.unusedVariables false
 
 /-- Complete original packed conversion helper, including its docstring,
 unused assignment, signed32 shifts, bitcast and final BF16 conversion. -/
-def conversionFunction : StatementJitFunction :=
-  triton_function (x_packed, sign_mask_f4, mantissa_mask_f4, mbits_f4_e2m1, ebits_f4_e2m1, f4_e2m1_exp_bias, mbits_f32, ebits_f32, f32_exp_bias, zero_bits_f32, zero_point_five_bits_f32) constexpr_args [] {
+def conversionSource : StatementJitFunction :=
+  with_triton_params (x_packed, sign_mask_f4, mantissa_mask_f4, mbits_f4_e2m1, ebits_f4_e2m1, f4_e2m1_exp_bias, mbits_f32, ebits_f32, f32_exp_bias, zero_bits_f32, zero_point_five_bits_f32) constexpr_args [] in triton {
   """
   Input: a tensor of packed fp4 values
   Output: a tensor of bfloat16 values
@@ -83,7 +83,7 @@ def callSignature : CallSignature where
 
 /-- The complete caller at the Python wrapper's E2M1 format specialization.
 Format values and argument/storage metadata stay outside the pasted body. -/
-def originalBody (x_ptr output_ptr : RegionName) (n_elements_in BLOCK_SIZE_IN : Nat) : ComputeKernel :=
+def originalKernel (x_ptr output_ptr : RegionName) (n_elements_in BLOCK_SIZE_IN : Nat) : ComputeKernel :=
   let sign_mask_f4 : Nat := 8
   let mantissa_mask_f4 : Nat := 1
   let mbits_f4_e2m1 : Nat := 1
@@ -95,7 +95,7 @@ def originalBody (x_ptr output_ptr : RegionName) (n_elements_in BLOCK_SIZE_IN : 
   let zero_bits_f32 : Nat := 0
   let zero_point_five_bits_f32 : Nat := 1056964608
   with_triton_call callSignature call_args [n_elements_in := n_elements_in]
-    jit_functions [_fp4_packed_to_bf16 := conversionFunction] in triton {
+    jit_functions [_fp4_packed_to_bf16 := conversionSource] in triton {
   pid = tl.program_id(axis=0).to(tl.int64)
   n_elements_in = tl.cast(n_elements_in, tl.int64)
   n_elements_out = n_elements_in * 2
@@ -136,7 +136,7 @@ namespace VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue
 open VeriTile.Triton
 noncomputable section
 def unscaled (X Y : RegionName) (n block : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody X Y n block
+  VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel X Y n block
 def source (p : Parameters) := unscaled p.input p.output p.count p.block
 end
 end VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue

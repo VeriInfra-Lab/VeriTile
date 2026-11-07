@@ -22,7 +22,7 @@ def callSignature : CallSignature where
 
 /-- One source, specialized by PHASE at execution. The accumulator persists
 across all nine rounds. Producer and consumer kernels differ only by PHASE. -/
-def source : VeriTile.Triton.DSL.PastedControlSource.Invocation :=
+def reductionSource : VeriTile.Triton.DSL.PastedControlSource.Invocation :=
     with_control_call callSignature constexpr_bools [P_NEG := false,C_NEG := false,LOCK_NEG := false] in triton {
     pid = tl.program_id(0).to(tl.int64)
     tl.static_assert(PHASE == 1 or PHASE == 2)
@@ -126,7 +126,7 @@ def areaSource : VeriTile.Triton.DSL.PastedControlSource.Invocation :=
 
 /-- Full checked lowering. The value is inferred from the successful decode;
 there is no fallback program for an unsupported statement. -/
-abbrev kernelDecoded : { body : List Statement // SourceAdapter.decode source = .ok body } := by
+abbrev kernelDecoded : { body : List Statement // SourceAdapter.decode reductionSource = .ok body } := by
   refine ⟨?_, ?_⟩
   case refine_2 => rfl
 abbrev areaKernelDecoded : { body : List Statement // SourceAdapter.decode areaSource = .ok body } := by

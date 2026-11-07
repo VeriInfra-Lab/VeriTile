@@ -67,7 +67,7 @@ theorem original_source :
       [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat BN)
         ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD [])] ++
       rawAfter Out BN NK soz soh := by
-    simp only [actual,rawBefore,rawAfter,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+    simp only [actual,rawBefore,rawAfter,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
@@ -100,7 +100,7 @@ theorem candidate_source :
       [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat BN)
         ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD [])] ++
       rawAfter Out BN NK soz soh := by
-    simp only [actual,rawBefore,rawAfter,TypedSource.scalarLeft,TypedSource.scalarLeftBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+    simp only [actual,rawBefore,rawAfter,TypedSource.scalarLeft,TypedSource.scalarLeftKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
@@ -132,7 +132,7 @@ theorem prelude_code (Q K M : RegionName) (scale : ℝ)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (evenN : Bool) :
     RealFrame.Code writes (prelude Q K M scale H HK N RN NK B D
       sqz sqh sqm sqk skz skh skn skk evenN) := by
-  simp only [prelude,rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [prelude,rawBefore,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,List.take_succ_cons,List.take_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def]
   repeat' first

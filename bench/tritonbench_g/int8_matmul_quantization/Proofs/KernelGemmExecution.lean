@@ -21,8 +21,8 @@ def preludeExecution (M : Algebra F) (carrier : IntegerCarrier I)
     {t : State F // KernelExecution.run M carrier ops plans (prelude rowScale output p) s = some t} := by
   cases rowScale <;> cases output
   all_goals (refine ⟨?_, ?_⟩; swap
-             simp [prelude, source, KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf, KernelSource.gemmHalfSingle, Bodies.gemmHalfSingle,
-    KernelSource.gemmSingleHalf, Bodies.gemmSingleHalf, KernelSource.gemmSingleSingle, Bodies.gemmSingleSingle, ComputeKernel.surfaceBody,
+             simp [prelude, source, KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel, KernelSource.gemmHalfSingleKernel, gemmHalfSingleKernel,
+    KernelSource.gemmSingleHalfKernel, gemmSingleHalfKernel, KernelSource.gemmSingleSingleKernel, gemmSingleSingleKernel, ComputeKernel.surfaceBody,
     KernelExecution.run, KernelExecution.step, localStep, FP.Structural.step,
     evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
@@ -65,7 +65,7 @@ def bodyExecution (M : Algebra F) (carrier : IntegerCarrier I)
       (current.setReg "k" .int [] (fun _ => (k : Int))) = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [body, source, KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf, ComputeKernel.surfaceBody,
+  simp [body, source, KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel, ComputeKernel.surfaceBody,
     KernelExecution.run, KernelExecution.step, localStep_dot, localStep_load,
     localStep_pointer, accumulate, FP.Structural.step,
     evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,

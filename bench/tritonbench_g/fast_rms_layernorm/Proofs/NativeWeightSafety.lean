@@ -17,7 +17,7 @@ theorem iteration_safe (M : Algebra α) (h : Call) (K pid row : Nat) (initial s 
     traceSafeList (engine M) bounds (loopBody h K) (s.setReg "row" .int [] (fun _=>(row : Int))) := by
   cases mode : h.gemma
   all_goals
-    simp (config := {maxSteps:=50000}) [loopBody,Kernels.weightBackward,Kernels.runtimeWeightSource,mode,
+    simp (config := {maxSteps:=50000}) [loopBody,Kernels.weightBackward,Kernels.runtimeWeightKernel,mode,
       ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
       safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,
       maskActive_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
@@ -54,7 +54,7 @@ theorem complete (M : Algebra α) (h : Call) (K : Nat) (s : State α)
   unfold TraceSafe
   rw [source_body,List.append_assoc,traceSafeList_append]
   constructor
-  · simp [prefixCode,Kernels.weightBackward,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,traceSafeList_unfold,
+  · simp [prefixCode,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,traceSafeList_unfold,
       stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,natLt,numericLt,bop,Region.cast,State.setReg]
@@ -70,7 +70,7 @@ theorem complete (M : Algebra α) (h : Call) (K : Nat) (s : State α)
       change rangeInt (engine M) "row" 0 h.rows 1 (loopBody h K) (initial M h K s)=some after at ran
       have same : final=after := Option.some.inj (executed.symm.trans ran)
       subst after
-      simp [tailCode,Kernels.weightBackward,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,traceSafeList_unfold,
+      simp [tailCode,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,traceSafeList_unfold,
         stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,
         safeMask_unfold,addressSafe_unfold,maskActive_unfold,run,step,evalExpr,evalComputeOp,
         evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,

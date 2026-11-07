@@ -15,7 +15,7 @@ def callSignature : CallSignature where
 
 /-- Complete selected original FP32 source, including explicit input casts,
 sigmoid, left-associated products, source masks and kernel ports. -/
-def kernel (X Y OUT : RegionName) (sx sy so cols block : Nat) : ComputeKernel :=
+def sourceKernel (X Y OUT : RegionName) (sx sy so cols block : Nat) : ComputeKernel :=
   let BLOCK_N : Nat := block
   with_triton_call callSignature call_args [stride_x_row := sx, stride_y_row := sy, stride_out_row := so, ncols := cols] in
   triton {

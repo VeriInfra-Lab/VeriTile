@@ -24,7 +24,7 @@ def uncachedSignature : CallSignature where
   readPorts := ["q", "k", "cos", "sin"]
   writePorts := ["q", "k"]
 
-def uncached (p : UncachedLayout) : ComputeKernel :=
+def uncachedKernel (p : UncachedLayout) : ComputeKernel :=
   let q := p.q
   let k := p.k
   let cos := p.cos
@@ -128,7 +128,7 @@ def uncached (p : UncachedLayout) : ComputeKernel :=
         )
   }
 
-def uncachedShared (p : UncachedLayout) : ComputeKernel :=
+def uncachedSharedKernel (p : UncachedLayout) : ComputeKernel :=
   let q := p.q
   let k := p.k
   let cos := p.cos
@@ -235,7 +235,7 @@ def cachedSignature : CallSignature where
   readPorts := ["q", "k", "cos", "sin", "BLOCK_TABLES", "context_lengths"]
   writePorts := ["q", "kv_cache"]
 
-def cached (p : CachedLayout) : ComputeKernel :=
+def cachedKernel (p : CachedLayout) : ComputeKernel :=
   let q := p.q
   let k := p.k
   let cos := p.cos
@@ -345,7 +345,7 @@ def cached (p : CachedLayout) : ComputeKernel :=
     )
   }
 
-def cachedShared (p : CachedLayout) : ComputeKernel :=
+def cachedSharedKernel (p : CachedLayout) : ComputeKernel :=
   let q := p.q
   let k := p.k
   let cos := p.cos

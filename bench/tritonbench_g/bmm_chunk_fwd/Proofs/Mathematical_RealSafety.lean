@@ -79,7 +79,7 @@ theorem condition_safe (BM BN BK : Nat) (p : RealProgram.Parameters) (bounds : R
     (RealProgram.condition BM BN BK p).SafeAt bounds s := by
   simp [RealProgram.condition,RealProgram.branch,RealProgram.source,TypedSource.specialize,
     VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-    VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
     Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
     Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,
     NumericDType.eraseDType,ComparableDType.eraseDType,Op.SafeAt.eq_def]
@@ -110,8 +110,8 @@ theorem flatten_ok (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters
     (RealProgram.kernel swapped BM BN BK p).toAlgKernel.FlattenOk := by
   cases swapped
   all_goals
-    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
-      VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.dotFirst,
+    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel,
       ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,

@@ -103,7 +103,7 @@ theorem forward_value {α : Type} [Inhabited α] (M : Algebra α)
       bop,Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat]
     try rfl
 
-#specNonCircular forwardValue avoiding [forward,Floating.forward_run,runRows,runRow]
+#specNonCircular forwardValue avoiding [forwardKernel,Floating.forward_run,runRows,runRow]
 #specNonCircular backwardValue avoiding [backward,Floating.backward_run,runRows,runRow]
 #axiomsClean backward_value
 #axiomsClean forward_value

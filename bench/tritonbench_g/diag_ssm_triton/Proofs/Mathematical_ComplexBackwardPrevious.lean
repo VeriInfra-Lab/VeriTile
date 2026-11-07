@@ -27,7 +27,7 @@ theorem step (s y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (ho : u.regs .int [B] "offsets"=some ⟨fun j => ((offset batch dim t col j*2 : Nat) : Int)⟩)
     (hm : u.regs .bool [B] "mask"=some ⟨mask⟩) :
     stepStmts (source s y batch dim B) u = some (result u s y batch dim t col mask) := by
-  simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,

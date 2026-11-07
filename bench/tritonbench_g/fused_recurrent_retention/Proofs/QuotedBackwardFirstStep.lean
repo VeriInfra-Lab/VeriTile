@@ -24,7 +24,7 @@ theorem backward_first_values {α : Type} [Inhabited α] (a : Arithmetic α)
       (Program.backwardFirst (layout s b) backwardRegions seed final).body
       (current.setReg "i" .nat [] (fun _ => t)) =
       some (backwardFirstBodyResult a s b plans initial current seed pid t) := by
-  simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,
+  simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,
     ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,
     FP.Structural.store,Region.cast,layout,backwardRegions,Staged.algebra,

@@ -21,7 +21,7 @@ theorem between_loops_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPr
     (h : ForwardReady M c s t last acc) (bounds : ForwardIndexBounds c s) :
     ∃ final, run (withDot M D) (betweenLoops c) t = some final ∧
       DiagonalReady M c s final (queryChunk c s) (betweenValues M c s acc) := by
-  simp [betweenLoops, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
+  simp [betweenLoops, forwardKernel, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType,
     numeric, bop, numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,IntegerExpr.sameShape,Region.cast,withDot, h.output, h.decayLog, h.head, h.chunk, h.keyBlock, h.valueBlock,h.argument0,h.argument1,h.argument2,h.argument3,h.argument4,h.argument5,h.argument6,h.argument7,h.argument8,
     TileShape.indexToList,ofFloat,toFloat,Index32.nat_remainder,bounds.query_cast,bounds.key_cast,bounds.value_cast,bounds.key_cast_eval,bounds.value_cast_eval,Index32.natural_product]
@@ -39,7 +39,7 @@ theorem forward_suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotP
     (h : ForwardReady M c s t last acc) (bounds : ForwardIndexBounds c s) :
     ∃ final, run (withDot M D) (forwardSuffix c) t = some final ∧
       final.mem = (outputMemory M c s acc).mem := by
-  simp [forwardSuffix, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
+  simp [forwardSuffix, forwardKernel, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType, store,
     numeric, bop, natLt, numericLt, Region.cast, withDot,
     h.head, h.chunk, h.keyBlock, h.valueBlock,h.argument0,h.argument1,h.argument2,h.argument3,h.argument4,h.argument5,h.argument6,h.argument7,h.argument8, h.output,
@@ -65,7 +65,7 @@ theorem first_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : D
     (h : ForwardReady M c s t n acc) :
     step (withDot M D) (firstRangeStatement c) t =
       FP.Structural.rangeInt (withDot M D) "_" 0 (queryChunk c s : Int) c.BTS (firstBody c.BTL c.BTS c.BK c.BV) t := by
-  simp [firstRangeStatement,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,firstBody,step, evalOp_unfold, boundaryZero, h.chunk,numeric,bop,Option.bind,queryChunk,Int.natCast_mul,Int.natCast_add]
+  simp [firstRangeStatement,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,firstBody,step, evalOp_unfold, boundaryZero, h.chunk,numeric,bop,Option.bind,queryChunk,Int.natCast_mul,Int.natCast_add]
 
 theorem second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : ForwardConfig) (s t : State α) (n : Nat) (acc : (TileIndex [c.BTL,c.BV] → α))
@@ -73,7 +73,7 @@ theorem second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : 
     step (withDot M D) (secondRangeStatement c) t =
       FP.Structural.rangeInt (withDot M D) "_" (queryChunk c s : Int) (((s.pids 1+1)*c.BTL : Nat) : Int)
         c.BTS (secondBody c.BTL c.BTS c.BK c.BV) t := by
-  simp [secondRangeStatement,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,secondBody,step, evalOp_unfold, boundaryZero, h.chunk,numeric,bop,Option.bind,queryChunk,Int.natCast_mul,Int.natCast_add]
+  simp [secondRangeStatement,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,secondBody,step, evalOp_unfold, boundaryZero, h.chunk,numeric,bop,Option.bind,queryChunk,Int.natCast_mul,Int.natCast_add]
 
 /-- The complete two-loop forward source computes the independently defined
 ordered O recurrence and its exact memory frame. No final-result, real

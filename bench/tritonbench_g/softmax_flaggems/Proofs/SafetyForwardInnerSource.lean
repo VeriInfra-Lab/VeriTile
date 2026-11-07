@@ -46,7 +46,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (X Y : RegionName)
     constructor <;>
       simp [before,kernel,Source.softmax_backward_kernel_non_inner_fp32,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_inner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalOp_unfold,bind,Option.bind,
         numeric,bop,State.setReg,ready]
@@ -63,7 +63,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (X Y : RegionName)
     constructor <;>
       simp [init,code,branch,Source.softmax_backward_kernel_non_inner_fp32,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_inner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,bind,Option.bind,
         numeric,numericLt,natLt,integralFloorDiv,bop,State.setReg,ready,initial,ComputeDType.eraseDType,literal,FPConstants.decimal_zero]
@@ -122,7 +122,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (X Y : RegionName)
     constructor <;>
       simp [init,code,branch,Source.forward_inner,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_inner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,bind,Option.bind,
         numeric,numericLt,natLt,bop,State.setReg,hm,hz,hmem,writeInitial,maxReduced,sumReduced,

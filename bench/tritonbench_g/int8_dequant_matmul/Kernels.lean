@@ -19,7 +19,7 @@ def callSignature : CallSignature where
   readPorts := ["A","B","bias","state_x_ptr","state_w_ptr"]
   writePorts := ["C"]
 
-def sourceBody (A B C bias state_x_ptr state_w_ptr : RegionName)
+def sourceKernel (A B C bias state_x_ptr state_w_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M SPLIT_K : Nat)
     (EVEN_K has_bias : Bool) : ComputeKernel :=
@@ -82,7 +82,7 @@ def sourceBody (A B C bias state_x_ptr state_w_ptr : RegionName)
         tl.atomic_add(C, acc, mask=mask)
   }
 
-def candidateBody (A B C bias state_x_ptr state_w_ptr : RegionName)
+def candidateKernel (A B C bias state_x_ptr state_w_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M SPLIT_K : Nat)
     (EVEN_K has_bias : Bool) : ComputeKernel :=
@@ -149,7 +149,7 @@ def kernel (a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M SPLIT_K _steps : Nat)
     (EVEN_K has_bias : Bool) : ComputeKernel :=
-  sourceBody a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr M N K
+  sourceKernel a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr M N K
     stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
     BLOCK_M BLOCK_N BLOCK_K GROUP_M SPLIT_K EVEN_K has_bias
 
@@ -157,7 +157,7 @@ def reuseIndicesKernel (a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr : Reg
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M SPLIT_K _steps : Nat)
     (EVEN_K has_bias : Bool) : ComputeKernel :=
-  candidateBody a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr M N K
+  candidateKernel a_ptr b_ptr c_ptr bias_ptr state_x_ptr state_w_ptr M N K
     stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
     BLOCK_M BLOCK_N BLOCK_K GROUP_M SPLIT_K EVEN_K has_bias
 

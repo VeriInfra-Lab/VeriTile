@@ -34,7 +34,7 @@ theorem prefix_execution {α : Type} [Inhabited α] (M : Algebra α)
     (p : Math.Layout) (r : Program.Regions) (scale : ℝ) (s : State α) :
     run M (sourcePrefix p r scale) s=run M (candidatePrefix p r scale) s := by
   simp [sourcePrefix,candidatePrefix,original,candidate,ContextAttnBloomSource.atLayout,
-    ContextAttnBloomSource.kernel,ContextAttnBloomSource.Bodies.originalBody,ContextAttnBloomSource.indexShared,ContextAttnBloomSource.Bodies.indexSharedBody,ComputeKernel.surfaceBody,List.take,
+    ContextAttnBloomSource.kernel,ContextAttnBloomSource.originalKernel,ContextAttnBloomSource.indexShared,ContextAttnBloomSource.indexSharedKernel,ComputeKernel.surfaceBody,List.take,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,integralFloorDiv,integralMod,bop,
     ofFloat,toFloat,Region.cast,Option.bind,State.setReg,fold_writes_regs,Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,Function.comp_def,Nat.cast_mul,Nat.cast_add,Int.mul_comm]
   have product : FP.Structural.bop (fun (x y : Int)=>x*y) (.nil : Broadcast [] [] [])
@@ -50,7 +50,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList M bounds (sourcePrefix p r scale) s ↔
       Safety.traceSafeList M bounds (candidatePrefix p r scale) s := by
   simp (config := {maxSteps := 200000}) [sourcePrefix,candidatePrefix,original,candidate,
-    ContextAttnBloomSource.atLayout,ContextAttnBloomSource.kernel,ContextAttnBloomSource.Bodies.originalBody,ContextAttnBloomSource.indexShared,ContextAttnBloomSource.Bodies.indexSharedBody,
+    ContextAttnBloomSource.atLayout,ContextAttnBloomSource.kernel,ContextAttnBloomSource.originalKernel,ContextAttnBloomSource.indexShared,ContextAttnBloomSource.indexSharedKernel,
     ComputeKernel.surfaceBody,List.take,Safety.traceSafeList_cons,Safety.traceSafeList_nil,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

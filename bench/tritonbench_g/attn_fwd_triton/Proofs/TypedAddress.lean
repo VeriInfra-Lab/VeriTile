@@ -25,7 +25,7 @@ theorem middle_pure (p : Config) (BD : Nat) :
     Pure ["n_ctx","offs_m","O_block_ptr"] (middleCode p BD) := by
   cases hstage : decide (p.stage=2)
   all_goals simp only [middleCode,prefixLength,code,source,Bool.false_eq_true,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero,
+    TypedSource.repaired,originalKernel,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero,List.length_cons,List.length_nil,hstage,Bool.true_eq,List.take_append,List.take_succ_cons,List.take_zero,List.nil_append]
   all_goals repeat first | exact Pure.nil | apply Pure.assign | apply Pure.branch | apply Pure.when | apply Pure.range | apply Pure.signedRange | decide
 
@@ -34,7 +34,7 @@ theorem header (A : Algebra α) [Inhabited α] (p : Config) (BD : Nat) (s : Stat
       PointerReady BD t ∧ AddressReady p BD (s.pids 0) (s.pids 1) t ∧ t.mem=s.mem := by
   by_cases hd : p.stage=2
   all_goals simp only [code,source,hd,decide_true,decide_false,Bool.false_eq_true,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,ComputeKernel.surfaceBody,ControlView.compute,List.take_succ_cons,List.take_zero]
+    TypedSource.repaired,originalKernel,ComputeKernel.surfaceBody,ControlView.compute,List.take_succ_cons,List.take_zero]
   all_goals simp [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
     natLt,numericLt,Cell.read,ofFloat,toFloat,Region.cast,State.setReg,PointerReady,

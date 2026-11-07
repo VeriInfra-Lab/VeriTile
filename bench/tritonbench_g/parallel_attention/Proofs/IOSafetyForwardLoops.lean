@@ -23,7 +23,7 @@ private theorem second_body_tail (M : Algebra α) (D : DotPrimitive α) (c : For
     Safety.traceSafeList (withDot M D) bounds ((secondBody c.BTL c.BTS c.BK c.BV).drop 2) s := by
   apply pure_list
   intro st hs t
-  simp [secondBody,forwardSource,Bodies.forward,ComputeKernel.surfaceBody] at hs
+  simp [secondBody,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals try simp only [safeBlockPtr2]
@@ -44,7 +44,7 @@ theorem forward_between (M : Algebra α) (D : DotPrimitive α) (c : ForwardConfi
     Safety.traceSafeList (withDot M D) bounds (betweenLoops c) s := by
   apply pure_list
   intro st hs t
-  simp [betweenLoops,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody] at hs
+  simp [betweenLoops,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals try simp only [safeBlockPtr2]

@@ -21,7 +21,7 @@ def callSignature : CallSignature where
   readPorts := ["in_ptr0","in_ptr1","in_ptr2"]
   writePorts := ["in_out_ptr0","in_out_ptr1","out_ptr0"]
 
-def sourceBody (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : RegionName)
+def sourceKernel (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : RegionName)
     (xnumel rnumel RBLOCK : Nat) (reductionTree : DSL.WelfordSource.Tree RBLOCK) : ComputeKernel :=
   let XBLOCK : Nat := 1
   with_triton_call callSignature call_args [xnumel := xnumel,rnumel := rnumel]
@@ -94,7 +94,7 @@ def sourceBody (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : Regio
         tl.store(out_ptr0 + (r1 + (rnumel * x0)), tmp29, rmask)
   }
 
-def candidateSourceBody (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : RegionName)
+def candidateKernel (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr0 : RegionName)
     (xnumel rnumel RBLOCK : Nat) (reductionTree : DSL.WelfordSource.Tree RBLOCK) : ComputeKernel :=
   let XBLOCK : Nat := 1
   with_triton_call callSignature call_args [xnumel := xnumel,rnumel := rnumel]
@@ -170,11 +170,11 @@ def candidateSourceBody (in_out_ptr0 in_out_ptr1 in_ptr0 in_ptr1 in_ptr2 out_ptr
 
 def rowKernel (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : DSL.WelfordSource.Tree B) : ComputeKernel :=
-  sourceBody Mean Rstd X W Bias Y S D B tree
+  sourceKernel Mean Rstd X W Bias Y S D B tree
 
 def rowOffsetReusedKernel (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : DSL.WelfordSource.Tree B) : ComputeKernel :=
-  candidateSourceBody Mean Rstd X W Bias Y S D B tree
+  candidateKernel Mean Rstd X W Bias Y S D B tree
 
 /-- Select one of the two complete ordinary source bodies. -/
 def selected (reused : Bool) (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)

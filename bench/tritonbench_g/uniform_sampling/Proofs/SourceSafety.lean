@@ -31,7 +31,7 @@ private theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases swapped
   all_goals
     simp only [KernelSource.source,Bool.false_eq_true,if_false,if_true,
-      kernel,indexCommutedKernel,runtimeSource,runtimeCandidate,ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,
+      kernel,indexCommutedKernel,runtimeKernel,runtimeCandidateKernel,ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,
       Random.i32ArangeSize]
     intro st member s
     simp only [List.mem_cons,List.not_mem_nil,or_false] at member

@@ -15,7 +15,7 @@ theorem entry_safe (c : Config) (s : State (Term α)) (scale : Term α)
   have hq:=hb.query
   cases hf : c.fp8 <;> cases hc : c.causal
   all_goals
-    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
+    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -43,7 +43,7 @@ theorem iteration_safe (c : Config) (s t : State (Term α)) (scale : Term α) (n
     fun r d hf=>masked_value_cell c s bytes n (r,d,()) hf
   cases hf : c.fp8 <;> cases hc : c.causal
   all_goals
-    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
+    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -64,7 +64,7 @@ theorem finish_safe (c : Config) (s t : State (Term α)) (scale : Term α) (n : 
   have ho:=hb.output
   cases hf : c.fp8 <;> cases hc : c.causal
   all_goals
-    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
+    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,

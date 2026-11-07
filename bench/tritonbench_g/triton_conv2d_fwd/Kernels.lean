@@ -11,7 +11,7 @@ def signature (dtype : FloatDType) : CallSignature where
   constexpr := ["kernel_height","kernel_width","stride_height","stride_width","padding_height","padding_width","groups","fp16","tf32","BLOCK_SIZE_BATCH_HEIGHT_WIDTH","BLOCK_SIZE_IN_FEAT","BLOCK_SIZE_OUT_FEAT"]
   readPorts := ["input_pointer","weight_pointer"]
   writePorts := ["output_pointer"]
-def originalBody (dtype : FloatDType) (input_pointer weight_pointer output_pointer : RegionName)
+def originalKernel (dtype : FloatDType) (input_pointer weight_pointer output_pointer : RegionName)
     (batch_dim in_feat_dim in_height in_width out_feat_dim out_height out_width input_batch_stride input_in_feat_stride input_height_stride input_width_stride weight_out_feat_stride weight_in_feat_stride weight_height_stride weight_width_stride output_batch_stride output_out_feat_stride output_height_stride output_width_stride kernel_height kernel_width stride_height stride_width groups : Nat) (padding_height padding_width : Int) (BLOCK_SIZE_BATCH_HEIGHT_WIDTH BLOCK_SIZE_IN_FEAT BLOCK_SIZE_OUT_FEAT : Nat) (fp16 tf32 : Bool) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [batch_dim := batch_dim,in_feat_dim := in_feat_dim,in_height := in_height,in_width := in_width,out_feat_dim := out_feat_dim,out_height := out_height,out_width := out_width,input_batch_stride := input_batch_stride,input_in_feat_stride := input_in_feat_stride,input_height_stride := input_height_stride,input_width_stride := input_width_stride,weight_out_feat_stride := weight_out_feat_stride,weight_in_feat_stride := weight_in_feat_stride,weight_height_stride := weight_height_stride,weight_width_stride := weight_width_stride,output_batch_stride := output_batch_stride,output_out_feat_stride := output_out_feat_stride,output_height_stride := output_height_stride,output_width_stride := output_width_stride] in triton {
     """
@@ -142,7 +142,7 @@ def originalBody (dtype : FloatDType) (input_pointer weight_pointer output_point
     tl.store(output_pointer, accum, mask=output_mask)
   }
 
-def candidateBody (dtype : FloatDType) (input_pointer weight_pointer output_pointer : RegionName)
+def candidateKernel (dtype : FloatDType) (input_pointer weight_pointer output_pointer : RegionName)
     (batch_dim in_feat_dim in_height in_width out_feat_dim out_height out_width input_batch_stride input_in_feat_stride input_height_stride input_width_stride weight_out_feat_stride weight_in_feat_stride weight_height_stride weight_width_stride output_batch_stride output_out_feat_stride output_height_stride output_width_stride kernel_height kernel_width stride_height stride_width groups : Nat) (padding_height padding_width : Int) (BLOCK_SIZE_BATCH_HEIGHT_WIDTH BLOCK_SIZE_IN_FEAT BLOCK_SIZE_OUT_FEAT : Nat) (fp16 tf32 : Bool) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [batch_dim := batch_dim,in_feat_dim := in_feat_dim,in_height := in_height,in_width := in_width,out_feat_dim := out_feat_dim,out_height := out_height,out_width := out_width,input_batch_stride := input_batch_stride,input_in_feat_stride := input_in_feat_stride,input_height_stride := input_height_stride,input_width_stride := input_width_stride,weight_out_feat_stride := weight_out_feat_stride,weight_in_feat_stride := weight_in_feat_stride,weight_height_stride := weight_height_stride,weight_width_stride := weight_width_stride,output_batch_stride := output_batch_stride,output_out_feat_stride := output_out_feat_stride,output_height_stride := output_height_stride,output_width_stride := output_width_stride] in triton {
     """
@@ -292,7 +292,7 @@ def typed (dtype : FloatDType)
     (_fp16 _tf32 : Bool)
     (BLOCK_SIZE_BATCH_HEIGHT_WIDTH BLOCK_SIZE_IN_FEAT BLOCK_SIZE_OUT_FEAT : Nat) :
     ComputeKernel :=
-  Pasted.originalBody dtype Input Weight Output
+  Pasted.originalKernel dtype Input Weight Output
     (batch_dim := batch_dim) (in_feat_dim := in_feat_dim) (in_height := in_height)
     (in_width := in_width) (out_feat_dim := out_feat_dim) (out_height := out_height)
     (out_width := out_width) (input_batch_stride := input_batch_stride) (input_in_feat_stride := input_in_feat_stride)
@@ -335,7 +335,7 @@ def typed (dtype : FloatDType)
     (_tf32 : Bool)
     (BLOCK_SIZE_BATCH_HEIGHT_WIDTH BLOCK_SIZE_IN_FEAT BLOCK_SIZE_OUT_FEAT : Nat) :
     ComputeKernel :=
-  Pasted.originalBody dtype Input Weight Output
+  Pasted.originalKernel dtype Input Weight Output
     (batch_dim := batch_dim) (in_feat_dim := in_feat_dim) (in_height := in_height)
     (in_width := in_width) (out_feat_dim := out_feat_dim) (out_height := out_height)
     (out_width := out_width) (input_batch_stride := input_batch_stride) (input_in_feat_stride := input_in_feat_stride)

@@ -22,7 +22,7 @@ theorem source_split (p : Parameters) :
     (source p).surfaceBody = prelude p ++
       [.forRangeInt "start_n" (.constInt 0) (.ref .int [] "cur_batch_seq_len")
         (.constNat p.tokens) (loopBody p)] ++ suffix p := by
-  simp [prelude,loopBody,suffix,source,typed,ComputeKernel.surfaceBody]
+  simp [prelude,loopBody,suffix,source,typedKernel,ComputeKernel.surfaceBody]
 #axiomsClean source_split
 end
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPValue

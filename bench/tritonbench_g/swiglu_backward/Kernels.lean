@@ -14,7 +14,7 @@ def callSignature : CallSignature where
   readPorts := ["X","Y","DOUT"]
   writePorts := ["DX","DY","OUT"]
 
-def kernel (X Y DOUT OUT DX DY : RegionName)
+def sourceKernel (X Y DOUT OUT DX DY : RegionName)
     (sx sy sd so sdx sdy cols block : Nat) (recompute : Bool) : ComputeKernel :=
   let BLOCK_N := block
   let RECOMPUTE_OUTPUT := recompute

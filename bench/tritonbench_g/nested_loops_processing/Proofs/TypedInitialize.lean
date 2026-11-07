@@ -32,7 +32,7 @@ def prefixState (s : State α) (count cols : Nat) : State α :=
 
 theorem prefix_step (M : Algebra α) (count cols : Nat) (s : State α) :
     run M (prefixBody count cols) s = some (prefixState s count cols) := by
-  simp [ComputeDType.eraseDType, Option.bind, prefixBody, source, kernel, originalKernel, quotedOriginal,
+  simp [ComputeDType.eraseDType, Option.bind, prefixBody, source, kernel, originalKernel, quotedOriginalKernel,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, numericEq, numericLt, signedOffsets, natLt, natLe, prefixState, initialA, initialC, unique, signedOffsets]
   unfold FP.Structural.bop

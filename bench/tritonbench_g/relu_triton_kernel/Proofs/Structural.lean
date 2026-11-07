@@ -26,9 +26,9 @@ def outputState {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α →
 theorem source_run {α : Type} [Inhabited α] (M : Algebra α)
     (cmp : α → α → Bool) (hc : M.compareLe (some .fp32) .real=some cmp)
     (input output : RegionName) (ib ob W N B : Nat) (s : State α) :
-    ∃ t, FP.Structural.exec M (kernel input output ib ob W N B) s=some t ∧
+    ∃ t, FP.Structural.exec M (sourceKernel input output ib ob W N B) s=some t ∧
       t.mem=(outputState M cmp input output ib ob W N B s).mem := by
-  simp [kernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [sourceKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind, ComputeDType.eraseDType, numeric, numericLe, numericLt, natLt, FP.Structural.bop, store, hc,
     outputState, scalar, Region.cast, ofFloat, toFloat]
   simp +contextual only [ite_true]
@@ -67,7 +67,7 @@ def atPid {α : Type} (s : State α) (pid : Nat) : State α :=
 
 def tileExec {α : Type} [Inhabited α] (M : Algebra α)
     (input output : RegionName) (ib ob W N B : Nat) (pid : Nat) (s : State α) : Option (State α) :=
-  FP.Structural.exec M (kernel input output ib ob W N B) (atPid s pid)
+  FP.Structural.exec M (sourceKernel input output ib ob W N B) (atPid s pid)
 
 def TileOutside (output : RegionName) (ob W N pid B : Nat) (r : RegionName) (a : Nat) : Prop :=
   r ≠ output ∨ ∀ lane : TileIndex [B], pid*B+lane.1.val<N → a≠ob+W*(pid*B+lane.1.val)

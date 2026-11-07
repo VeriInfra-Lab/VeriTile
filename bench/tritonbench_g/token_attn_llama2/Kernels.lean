@@ -15,7 +15,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["B_Seqlen", "B_Start_Loc", "Q", "B_Loc", "K"]
   writePorts := ["Att_Out"]
 
-def typed (dtype : FloatDType) (Q K : RegionName) (sm_scale : ℝ)
+def typedKernel (dtype : FloatDType) (Q K : RegionName) (sm_scale : ℝ)
     (B_Loc B_Start_Loc B_Seqlen Att_Out : RegionName)
     (max_input_len stride_b_loc_b stride_b_loc_s stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd att_stride_h att_stride_bs kv_group_num BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [sm_scale := sm_scale, max_input_len := max_input_len, stride_b_loc_b := stride_b_loc_b, stride_b_loc_s := stride_b_loc_s, stride_qbs := stride_qbs, stride_qh := stride_qh, stride_qd := stride_qd, stride_kbs := stride_kbs, stride_kh := stride_kh, stride_kd := stride_kd, att_stride_h := att_stride_h, att_stride_bs := att_stride_bs, kv_group_num := kv_group_num] in triton {
@@ -53,7 +53,7 @@ def typed (dtype : FloatDType) (Q K : RegionName) (sm_scale : ℝ)
   }
 
 def source (p : Parameters) : ComputeKernel :=
-  typed .fp32 p.q p.k p.scale p.locations p.starts p.lengths p.output p.maxLength
+  typedKernel .fp32 p.q p.k p.scale p.locations p.starts p.lengths p.output p.maxLength
     p.locationBatchStride p.locationSequenceStride p.queryBatchStride p.queryHeadStride
     p.queryDimStride p.keyBatchStride p.keyHeadStride p.keyDimStride p.outputHeadStride
     p.outputSequenceStride p.groups p.dimensions p.tokens
@@ -75,10 +75,10 @@ namespace VeriTile.Bench.Repairs.TokenAttnLlama2GridAxesChecked
 open VeriTile.Triton TokenAttnLlama2.FPValue
 
 abbrev source := TokenAttnLlama2.FPValue.source
-abbrev typed := TokenAttnLlama2.FPValue.typed
+abbrev typed := TokenAttnLlama2.FPValue.typedKernel
 theorem source_unchanged : source=TokenAttnLlama2.FPValue.source := rfl
 
-def reuseTyped (dtype : FloatDType) (Q K : RegionName) (sm_scale : ℝ)
+def reuseTypedKernel (dtype : FloatDType) (Q K : RegionName) (sm_scale : ℝ)
     (B_Loc B_Start_Loc B_Seqlen Att_Out : RegionName)
     (max_input_len stride_b_loc_b stride_b_loc_s stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd att_stride_h att_stride_bs kv_group_num BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [sm_scale := sm_scale, max_input_len := max_input_len, stride_b_loc_b := stride_b_loc_b, stride_b_loc_s := stride_b_loc_s, stride_qbs := stride_qbs, stride_qh := stride_qh, stride_qd := stride_qd, stride_kbs := stride_kbs, stride_kh := stride_kh, stride_kd := stride_kd, att_stride_h := att_stride_h, att_stride_bs := att_stride_bs, kv_group_num := kv_group_num] in triton {
@@ -115,7 +115,7 @@ def reuseTyped (dtype : FloatDType) (Q K : RegionName) (sm_scale : ℝ)
   }
 
 def reuseSource (p : Parameters) : ComputeKernel :=
-  reuseTyped .fp32 p.q p.k p.scale p.locations p.starts p.lengths p.output p.maxLength
+  reuseTypedKernel .fp32 p.q p.k p.scale p.locations p.starts p.lengths p.output p.maxLength
     p.locationBatchStride p.locationSequenceStride p.queryBatchStride p.queryHeadStride
     p.queryDimStride p.keyBatchStride p.keyHeadStride p.keyDimStride p.outputHeadStride
     p.outputSequenceStride p.groups p.dimensions p.tokens

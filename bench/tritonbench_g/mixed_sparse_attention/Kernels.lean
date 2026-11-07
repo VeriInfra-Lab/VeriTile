@@ -20,7 +20,7 @@ def callSignature : CallSignature where
   readPorts := []
   writePorts := []
 
-def FP16.source
+def FP16.sourceKernel
     (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
     (block_count block_offset column_count column_index : Region .nat)
     (Out : RegionName)
@@ -119,7 +119,7 @@ def FP16.source
     tl.store(o_ptrs, acc.to(dtype), mask=m_mask)
   }
 
-def FP16.fusedMask
+def FP16.fusedMaskKernel
     (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
     (block_count block_offset column_count column_index : Region .nat)
     (Out : RegionName)
@@ -217,7 +217,7 @@ def FP16.fusedMask
     tl.store(o_ptrs, acc.to(dtype), mask=m_mask)
   }
 
-def BF16.source
+def BF16.sourceKernel
     (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
     (block_count block_offset column_count column_index : Region .nat)
     (Out : RegionName)
@@ -316,7 +316,7 @@ def BF16.source
     tl.store(o_ptrs, acc.to(dtype), mask=m_mask)
   }
 
-def BF16.fusedMask
+def BF16.fusedMaskKernel
     (Q K V : RegionName) (seqlens : Region .nat) (sm_scale : ℝ)
     (block_count block_offset column_count column_index : Region .nat)
     (Out : RegionName)

@@ -12,7 +12,7 @@ def llamaCallSignature : CallSignature where
   readPorts := ["B_Seqlen","Mid_O","Mid_O_LogExpSum"]
   writePorts := ["O"]
 
-def llama (H S D Q BD : Nat) : ComputeKernel :=
+def llamaKernel (H S D Q BD : Nat) : ComputeKernel :=
   let B_Seqlen : Region .int := ⟨"L"⟩
   let Mid_O : RegionName := "M"
   let Mid_O_LogExpSum : RegionName := "E"
@@ -58,7 +58,7 @@ end VeriTile.Bench.Repairs.FlashDecode2
 namespace VeriTile.Bench.Repairs.FlashDecode2Llama.Candidates
 open VeriTile.Triton FlashDecode2
 
-def llamaSharedBase (H S D Q BD : Nat) : ComputeKernel :=
+def llamaSharedBaseKernel (H S D Q BD : Nat) : ComputeKernel :=
   let B_Seqlen : Region .int := ⟨"L"⟩
   let Mid_O : RegionName := "M"
   let Mid_O_LogExpSum : RegionName := "E"

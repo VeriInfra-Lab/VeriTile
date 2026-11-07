@@ -72,7 +72,7 @@ theorem forward_safe (M : Algebra α) (D : DotPrimitive α)
   rw [hp] at hu
   cases hu
   apply Safety.traceSafeList_cons_of_step (t := first)
-  · simpa [firstRangeStatement,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,firstBody,Safety.stepSafe_unfold,Safety.safeOp_unfold,
+  · simpa [firstRangeStatement,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,firstBody,Safety.stepSafe_unfold,Safety.safeOp_unfold,
       evalOp_unfold,hi.chunk,numeric,bop,Option.bind,queryChunk,Int.natCast_mul] using
       forward_first_range_safe M D bounds c s initial 0 (queryChunk c s) _ hi hb
   · simpa only [first_range_statement M D c s initial 0 _ hi] using hrZero
@@ -82,7 +82,7 @@ theorem forward_safe (M : Algebra α) (D : DotPrimitive α)
     rw [hm] at hu
     cases hu
     apply Safety.traceSafeList_cons_of_step (t := second)
-    · simpa [secondRangeStatement,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,secondBody,Safety.stepSafe_unfold,Safety.safeOp_unfold,
+    · simpa [secondRangeStatement,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,secondBody,Safety.stepSafe_unfold,Safety.safeOp_unfold,
         evalOp_unfold,hd.chunk,numeric,bop,Option.bind,queryChunk,Int.natCast_mul,Int.natCast_add] using
         forward_second_range_safe M D bounds c s diagonal (queryChunk c s)
           ((s.pids 1+1)*c.BTL) _ hd hb

@@ -175,7 +175,7 @@ theorem statement_eval (M : Algebra α) (h : Call) (c : Config) (u : State α) :
 theorem source_correct (M : Algebra α) (dot : DotBackend α) (h : Call) (layout : Geometry.OutputLayout h)
     (c : Config) (positive : 0<c.BT) (p : Geometry.Program h) (u : State α)
     (hf : u.pids 0=p.feature) (hr : u.pids 1=p.row) :
-    ∃ v, FP.Structural.exec (machine M dot) (Kernels.source h c) u=some v ∧
+    ∃ v, FP.Structural.exec (machine M dot) (Kernels.sourceKernel h c) u=some v ∧
       (∀ (time : Nat) (j : Fin BS), time<h.T → p.feature*BS+j.val<h.S →
         v.mem h.output (h.outputStrides.address h.H p.row time (p.feature*BS+j.val))=
           FPMemory.stored M h (expected M dot h c positive p u time j)) ∧
@@ -183,7 +183,7 @@ theorem source_correct (M : Algebra α) (dot : DotBackend α) (h : Call) (layout
   obtain ⟨v,he,inv⟩ := loop_executes M dot u h layout c positive p 0 (initial M h c p u) (invariant M dot h c p u)
   simp only [Nat.cast_zero] at he
   refine ⟨v,?_,?_,inv.frame⟩
-  · change run (machine M dot) (Kernels.source h c).surfaceBody u=some v
+  · change run (machine M dot) (Kernels.sourceKernel h c).surfaceBody u=some v
     rw [source_body,body,run_append,init_executes M dot h c p u hf hr]
     simp only [Option.bind_some,run,statement_eval]
     rw [he]

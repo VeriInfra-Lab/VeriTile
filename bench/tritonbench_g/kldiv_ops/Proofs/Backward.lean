@@ -29,9 +29,9 @@ def prefixRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardSourceBody,backwardCandidateSourceBody,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
+    simp [backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardSourceBody,backwardCandidateSourceBody,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,
+      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
 
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -52,9 +52,9 @@ def chunkRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardSourceBody,backwardCandidateSourceBody,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
+    simp [body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardSourceBody,backwardCandidateSourceBody,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,
+      VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,
       VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
 
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,

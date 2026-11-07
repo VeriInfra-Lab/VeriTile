@@ -73,7 +73,7 @@ theorem prelude_refines [Inhabited α] (m : Model α) (s : State α) (stride M N
     ∃ t,run (engine m) (SourceGrouped.prelude stride M N G B) s=some t ∧
       Invariant s N B (s.pids 0) (zero m B) t ∧
       t.regs .int [] "row"=some (fun _ => (s.pids 0 : Int)) := by
-  simp [SourceGrouped.prelude,SourceGrouped.code,TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+  simp [SourceGrouped.prelude,SourceGrouped.code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,zero,lit,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -87,7 +87,7 @@ theorem body_refines [Inhabited α] (m : Model α) (s t : State α) (stride M N 
       Invariant (storeDX m s stride N B r) N B group (nextCarries m s stride N B group r a) u := by
   obtain ⟨hm,hu,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb⟩ := h
   by_cases hr : r=group <;>
-    simp [SourceGrouped.body,SourceGrouped.code,TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+    simp [SourceGrouped.body,SourceGrouped.code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,
       engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
       State.setReg,FP.Structural.store,ComputeDType.eraseDType,

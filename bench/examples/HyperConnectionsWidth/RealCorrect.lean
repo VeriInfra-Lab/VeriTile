@@ -122,7 +122,7 @@ specification mhc_width_matrix_correct (S T D iters : Nat) (tau : ℝ) (s : Bloc
 #axiomsClean mhc_width_matrix_correct
 
 specification mhc_width_matrix_optimized_correct (S T D iters : Nat) (tau : ℝ) (s : BlockState) :
-    Spec.Real (∃ t, exec (matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau) s = some t ∧
+    Spec.Real (∃ t, exec (matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau) s = some t ∧
       (∀ i : TileIndex [S, D], t.readMem "res_mix" (s.pid * (S * D) + i.1.val * D + i.2.1.val) =
         ((residualFormula (readMatrix s "res" (s.pid * (S * D)) S D)
           (readMatrix s "h_res" 0 S S) tau iters).data i).unbotD 0) ∧

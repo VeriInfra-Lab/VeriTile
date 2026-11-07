@@ -43,7 +43,7 @@ or an experimental obligation of this task. -/
 def LocalFMAExact (fma : Word → Word → Word → Word) : Prop :=
   ∀ a p g, finite a → finite p → finite g → fma a p g = softwareFMA a p g
 
-#specNonCircular LocalScalarExact avoiding [kernel, runGrid, FP.Structural.exec]
-#specNonCircular LocalFMAExact avoiding [kernel, runGrid, FP.Structural.exec]
+#specNonCircular LocalScalarExact avoiding [sourceKernel, runGrid, FP.Structural.exec]
+#specNonCircular LocalFMAExact avoiding [sourceKernel, runGrid, FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.MaskedAddCuda.Words

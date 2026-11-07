@@ -43,7 +43,7 @@ theorem stores_frame (m : Model α) (s : State α) (N BM BN : Nat) (a : Carries 
 
 theorem executes [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t ∧
+      (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t ∧
       t.mem=(final m s M N BM BN).mem ∧
       (∀ i : TileIndex [BN],columns s BN i<N →
         t.mem "FINAL_DW" (columns s BN i)=

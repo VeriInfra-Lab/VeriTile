@@ -18,7 +18,7 @@ def backwardSignature : CallSignature where
   readPorts := ["X","DY"]
   writePorts := ["DX"]
 
-def backwardTemplate (X DY DX : RegionName) (N B : Nat) : ComputeKernel :=
+def backwardTemplateKernel (X DY DX : RegionName) (N B : Nat) : ComputeKernel :=
   let BLOCK_N : Nat := B
   with_triton_call backwardSignature call_args [N := N] in
   triton {
@@ -38,7 +38,7 @@ def backwardTemplate (X DY DX : RegionName) (N B : Nat) : ComputeKernel :=
     tl.store(DX + cols, dx, mask=mask)
   }
 
-def commutedBackwardTemplate (X DY DX : RegionName) (N B : Nat) : ComputeKernel :=
+def commutedBackwardTemplateKernel (X DY DX : RegionName) (N B : Nat) : ComputeKernel :=
   let BLOCK_N : Nat := B
   with_triton_call backwardSignature call_args [N := N] in
   triton {
@@ -59,9 +59,9 @@ def commutedBackwardTemplate (X DY DX : RegionName) (N B : Nat) : ComputeKernel 
   }
 
 def backward (N B : Nat) : ComputeKernel :=
-  backwardTemplate "X" "DY" "DX" N B
+  backwardTemplateKernel "X" "DY" "DX" N B
 
 def backwardCommuted (N B : Nat) : ComputeKernel :=
-  commutedBackwardTemplate "X" "DY" "DX" N B
+  commutedBackwardTemplateKernel "X" "DY" "DX" N B
 
 end VeriTile.Bench.Repairs.L2NormTriton2

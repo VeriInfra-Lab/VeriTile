@@ -20,7 +20,7 @@ structure Layout where
   so : Nat
 
 def Layout.source (c : Layout) (B : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.SwigluFwd.kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
+  VeriTile.Bench.Repairs.SwigluFwd.sourceKernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
 
 /-- FP32 is represented by the repaired source's real carrier plus the
 explicit some fp32 computation tag. Neither load cast is eliminated. -/
@@ -47,7 +47,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     { t : State α // run M (c.source B).surfaceBody (tileState M c B r b s) = some t } := by
   refine ⟨?_, ?_⟩
   swap
-  simp (maxSteps := 500000) [Layout.source, VeriTile.Bench.Repairs.SwigluFwd.kernel,
+  simp (maxSteps := 500000) [Layout.source, VeriTile.Bench.Repairs.SwigluFwd.sourceKernel,
     ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas, store,
     Option.bind, ComputeDType.eraseDType, numeric, bop, natLt,

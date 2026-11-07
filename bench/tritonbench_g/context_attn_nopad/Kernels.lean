@@ -4,7 +4,7 @@ import VeriTile.Triton.DSL.IntegerWhereLiterals
 
 /-! Complete pasted repaired Python bodies. Storage and call bindings stay
 outside the quotations; no casts, masks, branches or return are removed. -/
-namespace VeriTile.Bench.Repairs.ContextAttnNopad.Bodies
+namespace VeriTile.Bench.Repairs.ContextAttnNopad
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ContextAttnNopad
 noncomputable section
@@ -15,7 +15,7 @@ def signature (dtype : Storage) : CallSignature where
   readPorts := ["Q","K","V","B_Start_Loc","B_Seqlen"]
   writePorts := ["Out"]
 
-def originalBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
+def originalKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen Out : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od : Nat)
     (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
@@ -68,7 +68,7 @@ def originalBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     return
   }
 
-def blockStartReusedBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
+def blockStartReusedKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen Out : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od : Nat)
     (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
@@ -121,7 +121,7 @@ def blockStartReusedBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     return
   }
 
-def scaleFirstBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
+def scaleFirstKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen Out : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od : Nat)
     (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
@@ -175,4 +175,4 @@ def scaleFirstBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
   }
 
 end
-end VeriTile.Bench.Repairs.ContextAttnNopad.Bodies
+end VeriTile.Bench.Repairs.ContextAttnNopad

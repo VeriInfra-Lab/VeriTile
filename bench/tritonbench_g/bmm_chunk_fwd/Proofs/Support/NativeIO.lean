@@ -71,7 +71,7 @@ def memory (p : Parameters) (c : Host.Config) : MemoryIO Expr where
 
 def mainInvocation (rest : Algebra Expr) (p : Parameters) (c : Host.Config) (commuted : Bool)
     (pid : Host.PID (parameters p) c) : Invocation Expr where
-  kernel := if commuted then Kernels.indexCommuted (parameters p) c else Kernels.fp32Source (parameters p) c
+  kernel := if commuted then Kernels.indexCommutedKernel (parameters p) c else Kernels.fp32Source (parameters p) c
   backend := engine (backend rest c).algebra
   clearRegisters := Bool.true
   pids := pid.toPids
@@ -79,7 +79,7 @@ def mainInvocation (rest : Algebra Expr) (p : Parameters) (c : Host.Config) (com
 
 def cleanupInvocation (rest : Algebra Expr) (p : Parameters)
     (pid : Cleanup.PID (parameters p)) : Invocation Expr where
-  kernel := Kernels.clearUpper p.Out p.shape.chunk (p.shape.chunks*p.shape.groups)
+  kernel := Kernels.clearUpperKernel p.Out p.shape.chunk (p.shape.chunks*p.shape.groups)
   backend := engine (CleanupSource.algebra rest (.leaf .fp32 0))
   clearRegisters := Bool.true
   pids := pid.toPids

@@ -51,7 +51,7 @@ theorem inner_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList M bounds (inner count cols) s := by
   apply trace_of_steps
   intro stmt member state
-  simp only [TypedExecution.inner,middle,outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
+  simp only [TypedExecution.inner,middle,outer,source,kernel,originalKernel,quotedOriginalKernel,ComputeKernel.surfaceBody,
     List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
@@ -78,7 +78,7 @@ theorem middle_safe {α : Type} [Inhabited α] (M : Algebra α)
       [.forRange "k" 0 2 1 (inner count cols)] := middle_decomposition count cols
   rw [shape] at member
   rcases List.mem_append.mp member with pure | loop
-  · simp only [middlePrefix,middle,outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
+  · simp only [middlePrefix,middle,outer,source,kernel,originalKernel,quotedOriginalKernel,ComputeKernel.surfaceBody,
       List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
       List.take_succ_cons,List.take_zero,List.mem_cons,List.not_mem_nil,or_false] at pure
     rcases pure with rfl | rfl
@@ -108,7 +108,7 @@ theorem outer_safe {α : Type} [Inhabited α] (M : Algebra α)
   rw [shape] at member
   rcases List.mem_append.mp member with head | tail
   · rcases List.mem_append.mp head with load | loop
-    · simp only [outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
+    · simp only [outer,source,kernel,originalKernel,quotedOriginalKernel,ComputeKernel.surfaceBody,
         List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
         List.take_succ_cons,List.take_zero,List.mem_singleton] at load
       subst stmt
@@ -123,7 +123,7 @@ theorem outer_safe {α : Type} [Inhabited α] (M : Algebra α)
     · have eq := List.mem_singleton.mp loop
       subst stmt
       exact range_two_safe M bounds "j" _ (middle_safe M count cols positive bounds hin hout) state
-  · simp only [outer,source,kernel,originalKernel,quotedOriginal,ComputeKernel.surfaceBody,
+  · simp only [outer,source,kernel,originalKernel,quotedOriginalKernel,ComputeKernel.surfaceBody,
       List.getElem?_cons_zero,List.getElem?_cons_succ,Bool.false_eq_true,↓reduceIte,
       List.drop_succ_cons,List.drop_zero,List.mem_singleton] at tail
     subst stmt
@@ -142,7 +142,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (candidate : Boo
   have outerLoop := range_two_safe M bounds "i" _ (outer_safe M count cols positive bounds hin hout) state
   cases candidate
   all_goals
-    simp only [kernel,originalKernel,commutedKernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,Bool.false_eq_true,↓reduceIte,
+    simp only [kernel,originalKernel,commutedKernel,quotedOriginalKernel,quotedCommutedKernel,ComputeKernel.surfaceBody,Bool.false_eq_true,↓reduceIte,
       List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals first

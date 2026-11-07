@@ -34,7 +34,7 @@ specification rope_embedding_kernel_correct (r : Request) (back : Bool)
       (FastRopeEmbedding.Interface.real_implements r (r.heads*r.dimension) r.half r.half
         back row group launch rfl rfl rfl Bool.false)
 
-#specNonCircular mathematical avoiding [Kernels.rope, Source.source, FP.Structural.exec]
+#specNonCircular mathematical avoiding [Kernels.ropeKernel, Source.source, FP.Structural.exec]
 #stmtSurfaceSubset rope_embedding_kernel_correct ⊆
   [VeriTile.Spec.Real, ropeIO, mathematical, LogicalProgramIO.Implements, Request, Request.Launched, FastRopeEmbedding.LogicalIO.Inputs,
    Request.heads,Request.half,Request.dimension]

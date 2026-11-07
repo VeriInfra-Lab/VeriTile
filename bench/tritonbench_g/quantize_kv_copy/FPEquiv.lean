@@ -14,7 +14,7 @@ specification address_early_equiv (instructions : NativeInstructions) (tree : Re
     (p : Parameters) (n : Nat) (dest : Nat → Nat) (covers : p.groups ≤ p.block)
     (unique : ∀ a b, a<n → b<n →
       KernelGridResult.target p dest a = KernelGridResult.target p dest b → a=b) :
-    Pair.original instructions tree p n dest ≡[[]] Pair.addressEarly instructions tree p n dest :=
+    Pair.original instructions tree p n dest ≡[[]] Pair.addressEarlyKernel instructions tree p n dest :=
   ProgramIO.Implementation.of_equivalentOn
     (Pair.variant (KernelModels.nativeOps instructions tree) p n dest)
     (Pair.equivalent instructions tree p n dest covers unique)

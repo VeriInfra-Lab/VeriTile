@@ -8,7 +8,7 @@ set_option maxHeartbeats 3000000
 variable {A : Type} [Inhabited A]
 
 def candidateInvocation (engine : Engine A) (a : RawKernel.Geometry) (scale : A) (j : Nat) : Invocation A :=
-  { invocation engine a scale j with kernel := rowBlockCandidate "input" "scratch" a.columns a.block a.hasScale }
+  { invocation engine a scale j with kernel := rowBlockCandidateKernel "input" "scratch" a.columns a.block a.hasScale }
 
 def variant (engines : Nat → Engine A) (a : RawKernel.Geometry) (scale : A) (jobs : List Nat) :
     ProgramIO.Variant (programIO engines a scale jobs) where

@@ -22,7 +22,7 @@ theorem forward (M : Algebra α) (R : SumPrimitive α) (p : Forward.Parameters)
     (hr : s.pids 0*p.rstdStride<bounds p.rstd)
     (hy : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.yStride+i.val<bounds p.y) :
     TraceSafe (withSum M R) bounds (Forward.kernel p) s := by
-  simp [TraceSafe,Forward.kernel,Forward.source,ComputeKernel.surfaceBody,
+  simp [TraceSafe,Forward.kernel,Forward.sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
@@ -47,7 +47,7 @@ open LayerNormLiger.Backward
 theorem prelude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) :
     traceSafeList (withSum M R) bounds (prelude p) s := by
-  simp [prelude,kernel,source,ComputeKernel.surfaceBody,
+  simp [prelude,kernel,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,
     numericLt,natLt,withSum,Region.cast]
@@ -60,7 +60,7 @@ theorem body_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (hm : row<bounds p.mean) (hr : row<bounds p.rstd)
     (hdx : ∀ i : Fin p.block,i.val<p.columns → row*p.dxStride+i.val<bounds p.dx) :
     traceSafeList (withSum M R) bounds (body p) (t.setReg "_" .int [] (fun _ => (row : Int))) := by
-  simp [body,kernel,source,ComputeKernel.surfaceBody,
+  simp [body,kernel,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
@@ -74,7 +74,7 @@ theorem postlude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (hdw : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.dwStride+i.val<bounds p.dw)
     (hdb : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.dbStride+i.val<bounds p.db) :
     traceSafeList (withSum M R) bounds (postlude p) t := by
-  simp [postlude,kernel,source,ComputeKernel.surfaceBody,
+  simp [postlude,kernel,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,

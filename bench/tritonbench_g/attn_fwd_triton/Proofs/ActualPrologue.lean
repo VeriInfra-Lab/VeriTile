@@ -27,7 +27,7 @@ def writes : List RegName := Coordinates.writes ++
 theorem footprint (A : FlatAlloc) (p : Parameters) (BD : Nat) : Code writes (code A p BD) := by
   by_cases hd : p.stage=2
   all_goals simp only [code,ActualSource.project,TypedExecution.code,TypedExecution.source,
-    ActualSource.config,TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    ActualSource.config,TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
     List.take_succ_cons,List.take_zero]
   all_goals dsimp only [ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
@@ -46,7 +46,7 @@ theorem code_eq (A : FlatAlloc) (p : Parameters) (BD : Nat) :
       A.flattenStmts (Pointers.code p 128 64 BD) ++ Initialization.code 128 BD p.headDim := by
   by_cases hd : p.stage=2
   all_goals simp only [code,ActualSource.project,TypedExecution.code,TypedExecution.source,
-    ActualSource.config,TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    ActualSource.config,TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
     List.take_succ_cons,List.take_zero]
   all_goals dsimp only [ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,

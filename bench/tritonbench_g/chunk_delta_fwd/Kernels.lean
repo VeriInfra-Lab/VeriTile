@@ -12,7 +12,7 @@ def callSignature : CallSignature where
   readPorts := ["initial_state","k","d","v"]
   writePorts := ["h","v_new","final_state"]
 
-def kernel (p : Parameters) : ComputeKernel :=
+def sourceKernel (p : Parameters) : ComputeKernel :=
   let k : RegionName := "key"
   let v : RegionName := "value"
   let d : RegionName := "weight"
@@ -78,11 +78,11 @@ end VeriTile.Bench.Repairs.ChunkDeltaFwd
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot
 open VeriTile.Triton
 abbrev Parameters := ChunkDeltaFwd.Parameters
-abbrev kernel := ChunkDeltaFwd.kernel
+abbrev kernel := ChunkDeltaFwd.sourceKernel
 abbrev callSignature := ChunkDeltaFwd.callSignature
 
 /-- Existing candidate: fold the K*V products in state/history addresses. -/
-def addressFold (p : Parameters) : ComputeKernel :=
+def addressFoldKernel (p : Parameters) : ComputeKernel :=
   let k : RegionName := "key"
   let v : RegionName := "value"
   let d : RegionName := "weight"
@@ -144,5 +144,5 @@ def addressFold (p : Parameters) : ComputeKernel :=
         tl.store(p_ht, b_h.to(p_ht.dtype.element_ty), boundary_check=(0, 1))
   }
 
-theorem shared_source (p : Parameters) : kernel p = ChunkDeltaFwd.kernel p := rfl
+theorem shared_source (p : Parameters) : kernel p = ChunkDeltaFwd.sourceKernel p := rfl
 end VeriTile.Bench.Repairs.ChunkDeltaFwdStaticDot

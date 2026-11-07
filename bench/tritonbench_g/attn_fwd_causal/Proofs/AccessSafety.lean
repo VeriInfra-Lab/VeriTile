@@ -27,7 +27,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem before_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) (backed : Bounds p s bounds) :
     traceSafeList (engine (withDot M dot)) bounds (parts p).before s := by
-  simp (config := {maxSteps:=300000}) [parts,kernel,TypedSource.repaired,
+  simp (config := {maxSteps:=300000}) [parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -57,7 +57,7 @@ theorem body {phase : Bool} (M : Algebra α) (dot : Dot α) (p : Parameters)
   have h_maximum:=ctx.maximum
   have h_normalizer:=ctx.normalizer
   have h_value:=ctx.value
-  cases phase <;> simp [workName] at h_length h_startM h_firstLo h_firstHi h_rows h_cols h_query h_scale h_keyPointer h_valuePointer h_scalePointer h_maximum h_normalizer h_value <;> simp (config := {maxSteps:=300000}) [loopParts,diagonal,parts,workName,kernel,TypedSource.repaired,
+  cases phase <;> simp [workName] at h_length h_startM h_firstLo h_firstHi h_rows h_cols h_query h_scale h_keyPointer h_valuePointer h_scalePointer h_maximum h_normalizer h_value <;> simp (config := {maxSteps:=300000}) [loopParts,diagonal,parts,workName,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -85,7 +85,7 @@ theorem middle (M : Algebra α) (dot : Dot α) (p : Parameters)
   have h_normalizer:=ctx.normalizer
   have h_value:=ctx.value
   simp [workName] at h_maximum h_normalizer h_value
-  simp (config := {maxSteps:=300000}) [Source.middle,parts,kernel,TypedSource.repaired,
+  simp (config := {maxSteps:=300000}) [Source.middle,parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -104,7 +104,7 @@ theorem post (M : Algebra α) (dot : Dot α) (p : Parameters)
   have h_normalizer:=ctx.normalizer
   have h_value:=ctx.value
   simp [workName] at h_maximum h_normalizer h_value
-  simp (config := {maxSteps:=300000}) [diagonal,parts,kernel,TypedSource.repaired,
+  simp (config := {maxSteps:=300000}) [diagonal,parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -141,7 +141,7 @@ theorem first_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
   have lo:=ctx.firstLo
   have hi:=ctx.firstHi
   simp [workName] at lo hi
-  simpa [workName,loopParts,firstStatement,stepSafe_unfold,safeOp_unfold,parts,kernel,TypedSource.repaired,
+  simpa [workName,loopParts,firstStatement,stepSafe_unfold,safeOp_unfold,parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
     evalOp_unfold,lo,hi] using safe
 
@@ -158,7 +158,7 @@ theorem second_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
   have hi:=next.firstHi
   simp [workName] at lo hi
   simpa [loopParts,workName,secondStatement,stepSafe_unfold,safeOp_unfold,
-    diagonal,kernel,TypedSource.repaired,ComputeKernel.surfaceBody,
+    diagonal,kernel,TypedSource.repairedKernel,ComputeKernel.surfaceBody,
     Triton.Source.dynamicRange?,Option.map,Option.getD,evalOp_unfold,
     lo,hi] using safe
 

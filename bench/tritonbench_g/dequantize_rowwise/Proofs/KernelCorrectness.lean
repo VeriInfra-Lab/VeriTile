@@ -47,7 +47,7 @@ theorem traceSafe (p : Parameters) (bounds : RegionBounds) (u : BlockState)
       u.pid * p.cols + j.val < bounds outRegion) :
     Kernel.TraceSafe bounds (kernel p).eraseDType.toAlgKernel u := by
   unfold Kernel.TraceSafe
-  simp [kernel, source, body, arguments, ComputeKernel.withScalarArguments,
+  simp [kernel, source, bodyKernel, arguments, ComputeKernel.withScalarArguments,
     ScalarArgument.statement, ScalarArgument.fp32, ScalarArgument.integer,
     ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,

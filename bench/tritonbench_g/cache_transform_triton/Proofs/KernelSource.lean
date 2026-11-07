@@ -131,7 +131,7 @@ theorem complete [Inhabited α] (M : Algebra α) (r : Request) (h : InputContrac
 #axiomsClean launch_success
 #axiomsClean pair_success
 #axiomsClean complete
-#specNonCircular mathematical avoiding [source,VeriTile.Bench.Repairs.CacheTransform.body,pair,initial,gather,pairGather]
+#specNonCircular mathematical avoiding [source,VeriTile.Bench.Repairs.CacheTransform.bodyKernel,pair,initial,gather,pairGather]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

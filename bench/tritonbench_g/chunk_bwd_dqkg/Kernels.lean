@@ -30,7 +30,7 @@ def callSignature (dtype out_dtype : FloatDType) (hist dhist : Storage) : CallSi
   readPorts := ["q","k","v","h","g","do","dh"]
   writePorts := ["dq","dk","dg"]
 
-def originalBody (dtype out_dtype : FloatDType) (hist dhist : Storage) (q k v h g «do» dh dq dk dg : RegionName) (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT : Nat) (scale : ℝ) : ComputeKernel :=
+def originalKernel (dtype out_dtype : FloatDType) (hist dhist : Storage) (q k v h g «do» dh dq dk dg : RegionName) (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (callSignature dtype out_dtype hist dhist) call_args [s_k_h := s_k_h, s_k_t := s_k_t, s_v_h := s_v_h, s_v_t := s_v_t, s_h_h := s_h_h, s_h_t := s_h_t, scale := scale] in triton {
     i_k, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
     n_bh = tl.num_programs(2)
@@ -89,7 +89,7 @@ def originalBody (dtype out_dtype : FloatDType) (hist dhist : Storage) (q k v h 
     tl.store(p_dg, b_dg.to(p_dg.dtype.element_ty), boundary_check=(0,))
   }
 
-def tailBoundBody (dtype out_dtype : FloatDType) (hist dhist : Storage) (q k v h g «do» dh dq dk dg : RegionName) (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT : Nat) (scale : ℝ) : ComputeKernel :=
+def tailBoundKernel (dtype out_dtype : FloatDType) (hist dhist : Storage) (q k v h g «do» dh dq dk dg : RegionName) (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (callSignature dtype out_dtype hist dhist) call_args [s_k_h := s_k_h, s_k_t := s_k_t, s_v_h := s_v_h, s_v_t := s_v_t, s_h_h := s_h_h, s_h_t := s_h_t, scale := scale] in triton {
     i_k, i_t, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
     n_bh = tl.num_programs(2)
@@ -151,14 +151,14 @@ def tailBoundBody (dtype out_dtype : FloatDType) (hist dhist : Storage) (q k v h
 def original (qk value hist dhist : Storage)
     (q k v h g «do» dh dq dk dg : RegionName) (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
     (scale : ℝ) (T K V BT BK BV NT : Nat) : ComputeKernel :=
-  originalBody qk.dtype value.dtype hist dhist q k v h g «do» dh dq dk dg s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT scale
+  originalKernel qk.dtype value.dtype hist dhist q k v h g «do» dh dq dk dg s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT scale
 
 /-- The existing selected FP32 candidate only reuses the absolute chunk end
 in the final gate mask; every floating instruction stays in source order. -/
 def tailBoundCSE
     (q k v h g «do» dh dq dk dg : RegionName) (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
     (scale : ℝ) (T K V BT BK BV NT : Nat) : ComputeKernel :=
-  tailBoundBody .fp32 .fp32 .fp32 .fp32 q k v h g «do» dh dq dk dg s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT scale
+  tailBoundKernel .fp32 .fp32 .fp32 .fp32 q k v h g «do» dh dq dk dg s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT scale
 
 end
 end VeriTile.Bench.Repairs.ChunkBwdDqkg.TypedSource

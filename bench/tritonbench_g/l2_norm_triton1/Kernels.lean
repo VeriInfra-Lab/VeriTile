@@ -19,7 +19,7 @@ set_option maxRecDepth 20000
 register without emitting an assignment; the invocation supplies its actual
 FP32 word. The candidate commutes only the two integer row-base products. -/
 
-def template (X Y : RegionName) (N B : Nat) : ComputeKernel :=
+def templateKernel (X Y : RegionName) (N B : Nat) : ComputeKernel :=
   let BLOCK_N : Nat := B
   with_triton_call callSignature call_args [N := N] in
   triton {
@@ -36,7 +36,7 @@ def template (X Y : RegionName) (N B : Nat) : ComputeKernel :=
     tl.store(Y + cols, y, mask=mask)
   }
 
-def commutedTemplate (X Y : RegionName) (N B : Nat) : ComputeKernel :=
+def commutedTemplateKernel (X Y : RegionName) (N B : Nat) : ComputeKernel :=
   let BLOCK_N : Nat := B
   with_triton_call callSignature call_args [N := N] in
   triton {
@@ -54,9 +54,9 @@ def commutedTemplate (X Y : RegionName) (N B : Nat) : ComputeKernel :=
   }
 
 def source (N B : Nat) : ComputeKernel :=
-  template "X" "Y" N B
+  templateKernel "X" "Y" N B
 
 def indexCommuted (N B : Nat) : ComputeKernel :=
-  commutedTemplate "X" "Y" N B
+  commutedTemplateKernel "X" "Y" N B
 
 end VeriTile.Bench.Repairs.L2NormTriton1

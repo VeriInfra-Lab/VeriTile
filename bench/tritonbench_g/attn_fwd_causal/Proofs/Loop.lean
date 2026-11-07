@@ -44,7 +44,7 @@ theorem first_step (M : Algebra α) (dot : Dot α) (p : Parameters)
   have lo:=ctx.firstLo
   have hi:=ctx.firstHi
   simp [workName] at lo hi
-  simp [workName,firstStatement,step,parts,kernel,TypedSource.repaired,
+  simp [workName,firstStatement,step,parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
     evalOp_unfold,lo,hi]
 
@@ -57,7 +57,7 @@ theorem second_step (M : Algebra α) (dot : Dot α) (p : Parameters)
   have lo:=next.firstLo
   have hi:=next.firstHi
   simp [workName] at lo hi
-  simp [secondStatement,step,diagonal,kernel,TypedSource.repaired,
+  simp [secondStatement,step,diagonal,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
     evalOp_unfold,lo,hi,workName]
 

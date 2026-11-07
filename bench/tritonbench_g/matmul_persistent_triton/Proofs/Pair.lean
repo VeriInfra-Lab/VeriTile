@@ -39,7 +39,7 @@ theorem row_step_equal (M : Algebra α) (p : Parameters) (s : State α) :
     step M (row p) s=step M (candidateRow p) s := by
   cases hp : p.problem.profile <;>
     simp [row,candidateRow,outer,source,candidateOuter,candidate,
-      TypedSource.kernel,TypedSource.reordered,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,
+      TypedSource.kernel,TypedSource.reordered,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,
       TypedSource.fp16Reordered,TypedSource.f8e4Reordered,ComputeKernel.surfaceBody,
       step,evalExpr,evalComputeOp,evalOp_unfold,numeric,bop,Int.mul_comm,hp]
   all_goals cases hs : s.regs .int [] "pid_m" <;>
@@ -54,7 +54,7 @@ theorem row_safety_equal (M : Algebra α) (p : Parameters)
     Safety.stepSafe M bounds (row p) s ↔ Safety.stepSafe M bounds (candidateRow p) s := by
   cases hp : p.problem.profile <;>
     simp [row,candidateRow,outer,source,candidateOuter,candidate,
-      TypedSource.kernel,TypedSource.reordered,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,
+      TypedSource.kernel,TypedSource.reordered,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,
       TypedSource.fp16Reordered,TypedSource.f8e4Reordered,ComputeKernel.surfaceBody,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,hp]

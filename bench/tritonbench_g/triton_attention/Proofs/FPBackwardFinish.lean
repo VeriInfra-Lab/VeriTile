@@ -77,7 +77,7 @@ theorem backwardFinishExecution (rest : Algebra α) (P : Primitives α) (p : Bac
     (hdo : current.regs .blockPtr [p.blockM,p.head] "do_tile_ptr"=some (fun _ => backwardPointer p initial p.gradient p.blocks))
     (hdq : current.regs .blockPtr [p.blockM,p.head] "dq_tile_ptr"=some (fun _ => backwardPointer p initial p.dq p.blocks)) :
     run (backend rest P) ((backwardOuterBody p).drop 13) current=some (backwardFinishResult P p initial current c st) := by
-  simp [backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,evalDeltas,numeric,store,backend,backwardFinishResult,backwardOutputCell,
     h.keyPtr,h.valuePtr,h.dvPtr,h.dkPtr,hdv,hdk,hlo,hq,hdo,hdq,backwardPointer_reset,reset_offset,backwardPointer,backwardOffset,Nat.add_mul,Nat.add_assoc,
     TileShape.indexToList,Region.cast,

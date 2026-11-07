@@ -14,13 +14,13 @@ def program (k : ComputeKernel) : Program := ⟨k,[]⟩
 The complete floating program remains in its original context. -/
 theorem equivalent (h : Host.Call) (c : Host.Config) :
     program (Kernels.fp32Source h c) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
-      program (Kernels.indexCommuted h c) := by
+      program (Kernels.indexCommutedKernel h c) := by
   equiv_decompose; fp_prove
 
 theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     (h : Host.Call) (c : Host.Config) (s : FP.Structural.State A) :
     FP.Structural.exec (engine algebra) (Kernels.fp32Source h c) s=
-      FP.Structural.exec (engine algebra) (Kernels.indexCommuted h c) s := by
+      FP.Structural.exec (engine algebra) (Kernels.indexCommutedKernel h c) s := by
   change Contextual algebra s
     ((Kernels.fp32Source h c).surfaceBody.take 22)
     ((Kernels.fp32Source h c).surfaceBody.drop 23)

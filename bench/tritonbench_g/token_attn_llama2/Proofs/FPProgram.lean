@@ -22,7 +22,7 @@ def preExecution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s
     {t : State α // run M (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, source, typed, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [prelude, source, typedKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, numeric, bop, natLt, numericEq, ComputeDType.eraseDType,
     ofFloat, toFloat, FloatDType.numericDType, FloatDType.toTileDType,
     Region.cast, Option.bind, integralFloorDiv, integralMod]

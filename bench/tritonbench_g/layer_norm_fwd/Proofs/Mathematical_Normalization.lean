@@ -59,7 +59,7 @@ theorem source_phase (f : Flags) (r : Regions) (stride : Strides)
     ComputeKernel.toAlgKernel_fromKernelBody]
   simp only [original, phase, statisticsStmt, meanPhase, meanStmt, scalarStore,
     centerVariancePhase, centerStmt, varianceStmt, rstdStmt,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.originalBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies.indexCommutedBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,

@@ -21,7 +21,7 @@ theorem forward_prefix (M : Algebra α) (p : Parameters) (initial : State α)
   change p.labelsBase+initial.pids 0<bounds {name := p.labels.name} at label
   cases hs : p.hasSmoothing
   all_goals
-    simp [front,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,
+    simp [front,forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,
@@ -55,7 +55,7 @@ theorem backward (M : Algebra α) (p : Parameters) (initial : State α)
     simp only [target,Region.cast] at upstreamBound
     simp only [ownsTarget,target,Region.cast] at owner
     simp only [target,Region.cast] at ignored
-    simp [TraceSafe,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,
+    simp [TraceSafe,backwardSyntax,backwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,

@@ -16,7 +16,7 @@ def executes (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Paramet
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,hn,
+    simp [parts,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,hn,
       ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

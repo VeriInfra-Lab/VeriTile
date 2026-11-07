@@ -17,7 +17,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["a_ptr","b_ptr"]
   writePorts := ["c_ptr"]
 
-def originalBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+def originalKernel (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) (type : String) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [M := M, N := N, K := K,
@@ -90,7 +90,7 @@ def originalBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
   tl.store(c_ptrs, c, mask=c_mask)
   }
 
-def nativeBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+def nativeKernel (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) (type : String) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [M := M, N := N, K := K,
@@ -165,46 +165,46 @@ def nativeBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
 
 def preLoadSource (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  originalBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "pre_load"
+  originalKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "pre_load"
 
 def preLoadNative (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  nativeBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "pre_load"
+  nativeKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "pre_load"
 
 def postLoadSource (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  originalBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load"
+  originalKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load"
 
 def postLoadNative (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  nativeBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load"
+  nativeKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load"
 
 def mixedSource (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  originalBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_pre_mixed"
+  originalKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_pre_mixed"
 
 def mixedNative (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  nativeBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_pre_mixed"
+  nativeKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_pre_mixed"
 
 def twoSource (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  originalBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_two_iters"
+  originalKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_two_iters"
 
 def twoNative (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  nativeBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_two_iters"
+  nativeKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_two_iters"
 
 def threeSource (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  originalBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_three_iters"
+  originalKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_three_iters"
 
 def threeNative (dtype : FloatDType) (A B C : RegionName)
     (M N K sam sak sbk sbn scm scn BM BN BK : Nat) : ComputeKernel :=
-  nativeBody dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_three_iters"
+  nativeKernel dtype A B C M N K sam sak sbk sbn scm scn BM BN BK "post_load_three_iters"
 
 def quotation (s : Kernels.Schedule) (g : Graph) (p : Parameters) : ComputeKernel :=
-  (match g with | .source => originalBody | .accumulator => nativeBody)
+  (match g with | .source => originalKernel | .accumulator => nativeKernel)
     .fp32 p.input p.weight p.output p.rows p.columns p.inner p.inputRowStride p.inputInnerStride
     p.weightInnerStride p.weightColumnStride p.outputRowStride p.outputColumnStride
     p.blockRows p.blockColumns p.blockInner s.name

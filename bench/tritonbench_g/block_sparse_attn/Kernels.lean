@@ -46,7 +46,7 @@ def callSignature : CallSignature where
   readPorts := ["Q","K","V","layout_csr_row_indices","layout_csr_col_indices"]
   writePorts := ["out"]
 
-def originalBody (out Q K V : RegionName) (layout_csr_row_indices layout_csr_col_indices : Region .int) (layout_csr_row_stride_h layout_csr_col_stride_h num_layout stride_qb stride_qh stride_qm stride_qd stride_kb stride_kh stride_kn stride_kd stride_vb stride_vh stride_vn stride_vd stride_ob stride_oh stride_om num_heads num_kv_heads total_seq_len BLOCK_M BLOCK_N BLOCK_D NUM_D_BLOCKS : Nat) (EVEN_M EVEN_N : Bool) : ComputeKernel :=
+def originalKernel (out Q K V : RegionName) (layout_csr_row_indices layout_csr_col_indices : Region .int) (layout_csr_row_stride_h layout_csr_col_stride_h num_layout stride_qb stride_qh stride_qm stride_qd stride_kb stride_kh stride_kn stride_kd stride_vb stride_vh stride_vn stride_vd stride_ob stride_oh stride_om num_heads num_kv_heads total_seq_len BLOCK_M BLOCK_N BLOCK_D NUM_D_BLOCKS : Nat) (EVEN_M EVEN_N : Bool) : ComputeKernel :=
   with_triton_call callSignature call_args [layout_csr_row_stride_h := layout_csr_row_stride_h, layout_csr_col_stride_h := layout_csr_col_stride_h, num_layout := num_layout, stride_qb := stride_qb, stride_qh := stride_qh, stride_qm := stride_qm, stride_qd := stride_qd, stride_kb := stride_kb, stride_kh := stride_kh, stride_kn := stride_kn, stride_kd := stride_kd, stride_vb := stride_vb, stride_vh := stride_vh, stride_vn := stride_vn, stride_vd := stride_vd, stride_ob := stride_ob, stride_oh := stride_oh, stride_om := stride_om, num_heads := num_heads, num_kv_heads := num_kv_heads, total_seq_len := total_seq_len] in triton {
     q_seq_len = total_seq_len
 
@@ -146,7 +146,7 @@ def originalBody (out Q K V : RegionName) (layout_csr_row_indices layout_csr_col
     tl.store(out_ptrs, acc, mask=offs_m[:, None] < q_seq_len)
   }
 
-def quotientRemainderBody (out Q K V : RegionName) (layout_csr_row_indices layout_csr_col_indices : Region .int) (layout_csr_row_stride_h layout_csr_col_stride_h num_layout stride_qb stride_qh stride_qm stride_qd stride_kb stride_kh stride_kn stride_kd stride_vb stride_vh stride_vn stride_vd stride_ob stride_oh stride_om num_heads num_kv_heads total_seq_len BLOCK_M BLOCK_N BLOCK_D NUM_D_BLOCKS : Nat) (EVEN_M EVEN_N : Bool) : ComputeKernel :=
+def quotientRemainderKernel (out Q K V : RegionName) (layout_csr_row_indices layout_csr_col_indices : Region .int) (layout_csr_row_stride_h layout_csr_col_stride_h num_layout stride_qb stride_qh stride_qm stride_qd stride_kb stride_kh stride_kn stride_kd stride_vb stride_vh stride_vn stride_vd stride_ob stride_oh stride_om num_heads num_kv_heads total_seq_len BLOCK_M BLOCK_N BLOCK_D NUM_D_BLOCKS : Nat) (EVEN_M EVEN_N : Bool) : ComputeKernel :=
   with_triton_call callSignature call_args [layout_csr_row_stride_h := layout_csr_row_stride_h, layout_csr_col_stride_h := layout_csr_col_stride_h, num_layout := num_layout, stride_qb := stride_qb, stride_qh := stride_qh, stride_qm := stride_qm, stride_qd := stride_qd, stride_kb := stride_kb, stride_kh := stride_kh, stride_kn := stride_kn, stride_kd := stride_kd, stride_vb := stride_vb, stride_vh := stride_vh, stride_vn := stride_vn, stride_vd := stride_vd, stride_ob := stride_ob, stride_oh := stride_oh, stride_om := stride_om, num_heads := num_heads, num_kv_heads := num_kv_heads, total_seq_len := total_seq_len] in triton {
     q_seq_len = total_seq_len
 
@@ -247,14 +247,14 @@ def quotientRemainderBody (out Q K V : RegionName) (layout_csr_row_indices layou
   }
 
 def declared (p : Parameters) : ComputeKernel :=
-  originalBody "out" "Q" "K" "V" "rows" "cols" p.rowStride p.colStride p.layouts p.qb p.qh p.qm p.qd p.kb p.kh p.kn p.kd p.vb p.vh p.vn p.vd p.ob p.oh p.om p.heads p.kvHeads p.length 16 16 16 p.blocks p.evenM p.evenN
+  originalKernel "out" "Q" "K" "V" "rows" "cols" p.rowStride p.colStride p.layouts p.qb p.qh p.qm p.qd p.kb p.kh p.kn p.kd p.vb p.vh p.vn p.vd p.ob p.oh p.om p.heads p.kvHeads p.length 16 16 16 p.blocks p.evenM p.evenN
 
 /-- Complete repaired source; call metadata stays outside the pasted body.
 The existing invocation ABI supplies the runtime FP32 softmax scale. -/
 def source (p : Parameters) : ComputeKernel := declared p
 
 def quotientRemainder (p : Parameters) : ComputeKernel :=
-  quotientRemainderBody "out" "Q" "K" "V" "rows" "cols" p.rowStride p.colStride p.layouts p.qb p.qh p.qm p.qd p.kb p.kh p.kn p.kd p.vb p.vh p.vn p.vd p.ob p.oh p.om p.heads p.kvHeads p.length 16 16 16 p.blocks p.evenM p.evenN
+  quotientRemainderKernel "out" "Q" "K" "V" "rows" "cols" p.rowStride p.colStride p.layouts p.qb p.qh p.qm p.qd p.kb p.kh p.kn p.kd p.vb p.vh p.vn p.vd p.ob p.oh p.om p.heads p.kvHeads p.length 16 16 16 p.blocks p.evenM p.evenN
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

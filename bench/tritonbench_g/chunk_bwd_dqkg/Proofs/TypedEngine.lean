@@ -34,7 +34,7 @@ def entry (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :
     {t : State α // run (engine (withDot M dot)) (parts c).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp [parts,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

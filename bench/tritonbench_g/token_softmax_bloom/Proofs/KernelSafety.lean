@@ -20,7 +20,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (ho : ∀ i : Fin p.width, i.val < count p s →
       ((s.pids 1 : Int)*p.outputHeadStride+(startIndex p s+i.val)*p.outputTokenStride).toNat < bounds p.output) :
     TraceSafe M bounds (kernel .fp32 p) s := by
-  simp (config := {maxSteps := 1000000}) [TraceSafe, kernel, source, ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 1000000}) [TraceSafe, kernel, sourceKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
     Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

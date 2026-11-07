@@ -13,7 +13,7 @@ abbrev Config := QuantizeGlobalFinite.Config
 def span : Nat := 1073741824
 
 noncomputable def kernel (X Maximum Out : RegionName) (N base B : Nat) : TypedKernel :=
-  ⟨source X Maximum Out N base B, byteOutput Out, outputRegister⟩
+  ⟨sourceKernel X Maximum Out N base B, byteOutput Out, outputRegister⟩
 
 /-- Local scalar operations only. No output, tensor, index, memory or launch
 oracle is admitted here. FP32 casts/loads preserve the selected word. -/

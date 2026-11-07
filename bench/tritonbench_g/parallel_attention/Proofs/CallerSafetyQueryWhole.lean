@@ -60,7 +60,7 @@ theorem query_source (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
   simp only [List.singleton_append]
   apply Safety.traceSafeList_cons_of_step
   · have safe:=query_first_range M D c bounds s initial 0 (c.i_c*c.BTL) _ hi hb
-    simpa [queryFirstRange,queryFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+    simpa [queryFirstRange,queryFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
       Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,numeric,bop,Option.bind,hi.head,hi.chunk,hi.keyBlock,hi.valueBlock] using safe
   · rw [query_first_range_statement M D c initial hi.registers]
     exact hr
@@ -72,7 +72,7 @@ theorem query_source (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     apply Safety.traceSafeList_cons_of_step
     · have safe:=query_second_range M D c bounds s diagonal
         (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) _ hd hb
-      simpa [querySecondRange,querySecondBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+      simpa [querySecondRange,querySecondBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
         Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,numeric,bop,Option.bind,hd.head,hd.chunk,hd.keyBlock,hd.valueBlock] using safe
     · rw [query_second_range_statement M D c diagonal hd.toQueryReady.registers]
       exact hs

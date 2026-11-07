@@ -73,7 +73,7 @@ theorem iteration (p : Config) (BD : Nat) (stage : p.stage=3)
   all_goals simp [workName,keyName,scaleName,valueName,lowerName,upperName,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hkp hks hvp hlo hhi hc0 hc1 hc2 hc3 hc4 hc5 hc6 hc7 hc8 hc9 hc10
   all_goals simp only [body,parts,code,source,stage,show ¬(3:Nat)=2 by decide,decide_false,workName,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,Source.intRange?,
+    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,Source.intRange?,
     Option.map_some,Option.getD_some,beq_self_eq_true,List.drop_succ_cons,List.drop_zero]
   all_goals simp [stage,Source.intRange?,AttnFwdTriton.ControlView.compute,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,

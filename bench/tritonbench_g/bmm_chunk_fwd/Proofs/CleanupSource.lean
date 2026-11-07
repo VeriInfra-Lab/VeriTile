@@ -46,9 +46,9 @@ coordinate, with the exact source's masked store list and complete memory. -/
 theorem program {α : Type} [Inhabited α] (rest : Algebra α) (zero : α)
     (h : Host.Call) (p : Cleanup.PID h) (s : State α) :
     ∃ t, FP.Structural.exec (engine (algebra rest zero))
-      (Kernels.clearUpper h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)=some t ∧
+      (Kernels.clearUpperKernel h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)=some t ∧
       t.mem=(addresses h p).foldl (store h.Out zero) s.mem := by
-  simp (config := {maxSteps := 300000}) [FP.Structural.exec,Kernels.clearUpper,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.clearUpper,
+  simp (config := {maxSteps := 300000}) [FP.Structural.exec,Kernels.clearUpperKernel,VeriTile.Bench.Repairs.BmmChunkFwd.clearUpperKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -154,7 +154,7 @@ def schedule {α : Type} [Inhabited α] (rest : Algebra α) (zero : α) (h : Hos
   | [],s => some s
   | p::ps,s => do
     let next ← FP.Structural.exec (engine (algebra rest zero))
-      (Kernels.clearUpper h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)
+      (Kernels.clearUpperKernel h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)
     schedule rest zero h ps next
 
 theorem successful_schedule {α : Type} [Inhabited α] (rest : Algebra α) (zero : α)

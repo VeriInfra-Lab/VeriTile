@@ -18,7 +18,7 @@ def candidate {α β : Type} (M : Algebra β) (encode : α → β)
 
 def original {α β : Type} (M : Algebra β) (encode : α → β) (observe : β → α) (r : Request) :=
   ProgramIO.Implementation.original (PublicIO.sourceIO M encode observe r) (fun _ => True)
-def indexShared {α β : Type} (M : Algebra β) (encode : α → β) (observe : β → α) (r : Request) :=
+def indexSharedKernel {α β : Type} (M : Algebra β) (encode : α → β) (observe : β → α) (r : Request) :=
   ProgramIO.Implementation.ofVariant (candidate M encode observe r) (fun _ => True)
 
 end

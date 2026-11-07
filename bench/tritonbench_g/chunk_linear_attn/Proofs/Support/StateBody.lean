@@ -32,7 +32,7 @@ def stateStoreExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) 
     simp only [HasCarry,carryName,Bool.false_eq_true,if_false,if_true] at hh
     refine ⟨?_,?_⟩
     swap
-    simp [stateStorePrefix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+    simp [stateStorePrefix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -105,7 +105,7 @@ def stateUpdateExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     simp only [Bool.false_eq_true,if_false,if_true] at hl hr
     refine ⟨?_,?_⟩
     swap
-    simp [stateUpdateSuffix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+    simp [stateUpdateSuffix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

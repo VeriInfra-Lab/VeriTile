@@ -74,7 +74,7 @@ theorem source_code (A : FlatAlloc) (p : BackwardLayout) (length : Nat) :
         after A p length := by
   unfold before body after BackwardFinal.after BackwardTransport.source source Erasure.backward TypedSource.backward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,

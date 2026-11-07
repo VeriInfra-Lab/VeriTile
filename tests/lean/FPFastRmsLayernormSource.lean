@@ -21,11 +21,11 @@ set_option maxRecDepth 15000
     | _ => none
 
  def regular (candidate : Bool) :=
-  if candidate then regularRuntimeSourceIndexCommuted else regularRuntimeSource
+  if candidate then regularRuntimeSourceIndexCommutedKernel else regularRuntimeKernel
  def gemma (candidate : Bool) :=
-  if candidate then gemmaRuntimeSourceIndexCommuted else gemmaRuntimeSource
+  if candidate then gemmaRuntimeSourceIndexCommutedKernel else gemmaRuntimeKernel
  def backward (candidate : Bool) :=
-  if candidate then inputGradientSourceIndexCommuted else inputGradientSource
+  if candidate then inputGradientSourceIndexCommutedKernel else inputGradientKernel
 
 variable (candidate isGemma : Bool) (Y X W r dW : RegionName)
     (YR XR WR RR DWR N B : Nat) (eps : ℝ)
@@ -54,15 +54,15 @@ theorem stores :
 /-- Widening before address products must retain the signed source carrier,
 including when the widened program id is nested in a larger expression. -/
 theorem signed_program_indices :
-    types (regularRuntimeSource Y X W r YR XR WR RR N B).surfaceBody "row_idx"=[.int] ∧
-    types (runtimeWeightSource dW Y X r YR N B isGemma).surfaceBody "col"=[.int] := by
+    types (regularRuntimeKernel Y X W r YR XR WR RR N B).surfaceBody "row_idx"=[.int] ∧
+    types (runtimeWeightKernel dW Y X r YR N B isGemma).surfaceBody "col"=[.int] := by
   cases isGemma <;> exact ⟨rfl,rfl⟩
 
 /-- Binding epsilon adds precisely the call prelude, preserving every JIT statement. -/
 theorem runtime_call :
     (regularSource Y X W r YR XR WR RR N B eps).surfaceBody =
       ScalarArgument.statement (ScalarArgument.fp32 "eps" eps) ::
-        (regularRuntimeSource Y X W r YR XR WR RR N B).surfaceBody := rfl
+        (regularRuntimeKernel Y X W r YR XR WR RR N B).surfaceBody := rfl
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

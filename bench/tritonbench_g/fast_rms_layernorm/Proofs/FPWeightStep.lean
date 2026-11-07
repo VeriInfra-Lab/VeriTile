@@ -23,7 +23,7 @@ def initial (M : Algebra α) (h : Call) (K : Nat) (u : State α) : State α :=
 
 theorem prefix_executes (M : Algebra α) (h : Call) (K : Nat) (u : State α) :
     run (engine M) (prefixCode h K) u=some (initial M h K u) := by
-  simp [prefixCode,Kernels.weightBackward,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [prefixCode,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,
     columns,masks,initial,FPReference.literal]
@@ -45,7 +45,7 @@ theorem iteration (M : Algebra α) (h : Call) (K pid row : Nat) (u : State α)
       v.regs .real [K] "acc"=some (nextAcc M h K pid row u acc) := by
   cases mode : h.gemma
   all_goals
-    simp [loopBody,Kernels.weightBackward,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [loopBody,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,hcol,hmask,hacc,
       nextAcc,columns,masks,raw,saved,FPWeightReference.term,FPWeightReference.normed,

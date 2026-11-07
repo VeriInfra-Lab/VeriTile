@@ -24,7 +24,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem prelude_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     traceSafeList M bounds (prelude p) s := by
-  simp only [prelude,source,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typed,ComputeKernel.surfaceBody]
+  simp only [prelude,source,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typedKernel,ComputeKernel.surfaceBody]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,
@@ -37,7 +37,7 @@ theorem body_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) (activeBlock : blockActive p s) :
     traceSafeList M bounds (body p)
       ((preExecution M p s).val.setReg "start_mark" .int [] (fun _ => 0)) := by
-  simp only [body,source,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typed,ComputeKernel.surfaceBody]
+  simp only [body,source,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typedKernel,ComputeKernel.surfaceBody]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,

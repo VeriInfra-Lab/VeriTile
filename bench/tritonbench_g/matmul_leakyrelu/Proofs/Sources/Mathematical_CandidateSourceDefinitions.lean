@@ -12,7 +12,7 @@ set_option maxRecDepth 28000
 def typed (dtype : FloatDType) (A B C : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+  Pasted.candidateKernel dtype A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
     BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M (if ACTIVATION then "leaky_relu" else "")
 
 def source (p : Parameters) (st : Storage) : ComputeKernel :=

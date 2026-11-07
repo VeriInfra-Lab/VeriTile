@@ -36,7 +36,7 @@ private theorem source_offset (ph heads batch head pm i row d dim : Nat) :
 theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (s : State α) (hb : Bounds p s bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).before s := by
-  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -55,7 +55,7 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Reg
     (ctx : Context M p initial row a current) (inside : row<p.length) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).body
       (current.setReg counter .nat [] (fun _=>row)) := by
-  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -71,7 +71,7 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Reg
     (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).after current := by
-  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

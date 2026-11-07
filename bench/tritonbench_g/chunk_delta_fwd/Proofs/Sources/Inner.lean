@@ -24,7 +24,7 @@ def innerExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [inner,outer,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
+  simp [inner,outer,sourceKernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

@@ -28,7 +28,7 @@ def body (c : Parameters) : List ComputeStmt :=
 
 theorem body_length (c : Parameters) : (body c).length=14 := by
   cases h : c.oneTile <;> simp [body,h,oneTile,grid,iterations,oneTileKernel,gridStrideKernel,
-    originalBody,ComputeKernel.surfaceBody]
+    originalKernel,ComputeKernel.surfaceBody]
 
 def execution {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α → Bool)
     (hc : M.compareLt none .fp32 = some cmp) (c : Parameters) (T : Nat) (s : State α)
@@ -38,7 +38,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α → B
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,branch,oneTile,grid,iterations,oneTileKernel,gridStrideKernel,originalBody,
+    simp [body,branch,oneTile,grid,iterations,oneTileKernel,gridStrideKernel,originalKernel,
       ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalComputeOp,evalOp_unfold,
       numeric,numericLt,numericLe,numericEq,natLt,FP.Structural.bop,store,hc,ht,
       ComputeDType.eraseDType,FloatDType.comparableDType,Region.cast,ofFloat,toFloat,

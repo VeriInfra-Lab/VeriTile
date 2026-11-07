@@ -14,7 +14,7 @@ attribute [local irreducible] treeValue
 theorem prologue_safe (rest : Algebra Expr) (plans : PlanSelector) (p : Parameters)
     (bounds : RegionName → Nat) (s : State Expr) :
     Safety.traceSafeList (engine rest plans) bounds (prologue p) s := by
-  simp [prologue, SourceGraph.source, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.kernel, ComputeKernel.surfaceBody,
+  simp [prologue, SourceGraph.source, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.sourceKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeCompute_unfold, Safety.safeOp_unfold,
     FP.Structural.run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -28,7 +28,7 @@ theorem body_safe (rest : Algebra Expr) (plans : PlanSelector) (p : Parameters)
       bOffset p s i.val j.val c k.val < bounds p.B) :
     Safety.traceSafeList (engine rest plans) bounds (body p)
       (t.setReg "k_index" .int [] (fun _ => (c:Int))) := by
-  simp (config := { maxSteps := 700000 }) [body,SourceGraph.source,source,TypedSource.original,VeriTile.Bench.Repairs.BatchedVecmatMult.kernel,ComputeKernel.surfaceBody,
+  simp (config := { maxSteps := 700000 }) [body,SourceGraph.source,source,TypedSource.original,VeriTile.Bench.Repairs.BatchedVecmatMult.sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

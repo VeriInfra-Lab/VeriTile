@@ -28,7 +28,7 @@ theorem tail_frame {α : Type} [Inhabited α] (A : Algebra α)
     · exact Or.inl hr
   cases r <;> cases hd : decide (p.stage=2)
   all_goals simp only [tail,parts,code,source,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,ComputeKernel.surfaceBody,ControlView.compute,hd,List.drop_succ_cons,List.drop_zero] at ht
+    TypedSource.repaired,originalKernel,ComputeKernel.surfaceBody,ControlView.compute,hd,List.drop_succ_cons,List.drop_zero] at ht
   all_goals simp [Source.intRange?,run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,natLt,numericLt,
     Cell.read,ofFloat,toFloat,Region.cast,State.setReg,hn,ho,hp,hli,hacc] at ht

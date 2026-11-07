@@ -164,7 +164,7 @@ def Post (h : Call) (initial final : BlockState) : Prop :=
 
 theorem source_correct (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (u : BlockState) (hr : u.pids 0<h.B*h.H) :
-    ∃ v, exec (Kernels.source h c).eraseDType.toAlgKernel u=some v ∧ Post h u v := by
+    ∃ v, exec (Kernels.sourceKernel h c).eraseDType.toAlgKernel u=some v ∧ Post h u v := by
   obtain ⟨v,he,inv⟩ := loop_executes u h layout c positive (u.pids 0) hr _ (initial u) (invariant h c positive u)
   refine ⟨v,?_,?_,inv.frame⟩
   · rw [exec,source_body,body,ProgramRewrite.append,init_executes]
@@ -175,7 +175,7 @@ theorem source_correct (h : Call) (layout : Geometry.OutputLayout h) (c : Config
 
 theorem source_complete (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (u : BlockState) (hr : u.pids 0<h.B*h.H) :
-    ∃ v, exec (Kernels.source h c).eraseDType.toAlgKernel u=some v ∧ Post h u v ∧ v.undef=u.undef := by
+    ∃ v, exec (Kernels.sourceKernel h c).eraseDType.toAlgKernel u=some v ∧ Post h u v ∧ v.undef=u.undef := by
   obtain ⟨v,he,inv⟩ := loop_executes u h layout c positive (u.pids 0) hr _ (initial u) (invariant h c positive u)
   refine ⟨v,?_,⟨?_,inv.frame⟩,inv.undef⟩
   · rw [exec,source_body,body,ProgramRewrite.append,init_executes]

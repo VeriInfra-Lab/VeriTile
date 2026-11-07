@@ -13,7 +13,7 @@ specification sin_kernel_correctness (X O : RegionName) (n : Nat) :
 
 #stmtSurfaceSubset sin_kernel_correctness ⊆
   [Spec.Real, RegionName, sinIO, MaskedKernelIO₁.Implements, MaskedKernelIO₁.B, Real.sin]
-#specNonCircular formula avoiding [kernel,indexCommutedKernel]
+#specNonCircular formula avoiding [sourceKernel,indexCommutedKernel]
 #axiomsClean sin_kernel_correctness
 #guard_msgs (drop info) in
 #auditModuleAxioms

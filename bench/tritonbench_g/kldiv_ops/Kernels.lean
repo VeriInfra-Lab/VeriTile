@@ -30,7 +30,7 @@ def backwardCallSignature (target output : Storage) : CallSignature where
   readPorts := ["target_ptr"]
   writePorts := ["new_grads_ptr"]
 
-def forwardSourceBody (y_ptr gt_ptr loss_ptr : RegionName) (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)
+def forwardKernel (y_ptr gt_ptr loss_ptr : RegionName) (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)
     (log_target : Bool) (reduction : Nat) : ComputeKernel :=
   with_triton_call forwardCallSignature call_args [y_stride := y_stride, gt_stride := gt_stride,
     loss_stride := loss_stride, n_cols := n_cols] pointer_offsets [y_ptr := 0, gt_ptr := 0, loss_ptr := 0] in triton {
@@ -69,7 +69,7 @@ def forwardSourceBody (y_ptr gt_ptr loss_ptr : RegionName) (y_stride gt_stride l
         tl.store(loss_ptr, loss_sum)
   }
 
-def forwardCandidateSourceBody (y_ptr gt_ptr loss_ptr : RegionName) (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)
+def forwardCandidateKernel (y_ptr gt_ptr loss_ptr : RegionName) (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)
     (log_target : Bool) (reduction : Nat) : ComputeKernel :=
   with_triton_call forwardCallSignature call_args [y_stride := y_stride, gt_stride := gt_stride,
     loss_stride := loss_stride, n_cols := n_cols] pointer_offsets [y_ptr := 0, gt_ptr := 0, loss_ptr := 0] in triton {
@@ -108,7 +108,7 @@ def forwardCandidateSourceBody (y_ptr gt_ptr loss_ptr : RegionName) (y_stride gt
         tl.store(loss_ptr, loss_sum)
   }
 
-def backwardSourceBody (target output : Storage) (target_ptr new_grads_ptr : RegionName)
+def backwardKernel (target output : Storage) (target_ptr new_grads_ptr : RegionName)
     (target_stride new_grads_stride n_cols BLOCK_SIZE : Nat) (log_target : Bool) : ComputeKernel :=
   with_triton_call (backwardCallSignature target output) call_args [target_stride := target_stride,
     new_grads_stride := new_grads_stride, n_cols := n_cols]
@@ -138,7 +138,7 @@ def backwardSourceBody (target output : Storage) (target_ptr new_grads_ptr : Reg
         tl.store(new_grads_ptr + offsets, res, mask=mask)
   }
 
-def backwardCandidateSourceBody (target output : Storage) (target_ptr new_grads_ptr : RegionName)
+def backwardCandidateKernel (target output : Storage) (target_ptr new_grads_ptr : RegionName)
     (target_stride new_grads_stride n_cols BLOCK_SIZE : Nat) (log_target : Bool) : ComputeKernel :=
   with_triton_call (backwardCallSignature target output) call_args [target_stride := target_stride,
     new_grads_stride := new_grads_stride, n_cols := n_cols]
@@ -171,29 +171,29 @@ def backwardCandidateSourceBody (target output : Storage) (target_ptr new_grads_
 /-- Storage variants instantiate the same copied source body. -/
 def BackwardSource.defaultTarget (target output : Storage) (swapped : Bool)
     (T O : RegionName) (st so N B : Nat) : ComputeKernel :=
-  if swapped then backwardCandidateSourceBody target output T O st so N B Bool.false
-  else backwardSourceBody target output T O st so N B Bool.false
+  if swapped then backwardCandidateKernel target output T O st so N B Bool.false
+  else backwardKernel target output T O st so N B Bool.false
 
 def BackwardSource.logarithmic (target : MathStorage) (output : Storage) (swapped : Bool)
     (T O : RegionName) (st so N B : Nat) : ComputeKernel :=
-  if swapped then backwardCandidateSourceBody target.storage output T O st so N B Bool.true
-  else backwardSourceBody target.storage output T O st so N B Bool.true
+  if swapped then backwardCandidateKernel target.storage output T O st so N B Bool.true
+  else backwardKernel target.storage output T O st so N B Bool.true
 
 namespace KernelDSL
 def forwardDefault (p : Parameters) (red : Nat) : ComputeKernel :=
-  forwardSourceBody p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
+  forwardKernel p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
     p.cols p.block Bool.false red
 
 def forwardLog (p : Parameters) (red : Nat) : ComputeKernel :=
-  forwardSourceBody p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
+  forwardKernel p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
     p.cols p.block Bool.true red
 
 def forwardDefaultCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
-  forwardCandidateSourceBody p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
+  forwardCandidateKernel p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
     p.cols p.block Bool.false red
 
 def forwardLogCommuted (p : Parameters) (red : Nat) : ComputeKernel :=
-  forwardCandidateSourceBody p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
+  forwardCandidateKernel p.Y p.T p.O p.cols p.cols (if red=0 then p.cols else 1)
     p.cols p.block Bool.true red
 
 def backwardDefault (p : Parameters) : ComputeKernel :=

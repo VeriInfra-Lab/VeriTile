@@ -15,7 +15,7 @@ theorem prefix_safe (p : BackwardLayout) (length : Nat) (u : BlockState) (bounds
     Stmt.TraceSafeList bounds (before p length) u := by
   unfold before source Erasure.backward TypedSource.backward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,
@@ -58,7 +58,7 @@ theorem body_safe (p : BackwardLayout) (base : BlockState) (length n : Nat) (bou
   have hm:=related.sourceMask
   unfold body source Erasure.backward TypedSource.backward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,

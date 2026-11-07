@@ -17,7 +17,7 @@ specification cosine_kernel_correctness (n : Nat) :
     Spec.Real (cosineIO n ⊨ fun xs i => Real.cos (xs i)) :=
   ReaderProof.cosine_kernel_correctness n
 
-#specNonCircular mathematical avoiding [kernel,originalKernel,candidateKernel]
+#specNonCircular mathematical avoiding [sourceKernel,originalKernel,candidateKernel]
 #axiomsClean cosine_kernel_correctness
 #guard_msgs (drop info) in
 #auditModuleAxioms

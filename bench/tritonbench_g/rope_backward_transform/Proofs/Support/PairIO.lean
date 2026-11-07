@@ -19,7 +19,7 @@ def candidate (op : Operations A) (project : A → A) (r : Request) :
 
 def original (op : Operations A) (project : A → A) (r : Request) :=
   ReadProgramIO.Implementation.original (PublicIO.sourceIO op project r) (fun _ => True)
-def indexShared (op : Operations A) (project : A → A) (r : Request) :=
+def indexSharedKernel (op : Operations A) (project : A → A) (r : Request) :=
   ReadProgramIO.Implementation.ofVariant (candidate op project r) (fun _ => True)
 
 end

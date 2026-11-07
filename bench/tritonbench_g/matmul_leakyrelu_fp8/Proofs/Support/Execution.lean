@@ -65,7 +65,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
     {t : State α // run (backend M D) (prelude p b) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,source,TypedSource.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
       FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod]

@@ -19,7 +19,7 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
       run M ((kernel c).surfaceBody.take 15) s := by
   by_cases hr : c.reverse = Bool.true <;> by_cases hi : c.initial = Bool.true
   all_goals
-    simp [earlyUKernel,kernel,originalBody,candidateBody,ComputeKernel.surfaceBody,hi,hr,
+    simp [earlyUKernel,kernel,originalKernel,candidateKernel,ComputeKernel.surfaceBody,hi,hr,
       run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,ComputeDType.eraseDType,
       numeric,integralMod,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast]
@@ -42,7 +42,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
       Safety.traceSafeList M bounds ((kernel c).surfaceBody.take 15) s := by
   by_cases hr : c.reverse = Bool.true <;> by_cases hi : c.initial = Bool.true
   all_goals
-    simp [earlyUKernel,kernel,originalBody,candidateBody,ComputeKernel.surfaceBody,hi,hr,
+    simp [earlyUKernel,kernel,originalKernel,candidateKernel,ComputeKernel.surfaceBody,hi,hr,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

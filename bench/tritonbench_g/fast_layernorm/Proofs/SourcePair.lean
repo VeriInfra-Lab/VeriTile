@@ -26,7 +26,7 @@ private theorem index_run {A : Type} [Inhabited A] (M : Algebra A)
     cases hs : s.regs .int [] "X_row_stride"
   all_goals simp (maxSteps := 1000000) [indexCode,position,source,
     forwardKernel,backwardKernel,forwardIndexCommuted,backwardIndexCommuted,
-    forwardBody,backwardBody,forwardCandidateBody,backwardCandidateBody,
+    forwardBodyPastedKernel,backwardBodyPastedKernel,forwardCandidateKernel,backwardCandidateKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,
     ComputeKernel.surfaceBody,List.drop,List.take,run,step,evalExpr,evalOp_unfold,
     numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,hr,hs,Option.bind,Int.mul_comm]
@@ -38,7 +38,7 @@ private theorem index_safe {A : Type} [Inhabited A] (M : Algebra A) (bounds : Re
   cases backward <;> cases candidate
   all_goals simp [indexCode,position,source,
     forwardKernel,backwardKernel,forwardIndexCommuted,backwardIndexCommuted,
-    forwardBody,backwardBody,forwardCandidateBody,backwardCandidateBody,
+    forwardBodyPastedKernel,backwardBodyPastedKernel,forwardCandidateKernel,backwardCandidateKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,
     ComputeKernel.surfaceBody,List.drop,List.take,Safety.traceSafeList,Safety.stepSafe,
     Safety.safeExpr,Safety.safeAlg,Safety.safeOp,Safety.safeOp_unfold]

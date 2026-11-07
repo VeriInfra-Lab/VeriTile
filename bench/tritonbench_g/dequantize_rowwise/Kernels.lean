@@ -12,7 +12,7 @@ def callSignature : CallSignature where
   constexpr := ["BLOCK_SIZE","P2"]
 
 /-- The unmodified selected Python function body. -/
-def body (x_ptr state_x output_ptr : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel :=
+def bodyKernel (x_ptr state_x output_ptr : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel :=
   with_triton_signature callSignature in
   triton {
   pid = tl.program_id(axis=0).to(tl.int64)
@@ -48,7 +48,7 @@ noncomputable def arguments (inv_127 : ℝ) (n_elements : Nat) : List ScalarArgu
 
 noncomputable def source (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ)
     (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=
-  (body x_ptr state_x output_ptr BLOCK_SIZE P2).withScalarArguments (arguments inv_127 n_elements)
+  (bodyKernel x_ptr state_x output_ptr BLOCK_SIZE P2).withScalarArguments (arguments inv_127 n_elements)
 
 noncomputable def indexCommutedSource (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ)
     (n_elements BLOCK_SIZE P2 : Nat) : ComputeKernel :=

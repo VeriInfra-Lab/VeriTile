@@ -32,7 +32,7 @@ theorem storage_erasure (p : Layout) (r : Regions) (storage : Storage) (swapped 
     (kernel p r storage swapped scale).eraseDType.toAlgKernel.body =
       (mathematical p r swapped scale).eraseDType.toAlgKernel.body := by
   cases swapped <;> cases storage
-  all_goals simp only [kernel,mathematical,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,VeriTile.Bench.TritonBenchG.ContextAttnFwd.scaleFirst,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.scaleFirst,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.scaleFirstBody,
+  all_goals simp only [kernel,mathematical,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.scaleFirst,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.scaleFirst,VeriTile.Bench.Repairs.ContextAttnFwd.scaleFirstKernel,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

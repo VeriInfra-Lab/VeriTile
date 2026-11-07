@@ -13,8 +13,7 @@ structure Parameters where
 /-! Complete repaired Python function bodies. Caller metadata supplies the
 selected FP32 storage and exact contiguous strides. Every source cast, tuple,
 loop direction, branch, mask and store remains in the pasted bodies. -/
-namespace Bodies
-
+section
 def forwardHSignature : CallSignature where
   pointers := [("k",.fp32),("v",.fp32),("h",.fp32),("h0",.fp32),("ht",.fp32)]
   scalars := [("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("s_h_h",.integer),("s_h_t",.integer)]
@@ -43,7 +42,7 @@ def backwardQKVSignature : CallSignature where
   readPorts := ["q","k","v","h","do","dh"]
   writePorts := ["dq","dk","dv"]
 
-def forwardHBody (p : Parameters) (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
+def forwardHKernel (p : Parameters) (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
   let T := p.T
   let K := p.K
   let V := p.V
@@ -88,7 +87,7 @@ def forwardHBody (p : Parameters) (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
         tl.store(p_ht, b_h.to(p_ht.dtype.element_ty), boundary_check=(0, 1))
   }
 
-def forwardOBody (p : Parameters) (scale : ℝ) : ComputeKernel :=
+def forwardOKernel (p : Parameters) (scale : ℝ) : ComputeKernel :=
   let T := p.T
   let K := p.K
   let V := p.V
@@ -137,7 +136,7 @@ def forwardOBody (p : Parameters) (scale : ℝ) : ComputeKernel :=
     tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
   }
 
-def backwardHBody (p : Parameters) (scale : ℝ) (USE_FINAL_GRADIENT STORE_INITIAL_GRADIENT : Bool) : ComputeKernel :=
+def backwardHKernel (p : Parameters) (scale : ℝ) (USE_FINAL_GRADIENT STORE_INITIAL_GRADIENT : Bool) : ComputeKernel :=
   let T := p.T
   let K := p.K
   let V := p.V
@@ -181,7 +180,7 @@ def backwardHBody (p : Parameters) (scale : ℝ) (USE_FINAL_GRADIENT STORE_INITI
         tl.store(p_dh0, b_dh.to(p_dh0.dtype.element_ty), boundary_check=(0, 1))
   }
 
-def backwardQKVBody (p : Parameters) (scale : ℝ) : ComputeKernel :=
+def backwardQKVKernel (p : Parameters) (scale : ℝ) : ComputeKernel :=
   let T := p.T
   let K := p.K
   let V := p.V
@@ -249,7 +248,7 @@ def backwardQKVBody (p : Parameters) (scale : ℝ) : ComputeKernel :=
     tl.store(p_dk, b_dk.to(p_dk.dtype.element_ty), boundary_check=(0, 1))
   }
 
-def forwardOHoistedBody (p : Parameters) (scale : ℝ) : ComputeKernel :=
+def forwardOHoistedKernel (p : Parameters) (scale : ℝ) : ComputeKernel :=
   let T := p.T
   let K := p.K
   let V := p.V
@@ -299,19 +298,18 @@ def forwardOHoistedBody (p : Parameters) (scale : ℝ) : ComputeKernel :=
     tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
   }
 
-end Bodies
-
+end
 def forwardH (p : Parameters) (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
-  Bodies.forwardHBody p USE_INITIAL_STATE STORE_FINAL_STATE
+  forwardHKernel p USE_INITIAL_STATE STORE_FINAL_STATE
 
 def forwardO (p : Parameters) (scale : ℝ) : ComputeKernel :=
-  Bodies.forwardOBody p scale
+  forwardOKernel p scale
 
 def backwardH (p : Parameters) (scale : ℝ) (USE_FINAL_GRADIENT STORE_INITIAL_GRADIENT : Bool) : ComputeKernel :=
-  Bodies.backwardHBody p scale USE_FINAL_GRADIENT STORE_INITIAL_GRADIENT
+  backwardHKernel p scale USE_FINAL_GRADIENT STORE_INITIAL_GRADIENT
 
 def backwardQKV (p : Parameters) (scale : ℝ) : ComputeKernel :=
-  Bodies.backwardQKVBody p scale
+  backwardQKVKernel p scale
 
 end
 end VeriTile.Bench.Repairs.ChunkLinearAttn

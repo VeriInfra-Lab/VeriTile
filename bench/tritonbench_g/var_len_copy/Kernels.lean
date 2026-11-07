@@ -13,7 +13,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["BLOCK_SIZE"]
 
-def body (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
+def bodyKernel (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
     (BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     a_id = tl.cast(tl.program_id(0), tl.int64)
@@ -27,7 +27,7 @@ def body (old_a_start old_a_len old_a_location new_a_start new_a_location : Regi
         tl.store(new_a_location + new_start + i + new_offset, v, mask=i + new_offset < length)
   }
 
-def commutedBody (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
+def commutedBodyPastedKernel (old_a_start old_a_len old_a_location new_a_start new_a_location : RegionName)
     (BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     a_id = tl.cast(tl.program_id(0), tl.int64)
@@ -45,8 +45,8 @@ def commutedBody (old_a_start old_a_len old_a_location new_a_start new_a_locatio
 bindings and port metadata are supplied here; no source statement is changed. -/
 def kernel (commuted : Bool) (os ol ns : Region .int) (src dst : RegionName)
     (B : Nat) : ComputeKernel :=
-  let selected := if commuted then commutedBody os.cast ol.cast src ns.cast dst B
-    else body os.cast ol.cast src ns.cast dst B
+  let selected := if commuted then commutedBodyPastedKernel os.cast ol.cast src ns.cast dst B
+    else bodyKernel os.cast ol.cast src ns.cast dst B
   .mk [ol.cast,os.cast,ns.cast,src] [dst] selected.surfaceBody
 
 def originalKernel : ComputeKernel :=

@@ -76,7 +76,7 @@ open scoped VeriTile.Triton.KernelIO₃ₓ₂
 
 /-- Both output matrices have their own bounded row-major windows. -/
 def matrixIO (optimized : Bool) (S T D iters : Nat) (tau : ℝ) : KernelIO₃ₓ₂ where
-  kernel := if optimized then matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau
+  kernel := if optimized then matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau
     else matrixOriginal S T D iters tau
   projection := by cases optimized <;> rfl
   in1 := "res"

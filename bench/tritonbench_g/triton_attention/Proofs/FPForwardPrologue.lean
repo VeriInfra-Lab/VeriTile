@@ -23,7 +23,7 @@ def forwardPrologueResult (P : Primitives α) (p : ForwardParameters) (s : State
 
 theorem forwardPrologueExecution (rest : Algebra α) (P : Primitives α) (p : ForwardParameters) (s : State α) :
     run (backend rest P) (forwardPrologue p) s=some (forwardPrologueResult P p s) := by
-  simp [forwardPrologue,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [forwardPrologue,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,evalOffsets,backend,forwardPrologueResult,
     forwardInitial,forwardZero,forwardQPointer,forwardKVPointer,forwardOutPointer,
     BlockPtr.inBounds,TileShape.indexToList,forwardQ,forwardOffset,forwardQueryRow,forwardHeadRow,

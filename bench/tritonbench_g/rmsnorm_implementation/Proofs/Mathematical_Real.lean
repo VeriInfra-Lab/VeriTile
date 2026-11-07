@@ -839,8 +839,8 @@ theorem rmsnorm_implementation_correct
     rfl
   by_cases hB : 0 < BLOCK_N_SIZE
   · have hStep : BLOCK_N_SIZE ≠ 0 := Nat.ne_of_gt hB
-    simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
-    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+    simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.family,
     exec, rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
@@ -900,8 +900,8 @@ theorem rmsnorm_implementation_compute_correct
           stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
-    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.family,
     rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
@@ -1850,8 +1850,8 @@ theorem rmsnorm_implementation_toAlg_body
       [ .forRange "block_n_strart_ptr" 0 N_SIZE BLOCK_N_SIZE
           (rmsOutLoopBody x_ptr rms_w_ptr out_ptr stride_x_k stride_rms_w
             stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE) ] := by
-  simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
-    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+  simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.family,
     rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
@@ -1950,8 +1950,8 @@ theorem rmsnorm_implementation_compute_fullN_correct
           stride_x_k stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
-    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.family,
     rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,
@@ -2001,8 +2001,8 @@ theorem rmsnorm_implementation_output_summary_bridge
         rmsnormWeightedYFullNSpec s x_ptr rms_w_ptr stride_x_batch stride_x_m
           stride_x_k stride_rms_w N_SIZE BLOCK_N_SIZE eps i) := by
   refine ⟨?_, ?_⟩
-  · simp only [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
-    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+  · simp only [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.family,
     rmsnorm_implementation, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,

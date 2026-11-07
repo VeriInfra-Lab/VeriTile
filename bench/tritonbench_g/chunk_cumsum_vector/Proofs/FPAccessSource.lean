@@ -77,7 +77,7 @@ theorem source_safe (M : Algebra α) (dot : DotBackend α) (bounds : RegionBound
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0 < c.BT)
     (p : Geometry.Program h) (bounded : Bounds h p bounds) (u : State α)
     (hf : u.pids 0 = p.feature) (hr : u.pids 1 = p.row) :
-    FP.Structural.TraceSafe (machine M dot) bounds (Kernels.source h c) u := by
+    FP.Structural.TraceSafe (machine M dot) bounds (Kernels.sourceKernel h c) u := by
   unfold FP.Structural.TraceSafe
   rw [FPProgram.source_body, FPProgram.body, Safety.traceSafeList_append]
   refine ⟨init_safe _ bounds h c u, ?_⟩
@@ -134,7 +134,7 @@ theorem candidate_safe (M : Algebra α) (dot : DotBackend α) (bounds : RegionBo
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0 < c.BT)
     (p : Geometry.Program h) (bounded : Bounds h p bounds) (u : State α)
     (hf : u.pids 0 = p.feature) (hr : u.pids 1 = p.row) :
-    FP.Structural.TraceSafe (machine M dot) bounds (Kernels.sumLeft h c) u := by
+    FP.Structural.TraceSafe (machine M dot) bounds (Kernels.sumLeftKernel h c) u := by
   unfold FP.Structural.TraceSafe
   rw [CandidateProgram.source_body, CandidateProgram.body, Safety.traceSafeList_append]
   refine ⟨init_safe _ bounds h c u, ?_⟩

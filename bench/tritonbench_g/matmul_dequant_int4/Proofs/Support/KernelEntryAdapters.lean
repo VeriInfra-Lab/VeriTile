@@ -52,7 +52,7 @@ def unitTyped (dtype : FloatDType) (p : Source.Parameters) : ComputeKernel :=
   let b_zp_ptr := p.zero
   let b_scale_ptr := p.scale
   let fpb_ptr := p.output
-  VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeBody dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr p.rows p.columns p.groupSize p.weightRowStride p.weightColumnStride p.scaleRowStride p.scaleColumnStride p.zeroRowStride p.zeroColumnStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns
+  VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeKernel dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr p.rows p.columns p.groupSize p.weightRowStride p.weightColumnStride p.scaleRowStride p.scaleColumnStride p.zeroRowStride p.zeroColumnStride p.outputRowStride p.outputColumnStride p.blockRows p.blockColumns
 
 def unitSource (f : Source.Profile) (p : Source.Parameters) : ComputeKernel := unitTyped f.dtype p
 

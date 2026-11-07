@@ -15,7 +15,7 @@ noncomputable def fused_add_mul_activation_kernel
     (num_weights xnumel BLOCK_SIZE : Nat)
     (multiplier : ℝ) (activation : Bool) :
     ComputeKernel :=
-  let k := (VeriTile.Bench.Repairs.FusedActivation.kernel x_ptr bias_ptr in_ptr num_weights xnumel BLOCK_SIZE multiplier activation).toAlgKernel
+  let k := (VeriTile.Bench.Repairs.FusedActivation.sourceKernel x_ptr bias_ptr in_ptr num_weights xnumel BLOCK_SIZE multiplier activation).toAlgKernel
   ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
 end VeriTile.Bench.TritonBenchG.FusedActivation

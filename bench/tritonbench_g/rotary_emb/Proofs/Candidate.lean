@@ -17,12 +17,12 @@ def optimizedPrefix (p : Kernels.Layout) : ComputeKernel := triton {
 }
 
 /-- Compatibility name for the complete candidate source in Kernels.lean. -/
-abbrev optimized := Kernels.indexCommuted
+abbrev optimized := Kernels.indexCommutedKernel
 
 theorem prefix_equiv {A : Type} [Inhabited A] (M : Algebra A)
     (p : Kernels.Layout) (s : State A) :
-    run M ((Kernels.kernel p).surfaceBody.take 3) s=run M (optimizedPrefix p).surfaceBody s := by
-  simp [Kernels.kernel,optimizedPrefix,ComputeKernel.surfaceBody,List.take,run,step,
+    run M ((Kernels.sourceKernel p).surfaceBody.take 3) s=run M (optimizedPrefix p).surfaceBody s := by
+  simp [Kernels.sourceKernel,optimizedPrefix,ComputeKernel.surfaceBody,List.take,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,Option.bind,bop,numeric,
     ComputeDType.eraseDType,Int.mul_comm]
   congr 1
@@ -33,10 +33,10 @@ theorem prefix_equiv {A : Type} [Inhabited A] (M : Algebra A)
 cell, for arbitrary payload semantics and arbitrary initial aliases. -/
 theorem execution_equiv {A : Type} [Inhabited A] (M : Algebra A)
     (p : Kernels.Layout) (s : State A) :
-    exec M (Kernels.kernel p) s=exec M (optimized p) s := by
-  change run M (Kernels.kernel p).surfaceBody s=
-    run M ((optimizedPrefix p).surfaceBody++(Kernels.kernel p).surfaceBody.drop 3) s
-  conv_lhs => rw [←List.take_append_drop 3 (Kernels.kernel p).surfaceBody]
+    exec M (Kernels.sourceKernel p) s=exec M (optimized p) s := by
+  change run M (Kernels.sourceKernel p).surfaceBody s=
+    run M ((optimizedPrefix p).surfaceBody++(Kernels.sourceKernel p).surfaceBody.drop 3) s
+  conv_lhs => rw [←List.take_append_drop 3 (Kernels.sourceKernel p).surfaceBody]
   rw [run_append,prefix_equiv,run_append]
 
 #axiomsClean execution_equiv

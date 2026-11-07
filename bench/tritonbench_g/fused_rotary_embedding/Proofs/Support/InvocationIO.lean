@@ -7,7 +7,7 @@ noncomputable section
 variable {α : Type} [Inhabited α]
 
 def invocation (rest : Algebra α) (ops : Ops α) (c : Config) (pid : Program) : Invocation α where
-  kernel := kernel (parameters c.shape)
+  kernel := sourceKernel (parameters c.shape)
   backend := algebra rest ops
   clearRegisters := Bool.true
   pids := fun ax => if ax=0 then pid.1 else if ax=1 then pid.2 else 0

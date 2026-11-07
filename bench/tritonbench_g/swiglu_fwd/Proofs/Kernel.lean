@@ -17,7 +17,7 @@ def Result {α : Type} [Inhabited α] (f : α → α → α) (c : Layout)
 
 theorem run {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     (B row tile : Nat) (entry : State α) :
-    ∃ final, exec M (kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B)
+    ∃ final, exec M (sourceKernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B)
       (tileState M c B row tile entry) = some final ∧
       Result (scalar M) c B row tile entry final := by
   refine ⟨(sourceRun M c B row tile entry).val,

@@ -55,7 +55,7 @@ def invocation {β : Type} (M : Algebra β) (r : Request) (row : Nat) : Invocati
 including the actual forward branch and all production padding parameters. -/
 theorem source_identity {β : Type} (M : Algebra β) (r : Request) (row : Nat) :
     (invocation M r row).kernel =
-      Kernels.source .fp32 .fp32 "Q" "K" "C" "S"
+      Kernels.sourceKernel .fp32 .fp32 "Q" "K" "C" "S"
         (r.stride Bool.false) (r.stride Bool.true) r.half r.half r.sequence r.batches
         r.qHeads r.kHeads r.dimension (r.paddedHeads Bool.false) (r.paddedHeads Bool.true)
         r.paddedDimension (max (r.paddedHeads Bool.false) (r.paddedHeads Bool.true)) Bool.false := rfl
@@ -98,7 +98,7 @@ def target [Inhabited α] (pair : α → α → α → α → Bool → α)
       (coefficient xs Bool.false (row%r.sequence) lane)
       (coefficient xs Bool.true (row%r.sequence) lane) (decide (r.half≤col)))
 
-#specNonCircular target avoiding [kernel,Kernels.source,sourceIO]
+#specNonCircular target avoiding [kernel,Kernels.sourceKernel,sourceIO]
 #axiomsClean source_identity
 end
 end VeriTile.Bench.Repairs.RopeTransform.PublicIO

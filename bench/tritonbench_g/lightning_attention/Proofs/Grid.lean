@@ -45,6 +45,6 @@ def modelThree (M : Algebra α) (D : DotPrimitive α) (d : Host.Dimensions)
     (sf si sb : List PID) (m : Memory α) : Memory α :=
   gridMemory M D .inter d sb (gridMemory M D .intra d si (gridMemory M D .forward d sf m))
 
-#specNonCircular modelThree avoiding [VeriTile.Bench.Repairs.LightningAttention.KernelOnly.forward,run,FP.Structural.exec]
+#specNonCircular modelThree avoiding [VeriTile.Bench.Repairs.LightningAttention.KernelOnly.forwardKernel,run,FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.LightningAttention

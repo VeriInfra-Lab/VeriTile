@@ -95,7 +95,7 @@ def callSignature (aStorage doutStorage : Storage) (dtype out_dtype : FloatDType
   readPorts := ["a_ptr","dout_ptr","res_ptr"]
   writePorts := ["db_ptr"]
 
-def sourceBody (aStorage doutStorage : Storage) (dtype out_dtype dot_dtype : FloatDType)
+def sourceKernel (aStorage doutStorage : Storage) (dtype out_dtype dot_dtype : FloatDType)
     (a_ptr dout_ptr db_ptr res_ptr : RegionName)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS : Nat) (HAS_RESIDUAL : Bool) : ComputeKernel :=
   with_triton_call (callSignature aStorage doutStorage dtype out_dtype) call_args [
@@ -161,7 +161,7 @@ def sourceBody (aStorage doutStorage : Storage) (dtype out_dtype dot_dtype : Flo
     tl.store(db_ptrs, db, mask=(offs_m[:, None] < chunk_size_limit) & (offs_n[None, :] < K))
   }
 
-def candidateSourceBody (aStorage doutStorage : Storage) (dtype out_dtype dot_dtype : FloatDType)
+def candidateKernel (aStorage doutStorage : Storage) (dtype out_dtype dot_dtype : FloatDType)
     (a_ptr dout_ptr db_ptr res_ptr : RegionName)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS : Nat) (HAS_RESIDUAL : Bool) : ComputeKernel :=
   with_triton_call (callSignature aStorage doutStorage dtype out_dtype) call_args [
@@ -236,12 +236,12 @@ def dotDType (a dout : Storage) : FloatDType :=
 def family (aStorage doutStorage : Storage) (dtype out_dtype : FloatDType)
     (a_ptr dout_ptr db_ptr res_ptr : RegionName)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS : Nat) (HAS_RESIDUAL : Bool) : ComputeKernel :=
-  sourceBody aStorage doutStorage dtype out_dtype (dotDType aStorage doutStorage) a_ptr dout_ptr db_ptr res_ptr seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS HAS_RESIDUAL
+  sourceKernel aStorage doutStorage dtype out_dtype (dotDType aStorage doutStorage) a_ptr dout_ptr db_ptr res_ptr seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS HAS_RESIDUAL
 
 def candidateFamily (aStorage doutStorage : Storage) (dtype out_dtype : FloatDType)
     (a_ptr dout_ptr db_ptr res_ptr : RegionName)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS : Nat) (HAS_RESIDUAL : Bool) : ComputeKernel :=
-  candidateSourceBody aStorage doutStorage dtype out_dtype (dotDType aStorage doutStorage) a_ptr dout_ptr db_ptr res_ptr seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS HAS_RESIDUAL
+  candidateKernel aStorage doutStorage dtype out_dtype (dotDType aStorage doutStorage) a_ptr dout_ptr db_ptr res_ptr seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n stride_db_batch stride_db_seqlen stride_db_head stride_db_k stride_res_batch stride_res_seqlen stride_res_head stride_res_k BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_CS HAS_RESIDUAL
 
 def quotedOriginal := family .fp32 .fp32
 def quotedIndexCommuted := candidateFamily .fp32 .fp32

@@ -11,7 +11,7 @@ theorem selected_source_binding (p : Source.Parameters) (back : Bool) :
     Source.source p back =
       if p.fast then FastRopeEmbedding.Kernels.rope p.input p.cosine p.sine
         p.rowStride p.cosineStride p.sineStride p.length p.dimension p.heads p.width back
-      else Kernels.rope p.input p.cosine p.sine p.rowStride p.cosineStride p.sineStride
+      else Kernels.ropeKernel p.input p.cosine p.sine p.rowStride p.cosineStride p.sineStride
         p.length p.dimension p.heads p.width back := rfl
 
 #axiomsClean selected_source_binding

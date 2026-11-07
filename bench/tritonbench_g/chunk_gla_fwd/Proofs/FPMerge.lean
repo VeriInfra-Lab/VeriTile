@@ -63,7 +63,7 @@ def entryExecution (M : Algebra α) (p : Layout) (s : State α) :
     {t : State α // run (engine M) ((branch p).before ++ (parts p).before) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,
+  simp [parts,branch,kernel,TypedMerge.original,mergeOriginalKernel,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -84,7 +84,7 @@ def bodyExecution (M : Algebra α) (p : Layout) (initial current : State α)
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,
+  simp [parts,branch,kernel,TypedMerge.original,mergeOriginalKernel,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

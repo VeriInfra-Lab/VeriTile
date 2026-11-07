@@ -72,7 +72,7 @@ class StandaloneInt4BodyMigrationTests(unittest.TestCase):
         self.assertEqual([r["statements"] for r in rows], [32, 19, 32, 19])
         records = pinned_pairs(self.directory)
         self.assertEqual(records[0]["lean"], records[2]["lean"])
-        self.assertEqual(records[0]["lean_definition"], "originalBody")
+        self.assertEqual(records[0]["lean_definition"], "originalKernel")
 
     def test_signed_dequantization_and_complete_memory_contract_cannot_drift(self):
         record = pinned_pairs(self.directory)[1]

@@ -11,7 +11,7 @@ set_option maxHeartbeats 16000000
 set_option linter.unusedSimpArgs false
 
 def kernel (c : Shape) (scale : ℝ) :=
-  Kernels.forwardOScaleFirst "q" "k" "v" "h" "o"
+  Kernels.forwardOScaleFirstKernel "q" "k" "v" "h" "o"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV
 
@@ -33,7 +33,7 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,Kernels.forwardOScaleFirst,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOScaleFirstKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,

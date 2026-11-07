@@ -31,7 +31,7 @@ def channelExecution {α : Type} [Inhabited α] (a : Arithmetic α) (native : Bo
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp [channelBody,compiledScoreBody,scoreBody,body,source,declared,originalBody,quotientRemainderBody,em,en,
+    simp [channelBody,compiledScoreBody,scoreBody,body,source,declared,originalKernel,quotientRemainderKernel,em,en,
       carryNode,fp,ref2,ComputeKernel.surfaceBody,run,FP.Structural.step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,

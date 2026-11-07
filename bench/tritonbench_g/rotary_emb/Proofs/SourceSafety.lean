@@ -29,9 +29,9 @@ theorem source_trace_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops
     (payload : ∀ key odd i,active p s key i → offset p s key odd i<bounds (region p key))
     (coefficients : ∀ sine odd i,coefficientActive p s i →
       coefficientOffset p s sine odd i<bounds (if sine then p.Sin else p.Cos)) :
-    TraceSafe (algebra rest ops) bounds (Kernels.kernel p) s := by
+    TraceSafe (algebra rest ops) bounds (Kernels.sourceKernel p) s := by
   simp (config := { maxSteps := 1000000, zetaDelta := Bool.false }) only
-    [TraceSafe,Kernels.kernel,ComputeKernel.surfaceBody,
+    [TraceSafe,Kernels.sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -64,10 +64,10 @@ theorem source_trace_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops
 starts in the same actual state as the original prefix. -/
 theorem candidate_trace_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (p : Kernels.Layout) (s : State A) (bounds : RegionName → Nat)
-    (source : TraceSafe (algebra rest ops) bounds (Kernels.kernel p) s) :
+    (source : TraceSafe (algebra rest ops) bounds (Kernels.sourceKernel p) s) :
     TraceSafe (algebra rest ops) bounds (Candidate.optimized p) s := by
   change Safety.traceSafeList (algebra rest ops) bounds
-    ((Candidate.optimizedPrefix p).surfaceBody++(Kernels.kernel p).surfaceBody.drop 3) s
+    ((Candidate.optimizedPrefix p).surfaceBody++(Kernels.sourceKernel p).surfaceBody.drop 3) s
   apply (Safety.traceSafeList_append _ _ _ _ _).mpr
   constructor
   · simp [Candidate.optimizedPrefix,ComputeKernel.surfaceBody,
@@ -76,7 +76,7 @@ theorem candidate_trace_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : 
       evalOp_unfold,Option.bind]
   · intro t executed
     have whole : Safety.traceSafeList (algebra rest ops) bounds
-        ((Kernels.kernel p).surfaceBody.take 3++(Kernels.kernel p).surfaceBody.drop 3) s := by
+        ((Kernels.sourceKernel p).surfaceBody.take 3++(Kernels.sourceKernel p).surfaceBody.drop 3) s := by
       simpa only [List.take_append_drop] using source
     exact ((Safety.traceSafeList_append _ _ _ _ _).mp whole).2 t
       ((Candidate.prefix_equiv _ _ _).trans executed)

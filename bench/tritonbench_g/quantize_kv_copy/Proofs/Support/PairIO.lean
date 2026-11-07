@@ -9,7 +9,7 @@ set_option autoImplicit true
 
 def invocation (op : Ops α) (p : Parameters) (pid : Nat) : Invocation α :=
   { PublicIO.invocation op p pid with
-    kernel := KernelSyntax.addressEarly p.groups p.block p.heads }
+    kernel := KernelSyntax.addressEarlyKernel p.groups p.block p.heads }
 
 def variant (op : Ops α) (p : Parameters) (n : Nat) (dest : Nat → Nat) :
     ProgramIO.Variant (PublicIO.sourceIO op p n dest) where
@@ -21,7 +21,7 @@ def original (instructions : NativeInstructions) (tree : ReductionTree)
   ProgramIO.Implementation.original
     (PublicIO.sourceIO (KernelModels.nativeOps instructions tree) p n dest) (PublicIO.Metadata dest)
 
-def addressEarly (instructions : NativeInstructions) (tree : ReductionTree)
+def addressEarlyKernel (instructions : NativeInstructions) (tree : ReductionTree)
     (p : Parameters) (n : Nat) (dest : Nat → Nat) :=
   ProgramIO.Implementation.ofVariant
     (variant (KernelModels.nativeOps instructions tree) p n dest) (PublicIO.Metadata dest)

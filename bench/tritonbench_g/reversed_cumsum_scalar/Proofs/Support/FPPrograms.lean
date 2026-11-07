@@ -10,8 +10,8 @@ open scoped VeriTile.Spec
 noncomputable section
 
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
-def original (h : Call) (c : Config) : Program := ⟨Kernels.source h c,[]⟩
-def indexCommuted (h : Call) (c : Config) : Program := ⟨Kernels.indexCommuted h c,[]⟩
+def original (h : Call) (c : Config) : Program := ⟨Kernels.sourceKernel h c,[]⟩
+def indexCommutedKernel (h : Call) (c : Config) : Program := ⟨Kernels.indexCommutedKernel h c,[]⟩
 
 end
 end VeriTile.Bench.Repairs.ReversedCumsumScalar.Equivalence

@@ -14,7 +14,7 @@ def originalFP32 (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
 
 
 def blockStartReusedFP32 (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
-  Bodies.blockStartReusedBody .fp32 r.query r.key r.value scale r.start r.sequence r.out
+  blockStartReusedKernel .fp32 r.query r.key r.value scale r.start r.sequence r.out
     p.qRow p.qHead p.qDim p.kRow p.kHead p.kDim p.vRow p.vHead p.vDim
     p.outRow p.outHead p.outDim p.BM p.D p.BN
 

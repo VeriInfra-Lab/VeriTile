@@ -142,7 +142,7 @@ theorem coordinates_success {α : Type} [Inhabited α] (A : Algebra α)
     ∃ t, run (engine A) (coordinateCode p BD) s=some t ∧ CoordinateReady t := by
   by_cases hd : p.stage=2
   all_goals simp only [coordinateCode,code,source,Bool.false_eq_true,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero]
   all_goals simp [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,

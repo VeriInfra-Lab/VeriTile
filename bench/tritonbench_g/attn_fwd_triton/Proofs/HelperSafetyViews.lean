@@ -27,7 +27,7 @@ theorem iteration (BM BN BD : Nat) (p : Parameters) (second : Bool) :
       (sourceIteration BM BN BD p.headDim second (decide (p.stage=2)))
       (body BM BN BD p second) := by
   cases second <;> by_cases hd : p.stage=2
-  all_goals simp only [body,parts,source,TypedSource.repaired,Bodies.originalBody,
+  all_goals simp only [body,parts,source,TypedSource.repaired,originalKernel,
     hd,decide_true,decide_false,workName,AttnFwdTriton.TypedExecution.workName,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody]
   all_goals simp [Source.intRange?,workName,AttnFwdTriton.TypedExecution.workName]

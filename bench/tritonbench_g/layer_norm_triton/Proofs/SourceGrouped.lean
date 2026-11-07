@@ -18,7 +18,7 @@ set_option linter.unusedSimpArgs false
     split <;> exact ih _
 
 def code (stride M N G B : Nat) : List ComputeStmt :=
-  (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B).surfaceBody
+  (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B).surfaceBody
 def prelude (stride M N G B : Nat) := (code stride M N G B).take 11
 def body (stride M N G B : Nat) : List ComputeStmt :=
   match (code stride M N G B).drop 11 with
@@ -43,7 +43,7 @@ def Ready (B : Nat) (s : State α) : Prop :=
 
 theorem prelude_success [Inhabited α] (m : Model α) (stride M N G B : Nat) (s : State α) :
     ∃ t,run (engine m) (prelude stride M N G B) s=some t ∧ Ready B t := by
-  simp [prelude,code,TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+  simp [prelude,code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Ready,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -55,7 +55,7 @@ theorem body_success [Inhabited α] (m : Model α) (stride M N G B : Nat) (i : I
     ∃ t,run (engine m) (body stride M N G B) (s.setReg "row" .int [] (fun _ => i))=some t ∧ Ready B t := by
   obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,⟨dw,hdw⟩,⟨db,hdb⟩,⟨row,hrow⟩⟩ := h
   by_cases hi : i=group PUnit.unit <;>
-    simp [body,code,TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+    simp [body,code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Ready,
       engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
       State.setReg,FP.Structural.store,ComputeDType.eraseDType,
@@ -66,7 +66,7 @@ theorem suffix_success [Inhabited α] (m : Model α) (stride M N G B : Nat)
     (s : State α) (h : Ready B s) :
     ∃ t,run (engine m) (suffix stride M N G B) s=some t := by
   obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,⟨dw,hdw⟩,⟨db,hdb⟩,⟨row,hrow⟩⟩ := h
-  simp [suffix,code,TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+  simp [suffix,code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
@@ -75,7 +75,7 @@ theorem suffix_success [Inhabited α] (m : Model α) (stride M N G B : Nat)
 
 theorem source_executes [Inhabited α] (m : Model α) (stride M N G B : Nat) (s : State α) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t := by
+      (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t := by
   obtain ⟨a,ha,hready⟩ := prelude_success m stride M N G B s
   obtain ⟨row,hrow⟩ := hready.2.2.2.2.2.2.2
   obtain ⟨b,hb,hbready⟩ := SourceFinal.range_success (engine m) "row" (row PUnit.unit) M G

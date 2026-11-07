@@ -29,7 +29,7 @@ private theorem natural_window (n : Nat) : (if 0<n then n else 0)=n := by split 
 theorem prelude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (inside : Bounds p s bounds) :
     traceSafeList (withSum M R) bounds (prelude p) s := by
-  simp (config := {maxSteps:=500000}) [prelude,kernel,TokenAttnMistral.kernel,source,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps:=500000}) [prelude,kernel,TokenAttnMistral.kernel,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
@@ -41,7 +41,7 @@ theorem body_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (ready : Ready p s t a) (bounds : RegionName → Nat) (inside : Bounds p s bounds)
     (active : n<count p s) (aligned : n%p.block=0) :
     traceSafeList (withSum M R) bounds (body p) (t.setReg "start_n" .int [] (fun _=>(n : Int))) := by
-  simp (config := {maxSteps:=500000}) [body,kernel,TokenAttnMistral.kernel,source,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps:=500000}) [body,kernel,TokenAttnMistral.kernel,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
@@ -93,7 +93,7 @@ theorem postlude_safe (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (s t : State α) (a : TileIndex [p.width] → α) (ready : Ready p s t a)
     (bounds : RegionName → Nat) (inside : Bounds p s bounds) :
     traceSafeList (withSum M R) bounds (postlude p) t := by
-  simp (config := {maxSteps:=500000}) [postlude,kernel,TokenAttnMistral.kernel,source,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps:=500000}) [postlude,kernel,TokenAttnMistral.kernel,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,

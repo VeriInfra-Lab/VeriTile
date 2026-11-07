@@ -11,9 +11,9 @@ set_option linter.unusedSimpArgs false
 /-- The two actual programs have identical complete successful states. -/
 theorem kernel_run {α : Type} [Inhabited α] (rest : Algebra α) (convert : α → Int)
     (equal : α → α → Bool) (p : Parameters) (s : State α) (width : 0<p.width) :
-    exec (KernelExecution.backend rest convert equal) (KernelSource.addressEarly p) s =
-      exec (KernelExecution.backend rest convert equal) (kernel p) s := by
-  simp [kernel, KernelSource.addressEarly, FP.Structural.exec, ComputeKernel.surfaceBody,
+    exec (KernelExecution.backend rest convert equal) (KernelSource.addressEarlyKernel p) s =
+      exec (KernelExecution.backend rest convert equal) (sourceKernel p) s := by
+  simp [sourceKernel, KernelSource.addressEarlyKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold, FP.Structural.store,
     FP.Structural.numeric, FP.Structural.numericLt, FP.Structural.numericEq,
@@ -33,9 +33,9 @@ theorem kernel_run {α : Type} [Inhabited α] (rest : Algebra α) (convert : α 
 theorem kernel_safe {α : Type} [Inhabited α] (rest : Algebra α) (convert : α → Int)
     (equal : α → α → Bool) (p : Parameters) (s : State α) (width : 0<p.width)
     (bounds : RegionName → Nat) :
-    TraceSafe (KernelExecution.backend rest convert equal) bounds (KernelSource.addressEarly p) s ↔
-      TraceSafe (KernelExecution.backend rest convert equal) bounds (kernel p) s := by
-  simp (maxSteps := 1600000) [FP.Structural.TraceSafe, kernel, KernelSource.addressEarly,
+    TraceSafe (KernelExecution.backend rest convert equal) bounds (KernelSource.addressEarlyKernel p) s ↔
+      TraceSafe (KernelExecution.backend rest convert equal) bounds (sourceKernel p) s := by
+  simp (maxSteps := 1600000) [FP.Structural.TraceSafe, sourceKernel, KernelSource.addressEarlyKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
@@ -45,7 +45,7 @@ theorem kernel_safe {α : Type} [Inhabited α] (rest : Algebra α) (convert : α
     ofFloat, toFloat, Region.cast, State.setReg, TileShape.axisDim, width]
 
 def invocation {α : Type} (A : Algebra α) (p : Parameters) (token : Nat) : Invocation α :=
-  { IO.launch A p token with kernel := KernelSource.addressEarly p }
+  { IO.launch A p token with kernel := KernelSource.addressEarlyKernel p }
 
 theorem invocation_run {α : Type} [Inhabited α] (rest : Algebra α) (convert : α → Int)
     (equal : α → α → Bool) (p : Parameters) (width : 0<p.width) (token : Nat) (s : State α) :
@@ -91,7 +91,7 @@ def original (a : Arithmetic) (rest : Algebra Word) (p : Parameters) (count : Na
   ProgramIO.Implementation.original (IO.quantizeIO (backend a rest) p count order)
     (IO.Destinations p count)
 
-def addressEarly (a : Arithmetic) (rest : Algebra Word) (p : Parameters) (count : Nat) (order : List Nat) :=
+def addressEarlyKernel (a : Arithmetic) (rest : Algebra Word) (p : Parameters) (count : Nat) (order : List Nat) :=
   ProgramIO.Implementation.ofVariant (variant (backend a rest) p count order) (IO.Destinations p count)
 
 /-- Every launch, output channel and exterior cell is retained. -/

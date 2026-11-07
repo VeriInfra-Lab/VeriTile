@@ -18,7 +18,7 @@ theorem access_safe {A : Type} [Inhabited A] (precision : Precision) (classify :
   all_goals
     simp [TraceSafe,Safety.traceSafeList,Safety.stepSafe,Safety.safeAlg,Safety.safeExpr,
       Safety.safeCompute,Safety.safeOp_unfold,Safety.safeMask,Safety.safeAddress,Safety.addressSafe,
-      Safety.maskActive,ComputeKernel.surfaceBody,source,source32,source64,sourceBody,View.address,View.signedAddress,
+      Safety.maskActive,ComputeKernel.surfaceBody,source,source32,source64,sourceKernel,View.address,View.signedAddress,
       FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       algebra,Precision.finite,ComputeDType.eraseDType,numeric,numericEq,stored_bool,natLt,bop,FP.Structural.store,Region.cast,
       ofFloat,toFloat,Option.bind]
@@ -38,7 +38,7 @@ theorem candidate_access_safe {A : Type} [Inhabited A] (precision : Precision) (
   all_goals
     simp [TraceSafe,Safety.traceSafeList,Safety.stepSafe,Safety.safeAlg,Safety.safeExpr,
       Safety.safeCompute,Safety.safeOp_unfold,Safety.safeMask,Safety.safeAddress,Safety.addressSafe,
-      Safety.maskActive,ComputeKernel.surfaceBody,indexCommuted,candidate32,candidate64,candidateBody,Nat.mul_comm,View.address,View.signedAddress,
+      Safety.maskActive,ComputeKernel.surfaceBody,indexCommuted,candidate32,candidate64,candidateKernel,Nat.mul_comm,View.address,View.signedAddress,
       FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       algebra,Precision.finite,ComputeDType.eraseDType,numeric,numericEq,stored_bool,natLt,bop,FP.Structural.store,Region.cast,
       ofFloat,toFloat,Option.bind]

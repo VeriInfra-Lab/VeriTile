@@ -32,7 +32,7 @@ theorem backward_finish_safe (rest : Algebra α) (P : Primitives α) (p : Backwa
     (values : ∀ i : BLane p,backwardOffset p initial block i<bounds p.dv)
     (keys : ∀ i : BLane p,backwardOffset p initial block i<bounds p.dk) :
     Safety.traceSafeList (backend rest P) bounds ((backwardOuterBody p).drop 13) current := by
-  simp [backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

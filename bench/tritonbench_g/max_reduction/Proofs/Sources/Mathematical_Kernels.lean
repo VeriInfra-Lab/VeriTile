@@ -5,16 +5,16 @@ open VeriTile.Triton
 abbrev ValueSource := RegionName → RegionName → Nat → Nat → ComputeKernel
 
 def stage1 (candidate : Bool) : ValueSource :=
-  if candidate then VeriTile.Bench.Repairs.MaxReduction.stage1Commuted
-  else VeriTile.Bench.Repairs.MaxReduction.stage1
+  if candidate then VeriTile.Bench.Repairs.MaxReduction.stage1CommutedKernel
+  else VeriTile.Bench.Repairs.MaxReduction.stage1Kernel
 
 def stage2 (candidate : Bool) : ValueSource :=
-  if candidate then VeriTile.Bench.Repairs.MaxReduction.stage2Complement
-  else VeriTile.Bench.Repairs.MaxReduction.stage2
+  if candidate then VeriTile.Bench.Repairs.MaxReduction.stage2ComplementKernel
+  else VeriTile.Bench.Repairs.MaxReduction.stage2Kernel
 
 def dimensionSource (candidate : Bool) :=
-  if candidate then VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted
-  else VeriTile.Bench.Repairs.MaxReduction.dimension
+  if candidate then VeriTile.Bench.Repairs.MaxReduction.dimensionCommutedKernel
+  else VeriTile.Bench.Repairs.MaxReduction.dimensionKernel
 
 /-- Mathematical view derived from the shared repair quotation. -/
 noncomputable def max_kernel_1

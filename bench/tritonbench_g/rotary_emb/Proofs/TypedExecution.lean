@@ -61,16 +61,16 @@ def branch {A : Type} [Inhabited A] (ops : Ops A) (p : Kernels.Layout) (s : Stat
 and the Q-before-K load/store order. -/
 def execution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (p : Kernels.Layout) (s : State A) :
-    {t : State A // FP.Structural.exec (algebra rest ops) (Kernels.kernel p) s=some t} := by
+    {t : State A // FP.Structural.exec (algebra rest ops) (Kernels.sourceKernel p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [Kernels.kernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp [Kernels.sourceKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
     algebra,numericLt,natLt,bop,numeric,store,VeriTile.Triton.Region.cast,
     ComputeDType.eraseDType,ofFloat,toFloat]
   rfl
 
-#specNonCircular value avoiding [Kernels.kernel,sourcePair,execution]
+#specNonCircular value avoiding [Kernels.sourceKernel,sourcePair,execution]
 #axiomsClean execution
 end
 end VeriTile.Bench.Repairs.RotaryEmb.Typed

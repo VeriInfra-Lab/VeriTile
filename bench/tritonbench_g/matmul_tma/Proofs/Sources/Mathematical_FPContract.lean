@@ -32,7 +32,7 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α
     ∃ t, FP.Structural.exec (backend M D) (source p half) s = some t ∧
       t.mem = (scatter p half s (outputValues M D p half s)).mem := by
   cases half <;>
-    simp [source, typed, FP.Structural.exec, ComputeKernel.surfaceBody, run, step,
+    simp [source, typedKernel, FP.Structural.exec, ComputeKernel.surfaceBody, run, step,
       evalExpr, evalComputeOp, evalOp_unfold, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, Region.cast, BlockPtr.inBounds, BlockPtr.address_2d_zero_offsets,
       TileShape.indexToList, backend, outputValues, outputValue, aValues, bValues,

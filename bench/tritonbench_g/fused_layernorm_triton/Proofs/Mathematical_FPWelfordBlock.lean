@@ -104,7 +104,7 @@ theorem welford_suffix_run {α : Type} [Inhabited α] (M : Algebra α)
     (rnumel B : Nat) (values : WelfordTriple α) (h : WelfordTupleReady B s t values) :
     ∃ final, run (withEquality M equal32) (welfordSuffix Rstd Mean rnumel) t = some final ∧
       final.mem = (statisticsMemory M s Mean Rstd rnumel values).mem := by
-  simp only [welfordSuffix, VeriTile.Bench.Repairs.FusedLayernormTriton.SourcePieces.normalization, VeriTile.Bench.Repairs.FusedLayernormTriton.SourcePieces.statistics, VeriTile.Bench.Repairs.FusedLayernormTriton.SourcePieces.source, VeriTile.Bench.Repairs.FusedLayernormTriton.Kernels.kernel, VeriTile.Bench.Repairs.FusedLayernormTriton.Pasted.originalBody, Source.intRange?, List.drop, Option.getD, Bool.false_eq_true, ite_false, ComputeKernel.surfaceBody, Option.map, String.reduceEq, beq_self_eq_true, ↓reduceIte]
+  simp only [welfordSuffix, VeriTile.Bench.Repairs.FusedLayernormTriton.SourcePieces.normalization, VeriTile.Bench.Repairs.FusedLayernormTriton.SourcePieces.statistics, VeriTile.Bench.Repairs.FusedLayernormTriton.SourcePieces.source, VeriTile.Bench.Repairs.FusedLayernormTriton.Kernels.kernel, VeriTile.Bench.Repairs.FusedLayernormTriton.Pasted.originalKernel, Source.intRange?, List.drop, Option.getD, Bool.false_eq_true, ite_false, ComputeKernel.surfaceBody, Option.map, String.reduceEq, beq_self_eq_true, ↓reduceIte]
   simp [ run, step, evalExpr, evalComputeOp,
     evalOp_unfold, Option.bind, ComputeDType.eraseDType, numeric, bop, store,
     withEquality, Region.cast, ofFloat, toFloat,h.mean,h.m2,h.weight,h.row,

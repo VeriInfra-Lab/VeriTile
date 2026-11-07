@@ -109,7 +109,7 @@ theorem c_readback {A : Type} [Inhabited A] (ops : Ops A) (r : Request) (s : Sta
 
 theorem uncached_raw_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (r : Request) (heads : ∀ key,0<r.heads key) (s : State A) :
-    ∃ t,exec (algebra rest ops) (Kernels.uncached (uLayout r)) s=some t ∧
+    ∃ t,exec (algebra rest ops) (Kernels.uncachedKernel (uLayout r)) s=some t ∧
       t.mem=(uTarget ops r s).mem ∧
       (∀ key odd i,ULive r s key i →
         t.mem (uRegion (uLayout r) key) (uOffset (uLayout r) s key odd i)=
@@ -123,7 +123,7 @@ theorem uncached_raw_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops
 
 theorem uncached_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (c : Checked.Call) (index : Indices) (accepted : Checked.check c index=Bool.true) (s : State A) :
-    ∃ t,exec (algebra rest ops) (Kernels.uncached (uLayout c.request)) s=some t ∧
+    ∃ t,exec (algebra rest ops) (Kernels.uncachedKernel (uLayout c.request)) s=some t ∧
       t.mem=(uTarget ops c.request s).mem ∧
       (∀ key odd i,ULive c.request s key i →
         t.mem (uRegion (uLayout c.request) key) (uOffset (uLayout c.request) s key odd i)=
@@ -138,7 +138,7 @@ theorem uncached_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : O
 theorem cached_raw_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (r : Request) (s : State A) (token : s.pids 1<r.tokens)
     (past : 0≤cPast (cLayout r) s) (block : 0≤cBlock (cLayout r) s) :
-    ∃ t,exec (algebra rest ops) (Kernels.cached (cLayout r)) s=some t ∧
+    ∃ t,exec (algebra rest ops) (Kernels.cachedKernel (cLayout r)) s=some t ∧
       t.mem=(cReference ops (cLayout r) s).mem ∧
       (∀ key odd i,s.pids 0<r.qHeads → cActive (cLayout r) s key i →
         t.mem (cRegion (cLayout r) key) (cOffset (cLayout r) s key odd i)=
@@ -160,7 +160,7 @@ theorem cached_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops
     (c : Checked.Call) (index : Indices) (accepted : Checked.check c index=Bool.true)
     (cached : c.request.cached=Bool.true) (s : State A) (observed : MetadataMatches c.request index s)
     (token : s.pids 1<c.request.tokens) (nonempty : 0<c.request.half) :
-    ∃ t,exec (algebra rest ops) (Kernels.cached (cLayout c.request)) s=some t ∧
+    ∃ t,exec (algebra rest ops) (Kernels.cachedKernel (cLayout c.request)) s=some t ∧
       t.mem=(cReference ops (cLayout c.request) s).mem ∧
       (∀ key odd i,s.pids 0<c.request.qHeads → cActive (cLayout c.request) s key i →
         t.mem (cRegion (cLayout c.request) key) (cOffset (cLayout c.request) s key odd i)=
@@ -170,8 +170,8 @@ theorem cached_successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops
   have h := metadata_nonnegative c index accepted cached s observed token nonempty
   exact cached_raw_successful rest ops c.request s token h.1 h.2
 
-#specNonCircular uTarget avoiding [Kernels.uncached,uncachedExecution,uReference]
-#specNonCircular cReference avoiding [Kernels.cached,cachedExecution]
+#specNonCircular uTarget avoiding [Kernels.uncachedKernel,uncachedExecution,uReference]
+#specNonCircular cReference avoiding [Kernels.cachedKernel,cachedExecution]
 #axiomsClean uncached_successful
 #axiomsClean cached_successful
 end

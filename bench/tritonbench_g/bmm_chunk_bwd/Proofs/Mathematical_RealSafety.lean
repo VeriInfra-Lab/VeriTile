@@ -68,7 +68,7 @@ theorem flatten_ok (swapped : Bool) (BM BN BCS : Nat) (p : RealProgram.Parameter
   cases swapped
   all_goals
     simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize, VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.family,
-      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceBody,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceKernel,
       VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.dotDType,
       ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,

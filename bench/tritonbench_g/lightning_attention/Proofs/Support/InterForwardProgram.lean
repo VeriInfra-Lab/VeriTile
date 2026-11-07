@@ -20,7 +20,7 @@ def interDeltaInit (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : 
     {t : State α // run (engine (withDot M D)) (interFDeltaParts p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [interFDeltaParts,interFQueryParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interFDeltaParts,interFQueryParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg]
   rfl
@@ -45,7 +45,7 @@ def interCarryFinish (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   simp only [InterFDelta] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [interFDeltaParts,interFQueryParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interFDeltaParts,interFQueryParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,bop,State.setReg,ctx.total,ha]
   rfl

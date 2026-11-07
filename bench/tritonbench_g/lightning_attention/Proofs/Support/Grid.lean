@@ -13,9 +13,9 @@ abbrev Stage := Host.Stage
 
 def stageKernel (stage : Stage) (d : Host.Dimensions) : ComputeKernel :=
   match stage with
-  | .forward => forward d.parameters
-  | .intra => intra d.parameters
-  | .inter => inter d.parameters
+  | .forward => forwardKernel d.parameters
+  | .intra => intraKernel d.parameters
+  | .inter => interKernel d.parameters
 
 def grid (stage : Stage) (d : Host.Dimensions) : List PID :=
   (List.range (Host.grid d stage).1).flatMap (fun head =>

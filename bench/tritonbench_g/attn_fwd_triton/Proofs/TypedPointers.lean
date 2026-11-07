@@ -27,7 +27,7 @@ theorem pointers_success {α : Type} [Inhabited α] (A : Algebra α)
   rcases hs with ⟨⟨x0,h0⟩,⟨x1,h1⟩,⟨x2,h2⟩,⟨x3,h3⟩,⟨x4,h4⟩,⟨x5,h5⟩,⟨x6,h6⟩,⟨x7,h7⟩,⟨x8,h8⟩,⟨x9,h9⟩,⟨x10,h10⟩,⟨x11,h11⟩,⟨x12,h12⟩⟩
   by_cases hd : p.stage=2
   all_goals simp only [pointerCode,code,source,Bool.false_eq_true,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero]
   all_goals simp [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,

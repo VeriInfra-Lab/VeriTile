@@ -45,7 +45,7 @@ theorem initial_exact (p : Config) (BD : Nat) (s : State Expr) :
   by_cases hd : p.stage=2
   all_goals
     simp only [code,source,Bool.false_eq_true,↓reduceIte,
-      AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,hd,decide_true,decide_false,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.take_succ_cons,List.take_zero]
+      AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,hd,decide_true,decide_false,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.take_succ_cons,List.take_zero]
     simp [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
       natLt,numericLt,ofFloat,toFloat,Region.cast,State.setReg,Bound,

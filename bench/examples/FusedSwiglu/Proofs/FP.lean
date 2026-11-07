@@ -26,7 +26,7 @@ theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : St
     (xs : Fin B → α)
     (hxs : ∀ i : Fin B, s.pids 0 * B + i.val < n →
       (s.mem "X" (s.pids 0 * B + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (silu_step "X" "S" n B) s = some t ∧
+    ∃ t, FP.Structural.exec M (silu_step_kernel "X" "S" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
         t.mem "S" (s.pids 0 * B + i.val) = Cell.mk .bf16 (siluValue M (M.fp32Load (xs i)))) ∧
       t.pids = s.pids ∧
@@ -37,7 +37,7 @@ theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : St
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [silu_step, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
+  simp [silu_step_kernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat,
     Function.comp_def]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩
@@ -54,7 +54,7 @@ theorem mul_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : Sta
       (s.mem "S" (s.pids 0 * B + i.val)).read .bf16 = zs i)
     (hys : ∀ i : Fin B, s.pids 0 * B + i.val < n →
       (s.mem "Y" (s.pids 0 * B + i.val)).read .real = ys i) :
-    ∃ t, FP.Structural.exec M (mul_step "S" "Y" "OUT" n B) s = some t ∧
+    ∃ t, FP.Structural.exec M (mul_step_kernel "S" "Y" "OUT" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
         t.mem "OUT" (s.pids 0 * B + i.val) = Cell.mk .bf16 (productValue M (zs i) (M.fp32Load (ys i)))) ∧
       t.pids = s.pids ∧
@@ -65,7 +65,7 @@ theorem mul_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : Sta
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [mul_step, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
+  simp [mul_step_kernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩
   · rw [State.masked_scatter_readback _ _ _ _ _ (i, PUnit.unit) hi hinj]
@@ -81,7 +81,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : S
       (s.mem "X" (s.pids 0 * B + i.val)).read .real = xs i)
     (hys : ∀ i : Fin B, s.pids 0 * B + i.val < n →
       (s.mem "Y" (s.pids 0 * B + i.val)).read .real = ys i) :
-    ∃ t, FP.Structural.exec M (swiglu_fused "X" "Y" "OUT" n B) s = some t ∧
+    ∃ t, FP.Structural.exec M (swiglu_fused_kernel "X" "Y" "OUT" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
         t.mem "OUT" (s.pids 0 * B + i.val) =
           Cell.mk .bf16 (productValue M (siluValue M (M.fp32Load (xs i))) (M.fp32Load (ys i)))) ∧
@@ -93,7 +93,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : S
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [swiglu_fused, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
+  simp [swiglu_fused_kernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat,
     Function.comp_def]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩
@@ -155,7 +155,7 @@ def unfusedIO (n B : Nat) : MaskedKernelIO₂ where
   scratch := [("S", fun pid => pid * B)]
 
 def fusedIO (n B : Nat) : MaskedKernelIO₂ :=
-  { (unfusedIO n B).withKernel (swiglu_fused "X" "Y" "OUT" n B) with scratch := [] }
+  { (unfusedIO n B).withKernel (swiglu_fused_kernel "X" "Y" "OUT" n B) with scratch := [] }
 
 
 open scoped VeriTile.Spec

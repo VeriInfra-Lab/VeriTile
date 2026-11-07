@@ -14,7 +14,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["B_Seqlen", "B_Start_Loc", "B_Loc", "Logics", "V"]
   writePorts := ["Out"]
 
-def typed (dtype : FloatDType) (Logics V Out B_Loc B_Start_Loc B_Seqlen : RegionName)
+def typedKernel (dtype : FloatDType) (Logics V Out B_Loc B_Start_Loc B_Seqlen : RegionName)
     (max_input_len stride_logic_h stride_logic_bs stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_b_loc_b stride_b_loc_s BLOCK_DMODEL BLOCK_N : Nat) (other_kv_index : Int) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [max_input_len := max_input_len, stride_logic_h := stride_logic_h, stride_logic_bs := stride_logic_bs, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, stride_b_loc_b := stride_b_loc_b, stride_b_loc_s := stride_b_loc_s, other_kv_index := other_kv_index] in triton {
     cur_batch = tl.program_id(0)
@@ -60,7 +60,7 @@ def typed (dtype : FloatDType) (Logics V Out B_Loc B_Start_Loc B_Seqlen : Region
   }
 
 def source (p : Parameters) : ComputeKernel :=
-  typed .fp32 p.logics p.values p.output p.locations p.starts p.lengths
+  typedKernel .fp32 p.logics p.values p.output p.locations p.starts p.lengths
     p.maxLength p.logicHeadStride p.logicSequenceStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.locationBatchStride p.locationSequenceStride p.dimensions p.tokens p.sentinel
 
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPValue
@@ -68,7 +68,7 @@ end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPValue
 namespace VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.EarlyAddress
 open VeriTile.Triton FPValue
 
-def earlyTyped (dtype : FloatDType) (Logics V Out B_Loc B_Start_Loc B_Seqlen : RegionName)
+def earlyTypedKernel (dtype : FloatDType) (Logics V Out B_Loc B_Start_Loc B_Seqlen : RegionName)
     (max_input_len stride_logic_h stride_logic_bs stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_b_loc_b stride_b_loc_s BLOCK_DMODEL BLOCK_N : Nat) (other_kv_index : Int) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [max_input_len := max_input_len, stride_logic_h := stride_logic_h, stride_logic_bs := stride_logic_bs, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, stride_b_loc_b := stride_b_loc_b, stride_b_loc_s := stride_b_loc_s, other_kv_index := other_kv_index] in triton {
     cur_batch = tl.program_id(0)
@@ -114,7 +114,7 @@ def earlyTyped (dtype : FloatDType) (Logics V Out B_Loc B_Start_Loc B_Seqlen : R
   }
 
 def source (p : FPValue.Parameters) : ComputeKernel :=
-  earlyTyped .fp32 p.logics p.values p.output p.locations p.starts p.lengths
+  earlyTypedKernel .fp32 p.logics p.values p.output p.locations p.starts p.lengths
     p.maxLength p.logicHeadStride p.logicSequenceStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.locationBatchStride p.locationSequenceStride p.dimensions p.tokens p.sentinel
 
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.EarlyAddress

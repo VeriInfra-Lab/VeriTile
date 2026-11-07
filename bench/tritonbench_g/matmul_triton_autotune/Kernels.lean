@@ -30,17 +30,17 @@ def callSignature (input_dtype : FloatDType) : CallSignature where
   readPorts := ["a_ptr","b_ptr"]
   writePorts := ["c_ptr"]
 
-def leakyRelu : PureJitFunction := triton_function (x) {
+def leakyReluSource : PureJitFunction := with_triton_params (x) constexpr_args [] in triton {
     """Applies the Leaky ReLU activation function."""
     return tl.where(x >= 0, x, 0.01 * x)
   }
 
-def originalBody (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+def originalKernel (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
     (ACTIVATION : String) : ComputeKernel :=
   with_triton_call (callSignature input_dtype) call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
-    pure_functions [leaky_relu := leakyRelu] in triton {
+    pure_functions [leaky_relu := leakyReluSource] in triton {
     """Kernel for computing the matrix multiplication C = A x B.
     A has shape (M, K), B has shape (K, N), and C has shape (M, N).
     """
@@ -86,12 +86,12 @@ def originalBody (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
     tl.store(c_ptrs, c, mask=c_mask)
   }
-def candidateBody (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+def candidateKernel (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
     (ACTIVATION : String) : ComputeKernel :=
   with_triton_call (callSignature input_dtype) call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
-    pure_functions [leaky_relu := leakyRelu] in triton {
+    pure_functions [leaky_relu := leakyReluSource] in triton {
     """Kernel for computing the matrix multiplication C = A x B.
     A has shape (M, K), B has shape (K, N), and C has shape (M, N).
     """
@@ -145,7 +145,7 @@ open VeriTile.Triton FPValue
 noncomputable section
 
 def typed (p : Parameters) (ACTIVATION : Bool) : ComputeKernel :=
-  Pasted.candidateBody .fp32 p.A p.B p.C p.M p.N p.K
+  Pasted.candidateKernel .fp32 p.A p.B p.C p.M p.N p.K
     p.stride_am p.stride_ak p.stride_bk p.stride_bn p.stride_cm p.stride_cn
     p.BLOCK_SIZE_M p.BLOCK_SIZE_N p.BLOCK_SIZE_K p.GROUP_SIZE_M
     (if ACTIVATION then "leaky_relu" else "")

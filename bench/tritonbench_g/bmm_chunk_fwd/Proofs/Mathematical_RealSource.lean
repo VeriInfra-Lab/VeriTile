@@ -33,7 +33,7 @@ theorem storage_erasure :
       seqlen chunk K groups sab sas sah sak sbb sbs sbh sbk sob soc soh som son ssb sss BM BN BK causal hasSeq).eraseDType := by
   cases aStorage <;> cases bStorage <;> cases swapped
   all_goals
-    simp only [source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.dotFirst,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+    simp only [source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
       ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,

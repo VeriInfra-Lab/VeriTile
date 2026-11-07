@@ -70,12 +70,12 @@ def outputTail (Y X : RegionName) (N B : Nat) : List Stmt :=
     [SignedTransport.outputPointer Y B] ++ (loopBpass2body Y X N B).drop 8
 
 theorem projects (Y X : RegionName) (M N B : Nat) :
-    (kernel Y X M N B).toAlgorithm? = .ok (kernel Y X M N B).toAlgKernel := by rfl
+    (sourceKernel Y X M N B).toAlgorithm? = .ok (sourceKernel Y X M N B).toAlgKernel := by rfl
 
 /-- Exact decomposition of the new typed source after mathematical dtype
 projection. It retains widened signed registers and both actual mass guards. -/
 theorem source_body (Y X : RegionName) (M N B : Nat) :
-    (kernel Y X M N B).eraseDType.toAlgKernel.body =
+    (sourceKernel Y X M N B).eraseDType.toAlgKernel.body =
       [.assign .int [] "pid_m" (.castNatToInt (.programId 0)),
        .assign .real [B] "m" (.full [B] .negInf),
        .assign .real [B] "z" (.full [B] (.const 0))] ++
@@ -90,7 +90,7 @@ theorem source_body (Y X : RegionName) (M N B : Nat) :
        .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.constInt N) (.constNat B)
          (outputTail Y X N B)] := by
   simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody]
-  simp only [kernel, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?,
+  simp only [sourceKernel, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?,
     ComputeKernel.toAlgKernel, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,

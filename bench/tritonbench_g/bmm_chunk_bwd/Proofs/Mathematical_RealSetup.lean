@@ -99,7 +99,7 @@ theorem executes (s : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
     stepStmts (code BM BN BCS p) s = some (result s BM BN BCS p) := by
   simp [code, RealProgram.realPart, RealProgram.parts, RealProgram.source,
     TypedSource.specialize, VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.family,
-      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceBody,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceKernel,
       VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.dotDType, Source.intRange?, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,

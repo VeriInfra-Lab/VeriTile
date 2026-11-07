@@ -48,8 +48,8 @@ def epilogueExecution (M : Algebra F) (carrier : IntegerCarrier I)
     {t : State F // KernelExecution.run M carrier ops plans (epilogue rowScale output p) current = some t} := by
   cases rowScale <;> cases output <;> by_cases hs : p.split = 1
   all_goals (refine ⟨?_, ?_⟩; swap
-             simp [epilogue, source, KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf, KernelSource.gemmHalfSingle, Bodies.gemmHalfSingle,
-    KernelSource.gemmSingleHalf, Bodies.gemmSingleHalf, KernelSource.gemmSingleSingle, Bodies.gemmSingleSingle, ComputeKernel.surfaceBody,
+             simp [epilogue, source, KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel, KernelSource.gemmHalfSingleKernel, gemmHalfSingleKernel,
+    KernelSource.gemmSingleHalfKernel, gemmSingleHalfKernel, KernelSource.gemmSingleSingleKernel, gemmSingleSingleKernel, ComputeKernel.surfaceBody,
     KernelExecution.run, KernelExecution.step, localStep, FP.Structural.step,
     evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, atomicAdd, atomicAddition,
     numeric, FP.Structural.bop, natLt, numericLt, numericEq, ComputeDType.eraseDType,

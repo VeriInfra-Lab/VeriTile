@@ -21,7 +21,7 @@ theorem complete [Inhabited α] (rest : Algebra α) (p : Layout) (rowPid colPid 
     (metadata : ∀ i, index p rowPid i < p.rows → (s.mem p.index (index p rowPid i)).read .int = indices i)
     (payload : ∀ i, Active p rowPid colPid i → (s.mem p.source (read p colPid indices i)).read .real = xs i)
     (unique : Unique p rowPid colPid) :
-    ∃ t, FP.Structural.exec (copyBackend rest) (kernel p) (initial rowPid colPid s) = some t ∧
+    ∃ t, FP.Structural.exec (copyBackend rest) (sourceKernel p) (initial rowPid colPid s) = some t ∧
       (∀ i, Active p rowPid colPid i → t.mem p.output (write p rowPid colPid i) = .mk .real (xs i)) ∧
       (∀ r o, (∀ i, Active p rowPid colPid i → r ≠ p.output ∨ o ≠ write p rowPid colPid i) →
         t.mem r o = s.mem r o) := by
@@ -53,7 +53,7 @@ theorem safety [Inhabited α] (rest : Algebra α) (p : Layout) (rowPid colPid : 
     (indexBound : ∀ i, index p rowPid i < p.rows → index p rowPid i < bounds p.index)
     (readBound : ∀ i, Active p rowPid colPid i → read p colPid indices i < bounds p.source)
     (writeBound : ∀ i, Active p rowPid colPid i → write p rowPid colPid i < bounds p.output) :
-    FP.Structural.TraceSafe (copyBackend rest) bounds (kernel p) (initial rowPid colPid s) := by
+    FP.Structural.TraceSafe (copyBackend rest) bounds (sourceKernel p) (initial rowPid colPid s) := by
   apply KernelSafety.trace rest p bounds
   · simpa [initial, index] using indexBound
   · intro i active

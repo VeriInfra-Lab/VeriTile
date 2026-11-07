@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.PointerDTypeZeros
-namespace VeriTile.Bench.Repairs.LayerNormTriton.Bodies
+namespace VeriTile.Bench.Repairs.LayerNormTriton
 open VeriTile.Triton
 noncomputable section
 def forwardSignature : CallSignature where
@@ -8,7 +8,7 @@ def forwardSignature : CallSignature where
   constexpr := ["BLOCK_SIZE"]
   readPorts := ["X","W","B"]
   writePorts := ["Y","Mean","Rstd"]
-def forward (X Y W B Mean Rstd : RegionName) (stride N BLOCK_SIZE : Nat)
+def forwardKernel (X Y W B Mean Rstd : RegionName) (stride N BLOCK_SIZE : Nat)
     (eps : ℝ) : ComputeKernel :=
   with_triton_call forwardSignature call_args [stride := stride, N := N, eps := eps] integer_args [] arange_args [] in triton {
     row = tl.program_id(0).to(tl.int64)
@@ -49,7 +49,7 @@ def groupedBackwardSignature : CallSignature where
   constexpr := ["GROUP_SIZE_M","BLOCK_SIZE_N"]
   readPorts := ["DY","X","W","Mean","Rstd"]
   writePorts := ["DX","DW","DB"]
-def groupedBackward (DX DY DW DB X W Mean Rstd : RegionName)
+def groupedBackwardKernel (DX DY DW DB X W Mean Rstd : RegionName)
     (stride M N GROUP_SIZE_M BLOCK_SIZE_N : Nat) : ComputeKernel :=
   with_triton_call groupedBackwardSignature call_args [stride := stride, M := M, N := N] integer_args [] arange_args [] in triton {
     group = tl.program_id(0).to(tl.int64)
@@ -96,7 +96,7 @@ def finalBackwardSignature : CallSignature where
   constexpr := ["BLOCK_SIZE_M","BLOCK_SIZE_N"]
   readPorts := ["DW","DB"]
   writePorts := ["FINAL_DW","FINAL_DB"]
-def finalBackward (DW DB FINAL_DW FINAL_DB : RegionName)
+def finalBackwardKernel (DW DB FINAL_DW FINAL_DB : RegionName)
     (M N BLOCK_SIZE_M BLOCK_SIZE_N : Nat) : ComputeKernel :=
   with_triton_call finalBackwardSignature call_args [M := M, N := N] integer_args [] arange_args [] in triton {
     pid = tl.program_id(0).to(tl.int64)
@@ -117,7 +117,7 @@ def finalBackward (DW DB FINAL_DW FINAL_DB : RegionName)
     tl.store(FINAL_DB + cols, sum_db, mask=cols < N)
   }
 
-def forwardCandidate (X Y W B Mean Rstd : RegionName) (stride N BLOCK_SIZE : Nat)
+def forwardCandidateKernel (X Y W B Mean Rstd : RegionName) (stride N BLOCK_SIZE : Nat)
     (eps : ℝ) : ComputeKernel :=
   with_triton_call forwardSignature call_args [stride := stride, N := N, eps := eps] integer_args [] arange_args [] in triton {
     row = tl.program_id(0).to(tl.int64)
@@ -152,7 +152,7 @@ def forwardCandidate (X Y W B Mean Rstd : RegionName) (stride N BLOCK_SIZE : Nat
     tl.store(Y + cols, y, mask=mask)
   }
 
-def groupedBackwardCandidate (DX DY DW DB X W Mean Rstd : RegionName)
+def groupedBackwardCandidateKernel (DX DY DW DB X W Mean Rstd : RegionName)
     (stride M N GROUP_SIZE_M BLOCK_SIZE_N : Nat) : ComputeKernel :=
   with_triton_call groupedBackwardSignature call_args [stride := stride, M := M, N := N] integer_args [] arange_args [] in triton {
     group = tl.program_id(0).to(tl.int64)
@@ -192,7 +192,7 @@ def groupedBackwardCandidate (DX DY DW DB X W Mean Rstd : RegionName)
     tl.store(DB, db_acc, mask=mask)
   }
 
-def finalBackwardCandidate (DW DB FINAL_DW FINAL_DB : RegionName)
+def finalBackwardCandidateKernel (DW DB FINAL_DW FINAL_DB : RegionName)
     (M N BLOCK_SIZE_M BLOCK_SIZE_N : Nat) : ComputeKernel :=
   with_triton_call finalBackwardSignature call_args [M := M, N := N] integer_args [] arange_args [] in triton {
     pid = tl.program_id(0).to(tl.int64)
@@ -214,4 +214,4 @@ def finalBackwardCandidate (DW DB FINAL_DW FINAL_DB : RegionName)
   }
 
 end
-end VeriTile.Bench.Repairs.LayerNormTriton.Bodies
+end VeriTile.Bench.Repairs.LayerNormTriton

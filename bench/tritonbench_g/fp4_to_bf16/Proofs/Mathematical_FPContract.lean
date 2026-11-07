@@ -41,7 +41,7 @@ theorem tail_memory (rest : Algebra Word) (p : Parameters) (start final : State 
         (fun r o => if r=p.output ∧ o=pid*(p.block*2)+j.1.val then
           .mk .bf16 (embed (Bits.narrow ⟨BitVec.ofInt 32 (words j)⟩)) else mem r o)
       else mem) start.mem := by
-  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody, ComputeKernel.surfaceBody, List.drop, List.take] at h
+  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel, ComputeKernel.surfaceBody, List.drop, List.take] at h
   simp [run, step, evalExpr, evalComputeOp, FP.Structural.evalOp, store,
     backend, hw, hp, hc, ComputeDType.eraseDType, FP.Structural.numeric, FP.Structural.numericLt, FP.Structural.natLt,
     FP.Structural.ofFloat, FP.Structural.toFloat, Option.bind,

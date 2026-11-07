@@ -43,8 +43,8 @@ def indexCommutedKernel (fp8 : Bool) (p : Arguments) : ComputeKernel :=
 def kernel (fp8 : Bool) (p : Arguments) : ComputeKernel := source fp8 p
 
 /-- Complete original helper; DIM=128 is defined by its Python source. -/
-def frequencyFunction : StatementJitFunction :=
-  triton_function (offs_cn, starting_idx, theta, NB_TOKENS) constexpr_args [theta, NB_TOKENS] {
+def frequencySource : StatementJitFunction :=
+  with_triton_params (offs_cn, starting_idx, theta, NB_TOKENS) constexpr_args [theta, NB_TOKENS] in triton {
     DIM: tl.constexpr = 128  # in model, dim = self.params.dim // self.params.n_heads
     freqs = offs_cn % DIM
     freqs = freqs.to(tl.float32) / DIM
@@ -62,14 +62,14 @@ def rbeSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["x_ptr"]
   writePorts := ["out_ptr"]
 
-def rbe (dtype : FloatDType) (x_ptr out_ptr : RegionName)
+def rbeKernel (dtype : FloatDType) (x_ptr out_ptr : RegionName)
     (M K stride_x_batch stride_x_m stride_x_n stride_out_batch stride_out_m stride_out_n : Nat)
     (start_token_position : Int) (THETA : ℝ) (BLOCK_SIZE_M BLOCK_SIZE_K : Nat) : ComputeKernel :=
   with_integral_operands in
   with_triton_call (rbeSignature dtype) call_args [M:=M,K:=K,
     stride_x_batch:=stride_x_batch,stride_x_m:=stride_x_m,stride_x_n:=stride_x_n,
     stride_out_batch:=stride_out_batch,stride_out_m:=stride_out_m,stride_out_n:=stride_out_n,
-    start_token_position:=start_token_position] jit_functions [get_freq_multi_tokens:=frequencyFunction] in triton {
+    start_token_position:=start_token_position] jit_functions [get_freq_multi_tokens:=frequencySource] in triton {
     M = tl.cast(M, tl.int64)
     K = tl.cast(K, tl.int64)
     stride_x_batch = tl.cast(stride_x_batch, tl.int64)

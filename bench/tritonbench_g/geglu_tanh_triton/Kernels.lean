@@ -45,7 +45,7 @@ def forwardKernel (a b c : RegionName) (count block : Nat) : ComputeKernel :=
     tl.store(c + col_offsets, c_row, mask=mask)
   }
 
-def forwardIndexCommuted (a b c : RegionName) (count block : Nat) : ComputeKernel :=
+def forwardIndexCommutedKernel (a b c : RegionName) (count block : Nat) : ComputeKernel :=
   let n_elements := count
   let BLOCK_SIZE := block
   with_triton_signature forwardSignature in triton {
@@ -108,7 +108,7 @@ def backwardKernel (dc a b : RegionName) (count block : Nat) : ComputeKernel :=
     tl.store(b + col_offsets, db_row, mask=mask)
   }
 
-def backwardIndexCommuted (dc a b : RegionName) (count block : Nat) : ComputeKernel :=
+def backwardIndexCommutedKernel (dc a b : RegionName) (count block : Nat) : ComputeKernel :=
   let n_elements := count
   let BLOCK_SIZE := block
   with_triton_signature backwardSignature in triton {
@@ -168,8 +168,8 @@ def source (backward : Bool) (block count : Nat) : ComputeKernel :=
 /-- The existing signed integer address-product commutation on the repaired
 flat grid. No floating operation changes. -/
 def indexCommutedSource (backward : Bool) (block count : Nat) : ComputeKernel :=
-  if backward then backwardIndexCommuted "DC" "A" "B" count block
-  else forwardIndexCommuted "A" "B" "C" count block
+  if backward then backwardIndexCommutedKernel "DC" "A" "B" count block
+  else forwardIndexCommutedKernel "A" "B" "C" count block
 
 def selectedSource (backward candidate : Bool) (block count : Nat) : ComputeKernel :=
   if candidate then indexCommutedSource backward block count else source backward block count

@@ -20,7 +20,7 @@ theorem loop_head_runs {α : Type} [Inhabited α] (M : Algebra α) (c : Paramete
     (hc : s.regs .nat [] "num_ctas"=some (fun _ => C)) :
     run M ((loopBody c).take 1) (s.setReg "j" .nat [] (fun _ => j))=
       some (atTile s P C j) := by
-  simp [loopBody,PastedTile.iterations,PastedTile.grid,gridStrideKernel,originalBody,ComputeKernel.surfaceBody,List.take,run,step,evalExpr,
+  simp [loopBody,PastedTile.iterations,PastedTile.grid,gridStrideKernel,originalKernel,ComputeKernel.surfaceBody,List.take,run,step,evalExpr,
     evalOp_unfold,numeric,hp,hc,atTile]
   rfl
 
@@ -33,7 +33,7 @@ theorem loop_body_safe {α : Type} [Inhabited α] (M : Algebra α) (cmp : α →
     Safety.traceSafeList M bounds (loopBody c) (s.setReg "j" .nat [] (fun _ => j)) := by
   rw [←List.take_append_drop 1 (loopBody c),Safety.traceSafeList_append]
   constructor
-  · simp [loopBody,PastedTile.iterations,PastedTile.grid,gridStrideKernel,originalBody,ComputeKernel.surfaceBody,List.take,
+  · simp [loopBody,PastedTile.iterations,PastedTile.grid,gridStrideKernel,originalKernel,ComputeKernel.surfaceBody,List.take,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,step,evalExpr,evalOp_unfold,numeric,hp,hc]
   · intro t ran
@@ -80,7 +80,7 @@ theorem prefix_runs {α : Type} [Inhabited α] (M : Algebra α) (folded : Bool)
     (c : Parameters) (s : State α) :
     run M ((controlBody c).take 3) s=some (prefixState c s) := by
   cases folded <;> cases branch : c.oneTile <;>
-    simp [controlBody,PastedTile.oneTile,PastedTile.grid,kernel,foldedKernel,branch,originalBody,FP.Structural.bop,oneTileKernel,oneTileFolded,
+    simp [controlBody,PastedTile.oneTile,PastedTile.grid,kernel,foldedKernel,branch,originalKernel,FP.Structural.bop,oneTileKernel,oneTileFolded,
       gridStrideKernel,gridStrideFolded,ComputeKernel.surfaceBody,List.take,run,step,
       evalExpr,evalOp_unfold,numeric,prefixState] <;> rfl
 
@@ -88,7 +88,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α) (folded : Bool)
     (c : Parameters) (s : State α) (bounds : RegionName → Nat) :
     Safety.traceSafeList M bounds ((controlBody c).take 3) s := by
   cases folded <;> cases branch : c.oneTile <;>
-    simp [controlBody,PastedTile.oneTile,PastedTile.grid,kernel,foldedKernel,branch,originalBody,FP.Structural.bop,oneTileKernel,oneTileFolded,
+    simp [controlBody,PastedTile.oneTile,PastedTile.grid,kernel,foldedKernel,branch,originalKernel,FP.Structural.bop,oneTileKernel,oneTileFolded,
       gridStrideKernel,gridStrideFolded,ComputeKernel.surfaceBody,List.take,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,step,evalExpr,evalOp_unfold,numeric]
@@ -109,7 +109,7 @@ theorem control_safe {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → �
   cases branch : c.oneTile
   · have tail : (controlBody c).drop 3=
         [.forRange "j" 0 c.tiles 1 (loopBody c)] := by
-      simp [controlBody,PastedTile.grid,kernel,branch,gridStrideKernel,originalBody,
+      simp [controlBody,PastedTile.grid,kernel,branch,gridStrideKernel,originalKernel,
         gridStrideFolded,ComputeKernel.surfaceBody,loopBody,PastedTile.iterations]
     rw [tail,Safety.traceSafeList_cons]
     refine ⟨?_,fun _ _ => by simp only [Safety.traceSafeList_unfold]⟩
@@ -123,7 +123,7 @@ theorem control_safe {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → �
       exact loop_body_preserves M cmp compare c t (s.pids 0) (s.numPids 0) j branch hp hc u hu
     · simp [prefixState,branch]
   · have tail : (controlBody c).drop 3=perTile c := by
-      simp [controlBody,PastedTile.oneTile,PastedTile.body,perTile,kernel,branch,oneTileKernel,originalBody,
+      simp [controlBody,PastedTile.oneTile,PastedTile.body,perTile,kernel,branch,oneTileKernel,originalKernel,
         oneTileFolded,ComputeKernel.surfaceBody,perTile]
     rw [tail]
     exact tile_safe M cmp compare c (s.pids 0) (prefixState c s)
@@ -144,7 +144,7 @@ private theorem source_layout (folded : Bool) (c : Parameters) :
       [.ifThenElse (.constBool c.oneTile) (PastedTile.oneTile c) (PastedTile.grid c)] := by
   cases folded <;> cases branch : c.oneTile <;>
     simp [selected,kernel,foldedKernel,branch,oneTileKernel,gridStrideKernel,
-      oneTileFolded,gridStrideFolded,originalBody,candidateBody,ComputeKernel.surfaceBody,
+      oneTileFolded,gridStrideFolded,originalKernel,candidateKernel,ComputeKernel.surfaceBody,
       PastedTile.oneTile,PastedTile.grid]
 
 private theorem source_control_safe {α : Type} [Inhabited α] (M : Algebra α)
@@ -155,7 +155,7 @@ private theorem source_control_safe {α : Type} [Inhabited α] (M : Algebra α)
   simp only [controlBody,Safety.traceSafeList_append]
   cases folded <;> cases branch : c.oneTile <;>
     simp [selected,kernel,foldedKernel,branch,oneTileKernel,gridStrideKernel,
-      oneTileFolded,gridStrideFolded,originalBody,candidateBody,ComputeKernel.surfaceBody,
+      oneTileFolded,gridStrideFolded,originalKernel,candidateKernel,ComputeKernel.surfaceBody,
       List.take,Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,run,step,evalExpr,evalOp_unfold,numeric,FP.Structural.bop] <;> rfl
 

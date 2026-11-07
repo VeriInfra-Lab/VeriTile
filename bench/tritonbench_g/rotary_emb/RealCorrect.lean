@@ -28,7 +28,7 @@ specification rotary_emb_real (rest : Algebra ℝ) (shape : Shape)
   [Spec.Real,FP.Structural.Algebra,Shape,Shape.Valid,RotaryIO.logicalIO,realOps,
    LogicalProgramIO.Implements,RotaryIO.RotationInputs,RotaryIO.Lane,rotation]
 #specNonCircular rotation avoiding
-  [Kernels.kernel,Typed.execution,Typed.reference,FP.Structural.exec]
+  [Kernels.sourceKernel,Typed.execution,Typed.reference,FP.Structural.exec]
 #axiomsClean rotary_emb_real
 #guard_msgs (drop info) in
 #auditModuleAxioms

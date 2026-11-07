@@ -19,7 +19,7 @@ theorem fold_write_memory {α ι : Type} (xs : List ι) (region : ι → RegionN
 theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s t : State α) (h : Ready p s t (accumulated M R p s)) :
     ∃ u, run (withSum M R) (postlude p) t = some u ∧ u.mem = (reference M R p s).mem := by
-  simp [postlude, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [postlude, kernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, Region.cast, withSum, h.mem, h.pids, h.undef, h.batch, h.head,

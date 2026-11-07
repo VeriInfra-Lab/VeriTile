@@ -65,7 +65,7 @@ theorem source_pair (M : Algebra A) (p : Config) (BD : Nat) :
   by_cases hd : p.stage=2
   all_goals simp only [source,kernel,AttnFwdTriton.TypedSource.repaired,
     AttnFwdTriton.TypedSource.quotientRemainder,
-    AttnFwdTriton.Bodies.originalBody,AttnFwdTriton.Bodies.candidateBody,
+    AttnFwdTriton.originalKernel,AttnFwdTriton.candidateKernel,
     hd,decide_true,decide_false,ComputeKernel.surfaceBody,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte]
   all_goals repeat' first

@@ -22,7 +22,7 @@ def sourceSignature (input cosine sine : Storage) : CallSignature where
   readPorts := ["Q","cos","sin"]
   writePorts := ["Q"]
 
-def ropeFor (input cosine sine : Storage) (Q cos sin : RegionName)
+def ropeForKernel (input cosine sine : Storage) (Q cos sin : RegionName)
     (Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE : Nat)
     (BACKWARD_PASS : Bool) : ComputeKernel :=
   with_triton_call (sourceSignature input cosine sine) call_args [Q_row_stride := Q_row_stride,
@@ -66,7 +66,7 @@ def ropeFor (input cosine sine : Storage) (Q cos sin : RegionName)
         tl.store(Q + offs_q2, Q2*cos1 + Q1*sin1, mask = mask)
   }
 
-def commutedFor (input cosine sine : Storage) (Q cos sin : RegionName)
+def commutedForKernel (input cosine sine : Storage) (Q cos sin : RegionName)
     (Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE : Nat)
     (BACKWARD_PASS : Bool) : ComputeKernel :=
   with_triton_call (sourceSignature input cosine sine) call_args [Q_row_stride := Q_row_stride,
@@ -111,7 +111,7 @@ def commutedFor (input cosine sine : Storage) (Q cos sin : RegionName)
   }
 
 /-- Selected FP32 source; all 27 previously supported profiles use the same bodies. -/
-def rope := ropeFor .fp32 .fp32 .fp32
-def ropeIndexCommuted := commutedFor .fp32 .fp32 .fp32
+def rope := ropeForKernel .fp32 .fp32 .fp32
+def ropeIndexCommuted := commutedForKernel .fp32 .fp32 .fp32
 
 end VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels

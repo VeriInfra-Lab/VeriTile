@@ -26,13 +26,13 @@ variable (s : State ℝ) (M : Algebra ℝ)
 theorem step11 :
     step M (statement (pasted r X Y).surfaceBody 11) s =
     step M (statement (RbeTritonTransformCheckedLaunch.source (parameters r X Y)).surfaceBody 11) s := by
-  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,RbeTritonTransformCheckedLaunch.source,
-    RbeTritonTransformCheckedLaunch.typed,parameters,ComputeKernel.surfaceBody,
+  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,RbeTritonTransformCheckedLaunch.source,
+    RbeTritonTransformCheckedLaunch.typedKernel,parameters,ComputeKernel.surfaceBody,
     statement]
   have constant : (128.0:ℝ)=128 := by norm_num
   cases hpid : s.regs .int [] "pid" <;>
-   simp (config := {maxSteps:=20000}) [hpid,constant,IntegerExpr.sameShape,pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,
-    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typed,
+   simp (config := {maxSteps:=20000}) [hpid,constant,IntegerExpr.sameShape,pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,
+    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typedKernel,
     parameters,ComputeKernel.surfaceBody,step,evalExpr,evalOp_unfold,evalComputeOp,
     Option.bind,numeric,numericEq,numericLt,integralFloorDiv,integralMod,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,
@@ -40,13 +40,13 @@ theorem step11 :
 theorem step12 :
     step M (statement (pasted r X Y).surfaceBody 12) s =
     step M (statement (RbeTritonTransformCheckedLaunch.source (parameters r X Y)).surfaceBody 12) s := by
-  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,RbeTritonTransformCheckedLaunch.source,
-    RbeTritonTransformCheckedLaunch.typed,parameters,ComputeKernel.surfaceBody,
+  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,RbeTritonTransformCheckedLaunch.source,
+    RbeTritonTransformCheckedLaunch.typedKernel,parameters,ComputeKernel.surfaceBody,
     statement]
   have constant : (128.0:ℝ)=128 := by norm_num
   cases hpid : s.regs .int [] "pid" <;>
-   simp (config := {maxSteps:=20000}) [hpid,constant,IntegerExpr.sameShape,pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,
-    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typed,
+   simp (config := {maxSteps:=20000}) [hpid,constant,IntegerExpr.sameShape,pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,
+    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typedKernel,
     parameters,ComputeKernel.surfaceBody,step,evalExpr,evalOp_unfold,evalComputeOp,
     Option.bind,numeric,numericEq,numericLt,integralFloorDiv,integralMod,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,
@@ -57,13 +57,13 @@ theorem step12 :
 theorem step25 :
     step ideal.backend (statement (pasted r X Y).surfaceBody 25) s =
     step ideal.backend (statement (RbeTritonTransformCheckedLaunch.source (parameters r X Y)).surfaceBody 25) s := by
-  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,RbeTritonTransformCheckedLaunch.source,
-    RbeTritonTransformCheckedLaunch.typed,parameters,ComputeKernel.surfaceBody,
+  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,RbeTritonTransformCheckedLaunch.source,
+    RbeTritonTransformCheckedLaunch.typedKernel,parameters,ComputeKernel.surfaceBody,
     statement]
   have constant : (128.0:ℝ)=128 := by norm_num
   cases hpid : s.regs .int [] "pid" <;>
-   simp (config := {maxSteps:=20000}) [hpid,constant,IntegerExpr.sameShape,pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,
-    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typed,
+   simp (config := {maxSteps:=20000}) [hpid,constant,IntegerExpr.sameShape,pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,
+    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typedKernel,
     parameters,ComputeKernel.surfaceBody,step,evalExpr,evalOp_unfold,evalComputeOp,
     Option.bind,numeric,numericEq,numericLt,integralFloorDiv,integralMod,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,
@@ -71,29 +71,29 @@ theorem step25 :
 theorem safe11 (bounds : RegionName → Nat) :
     Safety.stepSafe ideal.backend bounds (statement (pasted r X Y).surfaceBody 11) s ↔
     Safety.stepSafe ideal.backend bounds (statement (RbeTritonTransformCheckedLaunch.source (parameters r X Y)).surfaceBody 11) s := by
-  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,
-    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typed,
+  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,
+    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typedKernel,
     parameters,ComputeKernel.surfaceBody,statement]
-  simp [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,RbeTritonTransformCheckedLaunch.source,
-    RbeTritonTransformCheckedLaunch.typed,parameters,ComputeKernel.surfaceBody,
+  simp [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,RbeTritonTransformCheckedLaunch.source,
+    RbeTritonTransformCheckedLaunch.typedKernel,parameters,ComputeKernel.surfaceBody,
     Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp_unfold]
 theorem safe12 (bounds : RegionName → Nat) :
     Safety.stepSafe ideal.backend bounds (statement (pasted r X Y).surfaceBody 12) s ↔
     Safety.stepSafe ideal.backend bounds (statement (RbeTritonTransformCheckedLaunch.source (parameters r X Y)).surfaceBody 12) s := by
-  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,
-    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typed,
+  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,
+    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typedKernel,
     parameters,ComputeKernel.surfaceBody,statement]
-  simp [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,RbeTritonTransformCheckedLaunch.source,
-    RbeTritonTransformCheckedLaunch.typed,parameters,ComputeKernel.surfaceBody,
+  simp [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,RbeTritonTransformCheckedLaunch.source,
+    RbeTritonTransformCheckedLaunch.typedKernel,parameters,ComputeKernel.surfaceBody,
     Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp_unfold]
 theorem safe25 (bounds : RegionName → Nat) :
     Safety.stepSafe ideal.backend bounds (statement (pasted r X Y).surfaceBody 25) s ↔
     Safety.stepSafe ideal.backend bounds (statement (RbeTritonTransformCheckedLaunch.source (parameters r X Y)).surfaceBody 25) s := by
-  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,
-    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typed,
+  dsimp only [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,
+    RbeTritonTransformCheckedLaunch.source,RbeTritonTransformCheckedLaunch.typedKernel,
     parameters,ComputeKernel.surfaceBody,statement]
-  simp [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbe,RbeTritonTransformCheckedLaunch.source,
-    RbeTritonTransformCheckedLaunch.typed,parameters,ComputeKernel.surfaceBody,
+  simp [pasted,RotaryIO.source,RmsRbeMatmul.TypedSource.rbeKernel,RbeTritonTransformCheckedLaunch.source,
+    RbeTritonTransformCheckedLaunch.typedKernel,parameters,ComputeKernel.surfaceBody,
     Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp_unfold]
 private def StatementRelated (a b : ComputeStmt) : Prop :=
   (∀ s : State ℝ, step ideal.backend a s = step ideal.backend b s) ∧

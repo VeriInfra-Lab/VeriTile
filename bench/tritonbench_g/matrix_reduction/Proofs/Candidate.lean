@@ -13,7 +13,7 @@ theorem source_graph {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (s : State α) (M N : Nat) (hN : 0 < N) :
     ∃ t, exec A (candidateKernel d "x" "out" N 1 1 M N) s = some t ∧
       t.mem = KernelFP.written A d M N s := by
-  cases d <;> simp [candidateKernel, candidateFor, ComputeKernel.surfaceBody, FP.Structural.exec,
+  cases d <;> simp [candidateKernel, candidateForKernel, ComputeKernel.surfaceBody, FP.Structural.exec,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, store, State.setReg,
     TileShape.axisDim, hN, TileShape.insertAxisIndex, TileShape.eraseAxis,
     ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
@@ -28,7 +28,7 @@ theorem trace {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (output : ∀ i : Fin M, i.val < bounds "out") :
     TraceSafe A bounds (candidateKernel d "x" "out" N 1 1 M N) s := by
   cases d <;>
-    simp [FP.Structural.TraceSafe, candidateKernel, candidateFor, ComputeKernel.surfaceBody,
+    simp [FP.Structural.TraceSafe, candidateKernel, candidateForKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

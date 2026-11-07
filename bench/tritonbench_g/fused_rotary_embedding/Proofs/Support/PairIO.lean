@@ -13,7 +13,7 @@ def io (rest : Algebra NativeSource.Payload) (p : Native.Instructions) (c : Conf
 def job (rest : Algebra NativeSource.Payload) (p : Native.Instructions) (c : Config) (pid : Program) :
     Invocation NativeSource.Payload :=
   { Source.invocation rest (NativeSource.ops p) c pid with
-    kernel := Source.kernelSharedQOffset (Source.parameters c.shape) }
+    kernel := Source.kernelSharedQOffsetKernel (Source.parameters c.shape) }
 
 def variant (rest : Algebra NativeSource.Payload) (p : Native.Instructions) (c : Config) :
     ProgramIO.Variant (io rest p c) where

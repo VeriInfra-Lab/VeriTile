@@ -23,7 +23,7 @@ theorem shifted_code (p : Parameters) :
 
 theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     step M (originalSite p) s = step M (shiftedSite p) s := by
-  simp only [originalSite,shiftedSite,Source.kernel,kernel,TypedSource.repaired,Bodies.originalBody,CandidateSource.shifted,Bodies.candidateBody,
+  simp only [originalSite,shiftedSite,Source.kernel,kernel,TypedSource.repaired,originalKernel,CandidateSource.shifted,candidateKernel,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   simp only [step,evalExpr,evalOp_unfold]
   cases hr : s.regs .int [] "start_m"
@@ -34,7 +34,7 @@ theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s
 theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
     (p : Parameters) (s : State α) :
     Safety.stepSafe M bounds (originalSite p) s ∧ Safety.stepSafe M bounds (shiftedSite p) s := by
-  simp only [originalSite,shiftedSite,Source.kernel,kernel,TypedSource.repaired,Bodies.originalBody,CandidateSource.shifted,Bodies.candidateBody,
+  simp only [originalSite,shiftedSite,Source.kernel,kernel,TypedSource.repaired,originalKernel,CandidateSource.shifted,candidateKernel,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,and_true,true_and]
 

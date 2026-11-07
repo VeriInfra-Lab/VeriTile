@@ -39,7 +39,7 @@ def prefixRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag
   refine ⟨?_,?_⟩
   swap
   cases flag <;>
-    simp [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardSourceBody,forwardCandidateSourceBody,KernelDSL.forwardLog,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,Algebra.withDefaultPrecision,resolvePrecision,
       ComputeDType.eraseDType,State.setReg,numeric,numericLt,natLt,FP.Structural.bop,Region.cast,bindEpsilon]
   all_goals rfl
@@ -83,7 +83,7 @@ def chunkRun {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardSourceBody,forwardCandidateSourceBody,KernelDSL.forwardLog,epsilonLoss,
+    simp [forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg,
     numeric,numericLt,numericEq,natLt,FP.Structural.bop,store,Region.cast,hr,

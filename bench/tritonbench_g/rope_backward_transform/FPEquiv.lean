@@ -14,7 +14,7 @@ No numerical transformation rule or additional input restriction is required. -/
 specification source_candidate_equivalence (cfg : FP.Config) (r : Request) :
     PairIO.original (Numerics.operations (KernelContract.nativePrimitives cfg))
       (fun x => Numerics.leaf x.word) r ≡[[]]
-    PairIO.indexShared (Numerics.operations (KernelContract.nativePrimitives cfg))
+    PairIO.indexSharedKernel (Numerics.operations (KernelContract.nativePrimitives cfg))
       (fun x => Numerics.leaf x.word) r := by
   exact ReadProgramIO.Implementation.of_equivalent (PairIO.candidate _ _ r)
     (PairIO.equivalent _ _ r)

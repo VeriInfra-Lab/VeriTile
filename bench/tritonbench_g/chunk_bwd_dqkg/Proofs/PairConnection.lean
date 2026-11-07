@@ -140,8 +140,8 @@ theorem source_pair (M : Algebra A) (c : Config) :
     CodeEq M (Whole.kernel c).surfaceBody (kernel c).surfaceBody := by
   have gate := gate_step M c.T
   unfold gateStmt sourceBound candidateBound minOp startOp at gate
-  unfold Whole.kernel kernel TypedSource.original TypedSource.originalBody
-    TypedSource.tailBoundCSE TypedSource.tailBoundBody TypedSource.Storage.dtype ComputeKernel.surfaceBody
+  unfold Whole.kernel kernel TypedSource.original TypedSource.originalKernel
+    TypedSource.tailBoundCSE TypedSource.tailBoundKernel TypedSource.Storage.dtype ComputeKernel.surfaceBody
   repeat' first
     | exact code_refl M _
     | exact step_refl M _

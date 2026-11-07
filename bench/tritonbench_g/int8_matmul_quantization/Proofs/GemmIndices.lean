@@ -11,11 +11,11 @@ variable {α : Type} [Inhabited α]
 abbrev Parameters := KernelSource.GemmParameters
 
 def original : Precision → Precision → Parameters → ComputeKernel
-  | .half,.half=>Source.gemmHalfHalf | .half,.single=>Source.gemmHalfSingle
-  | .single,.half=>Source.gemmSingleHalf | .single,.single=>Source.gemmSingleSingle
+  | .half,.half=>Source.gemmHalfHalfKernel | .half,.single=>Source.gemmHalfSingleKernel
+  | .single,.half=>Source.gemmSingleHalfKernel | .single,.single=>Source.gemmSingleSingleKernel
 def candidate : Precision → Precision → Parameters → ComputeKernel
-  | .half,.half=>Source.unmaskedGemmHalfHalf | .half,.single=>Source.unmaskedGemmHalfSingle
-  | .single,.half=>Source.unmaskedGemmSingleHalf | .single,.single=>Source.unmaskedGemmSingleSingle
+  | .half,.half=>Source.unmaskedGemmHalfHalfKernel | .half,.single=>Source.unmaskedGemmHalfSingleKernel
+  | .single,.half=>Source.unmaskedGemmSingleHalfKernel | .single,.single=>Source.unmaskedGemmSingleSingleKernel
 
 def oldSegment (rowScale output : Precision) (p : Parameters) :=
   ((original rowScale output p).surfaceBody.drop 21).take 9
@@ -47,8 +47,8 @@ theorem prefix_good (M : Algebra α) (a : IntegerDot.Arithmetic) (ctx : IntegerD
   cases mode : ctx.mode <;>
     cases hp : s.regs .int [] "pid_m" <;> cases hq : s.regs .int [] "pid_n" <;>
     cases hz : s.regs .int [] "pid_sp_k"
-  all_goals simp only [addressPrefix,oldSegment,original,Source.gemmHalfHalf,
-    KernelSource.gemmHalfHalf,Bodies.gemmHalfHalf,ComputeKernel.surfaceBody,
+  all_goals simp only [addressPrefix,oldSegment,original,Source.gemmHalfHalfKernel,
+    KernelSource.gemmHalfHalfKernel,gemmHalfHalfKernel,ComputeKernel.surfaceBody,
     List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero] at ran
   all_goals simp [IntegerDot.run,IntegerDot.step_unfold,IntegerDot.arithmeticStep,
     IntegerDot.addExpression,IntegerDot.accumulatorStep,mode,FP.Structural.step,evalExpr,
@@ -74,10 +74,10 @@ theorem loads_run (M : Algebra α) (a : IntegerDot.Arithmetic) (ctx : IntegerDot
   cases rowScale <;> cases hp : s.regs .ptr [p.blockRows] "as_ptrs" <;>
     cases hq : s.regs .ptr [p.blockColumns] "bs_ptrs"
   all_goals simp only [oldLoads,newLoads,oldSegment,newSegment,original,candidate,
-    Source.gemmHalfHalf,KernelSource.gemmHalfHalf,Bodies.gemmHalfHalf,
-    Source.gemmSingleHalf,KernelSource.gemmSingleHalf,Bodies.gemmSingleHalf,
-    Source.unmaskedGemmHalfHalf,Bodies.unmaskedGemmHalfHalf,
-    Source.unmaskedGemmSingleHalf,Bodies.unmaskedGemmSingleHalf,ComputeKernel.surfaceBody,
+    Source.gemmHalfHalfKernel,KernelSource.gemmHalfHalfKernel,gemmHalfHalfKernel,
+    Source.gemmSingleHalfKernel,KernelSource.gemmSingleHalfKernel,gemmSingleHalfKernel,
+    Source.unmaskedGemmHalfHalfKernel,unmaskedGemmHalfHalfKernel,
+    Source.unmaskedGemmSingleHalfKernel,unmaskedGemmSingleHalfKernel,ComputeKernel.surfaceBody,
     List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
   all_goals simp [IntegerDot.run,IntegerDot.step_unfold,IntegerDot.arithmeticStep,FP.Structural.step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,numericLt,numericEq,
@@ -104,10 +104,10 @@ theorem loads_safe (M : Algebra α) (a : IntegerDot.Arithmetic) (ctx : IntegerDo
   cases rowScale <;> cases hp : s.regs .ptr [p.blockRows] "as_ptrs" <;>
     cases hq : s.regs .ptr [p.blockColumns] "bs_ptrs"
   all_goals simp only [oldLoads,newLoads,oldSegment,newSegment,original,candidate,
-    Source.gemmHalfHalf,KernelSource.gemmHalfHalf,Bodies.gemmHalfHalf,
-    Source.gemmSingleHalf,KernelSource.gemmSingleHalf,Bodies.gemmSingleHalf,
-    Source.unmaskedGemmHalfHalf,Bodies.unmaskedGemmHalfHalf,
-    Source.unmaskedGemmSingleHalf,Bodies.unmaskedGemmSingleHalf,ComputeKernel.surfaceBody,
+    Source.gemmHalfHalfKernel,KernelSource.gemmHalfHalfKernel,gemmHalfHalfKernel,
+    Source.gemmSingleHalfKernel,KernelSource.gemmSingleHalfKernel,gemmSingleHalfKernel,
+    Source.unmaskedGemmHalfHalfKernel,unmaskedGemmHalfHalfKernel,
+    Source.unmaskedGemmSingleHalfKernel,unmaskedGemmSingleHalfKernel,ComputeKernel.surfaceBody,
     List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
   all_goals simp [IntegerDot.traceSafeList_unfold,IntegerDot.stepSafe_unfold,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,

@@ -12,7 +12,7 @@ def callSignature : CallSignature where
     ("stride_yn",.integer),("stride_zm",.integer),("stride_zn",.integer)]
   constexpr := ["m_block_size","k_block_size","n_block_size"]
 
-def body (x_ptr y_ptr z_ptr : RegionName) (m_block_size k_block_size n_block_size : Nat) : ComputeKernel :=
+def bodyKernel (x_ptr y_ptr z_ptr : RegionName) (m_block_size k_block_size n_block_size : Nat) : ComputeKernel :=
   with_triton_signature callSignature in
   triton {
     m_size = tl.cast(m_size, tl.uint64)
@@ -60,7 +60,7 @@ noncomputable def arguments (p : Core.Parameters) : List ScalarArgument :=
     ScalarArgument.integer "stride_yn" p.weightColumn,ScalarArgument.integer "stride_zm" p.outputRow,
     ScalarArgument.integer "stride_zn" p.outputColumn]
 noncomputable def source (p : Core.Parameters) : ComputeKernel :=
-  (body p.input p.weight p.output p.blockRows p.blockInner p.blockColumns).withScalarArguments (arguments p)
+  (bodyKernel p.input p.weight p.output p.blockRows p.blockInner p.blockColumns).withScalarArguments (arguments p)
 
 /-- Cache the row/column comparisons without changing the ordered FP dot. -/
 def maskHoistedBody (x_ptr y_ptr z_ptr : RegionName) (m_block_size k_block_size n_block_size : Nat) : ComputeKernel :=

@@ -60,7 +60,7 @@ def update_fn_kernel (p_ptr grad_ptr exp_avg_ptr : RegionName)
     tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
   }
 
-def commuted_update (p_ptr grad_ptr exp_avg_ptr : RegionName)
+def commuted_update_kernel (p_ptr grad_ptr exp_avg_ptr : RegionName)
     (lr wd beta1 beta2 : ℝ) (n_elements BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call updateSignature call_args [lr := lr, wd := wd, beta1 := beta1, beta2 := beta2, n_elements := n_elements, chunk_elements := n_elements] in
   triton {
@@ -108,5 +108,5 @@ def originalKernel (lr wd beta1 beta2 : ℝ) (n_elements BLOCK_SIZE : Nat) : Com
   update_fn_kernel "p" "grad" "exp_avg" lr wd beta1 beta2 n_elements BLOCK_SIZE
 
 def optimizedKernel (lr wd beta1 beta2 : ℝ) (n_elements BLOCK_SIZE : Nat) : ComputeKernel :=
-  commuted_update "p" "grad" "exp_avg" lr wd beta1 beta2 n_elements BLOCK_SIZE
+  commuted_update_kernel "p" "grad" "exp_avg" lr wd beta1 beta2 n_elements BLOCK_SIZE
 end VeriTile.Bench.Examples.AdamUpdateGridLaunch.Kernels

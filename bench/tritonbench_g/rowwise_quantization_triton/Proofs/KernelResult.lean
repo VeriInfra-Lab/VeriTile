@@ -90,7 +90,7 @@ theorem source_run {α : Type} [Inhabited α] (M : Algebra α) (round : α → B
     (equal : α → α → Bool) (p : Parameters) (s : State α)
     (hwidth : 0 < p.width) :
     ∃ t, KernelExecution.exec (backend M equal) round (kernel p) s = some t ∧ t.mem = (reference M round equal p s).mem := by
-  simp +contextual (config := { maxSteps := 1000000 }) [kernel, RowwiseQuantizationTriton.source, ComputeKernel.surfaceBody,
+  simp +contextual (config := { maxSteps := 1000000 }) [kernel, RowwiseQuantizationTriton.sourceKernel, ComputeKernel.surfaceBody,
     KernelExecution.exec, KernelExecution.run, KernelExecution.step, KernelExecution.eval,
     evalExpr, evalComputeOp, evalOp_unfold, store, backend, numericEq,
     State.setReg, reference, rowWritten, scaledValue, maximumStored, maximum, maxInput, loaded, offset,

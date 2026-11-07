@@ -17,7 +17,7 @@ def callSignature (storage : Storage) : CallSignature where
   readPorts := ["x_ptr"]
   writePorts := ["y_ptr"]
 
-def originalFor (storage : Storage) (x_ptr y_ptr : RegionName)
+def originalForKernel (storage : Storage) (x_ptr y_ptr : RegionName)
     (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature storage) call_args
     [stride_xm := stride_xm, stride_xn := stride_xn, stride_y := stride_y] in triton {
@@ -30,7 +30,7 @@ def originalFor (storage : Storage) (x_ptr y_ptr : RegionName)
     tl.store(y_ptr + tl.arange(0, BLOCK_M), y)
   }
 
-def candidateFor (storage : Storage) (x_ptr y_ptr : RegionName)
+def candidateForKernel (storage : Storage) (x_ptr y_ptr : RegionName)
     (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature storage) call_args
     [stride_xm := stride_xm, stride_xn := stride_xn, stride_y := stride_y] in triton {
@@ -43,13 +43,13 @@ def candidateFor (storage : Storage) (x_ptr y_ptr : RegionName)
   }
 def kernel (storage : Storage) : RegionName → RegionName → Nat → Nat → Nat → Nat → Nat → ComputeKernel :=
   match storage with
-  | .fp16 => originalFor .fp16
-  | .fp32 => originalFor .fp32
+  | .fp16 => originalForKernel .fp16
+  | .fp32 => originalForKernel .fp32
 
 def candidateKernel (storage : Storage) : RegionName → RegionName → Nat → Nat → Nat → Nat → Nat → ComputeKernel :=
   match storage with
-  | .fp16 => candidateFor .fp16
-  | .fp32 => candidateFor .fp32
+  | .fp16 => candidateForKernel .fp16
+  | .fp32 => candidateForKernel .fp32
 
 #guard_msgs (drop info) in
 #check kernel.eq_1
@@ -64,5 +64,5 @@ open VeriTile.Triton
 implementation. All typed storage profiles are connected by source_shape. -/
 def load_reduce_kernel (x_ptr y_ptr : RegionName)
     (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  (TypedSource.originalFor .fp32 x_ptr y_ptr stride_xm stride_xn stride_y BLOCK_M BLOCK_N).eraseDType
+  (TypedSource.originalForKernel .fp32 x_ptr y_ptr stride_xm stride_xn stride_y BLOCK_M BLOCK_N).eraseDType
 end VeriTile.Bench.TritonBenchG.MatrixReduction

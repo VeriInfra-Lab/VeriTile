@@ -39,7 +39,7 @@ theorem backward_executes (M : Algebra α) (p : Parameters) (initial : State α)
       simp only [label,Region.cast] at readIgnored
       refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [exec,backward,TypedSource.backward,hc,hs,ComputeKernel.surfaceBody,
+      · simp [exec,backward,TypedSource.backwardKernel,hc,hs,ComputeKernel.surfaceBody,
           run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
           engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,natLt,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,Region.cast,

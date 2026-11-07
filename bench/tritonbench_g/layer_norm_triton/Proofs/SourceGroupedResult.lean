@@ -90,7 +90,7 @@ theorem final_frame [Inhabited α] (m : Model α) (stride M N G B : Nat) (s : St
 
 theorem executes [Inhabited α] (m : Model α) (stride M N G B : Nat) (s : State α) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t ∧
+      (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t ∧
       t.mem=(final m stride M N G B s).mem ∧
       (∀ i : TileIndex [B],i.1.val<N →
         t.mem "DW" (s.pids 0*N+i.1.val)=

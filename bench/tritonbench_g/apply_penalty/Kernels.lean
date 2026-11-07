@@ -16,7 +16,7 @@ def callSignature : CallSignature where
     "p_cumsum_seq_len","p_token_ids","p_token_counts","Logits"]
   writePorts := ["Logits"]
 
-def kernel
+def sourceKernel
     (Logits presence_penalty freqency_penalty repetition_penalty : RegionName)
     (p_token_ids p_token_counts p_cumsum_seq_len : RegionName)
     (stride_logit_b stride_logit_s BLOCK_P : Nat) : ComputeKernel :=

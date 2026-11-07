@@ -15,7 +15,7 @@ def callSignature : CallSignature where
   writePorts := ["c_ptr"]
 
 /-- Unchanged function body from `matmul_kernel_repaired.py:matmul_kernel`. -/
-def typed (C A B : RegionName) (cfg : Config) : ComputeKernel :=
+def typedKernel (C A B : RegionName) (cfg : Config) : ComputeKernel :=
   let c_ptr : VeriTile.Triton.Region .fp32 := C.cast
   let a_ptr : VeriTile.Triton.Region .fp32 := A.cast
   let b_ptr : VeriTile.Triton.Region .fp32 := B.cast
@@ -50,7 +50,7 @@ def typed (C A B : RegionName) (cfg : Config) : ComputeKernel :=
   }
 
 /-- Unchanged function body from `matmul_kernel_remaining_k.py:matmul_kernel`. -/
-def typedRemaining (C A B : RegionName) (cfg : Config) : ComputeKernel :=
+def typedRemainingKernel (C A B : RegionName) (cfg : Config) : ComputeKernel :=
   let c_ptr : VeriTile.Triton.Region .fp32 := C.cast
   let a_ptr : VeriTile.Triton.Region .fp32 := A.cast
   let b_ptr : VeriTile.Triton.Region .fp32 := B.cast
@@ -84,7 +84,7 @@ def typedRemaining (C A B : RegionName) (cfg : Config) : ComputeKernel :=
     tl.store(c_ptrs, c, mask=(offs_cm[:, None] < M) & (offs_cn[None, :] < N))
   }
 
-def source (cfg : Config) := typed "C" "A" "B" cfg
-def remaining (cfg : Config) := typedRemaining "C" "A" "B" cfg
+def source (cfg : Config) := typedKernel "C" "A" "B" cfg
+def remaining (cfg : Config) := typedRemainingKernel "C" "A" "B" cfg
 
 end VeriTile.Bench.Repairs.MatmulKernel.KernelSource

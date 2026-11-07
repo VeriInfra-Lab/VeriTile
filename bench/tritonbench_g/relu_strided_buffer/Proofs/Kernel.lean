@@ -39,13 +39,13 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (cmp : α → α → Bo
       c.n c.B c.tiles s
     refine ⟨actual,flat,?_,?_,obs⟩
     · simpa [kernel,branch,gridStrideKernel,perTile,oneTileKernel,
-        originalBody,PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,branch,FP.Structural.bop,FP.Structural.exec,StructuralControl.gridBody,StructuralControl.loopBody,SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,
+        originalKernel,PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,branch,FP.Structural.bop,FP.Structural.exec,StructuralControl.gridBody,StructuralControl.loopBody,SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,
         ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simpa only [kernelIds,branch,Bool.false_eq_true,if_false] using flatRan
   · obtain ⟨actual,ran,obs⟩ := one_tile_execution M
       (tileOutput M cmp (views c)) (perTile c) (tile_implementation M cmp hc c) c.n c.B s
     refine ⟨actual,flatState (tileOutput M cmp (views c)) (s.pids 0) s,?_,?_,obs⟩
-    · simpa [kernel,branch,oneTileKernel,perTile,originalBody,PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,branch,FP.Structural.bop,FP.Structural.exec,StructuralControl.oneTileBody,
+    · simpa [kernel,branch,oneTileKernel,perTile,originalKernel,PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,branch,FP.Structural.bop,FP.Structural.exec,StructuralControl.oneTileBody,
         SourceForRange.numTilesStmt,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
     · simp [kernelIds,branch,runTiles,flatTile]
 
@@ -56,7 +56,7 @@ theorem folded_execution [Inhabited α] (M : Algebra α) (c : Parameters) (s : S
     exec M (kernel c) s = exec M (foldedKernel c) s := by
   cases branch : c.oneTile <;>
     simp [kernel,foldedKernel,branch,oneTileKernel,oneTileFolded,gridStrideKernel,gridStrideFolded,
-      originalBody,candidateBody,FP.Structural.bop,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] <;> rfl
+      originalKernel,candidateKernel,FP.Structural.bop,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] <;> rfl
 
 /-- Single-CTA mathematical/value scope: every valid logical element covered
 by this CTA's tiles is written, and all other cells preserve entry memory. -/

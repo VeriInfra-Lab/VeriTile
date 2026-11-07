@@ -19,7 +19,7 @@ def realBody (X Y : RegionName) (sm sn M N : Nat) : List Stmt :=
 theorem real_projection (X Y : RegionName) (sm sn sy M N : Nat) :
     (load_reduce_kernel X Y sm sn sy M N).toAlgorithm? =
       .ok { inputs := [X], outputs := [Y], body := realBody X Y sm sn M N } := by
-  simp [load_reduce_kernel, TypedSource.originalFor, ComputeKernel.eraseDType,
+  simp [load_reduce_kernel, TypedSource.originalForKernel, ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList,
     Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,

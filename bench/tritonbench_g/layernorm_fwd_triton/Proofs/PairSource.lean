@@ -39,7 +39,7 @@ theorem candidate_output_body_run {α : Type} [Inhabited α] (M : Algebra α) (p
     (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) (h : OutputReady M p s t mem) :
     ∃ u, run M (outputBody p) (t.setReg "off" .int [] (fun _ => (off : Int))) = some u ∧
       OutputReady M p s u (outputStep M p s off mem) := by
-  simp [outputBody, candidateKernel, runtimeSourceCandidate, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [outputBody, candidateKernel, runtimeSourceCandidateKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast,

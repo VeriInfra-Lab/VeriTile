@@ -36,7 +36,7 @@ theorem prefix_safety (M : Algebra A) (original candidate : ComputeKernel) (n : 
 theorem frontRun (M : Algebra A) (p : Parameters) (s : State A) :
     run M ((FPTyped.source p).surfaceBody.take 7) s=run M ((groupedSource p).surfaceBody.take 7) s := by
   simp [FPTyped.source,groupedSource,
-    FPTyped.typed,groupedTyped,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.groupedBody,
+    FPTyped.typed,groupedTyped,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.groupedKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
     FP.Structural.numeric,FP.Structural.bop,Option.bind,bind,integralFloorDiv]
   congr 1
@@ -45,7 +45,7 @@ theorem frontRun (M : Algebra A) (p : Parameters) (s : State A) :
 theorem pure_front (M : Algebra A) (p : Parameters) (bounds : RegionName → Nat) (s : State A) :
     traceSafeList M bounds ((FPTyped.source p).surfaceBody.take 7) s ∧
       traceSafeList M bounds ((groupedSource p).surfaceBody.take 7) s := by
-  simp [FPTyped.source,groupedSource,FPTyped.typed,groupedTyped,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalBody,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.groupedBody,
+  simp [FPTyped.source,groupedSource,FPTyped.typed,groupedTyped,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.groupedKernel,
     ComputeKernel.surfaceBody,traceSafeList_cons,stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
 
 /-- The two complete source kernels have the exact same state, for any typed

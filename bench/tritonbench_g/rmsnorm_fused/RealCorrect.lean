@@ -31,7 +31,7 @@ specification kernel_real (shape : Shape) (valid : shape.Valid) (epsilon : ℝ)
 #stmtSurfaceSubset kernel_real ⊆
   [Spec.Real, Shape, Shape.Valid, Shape.grid, Shape.width, Shape.rows,
    Interface.logicalIO, LogicalProgramIO.Implements]
-#specNonCircular kernel_formula avoiding [source,Runtime.value,Runtime.run,FP.Structural.exec]
+#specNonCircular kernel_formula avoiding [sourceKernel,Runtime.value,Runtime.run,FP.Structural.exec]
 #axiomsClean kernel_real
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -28,7 +28,7 @@ theorem backward_safe (M : Algebra α) (bounds : RegionName → Nat) (p : Parame
     all_goals
       have readIgnored := ignored
       simp only [label,Region.cast] at readIgnored
-      simp [TraceSafe,backward,TypedSource.backward,hc,hs,ComputeKernel.surfaceBody,
+      simp [TraceSafe,backward,TypedSource.backwardKernel,hc,hs,ComputeKernel.surfaceBody,
         Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
         Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
         Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

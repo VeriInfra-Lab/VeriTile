@@ -54,7 +54,7 @@ theorem prefix_executes {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     run M ((c.source kind p seed).surfaceBody.take 7) (tileState pid s) =
       some (prefixState M p c kind seed pid s) := by
   cases kind
-  all_goals simp [Layout.source, TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, evalExpr,
+  all_goals simp [Layout.source, TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, numeric, natLt, numericLt, bop,
     Region.cast, Random.i32ArangeSize, prefixState, seedState, tileState]
   all_goals rfl
@@ -97,7 +97,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α → Bo
     swap
     rw [← List.take_append_drop 7 (c.source .i32 p seed).surfaceBody,run_append,pre]
     simp only [Option.bind_some]
-    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
+    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
       List.drop_zero,Random.i32ArangeSize,TypedExecution.seedOp,RandomDomain.profile] at random ⊢
     simp only [run,step,evalExpr,evalComputeOp]
     erw [random]
@@ -112,7 +112,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α → Bo
     swap
     rw [← List.take_append_drop 7 (c.source .i64 p seed).surfaceBody,run_append,pre]
     simp only [Option.bind_some]
-    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
+    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
       List.drop_zero,Random.i32ArangeSize,TypedExecution.seedOp,RandomDomain.profile] at random ⊢
     simp only [run,step,evalExpr,evalComputeOp]
     erw [random]
@@ -127,7 +127,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α → Bo
     swap
     rw [← List.take_append_drop 7 (c.source .u32 p seed).surfaceBody,run_append,pre]
     simp only [Option.bind_some]
-    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
+    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
       List.drop_zero,Random.i32ArangeSize,TypedExecution.seedOp,RandomDomain.profile] at random ⊢
     simp only [run,step,evalExpr,evalComputeOp]
     erw [random]
@@ -142,7 +142,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (lt : α → α → Bo
     swap
     rw [← List.take_append_drop 7 (c.source .u64 p seed).surfaceBody,run_append,pre]
     simp only [Option.bind_some]
-    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
+    simp only [Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,List.drop_succ_cons,
       List.drop_zero,Random.i32ArangeSize,TypedExecution.seedOp,RandomDomain.profile] at random ⊢
     simp only [run,step,evalExpr,evalComputeOp]
     erw [random]

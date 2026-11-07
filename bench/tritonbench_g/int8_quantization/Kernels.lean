@@ -38,7 +38,7 @@ def signature : CallSignature where
   writePorts := ["X_int8","Scale"]
 
 /-- Complete repaired Python function body; invocation metadata stays outside. -/
-def source (p : Parameters) : ComputeKernel :=
+def sourceKernel (p : Parameters) : ComputeKernel :=
   let X := xRegion
   let X_int8 := outRegion
   let Scale := scaleRegion
@@ -78,7 +78,7 @@ def source (p : Parameters) : ComputeKernel :=
   }
 
 /-- Complete repaired Python function body; invocation metadata stays outside. -/
-def biasFoldSource (p : Parameters) : ComputeKernel :=
+def biasFoldKernel (p : Parameters) : ComputeKernel :=
   let X := xRegion
   let X_int8 := outRegion
   let Scale := scaleRegion

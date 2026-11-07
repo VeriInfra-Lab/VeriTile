@@ -14,7 +14,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["B_Seqlen","B_Start_Loc","Logics"]
   writePorts := ["Prob_Out"]
 
-def source (dtype : FloatDType)
+def sourceKernel (dtype : FloatDType)
     (Logics : RegionName) (B_Start_Loc B_Seqlen : Region .int) (Prob_Out : RegionName)
     (stride_start stride_length stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE : Nat) :
     ComputeKernel :=
@@ -44,7 +44,7 @@ structure Parameters where
   (startStride lengthStride : Nat)
   (inputHeadStride inputTokenStride outputHeadStride outputTokenStride width : Nat)
 
-def kernel (d : FloatDType) (p : Parameters) := source d p.input p.start p.length p.output
+def kernel (d : FloatDType) (p : Parameters) := sourceKernel d p.input p.start p.length p.output
   p.startStride p.lengthStride p.inputHeadStride p.inputTokenStride p.outputHeadStride p.outputTokenStride p.width
 
 end VeriTile.Bench.Repairs.TokenSoftmaxLlama.Strided
@@ -52,7 +52,7 @@ end VeriTile.Bench.Repairs.TokenSoftmaxLlama.Strided
 namespace VeriTile.Bench.Repairs.TokenSoftmaxLlama.KernelSource
 open VeriTile.Triton Strided
 
-def indexCommutedSource (dtype : FloatDType)
+def indexCommutedKernel (dtype : FloatDType)
     (Logics : RegionName) (B_Start_Loc B_Seqlen : Region .int) (Prob_Out : RegionName)
     (stride_start stride_length stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE : Nat) :
     ComputeKernel :=
@@ -76,6 +76,6 @@ def indexCommutedSource (dtype : FloatDType)
              softmax_output, mask=col_offsets < cur_batch_seq_len)
   }
 
-def candidateKernel (p : Parameters) := indexCommutedSource .fp32 p.input p.start p.length p.output
+def candidateKernel (p : Parameters) := indexCommutedKernel .fp32 p.input p.start p.length p.output
   p.startStride p.lengthStride p.inputHeadStride p.inputTokenStride p.outputHeadStride p.outputTokenStride p.width
 end VeriTile.Bench.Repairs.TokenSoftmaxLlama.KernelSource

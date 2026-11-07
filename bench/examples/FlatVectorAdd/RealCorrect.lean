@@ -48,7 +48,7 @@ specification add_kernel_masked_optimized_correctness (B n : Nat) (hB : 0 < B) :
   · simp [optimizedIO, optimizedKernel,commutedKernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s h1 h2 h3 _
-    simpa [optimizedIO, addMaskedIO, Kernel.TraceSafe, optimizedKernel,commutedKernel, addKernelMasked,
+    simpa [optimizedIO, addMaskedIO, Kernel.TraceSafe, optimizedKernel,commutedKernel, addMaskedKernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, stepStmt, evalOp.eq_def,
       Region.cast, Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,

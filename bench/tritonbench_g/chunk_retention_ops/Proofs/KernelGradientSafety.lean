@@ -20,7 +20,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameter
     (hq : ∀ e t,e<p.K → t<p.T → s.pids 2*(p.T*p.K)+e+t*p.K<bounds "q")
     (hk : ∀ t e,t<p.T → e<p.K → s.pids 2*(p.T*p.K)+t*p.K+e<bounds "k") :
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).before s := by
-  simp [gradientParts,kernel,Source.backwardQKV,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [gradientParts,kernel,Source.backwardQKVKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -47,7 +47,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
       (s.setReg "i_v" .nat [] (fun _=>vb)) := by
   have hn : Int.toNat (((pid.x:Int)*heads+pid.z)*((p.T:Int)*p.V))=
       (pid.x*heads+pid.z)*(p.T*p.V) := by norm_cast
-  simp [gradientParts,kernel,Source.backwardQKV,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [gradientParts,kernel,Source.backwardQKVKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -73,7 +73,7 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramete
     (hq : ∀ i,gradKeyActive p pid i → gradKeyOffset p pid i<bounds "queryGradient")
     (hk : ∀ i,gradKeyActive p pid i → gradKeyOffset p pid i<bounds "keyGradient") :
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).after s := by
-  simp [gradientParts,kernel,Source.backwardQKV,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [gradientParts,kernel,Source.backwardQKVKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

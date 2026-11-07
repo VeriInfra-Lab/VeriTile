@@ -115,7 +115,7 @@ specification mhc_depth_matrix_correct (S T D iters : Nat) (tau : ℝ) (s : Bloc
 #axiomsClean mhc_depth_matrix_correct
 
 specification mhc_depth_matrix_optimized_correct (S T D iters : Nat) (tau : ℝ) (s : BlockState) :
-    Spec.Real (∃ t, exec (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau) s = some t ∧
+    Spec.Real (∃ t, exec (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau) s = some t ∧
       (∀ i : TileIndex [S, D], t.readMem "out" (s.pid * (S * D) + i.1.val * D + i.2.1.val) =
         ((formula (readMatrix s "res_mix" (s.pid * (S * D)) S D)
           (readMatrix s "branch_out" (s.pid * (T * D)) T D)

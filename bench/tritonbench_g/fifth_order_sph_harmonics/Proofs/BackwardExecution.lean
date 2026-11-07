@@ -29,7 +29,7 @@ def backward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : S
     {t : State α // FP.Structural.exec M (backwardKernel p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := {maxSteps := 8000000}) [backwardKernel, backwardSource,Bodies.backwardBody, FP.Structural.exec,
+  simp (config := {maxSteps := 8000000}) [backwardKernel, backwardSource,backwardPastedKernel, FP.Structural.exec,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     numeric, numericLt, natLt, bop, Option.bind, fold_regs, fold_pids]

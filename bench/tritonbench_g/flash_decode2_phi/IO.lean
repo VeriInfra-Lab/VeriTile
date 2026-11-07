@@ -45,7 +45,7 @@ def mids {α : Type} [Inhabited α] {g : Geometry} (xs : Inputs α g) (row j d :
     xs 1 (⟨row,h.1⟩,⟨j,h.2.1⟩,⟨d,h.2.2⟩,PUnit.unit) else default
 
 def launch {β : Type} (A : Algebra β) (g : Geometry) (row : Nat) : Invocation β where
-  kernel := phi g.H g.S g.D g.Q g.BD
+  kernel := phiKernel g.H g.S g.D g.Q g.BD
   backend := A
   clearRegisters := Bool.true
   pids := fun a => if a=0 then row/g.H else if a=1 then row%g.H else 0

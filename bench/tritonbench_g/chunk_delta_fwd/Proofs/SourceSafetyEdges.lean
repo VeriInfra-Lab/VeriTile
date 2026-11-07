@@ -14,7 +14,7 @@ theorem entry_tail (M : Algebra α) (p : Parameters) (s : State α)
     (hb : Bounds p (s.pids 1,s.pids 2) bounds) :
     traceSafeList M bounds ((outer p).before.drop 2) (entryStart M p s) := by
   cases hp : p.useSeed <;>
-    simp [outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
+    simp [outer,ChunkDeltaFwd.sourceKernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
@@ -42,7 +42,7 @@ theorem history (M : Algebra α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Bounds p pid bounds) (hc : c < p.NT) :
     traceSafeList M bounds (inner p).before
       (current.setReg "i_t" .nat [] (fun _ => c)) := by
-  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
+  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.sourceKernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   apply traceSafeList_cons_intro
   · simp [stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
   · intro next ran
@@ -65,7 +65,7 @@ theorem finish (M : Algebra α) (p : Parameters)
     (ctx : Ready pid input s) (hh : HasH p frozen s)
     (bounds : RegionName → Nat) (hb : Bounds p pid bounds) :
     traceSafeList M bounds (outer p).after s := by
-  simp [outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
+  simp [outer,ChunkDeltaFwd.sourceKernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   rw [singleton]
   cases hp : p.storeFinal
   · simp [stepSafe_unfold,safeOp_unfold,evalOp_unfold,hp]
@@ -86,7 +86,7 @@ theorem finish (M : Algebra α) (p : Parameters)
 
 theorem update (M : Algebra α) (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
     traceSafeList M bounds (inner p).after s := by
-  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
+  simp [ChunkDeltaFwd.inner,outer,ChunkDeltaFwd.sourceKernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   rw [singleton]
   simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
 

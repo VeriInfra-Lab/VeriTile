@@ -80,14 +80,14 @@ theorem indices_rk (M : Algebra α) (s : Shape) (u t : State α)
           "rk_half" .nat [s.blockK/2] (fun i => i.1.val)) := by
       cases ht : s.offsetTensor <;>
         simp [TypedExecution.continuation,TypedExecution.ifBody,TypedExecution.kernel,
-        KernelSource.source,KernelSource.source64_64,VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,
+        KernelSource.source,KernelSource.source64_64,VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,
         ht,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold]
     rw [last] at ran
     cases Option.some.inj ran
@@ -100,14 +100,14 @@ theorem interleaved_prefix_run (M : Algebra α) (s : Shape) (u : State α)
     simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
     TypedExecution.branchBody,TypedExecution.ifBody,TypedExecution.kernel,candidate,
     KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,run,FP.Structural.step,evalExpr,evalComputeOp,
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,run,FP.Structural.step,evalExpr,evalComputeOp,
     ht,evalOp_unfold,numeric,numericLt,natLt,bop,integralFloorDiv,integralMod,Option.bind,rk]
 
 theorem interleaved_prefix_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α) :
@@ -117,14 +117,14 @@ theorem interleaved_prefix_safe (M : Algebra α) (s : Shape) (bounds : RegionNam
     simp [interleaved,continuation,TypedExecution.interleavedBody,TypedExecution.continuation,
     TypedExecution.branchBody,TypedExecution.ifBody,TypedExecution.kernel,candidate,
     KernelSource.source,KernelSource.source64_64,KernelSource.shared,KernelSource.shared64_64,
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,List.drop,List.take,List.flatMap,
     ht,Safety.traceSafeList_cons,Safety.traceSafeList_nil,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 

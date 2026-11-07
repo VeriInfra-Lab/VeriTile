@@ -11,7 +11,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (
       ((preExecution M p s).val.setReg "start_mark" .int [] (fun _ => 0)) = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp only [body, source, typed, ComputeKernel.surfaceBody]
+  simp only [body, source, typedKernel, ComputeKernel.surfaceBody]
   try simp only [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]
   simp [preExecution, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     evalOffsets, store, numeric, bop, natLt, numericLt, numericEq, ComputeDType.eraseDType,

@@ -18,7 +18,7 @@ theorem queryBody (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   have hg := ctx.inputs "incoming" (by simp)
   by_cases hb : 0<block
   all_goals
-    simp [interFQueryParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+    simp [interFQueryParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -40,7 +40,7 @@ theorem deltaBody (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   have hk := ctx.inputs "key" (by simp)
   have hv := ctx.inputs "value" (by simp)
   simp only [InterFDelta] at ha
-  simp [interFDeltaParts,interFQueryParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interFDeltaParts,interFQueryParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -66,7 +66,7 @@ theorem reverseUpdate (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   have hc : ((p.NT : Int)-1-block < ((p.NT-1 : Nat) : Int)) ↔ block≠0 := by omega
   by_cases hb : block=0
   all_goals
-    simp [interRUpdateParts,interReverseParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+    simp [interRUpdateParts,interReverseParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -92,7 +92,7 @@ theorem reverseDelta (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   have hq := ctx.inputs "query" (by simp)
   have hg := ctx.inputs "incoming" (by simp)
   simp only [InterRDelta] at ha
-  simp [interRDeltaParts,interRUpdateParts,interReverseParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interRDeltaParts,interRUpdateParts,interReverseParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,

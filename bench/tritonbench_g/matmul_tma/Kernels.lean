@@ -19,7 +19,7 @@ def sourceSignature (dtype out_dtype : FloatDType) : CallSignature where
   readPorts := ["a_ptr","b_ptr"]
   writePorts := ["c_ptr"]
 
-def typed (dtype out_dtype : FloatDType) (p : Parameters) : ComputeKernel :=
+def typedKernel (dtype out_dtype : FloatDType) (p : Parameters) : ComputeKernel :=
   let a_ptr := p.a
   let b_ptr := p.b
   let c_ptr := p.c
@@ -60,7 +60,7 @@ def typed (dtype out_dtype : FloatDType) (p : Parameters) : ComputeKernel :=
     tl.store(c_block_ptr, c)
   }
 
-def directOutputTyped (dtype out_dtype : FloatDType) (p : Parameters) : ComputeKernel :=
+def directOutputTypedKernel (dtype out_dtype : FloatDType) (p : Parameters) : ComputeKernel :=
   let a_ptr := p.a
   let b_ptr := p.b
   let c_ptr := p.c
@@ -105,7 +105,7 @@ def directOutputTyped (dtype out_dtype : FloatDType) (p : Parameters) : ComputeK
 def outputDType (half : Bool) : FloatDType := if half then .fp16 else .fp32
 
 def source (p : Parameters) (half : Bool) : ComputeKernel :=
-  typed .fp16 (outputDType half) p
+  typedKernel .fp16 (outputDType half) p
 
 end
 end VeriTile.Bench.TritonBenchG.MatmulTma.FPValue
@@ -115,7 +115,7 @@ open VeriTile.Triton FPValue
 noncomputable section
 
 def sourceDirectOutput (p : Parameters) (half : Bool) : ComputeKernel :=
-  directOutputTyped .fp16 (outputDType half) p
+  directOutputTypedKernel .fp16 (outputDType half) p
 
 end
 end VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2

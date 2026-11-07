@@ -14,7 +14,7 @@ def stage1Signature : CallSignature where
   readPorts := ["inp"]
   writePorts := ["mid"]
 
-def stage1 (inp mid : RegionName) (M BLOCK_SIZE : Nat) : ComputeKernel :=
+def stage1Kernel (inp mid : RegionName) (M BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call stage1Signature call_args [M := M] in
   triton {
     pid = tl.program_id(0).to(tl.int64)
@@ -27,7 +27,7 @@ def stage1 (inp mid : RegionName) (M BLOCK_SIZE : Nat) : ComputeKernel :=
     tl.store(mid_ptr, max_val)
   }
 
-def stage1Commuted (inp mid : RegionName) (M BLOCK_SIZE : Nat) : ComputeKernel :=
+def stage1CommutedKernel (inp mid : RegionName) (M BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call stage1Signature call_args [M := M] in
   triton {
     pid = tl.program_id(0).to(tl.int64)
@@ -47,7 +47,7 @@ def stage2Signature : CallSignature where
   readPorts := ["mid"]
   writePorts := ["out"]
 
-def stage2 (mid out : RegionName) (mid_size BLOCK_MID : Nat) : ComputeKernel :=
+def stage2Kernel (mid out : RegionName) (mid_size BLOCK_MID : Nat) : ComputeKernel :=
   with_triton_call stage2Signature call_args [mid_size := mid_size] in
   triton {
     offset = tl.arange(0, BLOCK_MID).to(tl.int64)
@@ -58,7 +58,7 @@ def stage2 (mid out : RegionName) (mid_size BLOCK_MID : Nat) : ComputeKernel :=
     tl.store(out, max_val)
   }
 
-def stage2Complement (mid out : RegionName) (mid_size BLOCK_MID : Nat) : ComputeKernel :=
+def stage2ComplementKernel (mid out : RegionName) (mid_size BLOCK_MID : Nat) : ComputeKernel :=
   with_triton_call stage2Signature call_args [mid_size := mid_size] in
   triton {
     offset = tl.arange(0, BLOCK_MID).to(tl.int64)
@@ -76,7 +76,7 @@ def dimensionSignature : CallSignature where
   readPorts := ["inp"]
   writePorts := ["out_value", "out_index"]
 
-def dimension (inp out_value out_index : RegionName) (M N K BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
+def dimensionKernel (inp out_value out_index : RegionName) (M N K BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call dimensionSignature call_args [M := M, N := N, K := K] in
   triton {
     pid_m = tl.program_id(0).to(tl.int64)
@@ -99,7 +99,7 @@ def dimension (inp out_value out_index : RegionName) (M N K BLOCK_M BLOCK_N : Na
     tl.store(out_index_ptrs, result_index, mask=mask1)
   }
 
-def dimensionCommuted (inp out_value out_index : RegionName) (M N K BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
+def dimensionCommutedKernel (inp out_value out_index : RegionName) (M N K BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call dimensionSignature call_args [M := M, N := N, K := K] in
   triton {
     pid_m = tl.program_id(0).to(tl.int64)

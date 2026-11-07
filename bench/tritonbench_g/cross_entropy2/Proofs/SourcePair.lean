@@ -26,7 +26,7 @@ private theorem index_run {α : Type} [Inhabited α] (M : Algebra α)
   cases backward <;> cases h : s.regs .int [] "col_block_idx"
   all_goals simp (config := { maxSteps := 1000000 }) [indexCode,position,source,
     forwardSyntax,backwardSyntax,forwardIndexCommutedSyntax,backwardIndexCommutedSyntax,
-    forwardBody,backwardBody,forwardIndexCommutedBody,backwardIndexCommutedBody,
+    forwardKernel,backwardKernel,forwardIndexCommutedKernel,backwardIndexCommutedKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,
     ComputeKernel.surfaceBody,List.drop,List.take,run,step,evalExpr,evalOp_unfold,
     numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,h,Option.bind,Int.mul_comm]
@@ -39,7 +39,7 @@ private theorem index_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases backward <;> cases candidate
   all_goals simp [indexCode,position,source,forwardSyntax,backwardSyntax,
     forwardIndexCommutedSyntax,backwardIndexCommutedSyntax,
-    forwardBody,backwardBody,forwardIndexCommutedBody,backwardIndexCommutedBody,
+    forwardKernel,backwardKernel,forwardIndexCommutedKernel,backwardIndexCommutedKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
     List.drop,List.take,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
     Safety.safeAlg,Safety.safeOp,Safety.safeOp_unfold]

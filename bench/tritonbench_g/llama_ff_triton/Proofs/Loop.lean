@@ -48,7 +48,7 @@ theorem countEvaluation {α : Type} [Inhabited α] (a : Arithmetic α)
     rw [he]
     exact hc
   have hn63 : ¬(p.inner : Int)+63<0 := by omega
-  simp [countOp,source,Source.kernel,Source.half,Bodies.halfBody,
+  simp [countOp,source,Source.kernel,Source.half,halfKernel,
     ComputeKernel.surfaceBody,evalOp_unfold,numeric,numericLt,bop,
     integralFloorDiv,hn63,hc63]
 

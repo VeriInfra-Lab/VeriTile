@@ -31,7 +31,7 @@ theorem reverse_body_values {α : Type} [Inhabited α] (a : Arithmetic α)
   have hdk := reverseGradient_at (layout s b) pid r
   have hdv := reverseOutput_at (layout s b) pid r
   simp only [layout] at hk hv hdo hdk hdv
-  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,
+  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,
     ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,
     FP.Structural.store,Region.cast,layout,backwardRegions,Staged.algebra,

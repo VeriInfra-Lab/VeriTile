@@ -17,7 +17,7 @@ def historyExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   simp only [HasH] at hh
   refine ⟨?_,?_⟩
   swap
-  simp [inner,outer,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
+  simp [inner,outer,sourceKernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -62,7 +62,7 @@ theorem update_run (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     run (engine (withDot M D)) (inner p).after s=some (updateState M p s h acc) := by
   simp only [HasH] at hh
   simp only [HasAcc] at ha
-  simp [inner,outer,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
+  simp [inner,outer,sourceKernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,hh,ha,
     updateState,numeric,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex]

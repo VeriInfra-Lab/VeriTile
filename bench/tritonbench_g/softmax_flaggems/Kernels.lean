@@ -9,13 +9,13 @@ namespace VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2
 open VeriTile Triton
 noncomputable section
 
-def Bodies.next_multiple_of : StatementJitFunction :=
-  triton_function (a,b) constexpr_args [] {
+def next_multiple_ofSource : StatementJitFunction :=
+  with_triton_params (a,b) constexpr_args [] in triton {
     return tl.cdiv(a, b) * b
   }
 
-def Bodies.prev_multiple_of : StatementJitFunction :=
-  triton_function (a,b) constexpr_args [] {
+def prev_multiple_ofSource : StatementJitFunction :=
+  with_triton_params (a,b) constexpr_args [] in triton {
     return tl.cdiv(a, b) * b - b
   }
 
@@ -24,11 +24,11 @@ def forward_noninnerSignature : CallSignature where
   scalars := [("M",.i64),("N",.i64),("K",.i64)]
   constexpr := ["TILE_N","TILE_K","ONE_TILE_PER_CTA","NUM_SMS"]
 
-def Bodies.forward_noninner
+def forward_noninner_kernel
     (output_ptr input_ptr : RegionName) (M N K : Int) (TILE_N TILE_K : Nat)
     (ONE_TILE_PER_CTA : Bool) (NUM_SMS : Nat) : ComputeKernel :=
   with_triton_call forward_noninnerSignature call_args [M := M, N := N, K := K]
-    jit_functions [prev_multiple_of := Bodies.prev_multiple_of] in triton {
+    jit_functions [prev_multiple_of := prev_multiple_ofSource] in triton {
     pid_k = tl.program_id(1).to(tl.int64)
     pid_m = tl.program_id(0).to(tl.int64)
 
@@ -81,11 +81,11 @@ def forward_innerSignature : CallSignature where
   scalars := [("M",.i64),("N",.i64)]
   constexpr := ["TILE_N","ONE_TILE_PER_CTA"]
 
-def Bodies.forward_inner
+def forward_inner_kernel
     (output_ptr input_ptr : RegionName) (M N : Int) (TILE_N : Nat)
     (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
   with_triton_call forward_innerSignature call_args [M := M, N := N]
-    jit_functions [prev_multiple_of := Bodies.prev_multiple_of] in triton {
+    jit_functions [prev_multiple_of := prev_multiple_ofSource] in triton {
     pid_m = tl.program_id(0).to(tl.int64)
     if ONE_TILE_PER_CTA:
         n_offsets = tl.arange(0, TILE_N).to(tl.int64)
@@ -152,7 +152,7 @@ def backward_noninnerSignature : CallSignature where
   scalars := [("M",.i64),("N",.i64),("K",.i64)]
   constexpr := ["TILE_N","TILE_K","ONE_TILE_PER_CTA"]
 
-def Bodies.backward_noninner
+def backward_noninner_kernel
     (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K : Int) (TILE_N TILE_K : Nat)
     (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
   with_triton_call backward_noninnerSignature call_args [M := M, N := N, K := K] in triton {
@@ -199,7 +199,7 @@ def backward_innerSignature : CallSignature where
   scalars := [("M",.i64),("N",.i64)]
   constexpr := ["TILE_M","TILE_N","ONE_TILE_PER_CTA"]
 
-def Bodies.backward_inner
+def backward_inner_kernel
     (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N : Int) (TILE_M TILE_N : Nat)
     (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
   with_triton_call backward_innerSignature call_args [M := M, N := N] in triton {
@@ -244,11 +244,11 @@ def Bodies.backward_inner
             offsets += TILE_N
   }
 
-def AddressCandidate.Bodies.forward_noninner
+def AddressCandidate.forward_noninner_kernel
     (output_ptr input_ptr : RegionName) (M N K : Int) (TILE_N TILE_K : Nat)
     (ONE_TILE_PER_CTA : Bool) (NUM_SMS : Nat) : ComputeKernel :=
   with_triton_call forward_noninnerSignature call_args [M := M, N := N, K := K]
-    jit_functions [prev_multiple_of := Bodies.prev_multiple_of] in triton {
+    jit_functions [prev_multiple_of := prev_multiple_ofSource] in triton {
     pid_k = tl.program_id(1).to(tl.int64)
     pid_m = tl.program_id(0).to(tl.int64)
 
@@ -296,11 +296,11 @@ def AddressCandidate.Bodies.forward_noninner
             tl.store(output_ptr + offsets, o, mask=mask)
   }
 
-def AddressCandidate.Bodies.forward_inner
+def AddressCandidate.forward_inner_kernel
     (output_ptr input_ptr : RegionName) (M N : Int) (TILE_N : Nat)
     (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
   with_triton_call forward_innerSignature call_args [M := M, N := N]
-    jit_functions [prev_multiple_of := Bodies.prev_multiple_of] in triton {
+    jit_functions [prev_multiple_of := prev_multiple_ofSource] in triton {
     pid_m = tl.program_id(0).to(tl.int64)
     if ONE_TILE_PER_CTA:
         n_offsets = tl.arange(0, TILE_N).to(tl.int64)
@@ -362,7 +362,7 @@ def AddressCandidate.Bodies.forward_inner
             tl.store(output_ptr + n_offsets, o)
   }
 
-def AddressCandidate.Bodies.backward_noninner
+def AddressCandidate.backward_noninner_kernel
     (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K : Int) (TILE_N TILE_K : Nat)
     (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
   with_triton_call backward_noninnerSignature call_args [M := M, N := N, K := K] in triton {
@@ -404,7 +404,7 @@ def AddressCandidate.Bodies.backward_noninner
             offsets += TILE_N * K
   }
 
-def AddressCandidate.Bodies.backward_inner
+def AddressCandidate.backward_inner_kernel
     (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N : Int) (TILE_M TILE_N : Nat)
     (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
   with_triton_call backward_innerSignature call_args [M := M, N := N] in triton {
@@ -450,29 +450,29 @@ def AddressCandidate.Bodies.backward_inner
   }
 
 def forward_noninner (output_ptr input_ptr : RegionName) (M N K TILE_N TILE_K : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.forward_noninner output_ptr input_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA 0
+  forward_noninner_kernel output_ptr input_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA 0
 
 def forward_inner (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.forward_inner output_ptr input_ptr (M : Int) (N : Int) TILE_N ONE_TILE_PER_CTA
+  forward_inner_kernel output_ptr input_ptr (M : Int) (N : Int) TILE_N ONE_TILE_PER_CTA
 
 def backward_noninner (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K TILE_N TILE_K : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.backward_noninner out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA
+  backward_noninner_kernel out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA
 
 def backward_inner (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N TILE_M TILE_N : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.backward_inner out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) TILE_M TILE_N ONE_TILE_PER_CTA
+  backward_inner_kernel out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) TILE_M TILE_N ONE_TILE_PER_CTA
 
 namespace AddressCandidate
 def forward_noninner (output_ptr input_ptr : RegionName) (M N K TILE_N TILE_K : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.forward_noninner output_ptr input_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA 0
+  forward_noninner_kernel output_ptr input_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA 0
 
 def forward_inner (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.forward_inner output_ptr input_ptr (M : Int) (N : Int) TILE_N ONE_TILE_PER_CTA
+  forward_inner_kernel output_ptr input_ptr (M : Int) (N : Int) TILE_N ONE_TILE_PER_CTA
 
 def backward_noninner (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K TILE_N TILE_K : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.backward_noninner out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA
+  backward_noninner_kernel out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) (K : Int) TILE_N TILE_K ONE_TILE_PER_CTA
 
 def backward_inner (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N TILE_M TILE_N : Nat) (ONE_TILE_PER_CTA : Bool) : ComputeKernel :=
-  Bodies.backward_inner out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) TILE_M TILE_N ONE_TILE_PER_CTA
+  backward_inner_kernel out_ptr out_grad_ptr in_grad_ptr (M : Int) (N : Int) TILE_M TILE_N ONE_TILE_PER_CTA
 
 end AddressCandidate
 end

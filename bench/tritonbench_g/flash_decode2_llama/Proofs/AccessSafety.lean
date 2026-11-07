@@ -16,7 +16,7 @@ variable {α : Type} [Inhabited α]
 theorem prologue_safe (A : Algebra α) (s : State α) (H S D Q BD : Nat)
     (bounds : RegionName → Nat) (length : s.pids 0 < bounds "L") :
     Safety.traceSafeList A bounds (prologue H S D Q BD) s := by
-  simp [prologue, phi, ComputeKernel.surfaceBody,
+  simp [prologue, phiKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
@@ -34,7 +34,7 @@ theorem body_safe (A : Algebra α) (s q : State α) (masked : Bool)
       (q.setReg "block_seq_n" .int [] (fun _ => (j : Int))) := by
   rcases I with ⟨hm,hp,hb,hh,hl,hs,hv,he,hmax,hsum,ha⟩
   cases masked <;>
-    simp [body, kernel, phi, llama, ComputeKernel.surfaceBody,
+    simp [body, kernel, phiKernel, llamaKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
       Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
       Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
@@ -60,7 +60,7 @@ theorem epilogue_safe (A : Algebra α) (s q : State α) (masked : Bool)
     Safety.traceSafeList A bounds (epilogue masked H S D Q BD) q := by
   rcases I with ⟨hm,hp,hb,hh,hl,hs,hv,he,hmax,hsum,ha⟩
   cases masked <;>
-    simp [epilogue, kernel, phi, llama, ComputeKernel.surfaceBody,
+    simp [epilogue, kernel, phiKernel, llamaKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
       Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
       Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

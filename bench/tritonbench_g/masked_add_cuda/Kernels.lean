@@ -17,7 +17,7 @@ def sourceSignature (storage : MaskStorage) : CallSignature where
   readPorts := ["p_mask_ptr","p_ptr","grad_ptr"]
   writePorts := ["grad_ptr"]
 
-def kernel (storage : MaskStorage) (grad data mask : RegionName)
+def sourceKernel (storage : MaskStorage) (grad data mask : RegionName)
     (n : Nat) (alpha : ℝ) (block : Nat := blockSize) : ComputeKernel :=
   let grad_ptr := grad
   let p_ptr := data

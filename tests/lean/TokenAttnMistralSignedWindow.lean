@@ -18,7 +18,7 @@ theorem integer_window {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimi
     (run (withSum M R) (prelude p) s).map (fun t=>t.regs .int [] "cur_batch_start_index")=
       some (some (fun _=>max
         ((s.mem (Region.cast p.length) (s.pids 0*p.sequenceStride)).read .int-(p.window : Int)) 0)) := by
-  simp [prelude,kernel,source,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,kernel,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,
     numericLt,withSum,Region.cast,State.setReg]
   funext i

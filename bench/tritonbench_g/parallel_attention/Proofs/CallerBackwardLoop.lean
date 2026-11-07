@@ -46,7 +46,7 @@ theorem backward_first_body_run {α : Type} [Inhabited α] (M : Algebra α) (D :
     ∃ final, run (withDot M D) (backwardFirstBody c) t = some final ∧
       BackwardReady M c s final (backwardUpdate M D c.toBackwardConfig s Bool.false start acc) := by
   by_cases hv : c.i_v = 0
-  all_goals simp [hv, backwardFirstBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  all_goals simp [hv, backwardFirstBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind,
     ComputeDType.eraseDType, numeric, bop, numericEq, Region.cast, withDot,
     h.key,h.value,h.head,h.chunk,h.keyBlock,h.valueBlock, h.keyGrad, h.valueGrad, hj, h.mem, h.pids, h.undef,
@@ -71,7 +71,7 @@ theorem backward_second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D 
     ∃ final, run (withDot M D) (backwardSecondBody c) t = some final ∧
       BackwardDiagonalReady M c s final (start+c.BTS) (backwardUpdate M D c.toBackwardConfig s Bool.true start acc) := by
   by_cases hv : c.i_v = 0
-  all_goals simp [hv, backwardSecondBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  all_goals simp [hv, backwardSecondBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind,
     ComputeDType.eraseDType, numeric, bop, numericEq, Region.cast, withDot,
     h.key,h.value,h.head,h.chunk,h.keyBlock,h.valueBlock, h.keyGrad, h.valueGrad, hi, h.mem, h.pids, h.undef, h.queryIndex, h.keyIndex,

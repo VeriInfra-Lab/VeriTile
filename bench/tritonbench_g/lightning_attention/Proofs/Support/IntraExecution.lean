@@ -10,10 +10,10 @@ set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 def intraExecution (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimitive α) (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec (engine (withDot M D)) (intra p) s=some t} := by
+    {t : State α // FP.Structural.exec (engine (withDot M D)) (intraKernel p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [intra,ComputeKernel.surfaceBody,FP.Structural.exec,
+  simp [intraKernel,ComputeKernel.surfaceBody,FP.Structural.exec,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     hm.compare,numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -32,7 +32,7 @@ theorem intraExecution_memory (M : Algebra α) (hm : MaskArithmetic M) (D : DotP
   norm_num
   all_goals simp only [hlo,hup,decide_eq_true_eq,Fin.le_def]
 theorem intraProgram (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimitive α) (p : Parameters) (hb : p.BT=64) (s : State α) :
-    ∃ t, FP.Structural.exec (engine (withDot M D)) (intra p) s=some t ∧
+    ∃ t, FP.Structural.exec (engine (withDot M D)) (intraKernel p) s=some t ∧
       t.mem=intraMemory M D p (s.pids 0) (s.pids 1) s.mem ∧ Inputs t.mem s.mem := by
   refine ⟨(intraExecution M hm D p s).val,(intraExecution M hm D p s).property,intraExecution_memory M hm D p hb s,?_⟩
   rw [intraExecution_memory M hm D p hb]

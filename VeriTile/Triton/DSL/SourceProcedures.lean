@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.ProcedureJitFunctions
 import VeriTile.Triton.DSL.SymbolicFloatConstants
+import VeriTile.Triton.DSL.SourceSyntax
 
 /-! Storage-polymorphic pasted source procedures. Each call is elaborated in
 its own parameter scope with storage inferred from the caller ABI. Only the
@@ -18,12 +19,8 @@ open Lean Elab Term Meta
 syntax (name := sourceProcedure) "triton_source_procedure " "(" ident,* ")"
   " constexpr_args " "[" ident,* "]" " fp32_constants " "[" ident,* "]"
   RawSourceText.body : term
-/-- Declare the arguments of a reusable pasted Triton body. -/
-syntax (name := sourceParams) "with_triton_params " "(" ident,* ")"
-  " constexpr_args " "[" ident,* "]" (" fp32_constants " "[" ident,* "]")?
-  " in " "triton " RawSourceText.body : term
-syntax (name := sourceInstance) "instantiate_source_procedure " term
-  " signature " term " procedure_args " "[" tritonCallBinding,* "]" : term
+syntax (name := sourceInstance) "instantiate_source_procedure " term:max
+  &"signature" term:max " procedure_args " "[" tritonCallBinding,* "]" : term
 syntax (name := sourceCalls) "with_triton_call " term " call_args "
   "[" tritonCallBinding,* "]" (" fp32_constants " "[" ident,* "]")?
   " source_procedures " "[" tritonCallBinding,* "]" " in " "triton " RawSourceText.body : term
@@ -200,7 +197,11 @@ def elaborateSource : TermElab := fun stx expected =>
   elaborateProcedure stx stx[10] expected
 
 @[term_elab sourceParams]
-def elaborateParams : TermElab := fun stx expected =>
+def elaborateParams : TermElab := fun stx expected => do
+  if let some type := expected then
+    let type ← whnf type
+    unless type.hasExprMVar || type.isConstOf ``SourceProcedure do
+      throwUnsupportedSyntax
   elaborateProcedure stx stx[8][2] expected
 
 private def instantiate (f : Function) (profile : Expr) (values : List (Name × Expr))

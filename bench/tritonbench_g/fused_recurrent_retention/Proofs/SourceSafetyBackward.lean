@@ -37,7 +37,7 @@ theorem backward_prefix_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) 
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardFirst (layout s b) backwardRegions seed final).before initial := by
   cases seed <;>
-    simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,ComputeKernel.surfaceBody,
+    simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -55,7 +55,7 @@ theorem backward_first_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardFirst (layout s b) backwardRegions seed final).body
       (current.setReg "i" .nat [] (fun _ => t)) := by
-  simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,ComputeKernel.surfaceBody,
+  simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
     Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -75,7 +75,7 @@ theorem backward_middle_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) 
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardSecond (layout s b) backwardRegions seed final).before current := by
   cases final <;>
-    simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,ComputeKernel.surfaceBody,
+    simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -94,7 +94,7 @@ theorem backward_second_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) 
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardSecond (layout s b) backwardRegions seed final).body
       (current.setReg "_" .nat [] (fun _ => r)) := by
-  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,ComputeKernel.surfaceBody,
+  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
     Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

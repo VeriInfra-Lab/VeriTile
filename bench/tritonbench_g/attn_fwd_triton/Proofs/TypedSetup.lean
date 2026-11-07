@@ -15,7 +15,7 @@ theorem setup_success {α : Type} [Inhabited α] (A : Algebra α)
   rcases hs with ⟨⟨x0,h0⟩,⟨x1,h1⟩,⟨x2,h2⟩,⟨x3,h3⟩,⟨x4,h4⟩,⟨x5,h5⟩,⟨x6,h6⟩,⟨x7,h7⟩,⟨x8,h8⟩,⟨x9,h9⟩,⟨x10,h10⟩,⟨x11,h11⟩,⟨x12,h12⟩,⟨x13,h13⟩,⟨x14,h14⟩⟩
   cases second <;> by_cases hd : p.stage=2
   all_goals simp only [setupCode,setup,preloop,parts,code,source,workName,hd,decide_true,decide_false,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero]
   all_goals simp [Source.intRange?,hd,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,

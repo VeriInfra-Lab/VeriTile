@@ -72,7 +72,7 @@ def embeddingIO {α : Type} (rest : Algebra α) (zero : α)
   scratchWrite := fun i => i.elim0
   scratchMask := fun i => i.elim0
   schedule := fun _ => [{
-    kernel := if candidate then indexCommutedSource .int32 p else source .int32 p
+    kernel := if candidate then indexCommutedKernel .int32 p else sourceKernel .int32 p
     backend := Execution.backend rest zero
     pids := fun ax => if ax=0 then pid else 0 }]
   encode := id

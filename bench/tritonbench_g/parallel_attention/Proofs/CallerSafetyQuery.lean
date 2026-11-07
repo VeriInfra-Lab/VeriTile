@@ -32,11 +32,11 @@ private theorem pure_list (M : Algebra α) (bounds : RegionName → Nat)
 theorem query_prefix (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     (bounds : RegionName → Nat) (s : State α) (r : Registers c.toBackwardConfig s) (hb : QueryBounds c bounds) :
     Safety.traceSafeList (withDot M D) bounds (queryPrefix c) s := by
-  simp [queryPrefix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody]
+  simp [queryPrefix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody]
   simp only [trace_singleton,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
-  simp [queryPrefix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+  simp [queryPrefix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,safeBlockPtr2,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,evalOffsets,Option.bind,
@@ -51,7 +51,7 @@ private theorem first_tail (M : Algebra α) (D : DotPrimitive α) (c : QueryConf
     Safety.traceSafeList (withDot M D) bounds ((queryFirstBody c).drop 2) s := by
   apply pure_list
   intro st hs t
-  simp [queryFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody] at hs
+  simp [queryFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl
   all_goals by_cases hv : c.i_v=0
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -63,7 +63,7 @@ private theorem second_tail (M : Algebra α) (D : DotPrimitive α) (c : QueryCon
     Safety.traceSafeList (withDot M D) bounds ((querySecondBody c).drop 2) s := by
   apply pure_list
   intro st hs t
-  simp [querySecondBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody] at hs
+  simp [querySecondBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals by_cases hv : c.i_v=0
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -77,7 +77,7 @@ theorem query_first_body (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig
     Safety.traceSafeList (withDot M D) bounds (queryFirstBody c) t := by
   rw [←List.take_append_drop 2 (queryFirstBody c),Safety.traceSafeList_append]
   refine ⟨?_,fun u _=>first_tail M D c bounds u⟩
-  simp [queryFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+  simp [queryFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,Option.bind,
@@ -101,7 +101,7 @@ theorem query_middle (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     Safety.traceSafeList (withDot M D) bounds (queryMiddle c) s := by
   apply pure_list
   intro st hs t
-  simp [queryMiddle,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody] at hs
+  simp [queryMiddle,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals try simp only [safeBlockPtr2]
@@ -112,11 +112,11 @@ theorem query_suffix (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     (acc : TileIndex [c.BTL,c.BK] → α) (h : QueryReady M c s t start acc)
     (hb : QueryBounds c bounds) :
     Safety.traceSafeList (withDot M D) bounds (querySuffix c) t := by
-  simp [querySuffix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody]
+  simp [querySuffix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody]
   simp only [trace_singleton,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
-  simp [querySuffix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+  simp [querySuffix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,safeBlockPtr2,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,

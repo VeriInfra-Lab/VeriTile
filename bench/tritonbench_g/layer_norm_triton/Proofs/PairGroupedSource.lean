@@ -27,7 +27,7 @@ theorem setReg_comm {α : Type} (s : State α) (a b : RegName)
     · simp [State.setReg, ha, hb]
 
 def kernel (stride M N G B : Nat) :=
-  TypedSource.groupedBackwardCandidate "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B
+  TypedSource.groupedBackwardCandidateKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B
 
 def body (stride M N G B : Nat) : List ComputeStmt :=
   match ((kernel stride M N G B).surfaceBody : List ComputeStmt)[11]? with
@@ -57,7 +57,7 @@ theorem load_statistics_commute (m : Model α) (s : State α) (stride M N G B : 
   cases hx : s.regs .real [B] "x" <;> cases hr : s.regs .int [] "row" <;>
     cases hc : s.regs .int [B] "cols" <;> cases hm : s.regs .bool [B] "mask" <;>
     simp [statistics,weightLoad,SourceGrouped.body,SourceGrouped.code,
-      TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+      TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,engine,numeric,natLt,numericLt,
       numericLe,numericEq,bop,FP.Structural.store,ComputeDType.eraseDType,
       TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,

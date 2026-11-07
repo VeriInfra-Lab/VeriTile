@@ -23,7 +23,7 @@ def fwdEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State 
     {t : State α // run (engine (withDot M D)) (fwdParts p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [fwdParts,forward,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [fwdParts,forwardKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

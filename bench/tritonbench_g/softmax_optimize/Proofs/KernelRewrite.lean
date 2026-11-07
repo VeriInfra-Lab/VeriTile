@@ -12,15 +12,15 @@ def program (k : ComputeKernel) : Program := ⟨k,[]⟩
 /-- A genuine source candidate: exact integer commutation at each retained
 loop. The complete floating program remains in its original context. -/
 theorem equivalent (Y X : RegionName) (M N B : Nat) :
-    program (kernel Y X M N B) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+    program (sourceKernel Y X M N B) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       program (indexCommutedKernel Y X M N B) := by
   equiv_decompose <;> fp_prove
 
 theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     (Y X : RegionName) (M N B : Nat) (s : FP.Structural.State A) :
-    FP.Structural.exec (engine algebra) (kernel Y X M N B) s=
+    FP.Structural.exec (engine algebra) (sourceKernel Y X M N B) s=
       FP.Structural.exec (engine algebra) (indexCommutedKernel Y X M N B) s := by
-  change FP.Structural.run (engine algebra) (kernel Y X M N B).surfaceBody s=
+  change FP.Structural.run (engine algebra) (sourceKernel Y X M N B).surfaceBody s=
     FP.Structural.run (engine algebra) (indexCommutedKernel Y X M N B).surfaceBody s
   rw [ReadableSource.candidate_body]
   have loop_step (t : FP.Structural.State A) (index : RegName)
@@ -54,7 +54,7 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
       exact ih u (fun st member => same st (by simp [member]))
   apply run_map
   intro statement member t
-  simp only [kernel,ComputeKernel.surfaceBody,List.mem_append, List.mem_cons,
+  simp only [sourceKernel,ComputeKernel.surfaceBody,List.mem_append, List.mem_cons,
     List.mem_nil_iff, or_false] at member
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals first | rfl | exact loop_step t _ _ _ _ _ _ _ _

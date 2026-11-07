@@ -18,7 +18,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale terminal).before s := by
   cases terminal
   all_goals
-    simp [parts,intParts,indexState,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,
+    simp [parts,intParts,indexState,kernel,Kernels.backwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -44,7 +44,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
   by_cases atEnd : c.chunks-1-n=c.chunks-1
   all_goals by_cases rem : c.T%64=0
   all_goals
-    simp [parts,intParts,indexState,kernel,Kernels.backwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,
+    simp [parts,intParts,indexState,kernel,Kernels.backwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

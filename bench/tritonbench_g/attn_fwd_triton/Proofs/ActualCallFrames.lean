@@ -16,7 +16,7 @@ theorem setup (p : Parameters) (BD : Nat) (second : Bool) :
   cases second <;> by_cases hd : p.stage=2
   all_goals simp only [ActualSetup.code,ActualSource.project,TypedExecution.setupCode,TypedExecution.setup,
     TypedExecution.preloop,TypedExecution.parts,TypedExecution.code,TypedExecution.source,
-    ActualSource.config,TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    ActualSource.config,TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody]
   all_goals simp [Source.intRange?,TypedExecution.workName]
   all_goals try simp only [List.drop_succ_cons,List.drop_zero]
@@ -33,7 +33,7 @@ theorem result (p : Parameters) (BD : Nat) (second : Bool) :
   cases second <;> by_cases hd : p.stage=2
   all_goals simp only [ActualReturn.code,ActualSource.project,TypedExecution.finish,TypedExecution.parts,
     TypedExecution.code,TypedExecution.source,ActualSource.config,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody]
   all_goals simp [Source.intRange?,TypedExecution.workName]
   all_goals dsimp only [ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,

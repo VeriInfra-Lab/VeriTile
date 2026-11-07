@@ -23,7 +23,7 @@ specification index_select_bwd_kernel_correctness (rest : Algebra ℝ) (p : Laun
       fun i => values.current i + values.incoming i) :=
   Interface.logical_implements rest (· + ·) p stride count
 
-#specNonCircular mathematical avoiding [kernel, Source.execution, FP.Structural.exec]
+#specNonCircular mathematical avoiding [sourceKernel, Source.execution, FP.Structural.exec]
 #axiomsClean index_select_bwd_kernel_correctness
 #stmtSurfaceSubset index_select_bwd_kernel_correctness ⊆
   [Spec.Real, indexIO, Interface.SliceValues.current, Interface.SliceValues.incoming,

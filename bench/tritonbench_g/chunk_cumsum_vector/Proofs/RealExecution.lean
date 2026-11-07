@@ -77,7 +77,7 @@ arbitrary padding, successful execution and a full memory-cell frame. -/
 theorem source_executes (h : Call) (c : Config) (hc : c∈configurations)
     (p : Geometry.Program h) (layout : Geometry.OutputLayout h) (u : BlockState)
     (hf : u.pids 0=p.feature) (hr : u.pids 1=p.row) :
-    ∃ v, exec (Kernels.source h c).eraseDType.toAlgKernel u=some v ∧
+    ∃ v, exec (Kernels.sourceKernel h c).eraseDType.toAlgKernel u=some v ∧
       (∀ (t : Nat) (j : Fin BS), active h p t j →
         v.readMem h.output (address h p t j)=expected h p.feature p.row (u.readMem h.input) t j) ∧
       BlockState.WriteWithin (footprint h p) u v := by

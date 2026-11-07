@@ -32,7 +32,7 @@ def execute (M : Algebra α) (ops : Model.Primitives α) (p : Parameters) :
     List Program→State α→Option (State α)
   | [],s=> some s
   | w::rest,s=> do
-    let t←FP.Structural.exec (Model.backend M ops) (source (parameters p w)) (atProgram s w)
+    let t←FP.Structural.exec (Model.backend M ops) (sourceKernel (parameters p w)) (atProgram s w)
     execute M ops p rest t
 
 def model (M : Algebra α) (ops : Model.Primitives α) (p : Parameters) (positive : 0< p.width) :

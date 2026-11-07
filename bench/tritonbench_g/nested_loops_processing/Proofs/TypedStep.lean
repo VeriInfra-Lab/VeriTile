@@ -102,7 +102,7 @@ theorem inner_step {α : Type} [Inhabited α] (M : Algebra α)
     (h2 : s.regs .int [2,2] "a2" = some v2)
     (hu : s.regs .bool [2,2] "unique" = some u) :
     run M (inner count cols) s = some (innerState count u s a c v1 v2 2) := by
-  simp only [inner, middle, outer, source, kernel, originalKernel, quotedOriginal, ComputeKernel.surfaceBody,
+  simp only [inner, middle, outer, source, kernel, originalKernel, quotedOriginalKernel, ComputeKernel.surfaceBody,
     List.getElem?_cons_zero, List.getElem?_cons_succ, Bool.false_eq_true, ↓reduceIte,
     run, step, evalExpr, evalComputeOp]
   simp [ComputeDType.eraseDType, Option.bind, evalOp_unfold, FP.Structural.store, numeric, natLt, natLe,

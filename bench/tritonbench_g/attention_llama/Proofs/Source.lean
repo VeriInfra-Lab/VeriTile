@@ -86,7 +86,7 @@ def entry (c : Config) (s : State (Term α)) (scale : Term α) :
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
+    simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,algebra,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

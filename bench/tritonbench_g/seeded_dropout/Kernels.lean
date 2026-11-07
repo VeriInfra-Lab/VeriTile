@@ -35,7 +35,7 @@ def callSignature (storage : Storage) : CallSignature where
   readPorts := ["x_ptr"]
   writePorts := ["output_ptr"]
 
-def runtimeSource (storage : Storage) (x_ptr output_ptr : RegionName)
+def runtimeKernel (storage : Storage) (x_ptr output_ptr : RegionName)
     (n_elements : Nat) (seed : IntegerArgument) (BLOCK_SIZE : Nat)
     (hBlock : Random.ArangeSizeDomain BLOCK_SIZE) : ComputeKernel :=
   with_triton_call (callSignature storage) call_args [n_elements := n_elements]
@@ -54,7 +54,7 @@ def runtimeSource (storage : Storage) (x_ptr output_ptr : RegionName)
     tl.store(output_ptr + offsets, output, mask=mask)
   }
 
-def runtimeCandidate (storage : Storage) (x_ptr output_ptr : RegionName)
+def runtimeCandidateKernel (storage : Storage) (x_ptr output_ptr : RegionName)
     (n_elements : Nat) (seed : IntegerArgument) (BLOCK_SIZE : Nat)
     (hBlock : Random.ArangeSizeDomain BLOCK_SIZE) : ComputeKernel :=
   with_triton_call (callSignature storage) call_args [n_elements := n_elements]
@@ -80,11 +80,11 @@ noncomputable def probabilityArgument (p : ℝ) : ScalarArgument := ScalarArgume
 
 noncomputable def rawSource (storage : Storage) (X Y : RegionName) (n : Nat)
     (p : ℝ) (seed : IntegerArgument) (B : Nat) (legal : Random.ArangeSizeDomain B) : ComputeKernel :=
-  (runtimeSource storage X Y n seed B legal).withScalarArguments [probabilityArgument p]
+  (runtimeKernel storage X Y n seed B legal).withScalarArguments [probabilityArgument p]
 
 noncomputable def rawCandidate (storage : Storage) (X Y : RegionName) (n : Nat)
     (p : ℝ) (seed : IntegerArgument) (B : Nat) (legal : Random.ArangeSizeDomain B) : ComputeKernel :=
-  (runtimeCandidate storage X Y n seed B legal).withScalarArguments [probabilityArgument p]
+  (runtimeCandidateKernel storage X Y n seed B legal).withScalarArguments [probabilityArgument p]
 
 /-- All retained storage/seed ABI profiles specialize the same copied body.
 The wrapper's fixed block domain and signed/unsigned seed range stay separate. -/

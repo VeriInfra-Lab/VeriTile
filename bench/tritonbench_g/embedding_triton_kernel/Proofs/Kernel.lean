@@ -52,7 +52,7 @@ register contents. The only interpreted floating operation is copy/zero. -/
 theorem correct (rest : Algebra α) (zero : α) (p : Parameters)
     (bounds : RegionBounds) (s : State α)
     (h : KernelContract p (s.pids 0) (fun r => (s.mem p.ids r).read .int) bounds) :
-    ∃ t,FP.Structural.exec (Execution.backend rest zero) (source .int32 p) s = some t ∧
+    ∃ t,FP.Structural.exec (Execution.backend rest zero) (sourceKernel .int32 p) s = some t ∧
       (∀ a,a < 64 → s.pids 0*64+a < p.n → ∀ d,d < p.hidden →
         t.mem p.output ((s.pids 0*64+a)*p.outputStride+d) =
           .mk .real (expected zero p s (s.pids 0*64+a) d)) ∧
@@ -71,7 +71,7 @@ theorem correct (rest : Algebra α) (zero : α) (p : Parameters)
       intro a ha hr d hd eq
       exact miss ⟨a,ha,hr,d,hd,eq⟩
 
-#specNonCircular expected avoiding [source,indexCommutedSource,FP.Structural.exec]
+#specNonCircular expected avoiding [sourceKernel,indexCommutedKernel,FP.Structural.exec]
 #axiomsClean accesses
 #axiomsClean correct
 end

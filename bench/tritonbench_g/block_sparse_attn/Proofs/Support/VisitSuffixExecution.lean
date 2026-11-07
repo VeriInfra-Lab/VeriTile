@@ -19,7 +19,7 @@ def visitSuffixExecution {α : Type} [Inhabited α] (a : Arithmetic α) (native 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [suffix,loopBody,compiledBody,body,source,declared,originalBody,quotientRemainderBody,en,
+    simp [suffix,loopBody,compiledBody,body,source,declared,originalKernel,quotientRemainderKernel,en,
       scoreFmaNode,denominatorFmaNode,accScaleNode,carryNode,fp,ref1,ref2,same1,same2,causalMask,
       ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
       evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,numericLe,

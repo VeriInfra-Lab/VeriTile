@@ -39,7 +39,7 @@ structure VarReady {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) 
 
 theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     ∃ t, run M (prelude p) s = some t ∧ MeanReady M p s t (initial M p) := by
-  simp [prelude, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [prelude, kernel, runtimeKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, numeric, bop, Region.cast]
   constructor <;> simp [integerSetup, State.setReg, initial, xBase, yBase, wBase, bop, numeric]
   all_goals try rfl
@@ -50,7 +50,7 @@ theorem mean_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
     (s t : State α) (off : Nat) (a : TileIndex [p.block] → α) (h : MeanReady M p s t a) :
     ∃ u, run M (loopBody p 18) (t.setReg "off" .int [] (fun _ => (off : Int))) = some u ∧
       MeanReady M p s u (meanStep M p s off a) := by
-  simp [loopBody, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [loopBody, kernel, runtimeKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast, h.integers.1, h.integers.2.1, h.integers.2.2, h.mem, h.pids, h.undef, h.epsilon, h.x, h.y, h.w, h.accumulator]
@@ -76,7 +76,7 @@ theorem var_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
     (s t : State α) (off : Nat) (a : TileIndex [p.block] → α) (h : VarReady M p s t a) :
     ∃ u, run M (loopBody p 21) (t.setReg "off" .int [] (fun _ => (off : Int))) = some u ∧
       VarReady M p s u (varStep M p s off a) := by
-  simp [loopBody, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [loopBody, kernel, runtimeKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast, h.integers.1, h.integers.2.1, h.integers.2.2, h.mem, h.pids, h.undef, h.epsilon, h.x, h.y, h.w, h.accumulator, h.mean]
@@ -102,7 +102,7 @@ theorem mean_post_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
     (s t : State α)
     (h : MeanReady M p s t (foldRange (meanStep M p s) 0 p.columns p.block (initial M p))) :
     ∃ u, run M (meanPost p) t = some u ∧ VarReady M p s u (initial M p) := by
-  simp [meanPost, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [meanPost, kernel, runtimeKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, Region.cast, h.integers.1, h.integers.2.1, h.integers.2.2, h.mem, h.pids, h.undef, h.epsilon, h.x, h.y, h.w, h.accumulator]

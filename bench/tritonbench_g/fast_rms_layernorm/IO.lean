@@ -70,9 +70,9 @@ def job (h : Call) (backward weight : Bool) (pid count : Nat) : PreparedAlgorith
   source:=⟨source h backward weight,by
     cases weight <;> cases backward <;> cases mode : h.gemma
     all_goals simp only [source,Kernels.forward,mode,Bool.false_eq_true,if_true,if_false]
-    all_goals simp [Kernels.regularSource,Kernels.gemmaSource,Kernels.regularRuntimeSource,Kernels.gemmaRuntimeSource,
-      ComputeKernel.withScalarArguments,ScalarArgument.fp32,ScalarArgument.statement,Kernels.backward,Kernels.inputGradientSource,
-      Kernels.weightBackward,Kernels.runtimeWeightSource,mode,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    all_goals simp [Kernels.regularSource,Kernels.gemmaSource,Kernels.regularRuntimeKernel,Kernels.gemmaRuntimeKernel,
+      ComputeKernel.withScalarArguments,ScalarArgument.fp32,ScalarArgument.statement,Kernels.backward,Kernels.inputGradientKernel,
+      Kernels.weightBackward,Kernels.runtimeWeightKernel,mode,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
       ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind]⟩
   launch:={pids:=fun _=>pid,numPids:=some (fun _=>count)}

@@ -136,7 +136,7 @@ theorem source_safe (h : Call) (layout : Geometry.OutputLayout h) (c : Config)
     (positive : 0<c.BT) (u : BlockState) (hr : u.pids 0<h.B*h.H) (bounds : RegionBounds)
     (hin : ∀ t,t<h.T → h.inputStrides.address h.H (u.pids 0) t<bounds h.input)
     (hout : ∀ t,t<h.T → h.outputStrides.address h.H (u.pids 0) t<bounds h.output) :
-    Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel u := by
+    Kernel.TraceSafe bounds (Kernels.sourceKernel h c).eraseDType.toAlgKernel u := by
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe
   · apply TraceProofs.all_safe

@@ -12,7 +12,7 @@ specification transpose_kernel_correctness (m d : Nat) (_h : InputContract m d) 
     Spec.Real (transposeIO m d ⊨ fun xs col row => xs row col) :=
   LogicalIOProof.implements m d
 
-#specNonCircular formula avoiding [source,indexCommutedSource]
+#specNonCircular formula avoiding [sourceKernel,indexCommutedKernel]
 #stmtSurfaceSubset transpose_kernel_correctness ⊆
   [Spec.Real,transposeIO,LogicalIO.Implements,InputContract,Masked2DKernelIO₁.Implements,KernelReal.transposeIO,Masked2DKernelIO₁.B]
 #axiomsClean transpose_kernel_correctness

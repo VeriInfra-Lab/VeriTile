@@ -55,7 +55,7 @@ theorem prefix_executes (storage : Storage) (kind : Random.IntegerType)
     run M ((source storage kind Bool.false "x" "y" 1 p seed 1 one_legal).surfaceBody.take 7)
       (initial storage value) = some (prefixState M p storage kind seed value) := by
   cases storage <;> cases kind
-  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, Option.bind, numeric, natLt, numericLt, bop, initial, stored,
     Region.cast, Random.i32ArangeSize, prefixState, seedState]
   all_goals rfl
@@ -105,7 +105,7 @@ theorem suffix_executes (storage : Storage) (kind : Random.IntegerType)
     ∃ v, run M ((source storage kind Bool.false "x" "y" 1 p seed 1 one_legal).surfaceBody.drop 8)
       ((prefixState M p storage kind seed value).setReg "random" .real [1] random) = some v := by
   cases storage <;> cases kind
-  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, store, evalExpr, evalComputeOp,
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, run, step, store, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, Option.bind, hcompare, numeric, numericLt,
     ofFloat, toFloat, Region.cast, prefixState, seedState, initial, Random.i32ArangeSize]
 
@@ -130,7 +130,7 @@ theorem original_executes (storage : Storage) (kind : Random.IntegerType)
   cases storage <;> cases kind
   all_goals
     simp only [seedOp, RandomDomain.profile] at hr
-    simp only [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeSource, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidate, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero, Random.i32ArangeSize] at hv ⊢
+    simp only [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, List.drop_succ_cons, List.drop_zero, Random.i32ArangeSize] at hv ⊢
     try simp only [run, step, evalExpr, evalComputeOp] at ⊢
     erw [hr]
     simpa only [run, step, evalExpr, evalComputeOp, bind, Option.bind] using hv

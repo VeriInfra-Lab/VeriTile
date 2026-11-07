@@ -1,12 +1,12 @@
 import VeriTile.Triton.DSL.GuardedJitFunctions
-namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Bodies
+namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast
 open VeriTile.Triton
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 2000000
 
-def inner : StatementJitFunction :=
-  triton_function (acc, l_i, m_i, q, K_block_ptr, V_block_ptr, start_m, qk_scale, N_CTX, sliding_window_offset, sliding_window_size, BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW) constexpr_args [BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW] {
+def innerSource : StatementJitFunction :=
+  with_triton_params (acc, l_i, m_i, q, K_block_ptr, V_block_ptr, start_m, qk_scale, N_CTX, sliding_window_offset, sliding_window_size, BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW) constexpr_args [BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW] in triton {
     start_m = start_m.to(tl.int64)
     # range of values handled by this stage
     if SLIDING_WINDOW and not COMPLEMENT_SLIDING_WINDOW:
@@ -95,12 +95,12 @@ def signature : CallSignature where
   readPorts := ["M","L","Out","Q","K","V"]
   writePorts := ["L","M","Out"]
 
-def kernel (Q K V M Out L : RegionName) (sm_scale : ℝ)
+def sourceKernel (Q K V M Out L : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX : Nat)
     (sliding_window_offset sliding_window_size : Int)
     (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) (IS_EVEN_M IS_EVEN_N END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Bool) : ComputeKernel :=
   with_triton_call signature call_args [sm_scale := sm_scale, stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, Z := Z, H := H, H_KV := H_KV, N_CTX := N_CTX, ROUND_CTX := ROUND_CTX, NKV_CTX := NKV_CTX, sliding_window_offset := sliding_window_offset, sliding_window_size := sliding_window_size]
-    jit_functions [_attn_fwd_inner := inner] in triton {
+    jit_functions [_attn_fwd_inner := innerSource] in triton {
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1).to(tl.int64)
     off_z = off_hz // H
@@ -183,8 +183,8 @@ def kernel (Q K V M Out L : RegionName) (sm_scale : ℝ)
     tl.store(O_block_ptr, acc.to(Out.type.element_ty))
 }
 
-def innerCSE : StatementJitFunction :=
-  triton_function (acc, l_i, m_i, q, K_block_ptr, V_block_ptr, start_m, qk_scale, N_CTX, sliding_window_offset, sliding_window_size, BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW) constexpr_args [BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW] {
+def innerCSESource : StatementJitFunction :=
+  with_triton_params (acc, l_i, m_i, q, K_block_ptr, V_block_ptr, start_m, qk_scale, N_CTX, sliding_window_offset, sliding_window_size, BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW) constexpr_args [BLOCK_M, BLOCK_DMODEL, BLOCK_N, SLIDING_WINDOW, IS_EVEN_M, IS_EVEN_N, COMPLEMENT_SLIDING_WINDOW] in triton {
     start_m = start_m.to(tl.int64)
     # range of values handled by this stage
     if SLIDING_WINDOW and not COMPLEMENT_SLIDING_WINDOW:
@@ -267,12 +267,12 @@ def innerCSE : StatementJitFunction :=
     return acc, l_i, m_i
   }
 
-def kernelCSE (Q K V M Out L : RegionName) (sm_scale : ℝ)
+def kernelCSEKernel (Q K V M Out L : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX : Nat)
     (sliding_window_offset sliding_window_size : Int)
     (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) (IS_EVEN_M IS_EVEN_N END INIT SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Bool) : ComputeKernel :=
   with_triton_call signature call_args [sm_scale := sm_scale, stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, Z := Z, H := H, H_KV := H_KV, N_CTX := N_CTX, ROUND_CTX := ROUND_CTX, NKV_CTX := NKV_CTX, sliding_window_offset := sliding_window_offset, sliding_window_size := sliding_window_size]
-    jit_functions [_attn_fwd_inner_key_mask_cse := innerCSE] in triton {
+    jit_functions [_attn_fwd_inner_key_mask_cse := innerCSESource] in triton {
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1).to(tl.int64)
     off_z = off_hz // H
@@ -356,4 +356,4 @@ def kernelCSE (Q K V M Out L : RegionName) (sm_scale : ℝ)
 }
 
 end
-end VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Bodies
+end VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast

@@ -18,7 +18,7 @@ def callSignature : CallSignature where
 casts, scalar int64 constructors, the signed row loop and every output cast.
 The selected Python host accepts FP32 input storage. The original output dtype
 constexpr remains caller metadata and its casts remain in the source. -/
-def source (dtype : FloatDType) (X W Mean RSTD DX DW DB DY : RegionName)
+def sourceKernel (dtype : FloatDType) (X W Mean RSTD DX DW DB DY : RegionName)
     (stride_x stride_dx stride_dw stride_db stride_dy
       n_rows n_cols rows_per_program BLOCK_SIZE : Nat) : ComputeKernel :=
   let X_ptr := X
@@ -90,7 +90,7 @@ def source (dtype : FloatDType) (X W Mean RSTD DX DW DB DY : RegionName)
 
 /-- Loop-invariant conversion candidate: bind the original FP32 denominator
 once before the row interval, then reuse it for both divisions in every row. -/
-def candidateSource (dtype : FloatDType) (X W Mean RSTD DX DW DB DY : RegionName)
+def candidateSourcePastedKernel (dtype : FloatDType) (X W Mean RSTD DX DW DB DY : RegionName)
     (stride_x stride_dx stride_dw stride_db stride_dy
       n_rows n_cols rows_per_program BLOCK_SIZE : Nat) : ComputeKernel :=
   let X_ptr := X
@@ -165,12 +165,12 @@ structure Parameters where
   (x weight mean rstd dx dw db dy : RegionName)
   (xStride dxStride dwStride dbStride dyStride rows columns rowsPerProgram block : Nat)
 
-def kernel (p : Parameters) : ComputeKernel := source .fp32 p.x p.weight p.mean p.rstd p.dx p.dw p.db p.dy
+def kernel (p : Parameters) : ComputeKernel := sourceKernel .fp32 p.x p.weight p.mean p.rstd p.dx p.dw p.db p.dy
   p.xStride p.dxStride p.dwStride p.dbStride p.dyStride p.rows p.columns p.rowsPerProgram p.block
 
 
 def candidateKernel (p : Parameters) : ComputeKernel :=
-  candidateSource .fp32 p.x p.weight p.mean p.rstd p.dx p.dw p.db p.dy
+  candidateSourcePastedKernel .fp32 p.x p.weight p.mean p.rstd p.dx p.dw p.db p.dy
     p.xStride p.dxStride p.dwStride p.dbStride p.dyStride p.rows p.columns p.rowsPerProgram p.block
 
 end VeriTile.Bench.Repairs.LayerNormLiger.Backward
@@ -192,7 +192,7 @@ def callSignature : CallSignature where
 /-- Verbatim repaired Python forward body. Pointer dtypes and runtime scalar
 bindings are caller metadata outside the quotation. Both divisions retain the
 original implicit integer-to-FP32 conversion; no source cast is added. -/
-def source
+def sourceKernel
     (Y_ptr : RegionName) (Y_row_stride : Nat)
     (X_ptr : RegionName) (X_row_stride : Nat)
     (W_ptr : RegionName) (W_row_stride : Nat)
@@ -241,7 +241,7 @@ def source
 
 /-- Common-subexpression candidate: compute the FP32 centered vector once
 and reuse the identical rounded value for variance and affine output. -/
-def candidateSource
+def candidateSourcePastedKernel
     (Y_ptr : RegionName) (Y_row_stride : Nat)
     (X_ptr : RegionName) (X_row_stride : Nat)
     (W_ptr : RegionName) (W_row_stride : Nat)
@@ -295,11 +295,11 @@ structure Parameters where
   epsilon : ℝ
 
 def kernel (p : Parameters) : ComputeKernel :=
-  source p.y p.yStride p.x p.xStride p.weight p.weightStride p.bias p.biasStride
+  sourceKernel p.y p.yStride p.x p.xStride p.weight p.weightStride p.bias p.biasStride
     p.mean p.meanStride p.rstd p.rstdStride p.columns p.epsilon p.block
 
 def candidateKernel (p : Parameters) : ComputeKernel :=
-  candidateSource p.y p.yStride p.x p.xStride p.weight p.weightStride p.bias p.biasStride
+  candidateSourcePastedKernel p.y p.yStride p.x p.xStride p.weight p.weightStride p.bias p.biasStride
     p.mean p.meanStride p.rstd p.rstdStride p.columns p.epsilon p.block
 
 end VeriTile.Bench.Repairs.LayerNormLiger.Forward

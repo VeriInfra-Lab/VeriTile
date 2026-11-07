@@ -11,7 +11,7 @@ set_option maxRecDepth 24000
 set_option maxHeartbeats 4000000
 
 def originalSource (stride B : Nat) : ComputeKernel :=
-  kernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum" stride 1 B
+  sourceKernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum" stride 1 B
 
 def reciprocalSource (stride B : Nat) : ComputeKernel :=
   reciprocalKernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum" stride 1 B
@@ -27,7 +27,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (engine M) (originalSource stride B) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [originalSource, kernel, callSignature, FP.Structural.exec, run, step, evalExpr,
+  simp [originalSource, sourceKernel, callSignature, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, Option.bind, numeric, numericLt, natLt, bop,
     store, Region.cast, engine, Algebra.withDefaultPrecision, resolvePrecision, hlt]
   rfl

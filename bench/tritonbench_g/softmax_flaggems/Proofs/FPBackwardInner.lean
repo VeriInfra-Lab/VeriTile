@@ -41,7 +41,7 @@ theorem accumulate_step (M : Algebra α) (base s : State α) (P G Y : RegionName
       (s.setReg "_" .int [] (fun _ => ((cur : Nat) : Int))) = some t ∧
       Ready base row N B C (cur+B) (accumulate M base P G row rows N B C cur scale) t := by
   rcases hs with ⟨hm,hn,ho,hscale,hmem⟩
-  simp [rangeBody, code, branch, Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,
+  simp [rangeBody, code, branch, Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, numericLt, numericLe, natLt, natLe, bop, ofFloat, toFloat,
     Region.cast, ComputeDType.eraseDType, State.setReg, Option.bind,
@@ -78,7 +78,7 @@ theorem emit_step (M : Algebra α) (base s : State α) (P G Y : RegionName)
       (s.setReg "_" .int [] (fun _ => ((cur : Nat) : Int))) = some t ∧
       WriteReady (emit M P G Y row rows N B C scale cur base) row N B C (cur+B) scale t := by
   rcases hs with ⟨hm,hn,ho,hscale,hmem⟩
-  simp [rangeBody, code, branch, Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,
+  simp [rangeBody, code, branch, Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, store,
     numeric, numericLt, numericLe, natLt, natLe, bop, ofFloat, toFloat,
     Region.cast, ComputeDType.eraseDType, State.setReg, Option.bind,
@@ -107,7 +107,7 @@ theorem initial_exec (M : Algebra α) (s : State α) (P G Y : RegionName)
     exec M (Source.softmax_backward_kernel_inner_fp32 P G Y rows N C B Bool.false) s =
     (rangeInt M "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N B C) 3)
       (initial M s N B C)).bind (run M ((code P G Y rows N B C).drop 4)) := by
-  simp [exec,run,step,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,code,branch,rangeBody,
+  simp [exec,run,step,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,code,branch,rangeBody,
     ComputeKernel.surfaceBody,evalExpr,evalComputeOp,evalOp_unfold,
     numeric,numericLt,natLt,bop,ofFloat,toFloat,Region.cast,ComputeDType.eraseDType,
     State.setReg,initial,offset,literal,List.drop_succ_cons,List.drop_zero]
@@ -134,7 +134,7 @@ theorem after_accumulate (M : Algebra α) (base mid : State α) (P G Y : RegionN
         (writeInitial M mid row N B C v) ∧
     WriteReady base row N B C 0 (reduced M B C v) (writeInitial M mid row N B C v) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [code,branch,rangeBody,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,ComputeKernel.surfaceBody,
+  simp [code,branch,rangeBody,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,natLt,bop,ofFloat,toFloat,
     Region.cast,ComputeDType.eraseDType,State.setReg,hm,hv,hmem,
     writeInitial,reduced,offset,WriteReady]

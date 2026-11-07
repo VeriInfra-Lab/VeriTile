@@ -12,7 +12,7 @@ def apply_penalty
     (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
     (stride_logit_b _stride_logit_s BLOCK_P : Nat) :
     ComputeKernel :=
-  let k := (VeriTile.Bench.Repairs.ApplyPenalty.kernel Logits presence_penalty freqency_penalty repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len stride_logit_b _stride_logit_s BLOCK_P).toAlgKernel
+  let k := (VeriTile.Bench.Repairs.ApplyPenalty.sourceKernel Logits presence_penalty freqency_penalty repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len stride_logit_b _stride_logit_s BLOCK_P).toAlgKernel
   ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
 end

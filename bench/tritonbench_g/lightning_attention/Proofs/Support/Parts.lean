@@ -4,9 +4,9 @@ namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly
 open VeriTile Triton
 noncomputable section
 def fwdParts (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (forward p).surfaceBody "i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+  (Source.dynamicRange? (forwardKernel p).surfaceBody "i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 def interForwardParts (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (inter p).surfaceBody "i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
+  (Source.dynamicRange? (interKernel p).surfaceBody "i").getD ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 def interReverseParts (p : Parameters) : Source.IntRange :=
   (Source.intRange? (interForwardParts p).after "__rev_i").getD ⟨[],.constInt 0,.constInt 0,.constNat 0,[],[]⟩
 def interRUpdateParts (p : Parameters) : Source.IntRange :=

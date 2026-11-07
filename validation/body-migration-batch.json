@@ -10378,6 +10378,8 @@
     "bench/examples/VectorAdd/Contract.lean",
     "bench/examples/Welford/IO.lean",
     "bench/examples/Welford/Contract.lean",
-    "VeriTile/Examples/ErasedProjection.lean"
+    "VeriTile/Examples/ErasedProjection.lean",
+    "VeriTile/Triton/DSL/SourceSyntax.lean",
+    "tests/lean/SourceAuthoring.lean"
   ]
 }

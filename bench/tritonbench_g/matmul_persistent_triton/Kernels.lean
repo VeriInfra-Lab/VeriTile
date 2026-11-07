@@ -19,7 +19,7 @@ def signature (storage : Storage) : CallSignature where
   readPorts := ["a_ptr","b_ptr"]
   writePorts := ["c_ptr"]
 
-def originalBody (storage : Storage) (a_ptr b_ptr c_ptr : RegionName)
+def originalKernel (storage : Storage) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M NUM_SMS : Nat) : ComputeKernel :=
   with_triton_call (signature storage) call_args [M := M,N := N,K := K,stride_am := stride_am,stride_ak := stride_ak,stride_bk := stride_bk,stride_bn := stride_bn,stride_cm := stride_cm,stride_cn := stride_cn] in triton {
     start_pid = tl.program_id(axis=0).to(tl.int64)
@@ -71,7 +71,7 @@ def originalBody (storage : Storage) (a_ptr b_ptr c_ptr : RegionName)
         tl.store(c_ptrs, c, mask=c_mask)
   }
 
-def candidateBody (storage : Storage) (a_ptr b_ptr c_ptr : RegionName)
+def candidateKernel (storage : Storage) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M NUM_SMS : Nat) : ComputeKernel :=
   with_triton_call (signature storage) call_args [M := M,N := N,K := K,stride_am := stride_am,stride_ak := stride_ak,stride_bk := stride_bk,stride_bn := stride_bn,stride_cm := stride_cm,stride_cn := stride_cn] in triton {
     start_pid = tl.program_id(axis=0).to(tl.int64)
@@ -124,16 +124,16 @@ def candidateBody (storage : Storage) (a_ptr b_ptr c_ptr : RegionName)
   }
 
 def fp16 : VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.TypedSource.Source :=
-  originalBody .fp16
+  originalKernel .fp16
 
 def f8e4 : VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.TypedSource.Source :=
-  originalBody .f8e4
+  originalKernel .f8e4
 
 def fp16Reordered : VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.TypedSource.Source :=
-  candidateBody .fp16
+  candidateKernel .fp16
 
 def f8e4Reordered : VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.TypedSource.Source :=
-  candidateBody .f8e4
+  candidateKernel .f8e4
 
 def kernel : Storage → VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.TypedSource.Source
   | .fp16 => fp16

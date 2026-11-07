@@ -17,7 +17,7 @@ def backward_run {α : Type} [Inhabited α] (M : Algebra α)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (maxSteps := 300000) [backward,backwardTyped,ComputeKernel.surfaceBody,run,step,stepAlg,
+    simp (maxSteps := 300000) [backward,backwardTypedKernel,ComputeKernel.surfaceBody,run,step,stepAlg,
       FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,bop,numericLt,numericLe,natLt,natLe,ofFloat,toFloat,
@@ -30,7 +30,7 @@ def forward_run {α : Type} [Inhabited α] (M : Algebra α)
     (Y X Mask : RegionName) (ym yn xm xn sm K D : Nat) (hD : 0<D)
     (log : Bool) (mode : Forward.MaskMode) (causal : Bool) (s : State α) :
     {t : State α // run (engine M)
-      (forward Y X Mask ym yn xm xn sm K D log mode.python causal Bool.false).surfaceBody s=some t} :=
+      (forwardKernel Y X Mask ym yn xm xn sm K D log mode.python causal Bool.false).surfaceBody s=some t} :=
   Forward.TypedTotal.fp32_source_run M Y X Mask ym yn xm xn sm K D hD log mode causal Bool.false s
 
 theorem backward_frame {α : Type} [Inhabited α] (M : Algebra α)

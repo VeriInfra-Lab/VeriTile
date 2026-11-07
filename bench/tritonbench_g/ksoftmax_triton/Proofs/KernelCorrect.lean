@@ -90,7 +90,7 @@ specification backward_kernel_real (depth : Host.DepthLibrary) (dst grad saved :
       simpa only [KernelTensor.values_words memory saved savedView admitted.2.2.1] using ho b r j hj
   · exact Host.body_frame _ _ _ _ admitted.2.2.2.1 initial
 
-#specNonCircular tensorForwardScores avoiding [forward,backward,runRows,Host.body,KernelExecution.exec]
+#specNonCircular tensorForwardScores avoiding [forwardKernel,backward,runRows,Host.body,KernelExecution.exec]
 #axiomsClean forward_kernel_real_extended
 #axiomsClean backward_kernel_real
 end

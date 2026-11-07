@@ -52,7 +52,7 @@ def execution (c : Shape) (base : Nat) (s : State NativeGraph.Expr) :
     unfold enabled linear at condition
     refine ⟨?_,?_⟩
     swap
-    simp (config := {maxSteps:=150000}) [source,NativeSource.cumOriginal,NativeSource.cumBody,
+    simp (config := {maxSteps:=150000}) [source,NativeSource.cumOriginal,NativeSource.cumKernel,
       ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
       FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,
       ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,

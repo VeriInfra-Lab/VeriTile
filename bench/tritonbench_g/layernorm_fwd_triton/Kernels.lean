@@ -16,7 +16,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["X","W"]
   writePorts := ["Y"]
 
-def runtimeSource (dtype : FloatDType) (X W Y : RegionName)
+def runtimeKernel (dtype : FloatDType) (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_x_hd stride_y_N stride_y_hn stride_y_hd
       stride_w_hn stride_w_hd N BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args
@@ -67,7 +67,7 @@ def runtimeSource (dtype : FloatDType) (X W Y : RegionName)
         tl.store(Y + cols * stride_y_hd, y.to(X.dtype.element_ty), mask=mask)
   }
 
-def runtimeSourceCandidate (dtype : FloatDType) (X W Y : RegionName)
+def runtimeSourceCandidateKernel (dtype : FloatDType) (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_x_hd stride_y_N stride_y_hn stride_y_hd
       stride_w_hn stride_w_hd N BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args
@@ -139,7 +139,7 @@ structure Parameters where
   (xSeqStride xHeadStride xDimStride ySeqStride yHeadStride yDimStride
     weightHeadStride weightDimStride columns block : Nat)
 
-def kernel (p : Parameters) := runtimeSource .fp32 p.x p.weight p.y
+def kernel (p : Parameters) := runtimeKernel .fp32 p.x p.weight p.y
   p.xSeqStride p.xHeadStride p.xDimStride p.ySeqStride p.yHeadStride p.yDimStride
   p.weightHeadStride p.weightDimStride p.columns p.block
 
@@ -147,7 +147,7 @@ def parameters (s : Strides) (N : Nat) : Parameters :=
   ⟨"X", "W", "Y", s.xSeq, s.xHead, s.xDim, s.ySeq, s.yHead, s.yDim,
     s.wHead, s.wDim, N, 128⟩
 
-def candidateKernel (p : Parameters) := runtimeSourceCandidate .fp32 p.x p.weight p.y
+def candidateKernel (p : Parameters) := runtimeSourceCandidateKernel .fp32 p.x p.weight p.y
   p.xSeqStride p.xHeadStride p.xDimStride p.ySeqStride p.yHeadStride p.yDimStride
   p.weightHeadStride p.weightDimStride p.columns p.block
 

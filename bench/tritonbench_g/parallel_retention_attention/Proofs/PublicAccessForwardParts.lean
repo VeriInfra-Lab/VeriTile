@@ -38,7 +38,7 @@ theorem pre_query_run (M : Algebra α) (D : DotPrimitive α)
   have split : preQuery c=argumentPrefix c++decodedPrefix c++
       ((forwardKernel c).surfaceBody.drop 23).take 6:=rfl
   rw [split,run_append,run_append,ha,Option.bind_some,hd,Option.bind_some]
-  simp [forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,run,step,
+  simp [forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,evalOffsets,
     h.mem,h.pids,h.head,h.chunk,h.keyBlock,h.valueBlock,h.decayHead,h.argument0,h.argument1,h.argument2,h.argument3,h.argument4,h.argument5,h.argument6,h.argument7,h.argument8,
     ib.query_cast,ib.key_cast,ib.value_cast,ib.key_cast_eval,ib.value_cast_eval,

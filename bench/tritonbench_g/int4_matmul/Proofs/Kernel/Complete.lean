@@ -42,7 +42,7 @@ def epilogueExecution [Inhabited α] (o : Ops α) (rest : Algebra α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [epilogue,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
+    simp [epilogue,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
       run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,FP.Structural.store,
       FP.Structural.atomicAdd,atomicAddition,numeric,
       FP.Structural.bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,

@@ -59,7 +59,7 @@ def matrixResidualSite (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.S
 
 def matrixBranchSite (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Site :=
   .div (FP.ProfiledRewrite.prefixBefore
-    (matrixMiddle "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau).surfaceBody "z" 1)
+    (matrixMiddleKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau).surfaceBody "z" 1)
     S [T] (.ref .real [S, T] "h_pre_logits") tau
 
 def matrixOriginalProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Program where
@@ -68,7 +68,7 @@ def matrixOriginalProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrit
 
 def matrixOptimizedProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Program :=
   { matrixOriginalProgram S T D numIters tau with
-    kernel := matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau }
+    kernel := matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau }
 
 /-- All dimensions and both full Sinkhorn loops remain in the source.
 The two matrix products retain their original operand order and backend. -/

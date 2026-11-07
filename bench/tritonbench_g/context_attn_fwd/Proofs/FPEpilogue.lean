@@ -48,9 +48,9 @@ theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases Option.isSome_iff_exists.mp h10 with ⟨a,h10⟩
   rcases hc with ⟨hs,hh,hm,hd,hl⟩
   refine ⟨(fun i => M.binary (some .fp32) .real .div (a i) (l (i.1,PUnit.unit))),?_⟩
-  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,
+  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,

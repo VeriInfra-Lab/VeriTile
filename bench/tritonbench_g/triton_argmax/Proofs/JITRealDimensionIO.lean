@@ -27,7 +27,7 @@ theorem implements (rest : Algebra Math.Value) (X : RegionName) (O : Region .int
       (mathematical rest X O M N K BM BN base pid nonempty index64) := by
   intro vals _ bounds bounded s binding
   let initial := (JITIO.atProgram (TypedReal.backend rest)
-    (JITSource.dimension X O BM BN index64) pid).initial s
+    (JITSource.dimensionKernel X O BM BN index64) pid).initial s
   have initialPid : initial.pids 0 = pid := by simp [initial]
   have initialMem : initial.mem = s.mem := Invocation.initial_mem _ _
   have reads : ∀ row col inner, row < M → col < N → inner < K →
@@ -38,9 +38,9 @@ theorem implements (rest : Algebra Math.Value) (X : RegionName) (O : Region .int
     simpa [JITIO.realDimension, mapValue, input, hr, hc, hi, initialMem] using h
   constructor
   · rw [show (JITIO.realDimension rest X O M N K BM BN base pid index64).schedule vals =
-      [JITIO.dimensionLaunch (TypedReal.backend rest) (JITSource.dimension X O BM BN index64) M N K base pid] from rfl,
+      [JITIO.dimensionLaunch (TypedReal.backend rest) (JITSource.dimensionKernel X O BM BN index64) M N K base pid] from rfl,
       scheduleSafe_singleton]
-    change TraceSafe (TypedReal.backend rest) bounds (JITSource.dimension X O BM BN index64) (JITRealDimension.arguments initial M N K base)
+    change TraceSafe (TypedReal.backend rest) bounds (JITSource.dimensionKernel X O BM BN index64) (JITRealDimension.arguments initial M N K base)
     apply JITRealDimensionSafety.source_safe rest initial X O M N K BM BN base index64 positive bounds
     · intro r col hr hc
       simpa [initialPid] using bounded.2.1 0

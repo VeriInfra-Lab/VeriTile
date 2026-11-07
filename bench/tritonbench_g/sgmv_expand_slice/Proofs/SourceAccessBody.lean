@@ -35,7 +35,7 @@ theorem body_safe {α : Type} [Inhabited α] (M : Algebra α)
     cases he : (p.inner % 16 == 0) <;>
     simp (maxSteps := 1000000) [SourceParts.body,SourceParts.loopParts,
       SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,SourceParts.thenBody,
-      SourceParts.outer,Source.intRange?,kernel,sourceFace,sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,
+      SourceParts.outer,Source.intRange?,kernel,sourceFace,sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,
       sourceBfloatSingle323232,ScalarFormat.dtype,LowFormat.scalar,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress_unfold,

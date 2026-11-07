@@ -44,7 +44,7 @@ def forwardCallSignature : CallSignature where
   writePorts := ["loss_ptr", "lse_ptr"]
 
 /-- Complete repaired Python body; caller offsets and ABI are outside the quotation. -/
-def forwardBody (p : Parameters) : ComputeKernel :=
+def forwardKernel (p : Parameters) : ComputeKernel :=
   let loss_ptr := p.loss
   let lse_ptr := p.lse
   let logits_ptr := p.logits
@@ -97,7 +97,7 @@ def backwardCallSignature : CallSignature where
   writePorts := ["dlogits_ptr"]
 
 /-- Complete repaired Python body; caller offsets and ABI are outside the quotation. -/
-def backwardBody (p : Parameters) : ComputeKernel :=
+def backwardKernel (p : Parameters) : ComputeKernel :=
   let dlogits_ptr := p.gradient
   let dloss_ptr := p.upstream
   let logits_ptr := p.logits
@@ -132,7 +132,7 @@ def backwardBody (p : Parameters) : ComputeKernel :=
   }
 
 /-- Complete existing column-index candidate; caller offsets and ABI are outside the quotation. -/
-def forwardIndexCommutedBody (p : Parameters) : ComputeKernel :=
+def forwardIndexCommutedKernel (p : Parameters) : ComputeKernel :=
   let loss_ptr := p.loss
   let lse_ptr := p.lse
   let logits_ptr := p.logits
@@ -178,7 +178,7 @@ def forwardIndexCommutedBody (p : Parameters) : ComputeKernel :=
   }
 
 /-- Complete existing column-index candidate; caller offsets and ABI are outside the quotation. -/
-def backwardIndexCommutedBody (p : Parameters) : ComputeKernel :=
+def backwardIndexCommutedKernel (p : Parameters) : ComputeKernel :=
   let dlogits_ptr := p.gradient
   let dloss_ptr := p.upstream
   let logits_ptr := p.logits
@@ -213,7 +213,7 @@ def backwardIndexCommutedBody (p : Parameters) : ComputeKernel :=
   }
 
 def forwardSyntax (p : Parameters) : ComputeKernel :=
-  (forwardBody p).withScalarArguments [
+  (forwardKernel p).withScalarArguments [
     ScalarArgument.integer "ignored_index" p.ignored,
     ScalarArgument.integer "class_start_idx" p.classStart,
     ScalarArgument.integer "n_cols" p.cols,
@@ -221,7 +221,7 @@ def forwardSyntax (p : Parameters) : ComputeKernel :=
     ScalarArgument.integer "n_rows" p.rows]
 
 def backwardSyntax (p : Parameters) : ComputeKernel :=
-  (backwardBody p).withScalarArguments [
+  (backwardKernel p).withScalarArguments [
     ScalarArgument.integer "ignored_index" p.ignored,
     ScalarArgument.integer "class_start_idx" p.classStart,
     ScalarArgument.integer "n_cols" p.cols,
@@ -230,7 +230,7 @@ def backwardSyntax (p : Parameters) : ComputeKernel :=
     ScalarArgument.integer "dloss_row_stride" p.upstreamStride]
 
 def forwardIndexCommutedSyntax (p : Parameters) : ComputeKernel :=
-  (forwardIndexCommutedBody p).withScalarArguments [
+  (forwardIndexCommutedKernel p).withScalarArguments [
     ScalarArgument.integer "ignored_index" p.ignored,
     ScalarArgument.integer "class_start_idx" p.classStart,
     ScalarArgument.integer "n_cols" p.cols,
@@ -238,7 +238,7 @@ def forwardIndexCommutedSyntax (p : Parameters) : ComputeKernel :=
     ScalarArgument.integer "n_rows" p.rows]
 
 def backwardIndexCommutedSyntax (p : Parameters) : ComputeKernel :=
-  (backwardIndexCommutedBody p).withScalarArguments [
+  (backwardIndexCommutedKernel p).withScalarArguments [
     ScalarArgument.integer "ignored_index" p.ignored,
     ScalarArgument.integer "class_start_idx" p.classStart,
     ScalarArgument.integer "n_cols" p.cols,

@@ -72,6 +72,38 @@ def source_scope(text: str, definition: str) -> tuple[str, str]:
     return text[start:start + end.start()], name
 
 
+def helper_header(header: str) -> str:
+    """Read the common block header through its existing typed helper checks."""
+    if not re.search(r"\bwith_triton_params\b", header):
+        return header
+    helper_type = re.search(
+        r":\s*(PureJitFunction|BinaryPureJitFunction|ImportedBinaryJitFunction|"
+        r"ImportedFiniteJitFunction|UniformJitFunction|StatementJitFunction|"
+        r"SpecializedStatementJitFunction|ClosedUnaryJitFunction|ProcedureJitFunction)\s*:=",
+        header)
+    if helper_type is None:
+        return header
+    match = re.search(
+        r"\bwith_triton_params\s*(\([^)]*\))\s+constexpr_args\s*(\[[^]]*\])"
+        r"(?:\s+(signature|rebinding_signature)\s+([A-Za-z_]\w*))?\s+in\s+triton\s*$",
+        header)
+    if match is None:
+        raise ValueError("typed helper requires its complete parameter declaration")
+    if match[3]:
+        keyword = "triton_rebinding_procedure" if match[3] == "rebinding_signature" else "triton_procedure"
+        replacement = f"{keyword} {match[4]} {match[1]} constexpr_args {match[2]} "
+    else:
+        empty_only = {"PureJitFunction", "BinaryPureJitFunction", "UniformJitFunction",
+                      "ImportedBinaryJitFunction", "ImportedFiniteJitFunction"}
+        if helper_type[1] in empty_only:
+            if match[2].strip() != "[]":
+                raise ValueError("pure helper requires an empty constexpr list")
+            replacement = f"triton_function {match[1]} "
+        else:
+            replacement = f"triton_function {match[1]} constexpr_args {match[2]} "
+    return header[:match.start()] + replacement
+
+
 def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[str, str]:
     text, definition = source_scope(text, definition)
     mask = lean_code_mask(text)
@@ -110,7 +142,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
                         stop = opening + offsets[token.end[0] - 1] + token.end[1]
                         if code[stop:].strip():
                             raise ValueError("unexpected code after quotation")
-                        return selected[:opening], selected[opening + 1:stop - 1]
+                        return helper_header(selected[:opening]), selected[opening + 1:stop - 1]
         except (tokenize.TokenError, IndentationError) as error:
             raise ValueError("invalid Python quotation delimiters") from error
         raise ValueError("unterminated quotation")
@@ -120,7 +152,7 @@ def quotation(text: str, definition: str, *, raw_python: bool = False) -> tuple[
         if depth == 0:
             if code[i + 1:].strip():
                 raise ValueError("unexpected code after quotation")
-            return selected[:opening], strip_lean_comments(selected[opening + 1:i])
+            return helper_header(selected[:opening]), strip_lean_comments(selected[opening + 1:i])
     raise ValueError("unterminated quotation")
 
 

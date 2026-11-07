@@ -49,7 +49,7 @@ theorem loop (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
   refine ⟨t,?_,hr,hmem⟩
   simpa (config := {maxSteps := 300000}) [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,
-    VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.Bodies.originalBody,Source.intRange?,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.originalKernel,Source.intRange?,ComputeKernel.surfaceBody,
     step,evalOp_unfold,Option.bind,numeric,bop,State.setReg,hb,hm] using ht
 
 def active (p : Layout) (a : Inputs α) (i : TileIndex [p.BM,p.D]) : Prop :=
@@ -78,7 +78,7 @@ theorem epilogue (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α)
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13⟩
   simp [FPSymbolic.parts,Program.parts,Program.mathematical,Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,
-    VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.Bodies.originalBody,ComputeKernel.surfaceBody,Source.intRange?]
+    VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.originalKernel,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,engine,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,natLt,ofFloat,toFloat,Region.cast,

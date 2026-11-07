@@ -42,13 +42,13 @@ def activeBody (p : Parameters) (dtype out_dtype : FloatDType) (s o : RegionName
 theorem decomposition (p : Parameters) (dtype out_dtype : FloatDType) (s o : RegionName) :
     (kernel p dtype out_dtype s o).surfaceBody =
       prelude p dtype out_dtype s o ++ [guardStatement p dtype out_dtype s o] := by
-  cases h:p.swapped <;> simp [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumBody,
+  cases h:p.swapped <;> simp [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumKernel,
     ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,
     ScalarArgument.statement,prelude,guardStatement,activeBody]
 
 theorem active_length (p : Parameters) (dtype out_dtype : FloatDType) (s o : RegionName) :
     (activeBody p dtype out_dtype s o).length=12 := by
-  cases h:p.swapped <;> simp [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumBody,
+  cases h:p.swapped <;> simp [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumKernel,
     ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,
     ScalarArgument.statement,prelude,guardStatement,activeBody]
 
@@ -59,7 +59,7 @@ def preludeExecution (model : Algebra α) (p : Parameters) (dtype out_dtype : Fl
   swap
   cases h:p.swapped
   all_goals
-    simp [prelude,kernel,NativeSource.cumOriginal,NativeSource.cumBody,ComputeKernel.surfaceBody,
+    simp [prelude,kernel,NativeSource.cumOriginal,NativeSource.cumKernel,ComputeKernel.surfaceBody,
       ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
       NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,h,run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Region.cast,Option.bind,numeric,bop]
     try rfl
@@ -98,7 +98,7 @@ def activePreludeExecution (model : Algebra α) (p : Parameters) (dtype out_dtyp
   swap
   cases h:p.swapped
   all_goals
-    simp [activePrelude,activeBody,guardStatement,kernel,NativeSource.cumOriginal,NativeSource.cumBody,
+    simp [activePrelude,activeBody,guardStatement,kernel,NativeSource.cumOriginal,NativeSource.cumKernel,
       ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,
       ScalarArgument.statement,preludeExecution,run,step,evalExpr,evalComputeOp,
       NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,h,FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,evalOp_unfold,evalOffsets,

@@ -32,7 +32,7 @@ theorem max_body_safe {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α
     Safety.traceSafeList (backend M integer8) bounds (maxBody p)
       (current.setReg "k" .int [] (fun _=>(k : Int))) := by
   by_cases width : 0<p.width
-  all_goals simp only [maxBody,code,KernelSource.quantize,Bodies.quantize,parameters,
+  all_goals simp only [maxBody,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero]
   all_goals simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -48,7 +48,7 @@ theorem quantize_body_safe {α : Type} [Inhabited α] (M : Algebra α) (integer8
     (bounded : Bounds p original bounds) :
     Safety.traceSafeList (backend M integer8) bounds (quantizeBody p)
       (current.setReg "k" .int [] (fun _=>(k : Int))) := by
-  simp only [quantizeBody,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [quantizeBody,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero]
   simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -66,7 +66,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α�
     (p : Parameters) (state : State α) (bounds : RegionName→Nat) :
     Safety.traceSafeList (backend M integer8) bounds (prelude p) state := by
   apply pure_safe
-  simp only [prelude,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [prelude,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero]
   intro st member state
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
@@ -78,7 +78,7 @@ theorem reset_safe {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α→
     (p : Parameters) (state : State α) (bounds : RegionName→Nat) :
     Safety.traceSafeList (backend M integer8) bounds (scaleAndReset p) state := by
   apply pure_safe
-  simp only [scaleAndReset,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [scaleAndReset,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
   intro st member state
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
@@ -114,7 +114,7 @@ theorem tail_safe {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α→B
     (bounded : Bounds p original bounds) :
     Safety.traceSafeList (backend M integer8) bounds (epilogue p) current := by
   have fin_one (i : Fin 1) : i=0 := Subsingleton.elim _ _
-  simp only [epilogue,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [epilogue,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero]
   simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

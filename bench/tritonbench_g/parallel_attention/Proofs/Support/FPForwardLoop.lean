@@ -42,7 +42,7 @@ theorem first_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimi
     (h : ForwardReady M c s t start acc) :
     ∃ final, run (withDot M D) (firstBody c.BTL c.BTS c.BK c.BV) t = some final ∧
       ForwardReady M c s final (start+c.BTS) (forwardUpdate M D c s Bool.false start acc) := by
-  simp [firstBody, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  simp [firstBody, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, boundaryZero, Option.bind, ComputeDType.eraseDType, numeric, bop,
     Region.cast, withDot, h.query, h.output, h.normalizer, h.key, h.value,
     h.mem, h.undef, h.pids, keyPointer, valuePointer, TileShape.indexToList,
@@ -95,7 +95,7 @@ theorem second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrim
     (h : DiagonalReady M c s t start acc) :
     ∃ final, run (withDot M D) (secondBody c.BTL c.BTS c.BK c.BV) t = some final ∧
       DiagonalReady M c s final (start+c.BTS) (forwardUpdate M D c s Bool.true start acc) := by
-  simp [secondBody, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
+  simp [secondBody, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, boundaryZero, Option.bind, ComputeDType.eraseDType, numeric, bop,
     Region.cast, withDot, h.query, h.output, h.normalizer, h.key, h.value,
     h.queryIndex, h.keyIndex, h.mem, h.undef, h.pids,

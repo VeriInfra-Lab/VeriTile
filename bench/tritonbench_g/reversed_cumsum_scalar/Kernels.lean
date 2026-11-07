@@ -49,7 +49,7 @@ def callSignature (dtype out_dtype : FloatDType) : CallSignature where
   readPorts := ["s"]
   writePorts := ["o"]
 
-def source (h : Call) (c : Config) : ComputeKernel :=
+def sourceKernel (h : Call) (c : Config) : ComputeKernel :=
   let dtype := h.inputDType
   let out_dtype := h.outputDType
   let s := h.input
@@ -80,7 +80,7 @@ def source (h : Call) (c : Config) : ComputeKernel :=
         tl.store(p_o, b_o.to(p_o.dtype.element_ty), mask=active)
   }
 
-def indexCommuted (h : Call) (c : Config) : ComputeKernel :=
+def indexCommutedKernel (h : Call) (c : Config) : ComputeKernel :=
   let dtype := h.inputDType
   let out_dtype := h.outputDType
   let s := h.input

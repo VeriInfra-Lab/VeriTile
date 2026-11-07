@@ -37,7 +37,7 @@ structure DecodedReady {α : Type} (c : ForwardConfig) (s t : State α) : Prop e
 
 theorem arguments_run {α : Type} [Inhabited α] (M : Algebra α) (c : ForwardConfig) (s : State α) :
     ∃ t,run M (argumentPrefix c) s=some t ∧ ArgumentReady c s t := by
-  simp [argumentPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,
+  simp [argumentPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop]
   constructor <;> simp
 
@@ -46,7 +46,7 @@ theorem arguments_run {α : Type} [Inhabited α] (M : Algebra α) (c : ForwardCo
 theorem decoded_run {α : Type} [Inhabited α] (M : Algebra α) (c : ForwardConfig)
     (s t : State α) (h : ArgumentReady c s t) :
     ∃ u,run M (decodedPrefix c) t=some u ∧ DecodedReady c s u := by
-  simp [decodedPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,
+  simp [decodedPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,numericLt,natLt,
     integralFloorDiv,integralMod,IntegerExpr.sameShape,h.pids,h.argument0,h.argument1,h.argument2,h.argument3,h.argument4,h.argument5,h.argument6,h.argument7,h.argument8,
     Index32.nat_remainder]
@@ -69,7 +69,7 @@ theorem numerical_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimit
     (c : ForwardConfig) (s t : State α) (h : DecodedReady c s t) (bounds : ForwardIndexBounds c s) :
     ∃ u,run (withDot M D) (numericalPrefix c) t=some u ∧
       ForwardReady M c s u 0 (initialAccumulator M c) := by
-  simp [numericalPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,
+  simp [numericalPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,numericLt,natLt,
     integralFloorDiv,integralMod,IntegerExpr.sameShape,h.mem,h.pids,h.head,h.chunk,h.keyBlock,
     h.valueBlock,h.decayHead,h.argument0,h.argument1,h.argument2,h.argument3,h.argument4,h.argument5,h.argument6,h.argument7,h.argument8,bounds.query_cast,bounds.key_cast,bounds.value_cast,bounds.key_cast_eval,bounds.value_cast_eval,

@@ -25,7 +25,7 @@ def callSignature : CallSignature where
   readPorts := ["Q","K","V"]
   writePorts := ["L","O"]
 
-def body (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim stride_k_bs stride_k_head stride_k_seqlen stride_k_dim stride_v_bs stride_v_head stride_v_seqlen stride_v_dim stride_o_bs stride_o_head stride_o_seqlen stride_o_dim BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) : ComputeKernel :=
+def bodyKernel (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim stride_k_bs stride_k_head stride_k_seqlen stride_k_dim stride_v_bs stride_v_head stride_v_seqlen stride_v_dim stride_o_bs stride_o_head stride_o_seqlen stride_o_dim BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) : ComputeKernel :=
   with_triton_call callSignature call_args [stride_q_bs := stride_q_bs, stride_q_head := stride_q_head, stride_q_seqlen := stride_q_seqlen, stride_q_dim := stride_q_dim, stride_k_bs := stride_k_bs, stride_k_head := stride_k_head, stride_k_seqlen := stride_k_seqlen, stride_k_dim := stride_k_dim, stride_v_bs := stride_v_bs, stride_v_head := stride_v_head, stride_v_seqlen := stride_v_seqlen, stride_v_dim := stride_v_dim, stride_o_bs := stride_o_bs, stride_o_head := stride_o_head, stride_o_seqlen := stride_o_seqlen, stride_o_dim := stride_o_dim, BS := BS, HEAD := HEAD, SEQLEN := SEQLEN] in triton {
     start_m = tl.program_id(0)
     off_bs_head = tl.program_id(1)
@@ -106,7 +106,7 @@ def body (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen str
   }
 
 def kernel (p : Parameters) : ComputeKernel :=
-  body "Q" "K" "V" "L" "O"
+  bodyKernel "Q" "K" "V" "L" "O"
     p.stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim
     p.stride_k_bs p.stride_k_head p.stride_k_seqlen p.stride_k_dim
     p.stride_v_bs p.stride_v_head p.stride_v_seqlen p.stride_v_dim
@@ -114,7 +114,7 @@ def kernel (p : Parameters) : ComputeKernel :=
     p.BS p.HEAD p.SEQLEN
     128 p.DIM 64 p.IS_CAUSAL
 
-def indexCommutedBody (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim stride_k_bs stride_k_head stride_k_seqlen stride_k_dim stride_v_bs stride_v_head stride_v_seqlen stride_v_dim stride_o_bs stride_o_head stride_o_seqlen stride_o_dim BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) : ComputeKernel :=
+def indexCommutedKernel (Q K V L O : RegionName) (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim stride_k_bs stride_k_head stride_k_seqlen stride_k_dim stride_v_bs stride_v_head stride_v_seqlen stride_v_dim stride_o_bs stride_o_head stride_o_seqlen stride_o_dim BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) : ComputeKernel :=
   with_triton_call callSignature call_args [stride_q_bs := stride_q_bs, stride_q_head := stride_q_head, stride_q_seqlen := stride_q_seqlen, stride_q_dim := stride_q_dim, stride_k_bs := stride_k_bs, stride_k_head := stride_k_head, stride_k_seqlen := stride_k_seqlen, stride_k_dim := stride_k_dim, stride_v_bs := stride_v_bs, stride_v_head := stride_v_head, stride_v_seqlen := stride_v_seqlen, stride_v_dim := stride_v_dim, stride_o_bs := stride_o_bs, stride_o_head := stride_o_head, stride_o_seqlen := stride_o_seqlen, stride_o_dim := stride_o_dim, BS := BS, HEAD := HEAD, SEQLEN := SEQLEN] in triton {
     start_m = tl.program_id(0)
     off_bs_head = tl.program_id(1)
@@ -195,7 +195,7 @@ def indexCommutedBody (Q K V L O : RegionName) (stride_q_bs stride_q_head stride
   }
 
 def indexCommuted (p : Parameters) : ComputeKernel :=
-  indexCommutedBody "Q" "K" "V" "L" "O"
+  indexCommutedKernel "Q" "K" "V" "L" "O"
     p.stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim
     p.stride_k_bs p.stride_k_head p.stride_k_seqlen p.stride_k_dim
     p.stride_v_bs p.stride_v_head p.stride_v_seqlen p.stride_v_dim

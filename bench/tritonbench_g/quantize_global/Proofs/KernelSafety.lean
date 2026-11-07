@@ -18,7 +18,7 @@ theorem source_safe {α : Type} [Inhabited α] (rest : Algebra α) (a : Scalar �
     QuantizeIntegerStage.TraceSafe (backend rest a) (some a.round64) bounds
       (kernel X Maximum Out N base B) s := by
   simp +contextual (config := {maxSteps := 1000000})
-    [QuantizeIntegerStage.TraceSafe, kernel, source, ComputeKernel.surfaceBody,
+    [QuantizeIntegerStage.TraceSafe, kernel, sourceKernel, ComputeKernel.surfaceBody,
      QuantizeIntegerStage.Safety.traceSafeList_unfold,
      QuantizeIntegerStage.Safety.stepSafe_unfold,
      QuantizeIntegerStage.Safety.safeExpr_unfold,

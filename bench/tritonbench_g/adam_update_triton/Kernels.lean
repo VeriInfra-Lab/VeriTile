@@ -33,7 +33,7 @@ def sourceSignature : CallSignature where
   readPorts := ["p_ptr","grad_ptr","exp_avg_ptr"]
   writePorts := ["p_ptr","exp_avg_ptr"]
 
-def sourceBody (p_ptr grad_ptr exp_avg_ptr : RegionName)
+def sourceKernel (p_ptr grad_ptr exp_avg_ptr : RegionName)
     (n_elements chunk_elements BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call sourceSignature call_args
     [n_elements := n_elements, chunk_elements := chunk_elements] in
@@ -78,7 +78,7 @@ def sourceBody (p_ptr grad_ptr exp_avg_ptr : RegionName)
     tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
   }
 
-def commutedBody (p_ptr grad_ptr exp_avg_ptr : RegionName)
+def commutedKernel (p_ptr grad_ptr exp_avg_ptr : RegionName)
     (n_elements chunk_elements BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call sourceSignature call_args
     [n_elements := n_elements, chunk_elements := chunk_elements] in
@@ -126,18 +126,18 @@ def commutedBody (p_ptr grad_ptr exp_avg_ptr : RegionName)
 /-- Compatibility invocation for callers without the unused autotune key.
 The selected full invocation below supplies its actual total element count. -/
 def sourceWithArgumentDeclarations (P G M : RegionName) (chunk block : Nat) : ComputeKernel :=
-  sourceBody P G M 0 chunk block
+  sourceKernel P G M 0 chunk block
 
 def commutedWithArguments (P G M : RegionName) (chunk block : Nat) : ComputeKernel :=
-  commutedBody P G M 0 chunk block
+  commutedKernel P G M 0 chunk block
 
 /-- The actual selected original and candidate retain every source statement,
 including bool-to-FP32 multiplication and both in-place stores. -/
 def source (total chunk block : Nat) : ComputeKernel :=
-  sourceBody "P" "G" "M" total chunk block
+  sourceKernel "P" "G" "M" total chunk block
 
 def commutedSource (total chunk block : Nat) : ComputeKernel :=
-  commutedBody "P" "G" "M" total chunk block
+  commutedKernel "P" "G" "M" total chunk block
 
 def engine {α : Type} (algebra : FP.Structural.Algebra α) : FP.Structural.Algebra α :=
   algebra.withDefaultPrecision .fp32

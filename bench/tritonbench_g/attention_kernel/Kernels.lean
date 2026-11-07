@@ -17,7 +17,7 @@ def callSignature (storage : Storage) : CallSignature where
   readPorts := ["Q","K","V","B0"]
   writePorts := ["Out"]
 
-def originalBody (storage : Storage) (Q K V B0 Out : RegionName)
+def originalKernel (storage : Storage) (Q K V B0 Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ : Nat) (sm_scale : ℝ)
     («OUT_DTYPE» : FloatDType) (BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature storage) call_args [stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, stride_b0z := stride_b0z, stride_b0h := stride_b0h, stride_b0m := stride_b0m, Z := Z, H := H, N_CTX := N_CTX, P_SEQ := P_SEQ, sm_scale := sm_scale] in triton {
@@ -126,7 +126,7 @@ def originalBody (storage : Storage) (Q K V B0 Out : RegionName)
     tl.store(O_block_ptr, acc.to(OUT_DTYPE), boundary_check=(0,))
   }
 
-def queryEarlyBody (storage : Storage) (Q K V B0 Out : RegionName)
+def queryEarlyKernel (storage : Storage) (Q K V B0 Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ : Nat) (sm_scale : ℝ)
     («OUT_DTYPE» : FloatDType) (BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature storage) call_args [stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, stride_b0z := stride_b0z, stride_b0h := stride_b0h, stride_b0m := stride_b0m, Z := Z, H := H, N_CTX := N_CTX, P_SEQ := P_SEQ, sm_scale := sm_scale] in triton {
@@ -237,11 +237,11 @@ def queryEarlyBody (storage : Storage) (Q K V B0 Out : RegionName)
 
 def repaired (storage : Storage) (q k v bias out : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  originalBody storage q k v bias out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale storage.float BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
+  originalKernel storage q k v bias out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale storage.float BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
 
 def queryEarly (storage : Storage) (q k v bias out : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  queryEarlyBody storage q k v bias out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale storage.float BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
+  queryEarlyKernel storage q k v bias out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale storage.float BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
 
 namespace FP16
 abbrev repaired := VeriTile.Bench.Repairs.AttentionKernel.Whole001.TypedSource.repaired .fp16

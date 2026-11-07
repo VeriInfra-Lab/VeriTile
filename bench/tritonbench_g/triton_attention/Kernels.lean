@@ -16,7 +16,7 @@ def forwardTypedSignature (dtype out_dtype : FloatDType) : CallSignature where
   readPorts := ["Q", "K", "V"]
   writePorts := ["L", "M", "Out"]
 
-def forwardTyped (dtype out_dtype : FloatDType)
+def forwardTypedKernel (dtype out_dtype : FloatDType)
     (Q K V L M Out : RegionName)
     (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk
@@ -118,7 +118,7 @@ def preprocessTypedSignature (dtype out_dtype : FloatDType) : CallSignature wher
   readPorts := ["Out", "DO", "L"]
   writePorts := ["NewDO", "Delta"]
 
-def preprocessTyped (dtype out_dtype : FloatDType)
+def preprocessTypedKernel (dtype out_dtype : FloatDType)
     (Out DO L NewDO Delta : RegionName) (BLOCK_M D_HEAD : Nat) :
     ComputeKernel :=
   with_python_block_advances in
@@ -144,7 +144,7 @@ def backwardTypedSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["Q", "K", "V", "DO", "M", "D", "DQ"]
   writePorts := ["DQ", "DV", "DK"]
 
-def backwardTyped (dtype : FloatDType)
+def backwardTypedKernel (dtype : FloatDType)
     (Q K V Out DO DQ DK DV L M D : RegionName)
     (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk
@@ -276,7 +276,7 @@ def backwardTyped (dtype : FloatDType)
         dk_tile_ptr = tl.advance(dk_tile_ptr, [BLOCK_M, 0])
   }
 
-def preprocessShiftedTyped (dtype out_dtype : FloatDType)
+def preprocessShiftedTypedKernel (dtype out_dtype : FloatDType)
     (Out DO L NewDO Delta : RegionName) (D_HEAD : Nat) :
     ComputeKernel :=
   let BLOCK_M : Nat := 128

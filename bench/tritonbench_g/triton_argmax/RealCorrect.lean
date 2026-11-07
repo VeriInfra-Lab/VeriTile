@@ -50,8 +50,8 @@ specification dimension (rest : Algebra Math.Value) (X : RegionName) (O : Region
 #stmtSurfaceSubset dimension ⊆
   [FP.Structural.Algebra,Math.Value,RegionName,Region,TileDType.int,Spec.Real,JITIO.logicalDimension,
    LogicalProgramIO.Implements,firstMaximum,JITIO.dimensionRow]
-#specNonCircular JITRealIO.mathematical avoiding [JITSource.stage1, JITSource.stage2, FP.Structural.exec]
-#specNonCircular JITRealDimensionIO.mathematical avoiding [JITSource.dimension, FP.Structural.exec]
+#specNonCircular JITRealIO.mathematical avoiding [JITSource.stage1Kernel, JITSource.stage2Kernel, FP.Structural.exec]
+#specNonCircular JITRealDimensionIO.mathematical avoiding [JITSource.dimensionKernel, FP.Structural.exec]
 #axiomsClean global
 #axiomsClean dimension
 #guard_msgs (drop info) in

@@ -53,7 +53,7 @@ def callSignature (dtype out_dtype : FloatDType) : CallSignature where
   readPorts := ["s"]
   writePorts := ["z"]
 
-def source (h : Call) (c : Config) : ComputeKernel :=
+def sourceKernel (h : Call) (c : Config) : ComputeKernel :=
   let dtype := h.inputDType
   let out_dtype := h.outputDType
   let s := h.input
@@ -92,7 +92,7 @@ def source (h : Call) (c : Config) : ComputeKernel :=
             b_z += tl.sum(b_s, 0)
   }
 
-def compareRight (h : Call) (c : Config) : ComputeKernel :=
+def compareRightKernel (h : Call) (c : Config) : ComputeKernel :=
   let dtype := h.inputDType
   let out_dtype := h.outputDType
   let s := h.input

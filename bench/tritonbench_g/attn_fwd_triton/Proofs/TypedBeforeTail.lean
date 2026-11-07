@@ -11,7 +11,7 @@ theorem middle_assembled (p : Config) (BD : Nat) :
       loopCode p BD Bool.false ++ setupCode p BD Bool.true ++ loopCode p BD Bool.true := by
   cases hd : decide (p.stage=2)
   all_goals simp only [middleCode,prefixLength,coordinateCode,pointerCode,initializationCode,setupCode,setup,preloop,loopCode,finish,body,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,
-    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,Bodies.originalBody,ComputeKernel.surfaceBody,hd,
+    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,originalKernel,ComputeKernel.surfaceBody,hd,
     Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ControlView.compute,
     List.length_cons,List.length_nil,List.cons_append,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero]
   all_goals rfl
@@ -33,7 +33,7 @@ theorem prefix_assembled (p : Config) (BD : Nat) :
     (code p BD).take (prefixLength p BD)=(code p BD).take 22 ++ middleCode p BD := by
   have h : 22≤prefixLength p BD := by
     cases hd : decide (p.stage=2)
-    all_goals simp only [prefixLength,code,source,TypedSource.repaired,Bodies.originalBody,
+    all_goals simp only [prefixLength,code,source,TypedSource.repaired,originalKernel,
       hd,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
       List.length_cons,List.length_nil]
     all_goals decide

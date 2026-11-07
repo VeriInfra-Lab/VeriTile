@@ -22,7 +22,7 @@ theorem copy {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     FP.Structural.TraceSafe (algebra a) bounds (CopySource.kernel version p) s := by
   cases version
   all_goals
-    simp (maxSteps := 1500000) [FP.Structural.TraceSafe, CopySource.kernel, CopySource.originalKernel,Bodies.original0Body, CopySource.commutedKernel,Bodies.candidate0Body, ComputeKernel.surfaceBody,
+    simp (maxSteps := 1500000) [FP.Structural.TraceSafe, CopySource.kernel, CopySource.originalKernel,original0Kernel, CopySource.commutedKernel,candidate0Kernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

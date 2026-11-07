@@ -34,7 +34,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).body
       (current.setReg "i_k" .nat [] (fun _ => f)) := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,Kernels.forwardOScaleFirst,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOScaleFirstKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -60,7 +60,7 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     (ho : ∀ i,active c initial i → outputAddress c initial i<bounds "o") :
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).after current := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,Kernels.forwardOScaleFirst,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOScaleFirstKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

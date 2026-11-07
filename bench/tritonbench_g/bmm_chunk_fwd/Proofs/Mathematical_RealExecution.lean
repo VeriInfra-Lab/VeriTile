@@ -67,7 +67,7 @@ theorem prologue_active (s : BlockState) (BM BN BK : Nat) (p : RealProgram.Param
     simp (config := {maxSteps := 300000}) [RealProgram.condition,RealProgram.branch,
       RealProgram.source,TypedSource.specialize,
       VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+      VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
       Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,
       NumericDType.eraseDType,ComparableDType.eraseDType,

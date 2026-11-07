@@ -40,7 +40,7 @@ def updateExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (sca
   simp only [HasCarry] at hc
   refine ⟨?_,?_⟩
   swap
-  simp [updateSuffix,parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
+  simp [updateSuffix,parts,intParts,indexState,kernel,Source.backwardHKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

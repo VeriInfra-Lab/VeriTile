@@ -15,7 +15,7 @@ def preguard (M : Algebra α) (reduction : Reduction α) (h : Call)
     run (machine M reduction) (prelude h) (entry h batch row data)=some s} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,
+  simp [prelude,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,
     ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,entry,Data.cells,State.setReg,Cell.read,Region.cast]
   rfl
@@ -31,7 +31,7 @@ def preloop (M : Algebra α) (reduction : Reduction α) (h : Call)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [setup,castSetup,beforeCast,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,
+    simp only [setup,castSetup,beforeCast,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [preguard]

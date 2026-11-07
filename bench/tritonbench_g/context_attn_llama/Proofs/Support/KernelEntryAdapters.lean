@@ -16,7 +16,7 @@ def originalFP32 (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
 
 
 def blockEndFactoredFP32 (p : Layout) (r : Regions) (scale : ℝ) : ComputeKernel :=
-  Bodies.blockEndFactoredBody .fp32 r.query r.key r.value scale r.out r.start r.sequence r.pages r.request r.prompt
+  blockEndFactoredKernel .fp32 r.query r.key r.value scale r.out r.start r.sequence r.pages r.request r.prompt
     p.qRow p.qHead p.qDim p.kRow p.kHead p.kDim p.vRow p.vHead p.vDim
     p.outRow p.outHead p.outDim p.reqRow p.reqToken p.kvGroup p.heads p.D p.BM p.BN
 

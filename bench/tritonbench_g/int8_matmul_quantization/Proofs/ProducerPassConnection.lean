@@ -20,7 +20,7 @@ def resetExecution {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α→
     {t : State α // run (backend M integer8) (scaleAndReset p) current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp only [scaleAndReset,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [scaleAndReset,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
   simp [run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,numeric,numericLt,
     natLt,bop,backend,ComputeDType.eraseDType,Option.bind,h.offsm,h.offsk,h.maximum,
@@ -48,7 +48,7 @@ def tailExecution {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α→B
     {t : State α // run (backend M integer8) (epilogue p) current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp only [epilogue,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [epilogue,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.drop_succ_cons,List.drop_zero]
   simp [run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,numericLt,
     natLt,bop,backend,ComputeDType.eraseDType,Option.bind,h.pidm,h.scale,

@@ -73,7 +73,7 @@ theorem source (p : Parameters) (BM BN BD : Nat) :
     coordinates BM BN BD p = code p BM BN := by
   by_cases hd : p.stage=2
   all_goals simp only [coordinates,Verified.code,Verified.source,TypedSource.repaired,
-    Bodies.originalBody,hd,decide_true,decide_false,Bool.false_eq_true,Bool.true_eq,
+    originalKernel,hd,decide_true,decide_false,Bool.false_eq_true,Bool.true_eq,
     ↓reduceIte,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,

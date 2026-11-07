@@ -71,7 +71,7 @@ theorem iteration (M : Algebra α) (rows N wc bc pid row : Nat) (bias : Bool) (u
       v.regs .real [128] "dbias"=some (fun i => (next M N pid row u a b i).2) ∧
       metadataFrame u v ∧
       v.setReg "row" .int [] (fun _=>((row+1 : Nat) : Int))=v := by
-  simp [body,kernel,affineDirectOffsets,affineCandidateBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [body,kernel,affineDirectOffsets,affineCandidateKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,hc,hm,ha,hb,nc,
     next,columns,mask,raw,saved,KernelReference.affineTerm,
@@ -110,7 +110,7 @@ theorem prefix_executes (M : Algebra α) (rows N wc bc : Nat) (bias : Bool) (u :
       Holds M rows N (u.pids 0) (arguments rows N wc bc u) 0 v := by
   refine ⟨?_,?_,?_⟩
   rotate_left
-  · simp [prefixCode,kernel,affineDirectOffsets,affineCandidateBody,ComputeKernel.withScalarArguments,
+  · simp [prefixCode,kernel,affineDirectOffsets,affineCandidateKernel,ComputeKernel.withScalarArguments,
       ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -186,7 +186,7 @@ theorem tail_executes (M : Algebra α) (rows N wc bc pid : Nat) (bias : Bool) (i
   have hb := (inv.args "bias_count" (by simp)).trans biasCount
   cases bias
   all_goals
-    simp [tail,kernel,affineDirectOffsets,affineCandidateBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [tail,kernel,affineDirectOffsets,affineCandidateKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,FP.Structural.store,
       inv.col,inv.mask,inv.dw,inv.db,inv.mem,hw,hb,heap,columns,mask,KernelReference.cast,fold_mem,

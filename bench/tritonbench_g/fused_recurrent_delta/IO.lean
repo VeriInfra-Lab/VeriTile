@@ -13,11 +13,11 @@ noncomputable section
 def source (kind : Kind) (optimized : Bool) (s : Shape) (f : Flags) : ComputeKernel :=
   match kind with
   | .forward =>
-    if optimized then Runtime.forwardDirectOutput "q" "k" "v" "beta" "o" "h0" "ht"
+    if optimized then Runtime.forwardDirectOutputKernel "q" "k" "v" "beta" "o" "h0" "ht"
       (s.T*s.K) (s.T*s.V) s.B s.H s.T s.K s.V s.BK s.FBV f.initial f.final f.vectorBeta
-    else Runtime.forward "q" "k" "v" "beta" "o" "h0" "ht"
+    else Runtime.forwardKernel "q" "k" "v" "beta" "o" "h0" "ht"
       (s.T*s.K) (s.T*s.V) s.B s.H s.T s.K s.V s.BK s.FBV f.initial f.final f.vectorBeta
-  | .backward => Runtime.backward "q" "k" "v" "beta" "dht" "dh0" "do" "dq" "dk" "dv" "dbeta" "h0"
+  | .backward => Runtime.backwardKernel "q" "k" "v" "beta" "dht" "dh0" "do" "dq" "dk" "dv" "dbeta" "h0"
       (s.T*s.K) (s.T*s.V) 1 s.B s.H s.T s.K s.V s.BK s.BBV
       f.initial f.vectorBeta f.initialGrad f.terminalGrad
 

@@ -12,7 +12,7 @@ def callSignature : CallSignature where
   scalars := [("n_elements",.i64),("base",.i64)]
   constexpr := ["BLOCK_SIZE"]
 
-noncomputable def source (X Maximum Out : RegionName) (N base B : Nat) : ComputeKernel :=
+noncomputable def sourceKernel (X Maximum Out : RegionName) (N base B : Nat) : ComputeKernel :=
   let x_ptr := X
   let absmax_ptr := Maximum
   let output_ptr := Out

@@ -32,7 +32,7 @@ def callerPrefix (c : QueryConfig) : List ComputeStmt := (kernel c).surfaceBody.
 theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α) (c : QueryConfig) (s : State α) :
     ∃ t,run M (callerPrefix c) s=some t ∧ Registers (config c s).toBackwardConfig t ∧
       t.mem=s.mem ∧ t.pids=s.pids ∧ t.undef=s.undef := by
-  simp [callerPrefix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,run,step,
+  simp [callerPrefix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop]
   constructor <;> simp [config,integralFloorDiv,integralMod,bop]
   all_goals rfl

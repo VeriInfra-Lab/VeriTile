@@ -15,7 +15,7 @@ def callSignature (dtype out_dtype : FloatDType) : CallSignature where
   readPorts := ["q_ptr","k_ptr","cos","sin"]
   writePorts := ["q_ptr","k_ptr"]
 
-def source (dtype out_dtype : FloatDType)
+def sourceKernel (dtype out_dtype : FloatDType)
     (q_ptr k_ptr cos sin : RegionName)
     (q_row_stride k_row_stride cos_row_stride sin_row_stride cos_col_stride sin_col_stride
       sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)
@@ -71,7 +71,7 @@ def source (dtype out_dtype : FloatDType)
         tl.store(k_ptr + second_half_k_offsets, new_k_tile_2, mask=second_k_mask)
   }
 
-def indexShared (dtype out_dtype : FloatDType)
+def indexSharedKernel (dtype out_dtype : FloatDType)
     (q_ptr k_ptr cos sin : RegionName)
     (q_row_stride k_row_stride cos_row_stride sin_row_stride cos_col_stride sin_col_stride
       sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)

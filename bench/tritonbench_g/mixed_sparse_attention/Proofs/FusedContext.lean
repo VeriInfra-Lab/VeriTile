@@ -96,7 +96,7 @@ theorem local_safe (M : Algebra α) (c : Config) (cap : RegionName → Nat) (s :
   cases hs : c.storage
   all_goals
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,hs,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType]

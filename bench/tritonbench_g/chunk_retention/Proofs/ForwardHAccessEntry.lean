@@ -19,7 +19,7 @@ theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c seed final).before s := by
   cases seed
   all_goals
-    simp [parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
+    simp [parts,kernel,Kernels.forwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

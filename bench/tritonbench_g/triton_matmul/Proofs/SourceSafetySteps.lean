@@ -13,7 +13,7 @@ variable {α : Type} [Inhabited α]
 theorem prelude_safe (M : Algebra α) (D : DotAcc α)
     (p : Parameters) (st : Storage) (bounds : RegionName→Nat) (s : State α) :
     Safety.traceSafeList (backend M D) bounds (VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.prelude p st) s := by
-  cases st <;> simp [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.prelude,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,
+  cases st <;> simp [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.prelude,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
@@ -29,7 +29,7 @@ theorem body_safe (M : Algebra α) (D : DotAcc α) (p : Parameters) (st : Storag
     Safety.traceSafeList (backend M D) bounds (iteration p st)
       (current.setReg "k" .int [] (fun _=>(k : Int))) := by
   simp only [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.HasAcc] at acc
-  cases st <;> simp [iteration,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,
+  cases st <;> simp [iteration,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -69,7 +69,7 @@ theorem epilogue_safe (M : Algebra α) (D : DotAcc α) (p : Parameters) (st : St
     (hc : ∀ i : CIndex p,active p initial i→cOffset p initial i<bounds p.C) :
     Safety.traceSafeList (backend M D) bounds (VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.epilogue p st) current := by
   simp only [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.HasAcc] at acc
-  cases st <;> simp [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.epilogue,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,
+  cases st <;> simp [VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.epilogue,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

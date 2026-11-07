@@ -54,7 +54,7 @@ theorem var_post_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
     (epsilon : α) (heps : s.regs .real [] "eps"=some (fun _ => epsilon))
     (h : VarReady M p s t (foldRange (varStep M p s) 0 p.columns p.block (initial M p))) :
     ∃ u, run M (varPost p) t = some u ∧ OutputReady M p s u s.mem := by
-  simp [varPost, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [varPost, kernel, runtimeKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, Region.cast, h.integers.1, h.integers.2.1, h.integers.2.2, h.epsilon, heps, h.mem, h.pids, h.undef, h.x, h.y, h.w, h.accumulator]
@@ -67,7 +67,7 @@ theorem output_body_run {α : Type} [Inhabited α] (M : Algebra α) (p : Paramet
     (hx : p.x ≠ p.y) (hw : p.weight ≠ p.y) (h : OutputReady M p s t mem) :
     ∃ u, run M (loopBody p 24) (t.setReg "off" .int [] (fun _ => (off : Int))) = some u ∧
       OutputReady M p s u (outputStep M p s off mem) := by
-  simp [loopBody, kernel, runtimeSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [loopBody, kernel, runtimeKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast,

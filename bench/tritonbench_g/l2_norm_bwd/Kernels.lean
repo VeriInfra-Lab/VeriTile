@@ -28,7 +28,7 @@ def sourceSignature : CallSignature where
   readPorts := ["X","DY"]
   writePorts := ["DX"]
 
-def kernel (X DY DX : RegionName) (s : Strides) (N B : Nat) : ComputeKernel :=
+def sourceKernel (X DY DX : RegionName) (s : Strides) (N B : Nat) : ComputeKernel :=
   let BLOCK_N : Nat := B
   let stride_x_row_value : Int := s.xRow
   let stride_x_col_value : Int := s.xCol
@@ -89,7 +89,7 @@ def indexCommutedKernel (X DY DX : RegionName) (s : Strides) (N B : Nat) : Compu
   }
 
 def source (s : Strides) (N B : Nat) : ComputeKernel :=
-  kernel "X" "DY" "DX" s N B
+  sourceKernel "X" "DY" "DX" s N B
 
 def indexCommuted (s : Strides) (N B : Nat) : ComputeKernel :=
   indexCommutedKernel "X" "DY" "DX" s N B

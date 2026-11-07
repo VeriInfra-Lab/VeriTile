@@ -31,7 +31,7 @@ def result (u : BlockState) (s l : RegionName) (length batch dim B : Nat) : Bloc
 
 theorem prefix_step (u : BlockState) (s l : RegionName) (length batch dim B : Nat) :
     stepStmts (ComplexForwardSource.prelude s l length batch dim B) u = some (result u s l length batch dim B) := by
-  simp only [ComplexForwardSource.prelude,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [ComplexForwardSource.prelude,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,

@@ -17,7 +17,7 @@ theorem after (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,
     VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,
-    VeriTile.Bench.Repairs.ContextAttnLlama.Bodies.originalBody,
+    VeriTile.Bench.Repairs.ContextAttnLlama.originalKernel,
     ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=250000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,

@@ -12,22 +12,22 @@ set_option maxRecDepth 10000
 /-- The source's explicit FP32 cast is retained. In the mathematical semantics
 its conversion is an identity; this theorem is not an FP32 numerical law. -/
 theorem kernel_execution (A O : RegionName) (n B : Nat) (s : BlockState) :
-    exec (kernel A O n B).toAlgKernel s = exec (realKernel Bool.false A O n B).toAlgKernel s := by
-  simp [kernel,realKernel,exec,ComputeKernel.toAlgKernel,ComputeKernel.surfaceBody,
+    exec (sourceKernel A O n B).toAlgKernel s = exec (realKernel Bool.false A O n B).toAlgKernel s := by
+  simp [sourceKernel,realKernel,exec,ComputeKernel.toAlgKernel,ComputeKernel.surfaceBody,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
     Tile.bop,Tile.uop,Tile.cop,NumericDType.add,NumericDType.mul,ComparableDType.lt,
     FloatDType.cast,FloatDType.ofWithBot,FloatDType.toWithBot,Region.cast]
 
-theorem kernel_flattenOk (A O : RegionName) (n B : Nat) : (kernel A O n B).toAlgKernel.FlattenOk := by
-  simp [Kernel.FlattenOk,kernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,
+theorem kernel_flattenOk (A O : RegionName) (n B : Nat) : (sourceKernel A O n B).toAlgKernel.FlattenOk := by
+  simp [Kernel.FlattenOk,sourceKernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeKernel.toAlgKernel,StmtList.FlattenOk,Stmt.FlattenOk,
     Op.FlattenOk.eq_def,Region.cast]
 
 theorem kernel_traceSafe (A O : RegionName) (n B : Nat) (bounds : RegionBounds) (s : BlockState)
     (hi : ∀ j : Fin B,s.pid*B+j.val < n → s.pid*B+j.val < bounds A)
     (ho : ∀ j : Fin B,s.pid*B+j.val < n → s.pid*B+j.val < bounds O) :
-    Kernel.TraceSafe bounds (kernel A O n B).toAlgKernel s := by
-  simpa [Kernel.TraceSafe,kernel,realKernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,
+    Kernel.TraceSafe bounds (sourceKernel A O n B).toAlgKernel s := by
+  simpa [Kernel.TraceSafe,sourceKernel,realKernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,ComputeKernel.toAlgKernel,Stmt.TraceSafeList,Stmt.TraceSafe,
     Op.SafeAt.eq_def,MaskOpt.SafeAt,stepStmt,evalOp.eq_def,Tile.bop,Tile.uop,Tile.cop,
     NumericDType.add,NumericDType.mul,ComparableDType.lt,WithBot.realCos,

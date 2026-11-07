@@ -38,7 +38,7 @@ three scale reads. All loop/branch bodies and the access-safety link are checked
   cases kind <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;> cases hd : f.initialGrad <;> cases ht : f.terminalGrad
   all_goals
     simp only [KernelProgram.source,Source.forward,Source.backward,RuntimeIO.source,
-      Runtime.forward,Runtime.backward,hi,hf,hd,ht,hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody]
+      Runtime.forwardKernel,Runtime.backwardKernel,hi,hf,hd,ht,hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody]
     repeat' first
       | apply samePair <;> simp [avoidsList,avoids]
       | exact RuntimeTransport.nil _ _

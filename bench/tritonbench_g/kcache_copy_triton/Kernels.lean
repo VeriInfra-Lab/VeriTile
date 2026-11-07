@@ -23,7 +23,7 @@ def sourceSignature : CallSignature where
 
 /-- Complete actual Python body. The optional arguments retain the old layout
 API; both are unused by the body, and the complete program is independent of them. -/
-def quotedOriginal (p : Parameters) (stride_kcx : Nat := 1) (HEAD_DIM : Nat := p.width) : ComputeKernel :=
+def quotedOriginalKernel (p : Parameters) (stride_kcx : Nat := 1) (HEAD_DIM : Nat := p.width) : ComputeKernel :=
   let K := p.K
   let KCache := p.KCache
   let BLOCK_TABLES := p.blockTables
@@ -65,7 +65,7 @@ def quotedOriginal (p : Parameters) (stride_kcx : Nat := 1) (HEAD_DIM : Nat := p
 
 /-- Complete actual Python body. The optional arguments retain the old layout
 API; both are unused by the body, and the complete program is independent of them. -/
-def quotedCommuted (p : Parameters) (stride_kcx : Nat := 1) (HEAD_DIM : Nat := p.width) : ComputeKernel :=
+def quotedCommutedKernel (p : Parameters) (stride_kcx : Nat := 1) (HEAD_DIM : Nat := p.width) : ComputeKernel :=
   let K := p.K
   let KCache := p.KCache
   let BLOCK_TABLES := p.blockTables
@@ -106,7 +106,7 @@ def quotedCommuted (p : Parameters) (stride_kcx : Nat := 1) (HEAD_DIM : Nat := p
   }
 
 def kernel (commuted : Bool) (p : Parameters) : ComputeKernel :=
-  if commuted then quotedCommuted p else quotedOriginal p
+  if commuted then quotedCommutedKernel p else quotedOriginalKernel p
 
 def originalKernel := kernel Bool.false
 def commutedKernel := kernel Bool.true

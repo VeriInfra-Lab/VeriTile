@@ -28,7 +28,7 @@ theorem readback (keep : KeepStorage) (x k y : RegionName) (n B : Nat) (p : â„)
   cases keep
   all_goals
     simp [original,Erasure.source,TypedSource.source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
-    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginal,VeriTile.Bench.Repairs.DropoutTriton.quotedCommuted,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     ComputeDType.eraseDType,ComputeOp.toAlgorithm?,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
@@ -52,7 +52,7 @@ theorem frame (keep : KeepStorage) (x k y : RegionName) (n B : Nat) (p : â„)
   cases keep
   all_goals
     simp [original,Erasure.source,TypedSource.source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
-    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginal,VeriTile.Bench.Repairs.DropoutTriton.quotedCommuted,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     ComputeDType.eraseDType,ComputeOp.toAlgorithm?,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
@@ -74,7 +74,7 @@ theorem run (keep : KeepStorage) (x k y : RegionName) (n B : Nat) (p : â„) (u :
   | none =>
     cases keep
     all_goals simp [original,Erasure.source,TypedSource.source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
-    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginal,VeriTile.Bench.Repairs.DropoutTriton.quotedCommuted,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     ComputeDType.eraseDType,ComputeOp.toAlgorithm?,exec,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
@@ -102,7 +102,7 @@ theorem trace_safe (keep : KeepStorage) (x k y : RegionName) (n B : Nat) (p : â„
   unfold Kernel.TraceSafe
   cases keep
   all_goals simp [original,Erasure.source,TypedSource.source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
-    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginal,VeriTile.Bench.Repairs.DropoutTriton.quotedCommuted,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     ComputeDType.eraseDType,ComputeOp.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
@@ -118,7 +118,7 @@ theorem flatten_ok (keep : KeepStorage) (x k y : RegionName) (n B : Nat) (p : â„
   unfold Kernel.FlattenOk
   cases keep
   all_goals simp [original,Erasure.source,TypedSource.source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
-    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginal,VeriTile.Bench.Repairs.DropoutTriton.quotedCommuted,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.commutedSourceKernel,ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     ComputeDType.eraseDType,ComputeOp.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,

@@ -57,10 +57,10 @@ specification adam_update_optimized_correctness (lr wd beta1 beta2 : ℝ) (n B :
        fun i => TiledOptimizer.lionMomentum (expAvg i) (grad i) beta2)) := by
   refine MaskedKernelIO₃ₓ₂.Implements.intro _
     (by simp [optimizedIO, adamIO]) (by simp [optimizedIO, adamIO]) ?_ ?_ ?_
-  · simp [optimizedIO, optimizedKernel, commuted_update, Kernel.FlattenOk,
+  · simp [optimizedIO, optimizedKernel, commuted_update_kernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s h1 h2 h3 _ _
-    simpa [optimizedIO, adamIO, Kernel.TraceSafe, optimizedKernel, commuted_update, update_fn_kernel,
+    simpa [optimizedIO, adamIO, Kernel.TraceSafe, optimizedKernel, commuted_update_kernel, update_fn_kernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, stepStmt, evalOp.eq_def,
       Tile.bop, Tile.cop, Tile.select, Tile.ptrAdd,

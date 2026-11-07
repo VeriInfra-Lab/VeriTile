@@ -58,7 +58,7 @@ theorem prelude_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
     (bounds : RegionName → Nat) (s : State (Node α)) :
     Safety.traceSafeList (engine p rest) bounds (prelude cfg) s := by
   cases dm : cfg.divM <;> cases dn : cfg.divN <;> cases dk : cfg.divK
-  all_goals simp only [prelude,parts,kernel,sourceBody,candidateSourceBody,
+  all_goals simp only [prelude,parts,kernel,sourceKernel,candidateKernel,
     Bool.false_eq_true,Bool.true_eq,dm,dn,dk,ite_true,ite_false,
     VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,Option.map,Option.getD,
     beq_self_eq_true,↓reduceIte]
@@ -93,7 +93,7 @@ theorem body_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
   all_goals
     simp only [dm,dn,dk,Bool.false_eq_true,false_or,true_or,true_and,and_true,
       false_implies,true_implies] at hm hn ha hb
-    simp [body,parts,kernel,sourceBody,candidateSourceBody,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp [body,parts,kernel,sourceKernel,candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
       dm,dn,dk,singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
       Safety.safeCompute,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,
@@ -133,7 +133,7 @@ theorem epilogue_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
   all_goals
     simp only [active,dm,dn,Bool.false_eq_true,false_or,true_or,true_and,and_true,
       false_implies,true_implies] at hm hn ho
-    simp [epilogue,parts,kernel,sourceBody,candidateSourceBody,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp [epilogue,parts,kernel,sourceKernel,candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
       dm,dn,dk,singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
       Safety.safeCompute,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,

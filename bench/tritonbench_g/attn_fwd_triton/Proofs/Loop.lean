@@ -32,7 +32,7 @@ theorem setup_exact (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
   rcases hb with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   cases second
   all_goals simp only [setupCode,setup,preloop,parts,workName,code,source,stage,show ¬(3:Nat)=2 by decide,decide_false,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
+    AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,AttnFwdTriton.ControlView.compute,List.drop_succ_cons,List.drop_zero,
     List.take_succ_cons,List.take_zero]
   all_goals simp [Source.intRange?,stage,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,
@@ -82,7 +82,7 @@ theorem finish_exact (p : Config) (BD : Nat) (stage : p.stage=3) (second : Bool)
   cases second
   all_goals simp [workName] at hc8 hc9 hc10
   all_goals simp only [finish,parts,code,source,AttnFwdTriton.TypedSource.repaired,
-    AttnFwdTriton.Bodies.originalBody,stage,show ¬(3:Nat)=2 by decide,decide_false,
+    AttnFwdTriton.originalKernel,stage,show ¬(3:Nat)=2 by decide,decide_false,
     workName,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
     Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,
     List.take_succ_cons,List.take_zero]

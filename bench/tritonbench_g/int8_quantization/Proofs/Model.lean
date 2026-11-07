@@ -29,12 +29,12 @@ def backend (M : Algebra α) (ops : Primitives α) : Algebra α :=
 yet connect readback with the independent target or native memory. -/
 def execution (M : Algebra α) (ops : Primitives α) (p : Parameters)
     (positive : 0< p.width) (s : State α) :
-    {t : State α // FP.Structural.exec (backend M ops) (source p) s=some t} := by
+    {t : State α // FP.Structural.exec (backend M ops) (sourceKernel p) s=some t} := by
   cases query : p.query
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp (config := {maxSteps := 1000000}) [source,FP.Structural.exec,
+    simp (config := {maxSteps := 1000000}) [sourceKernel,FP.Structural.exec,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       backend,Option.bind,numericLt,numericLe,numericEq,natLt,natLe,
       bop,numeric,ofFloat,toFloat,Region.cast,ComputeDType.eraseDType,

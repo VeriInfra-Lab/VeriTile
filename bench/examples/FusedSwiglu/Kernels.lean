@@ -12,7 +12,7 @@ def swiglu_fusedSignature : CallSignature where
   scalars := []
   constexpr := ["ncols", "BLOCK_N"]
 
-def swiglu_fused (X Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+def swiglu_fused_kernel (X Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
   with_triton_signature swiglu_fusedSignature in
   triton {
     start_col = tl.program_id(0) * BLOCK_N
@@ -29,7 +29,7 @@ def silu_stepSignature : CallSignature where
   scalars := []
   constexpr := ["ncols", "BLOCK_N"]
 
-def silu_step (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+def silu_step_kernel (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
   with_triton_signature silu_stepSignature in
   triton {
     start_col = tl.program_id(0) * BLOCK_N
@@ -44,7 +44,7 @@ def mul_stepSignature : CallSignature where
   scalars := []
   constexpr := ["ncols", "BLOCK_N"]
 
-def mul_step (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
+def mul_step_kernel (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
   with_triton_signature mul_stepSignature in
   triton {
     start_col = tl.program_id(0) * BLOCK_N
@@ -57,5 +57,5 @@ def mul_step (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
 
 def swiglu_unfused (X Y S OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
   ComputeKernel.seq [X, Y] [OUT]
-    [silu_step X S ncols BLOCK_N, mul_step S Y OUT ncols BLOCK_N]
+    [silu_step_kernel X S ncols BLOCK_N, mul_step_kernel S Y OUT ncols BLOCK_N]
 end VeriTile.Bench.Examples.FusedSwiglu.Kernels

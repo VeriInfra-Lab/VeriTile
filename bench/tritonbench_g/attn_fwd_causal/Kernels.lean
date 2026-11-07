@@ -6,8 +6,8 @@ noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 3000000
 
-def inner : SpecializedStatementJitFunction :=
-  triton_function (acc, l_i, m_i, q, q_scale, K_ptrs, K_scale_ptr, V_ptrs, start_m, BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX) constexpr_args [BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX] {
+def innerSource : SpecializedStatementJitFunction :=
+  with_triton_params (acc, l_i, m_i, q, q_scale, K_ptrs, K_scale_ptr, V_ptrs, start_m, BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX) constexpr_args [BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX] in triton {
     if STAGE == 1:
         lo, hi = 0, start_m * BLOCK_M
     elif STAGE == 2:
@@ -48,11 +48,11 @@ def signature : CallSignature where
   readPorts := ["Q","Q_scale","K","K_scale","V"]
   writePorts := ["Out"]
 
-def repaired (Q K V Q_scale K_scale Out : RegionName)
+def repairedKernel (Q K V Q_scale K_scale Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX HEAD_DIM BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   let STAGE : Nat:=3
   with_triton_call signature call_args [stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, Z := Z, H := H, N_CTX := N_CTX]
-    jit_functions [_attn_fwd_inner := inner] in triton {
+    jit_functions [_attn_fwd_inner := innerSource] in triton {
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
@@ -92,11 +92,11 @@ def repaired (Q K V Q_scale K_scale Out : RegionName)
     tl.store(O_block_ptr, acc.to(Out.type.element_ty), mask = (offs_m[:, None] < N_CTX) & ((tl.arange(0, 128) < HEAD_DIM)[None, :]))
 }
 
-def quotientRemainder (Q K V Q_scale K_scale Out : RegionName)
+def quotientRemainderKernel (Q K V Q_scale K_scale Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX HEAD_DIM BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   let STAGE : Nat:=3
   with_triton_call signature call_args [stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, Z := Z, H := H, N_CTX := N_CTX]
-    jit_functions [_attn_fwd_inner := inner] in triton {
+    jit_functions [_attn_fwd_inner := innerSource] in triton {
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 

@@ -20,8 +20,8 @@ theorem typed_algorithm (input weight output : Storage) (v : Bool)
     (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgorithm? =
       Except.ok (mathKernel v X W O sxb sxm sxk sw sob som sok N B eps) := by
   cases input <;> cases weight <;> cases output <;> cases v <;>
-    simp [VeriTile.Bench.Repairs.RmsnormTriton.originalFor,
-    VeriTile.Bench.Repairs.RmsnormTriton.commutedFor,
+    simp [VeriTile.Bench.Repairs.RmsnormTriton.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormTriton.family,
     mathKernel, typedKernel, originalTyped,VeriTile.Bench.Repairs.RmsnormTriton.kernel,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,

@@ -74,7 +74,7 @@ theorem epilogue (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,
     VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,
-    VeriTile.Bench.Repairs.ContextAttnLlama.Bodies.originalBody,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.ContextAttnLlama.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,

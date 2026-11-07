@@ -39,7 +39,7 @@ def preludeExecution (cast : Word32 → Byte) (M : Algebra Word32) (p : Paramete
     {t : State Word32 // run (backend cast M) (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, source, compileAssertionProjection, quotedSource, kernel,sourceBody, ComputeKernel.surfaceBody,
+  simp [prelude, source, compileAssertionProjection, quotedSource, kernel,sourceKernel, ComputeKernel.surfaceBody,
     run, step, stepAlg, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -66,7 +66,7 @@ def outerPreludeExecution (cast : Word32 → Byte) (M : Algebra Word32) (p : Par
       (current.setReg "i" .nat [] (fun _ => f)) = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [outerPrelude, outerBody, source, compileAssertionProjection, quotedSource, kernel,sourceBody, ComputeKernel.surfaceBody,
+  simp [outerPrelude, outerBody, source, compileAssertionProjection, quotedSource, kernel,sourceKernel, ComputeKernel.surfaceBody,
     run, step, stepAlg, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

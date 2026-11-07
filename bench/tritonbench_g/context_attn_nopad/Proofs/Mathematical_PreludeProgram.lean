@@ -84,7 +84,7 @@ theorem source (p : Layout) (r : Regions) :
   simp only [prefixSource,parts,mathematical,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,
     VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,
-    VeriTile.Bench.Repairs.ContextAttnNopad.Bodies.originalBody,
+    VeriTile.Bench.Repairs.ContextAttnNopad.originalKernel,
     Source.intRange?,String.reduceEq,Bool.false_eq_true,if_false,if_true,Option.map_some,Option.map_none,Option.getD,Except.toOption,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,

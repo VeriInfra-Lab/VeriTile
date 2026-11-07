@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.PythonInlineSuites
 
 /-! Explicit source for unary, pure, single-return JIT helpers. Both the helper
@@ -189,3 +190,22 @@ private def argumentNames (value : Expr) : TermElabM (List String) := do
 
 end DSL.PureJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.PureJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceProcedures.sourceParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``PureJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  unless stx[8].getArgs.isEmpty do
+    throwError "symbolic FP32 constants require a SourceProcedure"
+  let #[x] := parameters | throwError "unary helper requires one parameter"
+  unless constants.isEmpty do throwError "unary helper requires an empty constexpr list"
+  let body ← `(triton_function ($x:ident) {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.PureJitFunctions

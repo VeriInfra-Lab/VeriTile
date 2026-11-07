@@ -26,7 +26,7 @@ structure AccessBounds (p : Parameters) (s : State α) (bounds : RegionName → 
 
 theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (h : AccessBounds p s bounds) :
-    TraceSafe (algebra rest ops) bounds (kernel p) s := by
+    TraceSafe (algebra rest ops) bounds (sourceKernel p) s := by
   have headNonneg : ¬(s.pids 0 : Int)<0 := by omega
   have signedLeader :
       ((s.pids 0 : Int)-(p.KV_GROUP_NUM : Int)*((s.pids 0 : Int)/(p.KV_GROUP_NUM : Int))=0) ↔
@@ -52,7 +52,7 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,Safety.safeAlg_unfold,
-      kernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
+      sourceKernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,Option.bind,algebra,numericLt,natLt,numericEq,bop,numeric,
       store,VeriTile.Triton.Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
       integralFloorDiv,integralMod,headNonneg,signedLeader,leader,hq0,hq1,hc,hs,hk0,hk1,hl,ht,hkc0,hkc1,hv,hvc]
@@ -62,7 +62,7 @@ theorem source_safe (rest : Algebra α) (ops : Ops α) (p : Parameters)
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,Safety.safeAlg_unfold,
-      kernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
+      sourceKernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,Option.bind,algebra,numericLt,natLt,numericEq,bop,numeric,
       store,VeriTile.Triton.Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
       integralFloorDiv,integralMod,headNonneg,signedLeader,leader,hq0,hq1,hc,hs]

@@ -86,7 +86,7 @@ theorem source_projectable (p : Parameters) (BD : Nat) :
     Projectable (TypedExecution.code (config p) BD) := by
   by_cases hd : p.stage=2
   all_goals simp only [TypedExecution.code,TypedExecution.source,config,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody]
   all_goals exact ⟨_,rfl⟩
 

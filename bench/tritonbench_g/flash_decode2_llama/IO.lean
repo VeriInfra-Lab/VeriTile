@@ -31,7 +31,7 @@ def Lengths {α : Type} (g : KernelInterface.Geometry) (vals : Inputs α g) : Pr
     lengths vals (row / g.H) ≤ g.S * g.Q
 
 def launch {β : Type} (A : Algebra β) (g : KernelInterface.Geometry) (row : Nat) : Invocation β where
-  kernel := FlashDecode2.llama g.H g.S g.D g.Q g.D
+  kernel := FlashDecode2.llamaKernel g.H g.S g.D g.Q g.D
   backend := A
   clearRegisters := Bool.true
   pids := fun a => if a = 0 then row / g.H else if a = 1 then row % g.H else 0

@@ -21,7 +21,7 @@ namespace ReadableSource
 /-- A body decomposition, not a second authoritative kernel implementation. -/
 theorem candidate_body (Y X : RegionName) (M N B : Nat) :
     (indexCommutedKernel Y X M N B).surfaceBody=
-      (kernel Y X M N B).surfaceBody.map (commuteLoop N B) := rfl
+      (sourceKernel Y X M N B).surfaceBody.map (commuteLoop N B) := rfl
 #axiomsClean candidate_body
 end ReadableSource
 end VeriTile.Bench.Repairs.SoftmaxOptimize

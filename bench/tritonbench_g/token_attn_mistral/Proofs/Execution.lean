@@ -44,7 +44,7 @@ theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitiv
     unfold windowStart
     split <;> omega
   simp only [Region.cast] at hs ha ht hr
-  simp [prelude,kernel,source,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,kernel,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,
     withSum,Region.cast,natLt,numericLt,hs,ha,ht,hr,hw]
   constructor <;> try simp (config := {unfoldPartialApp := Bool.true}) [State.setReg,
@@ -58,7 +58,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive �
     (h : Ready p s t a) (hn : n<count p s) (aligned : n%p.block=0) :
     ∃ u, run (withSum M R) (body p) (t.setReg "start_n" .int [] (fun _ => (n : Int))) = some u ∧
       Ready p s u (update M R p s n a) := by
-  simp [body, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [body, kernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast, withSum,

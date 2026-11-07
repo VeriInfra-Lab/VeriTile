@@ -34,7 +34,7 @@ def tail (K : Nat) : List Stmt :=
   [.store .real [K] (.region "dw" (.castIntToNat (colOp K))) (refOp K "acc") (.mask (maskOp K))]
 
 theorem bindings (h : Call) (K : Nat) : prefixCode h K=initOps h K ∧ loopBody h K=body h K ∧ tailCode h K=tail K := by
-  simp [prefixCode,loopBody,tailCode,source,Kernels.weightBackward,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [prefixCode,loopBody,tailCode,source,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,

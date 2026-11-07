@@ -26,7 +26,7 @@ theorem guard_safe (M : Algebra α) (D : Dot α) (c : Config) (s : State α)
   rcases c with ⟨storage,q,k,v,out,seq,blocks,offsets,counts,columns,sqz,sqh,sqm,sqk,skz,skh,skn,skk,svz,svh,svn,svk,soz,soh,som,sok,Z,H,T,NR,NS,NV,BM,BN,BD,scale⟩
   cases storage
   all_goals
-    simp [TraceSafe,withBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,
+    simp [TraceSafe,withBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,
       ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

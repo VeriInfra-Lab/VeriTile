@@ -1,6 +1,6 @@
 import VeriTile.Triton.DSL.NestedReturns
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Sources.DTypes
-namespace VeriTile.Bench.Repairs.BmmChunkFwd.Bodies
+namespace VeriTile.Bench.Repairs.BmmChunkFwd
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.BmmChunkFwd.TypedSource
 noncomputable section
@@ -14,7 +14,7 @@ def signature (a_dtype b_dtype : Storage) (out_dtype : FloatDType) : CallSignatu
   readPorts := ["a_ptr","b_ptr","seq_idx_ptr"]
   writePorts := ["out_ptr"]
 
-def original
+def originalKernel
     (a_dtype b_dtype : Storage) (out_dtype dot_dtype : FloatDType) (a_ptr b_ptr out_ptr : RegionName)
     (seq_idx_ptr : Region .int)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak
@@ -86,7 +86,7 @@ with_triton_call (signature a_dtype b_dtype out_dtype) call_args [seqlen := seql
     tl.store(out_ptrs, out, mask=(offs_m[:, None] < chunk_size) & (offs_n[None, :] < chunk_size))
   }
 
-def indexCommuted
+def indexCommutedKernel
     (a_dtype b_dtype : Storage) (out_dtype dot_dtype : FloatDType) (a_ptr b_ptr out_ptr : RegionName)
     (seq_idx_ptr : Region .int)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak
@@ -154,7 +154,7 @@ with_triton_call (signature a_dtype b_dtype out_dtype) call_args [seqlen := seql
     tl.store(out_ptrs, out, mask=(offs_m[:, None] < chunk_size) & (offs_n[None, :] < chunk_size))
   }
 
-def dotFirst
+def dotFirstKernel
     (a_dtype b_dtype : Storage) (out_dtype dot_dtype : FloatDType) (a_ptr b_ptr out_ptr : RegionName)
     (seq_idx_ptr : Region .int)
     (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak
@@ -228,7 +228,7 @@ def clearSignature (out_dtype : FloatDType) : CallSignature where
   constexpr := ["BLOCK_M","BLOCK_N"]
   readPorts := []
   writePorts := ["Out"]
-def clearUpper (out_dtype : FloatDType) (Out : RegionName)
+def clearUpperKernel (out_dtype : FloatDType) (Out : RegionName)
     (chunk_size chunk_heads BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (clearSignature out_dtype) call_args [chunk_size := chunk_size, chunk_heads := chunk_heads] in triton {
     pid = tl.program_id(0).to(tl.int64)
@@ -243,4 +243,4 @@ def clearUpper (out_dtype : FloatDType) (Out : RegionName)
     tl.store(Out + offsets, 0.0, mask=(row[:, None] < chunk_size) & (column[None, :] < chunk_size) & (column[None, :] > row[:, None]))
   }
 end
-end VeriTile.Bench.Repairs.BmmChunkFwd.Bodies
+end VeriTile.Bench.Repairs.BmmChunkFwd

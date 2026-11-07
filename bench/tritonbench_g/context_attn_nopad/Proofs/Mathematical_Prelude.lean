@@ -11,7 +11,7 @@ def prefixSource (p : Layout) (r : Regions) : ComputeKernel :=
 
 theorem prefix_source (p : Layout) (r : Regions) :
     prelude p r = (prefixSource p r).eraseDType.toAlgKernel.body := by
-  simp only [prelude,prefixSource,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.Bodies.originalBody,
+  simp only [prelude,prefixSource,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnNopad.original,VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnNopad.originalKernel,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,
     ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

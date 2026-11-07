@@ -36,7 +36,7 @@ theorem prologue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
     Safety.traceSafeList (engine o.algebra) bounds (branch h c).before s := by
   cases causal : h.causal
   all_goals
-    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
       ha,hb,causal,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
@@ -51,7 +51,7 @@ theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
   rcases hc with ⟨h0,h1,h2,h3,h4⟩
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
       ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
@@ -67,7 +67,7 @@ theorem body {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.C
     Safety.traceSafeList (engine o.algebra) bounds (parts h c).body (s.setReg "k" .int [] (fun _=>q)) := by
   rcases hs with ⟨⟨h0,h1,h2,h3,h4⟩,h5,h6,h7,h8,h9,h10,h11,hseq⟩
   obtain ⟨acc,h11⟩ := Option.isSome_iff_exists.mp h11
-  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
     ha,hb,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -91,7 +91,7 @@ theorem epilogue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
   obtain ⟨acc,h11⟩ := Option.isSome_iff_exists.mp h11
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
       ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

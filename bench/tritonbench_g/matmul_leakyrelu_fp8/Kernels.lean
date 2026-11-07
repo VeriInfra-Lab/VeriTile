@@ -13,19 +13,19 @@ def callSignature : CallSignature where
   readPorts := ["a_ptr","b_ptr"]
   writePorts := ["c_ptr"]
 
-def leakyRelu : PureJitFunction := triton_function (x) {
+def leakyReluSource : PureJitFunction := with_triton_params (x) constexpr_args [] in triton {
     return tl.where(x >= 0, x, 0.01 * x)
   }
 
-def leakyReluRhs : PureJitFunction := triton_function (x) {
+def leakyReluRhsSource : PureJitFunction := with_triton_params (x) constexpr_args [] in triton {
     return tl.where(x >= 0, x, x * 0.01)
   }
 
-def originalBody (a_ptr b_ptr c_ptr : RegionName)
+def originalKernel (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
   with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
-    pure_functions [leaky_relu := leakyRelu] in triton {
+    pure_functions [leaky_relu := leakyReluSource] in triton {
     """Kernel for computing the matmul C = A x B.
     A has shape (M, K), B has shape (K, N) and C has shape (M, N)
     """
@@ -76,11 +76,11 @@ def originalBody (a_ptr b_ptr c_ptr : RegionName)
     tl.store(c_ptrs, c, mask=c_mask)
   }
 
-def candidateBody (a_ptr b_ptr c_ptr : RegionName)
+def candidateKernel (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
   with_triton_call callSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
-    pure_functions [leaky_relu_candidate := leakyReluRhs] in triton {
+    pure_functions [leaky_relu_candidate := leakyReluRhsSource] in triton {
     """Kernel for computing the matmul C = A x B.
     A has shape (M, K), B has shape (K, N) and C has shape (M, N)
     """
@@ -142,12 +142,12 @@ open VeriTile.Triton
 noncomputable section
 def kernel (A B C : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat) (ACTIVATION : Bool) : ComputeKernel :=
-  Pasted.originalBody A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn 128 256 64 8
+  Pasted.originalKernel A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn 128 256 64 8
     (if ACTIVATION then "leaky_relu" else "")
 
 def rightSlope (A B C : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat) (ACTIVATION : Bool) : ComputeKernel :=
-  Pasted.candidateBody A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn 128 256 64 8
+  Pasted.candidateKernel A B C M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn 128 256 64 8
     (if ACTIVATION then "leaky_relu" else "")
 
 def configuration : Nat × Nat × Nat × Nat × Nat × Nat := (128,256,64,8,2,8)

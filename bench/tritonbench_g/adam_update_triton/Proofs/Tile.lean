@@ -32,7 +32,7 @@ def sourceRun {α : Type} [Inhabited α] (sem : Semantics α) (params : Scalars 
       (programState params pid s)=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp (maxSteps := 1400000) [source,sourceWithArgumentDeclarations,sourceBody,ComputeKernel.surfaceBody,
+  simp (maxSteps := 1400000) [source,sourceWithArgumentDeclarations,sourceKernel,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     store,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
     programState,bindArguments,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,

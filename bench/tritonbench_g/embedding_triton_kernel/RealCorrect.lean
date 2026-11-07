@@ -22,7 +22,7 @@ specification embedding_kernel_correctness (rest : Algebra ℝ) (p : Parameters)
         xs.weightAt (xs.ids row-p.first).toNat col else 0)) :=
   (LogicalIO.judgment_iff rest p pid).mpr (IOImplements.implements_signed rest 0 Bool.false p pid layout)
 
-#specNonCircular target avoiding [source,indexCommutedSource,FP.Structural.exec]
+#specNonCircular target avoiding [sourceKernel,indexCommutedKernel,FP.Structural.exec]
 #axiomsClean embedding_kernel_correctness
 #stmtSurfaceSubset embedding_kernel_correctness ⊆
   [LogicalIO.Inputs,Parameters.width,Spec.Real,embeddingIO,Execution.Layout,LogicalIO.Signed,LogicalIO.Inputs.ids,LogicalIO.Inputs.weightAt,

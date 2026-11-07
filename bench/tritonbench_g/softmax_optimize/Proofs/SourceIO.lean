@@ -15,7 +15,7 @@ both output loops and every store are constructed. No execution, output or
 numerical-correctness premise is used. The frame preserves raw memory cells. -/
 theorem kernel_io (Y X : RegionName) (M N B : Nat) (hYX : Y ≠ X)
     (hN : 0 < N) (hB : 0 < B) (initial : BlockState) :
-    ∃ finalState, exec (kernel Y X M N B).eraseDType.toAlgKernel initial = some finalState ∧
+    ∃ finalState, exec (sourceKernel Y X M N B).eraseDType.toAlgKernel initial = some finalState ∧
       (∀ j : Fin N, finalState.readMem Y (initial.pid * N + j.val) =
         softmaxOptimizeFullSpec initial X N j) ∧
       RowFrame Y N initial finalState ∧ finalState.pids = initial.pids ∧
@@ -80,7 +80,7 @@ theorem kernel_io (Y X : RegionName) (M N B : Nat) (hYX : Y ≠ X)
 
 theorem selected_tile_io (Y X : RegionName) (M N : Nat) (hYX : Y ≠ X)
     (hN : 0 < N) (initial : BlockState) :
-    ∃ finalState, exec (kernel Y X M N (Config.tile N)).eraseDType.toAlgKernel initial = some finalState ∧
+    ∃ finalState, exec (sourceKernel Y X M N (Config.tile N)).eraseDType.toAlgKernel initial = some finalState ∧
       (∀ j : Fin N, finalState.readMem Y (initial.pid * N + j.val) =
         softmaxOptimizeFullSpec initial X N j) ∧
       RowFrame Y N initial finalState ∧ finalState.pids = initial.pids ∧

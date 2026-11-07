@@ -27,7 +27,7 @@ theorem query_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPri
     (c : QueryConfig) (s : State α) (r : Registers c.toBackwardConfig s) :
     ∃ final, run (withDot M D) (queryPrefix c) s = some final ∧
       QueryReady M c s final 0 (fun _ => M.literal (some .fp32) .real 0) := by
-  simp [queryPrefix, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [queryPrefix, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind,
     r.head,r.chunk,r.keyBlock,r.valueBlock,ComputeDType.eraseDType, numeric, bop, Region.cast, withDot,
     TileShape.indexToList, BlockPtr.address_2d_offsets, BlockPtr.inBounds_2d_offsets,
@@ -41,7 +41,7 @@ theorem query_middle_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPri
     (h : QueryReady M c s t last acc) :
     ∃ final, run (withDot M D) (queryMiddle c) t = some final ∧
       QueryDiagonalReady M c s final (c.i_c*c.BTL) (queryScale M c acc) := by
-  simp [queryMiddle, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [queryMiddle, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, Option.bind,
     ComputeDType.eraseDType, numeric, bop, Region.cast, withDot, h.head,h.chunk,h.keyBlock,h.valueBlock,h.queryGrad, ofFloat, toFloat]
   constructor
@@ -57,7 +57,7 @@ theorem query_suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPri
     (h : QueryReady M c s t last acc) :
     ∃ final, run (withDot M D) (querySuffix c) t = some final ∧
       final.mem = (queryOutputMemory M c s acc).mem ∧ Registers c.toBackwardConfig final := by
-  simp [querySuffix, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [querySuffix, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, Option.bind,
     ComputeDType.eraseDType, numeric, bop, Region.cast, withDot, store,
     h.head,h.chunk,h.keyBlock,h.valueBlock,h.queryGrad, TileShape.indexToList, BlockPtr.address_2d_offsets,
@@ -75,14 +75,14 @@ theorem query_first_range_statement {α : Type} [Inhabited α] (M : Algebra α) 
     (c : QueryConfig) (t : State α) (r : Registers c.toBackwardConfig t) :
     step (withDot M D) (queryFirstRange c) t =
       FP.Structural.range (withDot M D) "_" 0 (c.i_c*c.BTL) c.BTS (queryFirstBody c) t := by
-  simp [queryFirstRange, queryFirstBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [queryFirstRange, queryFirstBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     step, evalOp_unfold, numeric, bop, Option.bind,r.head,r.chunk,r.keyBlock,r.valueBlock]
 
 theorem query_second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (t : State α) (r : Registers c.toBackwardConfig t) :
     step (withDot M D) (querySecondRange c) t =
       FP.Structural.range (withDot M D) "_" (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) c.BTS (querySecondBody c) t := by
-  simp [querySecondRange, querySecondBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [querySecondRange, querySecondBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     step, evalOp_unfold, numeric, bop, Option.bind,r.head,r.chunk,r.keyBlock,r.valueBlock]
 
 /-- Complete DQ source execution, including both loops, intermediate scaling,

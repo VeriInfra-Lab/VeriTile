@@ -19,15 +19,15 @@ def backend (rest : Algebra α) (zero : α) : Algebra α :=
   { copyBackend rest with literal := fun _ _ _ => zero }
 
 def prefixCode (index : IndexType) (p : Parameters) : List ComputeStmt :=
-  (source index p).surfaceBody.take 3
+  (sourceKernel index p).surfaceBody.take 3
 
 def body (index : IndexType) (p : Parameters) : List ComputeStmt :=
-  match (source index p).surfaceBody.drop 3 with
+  match (sourceKernel index p).surfaceBody.drop 3 with
   | [.forRange _ _ _ _ statements] => statements
   | _ => []
 
 theorem decomposition (index : IndexType) (p : Parameters) :
-    (source index p).surfaceBody=prefixCode index p ++ [.forRange "start_nn" 0 64 1 (body index p)] := by
+    (sourceKernel index p).surfaceBody=prefixCode index p ++ [.forRange "start_nn" 0 64 1 (body index p)] := by
   cases index <;> rfl
 
 structure Context (p : Parameters) (s : State α) : Prop where
@@ -62,7 +62,7 @@ def chunk (rest : Algebra α) (zero : α) (index : IndexType) (p : Parameters)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [body,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,evalOffsets,evalDeltas,Option.bind,copyBackend,backend,
       ComputeDType.eraseDType,numeric,natLt,numericLt,numericLe,bop,ofFloat,toFloat,
       Region.cast,FP.Structural.store,TileShape.dropInsertedIndex,hr,hc]
@@ -126,7 +126,7 @@ def prefixRun (rest : Algebra α) (zero : α) (index : IndexType) (p : Parameter
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [prefixCode,source,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [prefixCode,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,ComputeDType.eraseDType]
     try rfl
 
@@ -206,7 +206,7 @@ theorem invariant_step (rest : Algebra α) (zero : α) (index : IndexType) (p : 
 
 theorem program_correct (rest : Algebra α) (zero : α) (index : IndexType) (p : Parameters)
     (layout : Layout p) (s : State α) :
-    ∃ t,FP.Structural.exec (backend rest zero) (source index p) s=some t ∧
+    ∃ t,FP.Structural.exec (backend rest zero) (sourceKernel index p) s=some t ∧
       t.pids=s.pids ∧
       (∀ a,a<64 → row s a<p.n → ∀ d,d<p.hidden →
         t.mem p.output (row s a*p.outputStride+d)=.mk .real (value zero p s a d)) ∧
@@ -226,7 +226,7 @@ theorem program_correct (rest : Algebra α) (zero : α) (index : IndexType) (p :
   have eq : last=64 := by have := inv.bound; omega
   subst last
   refine ⟨t,?_,inv.pids,inv.readback,inv.frame⟩
-  change FP.Structural.run (backend rest zero) (source index p).surfaceBody s=some t
+  change FP.Structural.run (backend rest zero) (sourceKernel index p).surfaceBody s=some t
   rw [decomposition,run_append,(prefixRun rest zero index p s).property]
   simpa [FP.Structural.run,step] using run
 

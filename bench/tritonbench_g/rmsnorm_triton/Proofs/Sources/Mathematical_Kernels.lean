@@ -18,7 +18,7 @@ def rmsnorm_triton
 
 
 def originalTyped (input weight output : Storage) : Source :=
-  VeriTile.Bench.Repairs.RmsnormTriton.originalFor input weight output
+  VeriTile.Bench.Repairs.RmsnormTriton.originalForKernel input weight output
 
 def typedKernel (input weight output : Storage) (v : Bool)
     (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) : ComputeKernel :=

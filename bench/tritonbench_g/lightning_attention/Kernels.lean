@@ -20,7 +20,7 @@ def forwardSignature : CallSignature where
   readPorts := ["Q","K","V"]
   writePorts := ["Out"]
 
-def forward (p : Parameters) : ComputeKernel :=
+def forwardKernel (p : Parameters) : ComputeKernel :=
   let b := p.B
   let h := p.H
   let n := p.N
@@ -92,7 +92,7 @@ def forward (p : Parameters) : ComputeKernel :=
         off_block += BLOCK
   }
 
-def forwardCandidate (p : Parameters) : ComputeKernel :=
+def forwardCandidateKernel (p : Parameters) : ComputeKernel :=
   let b := p.B
   let h := p.H
   let n := p.N
@@ -171,7 +171,7 @@ def intraSignature : CallSignature where
   readPorts := ["K","V","DO","Q"]
   writePorts := ["DQ","DK","DV"]
 
-def intra (p : Parameters) : ComputeKernel :=
+def intraKernel (p : Parameters) : ComputeKernel :=
   let b := p.B
   let h := p.H
   let n := p.N
@@ -262,7 +262,7 @@ def intra (p : Parameters) : ComputeKernel :=
     )
   }
 
-def intraCandidate (p : Parameters) : ComputeKernel :=
+def intraCandidateKernel (p : Parameters) : ComputeKernel :=
   let b := p.B
   let h := p.H
   let n := p.N
@@ -360,7 +360,7 @@ def interSignature : CallSignature where
   readPorts := []
   writePorts := []
 
-def inter (p : Parameters) : ComputeKernel :=
+def interKernel (p : Parameters) : ComputeKernel :=
   let b := p.B
   let h := p.H
   let n := p.N
@@ -554,7 +554,7 @@ def inter (p : Parameters) : ComputeKernel :=
         dkv += dkv_current
   }
 
-def interCandidate (p : Parameters) : ComputeKernel :=
+def interCandidateKernel (p : Parameters) : ComputeKernel :=
   let b := p.B
   let h := p.H
   let n := p.N

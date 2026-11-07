@@ -7,10 +7,10 @@ namespace VeriTile.Bench.Repairs.FlashDecode2
 open VeriTile.Triton FP.Structural
 noncomputable section
 def kernel (masked : Bool) (H S D Q BD : Nat) : ComputeKernel :=
-  if masked then phi H S D Q BD else llama H S D Q BD
+  if masked then phiKernel H S D Q BD else llamaKernel H S D Q BD
 
 def prologue (H S D Q BD : Nat) : List ComputeStmt :=
-  (phi H S D Q BD).surfaceBody.take 10
+  (phiKernel H S D Q BD).surfaceBody.take 10
 
 def body (masked : Bool) (H S D Q BD : Nat) : List ComputeStmt :=
   match (kernel masked H S D Q BD).surfaceBody.getD 10 (.effectMarker "absent") with

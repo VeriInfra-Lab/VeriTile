@@ -11,7 +11,7 @@ set_option linter.unusedSimpArgs false
 
 /-- The selected execution is the complete copied caller and helper. Only
 proved integer identities normalize its address expressions for the proofs. -/
-abbrev typed := VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.typed
+abbrev typed := VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.typedKernel
 
 def source (p : Source.Parameters) : ComputeKernel :=
   typed .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
@@ -45,7 +45,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Source.Parameters
     {t : State α // FP.Structural.exec M (source p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [source,typed,VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.typed,FP.Structural.exec,ComputeKernel.surfaceBody,FP.Structural.run,
+  simp [source,typed,VeriTile.Bench.Repairs.RbeTritonTransformCheckedLaunch.typedKernel,FP.Structural.exec,ComputeKernel.surfaceBody,FP.Structural.run,
     FP.Structural.step,FP.Structural.evalExpr,FP.Structural.evalComputeOp,
     FP.Structural.evalOp_unfold,FP.Structural.evalOffsets,FP.Structural.store,
     FP.Structural.numeric,FP.Structural.bop,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericEq,

@@ -36,7 +36,7 @@ def innerExecution (cast : Word32 → Byte) (M : Algebra Word32) (p : Parameters
   simp only [FP.IntegerDot.valid, bValue_source, Int.natCast_shiftRight] at validA validB
   refine ⟨?_, ?_⟩
   swap
-  simp [innerBody, outerBody, source, compileAssertionProjection, quotedSource, kernel,sourceBody,
+  simp [innerBody, outerBody, source, compileAssertionProjection, quotedSource, kernel,sourceKernel,
     ComputeKernel.surfaceBody, run, step, stepAlg, evalExpr, evalComputeOp, evalOp_unfold,
     evalOffsets, store, numeric, bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

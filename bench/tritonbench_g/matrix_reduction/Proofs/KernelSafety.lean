@@ -15,7 +15,7 @@ theorem trace {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (output : ∀ i : Fin M, i.val < bounds "out") :
     FP.Structural.TraceSafe A bounds (kernel d "x" "out" N 1 1 M N) s := by
   cases d <;>
-    simp [FP.Structural.TraceSafe, kernel, originalFor, ComputeKernel.surfaceBody,
+    simp [FP.Structural.TraceSafe, kernel, originalForKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

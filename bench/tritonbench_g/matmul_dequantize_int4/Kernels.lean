@@ -12,7 +12,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   floatingPointers := [("a_ptr",dtype),("c_ptr",dtype),("scales_ptr",dtype)]
   scalars := [("M",.integer),("N",.integer),("K",.integer),("stride_am",.integer),("stride_ak",.integer),("stride_bk",.integer),("stride_bn",.integer),("stride_cm",.integer),("stride_cn",.integer),("stride_scales_g",.integer),("stride_scales_n",.integer),("stride_zeros_g",.integer),("stride_zeros_n",.integer),("groupsize",.integer)]
   constexpr := ["NO_GROUPS","BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K","GROUP_SIZE_M"]
-def originalBody (dtype : FloatDType) (a_ptr b_ptr c_ptr scales_ptr zeros_ptr : RegionName) (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n groupsize BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (NO_GROUPS : Bool) : ComputeKernel :=
+def originalKernel (dtype : FloatDType) (a_ptr b_ptr c_ptr scales_ptr zeros_ptr : RegionName) (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n groupsize BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (NO_GROUPS : Bool) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn, stride_scales_g := stride_scales_g, stride_scales_n := stride_scales_n, stride_zeros_g := stride_zeros_g, stride_zeros_n := stride_zeros_n, groupsize := groupsize] in triton {
     """
     Compute the matrix multiplication C = A x B.
@@ -100,7 +100,7 @@ def groupedSignature (dtype : FloatDType) : CallSignature where
   floatingPointers := [("a_ptr",dtype),("c_ptr",dtype),("scales_ptr",dtype)]
   scalars := [("M",.integer),("K",.integer),("stride_am",.integer),("stride_ak",.integer),("stride_bk",.integer),("stride_bn",.integer),("stride_cm",.integer),("stride_cn",.integer),("stride_scales_g",.integer),("stride_scales_n",.integer),("stride_zeros_g",.integer),("stride_zeros_n",.integer),("groupsize",.integer)]
   constexpr := ["N","NO_GROUPS","BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K","GROUP_SIZE_M"]
-def groupedBody (dtype : FloatDType) (a_ptr b_ptr c_ptr scales_ptr zeros_ptr : RegionName) (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n groupsize BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (NO_GROUPS : Bool) : ComputeKernel :=
+def groupedKernel (dtype : FloatDType) (a_ptr b_ptr c_ptr scales_ptr zeros_ptr : RegionName) (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_scales_g stride_scales_n stride_zeros_g stride_zeros_n groupsize BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (NO_GROUPS : Bool) : ComputeKernel :=
   with_triton_call (groupedSignature dtype) call_args [M := M, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn, stride_scales_g := stride_scales_g, stride_scales_n := stride_scales_n, stride_zeros_g := stride_zeros_g, stride_zeros_n := stride_zeros_n, groupsize := groupsize] in triton {
       """
       Compute the matrix multiplication C = A x B.

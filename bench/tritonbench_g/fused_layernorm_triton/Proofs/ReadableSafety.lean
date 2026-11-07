@@ -52,7 +52,7 @@ theorem suffix_safe (M : Algebra α) (eq32 : α → α → Bool)
     (bounds : RegionName → Nat) (bm : s.pids 0<bounds Mean) (br : s.pids 0<bounds Rstd) :
     Safety.traceSafeList (withEquality M eq32) bounds (welfordSuffix Rstd Mean D) t := by
   simp only [welfordSuffix,SourcePieces.normalization,SourcePieces.statistics,SourcePieces.source,
-    Kernels.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,Source.intRange?,List.drop,
+    Kernels.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,Source.intRange?,List.drop,
     Option.getD,Option.map,Bool.false_eq_true,ite_false,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
@@ -81,7 +81,7 @@ theorem prefix_safe (M : Algebra α) (eq32 : α → α → Bool)
     Safety.traceSafeList (withEquality M eq32) bounds
       (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).before s := by
   simp only [SourcePieces.statistics,SourcePieces.source,Bool.false_eq_true,ite_false,
-    Kernels.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,
+    Kernels.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,Source.intRange?,Option.map,
     Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
@@ -98,7 +98,7 @@ theorem chunk_safe (M : Algebra α) (eq32 : α → α → Bool)
       (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).body
       (t.setReg "roffset" .int [] (fun _ => (k*B : Nat))) := by
   simp only [SourcePieces.statistics,SourcePieces.source,Bool.false_eq_true,ite_false,
-    Kernels.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,
+    Kernels.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,Source.intRange?,Option.map,
     Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
