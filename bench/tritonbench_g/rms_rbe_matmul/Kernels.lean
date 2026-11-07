@@ -28,14 +28,14 @@ set_option maxHeartbeats 2000000
 
 def source (fp8 : Bool) (p : Arguments) : ComputeKernel :=
   instantiate_source_procedure
-    ({RmsMatmulRbeScalarDomain.TypedSource.Bodies.rmsSource with materialized:=[]} : SourceProcedure)
+    ({RmsMatmulRbeScalarDomain.TypedSource.rmsSource with materialized:=[]} : SourceProcedure)
     signature (RmsMatmulRbeScalarDomain.TypedSource.rmsSignature
       (if fp8 then .byte else .half) (if fp8 then .e5 else .half))
     procedure_args [x_ptr := p.X, w_ptr := p.W, rms_w_ptr := p.RMS, out_ptr := p.OUT, M := p.M, N := p.N, K := p.K, stride_x_batch := p.sxb, stride_x_m := p.sxm, stride_x_k := p.sxk, stride_w_k := p.swk, stride_w_n := p.swn, stride_rms_w := p.srms, stride_out_batch := p.sob, stride_out_m := p.som, stride_out_n := p.son, start_token_position := p.start, USE_FP8 := fp8, RBE_EPILOGUE := p.rotary, THETA := p.theta, EPS := p.epsilon, HEAD_DIM := p.headDim, BLOCK_SIZE_M := p.BM, BLOCK_SIZE_N := p.BN, BLOCK_SIZE_K := p.BK]
 
 def indexCommutedKernel (fp8 : Bool) (p : Arguments) : ComputeKernel :=
   instantiate_source_procedure
-    ({RmsMatmulRbeScalarDomain.TypedSource.Bodies.rmsIndexCommutedSource with materialized:=[]} : SourceProcedure)
+    ({RmsMatmulRbeScalarDomain.TypedSource.rmsIndexCommutedSource with materialized:=[]} : SourceProcedure)
     signature (RmsMatmulRbeScalarDomain.TypedSource.rmsSignature
       (if fp8 then .byte else .half) (if fp8 then .e5 else .half))
     procedure_args [x_ptr := p.X, w_ptr := p.W, rms_w_ptr := p.RMS, out_ptr := p.OUT, M := p.M, N := p.N, K := p.K, stride_x_batch := p.sxb, stride_x_m := p.sxm, stride_x_k := p.sxk, stride_w_k := p.swk, stride_w_n := p.swn, stride_rms_w := p.srms, stride_out_batch := p.sob, stride_out_m := p.som, stride_out_n := p.son, start_token_position := p.start, USE_FP8 := fp8, RBE_EPILOGUE := p.rotary, THETA := p.theta, EPS := p.epsilon, HEAD_DIM := p.headDim, BLOCK_SIZE_M := p.BM, BLOCK_SIZE_N := p.BN, BLOCK_SIZE_K := p.BK]

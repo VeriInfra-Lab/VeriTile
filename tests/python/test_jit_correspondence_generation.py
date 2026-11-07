@@ -126,9 +126,9 @@ class CorrespondenceGenerationTests(unittest.TestCase):
         self.assertFalse((directory / 'jit-correspondence.json').exists())
         rows = generate(ROOT, directory)
         self.assertEqual({row['python_function']: row['lean_definition'] for row in rows}, {
-            'rms_matmul_rbe': 'Bodies.rmsSource',
+            'rms_matmul_rbe': 'rmsSource',
             'rms_matmul_rbe_qkv': 'Bodies.qkv',
-            'rms_matmul_rbe_index_commuted': 'Bodies.rmsIndexCommutedSource',
+            'rms_matmul_rbe_index_commuted': 'rmsIndexCommutedSource',
             'rms_matmul_rbe_qkv_index_commuted': 'Bodies.qkvIndexCommuted',
         })
 
@@ -142,9 +142,9 @@ class CorrespondenceGenerationTests(unittest.TestCase):
         self.copy_case('rms_matmul_rbe', ['Kernels.lean', 'rms_matmul_rbe.py'])
         self.assertEqual(len(generate(self.root, self.case)), 4)
         text = self.lean.read_text()
-        old = 'source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsIndexCommutedSource]'
+        old = 'source_procedures [rms_matmul_rbe_index_commuted := rmsIndexCommutedSource]'
         self.assertEqual(text.count(old), 1)
-        self.lean.write_text(text.replace(old, 'source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsSource]'))
+        self.lean.write_text(text.replace(old, 'source_procedures [rms_matmul_rbe_index_commuted := rmsSource]'))
         with self.assertRaisesRegex(ValueError, 'No exact source pair|Ambiguous source pair'):
             generate(self.root, self.case)
 
