@@ -42063,7 +42063,7 @@
       "checked_pairs": [
         {
           "python_function": "rms_matmul_rbe",
-          "lean_definition": "Bodies.rmsSource",
+          "lean_definition": "rmsSource",
           "status": "PASS",
           "mode": "pasted_body",
           "kind": "source_procedure",
@@ -42149,7 +42149,7 @@
         },
         {
           "python_function": "rms_matmul_rbe_index_commuted",
-          "lean_definition": "Bodies.rmsIndexCommutedSource",
+          "lean_definition": "rmsIndexCommutedSource",
           "status": "PASS",
           "mode": "pasted_body",
           "kind": "source_procedure",
@@ -42240,7 +42240,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "a44c1fd573c067a02a175b17aaf6498c4cbd7f9f4ab771b34d8e01df9e5a7d30",
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "09d56803c57b395824c02a5ab0ae2868e99f27f4b5dd9ac23b735c8e772523a6",
         "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py": "b96af97899e7f6687dfe575eaae2564708097f3d64daa63f072435aba503ea44"
       },
       "collection": "tritonbench_g",
@@ -42960,7 +42960,7 @@
         },
         {
           "python_function": "rms_matmul_rbe",
-          "lean_definition": "Bodies.rmsSource",
+          "lean_definition": "rmsSource",
           "status": "PASS",
           "mode": "pasted_body",
           "kind": "source_procedure",
@@ -43003,7 +43003,7 @@
         },
         {
           "python_function": "rms_matmul_rbe_candidate",
-          "lean_definition": "Bodies.rmsIndexCommutedSource",
+          "lean_definition": "rmsIndexCommutedSource",
           "status": "PASS",
           "mode": "pasted_body",
           "kind": "source_procedure",
@@ -43051,8 +43051,8 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "a44c1fd573c067a02a175b17aaf6498c4cbd7f9f4ab771b34d8e01df9e5a7d30",
-        "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "bed0cf892a9d50324480aa285396f23e7b9f6f359d803c071ea6cf327b5c2e29",
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "09d56803c57b395824c02a5ab0ae2868e99f27f4b5dd9ac23b735c8e772523a6",
+        "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "11f6e728b77e51fa81a98a0ee8b909e1096cc7a77d4ab064b0f109ed606f9b93",
         "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py": "95b86e16d7a66aca4307ae0e2bb2ec4d3885ac8d71c5c2e98aa8fa752358adb1"
       },
       "collection": "tritonbench_g",

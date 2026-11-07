@@ -48,7 +48,7 @@ def qkvSignature (input : InputStorage) (output : OutputStorage) : CallSignature
   readPorts := ["x_ptr","q_weight_ptr","k_weight_ptr","v_weight_ptr","rms_w_ptr"]
   writePorts := ["q_ptr","k_ptr","v_ptr"]
 
-def Bodies.rmsSource : SourceProcedure :=
+def rmsSource : SourceProcedure :=
   with_triton_params (x_ptr, w_ptr, rms_w_ptr, out_ptr, M, N, K, stride_x_batch, stride_x_m, stride_x_k, stride_w_k, stride_w_n, stride_rms_w, stride_out_batch, stride_out_m, stride_out_n, start_token_position, USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K)
     constexpr_args [USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K]
     fp32_constants [THETA, EPS] in triton {
@@ -137,10 +137,10 @@ def Bodies.rms (input : InputStorage) (output : OutputStorage)
     (start_token_position : Int) (RBE_EPILOGUE : Bool)
     (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
-  instantiate_source_procedure Bodies.rmsSource signature (rmsSignature input output)
+  instantiate_source_procedure rmsSource signature (rmsSignature input output)
     procedure_args [x_ptr := x_ptr, w_ptr := w_ptr, rms_w_ptr := rms_w_ptr, out_ptr := out_ptr, M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_w_k := stride_w_k, stride_w_n := stride_w_n, stride_rms_w := stride_rms_w, stride_out_batch := stride_out_batch, stride_out_m := stride_out_m, stride_out_n := stride_out_n, start_token_position := start_token_position, USE_FP8 := USE_FP8, RBE_EPILOGUE := RBE_EPILOGUE, HEAD_DIM := HEAD_DIM, BLOCK_SIZE_M := BLOCK_SIZE_M, BLOCK_SIZE_N := BLOCK_SIZE_N, BLOCK_SIZE_K := BLOCK_SIZE_K]
 
-def Bodies.rmsIndexCommutedSource : SourceProcedure :=
+def rmsIndexCommutedSource : SourceProcedure :=
   with_triton_params (x_ptr, w_ptr, rms_w_ptr, out_ptr, M, N, K, stride_x_batch, stride_x_m, stride_x_k, stride_w_k, stride_w_n, stride_rms_w, stride_out_batch, stride_out_m, stride_out_n, start_token_position, USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K)
     constexpr_args [USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K]
     fp32_constants [THETA, EPS] in triton {
@@ -229,7 +229,7 @@ def Bodies.rmsIndexCommuted (input : InputStorage) (output : OutputStorage)
     (start_token_position : Int) (RBE_EPILOGUE : Bool)
     (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
-  instantiate_source_procedure Bodies.rmsIndexCommutedSource signature (rmsSignature input output)
+  instantiate_source_procedure rmsIndexCommutedSource signature (rmsSignature input output)
     procedure_args [x_ptr := x_ptr, w_ptr := w_ptr, rms_w_ptr := rms_w_ptr, out_ptr := out_ptr, M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_w_k := stride_w_k, stride_w_n := stride_w_n, stride_rms_w := stride_rms_w, stride_out_batch := stride_out_batch, stride_out_m := stride_out_m, stride_out_n := stride_out_n, start_token_position := start_token_position, USE_FP8 := USE_FP8, RBE_EPILOGUE := RBE_EPILOGUE, HEAD_DIM := HEAD_DIM, BLOCK_SIZE_M := BLOCK_SIZE_M, BLOCK_SIZE_N := BLOCK_SIZE_N, BLOCK_SIZE_K := BLOCK_SIZE_K]
 
 def halfHalf (p : Arguments) : ComputeKernel :=
@@ -298,7 +298,7 @@ def Bodies.qkv (input : InputStorage) (output : OutputStorage)
     (start_token_position : Int) (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
   with_triton_call (qkvSignature input output) call_args [M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_q_w_k := stride_q_w_k, stride_q_w_n := stride_q_w_n, stride_k_w_k := stride_k_w_k, stride_k_w_n := stride_k_w_n, stride_v_w_k := stride_v_w_k, stride_v_w_n := stride_v_w_n, stride_rms_w := stride_rms_w, stride_q_batch := stride_q_batch, stride_q_m := stride_q_m, stride_q_n := stride_q_n, stride_k_batch := stride_k_batch, stride_k_m := stride_k_m, stride_k_n := stride_k_n, stride_v_batch := stride_v_batch, stride_v_m := stride_v_m, stride_v_n := stride_v_n, start_token_position := start_token_position]
-    fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe := Bodies.rmsSource] in triton {
+    fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe := rmsSource] in triton {
     # q
     rms_matmul_rbe(
         x_ptr=x_ptr,
@@ -358,7 +358,7 @@ def Bodies.qkvIndexCommuted (input : InputStorage) (output : OutputStorage)
     (start_token_position : Int) (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=
   let USE_FP8 : Bool := match input with | .half => Bool.false | .byte => Bool.true
   with_triton_call (qkvSignature input output) call_args [M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_q_w_k := stride_q_w_k, stride_q_w_n := stride_q_w_n, stride_k_w_k := stride_k_w_k, stride_k_w_n := stride_k_w_n, stride_v_w_k := stride_v_w_k, stride_v_w_n := stride_v_w_n, stride_rms_w := stride_rms_w, stride_q_batch := stride_q_batch, stride_q_m := stride_q_m, stride_q_n := stride_q_n, stride_k_batch := stride_k_batch, stride_k_m := stride_k_m, stride_k_n := stride_k_n, stride_v_batch := stride_v_batch, stride_v_m := stride_v_m, stride_v_n := stride_v_n, start_token_position := start_token_position]
-    fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe_index_commuted := Bodies.rmsIndexCommutedSource] in triton {
+    fp32_constants [THETA, EPS] source_procedures [rms_matmul_rbe_index_commuted := rmsIndexCommutedSource] in triton {
     # q
     rms_matmul_rbe_index_commuted(
         x_ptr=x_ptr,
