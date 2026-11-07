@@ -18,10 +18,14 @@ open Lean Elab Term Meta
 syntax (name := sourceProcedure) "triton_source_procedure " "(" ident,* ")"
   " constexpr_args " "[" ident,* "]" " fp32_constants " "[" ident,* "]"
   RawSourceText.body : term
+/-- Declare the arguments of a reusable pasted Triton body. -/
+syntax (name := sourceParams) "with_triton_params " "(" ident,* ")"
+  " constexpr_args " "[" ident,* "]" (" fp32_constants " "[" ident,* "]")?
+  " in " "triton " RawSourceText.body : term
 syntax (name := sourceInstance) "instantiate_source_procedure " term
   " signature " term " procedure_args " "[" tritonCallBinding,* "]" : term
 syntax (name := sourceCalls) "with_triton_call " term " call_args "
-  "[" tritonCallBinding,* "]" " fp32_constants " "[" ident,* "]"
+  "[" tritonCallBinding,* "]" (" fp32_constants " "[" ident,* "]")?
   " source_procedures " "[" tritonCallBinding,* "]" " in " "triton " RawSourceText.body : term
 
 private partial def ids (raw : Syntax) : List Name :=
@@ -181,15 +185,23 @@ private def function (value : Expr) : TermElabM Function := do
   validate f
   return f
 
-@[term_elab sourceProcedure]
-def elaborateSource : TermElab := fun stx expected=>do
+private def elaborateProcedure (stx materialized : Syntax) (expected : Option Expr) :
+    TermElabM Expr := do
   let f : Function := ⟨stx[2].getSepArgs.toList.map (·.getId.eraseMacroScopes),
     stx[6].getSepArgs.toList.map (·.getId.eraseMacroScopes),
-    stx[10].getSepArgs.toList.map (·.getId.eraseMacroScopes),stx.getArgs.back!.getAtomVal⟩
+    materialized.getSepArgs.toList.map (·.getId.eraseMacroScopes),stx.getArgs.back!.getAtomVal⟩
   validate f
   let strings (values : List Name):=mkListLit (mkConst ``String) (values.map (mkStrLit ∘ Name.toString))
   ensureHasType expected (mkApp4 (mkConst ``SourceProcedure.mk)
     (← strings f.parameters) (← strings f.constants) (← strings f.materialized) (mkStrLit f.source))
+
+@[term_elab sourceProcedure]
+def elaborateSource : TermElab := fun stx expected =>
+  elaborateProcedure stx stx[10] expected
+
+@[term_elab sourceParams]
+def elaborateParams : TermElab := fun stx expected =>
+  elaborateProcedure stx stx[8][2] expected
 
 private def instantiate (f : Function) (profile : Expr) (values : List (Name × Expr))
     (expected : Option Expr) (literalBooleans : List Name := []) : TermElabM Expr := do
@@ -274,7 +286,7 @@ def elaborateCalls : TermElab := fun stx expected=>do
   let initial ← profileNames caller
   unless initial.eraseDups==initial do throwError "caller ABI names must be distinct"
   let constants ← names (← mkAppM ``CallSignature.constexpr #[caller])
-  let materialized:=stx[8].getSepArgs.toList.map (·.getId.eraseMacroScopes)
+  let materialized:=stx[6][2].getSepArgs.toList.map (·.getId.eraseMacroScopes)
   unless materialized.eraseDups==materialized && materialized.all constants.contains do
     throwError "caller materialized constants must be distinct constexprs"
   let mut bindings:List (Name × Expr):=[]
@@ -287,7 +299,7 @@ def elaborateCalls : TermElab := fun stx expected=>do
       bindings.length==scalarNames.length && (bindings.all fun pair=>scalarNames.contains pair.1) do
     throwError "caller runtime scalars require exact distinct bindings"
   let mut functions:List (Name × Function):=[]
-  for binding in stx[12].getSepArgs do
+  for binding in stx[9].getSepArgs do
     let `(tritonCallBinding| $name:ident := $value:term):=binding | throwError "named source procedures required"
     let name:=name.getId.eraseMacroScopes
     unless simple name && !(functions.any (·.1==name)) do throwError "distinct procedure names required"

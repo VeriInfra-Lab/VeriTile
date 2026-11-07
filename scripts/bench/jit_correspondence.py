@@ -426,7 +426,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         offset_clause = (r"\s+pointer_offsets\s*\[([^\]]*)\]"
                          if expected_pointer_offsets is not None else "")
         if expected_fp32_constants is not None:
-            if (not isinstance(expected_fp32_constants, list) or not expected_fp32_constants
+            if (not isinstance(expected_fp32_constants, list)
+                    or (not expected_fp32_constants and expected_source_procedures is None)
                     or any(not isinstance(name, str) or not re.fullmatch(r"[A-Za-z_]\w*", name)
                            for name in expected_fp32_constants)
                     or len(set(expected_fp32_constants)) != len(expected_fp32_constants)
@@ -1097,13 +1098,18 @@ def check_statement_function(python_text: str, lean_text: str, python_function: 
 def check_source_procedure(python_text: str, lean_text: str, python_function: str,
                            lean_definition: str, expected_fp32_constants: list[str]) -> dict:
     header, body = quotation(lean_text, lean_definition, raw_python=True)
-    declaration = re.search(r"\btriton_source_procedure\s*(\([^)]*\)\s+constexpr_args\s*\[[^\]]*\])"
-                            r"\s+fp32_constants\s*\[([^\]]*)\]\s*$", header)
+    parameters = r"(\([^)]*\)\s+constexpr_args\s*\[[^\]]*\])"
+    fp32_constants = r"\s+fp32_constants\s*\[([^\]]*)\]"
+    declaration = re.search(r"\bwith_triton_params\s*" + parameters
+                            + r"(?:" + fp32_constants + r")?\s+in\s+triton\s*$", header)
+    if declaration is None:
+        declaration = re.search(r"\btriton_source_procedure\s*" + parameters
+                                + fp32_constants + r"\s*$", header)
     if not declaration:
         raise ValueError("source procedure requires exact parameters, constexprs and materialized constants")
     selected = f"def {lean_definition} := triton_function {declaration[1]} {{" + body + "}"
     result = check_statement_function(python_text, selected, python_function, lean_definition)
-    materialized = [name.strip() for name in declaration[2].split(',') if name.strip()]
+    materialized = [name.strip() for name in (declaration[2] or '').split(',') if name.strip()]
     if (materialized != expected_fp32_constants or len(set(materialized)) != len(materialized)
             or not set(materialized) <= set(result['constexpr_parameters'])
             or any(not re.fullmatch(r"[A-Za-z_]\w*", name) for name in materialized)):

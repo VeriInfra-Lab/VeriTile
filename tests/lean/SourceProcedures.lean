@@ -7,7 +7,7 @@ noncomputable section
 set_option maxRecDepth 10000
 set_option maxHeartbeats 1000000
 def helper : SourceProcedure :=
-  triton_source_procedure (x_ptr,out_ptr,N,ROT) constexpr_args [ROT] fp32_constants [] {
+  with_triton_params (x_ptr,out_ptr,N,ROT) constexpr_args [ROT] in triton {
     N = tl.cast(N, tl.int64)
     x = tl.load(x_ptr + 0).to(tl.float32)
     if ROT:
@@ -15,21 +15,23 @@ def helper : SourceProcedure :=
     tl.store(out_ptr + 0, x)
   }
 def abi : CallSignature where
-  pointers := [("x_ptr",.fp32),("q_ptr",.fp16),("k_ptr",.fp32)]
+  pointers := [("x_ptr",.fp32),("q_ptr",.fp16),("k_ptr",.fp32),("v_ptr",.fp32)]
   scalars := [("N",.integer)]
-def caller (x_ptr q_ptr k_ptr : RegionName) (N : Nat) : ComputeKernel :=
-  with_triton_call abi call_args [N := N] fp32_constants []
+def caller (x_ptr q_ptr k_ptr v_ptr : RegionName) (N : Nat) : ComputeKernel :=
+  with_triton_call abi call_args [N := N]
     source_procedures [helper := helper] in triton {
     helper(x_ptr=x_ptr, out_ptr=q_ptr, N=N, ROT=True)
-    helper(x_ptr=x_ptr, out_ptr=k_ptr, N=N, ROT=False)
+    helper(x_ptr=x_ptr, out_ptr=k_ptr, N=N, ROT=True)
+    helper(x_ptr=x_ptr, out_ptr=v_ptr, N=N, ROT=False)
   }
 
 def isolated (half : Bool) (x_ptr out_ptr : RegionName) (N : Nat) (ROT : Bool) : ComputeKernel :=
   instantiate_source_procedure helper signature
     ({pointers := [("x_ptr",.fp32),("out_ptr",if half then .fp16 else .fp32)],scalars := [("N",.integer)],constexpr := ["ROT"]} : CallSignature)
     procedure_args [x_ptr := x_ptr,out_ptr := out_ptr,N := N,ROT := ROT]
-theorem exact_call_instances (x q k : RegionName) (n : Nat) : (caller x q k n).surfaceBody =
-  (isolated Bool.true x q n Bool.true).surfaceBody ++ (isolated Bool.false x k n Bool.false).surfaceBody := by
+theorem exact_call_instances (x q k v : RegionName) (n : Nat) : (caller x q k v n).surfaceBody =
+  (isolated Bool.true x q n Bool.true).surfaceBody ++ (isolated Bool.false x k n Bool.true).surfaceBody ++
+    (isolated Bool.false x v n Bool.false).surfaceBody := by
   rfl
 
 theorem reject_constexpr_write : True := by

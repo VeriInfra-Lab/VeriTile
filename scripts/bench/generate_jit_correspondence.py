@@ -154,11 +154,9 @@ def quotations(root: Path, case: Path) -> list[Quotation]:
 def record(root: Path, py_path: str, function: ast.FunctionDef, quote: Quotation) -> dict:
     header = quote.header
     row = dict(python=py_path, lean=quote.path, python_function=function.name, lean_definition=quote.definition)
-    if re.search(r'\btriton_source_procedure\b', header):
+    if re.search(r'\b(?:triton_source_procedure|with_triton_params)\b', header):
         row['kind'] = 'source_procedure'
-        raw = clause(header, 'fp32_constants')
-        if raw is None:
-            raise ValueError('source procedure lacks constant declaration')
+        raw = clause(header, 'fp32_constants') or ''
         row['expected_fp32_constants'] = [n.strip() for n in raw.split(',') if n.strip()]
         return row
     if re.search(r'\btriton_(?:rebinding_)?procedure\b', header):
