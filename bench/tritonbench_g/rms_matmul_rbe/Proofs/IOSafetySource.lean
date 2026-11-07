@@ -17,7 +17,7 @@ theorem range_header_safe (M : Algebra α) (p : Arguments) (s : State α)
     safeOp M none capacity s (countExpr p) ∧
     safeOp M none capacity s (strideExpr p) := by
   simp [startExpr,countExpr,strideExpr,source,TypedSource.kernel,TypedSource.halfHalf,
-    TypedSource.Bodies.rms,ComputeKernel.surfaceBody,safeOp_unfold]
+    TypedSource.rmsKernel,ComputeKernel.surfaceBody,safeOp_unfold]
 
 theorem callee_partition (native : Bool) (plan : RotaryPlan) (fp8 outputFP8 : Bool) (p : Arguments) :
     calleeCode native plan fp8 outputFP8 p=prelude fp8 outputFP8 p ++

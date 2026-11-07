@@ -17,7 +17,7 @@ def prefixBaseExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // run M (prelude Bool.false Bool.false p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.Bodies.rms,ComputeKernel.surfaceBody,run,
+  simp [prelude,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.rmsKernel,ComputeKernel.surfaceBody,run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
       Region.cast,Option.bind,integralFloorDiv,integralMod]

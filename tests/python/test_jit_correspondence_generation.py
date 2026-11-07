@@ -127,9 +127,9 @@ class CorrespondenceGenerationTests(unittest.TestCase):
         rows = generate(ROOT, directory)
         self.assertEqual({row['python_function']: row['lean_definition'] for row in rows}, {
             'rms_matmul_rbe': 'rmsSource',
-            'rms_matmul_rbe_qkv': 'Bodies.qkv',
+            'rms_matmul_rbe_qkv': 'qkvKernel',
             'rms_matmul_rbe_index_commuted': 'rmsIndexCommutedSource',
-            'rms_matmul_rbe_qkv_index_commuted': 'Bodies.qkvIndexCommuted',
+            'rms_matmul_rbe_qkv_index_commuted': 'qkvIndexCommutedKernel',
         })
 
     def copy_case(self, name, files):

@@ -15,7 +15,7 @@ theorem range_header {α : Type} [Inhabited α] (M : Algebra α)
     evalOp M none (countExpr p) s=some (fun _=>(((p.K+63)/64:Nat):Int)) ∧
     evalOp M none (strideExpr p) s=some (fun _=>1) := by
   simp (config := {maxSteps:=20000}) [startExpr,countExpr,strideExpr,source,
-    TypedSource.kernel,TypedSource.halfHalf,TypedSource.Bodies.rms,ComputeKernel.surfaceBody,
+    TypedSource.kernel,TypedSource.halfHalf,TypedSource.rmsKernel,ComputeKernel.surfaceBody,
     evalOp_unfold,Option.bind,bop,numeric,numericEq,natLt,numericLt,integralFloorDiv,integralMod,
     Broadcast.leftIndex,Broadcast.rightIndex]
   funext i
