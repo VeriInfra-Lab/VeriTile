@@ -49,8 +49,9 @@ def qkvSignature (input : InputStorage) (output : OutputStorage) : CallSignature
   writePorts := ["q_ptr","k_ptr","v_ptr"]
 
 def Bodies.rmsSource : SourceProcedure :=
-  triton_source_procedure (x_ptr, w_ptr, rms_w_ptr, out_ptr, M, N, K, stride_x_batch, stride_x_m, stride_x_k, stride_w_k, stride_w_n, stride_rms_w, stride_out_batch, stride_out_m, stride_out_n, start_token_position, USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K)
-    constexpr_args [USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K] fp32_constants [THETA, EPS] {
+  with_triton_params (x_ptr, w_ptr, rms_w_ptr, out_ptr, M, N, K, stride_x_batch, stride_x_m, stride_x_k, stride_w_k, stride_w_n, stride_rms_w, stride_out_batch, stride_out_m, stride_out_n, start_token_position, USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K)
+    constexpr_args [USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K]
+    fp32_constants [THETA, EPS] in triton {
 
     """
     Prologue: RMS
@@ -140,8 +141,9 @@ def Bodies.rms (input : InputStorage) (output : OutputStorage)
     procedure_args [x_ptr := x_ptr, w_ptr := w_ptr, rms_w_ptr := rms_w_ptr, out_ptr := out_ptr, M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_w_k := stride_w_k, stride_w_n := stride_w_n, stride_rms_w := stride_rms_w, stride_out_batch := stride_out_batch, stride_out_m := stride_out_m, stride_out_n := stride_out_n, start_token_position := start_token_position, USE_FP8 := USE_FP8, RBE_EPILOGUE := RBE_EPILOGUE, HEAD_DIM := HEAD_DIM, BLOCK_SIZE_M := BLOCK_SIZE_M, BLOCK_SIZE_N := BLOCK_SIZE_N, BLOCK_SIZE_K := BLOCK_SIZE_K]
 
 def Bodies.rmsIndexCommutedSource : SourceProcedure :=
-  triton_source_procedure (x_ptr, w_ptr, rms_w_ptr, out_ptr, M, N, K, stride_x_batch, stride_x_m, stride_x_k, stride_w_k, stride_w_n, stride_rms_w, stride_out_batch, stride_out_m, stride_out_n, start_token_position, USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K)
-    constexpr_args [USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K] fp32_constants [THETA, EPS] {
+  with_triton_params (x_ptr, w_ptr, rms_w_ptr, out_ptr, M, N, K, stride_x_batch, stride_x_m, stride_x_k, stride_w_k, stride_w_n, stride_rms_w, stride_out_batch, stride_out_m, stride_out_n, start_token_position, USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K)
+    constexpr_args [USE_FP8, RBE_EPILOGUE, THETA, EPS, HEAD_DIM, BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K]
+    fp32_constants [THETA, EPS] in triton {
 
     """
     Prologue: RMS

@@ -31,6 +31,15 @@ def helper(X, Y, N, EPS: tl.constexpr, ROT: tl.constexpr):
     def test_exact_original_parameters_body_and_constants(self):
         self.assertEqual(self.compare()['status'], 'PASS')
 
+    def test_triton_params_with_and_without_fp32_constants(self):
+        source = self.lean.replace('triton_source_procedure', 'with_triton_params')
+        source = source.replace('fp32_constants [EPS] {', 'fp32_constants [EPS] in triton {')
+        self.assertEqual(self.compare(lean=source)['status'], 'PASS')
+        without_constants = source.replace(' fp32_constants [EPS]', '')
+        self.assertEqual(self.compare(lean=without_constants, constants=[])['status'], 'PASS')
+        with self.assertRaisesRegex(ValueError, 'materialized constants differ'):
+            self.compare(lean=without_constants)
+
     def test_source_cast_mask_and_store_are_not_skipped(self):
         for before, after in [('tl.int64', 'tl.int32'), ('X + 0', 'X + 1'),
                               ('tl.store(Y + 0, value)', 'tl.store(Y + 1, value)')]:
@@ -67,14 +76,17 @@ def parent (X Y : RegionName) (N : Nat) : ComputeKernel :=
 """
         profile = {'pointers': [['X', 'fp32'], ['Y', 'fp16']],
                    'scalars': [['N', 'integer']], 'constexpr': ['EPS']}
-        def compare(source):
+        def compare(source, constants):
             return check(python, source, 'parent', 'parent', 'abi', profile,
-                         expected_call_bindings={'N': 'N'}, expected_fp32_constants=['EPS'],
+                         expected_call_bindings={'N': 'N'}, expected_fp32_constants=constants,
                          expected_source_procedures={'helper': 'helper'})
-        self.assertEqual(compare(lean)['status'], 'PASS')
+        self.assertEqual(compare(lean, ['EPS'])['status'], 'PASS')
+        bound = lean.replace('(N : Nat) : ComputeKernel', '(N : Nat) (EPS : ℝ) : ComputeKernel')
+        self.assertEqual(compare(bound.replace(' fp32_constants [EPS]', ''), None)['status'], 'PASS')
+        self.assertEqual(compare(bound.replace('fp32_constants [EPS]', 'fp32_constants []'), [])['status'], 'PASS')
         for before, after in [('helper := helper', 'helper := other'), ('ROT=True', 'ROT=False')]:
             with self.subTest(before=before), self.assertRaises(ValueError):
-                compare(lean.replace(before, after))
+                compare(lean.replace(before, after), ['EPS'])
 
 
 if __name__ == '__main__':

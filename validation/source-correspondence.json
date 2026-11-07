@@ -41623,7 +41623,7 @@
       "python": "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py",
       "lean": "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean",
       "lean_screen": {
-        "quotations": 2,
+        "quotations": 4,
         "in_body_type_directives": 0,
         "antiquotes": 0,
         "dsl_assignment": 126,
@@ -42240,7 +42240,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "b342a6db19268ec02f55588e47be88256c69ef5525700a49a78cf0273500bad1",
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "a44c1fd573c067a02a175b17aaf6498c4cbd7f9f4ab771b34d8e01df9e5a7d30",
         "bench/tritonbench_g/rms_matmul_rbe/rms_matmul_rbe.py": "b96af97899e7f6687dfe575eaae2564708097f3d64daa63f072435aba503ea44"
       },
       "collection": "tritonbench_g",
@@ -43051,7 +43051,7 @@
       "body_copy_scope": "selected reference, all task-local Python files and all manifest pairs; no proof or backend certification",
       "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "b342a6db19268ec02f55588e47be88256c69ef5525700a49a78cf0273500bad1",
+        "bench/tritonbench_g/rms_matmul_rbe/Kernels.lean": "a44c1fd573c067a02a175b17aaf6498c4cbd7f9f4ab771b34d8e01df9e5a7d30",
         "bench/tritonbench_g/rms_rbe_matmul/Kernels.lean": "bed0cf892a9d50324480aa285396f23e7b9f6f359d803c071ea6cf327b5c2e29",
         "bench/tritonbench_g/rms_rbe_matmul/rms_rbe_matmul.py": "95b86e16d7a66aca4307ae0e2bb2ec4d3885ac8d71c5c2e98aa8fa752358adb1"
       },
