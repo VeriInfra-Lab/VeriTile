@@ -130,7 +130,7 @@ def rmsSource : SourceProcedure :=
 
   }
 
-def Bodies.rms (input : InputStorage) (output : OutputStorage)
+def rmsKernel (input : InputStorage) (output : OutputStorage)
     (x_ptr w_ptr rms_w_ptr out_ptr : RegionName)
     (M N K stride_x_batch stride_x_m stride_x_k stride_w_k stride_w_n stride_rms_w
       stride_out_batch stride_out_m stride_out_n : Nat)
@@ -222,7 +222,7 @@ def rmsIndexCommutedSource : SourceProcedure :=
 
   }
 
-def Bodies.rmsIndexCommuted (input : InputStorage) (output : OutputStorage)
+def rmsIndexCommutedKernel (input : InputStorage) (output : OutputStorage)
     (x_ptr w_ptr rms_w_ptr out_ptr : RegionName)
     (M N K stride_x_batch stride_x_m stride_x_k stride_w_k stride_w_n stride_rms_w
       stride_out_batch stride_out_m stride_out_n : Nat)
@@ -233,42 +233,42 @@ def Bodies.rmsIndexCommuted (input : InputStorage) (output : OutputStorage)
     procedure_args [x_ptr := x_ptr, w_ptr := w_ptr, rms_w_ptr := rms_w_ptr, out_ptr := out_ptr, M := M, N := N, K := K, stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_k := stride_x_k, stride_w_k := stride_w_k, stride_w_n := stride_w_n, stride_rms_w := stride_rms_w, stride_out_batch := stride_out_batch, stride_out_m := stride_out_m, stride_out_n := stride_out_n, start_token_position := start_token_position, USE_FP8 := USE_FP8, RBE_EPILOGUE := RBE_EPILOGUE, HEAD_DIM := HEAD_DIM, BLOCK_SIZE_M := BLOCK_SIZE_M, BLOCK_SIZE_N := BLOCK_SIZE_N, BLOCK_SIZE_K := BLOCK_SIZE_K]
 
 def halfHalf (p : Arguments) : ComputeKernel :=
-  Bodies.rms .half .half p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsKernel .half .half p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def halfFP8 (p : Arguments) : ComputeKernel :=
-  Bodies.rms .half .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsKernel .half .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def fp8Half (p : Arguments) : ComputeKernel :=
-  Bodies.rms .byte .half p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsKernel .byte .half p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def fp8FP8 (p : Arguments) : ComputeKernel :=
-  Bodies.rms .byte .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsKernel .byte .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def halfHalfIndexCommuted (p : Arguments) : ComputeKernel :=
-  Bodies.rmsIndexCommuted .half .half p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsIndexCommutedKernel .half .half p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def halfFP8IndexCommuted (p : Arguments) : ComputeKernel :=
-  Bodies.rmsIndexCommuted .half .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsIndexCommutedKernel .half .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def fp8HalfIndexCommuted (p : Arguments) : ComputeKernel :=
-  Bodies.rmsIndexCommuted .byte .half p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsIndexCommutedKernel .byte .half p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
 def fp8FP8IndexCommuted (p : Arguments) : ComputeKernel :=
-  Bodies.rmsIndexCommuted .byte .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
+  rmsIndexCommutedKernel .byte .e5 p.X p.W p.RMS p.OUT p.M p.N p.K
     p.sxb p.sxm p.sxk p.swk p.swn p.srms p.sob p.som p.son
     p.start p.rotary p.headDim p.BM p.BN p.BK
 
@@ -292,7 +292,7 @@ def qkvIndexCommuted (fp8 : Bool) (q k v : Arguments) : ComputeKernel :=
      (indexCommuted fp8 fp8 {k with rotary:=Bool.true}).surfaceBody ++
      (indexCommuted fp8 fp8 {v with rotary:=Bool.false}).surfaceBody)
 
-def Bodies.qkv (input : InputStorage) (output : OutputStorage)
+def qkvKernel (input : InputStorage) (output : OutputStorage)
     (x_ptr q_weight_ptr k_weight_ptr v_weight_ptr rms_w_ptr q_ptr k_ptr v_ptr : RegionName)
     (M N K stride_x_batch stride_x_m stride_x_k stride_q_w_k stride_q_w_n stride_k_w_k stride_k_w_n stride_v_w_k stride_v_w_n stride_rms_w stride_q_batch stride_q_m stride_q_n stride_k_batch stride_k_m stride_k_n stride_v_batch stride_v_m stride_v_n : Nat)
     (start_token_position : Int) (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=
@@ -352,7 +352,7 @@ def Bodies.qkv (input : InputStorage) (output : OutputStorage)
     )
   }
 
-def Bodies.qkvIndexCommuted (input : InputStorage) (output : OutputStorage)
+def qkvIndexCommutedKernel (input : InputStorage) (output : OutputStorage)
     (x_ptr q_weight_ptr k_weight_ptr v_weight_ptr rms_w_ptr q_ptr k_ptr v_ptr : RegionName)
     (M N K stride_x_batch stride_x_m stride_x_k stride_q_w_k stride_q_w_n stride_k_w_k stride_k_w_n stride_v_w_k stride_v_w_n stride_rms_w stride_q_batch stride_q_m stride_q_n stride_k_batch stride_k_m stride_k_n stride_v_batch stride_v_m stride_v_n : Nat)
     (start_token_position : Int) (HEAD_DIM BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) : ComputeKernel :=

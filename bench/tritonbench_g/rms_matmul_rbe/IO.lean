@@ -343,7 +343,7 @@ arguments. Q is FP16; K/V preserve the launch-selected storage. -/
 def pastedQKV (candidate fp8 : Bool) (c : ParentArguments) : ComputeKernel :=
   let input : TypedSource.InputStorage := if fp8 then .byte else .half
   let output : TypedSource.OutputStorage := if fp8 then .e5 else .half
-  let parent := if candidate then TypedSource.Bodies.qkvIndexCommuted else TypedSource.Bodies.qkv
+  let parent := if candidate then TypedSource.qkvIndexCommutedKernel else TypedSource.qkvKernel
   parent input output c.X (c.W 0) (c.W 1) (c.W 2) c.RMS (c.OUT 0) (c.OUT 1) (c.OUT 2)
     c.M c.N c.K c.sxb c.sxm c.sxk (c.swk 0) (c.swn 0) (c.swk 1) (c.swn 1)
     (c.swk 2) (c.swn 2) c.srms (c.sob 0) (c.som 0) (c.son 0)

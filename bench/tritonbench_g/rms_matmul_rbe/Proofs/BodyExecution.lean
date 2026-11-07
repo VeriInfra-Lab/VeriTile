@@ -48,7 +48,7 @@ def bodyBaseExecution {α : Type} [Inhabited α] (a : Arithmetic α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.Bodies.rms,ComputeKernel.surfaceBody,run,
+    simp [body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
       Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,
