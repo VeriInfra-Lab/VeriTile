@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.FiniteNatJitFunctions
 import VeriTile.Triton.DSL.SignedCallRanges
 import VeriTile.Triton.DSL.StraightLineIdentifiers
@@ -353,3 +354,19 @@ def elaborateCalls : TermElab := fun stx expected=>do
   elabTerm (base.raw.setArgs (base.raw.getArgs.set! (base.raw.getArgs.size-1) raw)) expected
 end DSL.ProcedureJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.ProcedureJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceSyntax.typedParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``ProcedureJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let profileSyntax : TSyntax `term := ⟨stx[9]⟩
+  let body ← `(triton_procedure $profileSyntax:term ($parameters,*) constexpr_args [$constants,*] {})
+  elaborateProcedure (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.ProcedureJitFunctions

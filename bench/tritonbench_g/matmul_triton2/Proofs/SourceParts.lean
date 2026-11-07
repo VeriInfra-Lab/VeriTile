@@ -24,7 +24,7 @@ def preludeExecution (rest : Algebra α) (P : Core.Primitives α) (p : Core.Para
   refine ⟨?_,?_⟩
   swap
   simp [prelude,VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.source,VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.arguments,VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.scalarParameters,
-    VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.body,ComputeKernel.surfaceBody,Nat.cast_id,
+    VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.bodyKernel,ComputeKernel.surfaceBody,Nat.cast_id,
     ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,

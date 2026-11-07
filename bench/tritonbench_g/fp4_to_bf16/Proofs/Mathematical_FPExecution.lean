@@ -16,7 +16,7 @@ def loadExecution (rest : Algebra Word) (p : Parameters) (s : State Word) :
     {t : State Word // FP.Structural.run (backend rest) ((source p).surfaceBody.drop 0 |>.take 13) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, List.drop, List.take, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [source, List.drop, List.take, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalComputeOp,
     FP.Structural.evalOp_unfold, FP.Structural.store, FP.Structural.numeric,
     FP.Structural.bop, FP.Structural.natLt, FP.Structural.numericLt, FP.Structural.numericEq,

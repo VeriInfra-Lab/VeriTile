@@ -76,7 +76,7 @@ theorem source (p : Layout) (r : Regions) :
   simp only [prefixSource,parts,mathematical,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,
     VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,
-    VeriTile.Bench.Repairs.ContextAttnFwd.Bodies.originalBody,Source.intRange?,String.reduceEq,
+    VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,Source.intRange?,String.reduceEq,
     Bool.false_eq_true,if_false,if_true,Option.map_some,Option.map_none,Option.getD,Except.toOption,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

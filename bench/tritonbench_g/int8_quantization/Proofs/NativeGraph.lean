@@ -115,7 +115,7 @@ theorem source_success_graph (rest : Algebra Word) (op : Instructions) (plans : 
     (p : Parameters) (positive : 0 < p.width) (entry : State Word)
     (i : Lane p) (active : Model.active p entry i) :
     ∃ final, FP.Structural.exec (Model.backend (algebra rest op plans) (comparisons op))
-        (source p) entry=some final ∧
+        (sourceKernel p) entry=some final ∧
       final.mem outRegion (Model.offset p entry i)=
         .mk .int ((block op plans p.query p.factor
           (FPTrace.inputs (algebra rest op plans) p entry)).1 i.1) ∧
@@ -169,11 +169,11 @@ theorem values (c : Request) (rest : Algebra Word) (op : Instructions) (plans : 
   · simpa only [target_eq] using observed.output
   · simpa only [target_eq] using observed.scales
 
-#specNonCircular target avoiding [source,FP.Structural.exec,algebra,FPTrace.numerics,
+#specNonCircular target avoiding [sourceKernel,FP.Structural.exec,algebra,FPTrace.numerics,
   finalState,quantized,savedScale,typedRun,after,pair]
 #axiomsClean values
 
-#specNonCircular block avoiding [source,FP.Structural.exec,algebra,FPTrace.numerics,
+#specNonCircular block avoiding [sourceKernel,FP.Structural.exec,algebra,FPTrace.numerics,
   finalState,quantized,savedScale]
 #axiomsClean source_success_graph
 #guard_msgs (drop info) in

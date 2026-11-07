@@ -53,7 +53,7 @@ theorem grid_real_correct (decode : ValueProofs.Word → ℝ)
   exact (SourceGraph.selected_graph_real_correct decode plans p initial.mem m.val n.val
     (p.K/p.BK)).trans (blocked_expected_eq_full decode p initial.mem m.val n.val hK)
 
-#specNonCircular tensorExpected avoiding [kernel, FP.Structural.exec]
+#specNonCircular tensorExpected avoiding [sourceKernel, FP.Structural.exec]
 #axiomsClean blocked_sum_eq_sum
 #axiomsClean grid_real_correct
 end

@@ -125,7 +125,7 @@ def matrixMiddleSignature : CallSignature where
   scalars := [("tau",.fp32)]
   constexpr := ["S","T","D","numIters"]
 
-def matrixMiddle (resReg hResReg hPreReg resMixReg branchInReg : RegionName) (S T D numIters : Nat) (tau : ℝ) : ComputeKernel :=
+def matrixMiddleKernel (resReg hResReg hPreReg resMixReg branchInReg : RegionName) (S T D numIters : Nat) (tau : ℝ) : ComputeKernel :=
   with_triton_call matrixMiddleSignature call_args [tau := tau] in
   triton {
     b      = tl.program_id(0)
@@ -172,7 +172,7 @@ def matrixOptimizedSignature : CallSignature where
   scalars := [("tau",.fp32)]
   constexpr := ["S","T","D","numIters"]
 
-def matrixOptimized (resReg hResReg hPreReg resMixReg branchInReg : RegionName) (S T D numIters : Nat) (tau : ℝ) : ComputeKernel :=
+def matrixOptimizedKernel (resReg hResReg hPreReg resMixReg branchInReg : RegionName) (S T D numIters : Nat) (tau : ℝ) : ComputeKernel :=
   with_triton_call matrixOptimizedSignature call_args [tau := tau] in
   triton {
     b      = tl.program_id(0)

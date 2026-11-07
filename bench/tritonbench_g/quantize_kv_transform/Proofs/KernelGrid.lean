@@ -14,7 +14,7 @@ def run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) :
     List Nat → State α → Option (State α)
   | [], s => some s
   | pid :: tail, s => do
-      let next ← FP.Structural.exec M (kernel p) (atProgram s pid)
+      let next ← FP.Structural.exec M (sourceKernel p) (atProgram s pid)
       run M p tail next
 
 theorem successful {α : Type} [Inhabited α] (M : Algebra α) (convert : α → Int)
@@ -27,7 +27,7 @@ theorem successful {α : Type} [Inhabited α] (M : Algebra α) (convert : α →
     obtain ⟨next, hn⟩ := execution M convert equal p (atProgram s pid) hw
     obtain ⟨final, hf⟩ := ih next
     refine ⟨final, ?_⟩
-    change FP.Structural.exec (backend M convert equal) (kernel p)
+    change FP.Structural.exec (backend M convert equal) (sourceKernel p)
       (atProgram s pid) = some next at hn
     simpa only [run, hn, Option.bind_some] using hf
 

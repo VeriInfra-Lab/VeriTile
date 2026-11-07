@@ -96,7 +96,7 @@ def applyPenaltyIO
     (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
     (stride_logit_b stride_logit_s BLOCK_P : Nat) :
     SignedScatterIO where
-  kernel := kernel Logits presence_penalty freqency_penalty
+  kernel := sourceKernel Logits presence_penalty freqency_penalty
     repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
     stride_logit_b stride_logit_s BLOCK_P
   projection := by rfl

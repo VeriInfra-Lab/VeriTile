@@ -7,7 +7,7 @@ open VeriTile.Triton
 abbrev Storage := VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.Storage
 
 def rope (input cosine sine : Storage) (swapped : Bool) :=
-  if swapped then VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.commutedFor input cosine sine
-  else VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.ropeFor input cosine sine
+  if swapped then VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.commutedForKernel input cosine sine
+  else VeriTile.Bench.Repairs.FastRopeEmbedding.Kernels.ropeForKernel input cosine sine
 
 end VeriTile.Bench.TritonBenchG.FastRopeEmbedding.TypedSource

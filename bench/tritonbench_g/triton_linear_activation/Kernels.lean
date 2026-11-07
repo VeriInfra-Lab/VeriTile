@@ -1,27 +1,27 @@
 import VeriTile.Triton.DSL.ClosedUnaryJitFunctions
-namespace VeriTile.Bench.Repairs.TritonLinearActivation.Bodies
+namespace VeriTile.Bench.Repairs.TritonLinearActivation
 open VeriTile.Triton
 noncomputable section
 set_option maxRecDepth 30000
 set_option maxHeartbeats 8000000
 set_option linter.unusedVariables false
 
-def tanhHelper : ClosedUnaryJitFunction := triton_function (x) constexpr_args [] {
+def tanhSource : ClosedUnaryJitFunction := with_triton_params (x) constexpr_args [] in triton {
     """Tanh activation function"""
     return tl.extra.cuda.libdevice.tanh(x)
 }
 
-def reluHelper : ClosedUnaryJitFunction := triton_function (x) constexpr_args [] {
+def reluSource : ClosedUnaryJitFunction := with_triton_params (x) constexpr_args [] in triton {
     """Relu activation function"""
     return tl.maximum(0, x)
 }
 
-def fast_geluHelper : ClosedUnaryJitFunction := triton_function (x) constexpr_args [] {
+def fast_geluSource : ClosedUnaryJitFunction := with_triton_params (x) constexpr_args [] in triton {
     """Fast approximation of the gelu function. May slightly decrease accuracy."""
     return 0.5 * x * (1 + tanh(sqrt2pi * (x + 0.044715 * x * x * x)))
 }
 
-def geluHelper : ClosedUnaryJitFunction := triton_function (x) constexpr_args [] {
+def geluSource : ClosedUnaryJitFunction := with_triton_params (x) constexpr_args [] in triton {
     """Gaussian Error Linear Unit (GELU)"""
     return x * 0.5 * (1.0 + tl.extra.cuda.libdevice.erf(x / sqrt2))
 }
@@ -35,9 +35,9 @@ def signature (dtype : FloatDType) : CallSignature where
   readPorts := ["A","B","bias"]
   writePorts := ["C","ACT_INPUTS"]
 
-def originalBody (dtype : FloatDType) (C ACT_INPUTS A B bias : RegionName) (M N K CACHE_KEY_M CACHE_KEY_N CACHE_KEY_K output_m_stride output_n_stride act_inputs_m_stride act_inputs_n_stride a_m_stride a_k_stride b_n_stride b_k_stride BLOCK_M GROUP_M BLOCK_N BLOCK_K SPLIT_K : Nat) (HAS_BIAS SHOULD_SAVE_ACT_INPUTS K_LOAD_MASK_NEEDED : Bool) (ACTIVATION : Option String) : ComputeKernel :=
+def originalKernel (dtype : FloatDType) (C ACT_INPUTS A B bias : RegionName) (M N K CACHE_KEY_M CACHE_KEY_N CACHE_KEY_K output_m_stride output_n_stride act_inputs_m_stride act_inputs_n_stride a_m_stride a_k_stride b_n_stride b_k_stride BLOCK_M GROUP_M BLOCK_N BLOCK_K SPLIT_K : Nat) (HAS_BIAS SHOULD_SAVE_ACT_INPUTS K_LOAD_MASK_NEEDED : Bool) (ACTIVATION : Option String) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [M := M, N := N, K := K, CACHE_KEY_M := CACHE_KEY_M, CACHE_KEY_N := CACHE_KEY_N, CACHE_KEY_K := CACHE_KEY_K, output_m_stride := output_m_stride, output_n_stride := output_n_stride, act_inputs_m_stride := act_inputs_m_stride, act_inputs_n_stride := act_inputs_n_stride, a_m_stride := a_m_stride, a_k_stride := a_k_stride, b_n_stride := b_n_stride, b_k_stride := b_k_stride]
-    jit_functions [tanh := tanhHelper, relu := reluHelper, fast_gelu := fast_geluHelper, gelu := geluHelper] in triton {
+    jit_functions [tanh := tanhSource, relu := reluSource, fast_gelu := fast_geluSource, gelu := geluSource] in triton {
     """
     Kernel for computing Out = activation(A @ W.T + bias)
 
@@ -122,9 +122,9 @@ def originalBody (dtype : FloatDType) (C ACT_INPUTS A B bias : RegionName) (M N 
     tl.store(C, acc, mask=c_ptr_mask)
 }
 
-def candidateBody (dtype : FloatDType) (C ACT_INPUTS A B bias : RegionName) (M N K CACHE_KEY_M CACHE_KEY_N CACHE_KEY_K output_m_stride output_n_stride act_inputs_m_stride act_inputs_n_stride a_m_stride a_k_stride b_n_stride b_k_stride BLOCK_M GROUP_M BLOCK_N BLOCK_K SPLIT_K : Nat) (HAS_BIAS SHOULD_SAVE_ACT_INPUTS K_LOAD_MASK_NEEDED : Bool) (ACTIVATION : Option String) : ComputeKernel :=
+def candidateKernel (dtype : FloatDType) (C ACT_INPUTS A B bias : RegionName) (M N K CACHE_KEY_M CACHE_KEY_N CACHE_KEY_K output_m_stride output_n_stride act_inputs_m_stride act_inputs_n_stride a_m_stride a_k_stride b_n_stride b_k_stride BLOCK_M GROUP_M BLOCK_N BLOCK_K SPLIT_K : Nat) (HAS_BIAS SHOULD_SAVE_ACT_INPUTS K_LOAD_MASK_NEEDED : Bool) (ACTIVATION : Option String) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [M := M, N := N, K := K, CACHE_KEY_M := CACHE_KEY_M, CACHE_KEY_N := CACHE_KEY_N, CACHE_KEY_K := CACHE_KEY_K, output_m_stride := output_m_stride, output_n_stride := output_n_stride, act_inputs_m_stride := act_inputs_m_stride, act_inputs_n_stride := act_inputs_n_stride, a_m_stride := a_m_stride, a_k_stride := a_k_stride, b_n_stride := b_n_stride, b_k_stride := b_k_stride]
-    jit_functions [tanh := tanhHelper, relu := reluHelper, fast_gelu := fast_geluHelper, gelu := geluHelper] in triton {
+    jit_functions [tanh := tanhSource, relu := reluSource, fast_gelu := fast_geluSource, gelu := geluSource] in triton {
     """
     Kernel for computing Out = activation(A @ W.T + bias)
 
@@ -213,4 +213,4 @@ def candidateBody (dtype : FloatDType) (C ACT_INPUTS A B bias : RegionName) (M N
 }
 
 end
-end VeriTile.Bench.Repairs.TritonLinearActivation.Bodies
+end VeriTile.Bench.Repairs.TritonLinearActivation

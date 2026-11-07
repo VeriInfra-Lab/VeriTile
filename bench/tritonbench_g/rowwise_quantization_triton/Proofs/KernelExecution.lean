@@ -68,7 +68,7 @@ structure Parameters where
   width : Nat
 
 def kernel (p : Parameters) : ComputeKernel :=
-  RowwiseQuantizationTriton.source p.x p.out p.maxOut p.columns p.width
+  RowwiseQuantizationTriton.sourceKernel p.x p.out p.maxOut p.columns p.width
 
 private theorem fold_regs {α ι : Type} (xs : List ι)
     (active : ι → Prop) [DecidablePred active] (r : RegionName)
@@ -94,7 +94,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec
     {t : State α // exec (backend M equal) round (kernel p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := { maxSteps := 1000000 }) [kernel, RowwiseQuantizationTriton.source,
+  simp (config := { maxSteps := 1000000 }) [kernel, RowwiseQuantizationTriton.sourceKernel,
     exec, ComputeKernel.surfaceBody, run, step, eval, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold, FP.Structural.store,
     FP.Structural.numeric, FP.Structural.numericLt, FP.Structural.numericEq,

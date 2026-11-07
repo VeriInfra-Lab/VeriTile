@@ -12,7 +12,7 @@ set_option maxRecDepth 30000
 
 theorem caller_prefix (M : Algebra α) (c : QueryConfig) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M bounds (callerPrefix c) s := by
-  simp [callerPrefix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+  simp [callerPrefix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind]

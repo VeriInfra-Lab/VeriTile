@@ -17,7 +17,7 @@ def bodyExec (M : Algebra α) (dot : Dot α) (p : Parameters)
       (current.setReg counter .nat [] (fun _ => row))=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,
+  simp [parts,kernel,TypedSource.hoistedHeadMask,candidateKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

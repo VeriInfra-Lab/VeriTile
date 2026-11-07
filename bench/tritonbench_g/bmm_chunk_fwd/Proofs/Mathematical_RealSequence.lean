@@ -46,8 +46,8 @@ theorem matches_source (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parame
   cases swapped
   all_goals
     simp [code, limitOp, indexLoad, filtered, RealProgram.realPart, RealProgram.parts,
-      RealProgram.branch, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
-      VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.dotFirst,
+      RealProgram.branch, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel,
       Source.conditional?, Source.signedRange?, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,

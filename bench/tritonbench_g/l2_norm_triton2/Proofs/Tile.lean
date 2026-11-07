@@ -26,7 +26,7 @@ def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (N B row : Nat)
     {t : State α // run M (backward N B).surfaceBody (rowState row eps s)=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp (maxSteps := 900000) [backward,backwardTemplate,ComputeKernel.surfaceBody,
+  simp (maxSteps := 900000) [backward,backwardTemplateKernel,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,evalDeltas,store,Option.bind,ComputeDType.eraseDType,
     numeric,numericLt,bop,natLt,rowState,ofFloat,toFloat,TileShape.axisDim,

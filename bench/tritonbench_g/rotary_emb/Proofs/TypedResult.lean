@@ -73,7 +73,7 @@ theorem target_readback {A : Type} [Inhabited A] (ops : Ops A) (shape : Shape)
 
 theorem successful {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (shape : Shape) (valid : shape.Valid) (s : State A) :
-    ∃ t,exec (algebra rest ops) (Kernels.kernel (layout shape)) s=some t ∧
+    ∃ t,exec (algebra rest ops) (Kernels.sourceKernel (layout shape)) s=some t ∧
       t.mem=(target ops shape s).mem ∧
       (∀ key odd i,active (layout shape) s key i →
         t.mem (region (layout shape) key) (offset (layout shape) s key odd i)=
@@ -110,7 +110,7 @@ theorem value_formula (shape : Shape) (s : State ℝ) (key odd : Bool)
   rw [hv,h]
   cases odd <;> simp [dimension,work,token,head,layout,Nat.mul_comm]
 
-#specNonCircular target avoiding [Kernels.kernel,execution,reference]
+#specNonCircular target avoiding [Kernels.sourceKernel,execution,reference]
 #axiomsClean successful
 #axiomsClean value_formula
 end

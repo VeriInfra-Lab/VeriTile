@@ -11,7 +11,7 @@ set_option maxHeartbeats 16000000
 set_option linter.unusedSimpArgs false
 
 def kernel (c : Shape) (scale : ℝ) :=
-  Kernels.backwardQKV "q" "k" "v" "h" "incoming" "dh" "dq" "dk" "dv"
+  Kernels.backwardQKVKernel "q" "k" "v" "h" "incoming" "dh" "dq" "dk" "dv"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV c.chunks
 def parts (c : Shape) (scale : ℝ) : Source.DynamicRange :=
@@ -69,7 +69,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
+    simp [parts,kernel,Kernels.backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,numericEq,

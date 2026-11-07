@@ -162,7 +162,7 @@ theorem source_safe (h : Call) (c : Config) (row : Nat) (f : Geometry.FeatureBlo
     (initial : BlockState) (distinct : h.input≠h.output) (positive : 0<c.BT)
     (pid0 : initial.pids 0=f.val) (pid1 : initial.pids 1=row)
     (bounds : RegionBounds) (hb : Bounds h row f.val bounds) :
-    Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel initial := by
+    Kernel.TraceSafe bounds (Kernels.sourceKernel h c).eraseDType.toAlgKernel initial := by
   have inv := RealExecution.initial_invariant h c row f initial positive pid0 pid1
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe

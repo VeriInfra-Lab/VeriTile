@@ -61,7 +61,7 @@ theorem schedule_safe {α : Type} [Inhabited α] (M : Algebra α) (convert : α 
   | cons token rest ih =>
     have ht := inside token (by simp)
     constructor
-    · change FP.Structural.TraceSafe (backend M convert equal) bounds (kernel p)
+    · change FP.Structural.TraceSafe (backend M convert equal) bounds (sourceKernel p)
         ((IO.launch (backend M convert equal) p token).initial s)
       rw [launch_initial]
       apply AccessSafety.source_safe M convert equal p _ hw (dest token)

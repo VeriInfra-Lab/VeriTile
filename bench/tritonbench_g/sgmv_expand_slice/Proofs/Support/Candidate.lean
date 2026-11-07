@@ -4,7 +4,7 @@ open VeriTile.Triton
 def sourceHalfSingle323232 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w32 .w32 .w32
+  Pasted.candidateKernel dtype .half .single .w32 .w32 .w32
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -12,7 +12,7 @@ def sourceHalfSingle323232 (dtype : FloatDType)
 def sourceHalfSingle323264 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w32 .w32 .w64
+  Pasted.candidateKernel dtype .half .single .w32 .w32 .w64
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -20,7 +20,7 @@ def sourceHalfSingle323264 (dtype : FloatDType)
 def sourceHalfSingle326432 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w32 .w64 .w32
+  Pasted.candidateKernel dtype .half .single .w32 .w64 .w32
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -28,7 +28,7 @@ def sourceHalfSingle326432 (dtype : FloatDType)
 def sourceHalfSingle326464 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w32 .w64 .w64
+  Pasted.candidateKernel dtype .half .single .w32 .w64 .w64
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -36,7 +36,7 @@ def sourceHalfSingle326464 (dtype : FloatDType)
 def sourceHalfSingle643232 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w64 .w32 .w32
+  Pasted.candidateKernel dtype .half .single .w64 .w32 .w32
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -44,7 +44,7 @@ def sourceHalfSingle643232 (dtype : FloatDType)
 def sourceHalfSingle643264 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w64 .w32 .w64
+  Pasted.candidateKernel dtype .half .single .w64 .w32 .w64
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -52,7 +52,7 @@ def sourceHalfSingle643264 (dtype : FloatDType)
 def sourceHalfSingle646432 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w64 .w64 .w32
+  Pasted.candidateKernel dtype .half .single .w64 .w64 .w32
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType
@@ -60,7 +60,7 @@ def sourceHalfSingle646432 (dtype : FloatDType)
 def sourceHalfSingle646464 (dtype : FloatDType)
     (input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices : RegionName)
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch : Nat) (evenK addInputs castType : Bool) : ComputeKernel :=
-  Pasted.candidateBody dtype .half .single .w64 .w64 .w64
+  Pasted.candidateKernel dtype .half .single .w64 .w64 .w64
     input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens lora_indices
     N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride cn_stride slice_offset batch
     32 32 16 evenK addInputs castType

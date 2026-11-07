@@ -9,8 +9,8 @@ set_option maxRecDepth 30000
 set_option maxHeartbeats 8000000
 
 /-- Complete source helper. Its local DIM is fixed by the Python body. -/
-def frequencyFunction : StatementJitFunction :=
-  triton_function (offs_cn, starting_idx, theta, NB_TOKENS) constexpr_args [theta, NB_TOKENS] {
+def frequencySource : StatementJitFunction :=
+  with_triton_params (offs_cn, starting_idx, theta, NB_TOKENS) constexpr_args [theta, NB_TOKENS] in triton {
   DIM: tl.constexpr = 128  # in model, dim = self.params.dim // self.params.n_heads
   freqs = offs_cn % DIM
   freqs = freqs.to(tl.float32) / DIM
@@ -28,7 +28,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["x_ptr"]
   writePorts := ["out_ptr"]
 
-def typed (dtype : FloatDType) (x_ptr out_ptr : RegionName)
+def typedKernel (dtype : FloatDType) (x_ptr out_ptr : RegionName)
     (M K stride_x_batch stride_x_m stride_x_n stride_out_batch stride_out_m
       stride_out_n : Nat) (start_token_position : Int) (THETA : ℝ)
     (BLOCK_SIZE_M BLOCK_SIZE_K : Nat) : ComputeKernel :=
@@ -36,7 +36,7 @@ def typed (dtype : FloatDType) (x_ptr out_ptr : RegionName)
     stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_n := stride_x_n,
     stride_out_batch := stride_out_batch, stride_out_m := stride_out_m,
     stride_out_n := stride_out_n, start_token_position := start_token_position]
-    jit_functions [get_freq_multi_tokens := frequencyFunction] in triton {
+    jit_functions [get_freq_multi_tokens := frequencySource] in triton {
   M = tl.cast(M, tl.int64)
   K = tl.cast(K, tl.int64)
   stride_x_batch = tl.cast(stride_x_batch, tl.int64)
@@ -74,11 +74,11 @@ def typed (dtype : FloatDType) (x_ptr out_ptr : RegionName)
   }
 
 def source (p : Source.Parameters) : ComputeKernel :=
-  typed .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
+  typedKernel .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
     p.inputColumnStride p.outputBatchStride p.outputRowStride p.outputColumnStride
     p.startToken p.theta p.blockRows p.blockColumns
 
-def typedMaskReuse (dtype : FloatDType) (x_ptr out_ptr : RegionName)
+def typedMaskReuseKernel (dtype : FloatDType) (x_ptr out_ptr : RegionName)
     (M K stride_x_batch stride_x_m stride_x_n stride_out_batch stride_out_m
       stride_out_n : Nat) (start_token_position : Int) (THETA : ℝ)
     (BLOCK_SIZE_M BLOCK_SIZE_K : Nat) : ComputeKernel :=
@@ -86,7 +86,7 @@ def typedMaskReuse (dtype : FloatDType) (x_ptr out_ptr : RegionName)
     stride_x_batch := stride_x_batch, stride_x_m := stride_x_m, stride_x_n := stride_x_n,
     stride_out_batch := stride_out_batch, stride_out_m := stride_out_m,
     stride_out_n := stride_out_n, start_token_position := start_token_position]
-    jit_functions [get_freq_multi_tokens := frequencyFunction] in triton {
+    jit_functions [get_freq_multi_tokens := frequencySource] in triton {
   M = tl.cast(M, tl.int64)
   K = tl.cast(K, tl.int64)
   stride_x_batch = tl.cast(stride_x_batch, tl.int64)
@@ -124,7 +124,7 @@ def typedMaskReuse (dtype : FloatDType) (x_ptr out_ptr : RegionName)
   }
 
 def maskReuse (p : Source.Parameters) : ComputeKernel :=
-  typedMaskReuse .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
+  typedMaskReuseKernel .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
     p.inputColumnStride p.outputBatchStride p.outputRowStride p.outputColumnStride
     p.startToken p.theta p.blockRows p.blockColumns
 

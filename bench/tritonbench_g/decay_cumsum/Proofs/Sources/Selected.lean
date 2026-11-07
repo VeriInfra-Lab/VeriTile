@@ -7,22 +7,22 @@ open VeriTile.Bench.TritonBenchG.DecayCumsum.TypedSource
 noncomputable section
 
 abbrev quotedForward :=
-  Bodies.forwardBody Storage.fp32
+  forwardKernel Storage.fp32
 
 abbrev quotedForwardIndexCommuted :=
-  Bodies.forwardCandidateBody Storage.fp32
+  forwardCandidateKernel Storage.fp32
 
 abbrev quotedPrepare :=
-  Bodies.prepareBody Storage.fp32 Storage.fp32
+  prepareKernel Storage.fp32 Storage.fp32
 
 abbrev quotedPrepareIndexCommuted :=
-  Bodies.prepareCandidateBody Storage.fp32 Storage.fp32
+  prepareCandidateKernel Storage.fp32 Storage.fp32
 
 abbrev quotedBackward :=
-  Bodies.backwardBody Storage.fp32 Storage.fp32
+  backwardKernel Storage.fp32 Storage.fp32
 
 abbrev quotedBackwardIndexCommuted :=
-  Bodies.backwardCandidateBody Storage.fp32 Storage.fp32
+  backwardCandidateKernel Storage.fp32 Storage.fp32
 
 end
 end VeriTile.Bench.Repairs.DecayCumsum.Kernels

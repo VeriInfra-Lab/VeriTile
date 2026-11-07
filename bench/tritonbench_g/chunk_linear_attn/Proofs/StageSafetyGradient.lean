@@ -16,10 +16,10 @@ theorem gradient_entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramete
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).before s := by
   rw [← List.take_append_drop 9 (gradientParts p scale).before, Safety.traceSafeList_append]
   constructor
-  · simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  · simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
     simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-    simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+    simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
       Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -35,7 +35,7 @@ theorem gradient_entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramete
       exact lt_of_lt_of_le (matrix_bound _ _ _ _ _ _ head ht hk) capacity.key
   · intro t _
     apply pure_trace
-    simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+    simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
     all_goals
       simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
       simp [Safety.safeOp_unfold]
@@ -48,10 +48,10 @@ theorem gradient_body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameter
     (head : pid.z < p.B * p.H) (keyBlock : pid.x < keyBlocks p) :
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).body
       (s.setReg "i_v" .nat [] (fun _ => vb)) := by
-  simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-  simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
     Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -85,10 +85,10 @@ theorem gradient_finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramet
     (fixed : GradientFixed M D p pid input scale s) (a : GradAcc p α) (ha : HasGrad p a s)
     (capacity : GradientCapacity p bounds) (head : pid.z < p.B * p.H) :
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).after s := by
-  simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-  simp [gradientParts,backwardQKV,Bodies.backwardQKVBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [gradientParts,backwardQKV,backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
     Safety.addressSafe_unfold,Safety.maskActive_unfold,

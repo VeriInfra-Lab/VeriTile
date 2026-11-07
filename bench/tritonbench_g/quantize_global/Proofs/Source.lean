@@ -31,7 +31,7 @@ theorem source_run [Inhabited α] (rest : Algebra α) (a : Scalar α) (s : State
     ∃ t, QuantizeIntegerStage.exec (backend rest a) (some a.round64)
       (kernel X Maximum Out N base B) s = some t ∧
       t.mem = (written a s X Maximum Out N base B).mem := by
-  simp +contextual (config := { maxSteps := 1000000 }) [kernel, source, ComputeKernel.surfaceBody,
+  simp +contextual (config := { maxSteps := 1000000 }) [kernel, sourceKernel, ComputeKernel.surfaceBody,
     QuantizeIntegerStage.exec, QuantizeIntegerStage.run, QuantizeIntegerStage.step,
     QuantizeIntegerStage.evalExpr, QuantizeIntegerStage.store, storedInteger, byteOutput, outputRegister,
     FP.Structural.step, stepAlg, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

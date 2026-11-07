@@ -36,8 +36,8 @@ example : ∃ t, FP.Structural.exec model
     initial, State.setReg, bop, numeric, store, Option.bind]
 
 example : ∃ t, FP.Structural.exec model
-    (HyperConnectionsDepth.Kernels.matrixOptimized "res_mix" "branch_out" "h_post" "out" 2 3 4 2 1) initial = some t := by
-  simp [HyperConnectionsDepth.Kernels.matrixOptimized,
+    (HyperConnectionsDepth.Kernels.matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" 2 3 4 2 1) initial = some t := by
+  simp [HyperConnectionsDepth.Kernels.matrixOptimizedKernel,
     FP.Structural.exec, run, step, loop, FP.Structural.evalExpr, evalOp_unfold, model,
     initial, State.setReg, bop, numeric, store, Option.bind]
 
@@ -48,8 +48,8 @@ example : ∃ t, FP.Structural.exec model
     initial, State.setReg, bop, numeric, store, Option.bind]
 
 example : ∃ t, FP.Structural.exec model
-    (HyperConnectionsWidth.Kernels.matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" 2 3 4 2 1) initial = some t := by
-  simp (config := { maxSteps := 500000 }) [HyperConnectionsWidth.Kernels.matrixOptimized,
+    (HyperConnectionsWidth.Kernels.matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" 2 3 4 2 1) initial = some t := by
+  simp (config := { maxSteps := 500000 }) [HyperConnectionsWidth.Kernels.matrixOptimizedKernel,
     FP.Structural.exec, run, step, loop, FP.Structural.evalExpr, evalOp_unfold, model,
     initial, State.setReg, bop, numeric, store, Option.bind]
 

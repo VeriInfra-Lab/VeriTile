@@ -31,7 +31,7 @@ theorem tailExecution (rest : Algebra α) (P : Primitives α) (p : Parameters)
     (hqk : current.regs .bf16 [p.blockM,p.blockN] "qk"=some (score P p initial c)) :
     run (backend rest P) (tailPart p) current=some (tailResult P p initial current c st) := by
   have hn : p.blockN≠0 := by omega
-  simp [tailPart,body,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [tailPart,body,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,backend,tailResult,hv,hqk,h.maximum,h.denominator,h.numerator,
     h.keyPtr,h.valuePtr,kPointer,vPointer,TileShape.axisDim,hn,hBN,
     FP.Structural.ofFloat,FP.Structural.toFloat,ComputeDType.eraseDType,

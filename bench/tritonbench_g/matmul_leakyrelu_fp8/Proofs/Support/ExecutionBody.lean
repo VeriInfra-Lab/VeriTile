@@ -44,7 +44,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   simp only [HasAcc] at ha
   refine ⟨?_, ?_⟩
   swap
-  simp [body,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [body,source,TypedSource.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
     FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,

@@ -10,7 +10,7 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 def kernel (c : Shape) (scale : ℝ) :=
-  Kernels.forwardO "q" "k" "v" "h" "o"
+  Kernels.forwardOKernel "q" "k" "v" "h" "o"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV
 def parts (c : Shape) (scale : ℝ) : Source.DynamicRange :=
@@ -41,7 +41,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
     {t : State α // run (engine (withDot M D)) (parts c scale).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,Kernels.forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
@@ -66,7 +66,7 @@ def bodyExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,Kernels.forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,

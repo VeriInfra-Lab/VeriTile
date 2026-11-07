@@ -14,7 +14,7 @@ abbrev Matrix := VeriTile.Bench.Repairs.ChunkLinearAttn.Matrix
 variable {α : Type} [Inhabited α]
 
 def kernel (p : Parameters) (scale : ℝ) (terminal initial : Bool) : ComputeKernel :=
-  Source.backwardH "q" "incoming" "dhistory" "terminal" "initialGradient"
+  Source.backwardHKernel "q" "incoming" "dhistory" "terminal" "initialGradient"
     (p.T*p.K) p.K 1 (p.T*p.V) p.V 1 (p.NT*p.K*p.V) p.V
     scale p.H p.T p.K p.V p.BT p.BK p.BV p.NT terminal initial
 
@@ -37,7 +37,7 @@ def entry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
+    simp [parts,intParts,indexState,kernel,Source.backwardHKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

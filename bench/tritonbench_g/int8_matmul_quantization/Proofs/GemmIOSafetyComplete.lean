@@ -37,7 +37,7 @@ theorem range_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8Dequa
 
 private theorem actual_limit_safe (M : Algebra F) (bounds : RegionName→Nat)
     (p : Parameters) (state : State F) : Safety.safeOp M none bounds state (stop p) := by
-  simp only [stop,iteration,source,KernelSource.gemmHalfHalf,Bodies.gemmHalfHalf,
+  simp only [stop,iteration,source,KernelSource.gemmHalfHalfKernel,gemmHalfHalfKernel,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   simp [Safety.safeOp_unfold]
 

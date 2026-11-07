@@ -24,7 +24,7 @@ theorem forward_body_values {α : Type} [Inhabited α] (a : Arithmetic α)
       (Program.forwardParts (layout s b) forwardRegions seed final).body
       (current.setReg "_" .nat [] (fun _ => t)) =
       some (forwardBodyResult a s b plans initial current seed pid t) := by
-  simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,
+  simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardKernel,
     ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,
     FP.Structural.store,Region.cast,layout,forwardRegions,Staged.algebra,

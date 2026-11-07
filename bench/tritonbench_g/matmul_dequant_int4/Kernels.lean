@@ -13,7 +13,7 @@ def dequantizeSignature (dtype : FloatDType) : CallSignature where
   floatingPointers := [("b_scale_ptr",dtype),("fpb_ptr",dtype)]
   scalars := [("K",.integer), ("N",.integer), ("group_size",.integer), ("stride_bk",.integer), ("stride_bn",.integer), ("stride_bsk",.integer), ("stride_bsn",.integer), ("stride_bzpk",.integer), ("stride_bzpn",.integer), ("stride_fpbk",.integer), ("stride_fpbn",.integer)]
   constexpr := ["BLOCK_SIZE_K","BLOCK_SIZE_N"]
-def dequantizeBody (dtype : FloatDType) (b_ptr b_scale_ptr b_zp_ptr fpb_ptr : RegionName)
+def dequantizeKernel (dtype : FloatDType) (b_ptr b_scale_ptr b_zp_ptr fpb_ptr : RegionName)
     (K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn stride_fpbk stride_fpbn BLOCK_SIZE_K BLOCK_SIZE_N : Nat) : ComputeKernel :=
   with_triton_call (dequantizeSignature dtype) call_args [K := K, N := N, group_size := group_size, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsk := stride_bsk, stride_bsn := stride_bsn, stride_bzpk := stride_bzpk, stride_bzpn := stride_bzpn, stride_fpbk := stride_fpbk, stride_fpbn := stride_fpbn] in triton {
       """Dequantize tile [BLOCK_SIZE_K, BLOCK_SIZE_N] in full precision.
@@ -40,7 +40,7 @@ def dequantizeBody (dtype : FloatDType) (b_ptr b_scale_ptr b_zp_ptr fpb_ptr : Re
       tl.store(fpb_ptr + fpb_offs, fp_weight, mask=mask)
   }
 
-def unitDequantizeBody (dtype : FloatDType) (b_ptr b_scale_ptr b_zp_ptr fpb_ptr : RegionName)
+def unitDequantizeKernel (dtype : FloatDType) (b_ptr b_scale_ptr b_zp_ptr fpb_ptr : RegionName)
     (K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn stride_fpbk stride_fpbn BLOCK_SIZE_K BLOCK_SIZE_N : Nat) : ComputeKernel :=
   with_triton_call (dequantizeSignature dtype) call_args [K := K, N := N, group_size := group_size, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsk := stride_bsk, stride_bsn := stride_bsn, stride_bzpk := stride_bzpk, stride_bzpn := stride_bzpn, stride_fpbk := stride_fpbk, stride_fpbn := stride_fpbn] in triton {
       """Dequantize tile [BLOCK_SIZE_K, BLOCK_SIZE_N] in full precision.

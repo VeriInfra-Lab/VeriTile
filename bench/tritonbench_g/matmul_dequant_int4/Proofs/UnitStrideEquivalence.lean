@@ -28,9 +28,9 @@ theorem step_equal (f : Source.Profile) (M : Algebra α) (p : Source.Parameters)
     step M (originalAddress f p) s = step M (unitAddress f p) s := by
   cases f
   all_goals
-    simp only [originalAddress,unitAddress,Source.source,unitSource,unitTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeBody,
+    simp only [originalAddress,unitAddress,Source.source,unitSource,unitTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeKernel,
       Source.Profile.dtype,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
-      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeKernel,
       ComputeKernel.surfaceBody,List.getElem_cons_zero,List.getElem_cons_succ]
     cases k : s.regs .nat [p.blockRows] "offs_k" <;>
       cases n : s.regs .nat [p.blockColumns] "offs_n"
@@ -54,9 +54,9 @@ theorem execution (f : Source.Profile) (M : Algebra α) (p : Source.Parameters)
 theorem address_safe (f : Source.Profile) (M : Algebra α) (p : Source.Parameters)
     (bounds : RegionName → Nat) (s : State α) :
     stepSafe M bounds (originalAddress f p) s ∧ stepSafe M bounds (unitAddress f p) s := by
-  cases f <;> simp [originalAddress,unitAddress,Source.source,unitSource,unitTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeBody,
+  cases f <;> simp [originalAddress,unitAddress,Source.source,unitSource,unitTyped,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.unitDequantizeKernel,
     Source.Profile.dtype,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
-      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeBody,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeKernel,
     ComputeKernel.surfaceBody,stepSafe_unfold,safeExpr_unfold,safeOp_unfold]
 
 /-- Pure pointer arithmetic retains every source access and its safety condition. -/

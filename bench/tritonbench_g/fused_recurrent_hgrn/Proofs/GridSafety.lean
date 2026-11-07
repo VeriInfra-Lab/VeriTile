@@ -57,7 +57,7 @@ private theorem range_safe (M : Algebra α) (bounds : RegionName → Nat)
 
 theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     (U S V : Bool) (bounds : RegionName → Nat) (W : Windows bounds BH T D U S V)
-    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (forward T D BD U S) s := by
+    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (forwardKernel T D BD U S) s := by
   obtain ⟨q,he,hm,hp,hmask,hbh,hod,hx,hg,ho,hcarry⟩ := prologue p s T D BD U
   have P : FwdInv p s U T D BD 0 q :=
     ⟨hp,hmask,hbh,hod,hx,hg,ho,hcarry,by intro t ht;omega,by intro r a _;rw [hm]⟩
@@ -110,7 +110,7 @@ theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
 
 theorem backward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     (U S V : Bool) (bounds : RegionName → Nat) (W : Windows bounds BH T D U S V)
-    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (backward T D BD U V) s := by
+    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (backwardKernel T D BD U V) s := by
   obtain ⟨q,he,hm,hp,hmask,hbh,hod,hcarry⟩ := backward_prologue p s T D BD V
   have P : BwdInv p s U V T D BD 0 q :=
     ⟨hp,hmask,hbh,hod,hcarry,by intro t ht;omega,by intro t ht;omega,by intro r a _;rw [hm]⟩

@@ -124,7 +124,7 @@ theorem backward_invariant_step (p : Ops α) (s q : State α) (U V : Bool) (T D 
     · exact Or.inr (fun m hm j hj => h m (by omega) j hj)
 
 theorem backward_loop (p : Ops α) (s : State α) (T D BD : Nat) (U V : Bool) :
-    ∃ q, run (algebra p) (backward T D BD U V).surfaceBody s=some q ∧
+    ∃ q, run (algebra p) (backwardKernel T D BD U V).surfaceBody s=some q ∧
       BwdInv p s U V T D BD T q := by
   obtain ⟨q,he,hm,hp,hmask,hbh,hod,hcarry⟩ := backward_prologue p s T D BD V
   have hI : BwdInv p s U V T D BD 0 q := by

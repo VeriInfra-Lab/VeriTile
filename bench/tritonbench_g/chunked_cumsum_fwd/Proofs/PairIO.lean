@@ -30,7 +30,7 @@ def original (cfg : FP.Config) (M : NativeModel (FP.Value .fp32)) (c : Geometry)
   ProgramIO.Implementation.original
     (originalIO cfg M c plan hasBias useSoftplus lower upper) (fun _ => True)
 
-def scaleFirst (cfg : FP.Config) (M : NativeModel (FP.Value .fp32)) (c : Geometry)
+def scaleFirstKernel (cfg : FP.Config) (M : NativeModel (FP.Value .fp32)) (c : Geometry)
     (plan : PrefixPlan c.BH c.BC) (hasBias useSoftplus : Bool) (lower upper : FP.Value .fp32) :=
   ProgramIO.Implementation.ofVariant
     (scaleFirstIO cfg M c plan hasBias useSoftplus lower upper) (fun _ => True)

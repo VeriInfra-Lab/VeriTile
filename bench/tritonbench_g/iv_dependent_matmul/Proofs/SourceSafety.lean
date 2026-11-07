@@ -33,7 +33,7 @@ theorem prologue_safe (M : Algebra α) (bounds : RegionName → Nat)
   intro st member before
   cases schedule
   all_goals
-    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,prologueWithPointers,prologue,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,
+    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,prologueWithPointers,prologue,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,
       ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
       List.mem_append,List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals repeat' first | (rcases member with rfl | member) | subst st
@@ -65,7 +65,7 @@ theorem after_loads_safe (M : Algebra α) (bounds : RegionName → Nat)
   intro st member before
   cases schedule <;> cases g
   all_goals
-    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,
+    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,
       afterDot,List.drop_succ_cons,List.drop_zero,List.mem_append,List.mem_cons,
       List.not_mem_nil,or_false] at member
   all_goals repeat' first | (rcases member with rfl | member) | subst st
@@ -95,7 +95,7 @@ theorem body_safe (M : Algebra α) (bounds : RegionName → Nat)
   refine ⟨?_,fun s _ => after_loads_safe M bounds schedule g p s⟩
   cases schedule <;> cases g <;> simp only [Pointers] at hp
   all_goals
-    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,beforeLoads,FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,
+    simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,beforeLoads,FPValue.body,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -115,7 +115,7 @@ theorem suffix_safe (M : Algebra α) (bounds : RegionName → Nat) (p : Paramete
       pm*p.blockRows+i.val<p.rows → pn*p.blockColumns+j.val<p.columns →
       p.outputRowStride*(pm*p.blockRows+i.val)+p.outputColumnStride*(pn*p.blockColumns+j.val)<bounds p.output) :
     Safety.traceSafeList M bounds (FPValue.suffix p) t := by
-  simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,suffix,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,
+  simp [-Nat.cast_add,-Nat.cast_mul,nat_not_negative,ceil_nat,mod_nat,mask_nat,suffix,FPValue.source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,Kernels.body,Kernels.loadsStart,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -129,7 +129,7 @@ theorem stopOp_safe (M : Algebra α) (bounds : RegionName → Nat) (p : Paramete
     Safety.safeOp M none bounds s (stopOp p) := by
   simp [stopOp,FPValue.source,typed,commonView,
     VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,
-    VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,
+    VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,
     ComputeKernel.surfaceBody,Safety.safeOp_unfold]
 
 #axiomsClean body_safe

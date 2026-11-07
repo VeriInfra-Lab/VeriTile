@@ -45,7 +45,7 @@ def storeExecution (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scal
   simp only [HasCarry] at hc
   refine ⟨?_,?_⟩
   swap
-  simp [storePrefix,parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
+  simp [storePrefix,parts,intParts,indexState,kernel,Source.backwardHKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

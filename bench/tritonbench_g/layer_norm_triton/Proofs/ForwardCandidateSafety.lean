@@ -22,7 +22,7 @@ theorem forward_candidate_safe (m : Model α) (stride N B : Nat) (eps : ℝ)
     TraceSafe (engine m) bounds
       (SourceCandidate.forward stride N B eps) s := by
   have hB : B≠0 := by omega
-  simp [TraceSafe,SourceCandidate.forward,TypedSource.forwardCandidate,Bodies.forwardCandidate,SourceCandidate.unroll,SourceCandidate.unrollStmt,TypedSource.forward,Bodies.forward,ComputeKernel.surfaceBody,
+  simp [TraceSafe,SourceCandidate.forward,TypedSource.forwardCandidateKernel,forwardCandidateKernel,SourceCandidate.unroll,SourceCandidate.unrollStmt,TypedSource.forward,forwardKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

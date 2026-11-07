@@ -12,7 +12,7 @@ def cumSignature (dtype out_dtype : FloatDType) : CallSignature where
   scalars := [("s_s_h",.integer),("s_s_t",.integer),("s_s_d",.integer)]
   constexpr := ["T","S","BT","BS","BH","PROGRAM_BASE"]
 
-def cumBody (dtype out_dtype : FloatDType) (s o : RegionName)
+def cumKernel (dtype out_dtype : FloatDType) (s o : RegionName)
     (T S BT BS BH PROGRAM_BASE : Nat) : ComputeKernel :=
   with_triton_signature (cumSignature dtype out_dtype) in triton {
     linear = tl.cast(tl.program_id(0), tl.int64) + PROGRAM_BASE
@@ -38,7 +38,7 @@ def cumBody (dtype out_dtype : FloatDType) (s o : RegionName)
 
 def cumOriginal (dtype out_dtype : FloatDType) (s o : RegionName)
     (s_s_h s_s_t s_s_d T S BT BS BH PROGRAM_BASE : Nat) : ComputeKernel :=
-  (cumBody dtype out_dtype s o T S BT BS BH PROGRAM_BASE).withScalarArguments
+  (cumKernel dtype out_dtype s o T S BT BS BH PROGRAM_BASE).withScalarArguments
     [ScalarArgument.integer "s_s_h" s_s_h, ScalarArgument.integer "s_s_t" s_s_t,
       ScalarArgument.integer "s_s_d" s_s_d]
 
@@ -89,7 +89,7 @@ def hSignature (dot gate history dtype out_dtype : FloatDType) : CallSignature w
     ("s_h_h",.integer),("s_h_t",.integer),("s_h_d",.integer)]
   constexpr := ["T","K","V","BT","BK","BV","NT","GATEK","USE_INITIAL_STATE","STORE_FINAL_STATE","PROGRAM_BASE"]
 
-def hBody (dot gate history dtype out_dtype : FloatDType) (k v g h h0 ht : RegionName)
+def hKernel (dot gate history dtype out_dtype : FloatDType) (k v g h h0 ht : RegionName)
     (T K V BT BK BV NT PROGRAM_BASE : Nat) (GATEK USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
   with_triton_signature (hSignature dot gate history dtype out_dtype) in triton {
     linear = tl.cast(tl.program_id(0), tl.int64) + PROGRAM_BASE
@@ -145,7 +145,7 @@ def hOriginalTyped (dot gate history dtype out_dtype : FloatDType) (k v g h h0 h
     (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t s_h_d
       T K V BT BK BV NT PROGRAM_BASE : Nat)
     (GATEK USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
-  (hBody dot gate history dtype out_dtype k v g h h0 ht T K V BT BK BV NT PROGRAM_BASE
+  (hKernel dot gate history dtype out_dtype k v g h h0 ht T K V BT BK BV NT PROGRAM_BASE
     GATEK USE_INITIAL_STATE STORE_FINAL_STATE).withScalarArguments
     [ScalarArgument.integer "s_k_h" s_k_h,ScalarArgument.integer "s_k_t" s_k_t,
      ScalarArgument.integer "s_k_d" s_k_d,ScalarArgument.integer "s_v_h" s_v_h,

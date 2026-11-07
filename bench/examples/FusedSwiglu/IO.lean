@@ -18,7 +18,7 @@ open VeriTile Triton
 open scoped VeriTile.Triton.MaskedKernelIO₂
 
 def fusedIO (n B : Nat) : MaskedKernelIO₂ where
-  kernel := (swiglu_fused "x" "y" "out" n B).eraseDType
+  kernel := (swiglu_fused_kernel "x" "y" "out" n B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   in1 := "x"
   in2 := "y"
@@ -67,7 +67,7 @@ def unfusedIO (n B : Nat) : MaskedKernelIO₂ where
   scratch := [("S", fun pid => pid * B)]
 
 def fusedIO (n B : Nat) : MaskedKernelIO₂ :=
-  { (unfusedIO n B).withKernel (swiglu_fused "X" "Y" "OUT" n B) with scratch := [] }
+  { (unfusedIO n B).withKernel (swiglu_fused_kernel "X" "Y" "OUT" n B) with scratch := [] }
 
 open scoped VeriTile.Spec
 

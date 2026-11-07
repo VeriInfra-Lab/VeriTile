@@ -24,7 +24,7 @@ def code (BM BD D : Nat) : List Stmt :=
 theorem source (p : Parameters) (BM BN BD : Nat) : initialization BM BN BD p = code BM BD p.headDim := by
   by_cases hd : p.stage=2
   all_goals simp only [initialization, Verified.code, Verified.source, TypedSource.repaired,
-    Bodies.originalBody,hd,decide_true,decide_false,ComputeDType.eraseDType,
+    originalKernel,hd,decide_true,decide_false,ComputeDType.eraseDType,
     ControlView.algorithm,Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,

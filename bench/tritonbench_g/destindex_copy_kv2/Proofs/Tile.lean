@@ -47,7 +47,7 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α)
     {t : State α // FP.Structural.exec (rawBackend rest) (kernel p) s = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [kernel, sourceBody,
+  simp [kernel, sourceKernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,evalDeltas,Option.bind,copyBackend,rawBackend,natLt,
     ComputeDType.eraseDType,numeric,bop,ofFloat,toFloat,Region.cast,

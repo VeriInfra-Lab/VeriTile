@@ -44,7 +44,7 @@ theorem overwrite (s : State α) (n : RegName) (d : TileDType) (sh : TileShape)
 theorem forward_local_run (M : Algebra α) (c : ForwardConfig) (s : State α) :
     run M (((loopBody (forwardKernel c) 17).drop 4).take 2) s =
       run M (((loopBody (forward c) 17).drop 4).take 1) s := by
-  simp [loopBody,forwardKernel,forward,forwardSource,Bodies.forward,fusedForwardSource,Bodies.fusedForward,
+  simp [loopBody,forwardKernel,forward,forwardSource,forwardPastedKernel,fusedForwardSource,fusedForwardKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType]
   cases hx : s.regs .real [c.BTL,c.BTS] "b_s" <;>
@@ -55,7 +55,7 @@ theorem forward_local_run (M : Algebra α) (c : ForwardConfig) (s : State α) :
 theorem forward_local_safe (M : Algebra α) (c : ForwardConfig) (cap : RegionName → Nat) (s : State α) :
     Safety.traceSafeList M cap (((loopBody (forwardKernel c) 17).drop 4).take 2) s ↔
       Safety.traceSafeList M cap (((loopBody (forward c) 17).drop 4).take 1) s := by
-  simp [loopBody,forwardKernel,forward,forwardSource,Bodies.forward,fusedForwardSource,Bodies.fusedForward,
+  simp [loopBody,forwardKernel,forward,forwardSource,forwardPastedKernel,fusedForwardSource,fusedForwardKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType]

@@ -8,8 +8,8 @@ open scoped VeriTile.Spec
 /-- Reuse the complete typed source proof through the existing exact source
 binding. The sole change is Nat multiplication; no FP rewrite is introduced. -/
 theorem equivalent (p : Source.Parameters) (back : Bool) :
-    original p back ≡[assumptions] indexCommuted p back := by
-  cases back <;> unfold original indexCommuted assumptions <;> equiv_decompose <;> fp_prove
+    original p back ≡[assumptions] indexCommutedKernel p back := by
+  cases back <;> unfold original indexCommutedKernel assumptions <;> equiv_decompose <;> fp_prove
 
 #axiomsClean equivalent
 end VeriTile.Bench.Repairs.RopeEmbedding.PairProof

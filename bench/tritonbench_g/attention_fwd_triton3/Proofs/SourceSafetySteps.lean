@@ -41,7 +41,7 @@ theorem header_safe (c : Call) (o : Ops α) (bounds : RegionName → Nat) (s : S
     traceSafeList (engine o.algebra) bounds ((parts c).before.take 17) s := by
   apply pure_safe
   intro stmt member current
-  simp [parts,Kernels.source,Quoted.kernel,DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,Bodies.kernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,ComputeKernel.surfaceBody,Source.intRange?] at member
+  simp [parts,Kernels.source,Quoted.kernel,DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,sourceKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,ComputeKernel.surfaceBody,Source.intRange?] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp only [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold]
   all_goals try rw [safeBlockPtr2]
@@ -57,7 +57,7 @@ theorem initialization_safe (c : Call) (o : Ops α) (bounds : RegionName → Nat
   all_goals
     simp (config := {maxSteps := 400000}) [parts,Kernels.source,Quoted.kernel,
       DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,
-      Bodies.kernel,Bodies.kernelCSE,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
+      sourceKernel,kernelCSEKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
       ComputeKernel.surfaceBody,Source.intRange?,traceSafeList_unfold,stepSafe_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
@@ -82,7 +82,7 @@ theorem score_load_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : Re
   all_goals
     simp (config := {maxSteps := 1000000}) [parts,Kernels.source,Quoted.kernel,
       DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,
-      Bodies.kernel,Bodies.kernelCSE,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
+      sourceKernel,kernelCSEKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
       ComputeKernel.surfaceBody,Source.intRange?,traceSafeList_unfold,stepSafe_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
@@ -119,7 +119,7 @@ theorem product_load_safe (c : Call) (o : Ops α) (positive : 0<c.BN) (bounds : 
   all_goals
     simp (config := {maxSteps := 1000000}) [parts,Kernels.source,Quoted.kernel,
       DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,
-      Bodies.kernel,Bodies.kernelCSE,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
+      sourceKernel,kernelCSEKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
       ComputeKernel.surfaceBody,Source.intRange?,traceSafeList_unfold,stepSafe_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,

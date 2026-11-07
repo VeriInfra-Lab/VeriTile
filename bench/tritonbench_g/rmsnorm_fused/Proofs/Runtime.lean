@@ -44,11 +44,11 @@ def bind (s : State α) (eps : α) : State α :=
 
 theorem complete (A : Algebra α) (s : State α) (X Y W : RegionName)
     (N B : Nat) (eps : α) (hN : 0<N) (hNB : N≤B) :
-    ∃ t, exec A (source X Y W N B) (bind s eps)=some t ∧
+    ∃ t, exec A (sourceKernel X Y W N B) (bind s eps)=some t ∧
       t.mem=(block A s X Y W (s.pids 0) N B eps).mem := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num
-  simp [source,template,bind,
+  simp [sourceKernel,template,bind,
     FP.Structural.exec,FP.Structural.run,FP.Structural.step,FP.Structural.range,evalExpr,evalComputeOp,evalOp_unfold,store,
     numeric,numericLt,numericLe,natLt,natLe,bop,ofFloat,toFloat,Region.cast,
     ComputeKernel.surfaceBody,ComputeDType.eraseDType,State.setReg,Option.bind,hN,hB,hz,Nat.not_lt.mpr hNB,
@@ -142,7 +142,7 @@ memory left by preceding rows. No per-row output is supplied by the runtime. -/
 def run (A : Algebra α) (X Y W : RegionName) (M N B : Nat) (eps : α) :
     List Nat → State α → Option (State α)
   | [],s => some s
-  | r::rest,s => (FP.Structural.exec A (source X Y W N B) (bind (setup M r s) eps)).bind
+  | r::rest,s => (FP.Structural.exec A (sourceKernel X Y W N B) (bind (setup M r s) eps)).bind
       (run A X Y W M N B eps rest)
 
 theorem source_complete (A : Algebra α) (X Y W : RegionName) (M N B : Nat) (eps : α)

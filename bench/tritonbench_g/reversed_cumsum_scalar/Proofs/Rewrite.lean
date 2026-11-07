@@ -43,7 +43,7 @@ theorem source_split (h : Call) (c : Config) :
         (loopBody h c).drop 6 := rfl
 
 theorem candidate_source (h : Call) (c : Config) :
-    (Kernels.indexCommuted h c).surfaceBody = initCode ++
+    (Kernels.indexCommutedKernel h c).surfaceBody = initCode ++
       [.forRangeInt "__rev_i_t" (loopStart h c) (.constInt 1) (.constNat 1) (candidateBody h c)] := rfl
 
 theorem body_equiv {α : Type} [Inhabited α] (M : Algebra α)
@@ -56,9 +56,9 @@ theorem body_equiv {α : Type} [Inhabited α] (M : Algebra α)
 on the two sides; no reduction, scan, cancellation or IEEE premise is used. -/
 theorem whole_state {α : Type} [Inhabited α] (M : Algebra α)
     (h : Call) (c : Config) (u : State α) :
-    FP.Structural.exec M (Kernels.source h c) u =
-      FP.Structural.exec M (Kernels.indexCommuted h c) u := by
-  change run M (Kernels.source h c).surfaceBody u = run M (Kernels.indexCommuted h c).surfaceBody u
+    FP.Structural.exec M (Kernels.sourceKernel h c) u =
+      FP.Structural.exec M (Kernels.indexCommutedKernel h c) u := by
+  change run M (Kernels.sourceKernel h c).surfaceBody u = run M (Kernels.indexCommutedKernel h c).surfaceBody u
   rw [source_body,candidate_source,body,statement]
   exact run_insert M _ [] _ _
     (signed_loop M _ _ _ _ _ _ (body_equiv M h c)) u

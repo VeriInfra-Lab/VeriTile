@@ -12,7 +12,7 @@ set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
 def kernel (c : Config) : ComputeKernel :=
-  (if c.fp8 then TypedSource.carryFirstBytes else TypedSource.carryFirstHalf)
+  (if c.fp8 then TypedSource.carryFirstBytesKernel else TypedSource.carryFirstHalfKernel)
     c.Q c.K c.V c.Out c.sqz c.sqh c.sqm c.sqk c.skz c.skh c.skn c.skk
     c.svz c.svh c.svk c.svn c.soz c.soh c.som c.son c.NH c.H c.N c.SP 64 64 c.D c.causal
 
@@ -26,7 +26,7 @@ def entry (c : Config) (s : State (Term α)) (scale : Term α) :
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,hf,hc,TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,Bodies.carryFirstHalf,Bodies.carryFirstBytes,
+    simp [parts,kernel,hf,hc,TypedSource.carryFirstHalfKernel,TypedSource.carryFirstBytesKernel,carryFirstHalfKernel,carryFirstBytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,algebra,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -64,13 +64,13 @@ def accumulated (c : Config) (s : State (Term α)) (scale : Term α) : Nat → C
 theorem before_eq (c : Config) : (parts c).before = (Source.parts c).before := by
   cases hf : c.fp8 <;> cases hc : c.causal <;>
     simp [parts,kernel,Source.parts,Source.kernel,hf,hc,
-      TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,Bodies.carryFirstHalf,Bodies.carryFirstBytes,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
+      TypedSource.carryFirstHalfKernel,TypedSource.carryFirstBytesKernel,carryFirstHalfKernel,carryFirstBytesKernel,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD]
 
 theorem after_eq (c : Config) : (parts c).after = (Source.parts c).after := by
   cases hf : c.fp8 <;> cases hc : c.causal <;>
     simp [parts,kernel,Source.parts,Source.kernel,hf,hc,
-      TypedSource.carryFirstHalf,TypedSource.carryFirstBytes,Bodies.carryFirstHalf,Bodies.carryFirstBytes,TypedSource.half,TypedSource.bytes,Bodies.half,Bodies.bytes,
+      TypedSource.carryFirstHalfKernel,TypedSource.carryFirstBytesKernel,carryFirstHalfKernel,carryFirstBytesKernel,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD]
 
 def finish (c : Config) (s t : State (Term α)) (scale : Term α) (n : Nat)

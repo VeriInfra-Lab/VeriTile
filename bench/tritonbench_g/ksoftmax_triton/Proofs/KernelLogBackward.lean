@@ -65,7 +65,7 @@ theorem source_value {D : Nat} (K row : Nat) (causal : Bool)
     · simp only [h,if_false,formula,Bool.true_and,decide_eq_true_eq,show row < i.val by omega,if_true]
       rfl
 
-#specNonCircular formula avoiding [forward,backward,backwardValue,runRows,Host.body]
+#specNonCircular formula avoiding [forwardKernel,backward,backwardValue,runRows,Host.body]
 #axiomsClean sum_some
 #axiomsClean source_value
 end
@@ -124,8 +124,8 @@ specification log_backward_kernel_real_words (depth : Host.DepthLibrary) (dst gr
     simpa only [KernelTensor.values_words memory grad gradView admitted.2.1] using h
   · exact Host.body_frame _ _ _ _ admitted.2.2.2.1 initial
 
-#specNonCircular LogBackwardWordDomain avoiding [forward,backward,runRows,Host.body,KernelExecution.exec]
-#specNonCircular tensorLogBackwardFormula avoiding [forward,backward,runRows,Host.body,KernelExecution.exec]
+#specNonCircular LogBackwardWordDomain avoiding [forwardKernel,backward,runRows,Host.body,KernelExecution.exec]
+#specNonCircular tensorLogBackwardFormula avoiding [forwardKernel,backward,runRows,Host.body,KernelExecution.exec]
 #axiomsClean log_backward_kernel_real_words
 end
 end VeriTile.Bench.Repairs.Ksoftmax.Correct

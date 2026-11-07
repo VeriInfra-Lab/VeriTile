@@ -13,7 +13,7 @@ def callSignature : CallSignature where
   readPorts := ["context_lengths", "BLOCK_TABLES", "K", "V"]
   writePorts := ["KCache", "VCache"]
 
-def source (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
+def sourceKernel (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
     (stride_kt stride_kh stride_kd stride_vt stride_vh stride_vd stride_kcb stride_kch stride_kcsplit_x stride_kcs stride_kcd stride_vcb stride_vch stride_vcs stride_vcd stride_bts stride_btb block_size HEAD_DIM KCACHE_X : Nat) : ComputeKernel :=
   with_triton_call callSignature call_args [stride_kt := stride_kt, stride_kh := stride_kh, stride_kd := stride_kd, stride_vt := stride_vt, stride_vh := stride_vh, stride_vd := stride_vd, stride_kcb := stride_kcb, stride_kch := stride_kch, stride_kcsplit_x := stride_kcsplit_x, stride_kcs := stride_kcs, stride_kcd := stride_kcd, stride_vcb := stride_vcb, stride_vch := stride_vch, stride_vcs := stride_vcs, stride_vcd := stride_vcd, stride_bts := stride_bts, stride_btb := stride_btb, block_size := block_size] in triton {
     cur_seq_idx = tl.program_id(0)
@@ -53,7 +53,7 @@ def source (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
     return
   }
 
-def commutedSource (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
+def commutedSourcePastedKernel (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
     (stride_kt stride_kh stride_kd stride_vt stride_vh stride_vd stride_kcb stride_kch stride_kcsplit_x stride_kcs stride_kcd stride_vcb stride_vch stride_vcs stride_vcd stride_bts stride_btb block_size HEAD_DIM KCACHE_X : Nat) : ComputeKernel :=
   with_triton_call callSignature call_args [stride_kt := stride_kt, stride_kh := stride_kh, stride_kd := stride_kd, stride_vt := stride_vt, stride_vh := stride_vh, stride_vd := stride_vd, stride_kcb := stride_kcb, stride_kch := stride_kch, stride_kcsplit_x := stride_kcsplit_x, stride_kcs := stride_kcs, stride_kcd := stride_kcd, stride_vcb := stride_vcb, stride_vch := stride_vch, stride_vcs := stride_vcs, stride_vcd := stride_vcd, stride_bts := stride_bts, stride_btb := stride_btb, block_size := block_size] in triton {
     cur_seq_idx = tl.program_id(0)
@@ -94,11 +94,11 @@ def commutedSource (K V KCache VCache BLOCK_TABLES context_lengths : RegionName)
   }
 
 def quotedOriginal (p : Parameters) : ComputeKernel :=
-  source "key" "value" "keyCache" "valueCache" "table" "lengths"
+  sourceKernel "key" "value" "keyCache" "valueCache" "table" "lengths"
     p.strideKt p.strideKh p.strideKd p.strideVt p.strideVh p.strideVd p.strideKcb p.strideKch p.strideKcsplit p.strideKcs 0 p.strideVcb p.strideVch p.strideVcs p.strideVcd p.strideBts p.strideBtb p.blockSize p.dims p.width
 
 def quotedCommuted (p : Parameters) : ComputeKernel :=
-  commutedSource "key" "value" "keyCache" "valueCache" "table" "lengths"
+  commutedSourcePastedKernel "key" "value" "keyCache" "valueCache" "table" "lengths"
     p.strideKt p.strideKh p.strideKd p.strideVt p.strideVh p.strideVd p.strideKcb p.strideKch p.strideKcsplit p.strideKcs 0 p.strideVcb p.strideVch p.strideVcs p.strideVcd p.strideBts p.strideBtb p.blockSize p.dims p.width
 
 def kernel (commuted : Bool) : Parameters → ComputeKernel :=

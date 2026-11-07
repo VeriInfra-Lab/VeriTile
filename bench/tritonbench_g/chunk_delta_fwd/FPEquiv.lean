@@ -14,7 +14,7 @@ all three output channels and both exterior frames are retained. No
 floating arithmetic rewrite or experimental rule is used. -/
 specification chunk_delta_addressFold_equiv (I : WordPrimitives) (p : Parameters)
     (shape : Geometry.ShapeValid p) (schedule : List PID) (order : schedule.Perm (grid p)) :
-    PairIO.original I p schedule ≡[[]] PairIO.addressFold I p schedule :=
+    PairIO.original I p schedule ≡[[]] PairIO.addressFoldKernel I p schedule :=
   ProgramIO.Implementation.of_equivalent _ (PairCorrect.equivalent I p shape schedule order)
 
 #print_fp_assumptions chunk_delta_addressFold_equiv

@@ -17,7 +17,7 @@ structure Launch where
   (destination incoming : RegionName)
   (count stride block : Nat)
 
-def kernel (p : Launch) : ComputeKernel :=
+def sourceKernel (p : Launch) : ComputeKernel :=
   let grad_source_ptr : RegionName := p.destination
   let grad_output_ptr : RegionName := p.incoming
   let BLOCK : Nat := p.block
@@ -45,6 +45,6 @@ def tailBlock (count : Nat) : Nat :=
 /-- The actual candidate reuses the same JIT source at a smaller launch
 specialization. FP32 load/add/store order and all active addresses stay fixed. -/
 def adaptiveKernel (p : Launch) : ComputeKernel :=
-  kernel {p with block := tailBlock p.count}
+  sourceKernel {p with block := tailBlock p.count}
 
 end VeriTile.Bench.Repairs.IndexSelectBwd

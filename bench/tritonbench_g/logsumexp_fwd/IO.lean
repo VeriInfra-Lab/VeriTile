@@ -41,7 +41,7 @@ def memory (A : Type) (a : RawKernel.Geometry) : MemoryIO A where
   scratchMask := fun i => Fin.elim0 i
 
 def invocation (engine : Engine A) (a : RawKernel.Geometry) (scale : A) (j : Nat) : Invocation A where
-  kernel := rowBlock "input" "scratch" a.columns a.block a.hasScale
+  kernel := rowBlockKernel "input" "scratch" a.columns a.block a.hasScale
   backend := engine.algebra
   arguments := [⟨"scale", .real, [], fun _ => scale⟩]
   pids := fun ax => if ax = 0 then j / a.blocks else if ax = 1 then j % a.blocks else 0

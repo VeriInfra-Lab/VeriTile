@@ -15,14 +15,14 @@ def initialBlock (scheduled : Bool) (s : Shape) (f : Flags) :=
     (RuntimeIO.source .forward scheduled s f).surfaceBody=initialBlock scheduled s f++
       (RuntimeIO.source .forward Bool.false s f).surfaceBody.drop 8 := by
   cases scheduled <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;>
-    simp only [RuntimeIO.source,Runtime.forward,Runtime.forwardDirectOutput,initialBlock,
+    simp only [RuntimeIO.source,Runtime.forwardKernel,Runtime.forwardDirectOutputKernel,initialBlock,
       hi,hf,hb,Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody] <;> rfl
 
  theorem block_exec (M : Algebra α) (s : Shape) (f : Flags) (u : State α)
     (singleKey : u.pids 1=0) :
     run M (initialBlock Bool.false s f) u=run M (initialBlock Bool.true s f) u := by
   cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;>
-    simp [initialBlock,RuntimeIO.source,Runtime.forward,Runtime.forwardDirectOutput,
+    simp [initialBlock,RuntimeIO.source,Runtime.forwardKernel,Runtime.forwardDirectOutputKernel,
       hi,hf,hb,ComputeKernel.surfaceBody,run,step,evalExpr,FP.Structural.evalOp_unfold,
       State.setReg,singleKey,numeric,bop,natLt,natLe,numericLt,Option.bind]
   all_goals
@@ -46,7 +46,7 @@ def initialBlock (scheduled : Bool) (s : Shape) (f : Flags) :=
     (bounds : RegionName → Nat) (u : State α) :
     Safety.traceSafeList M bounds (initialBlock scheduled s f) u := by
   cases scheduled <;> cases hi : f.initial <;> cases hf : f.final <;> cases hb : f.vectorBeta <;>
-    simp [initialBlock,RuntimeIO.source,Runtime.forward,Runtime.forwardDirectOutput,
+    simp [initialBlock,RuntimeIO.source,Runtime.forwardKernel,Runtime.forwardDirectOutputKernel,
       hi,hf,hb,ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe,
       Safety.safeExpr,Safety.safeOp_unfold,FP.Structural.evalOp_unfold]
 

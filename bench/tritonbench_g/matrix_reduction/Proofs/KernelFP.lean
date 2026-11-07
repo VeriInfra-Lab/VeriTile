@@ -11,7 +11,7 @@ set_option maxRecDepth 16000
 theorem successful {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (s : State α) (M N : Nat) (hN : 0 < N) :
     ∃ t, exec A (kernel d "x" "out" N 1 1 M N) s = some t := by
-  cases d <;> simp [kernel, originalFor, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
+  cases d <;> simp [kernel, originalForKernel, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, State.setReg,
     TileShape.axisDim, hN, BlockPtr.inBounds, TileShape.insertAxisIndex,
     TileShape.eraseAxis, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType]
@@ -41,7 +41,7 @@ theorem source_graph {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (s : State α) (M N : Nat) (hN : 0 < N) :
     ∃ t, exec A (kernel d "x" "out" N 1 1 M N) s = some t ∧
       t.mem = written A d M N s := by
-  cases d <;> simp [kernel, originalFor, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
+  cases d <;> simp [kernel, originalForKernel, ComputeKernel.surfaceBody, FP.Structural.exec, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, store, State.setReg,
     TileShape.axisDim, hN, BlockPtr.inBounds, TileShape.insertAxisIndex,
     TileShape.eraseAxis, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,

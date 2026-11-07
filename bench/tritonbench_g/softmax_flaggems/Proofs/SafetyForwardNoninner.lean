@@ -17,7 +17,7 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
     traceSafeList A bounds (rangeBody (code Y X rows N K B C) 2)
       (s.setReg "start_n" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hr,hk,hm,hz,hmem⟩
-  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
@@ -36,7 +36,7 @@ theorem emit_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
   have subCast : (previous N B : Int)-(cur : Int) = ((previous N B-cur : Nat) : Int) :=
     (Int.ofNat_sub hcur).symm
   rcases hs with ⟨hr,hk,hm,hz,hprev,hmem⟩
-  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+  simp [rangeBody,code,branch,Source.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
@@ -69,7 +69,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (X Y : RegionName)
     constructor <;>
       simp [before,kernel,Source.softmax_backward_kernel_non_inner_fp32,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalOp_unfold,bind,Option.bind,
         numeric,bop,State.setReg,ready]
@@ -86,7 +86,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (X Y : RegionName)
     constructor <;>
       simp [init,code,branch,Source.softmax_backward_kernel_non_inner_fp32,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,bind,Option.bind,
         numeric,bop,State.setReg,ready,initial,offset,ComputeDType.eraseDType,literal,FPConstants.decimal_zero]
@@ -127,7 +127,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (X Y : RegionName)
     constructor <;>
       simp [init,code,branch,Source.forward_noninner,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_noninner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_noninner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,bind,Option.bind,
         numeric,numericLt,natLt,bop,State.setReg,hm,hz,hmem,writeInitial,maxReduced,sumReduced,

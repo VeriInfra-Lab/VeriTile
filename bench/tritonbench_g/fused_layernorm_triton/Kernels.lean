@@ -18,7 +18,7 @@ def callSignature : CallSignature where
   readPorts := ["in_ptr0","in_ptr1","in_ptr2"]
   writePorts := ["out_ptr0","in_out_ptr0","out_ptr1"]
 
-def originalBody (in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr0 out_ptr1 : RegionName)
+def originalKernel (in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr0 out_ptr1 : RegionName)
     (xnumel rnumel RBLOCK : Nat) (tree : DSL.WelfordSource.Tree RBLOCK) : ComputeKernel :=
   let XBLOCK : Nat := 1
   with_triton_call callSignature call_args [xnumel := xnumel,rnumel := rnumel]
@@ -88,7 +88,7 @@ def originalBody (in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr0 out_ptr1 : Region
         tl.store(out_ptr1 + (r1 + (rnumel * x0)), tmp21, rmask)
   }
 
-def hoistedBody (in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr0 out_ptr1 : RegionName)
+def hoistedKernel (in_out_ptr0 in_ptr0 in_ptr1 in_ptr2 out_ptr0 out_ptr1 : RegionName)
     (xnumel rnumel RBLOCK : Nat) (tree : DSL.WelfordSource.Tree RBLOCK) : ComputeKernel :=
   let XBLOCK : Nat := 1
   with_triton_call callSignature call_args [xnumel := xnumel,rnumel := rnumel]
@@ -172,11 +172,11 @@ noncomputable section
 
 def kernel (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : ReductionTree B) : ComputeKernel :=
-  Pasted.originalBody Rstd X W Bias Mean Y S D B (sourceTree tree)
+  Pasted.originalKernel Rstd X W Bias Mean Y S D B (sourceTree tree)
 
 def hoisted (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
     (tree : ReductionTree B) : ComputeKernel :=
-  Pasted.hoistedBody Rstd X W Bias Mean Y S D B (sourceTree tree)
+  Pasted.hoistedKernel Rstd X W Bias Mean Y S D B (sourceTree tree)
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

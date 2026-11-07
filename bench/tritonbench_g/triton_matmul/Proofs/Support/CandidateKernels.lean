@@ -7,7 +7,7 @@ open VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue
 set_option maxRecDepth 32000
 set_option maxHeartbeats 2000000
 
-def rawBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+def rawKernel (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
   if GROUP_SIZE_M = 8 then
   with_triton_signature (signature dtype) in triton {
@@ -63,12 +63,12 @@ def rawBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     c_mask = mask_m[:, None] & mask_n[None, :]
     tl.store(c_ptrs, c, mask=c_mask)
   }
-  else VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody dtype a_ptr b_ptr c_ptr BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M
+  else VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel dtype a_ptr b_ptr c_ptr BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M
 
 def call (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
-  (rawBody dtype a_ptr b_ptr c_ptr BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M).withScalarArguments
+  (rawKernel dtype a_ptr b_ptr c_ptr BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M).withScalarArguments
     [ScalarArgument.integer "M" M,ScalarArgument.integer "N" N,ScalarArgument.integer "K" K,
      ScalarArgument.integer "stride_am" stride_am,ScalarArgument.integer "stride_ak" stride_ak,
      ScalarArgument.integer "stride_bk" stride_bk,ScalarArgument.integer "stride_bn" stride_bn,

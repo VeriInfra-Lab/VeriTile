@@ -24,7 +24,7 @@ theorem source_safe [Inhabited α] (op : Ops α) (p : Parameters)
   have hzero : (0.0 : ℝ) = 0 := by norm_num
   have hone : (1.0 : ℝ) = 1 := by norm_num
   have hlevels : (127.0 : ℝ) = 127 := by norm_num
-  simp (maxSteps := 1600000) [FP.Structural.TraceSafe, kernel, KernelSyntax.source,
+  simp (maxSteps := 1600000) [FP.Structural.TraceSafe, kernel, KernelSyntax.sourceKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

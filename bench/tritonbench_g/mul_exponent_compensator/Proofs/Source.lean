@@ -43,7 +43,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec M (candidateKernel p.x p.output p.n p.block) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [candidateKernel,sourceBody,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [candidateKernel,sourceKernel,FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     numericLt,natLt,bop,store,Region.cast,ComputeDType.eraseDType]
   rfl
@@ -119,7 +119,7 @@ theorem complete_correct {α : Type} [Inhabited α] (M : Algebra α)
   ⟨(execution M p s).val, (execution M p s).property,
     execution_memory M p s⟩
 
-#specNonCircular expectedMemory avoiding [candidateKernel,sourceBody, FP.Structural.exec]
+#specNonCircular expectedMemory avoiding [candidateKernel,sourceKernel, FP.Structural.exec]
 #axiomsClean expected_cell
 #axiomsClean complete_correct
 #axiomsClean execution

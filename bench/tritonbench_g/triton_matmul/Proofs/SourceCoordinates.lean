@@ -51,7 +51,7 @@ def coordinateExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc 
   cases st <;>
     (refine ⟨?_,?_⟩
      swap
-     simp [coordinates,prelude,typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,dtype,
+     simp [coordinates,prelude,typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,dtype,
        ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
        ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalComputeOp,evalOp_unfold,
        evalOffsets,store,numeric,bop,natLt,numericLt,numericLe,numericEq,

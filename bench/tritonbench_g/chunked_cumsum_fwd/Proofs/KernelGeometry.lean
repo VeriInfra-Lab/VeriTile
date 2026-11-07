@@ -155,7 +155,7 @@ theorem cover (c : Geometry) (b h k j : Nat)
 
 /-- The ordinary same-call input strides and packed FP32 output strides. -/
 def kernel (c : Geometry) (hasBias useSoftplus : Bool) : ComputeKernel :=
-  source "dt" "rate" "bias" "out" "sum" c.batches c.sequence c.heads c.chunk
+  sourceKernel "dt" "rate" "bias" "out" "sum" c.batches c.sequence c.heads c.chunk
     c.dtBatch c.dtTime c.dtHead c.rateHead c.biasHead
     c.layout.outBatch c.layout.outChunk c.layout.outHead c.layout.outColumn
     c.layout.sumBatch c.layout.sumChunk c.layout.sumHead c.layout.sumColumn

@@ -17,13 +17,13 @@ theorem split_code (xs : List ComputeStmt) (n k : Nat) :
 theorem column_prefix (c : Config) : (columnBody c).take 7=(column c).take 7 := by
   cases hs : c.storage <;>
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,Source.kernel,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,hs]
 
 theorem column_suffix (c : Config) : (columnBody c).drop 9=(column c).drop 8 := by
   cases hs : c.storage <;>
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,Source.kernel,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,hs]
 
 theorem column_equal (M : Algebra α) (c : Config) : CodeEq M (columnBody c) (column c) := by
@@ -43,13 +43,13 @@ def columnStmt (c : Config) : ComputeStmt :=
 theorem active_prefix (c : Config) : (activeBody c).take 23=(active c).take 23 := by
   cases hs : c.storage <;>
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,Source.kernel,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,hs,columnStatement,columnStmt]
 
 theorem active_suffix (c : Config) : (activeBody c).drop 24=(active c).drop 24 := by
   cases hs : c.storage <;>
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,Source.kernel,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,hs,columnStatement,columnStmt]
 
 theorem active_middle (c : Config) :
@@ -57,7 +57,7 @@ theorem active_middle (c : Config) :
     ((active c).drop 23).take 1=[columnStmt c] := by
   cases hs : c.storage <;>
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,Source.kernel,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,hs,columnStatement,columnStmt]
 
 theorem active_equal (M : Algebra α) (c : Config) : CodeEq M (activeBody c) (active c) := by
@@ -80,7 +80,7 @@ theorem source_shape (c : Config) :
     (kernel c).surfaceBody=(parsedKernel c).surfaceBody.take 3 ++ [.ifThen (guard c) (active c)] := by
   cases hs : c.storage <;>
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,Source.kernel,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,hs,columnStatement,columnStmt,guard]
 
 theorem kernel_equal (M : Algebra α) (c : Config) :

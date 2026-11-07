@@ -37,7 +37,7 @@ def sourceKernel (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) : ComputeKern
     tl.store(Mean, mean, row_mask)
   }
 
-def indexCommutedSource (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
+def indexCommutedSourcePastedKernel (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call sourceSignature call_args [M := M, N := N] in
   triton {
     pid = BLOCK_M * tl.program_id(0) + tl.arange(0, BLOCK_M)[:, None]
@@ -63,6 +63,6 @@ def gridSize (rows : Nat) : Nat := (rows+7)/8
 
 def kernel (M N : Nat) : ComputeKernel := sourceKernel "X" "Mean" M N 8 8
 
-def indexCommutedKernel (M N : Nat) : ComputeKernel := indexCommutedSource "X" "Mean" M N 8 8
+def indexCommutedKernel (M N : Nat) : ComputeKernel := indexCommutedSourcePastedKernel "X" "Mean" M N 8 8
 
 end VeriTile.Bench.Repairs.MeanReduction

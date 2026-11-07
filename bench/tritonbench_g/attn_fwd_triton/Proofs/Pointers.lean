@@ -49,7 +49,7 @@ def code (p : Parameters) (BM BN BD : Nat) : List Stmt :=
 theorem source (p : Parameters) (BM BN BD : Nat) : pointers BM BN BD p = code p BM BN BD := by
   by_cases hd : p.stage=2
   all_goals simp only [pointers, Verified.code, Verified.source, TypedSource.repaired,
-    Bodies.originalBody,hd,decide_true,decide_false,ComputeDType.eraseDType,
+    originalKernel,hd,decide_true,decide_false,ComputeDType.eraseDType,
     ControlView.algorithm,Bool.false_eq_true, ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,

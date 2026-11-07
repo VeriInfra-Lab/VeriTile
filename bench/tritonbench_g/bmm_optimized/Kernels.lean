@@ -22,7 +22,7 @@ def callSignature : CallSignature where
   readPorts := ["A","B"]
   writePorts := ["O"]
 
-def sourceBody (A B O : RegionName) (M N K TILE_M TILE_N TILE_K GROUP_M : Nat)
+def sourceKernel (A B O : RegionName) (M N K TILE_M TILE_N TILE_K GROUP_M : Nat)
     (DIVISIBLE_M DIVISIBLE_N DIVISIBLE_K : Bool) : ComputeKernel :=
   with_triton_call callSignature call_args [M := M, N := N, K := K] in triton {
     pid_b = tl.program_id(2)
@@ -114,7 +114,7 @@ def sourceBody (A B O : RegionName) (M N K TILE_M TILE_N TILE_K GROUP_M : Nat)
     tl.store(o_ptrs, o, mask_c)
   }
 
-def candidateSourceBody (A B O : RegionName) (M N K TILE_M TILE_N TILE_K GROUP_M : Nat)
+def candidateKernel (A B O : RegionName) (M N K TILE_M TILE_N TILE_K GROUP_M : Nat)
     (DIVISIBLE_M DIVISIBLE_N DIVISIBLE_K : Bool) : ComputeKernel :=
   with_triton_call callSignature call_args [M := M, N := N, K := K] in triton {
     pid_b = tl.program_id(2)
@@ -207,10 +207,10 @@ def candidateSourceBody (A B O : RegionName) (M N K TILE_M TILE_N TILE_K GROUP_M
   }
 
 def kernel (p : Parameters) : ComputeKernel :=
-  sourceBody p.A p.B p.O p.M p.N p.K p.TM p.TN p.TK p.GROUP p.divM p.divN p.divK
+  sourceKernel p.A p.B p.O p.M p.N p.K p.TM p.TN p.TK p.GROUP p.divM p.divN p.divK
 
 def quotientRemainder (p : Parameters) : ComputeKernel :=
-  candidateSourceBody p.A p.B p.O p.M p.N p.K p.TM p.TN p.TK p.GROUP p.divM p.divN p.divK
+  candidateKernel p.A p.B p.O p.M p.N p.K p.TM p.TN p.TK p.GROUP p.divM p.divN p.divK
 
 def parameters (s : BmmOptimized.Shape) (c : BmmOptimized.Config) : Parameters :=
   ⟨"A","B","O",s.m,s.n,s.k,c.tm,c.tn,32,c.group,

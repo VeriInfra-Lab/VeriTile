@@ -29,7 +29,7 @@ def interREntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     {t : State α // run (engine (withDot M D)) (interReverseParts p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [interReverseParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interReverseParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

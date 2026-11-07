@@ -8,8 +8,8 @@ set_option maxRecDepth 24000
 set_option maxHeartbeats 8000000
 
 /-- The complete copied helper; the extern import is bound outside its body. -/
-def powFunction : ImportedBinaryJitFunction :=
-  with_triton_imports [_pow := "triton.language.extra.cuda.libdevice.pow"] in triton_function (x, exponent) {
+def powSource : ImportedBinaryJitFunction :=
+  with_triton_imports [_pow := "triton.language.extra.cuda.libdevice.pow"] in with_triton_params (x, exponent) constexpr_args [] in triton {
     return _pow(x.to(tl.float32), exponent)
   }
 
@@ -22,7 +22,7 @@ def signature : CallSignature where
   readPorts := ["in0_ptr"]
   writePorts := ["out0_ptr"]
 
-def originalBody (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
+def originalKernel (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
     (input_base output_base in0_stride0 out0_stride0 : Int)
     (s0 num_tasks tiles_per_cta tile_size0 : Nat) (one_tile_per_cta : Bool) : ComputeKernel :=
   let in0_stride_order0 : Nat := 0
@@ -30,7 +30,7 @@ def originalBody (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
   with_triton_call signature call_args [val0 := val0,in0_stride0 := in0_stride0,
     out0_stride0 := out0_stride0,s0 := s0,num_tasks := num_tasks,tiles_per_cta := tiles_per_cta]
     signed_pointer_offsets [in0_ptr := input_base,out0_ptr := output_base]
-    binary_functions [pow_func_scalar_tensor := powFunction] in triton {
+    binary_functions [pow_func_scalar_tensor := powSource] in triton {
     pid = tl.program_id(0)
     num_tiles0 = tl.cdiv(s0, tile_size0)
     if one_tile_per_cta: # monolitic kernel style
@@ -71,7 +71,7 @@ def originalBody (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
             tl.store(out0_bptr, out0.to(out0_bptr.type.element_ty), boundary_check=(out0_stride_order0,))
   }
 
-def commutedBody (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
+def commutedBodyPastedKernel (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
     (input_base output_base in0_stride0 out0_stride0 : Int)
     (s0 num_tasks tiles_per_cta tile_size0 : Nat) (one_tile_per_cta : Bool) : ComputeKernel :=
   let in0_stride_order0 : Nat := 0
@@ -79,7 +79,7 @@ def commutedBody (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
   with_triton_call signature call_args [val0 := val0,in0_stride0 := in0_stride0,
     out0_stride0 := out0_stride0,s0 := s0,num_tasks := num_tasks,tiles_per_cta := tiles_per_cta]
     signed_pointer_offsets [in0_ptr := input_base,out0_ptr := output_base]
-    binary_functions [pow_func_scalar_tensor := powFunction] in triton {
+    binary_functions [pow_func_scalar_tensor := powSource] in triton {
     pid = tl.program_id(0)
     num_tiles0 = tl.cdiv(s0, tile_size0)
     if one_tile_per_cta: # monolitic kernel style
@@ -121,19 +121,19 @@ def commutedBody (val0 : ℝ) (in0_ptr out0_ptr : RegionName)
   }
 
 def oneTileKernel (c : Parameters) : ComputeKernel :=
-  originalBody c.base c.input.region c.output.region c.input.base c.output.base
+  originalKernel c.base c.input.region c.output.region c.input.base c.output.base
     c.input.stride c.output.stride c.n c.n c.tiles c.B Bool.true
 
 def gridStrideKernel (c : Parameters) : ComputeKernel :=
-  originalBody c.base c.input.region c.output.region c.input.base c.output.base
+  originalKernel c.base c.input.region c.output.region c.input.base c.output.base
     c.input.stride c.output.stride c.n c.n c.tiles c.B Bool.false
 
 def oneTileCommuted (c : Parameters) : ComputeKernel :=
-  commutedBody c.base c.input.region c.output.region c.input.base c.output.base
+  commutedBodyPastedKernel c.base c.input.region c.output.region c.input.base c.output.base
     c.input.stride c.output.stride c.n c.n c.tiles c.B Bool.true
 
 def gridStrideCommuted (c : Parameters) : ComputeKernel :=
-  commutedBody c.base c.input.region c.output.region c.input.base c.output.base
+  commutedBodyPastedKernel c.base c.input.region c.output.region c.input.base c.output.base
     c.input.stride c.output.stride c.n c.n c.tiles c.B Bool.false
 
 def kernel (c : Parameters) : ComputeKernel :=

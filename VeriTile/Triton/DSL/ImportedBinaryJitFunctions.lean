@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.SignedRankOneBlockPointers
 import VeriTile.Triton.DSL.BinaryPureJitFunctions
 
@@ -171,3 +172,19 @@ private partial def lower (functions : Functions) (used : List Name)
   SignedRankOneBlockPointers.elaborateInvocation base expected
 end DSL.ImportedBinaryJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.ImportedBinaryJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceSyntax.importedParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``ImportedBinaryJitFunction do throwUnsupportedSyntax
+  let imports := stx[2].getSepArgs.map (⟨·⟩ : Syntax → TSyntax `tritonCallBinding)
+  let parameters := stx[7].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let #[x, y] := parameters | throwError "imported binary helper requires two parameters"
+  let body ← `(with_triton_imports [$imports,*] in triton_function ($x:ident, $y:ident) {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.ImportedBinaryJitFunctions

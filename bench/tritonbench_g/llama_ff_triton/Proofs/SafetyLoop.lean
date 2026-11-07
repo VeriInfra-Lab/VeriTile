@@ -40,7 +40,7 @@ theorem counted_safe (a : Arithmetic α) (native : Bool) (p : Parameters)
     stepSafe a.model bounds
       (.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (loopBody native p)) current := by
   have countSafe : safeOp a.model none bounds current (countOp p) := by
-    simp [countOp,body,source,Source.kernel,Source.half,Bodies.halfBody,ComputeKernel.surfaceBody,safeOp_unfold]
+    simp [countOp,body,source,Source.kernel,Source.half,halfKernel,ComputeKernel.surfaceBody,safeOp_unfold]
   simpa only [stepSafe_unfold,countSafe,safeOp_unfold,countEvaluation a p current h.k,
     evalOp_unfold,true_and] using loop_safe a native p initial current 0 (by omega) h bytes bounds hb
 

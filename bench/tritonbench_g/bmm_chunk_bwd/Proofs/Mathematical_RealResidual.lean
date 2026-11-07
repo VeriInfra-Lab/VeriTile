@@ -65,7 +65,7 @@ theorem matches_source (swapped : Bool) (BM BN BCS : Nat) (p : RealProgram.Param
     simp [code, residual, addition, basePointer, pointers, rowOffsets, columnOffsets, mask,
       RealProgram.realPart, RealProgram.parts, RealProgram.source,
       TypedSource.specialize, VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.family,
-      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceBody,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceKernel,
       VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.dotDType, Source.intRange?, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,

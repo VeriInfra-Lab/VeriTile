@@ -56,14 +56,14 @@ theorem entry_prefix_safe (M : Algebra α) (p : Parameters) (s : State α)
     traceSafeList M bounds ((outer p).before.take 2) s := by
   apply trace_of_steps
   intro st member u
-  simp [outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD] at member
+  simp [outer,ChunkDeltaFwd.sourceKernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD] at member
   rcases member with rfl|rfl
   all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     traceSafeList_unfold,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind]
 
 theorem entry_prefix_run (M : Algebra α) (p : Parameters) (s : State α) :
     run M ((outer p).before.take 2) s = some (entryStart M p s) := by
-  simp [outer,ChunkDeltaFwd.kernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
+  simp [outer,ChunkDeltaFwd.sourceKernel,kernel,ComputeKernel.surfaceBody,Source.countedLoop?,Option.map,Option.getD]
   simp [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     entryStart,ofFloat,toFloat]
 

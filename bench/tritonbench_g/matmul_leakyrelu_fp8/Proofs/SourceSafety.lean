@@ -14,7 +14,7 @@ variable {α : Type} [Inhabited α]
 theorem prelude_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (backend M D) bounds (prelude p b) s := by
-  simp [prelude,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,
+  simp [prelude,source,TypedSource.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,bop,natLt,numericLt,numericEq,
@@ -31,7 +31,7 @@ theorem body_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffers)
     Safety.traceSafeList (backend M D) bounds (body p b)
       (current.setReg "k" .int [] (fun _ => (k : Int))) := by
   simp only [HasAcc] at ha
-  simp [body,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,
+  simp [body,source,TypedSource.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -54,7 +54,7 @@ theorem epilogue_safe (M : Algebra α) (D : DotAcc α) (p : Problem) (b : Buffer
     Safety.traceSafeList (backend M D) bounds (epilogue p b) current := by
   simp only [HasAcc] at ha
   cases he : p.enabled
-  all_goals simp [epilogue,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,
+  all_goals simp [epilogue,source,TypedSource.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

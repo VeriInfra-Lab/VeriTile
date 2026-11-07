@@ -12,7 +12,7 @@ def unscaledSignature : CallSignature where
   readPorts := ["a_ptr","b_ptr"]
   writePorts := ["c_ptr"]
 
-def unscaledBody (a_ptr b_ptr c_ptr : RegionName)
+def unscaledKernel (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) : ComputeKernel :=
   with_triton_call unscaledSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
     """Kernel for computing the matmul C = A x B.
@@ -93,7 +93,7 @@ def unscaledBody (a_ptr b_ptr c_ptr : RegionName)
     tl.store(c_block_ptr, c, boundary_check=(0, 1))
   }
 
-def unscaledCandidateBody (a_ptr b_ptr c_ptr : RegionName)
+def unscaledCandidateKernel (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) : ComputeKernel :=
   with_triton_call unscaledSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
     """Kernel for computing the matmul C = A x B.
@@ -180,7 +180,7 @@ def scaledSignature : CallSignature where
   readPorts := ["a_ptr","b_ptr","s1_ptr"]
   writePorts := ["c_ptr"]
 
-def scaledBody (a_ptr b_ptr c_ptr s1_ptr : RegionName)
+def scaledKernel (a_ptr b_ptr c_ptr s1_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_s1m stride_s1n BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) (EVEN_K : Bool) : ComputeKernel :=
   let ACC_TYPE : SourceDType := .i32
   with_triton_call scaledSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn, stride_s1m := stride_s1m, stride_s1n := stride_s1n] in triton {
@@ -236,7 +236,7 @@ def scaledBody (a_ptr b_ptr c_ptr s1_ptr : RegionName)
     tl.store(c_ptr + (tl.broadcast_to(xindex, mask.shape)), acc * tmp0, mask)
   }
 
-def scaledCandidateBody (a_ptr b_ptr c_ptr s1_ptr : RegionName)
+def scaledCandidateKernel (a_ptr b_ptr c_ptr s1_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_s1m stride_s1n BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) (EVEN_K : Bool) : ComputeKernel :=
   let ACC_TYPE : SourceDType := .i32
   with_triton_call scaledSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn, stride_s1m := stride_s1m, stride_s1n := stride_s1n] in triton {

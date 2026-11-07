@@ -67,7 +67,7 @@ theorem implements (m : Model α) (M N BM BN pid : Nat)
     (Final.io m M N BM BN pid observe).Implements (expected m M N BM BN pid observe) := by
   apply ProgramIO.Implements.intro
   · intro vals bounds boundsOK initial _
-    change ScheduleSafe bounds [job m (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid] initial
+    change ScheduleSafe bounds [job m (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid] initial
     rw [scheduleSafe_singleton]
     apply SourceSafety.Final.source_safe m
     · intro row hr j hj
@@ -79,7 +79,7 @@ theorem implements (m : Model α) (M N BM BN pid : Nat)
     · intro j hj
       exact boundsOK.2.2.1 (1 : Fin 2) (j,()) hj
   · intro vals initial binding
-    let start := (job m (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid).initial initial
+    let start := (job m (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid).initial initial
     have hw : ∀ row,row<M → ∀ j : Fin BN,pid*BN+j.val<N →
         (start.mem "DW" (row*N+(pid*BN+j.val))).read .real=Final.value vals 0 row j := by
       intro row hr j hj

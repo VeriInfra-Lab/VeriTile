@@ -13,11 +13,11 @@ produces the same -infinity value. No arithmetic identity or finite-value
 assumption is used, and the scaled nonfinite path is unchanged. -/
 theorem exact [Inhabited A] (engine : Engine A) (x z : RegionName)
     (D B : Nat) (scaled : Bool) (s : State A) :
-    exec engine.algebra (rowBlock x z D B scaled) s =
-      exec engine.algebra (rowBlockCandidate x z D B scaled) s := by
+    exec engine.algebra (rowBlockKernel x z D B scaled) s =
+      exec engine.algebra (rowBlockCandidateKernel x z D B scaled) s := by
   cases scaled
   all_goals cases hp : s.regs .real [] "scale"
-  all_goals simp +contextual (maxSteps := 1800000) [rowBlock, rowBlockCandidate, FP.Structural.exec,
+  all_goals simp +contextual (maxSteps := 1800000) [rowBlockKernel, rowBlockCandidateKernel, FP.Structural.exec,
     ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr, evalComputeOp,
     evalOp_unfold, Option.bind, Engine.algebra, numeric, FP.Structural.bop,
     State.setReg, natLt, numericLt, numericEq, ComputeDType.eraseDType, hp]

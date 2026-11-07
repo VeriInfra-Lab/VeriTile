@@ -33,7 +33,7 @@ def bodyExec {phase : Bool} (M : Algebra α) (dot : Dot α) (p : Parameters)
     have h_normalizer:=ctx.normalizer
     have h_value:=ctx.value
     simp [workName] at h_length h_startM h_firstLo h_firstHi h_rows h_cols h_query h_scale h_keyPointer h_valuePointer h_scalePointer h_maximum h_normalizer h_value
-    simp [loopParts,diagonal,parts,workName,kernel,TypedSource.repaired,
+    simp [loopParts,diagonal,parts,workName,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

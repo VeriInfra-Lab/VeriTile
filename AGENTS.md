@@ -24,6 +24,9 @@
 ## Kernel 源码与文件职责
 
 - `Kernels.lean` 是实际原程序和已有候选的共享源码入口。优先直接写可逐行阅读的标准 `triton { ... }`；运行标量使用明确的参数声明与调用绑定，保留源码精度、转换、分支、mask 和运算顺序。
+- 可复用的原始函数体直接定义在题目的命名空间下，使用 `def <name>Source : SourceProcedure := with_triton_params (...) constexpr_args [...] in triton { ... }`。形参按 Python 函数头的顺序声明，`constexpr_args` 对应 `tl.constexpr`，需要符号化验证浮点 constexpr 时才填写块外的 `fp32_constants`。花括号内逐行保留 Python 函数体，包括注释、转换、索引、mask 和调用顺序。
+- 绑定后生成的 kernel 入口使用 `<name>Kernel`（或保留 Python 拼写的 `<name>_kernel`），显式写出 `ComputeKernel`。单独实例化使用 `instantiate_source_procedure`。从另一段 Triton 调用时，用块外的 `source_procedures` 将 Python 函数名绑定到同一份源码，并保留调用方的实际参数和顺序。只直接生成 kernel 的函数体可使用 `with_triton_call … in triton { ... }`。有返回值或特殊参数更新的 helper 保留原有语义类型，同样使用 `with_triton_params … in triton { ... }`。固定 ABI 及重绑定过程分别添加块外的 `signature profile` 和 `rebinding_signature profile`，外部函数用块外 `with_triton_imports [...]` 绑定。并发控制源码使用其控制语义入口。
+- 源码和 kernel 的名称应说明实际职责，原版和候选按同一约定命名。源码定义不再添加 `Bodies` 分组。主定理接到实际源码的实例；用于证明的程序分解和较一般的参数视图应有明确的等式或语义连接。
 - 不用任务自定义的整段源码生成宏、手写语句 AST、先赋占位值再删除语句、或 `take/drop/map` 等语句列表手术构造权威 kernel。已有这类写法列为源码可读性整理项；整理应证明新旧完整程序相等，或提供明确的语义连接，不能悄悄改变程序。
 - 必要的程序分解、AST 等式与重写证明仍可留在 `Proofs/`；不能把实际源码藏在 `Proofs/`，再让 `Kernels.lean` 反向导入它。多个题真正共享同一源码时可以明确引用共享的源码入口，不要求复制程序；真实多阶段程序的调度组合也不因存在组合而自动成为问题。
 - `IO.lean` 可独立存放逻辑张量与内存位置的对应、运行参数绑定及调用调度；`Contract.lean` 规定允许的输入及独立数学规格。IO 描述不能代替正确性证明，输入检查也不能代替 Tensor 与内存的连接证明。主定理必需的条件必须在主定理或其公开判断中明确出现。

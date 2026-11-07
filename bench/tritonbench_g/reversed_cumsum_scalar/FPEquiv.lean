@@ -8,9 +8,9 @@ open scoped VeriTile.Spec
 noncomputable section
 
 specification reversed_cumsum_scalar_equiv (h : Call) (c : Config) :
-    original h c ≡[assumptions] indexCommuted h c := by
+    original h c ≡[assumptions] indexCommutedKernel h c := by
   apply Spec.FloatingPoint.ofNumerical
-    (lhs := original h c) (rhs := indexCommuted h c)
+    (lhs := original h c) (rhs := indexCommutedKernel h c)
     (structural := fun _ _ => False) rfl rfl
   intro α _ M D _ u _
   exact Rewrite.whole_state (engine M) h c u
@@ -19,7 +19,7 @@ specification reversed_cumsum_scalar_equiv (h : Call) (c : Config) :
 #stmtSurfaceSubset reversed_cumsum_scalar_equiv ⊆
   [Call,Config,Spec.FloatingPoint,Spec.Equiv,FP.GuardedFragment,FP.ProfiledRewrite.Program,
     FP.ProfiledRewrite.instProgramSyntaxProgram,
-    original,indexCommuted,assumptions]
+    original,indexCommutedKernel,assumptions]
 #axiomsClean reversed_cumsum_scalar_equiv
 #auditModuleAxioms
 end

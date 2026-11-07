@@ -9,9 +9,9 @@ variable {α : Type} [Inhabited α]
 The interface contains only raw state, input arrays, geometry and flags. -/
 structure Result (p : Ops α) (input : Input α) (BH T D BDF BDB : Nat)
     (U S V : Bool) (initial f b : State α) : Prop where
-  forwardExecuted : Execution.gridRun p (forward T D BDF U S).surfaceBody
+  forwardExecuted : Execution.gridRun p (forwardKernel T D BDF U S).surfaceBody
     (Execution.programs BH D BDF) initial=some f
-  backwardExecuted : Execution.gridRun p (backward T D BDB U V).surfaceBody
+  backwardExecuted : Execution.gridRun p (backwardKernel T D BDB U V).surfaceBody
     (Execution.programs BH D BDB) f=some b
   output : Execution.Saved p b input U BH T D
   finalState : S=Bool.true → ∀ bh, bh<BH → ∀ d, d<D →

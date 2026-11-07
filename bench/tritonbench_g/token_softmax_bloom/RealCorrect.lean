@@ -15,7 +15,7 @@ specification token_softmax_grid_real (p : Parameters) (positive : 0 < p.width)
       Real.exp (xs.values job i) / ∑ j : Fin (xs.length job).toNat, Real.exp (xs.at job j.val)) :=
   (Logical.judgment_iff p work).2 (IOCorrect.real p positive separate work)
 
-#specNonCircular Logical.domain avoiding [source,Grid.run,outputValues,FP.Structural.exec]
+#specNonCircular Logical.domain avoiding [sourceKernel,Grid.run,outputValues,FP.Structural.exec]
 #axiomsClean token_softmax_grid_real
 end
 end VeriTile.Bench.Repairs.TokenSoftmaxBloom.Correct

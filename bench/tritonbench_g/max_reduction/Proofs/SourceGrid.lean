@@ -79,7 +79,7 @@ theorem fold_congr {ι β : Type} (events : List ι) (f g : β → ι → β) (s
 streams. Cells and integer payloads retain the structural interpreter tags. -/
 theorem dimension_program [Inhabited A] (e : Source.Engine A) (M N K BM BN : Nat)
     (p : Nat × Nat) (kbound : p.2<K) (hn : 0<BN) (s : State A) :
-    ∃ t,FP.Structural.exec e.algebra (dimension "input" "values" "indices" M N K BM BN)
+    ∃ t,FP.Structural.exec e.algebra (dimensionKernel "input" "values" "indices" M N K BM BN)
         (positioned s p.1 p.2)=some t ∧
       flatten t=Scatter.run (events M K BM p) key
         (cell (target e (fun i => (s.mem "input" i).read .real) N K BN)) (flatten s) := by
@@ -106,7 +106,7 @@ def runDimension [Inhabited A] (e : Source.Engine A) (M N K BM BN : Nat) :
     List (Nat × Nat) → State A → Option (State A)
   | [],s => some s
   | p::rest,s => do
-      let t ← FP.Structural.exec e.algebra (dimension "input" "values" "indices" M N K BM BN)
+      let t ← FP.Structural.exec e.algebra (dimensionKernel "input" "values" "indices" M N K BM BN)
         (positioned s p.1 p.2)
       runDimension e M N K BM BN rest t
 

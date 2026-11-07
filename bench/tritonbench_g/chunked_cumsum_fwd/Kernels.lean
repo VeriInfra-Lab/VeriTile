@@ -17,7 +17,7 @@ def callSignature (storage : FloatDType) : CallSignature where
   readPorts := ["dt_ptr", "A_ptr", "dt_bias_ptr"]
   writePorts := ["dt_out_ptr", "dA_cumsum_ptr"]
 
-def source
+def sourceKernel
     (dt_ptr A_ptr dt_bias_ptr dt_out_ptr dA_cumsum_ptr : RegionName)
     (batch seqlen nheads chunk_size : Nat)
     (stride_dt_batch stride_dt_seqlen stride_dt_head stride_A_head stride_dt_bias_head
@@ -63,7 +63,7 @@ def source
     tl.store(dA_cs_ptrs, dA_cs, mask=(offs_h[:, None] < nheads) & (offs_c[None, :] < chunk_size))
   }
 
-def scaleFirst
+def scaleFirstKernel
     (dt_ptr A_ptr dt_bias_ptr dt_out_ptr dA_cumsum_ptr : RegionName)
     (batch seqlen nheads chunk_size : Nat)
     (stride_dt_batch stride_dt_seqlen stride_dt_head stride_A_head stride_dt_bias_head

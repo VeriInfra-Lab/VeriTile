@@ -28,7 +28,7 @@ def finishExecution (M : Algebra α) (p : Layout) (initial current : State α)
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,
+  simp [parts,branch,kernel,TypedMerge.original,mergeOriginalKernel,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -51,7 +51,7 @@ def prologue (M : Algebra α) (p : Layout) (s : State α) :
     {t : State α // run (engine M) (branch p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,
+  simp [parts,branch,kernel,TypedMerge.original,mergeOriginalKernel,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -61,7 +61,7 @@ def prologue (M : Algebra α) (p : Layout) (s : State α) :
 theorem condition_eval (M : Algebra α) (p : Layout) (s : State α) :
     FP.Structural.evalOp (engine M) none (branch p).condition (prologue M p s).val =
       some (fun _ => decide (enabled p s)) := by
-  simp [branch,kernel,TypedMerge.original,Bodies.mergeOriginal,ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,
+  simp [branch,kernel,TypedMerge.original,mergeOriginalKernel,ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,
     evalOp_unfold,numeric,bop,prologue,natLe,natLt,enabled,row]
   funext i
   by_cases h : s.pids 0*p.BT+s.pids 1*p.BC < p.T

@@ -21,7 +21,7 @@ def rangeBody (code : List ComputeStmt) : List ComputeStmt :=
   | _ => []
 
 def body (X : RegionName) (O : Region .int) (BM BN : Nat) (index64 : Bool) :=
-  rangeBody (JITSource.dimension X O BM BN index64).surfaceBody
+  rangeBody (JITSource.dimensionKernel X O BM BN index64).surfaceBody
 
 def Ready (M N K BM row inner : Nat) (current : Fin BM → Word × Nat) (s : State Word) : Prop :=
   s.regs .int [] "M"=some (fun _ => (M : Int)) ∧
@@ -39,7 +39,7 @@ theorem body_run (rest : Algebra Word) (s : State Word) (X : RegionName) (O : Re
       (s.setReg "start_n" .int [] (fun _ => (cur : Int)))=some t ∧
       t.mem=s.mem ∧ Ready M N K BM row inner (next s X M N K BM BN row inner cur positive current) t := by
   obtain ⟨hM,hN,hK,hk,hm,hv,hi⟩ := ready
-  simp [body,rangeBody,JITSource.dimension,ComputeKernel.surfaceBody,run,step,
+  simp [body,rangeBody,JITSource.dimensionKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,ComputeDType.eraseDType,backend,hM,hN,hK,hk,hm,hv,hi,
     VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.indexed,
     VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.normalize,

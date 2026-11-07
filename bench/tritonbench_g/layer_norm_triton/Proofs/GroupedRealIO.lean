@@ -36,10 +36,10 @@ theorem implements (m : Model ℝ) (laws : SourceForwardReal.Laws m)
     ⟨boundsOK.1,boundsOK.1.2.2.1⟩
   obtain ⟨safe,t,ran,_,frame⟩ := GroupedIOResult.implements m stride M N G B group (fun _ _ => id)
     vals trivial bounds baseBounds initial binding
-  let start := (job m (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group).initial initial
+  let start := (job m (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group).initial initial
   obtain ⟨u,hu,_,dx,partials,_⟩ := Correctness.layer_norm_grouped_source_real m laws stride M N G B start groups covers rowAddresses
   have hrun : FP.Structural.exec (engine m)
-      (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) start=some t := by
+      (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) start=some t := by
     simpa only [Grouped.io,Grouped.layout,runSchedule_singleton] using ran
   have same : u=t := Option.some.inj (hu.symm.trans hrun)
   subst u

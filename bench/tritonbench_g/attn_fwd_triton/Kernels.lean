@@ -3,14 +3,14 @@ import VeriTile.Triton.DSL.FiniteNatJitFunctions
 /-! Complete original helper and caller bodies, with both original legal
 stage choices. Runtime bindings, storage types and the finite constexpr
 choice remain outside the pasted source. -/
-namespace VeriTile.Bench.Repairs.AttnFwdTriton.Bodies
+namespace VeriTile.Bench.Repairs.AttnFwdTriton
 open VeriTile.Triton
 noncomputable section
 set_option maxRecDepth 30000
 set_option maxHeartbeats 4000000
 
-def inner : SpecializedStatementJitFunction :=
-  triton_function (acc, l_i, m_i, q, q_scale, K_ptrs, K_scale_ptr, V_ptrs, start_m, stride_kn, stride_vk, BLOCK_DMODEL, BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX) constexpr_args [BLOCK_DMODEL, BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX] {
+def innerSource : SpecializedStatementJitFunction :=
+  with_triton_params (acc, l_i, m_i, q, q_scale, K_ptrs, K_scale_ptr, V_ptrs, start_m, stride_kn, stride_vk, BLOCK_DMODEL, BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX) constexpr_args [BLOCK_DMODEL, BLOCK_M, HEAD_DIM, BLOCK_N, STAGE, offs_m, offs_n, N_CTX] in triton {
     if STAGE == 1:
         lo, hi = 0, start_m * BLOCK_M
     elif STAGE == 2:
@@ -57,11 +57,11 @@ def signature : CallSignature where
   readPorts := ["Q","K","V","Q_scale","K_scale"]
   writePorts := ["Out"]
 
-def originalBody (Q K V Q_scale K_scale Out : RegionName)
+def originalKernel (Q K V Q_scale K_scale Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX HEAD_DIM BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) (FIRST_DIAGONAL : Bool) : ComputeKernel :=
   let STAGE : Nat:=if FIRST_DIAGONAL then 2 else 3
   with_triton_call signature call_args [stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, Z := Z, H := H, N_CTX := N_CTX]
-    jit_functions [_attn_fwd_inner_repaired := inner] in triton {
+    jit_functions [_attn_fwd_inner_repaired := innerSource] in triton {
     n_ctx = tl.cast(N_CTX, tl.int64)
     stride_kn64 = tl.cast(stride_kn, tl.int64)
     stride_vk64 = tl.cast(stride_vk, tl.int64)
@@ -103,11 +103,11 @@ def originalBody (Q K V Q_scale K_scale Out : RegionName)
     tl.store(O_block_ptr, acc.to(Out.type.element_ty), mask=(offs_m[:, None] < n_ctx) & ((tl.arange(0, BLOCK_DMODEL) < HEAD_DIM)[None, :]))
 }
 
-def candidateBody (Q K V Q_scale K_scale Out : RegionName)
+def candidateKernel (Q K V Q_scale K_scale Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX HEAD_DIM BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) (FIRST_DIAGONAL : Bool) : ComputeKernel :=
   let STAGE : Nat:=if FIRST_DIAGONAL then 2 else 3
   with_triton_call signature call_args [stride_qz := stride_qz, stride_qh := stride_qh, stride_qm := stride_qm, stride_qk := stride_qk, stride_kz := stride_kz, stride_kh := stride_kh, stride_kn := stride_kn, stride_kk := stride_kk, stride_vz := stride_vz, stride_vh := stride_vh, stride_vk := stride_vk, stride_vn := stride_vn, stride_oz := stride_oz, stride_oh := stride_oh, stride_om := stride_om, stride_on := stride_on, Z := Z, H := H, N_CTX := N_CTX]
-    jit_functions [_attn_fwd_inner_repaired := inner] in triton {
+    jit_functions [_attn_fwd_inner_repaired := innerSource] in triton {
     n_ctx = tl.cast(N_CTX, tl.int64)
     stride_kn64 = tl.cast(stride_kn, tl.int64)
     stride_vk64 = tl.cast(stride_vk, tl.int64)
@@ -150,7 +150,7 @@ def candidateBody (Q K V Q_scale K_scale Out : RegionName)
 }
 
 end
-end VeriTile.Bench.Repairs.AttnFwdTriton.Bodies
+end VeriTile.Bench.Repairs.AttnFwdTriton
 
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.TypedSource
 open VeriTile.Triton
@@ -159,14 +159,14 @@ noncomputable section
 def repaired (Q K V Q_scale K_scale Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX HEAD_DIM BLOCK_M BLOCK_N BLOCK_DMODEL STAGE : Nat)
     (_hStage : STAGE=2 ∨ STAGE=3) : ComputeKernel :=
-  Bodies.originalBody Q K V Q_scale K_scale Out
+  originalKernel Q K V Q_scale K_scale Out
     stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX
     HEAD_DIM BLOCK_DMODEL BLOCK_M BLOCK_N (decide (STAGE=2))
 
 def quotientRemainder (Q K V Q_scale K_scale Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX HEAD_DIM BLOCK_M BLOCK_N BLOCK_DMODEL STAGE : Nat)
     (_hStage : STAGE=2 ∨ STAGE=3) : ComputeKernel :=
-  Bodies.candidateBody Q K V Q_scale K_scale Out
+  candidateKernel Q K V Q_scale K_scale Out
     stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on Z H N_CTX
     HEAD_DIM BLOCK_DMODEL BLOCK_M BLOCK_N (decide (STAGE=2))
 

@@ -35,7 +35,7 @@ theorem chunk_safe (rest : Algebra α) (zero : α) (p : Parameters)
     Safety.traceSafeList (backend rest zero) bounds (body .int32 p)
       (s.setReg "start_nn" .nat [] (fun _ => start)) := by
   rcases context with ⟨hr,hc⟩
-  simp [body,source,ComputeKernel.surfaceBody,
+  simp [body,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

@@ -28,7 +28,7 @@ def unrolledCallSignature : CallSignature where
   readPorts := ["Seeds","Offsets","Indices","Scores"]
   writePorts := ["Outputs"]
 
-def originalBody (payload : Payload)
+def originalKernel (payload : Payload)
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
@@ -73,7 +73,7 @@ def originalBody (payload : Payload)
     tl.store(Outputs + off, output, mask=off_mask)
   }
 
-def unrolledBody
+def unrolledKernel
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
@@ -123,35 +123,35 @@ def original
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
-  originalBody .fp32 Scores Seeds Offsets Indices Outputs
+  originalKernel .fp32 Scores Seeds Offsets Indices Outputs
     stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N hB hN
 
 def original16
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
-  originalBody .fp16 Scores Seeds Offsets Indices Outputs
+  originalKernel .fp16 Scores Seeds Offsets Indices Outputs
     stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N hB hN
 
 def originalBfloat16
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
-  originalBody .bf16 Scores Seeds Offsets Indices Outputs
+  originalKernel .bf16 Scores Seeds Offsets Indices Outputs
     stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N hB hN
 
 def original64
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
-  originalBody .fp64 Scores Seeds Offsets Indices Outputs
+  originalKernel .fp64 Scores Seeds Offsets Indices Outputs
     stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N hB hN
 
 def unrolled
     (Scores Seeds Offsets Indices Outputs : RegionName)
     (stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N : Nat)
     (hB : Random.ArangeSizeDomain BLOCK) (hN : Random.ArangeSizeDomain BLOCK_N) : ComputeKernel :=
-  unrolledBody Scores Seeds Offsets Indices Outputs
+  unrolledKernel Scores Seeds Offsets Indices Outputs
     stride_sb stride_st stride_ib stride_it num_batchs num_tokens BLOCK BLOCK_N hB hN
 
 end VeriTile.Bench.Repairs.MultinomialSampling.Source

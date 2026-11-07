@@ -40,7 +40,7 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
       (s.setReg "start_n" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hxp,hyp,hprev,hm,hz,hmem⟩
   cases masked <;>
-    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
       ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
@@ -64,7 +64,7 @@ theorem emit_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
     (Int.ofNat_sub hcur).symm
   rcases hs with ⟨hxp,hyp,hprev,hm,hz,hmem⟩
   cases masked <;>
-    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
       ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,

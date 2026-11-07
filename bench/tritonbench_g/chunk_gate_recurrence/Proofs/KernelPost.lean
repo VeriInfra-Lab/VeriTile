@@ -30,7 +30,7 @@ theorem executes (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (p
     run (engine M) (after .backward c s seed) u=some (result M c p carry u) := by
   simp only [after,parts,source,Kernels.backward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    Kernels.forwardBody,Kernels.backwardBody,Kernels.forwardBodySumLeft,Kernels.backwardBodySumLeft,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    Kernels.forwardKernel,Kernels.backwardKernel,Kernels.forwardBodySumLeftKernel,Kernels.backwardBodySumLeftKernel,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,Algebra.withDefaultPrecision,resolvePrecision,numeric,bop,ofFloat,toFloat,Option.bind,

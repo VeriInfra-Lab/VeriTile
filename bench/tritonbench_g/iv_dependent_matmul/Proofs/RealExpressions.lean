@@ -44,7 +44,7 @@ structure Ready (p : Parameters) (s t : State ℝ) (a : Accumulator p) : Prop wh
 theorem prologue_run (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
     ∃ t, run (backend rest) (prologue p) s=some t ∧
       Ready p s t (fun _ => 0) := by
-  simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, prologue,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, prologue,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,backend,
     sumDot]
@@ -60,7 +60,7 @@ theorem body_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State 
     ∃ u, run (backend rest) (body g p) (t.setReg "k" .int [] (fun _ => (cur : Int)))=some u ∧
       Ready p s u (update g p s cur a) := by
   cases g <;>
-    simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, body,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, body,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
       h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,backend,
@@ -89,7 +89,7 @@ theorem loop_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State 
 
 theorem suffix_run (rest : Algebra ℝ) (p : Parameters) (s t : State ℝ) (a : Accumulator p) (h : Ready p s t a) :
     ∃ u, run (backend rest) (suffix p) t=some u ∧ u.mem=(written p s a).mem := by
-  simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, suffix,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeBody,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, suffix,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,State.setReg,store,h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,
     backend,sumDot]

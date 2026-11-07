@@ -111,7 +111,7 @@ theorem prelude_success (p : Layout) (r : Regions) (scale : ℝ)
       Ready p t ∧ t.mem = s.mem ∧ Controls p r s t := by
   simp (config := {maxSteps := 500000}) [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,Ready,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
@@ -147,7 +147,7 @@ theorem body_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases Option.isSome_iff_exists.mp h14 with ⟨v14,h14⟩
   simp (config := {maxSteps := 1000000}) [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies.originalBody,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,Ready,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

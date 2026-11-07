@@ -15,7 +15,7 @@ abbrev algebra {A : Type} (rest : Algebra A) (ops : Ops A) :=
 stores and the conditional GQA-leader K branch. -/
 def uncachedExecution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (p : Kernels.UncachedLayout) (s : State A) :
-    {t : State A // FP.Structural.exec (algebra rest ops) (Kernels.uncached p) s=some t} := by
+    {t : State A // FP.Structural.exec (algebra rest ops) (Kernels.uncachedKernel p) s=some t} := by
   have headNonneg : ¬(s.pids 0 : Int)<0 := by omega
   have signedLeader :
       ((s.pids 0 : Int)-(p.KV_GROUP_NUM : Int)*((s.pids 0 : Int)/(p.KV_GROUP_NUM : Int))=0) ↔
@@ -25,7 +25,7 @@ def uncachedExecution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [Kernels.uncached,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    simp [Kernels.uncachedKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
       algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,
       numericLe,numericLt,natLt,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,
@@ -37,12 +37,12 @@ def uncachedExecution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
 metadata loads, cache stores before Q stores, and the K-head masks. -/
 def cachedExecution {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (p : Kernels.CachedLayout) (s : State A) :
-    {t : State A // FP.Structural.exec (algebra rest ops) (Kernels.cached p) s=some t} := by
+    {t : State A // FP.Structural.exec (algebra rest ops) (Kernels.cachedKernel p) s=some t} := by
   by_cases head : s.pids 0<p.Q_HEAD_NUM
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [Kernels.cached,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    simp [Kernels.cachedKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
       algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,
       numericLe,numericLt,natLt,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,

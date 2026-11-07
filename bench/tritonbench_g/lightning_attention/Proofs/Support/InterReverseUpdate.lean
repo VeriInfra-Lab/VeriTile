@@ -37,7 +37,7 @@ def interReverseUpdate (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [interRUpdateParts,interReverseParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+    simp [interRUpdateParts,interReverseParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

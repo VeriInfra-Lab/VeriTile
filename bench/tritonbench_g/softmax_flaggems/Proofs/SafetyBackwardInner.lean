@@ -17,7 +17,7 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (P G Y : RegionName
     traceSafeList A bounds (rangeBody (code P G Y rows N B C) 3)
       (s.setReg "_" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,
+  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
@@ -38,7 +38,7 @@ theorem emit_safe (A : Algebra α) (base s : State α) (P G Y : RegionName)
     traceSafeList A bounds (rangeBody (code P G Y rows N B C) 7)
       (s.setReg "_" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,
+  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
@@ -62,7 +62,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (P G Y : RegionName)
       ∀ mid, rangeInt A "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N B C) 3)
         (initial A s N B C)=some mid →
         traceSafeList A bounds ((code P G Y rows N B C).drop 4) mid := by
-  simp [TraceSafe,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,code,branch,rangeBody,
+  simp [TraceSafe,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,code,branch,rangeBody,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -81,7 +81,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (P G Y : RegionName)
       rangeIntSafe A bounds "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N B C) 7)
         (writeInitial A mid row N B C v) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [code,branch,rangeBody,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_inner,
+  simp [code,branch,rangeBody,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,

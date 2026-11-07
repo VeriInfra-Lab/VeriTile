@@ -27,14 +27,14 @@ theorem source_split (mode : Mode) (p : Parameters) :
     (source mode p).surfaceBody=front mode p++[statement mode p]++tailCode mode p := by
   cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
     cases hl : (p.inner%p.blockInner==0) <;>
-    simp only [front,statement,tailCode,frontCount,source,flagged,typed,Bodies.originalBody,
+    simp only [front,statement,tailCode,frontCount,source,flagged,typed,originalKernel,
       dtype,hb,hs,hl,Bool.false_eq_true,if_false,if_true] <;> rfl
 
 theorem source_statements (mode : Mode) (p : Parameters) :
     (source mode p).surfaceBody.length=24+(if p.hasBias then 3 else 0)+(if p.saveInputs then 3 else 0) := by
   cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
     cases hl : (p.inner%p.blockInner==0) <;>
-    simp only [source,typed,Bodies.originalBody,dtype,hb,hs,hl,
+    simp only [source,typed,originalKernel,dtype,hb,hs,hl,
       Bool.false_eq_true,if_false,if_true] <;> rfl
 
 #axiomsClean source_split

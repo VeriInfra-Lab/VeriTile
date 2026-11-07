@@ -20,7 +20,7 @@ theorem source_traceSafe {α : Type} [Inhabited α] (M : Algebra α)
       ((row : Int)*(N : Int)+(lane : Int)).toNat=row*N+lane := by
     rw [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
   have index_lt (lane : Nat) : ((lane : Int)<(N : Int)) ↔ lane<N := by omega
-  simp (maxSteps := 1800000) [TraceSafe,backward,backwardTemplate,
+  simp (maxSteps := 1800000) [TraceSafe,backward,backwardTemplateKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -43,7 +43,7 @@ theorem commuted_traceSafe {α : Type} [Inhabited α] (M : Algebra α)
   have index_product : ((N : Int)*(row : Int)).toNat = row*N := by
     rw [←Int.natCast_mul,Int.toNat_natCast,Nat.mul_comm]
   have index_lt (lane : Nat) : ((lane : Int)<(N : Int)) ↔ lane<N := by omega
-  simp (maxSteps := 1800000) [TraceSafe,backwardCommuted,commutedBackwardTemplate,
+  simp (maxSteps := 1800000) [TraceSafe,backwardCommuted,commutedBackwardTemplateKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

@@ -32,7 +32,7 @@ def stores (M : Algebra α) (dot : Dot α) (c : Config) (s : State α)
   generalize hvpg : Classical.choose ready.pg = vpg at hpg
   refine ⟨?_,?_⟩
   swap
-  simp only [parts,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [parts,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte,List.take,List.drop]
   simp [run,step.eq_3,evalExpr,evalComputeOp,evalOp_unfold,FP.Structural.store,

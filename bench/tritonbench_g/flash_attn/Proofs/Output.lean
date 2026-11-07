@@ -46,7 +46,7 @@ def postExec (M : Algebra α) (dot : Dot α) (p : Parameters) (scale : α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp (maxSteps := 1000000) [parts,kernel,declared,ActualSource.body,ActualSource.indexCommutedBody,ComputeKernel.surfaceBody,
+    simp (maxSteps := 1000000) [parts,kernel,declared,ActualSource.bodyKernel,ActualSource.indexCommutedKernel,ComputeKernel.surfaceBody,
       Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

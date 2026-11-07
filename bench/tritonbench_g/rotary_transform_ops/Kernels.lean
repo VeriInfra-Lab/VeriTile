@@ -22,9 +22,9 @@ def source32_32
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source32_64
     (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
     (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
@@ -33,9 +33,9 @@ def source32_64
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source64_32
     (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
     (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
@@ -44,9 +44,9 @@ def source64_32
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source64_64
     (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
     (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
@@ -55,9 +55,9 @@ def source64_64
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source (cumulative64 offsets64 : Bool) :=
   if cumulative64 then
     if offsets64 then source64_64 else source64_32
@@ -81,9 +81,9 @@ def source32_32
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.false Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source32_64
     (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
     (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
@@ -92,9 +92,9 @@ def source32_64
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.false Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source64_32
     (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
     (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
@@ -103,9 +103,9 @@ def source64_32
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.true Bool.false OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source64_64
     (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName)
     (SEQLEN_OFFSETS_SCALAR seqlen : Int) (rotary_dim seqlen_ro
@@ -114,9 +114,9 @@ def source64_64
       BLOCK_K BLOCK_M : Nat)
     (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   if IS_SEQLEN_OFFSETS_TENSOR then
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
   else
-    VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
+    VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel Bool.true Bool.true OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M IS_VARLEN INTERLEAVED CONJUGATE
 def source (cumulative64 offsets64 : Bool) :=
   if cumulative64 then
     if offsets64 then source64_64 else source64_32

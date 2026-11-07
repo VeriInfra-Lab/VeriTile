@@ -42,7 +42,7 @@ theorem target_graph (p : Native.Instructions) (shape : Shape) (s : State Native
 
 theorem native_successful (rest : Algebra Native.Node) (p : Native.Instructions)
     (shape : Shape) (valid : shape.Valid) (s : State Native.Node) :
-    ∃ t,exec (algebra rest (Native.ops p)) (Kernels.kernel (layout shape)) s=some t ∧
+    ∃ t,exec (algebra rest (Native.ops p)) (Kernels.sourceKernel (layout shape)) s=some t ∧
       t.mem=(graphTarget p shape s).mem ∧
       (∀ key odd i,active (layout shape) s key i →
         t.mem (region (layout shape) key) (offset (layout shape) s key odd i)=
@@ -50,7 +50,7 @@ theorem native_successful (rest : Algebra Native.Node) (p : Native.Instructions)
       (∀ r o,Outside shape s r o → t.mem r o=s.mem r o) := by
   simpa only [target_graph,value_graph] using successful rest (Native.ops p) shape valid s
 
-#specNonCircular graphTarget avoiding [Kernels.kernel,execution,reference,target]
+#specNonCircular graphTarget avoiding [Kernels.sourceKernel,execution,reference,target]
 #axiomsClean native_successful
 end
 end VeriTile.Bench.Repairs.RotaryEmb.Typed

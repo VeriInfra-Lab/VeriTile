@@ -34,8 +34,8 @@ theorem prelude_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8Deq
       initial.pids 0/(p.groupRows*((p.columns+p.blockColumns-1)/p.blockColumns))*p.groupRows < p.groupRows
   all_goals cases rowScale <;> cases output
   all_goals
-    simp (maxSteps:=1500000) [prelude,source,KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf,KernelSource.gemmHalfSingle, Bodies.gemmHalfSingle,
-      KernelSource.gemmSingleHalf, Bodies.gemmSingleHalf,KernelSource.gemmSingleSingle, Bodies.gemmSingleSingle,ComputeKernel.surfaceBody,
+    simp (maxSteps:=1500000) [prelude,source,KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel,KernelSource.gemmHalfSingleKernel, gemmHalfSingleKernel,
+      KernelSource.gemmSingleHalfKernel, gemmSingleHalfKernel,KernelSource.gemmSingleSingleKernel, gemmSingleSingleKernel,ComputeKernel.surfaceBody,
       IntegerDot.traceSafeList_unfold,IntegerDot.stepSafe_unfold,SharedInteger.step_eq,
       KernelExecution.step,KernelExecution.run,localStep,FP.Structural.step,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
@@ -61,7 +61,7 @@ theorem body_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8Dequan
     (bounds : RegionName→Nat) (hb : Bounds p initial bounds) :
     IntegerDot.traceSafeList M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans)
       bounds (body p) (current.setReg "k" .int [] (fun _=>(t : Int))) := by
-  simp (maxSteps:=1500000) [body,source,KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf,ComputeKernel.surfaceBody,
+  simp (maxSteps:=1500000) [body,source,KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel,ComputeKernel.surfaceBody,
     IntegerDot.traceSafeList_unfold,IntegerDot.stepSafe_unfold,SharedInteger.step_eq,
     KernelExecution.step,localStep_dot,localStep_load,localStep_pointer,accumulate,FP.Structural.step,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
@@ -81,8 +81,8 @@ theorem epilogue_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8De
       bounds (epilogue rowScale output p) current := by
   cases rowScale <;> cases output <;> by_cases hs : p.split=1
   all_goals
-    simp (maxSteps:=1500000) [epilogue,source,KernelSource.gemmHalfHalf, Bodies.gemmHalfHalf,KernelSource.gemmHalfSingle, Bodies.gemmHalfSingle,
-      KernelSource.gemmSingleHalf, Bodies.gemmSingleHalf,KernelSource.gemmSingleSingle, Bodies.gemmSingleSingle,ComputeKernel.surfaceBody,
+    simp (maxSteps:=1500000) [epilogue,source,KernelSource.gemmHalfHalfKernel, gemmHalfHalfKernel,KernelSource.gemmHalfSingleKernel, gemmHalfSingleKernel,
+      KernelSource.gemmSingleHalfKernel, gemmSingleHalfKernel,KernelSource.gemmSingleSingleKernel, gemmSingleSingleKernel,ComputeKernel.surfaceBody,
       IntegerDot.traceSafeList_unfold,IntegerDot.stepSafe_unfold,SharedInteger.step_eq,
       KernelExecution.step,KernelExecution.run,localStep,FP.Structural.step,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,

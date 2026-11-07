@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.IntegerJitControl
 import VeriTile.Triton.DSL.SignedCallRanges
 
@@ -603,5 +604,22 @@ private partial def bindBooleans (values : List (Name × Syntax)) (raw : Syntax)
   let args ← elabTermEnsuringType (← `([$abiArguments,*])) (mkApp (mkConst ``List [levelZero]) (mkConst ``ScalarArgument))
   ensureHasType expected (← mkAppM ``ComputeKernel.withScalarArguments #[kernel,args])
 
+
+end VeriTile.Triton.DSL.GuardedJitFunctions
+
+namespace VeriTile.Triton.DSL.GuardedJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceProcedures.sourceParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``StatementJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  unless stx[8].getArgs.isEmpty do
+    throwError "symbolic FP32 constants require a SourceProcedure"
+  let body ← `(triton_function ($parameters,*) constexpr_args [$constants,*] {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
 
 end VeriTile.Triton.DSL.GuardedJitFunctions

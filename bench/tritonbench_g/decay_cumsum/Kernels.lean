@@ -1,6 +1,6 @@
 import VeriTile.Triton.DSL.CastReverseRange
 import bench.tritonbench_g.decay_cumsum.Proofs.Sources.Parameters
-namespace VeriTile.Bench.Repairs.DecayCumsum.Bodies
+namespace VeriTile.Bench.Repairs.DecayCumsum
 open VeriTile.Triton VeriTile.Bench.TritonBenchG.DecayCumsum.TypedSource
 noncomputable section
 set_option maxRecDepth 30000
@@ -15,7 +15,7 @@ def forwardSignature (gate : Storage) : CallSignature where
   readPorts := ["g"]
   writePorts := ["g_o"]
 
-def forwardBody (gate : Storage) (g g_o : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
+def forwardKernel (gate : Storage) (g g_o : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (forwardSignature gate) call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, B := B, H := H, T := T, scale := scale] in triton {
     i_k = tl.program_id(0).to(tl.int64)
     i_c = tl.program_id(1).to(tl.int64)
@@ -33,7 +33,7 @@ def forwardBody (gate : Storage) (g g_o : RegionName) (s_qk_h s_qk_t s_qk_d B H 
         p_go += DK
 }
 
-def forwardCandidateBody (gate : Storage) (g g_o : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
+def forwardCandidateKernel (gate : Storage) (g g_o : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (forwardSignature gate) call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, B := B, H := H, T := T, scale := scale] in triton {
     i_k = tl.program_id(0).to(tl.int64)
     i_c = tl.program_id(1).to(tl.int64)
@@ -58,7 +58,7 @@ def prepareSignature (source gate : Storage) : CallSignature where
   readPorts := ["q", "k", "g"]
   writePorts := ["qg", "kg"]
 
-def prepareBody (source gate : Storage) (q k g qg kg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
+def prepareKernel (source gate : Storage) (q k g qg kg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (prepareSignature source gate) call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, B := B, H := H, T := T, scale := scale] in triton {
     i_k = tl.program_id(0).to(tl.int64)
     i_c = tl.program_id(1).to(tl.int64)
@@ -88,7 +88,7 @@ def prepareBody (source gate : Storage) (q k g qg kg : RegionName) (s_qk_h s_qk_
         p_qg += DK
 }
 
-def prepareCandidateBody (source gate : Storage) (q k g qg kg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
+def prepareCandidateKernel (source gate : Storage) (q k g qg kg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (prepareSignature source gate) call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, B := B, H := H, T := T, scale := scale] in triton {
     i_k = tl.program_id(0).to(tl.int64)
     i_c = tl.program_id(1).to(tl.int64)
@@ -125,7 +125,7 @@ def backwardSignature (source gate : Storage) : CallSignature where
   readPorts := ["dq_inner", "dq_inter", "dk_inner", "dk_inter", "q", "k", "g"]
   writePorts := ["dq_inter", "dk_inter", "dg"]
 
-def backwardBody (source gate : Storage) (dq_inner dq_inter dk_inner dk_inter q k g dg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
+def backwardKernel (source gate : Storage) (dq_inner dq_inter dk_inner dk_inter q k g dg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (backwardSignature source gate) call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, B := B, H := H, T := T, scale := scale] in triton {
     i_k = tl.program_id(0).to(tl.int64)
     i_c = tl.program_id(1).to(tl.int64)
@@ -170,7 +170,7 @@ def backwardBody (source gate : Storage) (dq_inner dq_inter dk_inner dk_inter q 
         p_dg -= DK
 }
 
-def backwardCandidateBody (source gate : Storage) (dq_inner dq_inter dk_inner dk_inter q k g dg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
+def backwardCandidateKernel (source gate : Storage) (dq_inner dq_inter dk_inner dk_inter q k g dg : RegionName) (s_qk_h s_qk_t s_qk_d B H T BT BK DK : Nat) (scale : ℝ) : ComputeKernel :=
   with_triton_call (backwardSignature source gate) call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, B := B, H := H, T := T, scale := scale] in triton {
     i_k = tl.program_id(0).to(tl.int64)
     i_c = tl.program_id(1).to(tl.int64)
@@ -216,4 +216,4 @@ def backwardCandidateBody (source gate : Storage) (dq_inner dq_inter dk_inner dk
 }
 
 end
-end VeriTile.Bench.Repairs.DecayCumsum.Bodies
+end VeriTile.Bench.Repairs.DecayCumsum

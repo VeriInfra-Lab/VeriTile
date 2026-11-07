@@ -12,7 +12,7 @@ theorem tail_eq_drop (p : Config) (BD : Nat) (r : Bool) :
     tail p BD r=(code p BD).drop (prefixLength p BD) := by
   cases hd : decide (p.stage=2)
   all_goals simp only [tail,parts,prefixLength,code,source,TypedSource.repaired,
-    Bodies.originalBody,hd,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
+    originalKernel,hd,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
     ComputeKernel.surfaceBody]
   all_goals rfl
 
@@ -25,7 +25,7 @@ theorem finish_success {α : Type} [Inhabited α] (A : Algebra α)
   rcases hl.2.2.2.2.2 with ⟨⟨c0,hc0⟩,⟨c1,hc1⟩,⟨c2,hc2⟩,⟨c3,hc3⟩,⟨c4,hc4⟩,⟨c5,hc5⟩,⟨c6,hc6⟩,⟨c7,hc7⟩,⟨c8,hc8⟩,⟨c9,hc9⟩,⟨c10,hc10⟩⟩
   cases second <;> by_cases hd : p.stage=2
   all_goals simp [workName] at hc8 hc9 hc10
-  all_goals simp only [finish,parts,code,source,TypedSource.repaired,Bodies.originalBody,
+  all_goals simp only [finish,parts,code,source,TypedSource.repaired,originalKernel,
     hd,decide_true,decide_false,workName,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
     ComputeKernel.surfaceBody,Source.intRange?,Option.map_some,Option.getD_some,
     beq_self_eq_true,List.take_succ_cons,List.take_zero]
@@ -62,7 +62,7 @@ theorem tail_success {α : Type} [Inhabited α] (A : Algebra α)
   rcases hs with ⟨⟨x0,h0⟩,⟨x1,h1⟩,⟨x2,h2⟩,⟨x3,h3⟩,⟨x4,h4⟩,⟨x5,h5⟩,⟨x6,h6⟩,⟨x7,h7⟩,⟨x8,h8⟩,⟨x9,h9⟩,⟨x10,h10⟩,⟨x11,h11⟩,⟨x12,h12⟩,⟨x13,h13⟩,⟨x14,h14⟩⟩
   cases r <;> by_cases hd : p.stage=2
   all_goals simp only [hd,tail,parts,code,source,workName,hd,decide_true,decide_false,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero]
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,List.drop_succ_cons,List.drop_zero]
   all_goals simp [hd,ControlView.compute,run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Cell.read,ofFloat,toFloat,Region.cast,State.setReg,h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14]
@@ -74,7 +74,7 @@ theorem assembled (p : Config) (BD : Nat) (r : Bool) :
       setupCode p BD Bool.true ++ loopCode p BD Bool.true ++ tail p BD r := by
   cases hd : decide (p.stage=2)
   all_goals simp only [coordinateCode,pointerCode,initializationCode,setupCode,setup,preloop,loopCode,finish,body,tail,parts,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,
-    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,Bodies.originalBody,ComputeKernel.surfaceBody,hd,
+    lowerOp,lowerName,upperName,code,source,TypedSource.repaired,originalKernel,ComputeKernel.surfaceBody,hd,
     Bool.false_or,Bool.true_or,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ControlView.compute,
     List.cons_append,List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero]
   all_goals rfl

@@ -76,9 +76,9 @@ specification backward_kernel_real_words (depth : Host.DepthLibrary) (dst grad s
     (fun b r j h => KernelIdeal.decode_finite_value _ (domain b r j h).1)
     (fun b r j h => KernelIdeal.decode_finite_value _ (domain b r j h).2)
 
-#specNonCircular ForwardWordDomain avoiding [forward,backward,runRows,Host.body,KernelExecution.exec]
-#specNonCircular BackwardWordDomain avoiding [forward,backward,runRows,Host.body,KernelExecution.exec]
-#specNonCircular tensorBackwardFormula avoiding [forward,backward,runRows,Host.body,KernelExecution.exec]
+#specNonCircular ForwardWordDomain avoiding [forwardKernel,backward,runRows,Host.body,KernelExecution.exec]
+#specNonCircular BackwardWordDomain avoiding [forwardKernel,backward,runRows,Host.body,KernelExecution.exec]
+#specNonCircular tensorBackwardFormula avoiding [forwardKernel,backward,runRows,Host.body,KernelExecution.exec]
 #axiomsClean forward_kernel_real_words
 #axiomsClean backward_kernel_real_words
 end

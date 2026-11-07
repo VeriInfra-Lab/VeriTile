@@ -25,7 +25,7 @@ private theorem singleton_safe (M : Algebra α) (bounds : RegionName→Nat)
 
 private theorem limit_safe (M : Algebra α) (bounds : RegionName→Nat)
     (p : Parameters) (state : State α) : Safety.safeOp M none bounds state (limit p) := by
-  simp only [limit,maxLoop,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [limit,maxLoop,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   simp [Safety.safeOp_unfold]
 

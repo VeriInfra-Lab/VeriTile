@@ -29,7 +29,7 @@ def entry (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) :
     {t : State α // run (engine (withDot M dot)) (parts p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,
+  simp [parts,kernel,TypedSource.hoistedHeadMask,candidateKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -65,7 +65,7 @@ theorem entry_loop (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State �
       (entry M dot p s).val =
     range (engine (withDot M dot)) counter 0 p.length 64 (parts p).body
       (entry M dot p s).val := by
-  simp [parts,kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,entry,
+  simp [parts,kernel,TypedSource.hoistedHeadMask,candidateKernel,entry,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -79,7 +79,7 @@ theorem entry_loop_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (s : St
       (entry M dot p s).val =
     Safety.rangeSafe (engine (withDot M dot)) bounds counter 0 p.length 64 (parts p).body
       (entry M dot p s).val := by
-  simp [Safety.stepSafe_unfold,Safety.safeOp_unfold,parts,kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,entry,
+  simp [Safety.stepSafe_unfold,Safety.safeOp_unfold,parts,kernel,TypedSource.hoistedHeadMask,candidateKernel,entry,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

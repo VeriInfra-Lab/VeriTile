@@ -34,7 +34,7 @@ theorem forward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     TraceSafe M bounds (forwardKernel p) s := by
   simp (config := {maxSteps := 8000000}) [TraceSafe, forwardKernel, Original.kernel,
     VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.kernel,
-    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source, Bodies.forwardBody, forwardParameters,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source, forwardPastedKernel, forwardParameters,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
@@ -68,7 +68,7 @@ theorem backward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
       r*p.upstreamRowStride+(p.columnOffset+c.val)*p.upstreamColStride < bounds upstreamRegion)
     (gradient : ∀ r, r < p.rows → ∀ c : Fin 3, r*3+c.val < bounds gradientRegion) :
     TraceSafe M bounds (backwardKernel p) s := by
-  simp (config := {maxSteps := 8000000}) [TraceSafe, backwardKernel, backwardSource,Bodies.backwardBody,
+  simp (config := {maxSteps := 8000000}) [TraceSafe, backwardKernel, backwardSource,backwardPastedKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

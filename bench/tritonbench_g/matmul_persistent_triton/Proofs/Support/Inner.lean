@@ -54,7 +54,7 @@ theorem bodyExecution (P : Source.Arithmetic α α) (p : Parameters)
     change run (backend P) (inner p) (current.setReg "ki" .int [] (fun _ => (block : Int)))=
       some (bodyResult P p initial current tile block)
     have h : InnerInvariant P p initial tile block current := h
-    simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,ComputeKernel.surfaceBody,run,step,
+    simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
       Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,h.args.M,h.args.N,h.args.K,h.args.stride_am,h.args.stride_ak,h.args.stride_bk,h.args.stride_bn,h.args.stride_cm,h.args.stride_cn,
@@ -75,7 +75,7 @@ theorem bodyExecution (P : Source.Arithmetic α α) (p : Parameters)
     change run (backend P) (inner p) (current.setReg "ki" .int [] (fun _ => (block : Int)))=
       some (bodyResult P p initial current tile block)
     have h : InnerInvariant P p initial tile block current := h
-    simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,TypedSource.candidateBody,ComputeKernel.surfaceBody,run,step,
+    simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
       Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,h.args.M,h.args.N,h.args.K,h.args.stride_am,h.args.stride_ak,h.args.stride_bk,h.args.stride_bn,h.args.stride_cm,h.args.stride_cn,

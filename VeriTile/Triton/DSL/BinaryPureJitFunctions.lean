@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.PythonShapeTuples
 
 /-! Two-parameter, single-return pure JIT helpers. The original helper and
@@ -239,3 +240,22 @@ private def argumentNames (value : Expr) : TermElabM (List String) := do
 
 end DSL.BinaryPureJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.BinaryPureJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceProcedures.sourceParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``BinaryPureJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  unless stx[8].getArgs.isEmpty do
+    throwError "symbolic FP32 constants require a SourceProcedure"
+  let #[x, y] := parameters | throwError "binary helper requires two parameters"
+  unless constants.isEmpty do throwError "binary helper requires an empty constexpr list"
+  let body ← `(triton_function ($x:ident, $y:ident) {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.BinaryPureJitFunctions

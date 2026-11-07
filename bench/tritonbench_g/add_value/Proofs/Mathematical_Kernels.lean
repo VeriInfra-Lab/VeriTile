@@ -11,7 +11,7 @@ def puzzle1_kernel
     (x_ptr output_ptr : RegionName)
     (N BLOCK_SIZE : Nat) :
     ComputeKernel :=
-  let k := (VeriTile.Bench.Repairs.AddValue.Contiguous.kernel x_ptr output_ptr N BLOCK_SIZE).toAlgKernel
+  let k := (VeriTile.Bench.Repairs.AddValue.Contiguous.sourceKernel x_ptr output_ptr N BLOCK_SIZE).toAlgKernel
   ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
 end

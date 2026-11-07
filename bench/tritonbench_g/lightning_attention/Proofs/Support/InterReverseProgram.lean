@@ -13,7 +13,7 @@ def interReverseDeltaInit (M : Algebra α) (D : DotPrimitive α) (p : Parameters
     {t : State α // run (engine (withDot M D)) (interRDeltaParts p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [interRDeltaParts,interRUpdateParts,interReverseParts,inter,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interRDeltaParts,interRUpdateParts,interReverseParts,interKernel,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,State.setReg]
   rfl
@@ -38,7 +38,7 @@ def interReverseCarryFinish (M : Algebra α) (D : DotPrimitive α) (p : Paramete
   simp only [InterRDelta] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [interRDeltaParts,interRUpdateParts,interReverseParts,inter,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interRDeltaParts,interRUpdateParts,interReverseParts,interKernel,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,bop,State.setReg,ctx.total,ha]
   rfl

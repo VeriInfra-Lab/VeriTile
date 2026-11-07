@@ -18,10 +18,10 @@ variable {α β : Type} [Inhabited α] [Inhabited β]
   induction rows generalizing s with
   | nil => rfl
   | cons row rows ih =>
-    change (exec A (source "X" "Y" "W" shape.width shape.block)
+    change (exec A (sourceKernel "X" "Y" "W" shape.width shape.block)
       (Runtime.bind (Runtime.setup shape.rows row s) epsilon)).bind
         (runSchedule (rows.map (invocation A shape epsilon))) =
-      (exec A (source "X" "Y" "W" shape.width shape.block)
+      (exec A (sourceKernel "X" "Y" "W" shape.width shape.block)
       (Runtime.bind (Runtime.setup shape.rows row s) epsilon)).bind
         (Runtime.run A "X" "Y" "W" shape.rows shape.width shape.block epsilon rows)
     rw [show runSchedule (rows.map (invocation A shape epsilon)) =
@@ -37,7 +37,7 @@ theorem schedule_safe (A : Algebra β) (shape : Shape) (valid : shape.Valid) (ep
   | nil => trivial
   | cons row rows ih =>
     refine ⟨?_,fun t _ => ih (fun r hr => members r (by simp [hr])) t⟩
-    change FP.Structural.TraceSafe A bounds (source "X" "Y" "W" shape.width shape.block)
+    change FP.Structural.TraceSafe A bounds (sourceKernel "X" "Y" "W" shape.width shape.block)
       (Runtime.bind (Runtime.setup shape.rows row s) epsilon)
     apply Runtime.source_trace_safe A bounds (Runtime.setup shape.rows row s)
       "X" "Y" "W" shape.width shape.block epsilon valid.1 valid.2.1

@@ -22,7 +22,7 @@ def outputEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale :
     {t : State α // run (engine (withDot M D)) (outputParts p scale).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [outputParts,forwardO,Bodies.forwardOBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -46,7 +46,7 @@ def outputBody (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : 
   have hs := ha.2
   refine ⟨?_,?_⟩
   swap
-  simp [outputParts,forwardO,Bodies.forwardOBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -84,7 +84,7 @@ def outputFinish (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale 
   have hs := ha.2
   refine ⟨?_,?_⟩
   swap
-  simp [outputParts,forwardO,Bodies.forwardOBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

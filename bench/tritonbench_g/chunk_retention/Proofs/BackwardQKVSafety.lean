@@ -18,7 +18,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).before s := by
   by_cases last : s.pids 1=c.chunks-1 ∧ c.T%64≠0
   all_goals
-    simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
+    simp [parts,kernel,Kernels.backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -46,7 +46,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape) (sc
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).body
       (current.setReg "i_v" .nat [] (fun _=>f)) := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -70,7 +70,7 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape) (
     (hk : ∀ i,keyActive c initial i → keyAddress c initial i<bounds "dk") :
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).after current := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,Kernels.backwardQKV,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.backwardQKVKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

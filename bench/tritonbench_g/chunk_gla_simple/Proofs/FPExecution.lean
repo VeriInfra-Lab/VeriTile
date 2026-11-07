@@ -31,7 +31,7 @@ def entryExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scal
     {t : State α // run (engine M) (Typed.parts c scale).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [Typed.parts,kernel,fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,
+  simp [Typed.parts,kernel,fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg]
@@ -53,7 +53,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale
   have hs := ha.2
   refine ⟨?_,?_⟩
   swap
-  simp [Typed.parts,kernel,fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,
+  simp [Typed.parts,kernel,fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,

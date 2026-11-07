@@ -33,7 +33,7 @@ theorem body_step {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   rcases ctx.acc with ⟨acc,hacc⟩
   refine ⟨?_,?_,?_⟩
   swap
-  · simp [body,source,typed,Pasted.originalBody,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
+  · simp [body,source,typed,Pasted.originalKernel,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericLt,numericEq,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
       FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,
@@ -65,7 +65,7 @@ theorem epilogue_executes {α : Type} [Inhabited α] (M : Algebra α) (D : DotAc
   cases he:p.ACTIVATION <;>
     (refine ⟨?_,?_⟩
      swap
-     simp [epilogue,source,typed,Pasted.originalBody,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
+     simp [epilogue,source,typed,Pasted.originalKernel,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericLt,numericEq,numericLe,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,

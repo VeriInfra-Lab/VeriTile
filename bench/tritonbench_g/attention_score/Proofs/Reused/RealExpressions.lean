@@ -62,7 +62,7 @@ theorem original_distance :
       offset size scale window complement evenM evenN hBlock).surfaceBody =
       some (distanceExpr BM BN offset) := by
   subst BM
-  simp [distance?, TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,
+  simp [distance?, TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,
     ComputeKernel.surfaceBody, distanceExpr]
 
 theorem candidate_distance :
@@ -71,7 +71,7 @@ theorem candidate_distance :
       offset size scale window complement evenM evenN hBlock).surfaceBody =
       some (distanceExpr BM BN offset) := by
   subst BM
-  simp [distance?, TypedSource.scalarLeft,TypedSource.scalarLeftBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,
+  simp [distance?, TypedSource.scalarLeft,TypedSource.scalarLeftKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,
     ComputeKernel.surfaceBody, distanceExpr]
 
 end

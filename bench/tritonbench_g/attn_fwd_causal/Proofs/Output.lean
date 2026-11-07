@@ -30,7 +30,7 @@ def postExec (M : Algebra α) (dot : Dot α) (p : Parameters)
   simp [workName] at h_maximum h_normalizer h_value
   refine ⟨?_,?_⟩
   swap
-  simp [diagonal,parts,kernel,TypedSource.repaired,
+  simp [diagonal,parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

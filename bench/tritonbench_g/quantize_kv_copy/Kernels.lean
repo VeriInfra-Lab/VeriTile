@@ -241,7 +241,7 @@ def callSignature : CallSignature where
   scalars := [("stride_k_bs",.integer),("stride_k_h",.integer),("stride_k_g",.integer),("stride_k_d",.integer),("stride_o_bs",.integer),("stride_o_h",.integer),("stride_o_g",.integer),("stride_o_d",.integer),("stride_os_bs",.integer),("stride_os_h",.integer),("stride_os_g",.integer),("stride_dest",.integer),("group_size",.integer)]
   constexpr := ["BLOCK_GROUP_NUM","BLOCK_GROUP_DIM"]
 
-def source (groups block heads : Nat) : ComputeKernel :=
+def sourceKernel (groups block heads : Nat) : ComputeKernel :=
   let K := ("K" : RegionName)
   let Dest_loc := ("D" : RegionName)
   let Out := ("O" : RegionName)
@@ -270,7 +270,7 @@ def source (groups block heads : Nat) : ComputeKernel :=
     tl.store(os_ptrs, data_scale, mask=offs_g < group_size)
   }
 
-def addressEarly (groups block heads : Nat) : ComputeKernel :=
+def addressEarlyKernel (groups block heads : Nat) : ComputeKernel :=
   let K := ("K" : RegionName)
   let Dest_loc := ("D" : RegionName)
   let Out := ("O" : RegionName)

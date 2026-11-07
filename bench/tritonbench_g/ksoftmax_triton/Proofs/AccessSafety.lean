@@ -25,7 +25,7 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A) (op : Operation)
   | forward log causal mode =>
     cases mode <;> cases log <;> cases causal
     all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, KernelExecution.source,
-      forward, Forward.Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forward, backward,VeriTile.Bench.Repairs.Ksoftmax.backward,VeriTile.Bench.Repairs.Ksoftmax.backwardTyped, ComputeKernel.surfaceBody,
+      forward, Forward.Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forwardKernel, backward,VeriTile.Bench.Repairs.Ksoftmax.backward,VeriTile.Bench.Repairs.Ksoftmax.backwardTypedKernel, ComputeKernel.surfaceBody,
       Forward.MaskMode.python, Forward.MaskMode.present, Operation.causal, Operation.readsRight,
       Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
       Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
@@ -49,7 +49,7 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A) (op : Operation)
   | backward log causal =>
     cases log <;> cases causal
     all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, KernelExecution.source,
-      backward,VeriTile.Bench.Repairs.Ksoftmax.backward,VeriTile.Bench.Repairs.Ksoftmax.backwardTyped, ComputeKernel.surfaceBody,
+      backward,VeriTile.Bench.Repairs.Ksoftmax.backward,VeriTile.Bench.Repairs.Ksoftmax.backwardTypedKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
       Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
       Safety.maskActive, run, step, stepAlg, evalExpr, evalComputeOp, evalOp_unfold,

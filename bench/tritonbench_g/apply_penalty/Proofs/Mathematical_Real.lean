@@ -7,7 +7,7 @@ The mathematical counts and addresses are recovered only from actual integer
 loads pinned to their nonnegative values. -/
 namespace VeriTile.Bench.TritonBenchG.ApplyPenalty
 open VeriTile.Triton
-open VeriTile.Bench.Repairs.ApplyPenalty (kernel callSignature)
+open VeriTile.Bench.Repairs.ApplyPenalty (sourceKernel callSignature)
 noncomputable section
 set_option maxHeartbeats 200000
 set_option maxRecDepth 24000
@@ -22,7 +22,7 @@ def sourceExecution (L P F R : Region .real) (I C S : Region .nat)
     {t : BlockState // exec ((apply_penalty L P F R I C S stride skip B).toAlgKernel) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [exec,apply_penalty,kernel,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp [exec,apply_penalty,sourceKernel,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     ComputeDType.eraseDType,stepStmts,stepStmt,evalOp,evalOp.eq_def,
@@ -132,7 +132,7 @@ theorem apply_penalty_flattenOk
         repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
         stride_logit_b stride_logit_s BLOCK_P).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [apply_penalty, VeriTile.Bench.Repairs.ApplyPenalty.kernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [apply_penalty, VeriTile.Bench.Repairs.ApplyPenalty.sourceKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
@@ -158,7 +158,7 @@ theorem traceSafe_pinned
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s B).toAlgKernel s := by
   unfold Kernel.TraceSafe
-  simp [apply_penalty,kernel,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp [apply_penalty,sourceKernel,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     ComputeDType.eraseDType,Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,

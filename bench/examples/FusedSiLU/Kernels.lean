@@ -29,7 +29,7 @@ def siluStepGateSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def siluStepGate (xReg gateReg zReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def siluStepGateKernel (xReg gateReg zReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature siluStepGateSignature in triton {
     pid     = tl.program_id(0)
     offsets = pid * blockSize + tl.arange(0, blockSize)
@@ -44,7 +44,7 @@ def siluStepSiluSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def siluStepSilu (zReg siluReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def siluStepSiluKernel (zReg siluReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature siluStepSiluSignature in triton {
     pid     = tl.program_id(0)
     offsets = pid * blockSize + tl.arange(0, blockSize)
@@ -58,7 +58,7 @@ def siluStepResidualSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def siluStepResidual (siluReg residualReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def siluStepResidualKernel (siluReg residualReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature siluStepResidualSignature in triton {
     pid      = tl.program_id(0)
     offsets  = pid * blockSize + tl.arange(0, blockSize)
@@ -72,8 +72,8 @@ def unfusedSiLUKernel
     (xReg gateReg residualReg zReg siluReg outReg : RegionName)
     (blockSize : Nat) : ComputeKernel :=
   ComputeKernel.seq [xReg, gateReg, residualReg] [outReg]
-    [siluStepGate xReg gateReg zReg blockSize,
-     siluStepSilu zReg siluReg blockSize,
-     siluStepResidual siluReg residualReg outReg blockSize]
+    [siluStepGateKernel xReg gateReg zReg blockSize,
+     siluStepSiluKernel zReg siluReg blockSize,
+     siluStepResidualKernel siluReg residualReg outReg blockSize]
 
 end VeriTile.Bench.Examples.FusedSiLU.Kernels

@@ -6,7 +6,7 @@ open VeriTile.Triton
 open VeriTile.Bench.Repairs.RmsnormFusedLlama
 
 def typedKernel (v : Bool) (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) : ComputeKernel :=
-  (if v then runtimeCandidate X Y W N B stride else runtimeKernel X Y W N B stride).withScalarArguments
+  (if v then runtimeCandidateKernel X Y W N B stride else runtimeKernel X Y W N B stride).withScalarArguments
     [ScalarArgument.fp32 "eps" eps]
 
 end

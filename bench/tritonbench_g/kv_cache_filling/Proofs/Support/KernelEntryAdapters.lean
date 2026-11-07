@@ -9,10 +9,10 @@ structure Parameters where
   (dk dv ck cv bk bv : Nat)
 
 def originalKernel (p : Parameters) : ComputeKernel :=
-  Bodies.original0Body "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
+  original0Kernel "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
 
 def commutedKernel (p : Parameters) : ComputeKernel :=
-  Bodies.candidate0Body "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
+  candidate0Kernel "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
 
 def kernel (version : Bool) (p : Parameters) : ComputeKernel :=
   if version then commutedKernel p else originalKernel p
@@ -26,19 +26,19 @@ noncomputable section
 abbrev Parameters := CopySource.Parameters
 
 def original8Kernel (p : Parameters) : ComputeKernel :=
-  Bodies.original8Body "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
+  VeriTile.Bench.Repairs.KvCacheFilling.original8Kernel "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
 
 def commuted8Kernel (p : Parameters) : ComputeKernel :=
-  Bodies.candidate8Body "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
+  candidate8Kernel "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
 
 def kernel8 (version : Bool) (p : Parameters) : ComputeKernel :=
   if version then commuted8Kernel p else original8Kernel p
 
 def original4Kernel (p : Parameters) : ComputeKernel :=
-  Bodies.original4Body "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
+  VeriTile.Bench.Repairs.KvCacheFilling.original4Kernel "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
 
 def commuted4Kernel (p : Parameters) : ComputeKernel :=
-  Bodies.candidate4Body "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
+  candidate4Kernel "key" "value" "keyCache" "valueCache" "keyMeta" "valueMeta" "src" "dst" p.dk p.dv p.ck p.cv p.bk p.bv
 
 def kernel4 (version : Bool) (p : Parameters) : ComputeKernel :=
   if version then commuted4Kernel p else original4Kernel p

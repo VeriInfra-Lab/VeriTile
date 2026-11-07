@@ -9,7 +9,7 @@ noncomputable section
 
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 def original (X O : RegionName) (n : Nat) : Program where
-  kernel := kernel X O n blockSize
+  kernel := sourceKernel X O n blockSize
   domain := []
 def indexCommuted (X O : RegionName) (n : Nat) : Program where
   kernel := indexCommutedKernel X O n blockSize

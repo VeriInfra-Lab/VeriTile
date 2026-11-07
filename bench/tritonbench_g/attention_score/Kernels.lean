@@ -16,7 +16,7 @@ with constructors so this source AST remains executable Lean data. -/
 def scaleArgument (value : ℝ) : ScalarArgument :=
   ⟨"sm_scale",.real,.compute (.alg .fp32 (.const value))⟩
 
-def originalBody
+def originalKernel
     (Q K M Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
@@ -125,9 +125,9 @@ def original
     (SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N : Bool)
     (_hBlockMN : BLOCK_M = BLOCK_N) :
     ComputeKernel :=
-  (originalBody Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX BLOCK_M BLOCK_DMODEL BLOCK_N sliding_window_offset sliding_window_size sm_scale SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N _hBlockMN).withScalarArguments [scaleArgument sm_scale]
+  (originalKernel Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX BLOCK_M BLOCK_DMODEL BLOCK_N sliding_window_offset sliding_window_size sm_scale SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N _hBlockMN).withScalarArguments [scaleArgument sm_scale]
 /-- Existing scalar-left FP32 score multiplication candidate. -/
-def scalarLeftBody
+def scalarLeftKernel
     (Q K M Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
@@ -236,7 +236,7 @@ def scalarLeft
     (SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N : Bool)
     (_hBlockMN : BLOCK_M = BLOCK_N) :
     ComputeKernel :=
-  (scalarLeftBody Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX BLOCK_M BLOCK_DMODEL BLOCK_N sliding_window_offset sliding_window_size sm_scale SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N _hBlockMN).withScalarArguments [scaleArgument sm_scale]
+  (scalarLeftKernel Q K M Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX BLOCK_M BLOCK_DMODEL BLOCK_N sliding_window_offset sliding_window_size sm_scale SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N _hBlockMN).withScalarArguments [scaleArgument sm_scale]
 end VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.TypedSource
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.Whole002.TypedSource

@@ -134,7 +134,7 @@ theorem expected_suffix (h : Call) (c : Config) (row f : Nat) (a : Nat → ℝ)
 theorem source_correct (h : Call) (c : Config) (row : Nat) (f : Geometry.FeatureBlock h)
     (initial : BlockState) (distinct : h.input≠h.output) (positive : 0<c.BT)
     (pid0 : initial.pids 0=f.val) (pid1 : initial.pids 1=row) :
-    ∃ final, exec (Kernels.source h c).eraseDType.toAlgKernel initial=some final ∧
+    ∃ final, exec (Kernels.sourceKernel h c).eraseDType.toAlgKernel initial=some final ∧
       (∀ (t : Nat) (j : Fin BS), t<h.T → f.val*BS+j.val<h.S →
         final.mem h.output (Geometry.address h row t (f.val*BS+j.val))=
           MemCell.real (suffix h (initial.readMem h.input) row t (f.val*BS+j.val))) ∧

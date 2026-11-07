@@ -15,7 +15,7 @@ def kernel :=
       stride_vbs stride_vh stride_vd
       stride_obs stride_oh stride_od
       stride_req_to_tokens_b stride_req_to_tokens_s
-      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  => Bodies.originalBody .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
+      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  => originalKernel .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
 
 def indexShared :=
   fun
@@ -27,7 +27,7 @@ def indexShared :=
       stride_vbs stride_vh stride_vd
       stride_obs stride_oh stride_od
       stride_req_to_tokens_b stride_req_to_tokens_s
-      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  => Bodies.indexSharedBody .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
+      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  => indexSharedKernel .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
 
 def storageProfile (dtype : VeriTile.Bench.TritonBenchG.ContextAttnBloom.Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen : RegionName) (Out : RegionName)
@@ -37,7 +37,7 @@ def storageProfile (dtype : VeriTile.Bench.TritonBenchG.ContextAttnBloom.Storage
       stride_vbs stride_vh stride_vd
       stride_obs stride_oh stride_od
       stride_req_to_tokens_b stride_req_to_tokens_s
-      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  : ComputeKernel := Bodies.originalBody dtype Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
+      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  : ComputeKernel := originalKernel dtype Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
 
 def storageScaleFirst (dtype : VeriTile.Bench.TritonBenchG.ContextAttnBloom.Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen : RegionName) (Out : RegionName)
@@ -47,7 +47,7 @@ def storageScaleFirst (dtype : VeriTile.Bench.TritonBenchG.ContextAttnBloom.Stor
       stride_vbs stride_vh stride_vd
       stride_obs stride_oh stride_od
       stride_req_to_tokens_b stride_req_to_tokens_s
-      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  : ComputeKernel := Bodies.scaleFirstBody dtype Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
+      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  : ComputeKernel := scaleFirstKernel dtype Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
 
 def scaleFirst32 (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen : RegionName) (Out : RegionName)
@@ -57,7 +57,7 @@ def scaleFirst32 (Q K V : RegionName) (sm_scale : ℝ)
       stride_vbs stride_vh stride_vd
       stride_obs stride_oh stride_od
       stride_req_to_tokens_b stride_req_to_tokens_s
-      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  : ComputeKernel := Bodies.scaleFirstBody .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
+      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)  : ComputeKernel := scaleFirstKernel .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num b_prompt_cache_len head_dim BLOCK_M BLOCK_DMODEL BLOCK_N
 
 end
 end VeriTile.Bench.Repairs.ContextAttnBloomSource

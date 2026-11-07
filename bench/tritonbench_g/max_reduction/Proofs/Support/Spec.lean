@@ -21,6 +21,6 @@ def result (inp ov oi : RegionName) (M N BM BN p : Nat)
     else ∃ index : Nat,ys 1 (i,PUnit.unit)=(index : Int) ∧
       RealModel.IsLeastArgmax (input xs i) N (ys 0 (i,PUnit.unit)) index
 
-#specNonCircular result avoiding [MaxReduction.dimension,Source.Engine.algebra,Source.rowValue,FP.Structural.exec]
+#specNonCircular result avoiding [MaxReduction.dimensionKernel,Source.Engine.algebra,Source.rowValue,FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.MaxReduction.DimensionMath

@@ -51,7 +51,7 @@ theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (f : Fl
   cases f
   all_goals simp only [originalSite,shiftedSite,originalKernel,kernel,KernelSource.kernel,CandidateSource.kernel,
     KernelHalf.source,KernelDefault.source,CandidateHalf.source,CandidateDefault.source,
-    KernelHalf.typed,Pasted.originalBody,Pasted.candidateBody,DSL.StaticAssertions.checked,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
+    KernelHalf.typed,Pasted.originalKernel,Pasted.candidateKernel,DSL.StaticAssertions.checked,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
     Bool.false_eq_true,ite_false,ite_true,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp only [step,evalExpr,evalOp_unfold]
@@ -67,7 +67,7 @@ theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionNa
   cases f
   all_goals simp only [originalSite,shiftedSite,originalKernel,kernel,KernelSource.kernel,CandidateSource.kernel,
     KernelHalf.source,KernelDefault.source,CandidateHalf.source,CandidateDefault.source,
-    KernelHalf.typed,Pasted.originalBody,Pasted.candidateBody,DSL.StaticAssertions.checked,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
+    KernelHalf.typed,Pasted.originalKernel,Pasted.candidateKernel,DSL.StaticAssertions.checked,KernelDefault.typed,CandidateHalf.typed,CandidateDefault.typed,KernelBinding.parameters,
     Bool.false_eq_true,ite_false,ite_true,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,and_true,true_and]

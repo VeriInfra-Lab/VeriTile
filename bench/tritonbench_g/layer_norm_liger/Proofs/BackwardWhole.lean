@@ -28,7 +28,7 @@ theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
     (h : Ready p s t row a) :
     ∃ u, run (withSum M R) (postlude p) t = some u ∧
       u.mem = (finish M p (s.pids 0) a).mem := by
-  simp [postlude, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [postlude, kernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, FP.Structural.bop, numericLt, natLt, Region.cast, withSum, VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.withSum,

@@ -37,7 +37,7 @@ structure Ready {α : Type} (M : Algebra α) (p : Parameters) (s t : State α) (
 theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s : State α) :
     ∃ t, run (withSum M R) (prelude p) s = some t ∧ Ready M p s t (start p s) (initial M p s) := by
-  simp [prelude, candidateKernel, candidateSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [prelude, candidateKernel, candidateSourcePastedKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, numeric, bop, integralFloorDiv,
     numericLt, natLt, withSum, VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.withSum, Region.cast]
   try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast]
@@ -52,7 +52,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive �
     (h : Ready M p s t row a) :
     ∃ u, run (withSum M R) (body p) (t.setReg "_" .int [] (fun _ => (row : Int))) = some u ∧
       Ready M p s u (row+1) (update M R p row a) := by
-  simp [body, candidateKernel, candidateSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [body, candidateKernel, candidateSourcePastedKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast, withSum,

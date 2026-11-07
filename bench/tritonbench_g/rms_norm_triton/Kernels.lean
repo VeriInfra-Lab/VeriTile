@@ -35,7 +35,7 @@ def rawKernel (Y X W : RegionName)
     tl.store(Y + cols * y_stride_c, y, mask=mask)
   }
 
-def rawCommuted (Y X W : RegionName)
+def rawCommutedKernel (Y X W : RegionName)
     (y_stride_r y_stride_c x_stride_r x_stride_c N BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call callSignature call_args [y_stride_r := y_stride_r,
     y_stride_c := y_stride_c, x_stride_r := x_stride_r, x_stride_c := x_stride_c,
@@ -76,7 +76,7 @@ def runtimeKernel (Y X W : RegionName) (N B : Nat) : ComputeKernel :=
   rawKernel Y X W N 1 N 1 N B
 
 def runtimeCandidate (Y X W : RegionName) (N B : Nat) : ComputeKernel :=
-  rawCommuted Y X W N 1 N 1 N B
+  rawCommutedKernel Y X W N 1 N 1 N B
 
 noncomputable def kernel (Y X W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
   (runtimeKernel Y X W N B).withScalarArguments [epsilonArgument eps]

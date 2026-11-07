@@ -21,7 +21,7 @@ theorem tile_safe {α : Type} [Inhabited α] (M : Algebra α) (cmp : α → α �
   cases branch : c.oneTile
   all_goals
     simp only [perTile,PastedTile.body,branch,Bool.false_eq_true,if_false,if_true,
-      PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,oneTileKernel,gridStrideKernel,originalBody,ComputeKernel.surfaceBody]
+      PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,oneTileKernel,gridStrideKernel,originalKernel,ComputeKernel.surfaceBody]
     simp [
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

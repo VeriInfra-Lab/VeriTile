@@ -44,7 +44,7 @@ theorem implements (h : Call) (distinct : h.input≠h.output) (c : Config)
   refine ⟨final,trace,?_,?_,?_⟩
   · intro bounds backed
     refine ⟨?_,trivial⟩
-    change Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel entered
+    change Kernel.TraceSafe bounds (Kernels.sourceKernel h c).eraseDType.toAlgKernel entered
     apply SourceSafety.source_safe h c program.1.val program.2 entered distinct positive
       (by simp [entered,launch,AlgorithmLaunch.initial]) (by simp [entered,launch,AlgorithmLaunch.initial]) bounds
     constructor

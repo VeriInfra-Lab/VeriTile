@@ -21,7 +21,7 @@ attribute [local simp] ComputeKernel.seq ComputeKernel.surfaceBody
   MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
   VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
   IntegralDType.eraseDType ComputeDType.eraseDType
-attribute [local simp] swiglu_fused silu_step mul_step swiglu_unfused
+attribute [local simp] swiglu_fused_kernel silu_step_kernel mul_step_kernel swiglu_unfused
 
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
@@ -29,19 +29,19 @@ attribute [local simp] swiglu_fused silu_step mul_step swiglu_unfused
 
 /-- Executable real counterpart of the source fused kernel. -/
 def swiglu_fused_math (X Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
-  (swiglu_fused X Y OUT ncols BLOCK_N).eraseDType
+  (swiglu_fused_kernel X Y OUT ncols BLOCK_N).eraseDType
 
 def silu_step_math (X S : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
-  (silu_step X S ncols BLOCK_N).eraseDType
+  (silu_step_kernel X S ncols BLOCK_N).eraseDType
 
 def mul_step_math (S Y OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
-  (mul_step S Y OUT ncols BLOCK_N).eraseDType
+  (mul_step_kernel S Y OUT ncols BLOCK_N).eraseDType
 
 def swiglu_unfused_math (X Y S OUT : RegionName) (ncols BLOCK_N : Nat) : ComputeKernel :=
   (swiglu_unfused X Y S OUT ncols BLOCK_N).eraseDType
 
 theorem fused_projection (X Y OUT : RegionName) (n B : Nat) :
-    (swiglu_fused X Y OUT n B).eraseDType.toAlgorithm? =
+    (swiglu_fused_kernel X Y OUT n B).eraseDType.toAlgorithm? =
       Except.ok (swiglu_fused_math X Y OUT n B).toAlgKernel := by
   simp [swiglu_fused_math, silu_step_math, mul_step_math, swiglu_unfused_math]
 

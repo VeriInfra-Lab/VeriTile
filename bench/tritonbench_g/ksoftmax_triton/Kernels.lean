@@ -12,7 +12,7 @@ def forwardSignature : CallSignature where
   readPorts := ["X", "M"]
   writePorts := ["Y"]
 
-def forward (Y X M : RegionName)
+def forwardKernel (Y X M : RegionName)
     (stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH : Nat)
     (LOG : Bool) (MASK_TYPE : Option String) (CAUSAL IS_FP16 : Bool) : ComputeKernel :=
   with_triton_call forwardSignature call_args [stride_ym := stride_ym, stride_yn := stride_yn, stride_xm := stride_xm, stride_xn := stride_xn, stride_m := stride_m, K := K] in triton {
@@ -59,7 +59,7 @@ def backwardSignature : CallSignature where
   readPorts := ["GradOut", "Out"]
   writePorts := ["GradIn"]
 
-def backwardTyped (GradIn GradOut Out : RegionName)
+def backwardTypedKernel (GradIn GradOut Out : RegionName)
     (stride_bm stride_bn stride_gm stride_gn stride_om stride_on K DEPTH : Nat)
     (LOG CAUSAL IS_FP16 : Bool) : ComputeKernel :=
   with_triton_call backwardSignature call_args [stride_bm := stride_bm, stride_bn := stride_bn, stride_gm := stride_gm, stride_gn := stride_gn, stride_om := stride_om, stride_on := stride_on, K := K] in triton {
@@ -98,16 +98,16 @@ def backwardTyped (GradIn GradOut Out : RegionName)
 def backward (GradIn GradOut Out : RegionName)
     (stride_bm stride_bn stride_gm stride_gn stride_om stride_on K DEPTH : Nat)
     (LOG CAUSAL : Bool) : ComputeKernel :=
-  backwardTyped GradIn GradOut Out stride_bm stride_bn stride_gm stride_gn stride_om stride_on K DEPTH LOG CAUSAL Bool.false
+  backwardTypedKernel GradIn GradOut Out stride_bm stride_bn stride_gm stride_gn stride_om stride_on K DEPTH LOG CAUSAL Bool.false
 
 end VeriTile.Bench.Repairs.Ksoftmax
 
 
 namespace VeriTile.Bench.Repairs.KsoftmaxGridYChecked
 /-- The guard-only candidate uses the frozen complete source quotations. -/
-abbrev forward := Ksoftmax.forward
+abbrev forward := Ksoftmax.forwardKernel
 abbrev backward := Ksoftmax.backward
 
-theorem forward_unchanged : forward=Ksoftmax.forward := rfl
+theorem forward_unchanged : forward=Ksoftmax.forwardKernel := rfl
 theorem backward_unchanged : backward=Ksoftmax.backward := rfl
 end VeriTile.Bench.Repairs.KsoftmaxGridYChecked

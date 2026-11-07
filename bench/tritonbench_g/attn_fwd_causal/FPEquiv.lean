@@ -11,7 +11,7 @@ noncomputable section
 abbrev original (instructions : Native.Instructions) (p : Parameters) (work : List Program) :=
   ProgramIO.Implementation.original (NativeIO.program instructions p work) (fun _ => True)
 
-abbrev quotientRemainder (instructions : Native.Instructions) (p : Parameters) (work : List Program) :=
+abbrev quotientRemainderKernel (instructions : Native.Instructions) (p : Parameters) (work : List Program) :=
   ProgramIO.Implementation.ofVariant (PairIO.candidate instructions p work) (fun _ => True)
 
 /-- Exact whole-kernel equality. All native input words and any complete CTA
@@ -20,7 +20,7 @@ No numerical rewrite or experimental rule is required. -/
 specification quotient_remainder_equiv (instructions : Native.Instructions) (p : Parameters)
     (apart : p.Out≠p.Q ∧ p.Out≠p.K ∧ p.Out≠p.V ∧ p.Out≠p.QS ∧ p.Out≠p.KS)
     (work : List Program) (legal : (programs (grid p)).Perm work) :
-    original instructions p work ≡[[]] quotientRemainder instructions p work := by
+    original instructions p work ≡[[]] quotientRemainderKernel instructions p work := by
   exact ProgramIO.Implementation.of_equivalent (PairIO.candidate instructions p work)
     (PairIO.equivalent instructions p apart work legal)
 

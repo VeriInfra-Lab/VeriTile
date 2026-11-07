@@ -38,7 +38,7 @@ theorem beforeKey_shape (Q K M : RegionName)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (scale : ℝ) (evenN : Bool) :
     ((RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).drop 1).take 11 =
       beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk := by
-  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,
@@ -63,7 +63,7 @@ theorem prelude_shape (Q K M : RegionName)
       beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk ++ afterKey B D N scale evenN := by
   have head : (RealProgram.prelude Q K M scale H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk evenN).take 1 =
       [.assign .real [] "sm_scale" (.const scale)] := by
-    simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+    simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,
@@ -79,7 +79,7 @@ theorem prelude_shape (Q K M : RegionName)
   rw [List.append_assoc]
   apply congrArg (fun tail : List Stmt=> [Stmt.assign .real [] "sm_scale" (.const scale)] ++
     (beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk ++ tail))
-  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+  simp only [RealProgram.prelude,RealProgram.rawBefore,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,List.drop_succ_cons,List.drop_zero]

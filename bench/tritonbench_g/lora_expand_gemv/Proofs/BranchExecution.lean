@@ -4,7 +4,7 @@ open VeriTile.Triton FP.Structural
 open FPValue (Word OutputFormat)
 open FP.Equational (ReductionPlan)
 noncomputable section
-attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalBody VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateBody VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source
+attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateKernel VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source
 set_option maxRecDepth 40000
 set_option maxHeartbeats 40000000
 set_option linter.unusedSimpArgs false
@@ -44,7 +44,7 @@ def headerExecution (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, Redu
   refine ⟨?_, ?_⟩
   swap
   rw [header_common]
-  simp [header, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalBody,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
+  simp [header, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Region.cast, Option.bind]
   rfl
 
@@ -59,7 +59,7 @@ def setupExecution (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, Reduc
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp [setup, active, castBranch, headerExecution, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalBody,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateBody,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
+    simp [setup, active, castBranch, headerExecution, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateKernel,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
       bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
       FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,

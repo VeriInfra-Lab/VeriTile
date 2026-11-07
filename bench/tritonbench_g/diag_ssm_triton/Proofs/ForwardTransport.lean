@@ -48,7 +48,7 @@ def setup (p : ForwardLayout) (length : Nat) (u : BlockState) :
   swap
   unfold before source Erasure.forward TypedSource.forward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.forwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,
@@ -110,7 +110,7 @@ def sourceNext (p : ForwardLayout) (base : BlockState) (n : Nat) (a : BlockState
   swap
   unfold body source Erasure.forward TypedSource.forward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.forwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,
@@ -235,7 +235,7 @@ theorem source_code (p : ForwardLayout) (length : Nat) :
       [.forRangeInt "t" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1) (body p)] := by
   unfold before body source Erasure.forward TypedSource.forward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.forwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,

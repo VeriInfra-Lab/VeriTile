@@ -4,9 +4,9 @@ namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Pasted
 noncomputable section
 /-- Complete source equality for both native signed metadata widths, after
 its explicit int64 widening and before all execution or numerical premises. -/
-theorem original_metadata_widths : originalBody .i32 = originalBody .i64 := by rfl
+theorem original_metadata_widths : originalKernel .i32 = originalKernel .i64 := by rfl
 
-theorem candidate_metadata_widths : candidateBody .i32 = candidateBody .i64 := by rfl
+theorem candidate_metadata_widths : candidateKernel .i32 = candidateKernel .i64 := by rfl
 
 #axiomsClean original_metadata_widths
 #axiomsClean candidate_metadata_widths

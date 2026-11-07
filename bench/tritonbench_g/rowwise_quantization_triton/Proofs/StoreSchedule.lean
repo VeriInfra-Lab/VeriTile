@@ -58,8 +58,8 @@ theorem execution_eq (M : Algebra α) (round : α → BitVec 64)
     QuantizeIntegerStage.exec (KernelExecution.backend M equal) (some round)
       ⟨Candidate.source "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s =
     QuantizeIntegerStage.exec (KernelExecution.backend M equal) (some round)
-      ⟨source "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s := by
-  simp (maxSteps := 1500000) [Candidate.source,earlyMaximumSource,source,ComputeKernel.surfaceBody,
+      ⟨sourceKernel "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s := by
+  simp (maxSteps := 1500000) [Candidate.source,earlyMaximumKernel,sourceKernel,ComputeKernel.surfaceBody,
     QuantizeIntegerStage.exec,QuantizeIntegerStage.run,QuantizeIntegerStage.step,
     QuantizeIntegerStage.evalExpr,QuantizeIntegerStage.store,QuantizeIntegerStage.storedInteger,
     QuantizeIntegerStage.outputRegister,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,

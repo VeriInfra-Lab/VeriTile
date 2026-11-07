@@ -13,7 +13,7 @@ theorem prelude_safe (M : Algebra A) (R : Reduction A) (h : Call)
     (batch row : Nat) (s : State A) (bounds : RegionName → Nat)
     (metadata : batch<bounds "Indices") :
     Safety.traceSafeList (machine M R) bounds (prelude h) (entry h batch row s) := by
-  simpa [prelude,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,entry,
+  simpa [prelude,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,entry,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -28,7 +28,7 @@ theorem setup_safe (M : Algebra A) (R : Reduction A) (h : Call)
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
   cases ev
   all_goals
-    simp (maxSteps := 500000) [setup,castSetup,beforeCast,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,
+    simp (maxSteps := 500000) [setup,castSetup,beforeCast,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,
       Source.conditional?,Source.intRange?,preguard,entry,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -62,7 +62,7 @@ theorem body_safe (M : Algebra A) (R : Reduction A) (h : Call)
     exact length
   cases ev <;> cases adds
   all_goals
-    simp (maxSteps := 1000000) [body,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,
+    simp (maxSteps := 1000000) [body,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,
       Source.conditional?,Source.intRange?,firstEntry,preloop,preguard,entry,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

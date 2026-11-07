@@ -19,7 +19,7 @@ theorem affine_iteration (M : Algebra α) (rows N wc bc pid row : Nat) (bias : B
     (hr : row<bounds "r") (hmu : row<bounds "mu") :
     traceSafeList (engine M) bounds (body rows N wc bc bias)
       (u.setReg "row" .int [] (fun _ => (row : Int))) := by
-  simp [body,kernel,affineDirectOffsets,affineCandidateBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
+  simp [body,kernel,affineDirectOffsets,affineCandidateKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -77,7 +77,7 @@ theorem affine_tail (M : Algebra α) (rows N wc bc pid : Nat) (bias : Bool)
   have biasRead := (inv.args "bias_count" (by simp)).trans biasCount
   cases bias
   all_goals
-    simp [tail,kernel,affineDirectOffsets,affineCandidateBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
+    simp [tail,kernel,affineDirectOffsets,affineCandidateKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -113,7 +113,7 @@ theorem affine (M : Algebra α) (rows N wc bc : Nat) (bias : Bool)
   unfold TraceSafe
   rw [source_body,List.append_assoc,traceSafeList_append]
   refine ⟨?_,?_⟩
-  · simp [prefixCode,kernel,affineDirectOffsets,affineCandidateBody,ComputeKernel.withScalarArguments,
+  · simp [prefixCode,kernel,affineDirectOffsets,affineCandidateKernel,ComputeKernel.withScalarArguments,
       ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,natLt,numericLt,State.setReg]

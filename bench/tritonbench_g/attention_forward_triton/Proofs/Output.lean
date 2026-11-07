@@ -26,7 +26,7 @@ def postExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     {t : State α // run (engine (withDot M dot)) (parts p).after current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

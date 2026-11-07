@@ -143,8 +143,8 @@ theorem abi_scalar_values (x : TensorMetadata) (rank : x.shape.length=3)
     cases mode <;> simp [integerArguments,Forward.MaskMode.present,hk,product,zero]
   | backward log causal => simp [integerArguments,hk,product]
 
-#specNonCircular ValidReductions avoiding [forward,backward,runRows,Graph.eval]
-#specNonCircular Selected avoiding [forward,backward,runRows,Graph.eval]
+#specNonCircular ValidReductions avoiding [forwardKernel,backward,runRows,Graph.eval]
+#specNonCircular Selected avoiding [forwardKernel,backward,runRows,Graph.eval]
 #axiomsClean abi_scalar_values
 end
 end VeriTile.Bench.Repairs.Ksoftmax.KernelCompiler

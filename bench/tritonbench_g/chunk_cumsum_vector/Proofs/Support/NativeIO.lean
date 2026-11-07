@@ -42,7 +42,7 @@ def outputMask (h : Call) (p : Geometry.Program h) (i : Fin (outputChannels h).l
 
 def invocation (M : Algebra α) (dot : DotBackend α) (h : Call) (c : Config)
     (p : Geometry.Program h) (commuted : Bool) : Invocation α where
-  kernel := if commuted then Kernels.sumLeft h c else Kernels.source h c
+  kernel := if commuted then Kernels.sumLeftKernel h c else Kernels.sourceKernel h c
   backend := machine M dot
   pids := fun ax => if ax=0 then p.feature else if ax=1 then p.row else 0
   setPids := fun ax => decide (ax<2)

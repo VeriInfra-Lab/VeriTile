@@ -40,7 +40,7 @@ theorem selected_layout (c : Parameters) (candidate : Bool) :
   all_goals simp [selected,oneBody,gridBody,sourcePrefixCode,computeAssignment,perTile,
     PastedTile.body,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,
     sourceKernel,kernel,commutedKernel,branch,oneTileKernel,oneTileCommuted,
-    gridStrideKernel,gridStrideCommuted,originalBody,commutedBody,
+    gridStrideKernel,gridStrideCommuted,originalKernel,commutedBodyPastedKernel,
     SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,ComputeKernel.surfaceBody]
 
 private theorem constant_branch {α : Type} [Inhabited α] (M : Algebra α)
@@ -61,7 +61,7 @@ private theorem source_layout (c : Parameters) (candidate : Bool) :
       [.ifThenElse (.constBool c.oneTile) (PastedTile.oneTile c candidate) (PastedTile.grid c candidate)] := by
   cases candidate <;> cases branch : c.oneTile <;>
     simp [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,gridStrideKernel,
-      oneTileCommuted,gridStrideCommuted,originalBody,commutedBody,ComputeKernel.surfaceBody,
+      oneTileCommuted,gridStrideCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,
       PastedTile.oneTile,PastedTile.grid]
 
 theorem source_run {α : Type} [Inhabited α] (M : Algebra α) (c : Parameters)

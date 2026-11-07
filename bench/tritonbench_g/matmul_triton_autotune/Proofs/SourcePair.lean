@@ -29,7 +29,7 @@ theorem index_equal {α : Type} [Inhabited α] (M : Algebra α)
     step M (originalIndex p) s=step M (candidateIndex p) s := by
   cases hr : s.regs .int [] "num_pid_n" <;>
     simp [originalIndex,candidateIndex,FPValue.source,FPValue.typed,Source.kernel,Source.typed,
-      Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,step,evalExpr,
+      Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,hr,Int.mul_comm]
   all_goals apply congrArg (s.setReg "num_pid_in_group" .int [])
   all_goals funext i

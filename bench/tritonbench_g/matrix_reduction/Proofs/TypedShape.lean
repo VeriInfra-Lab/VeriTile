@@ -12,7 +12,7 @@ theorem source_shape (storage : Storage) (X Y : RegionName) (sm sn sy M N : Nat)
       (load_reduce_kernel X Y sm sn sy M N).eraseDType.surfaceBody := by
   conv_rhs => rw [ComputeKernel.eraseDType, real_projection]
   cases storage <;>
-    simp [kernel, originalFor, real_projection, realBody, ComputeKernel.eraseDType,
+    simp [kernel, originalForKernel, real_projection, realBody, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList,
       Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,

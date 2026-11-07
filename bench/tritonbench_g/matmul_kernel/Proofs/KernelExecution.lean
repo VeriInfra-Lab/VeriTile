@@ -27,7 +27,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
     {t : State α // FP.Structural.run (backend M D) (prelude p) s=some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude,source,typed,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,
+  simp [prelude,source,typedKernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,VeriTile.Triton.Region.cast,Option.bind,integralFloorDiv,integralMod]
@@ -53,7 +53,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   simp only [HasAcc] at ha
   refine ⟨?_, ?_⟩
   swap
-  simp [body,source,typed,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,
+  simp [body,source,typedKernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,VeriTile.Triton.Region.cast,Option.bind,integralFloorDiv,integralMod,

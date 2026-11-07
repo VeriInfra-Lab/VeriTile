@@ -15,7 +15,7 @@ access is therefore checked at the same actual state. -/
 theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
     (h : Host.Call) (c : Host.Config) (bounds : RegionName → Nat) (s : State α)
     (safe : TraceSafe (engine algebra) bounds (Kernels.fp32Source h c) s) :
-    TraceSafe (engine algebra) bounds (Kernels.indexCommuted h c) s := by
+    TraceSafe (engine algebra) bounds (Kernels.indexCommutedKernel h c) s := by
   have beforeSafe : Safety.traceSafeList (engine algebra) bounds
       ((Kernels.fp32Source h c).surfaceBody.take 22) s := by
     have old : Safety.traceSafeList (engine algebra) bounds
@@ -23,7 +23,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
       simpa only [List.take_append_drop] using safe
     exact ((Safety.traceSafeList_append _ _ _ _ _).mp old).1
   have prefixSafe : Safety.traceSafeList (engine algebra) bounds
-      ((Kernels.indexCommuted h c).surfaceBody.take 23) s := by
+      ((Kernels.indexCommutedKernel h c).surfaceBody.take 23) s := by
     change Safety.traceSafeList (engine algebra) bounds
       ((Kernels.fp32Source h c).surfaceBody.take 22 ++
         [.assign .int [] "pid_h" (.alg (.sub .int .nil (.ref .int [] "pid_ch")
@@ -34,7 +34,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
     simp [Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeAlg,Safety.safeOp.eq_def]
     split <;> trivial
   have prefixEq : run (engine algebra) ((Kernels.fp32Source h c).surfaceBody.take 23) s=
-      run (engine algebra) ((Kernels.indexCommuted h c).surfaceBody.take 23) s := by
+      run (engine algebra) ((Kernels.indexCommutedKernel h c).surfaceBody.take 23) s := by
     change Contextual algebra s ((Kernels.fp32Source h c).surfaceBody.take 22) []
       (.assign .int [] "pid_h" (.alg (.sub .int .nil (.ref .int [] "pid_ch")
         (.mul .int .nil (.ref .int [] "pid_c") (.castNatToInt (.constNat h.shape.groups))))))
@@ -42,13 +42,13 @@ theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
         (.mul .int .nil (.castNatToInt (.constNat h.shape.groups)) (.ref .int [] "pid_c")))))
     fp_prove
   have tailEq : (Kernels.fp32Source h c).surfaceBody.drop 23=
-      (Kernels.indexCommuted h c).surfaceBody.drop 23 := rfl
+      (Kernels.indexCommutedKernel h c).surfaceBody.drop 23 := rfl
   have old : Safety.traceSafeList (engine algebra) bounds
       ((Kernels.fp32Source h c).surfaceBody.take 23 ++ (Kernels.fp32Source h c).surfaceBody.drop 23) s := by
     simpa only [List.take_append_drop] using safe
   obtain ⟨_,suffix⟩ := (Safety.traceSafeList_append _ _ _ _ _).mp old
-  change Safety.traceSafeList (engine algebra) bounds (Kernels.indexCommuted h c).surfaceBody s
-  rw [←List.take_append_drop 23 (Kernels.indexCommuted h c).surfaceBody,Safety.traceSafeList_append]
+  change Safety.traceSafeList (engine algebra) bounds (Kernels.indexCommutedKernel h c).surfaceBody s
+  rw [←List.take_append_drop 23 (Kernels.indexCommutedKernel h c).surfaceBody,Safety.traceSafeList_append]
   refine ⟨prefixSafe,?_⟩
   intro next executed
   rw [←tailEq]

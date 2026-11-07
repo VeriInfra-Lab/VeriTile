@@ -89,10 +89,10 @@ theorem schedule_safe (rest : Algebra Word) (c : DimConfig) (index64 : Bool)
       intro valid before
       have hi := valid job (by simp)
       constructor
-      · let initial := (JITIO.atProgram (Typed.backend rest) (JITSource.dimension BoundSource.X BoundSource.O 128 128 index64) (job.1*c.inner+job.2)).initial before
+      · let initial := (JITIO.atProgram (Typed.backend rest) (JITSource.dimensionKernel BoundSource.X BoundSource.O 128 128 index64) (job.1*c.inner+job.2)).initial before
         have hp : initial.pids 0 = job.1*c.inner+job.2 := by simp [initial, launch]
         change TraceSafe (Typed.backend rest) bounds
-          (JITSource.dimension BoundSource.X BoundSource.O 128 128 index64) (JITDimension.arguments initial c.outer c.extent c.inner 0)
+          (JITSource.dimensionKernel BoundSource.X BoundSource.O 128 128 index64) (JITDimension.arguments initial c.outer c.extent c.inner 0)
         apply JITNativeDimensionSafety.source_safe rest initial BoundSource.X BoundSource.O
           c.outer c.extent c.inner 128 128 0 index64 (by decide) bounds
         · intro row col hr hc

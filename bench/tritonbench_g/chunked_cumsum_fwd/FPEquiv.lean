@@ -16,7 +16,7 @@ specification chunked_cumsum_scaleFirst_equiv (cfg : FP.Config)
     (plan : PrefixPlan c.BH c.BC) (hasBias useSoftplus : Bool)
     (lower upper : FP.Value .fp32) :
     original cfg M c plan hasBias useSoftplus lower upper ≡[[]]
-      scaleFirst cfg M c plan hasBias useSoftplus lower upper :=
+      scaleFirstKernel cfg M c plan hasBias useSoftplus lower upper :=
   FP.Structural.ProgramIO.Implementation.of_equivalent
     (scaleFirstIO cfg M c plan hasBias useSoftplus lower upper)
     (PairCorrect.equivalent cfg M c sizes plan hasBias useSoftplus lower upper)

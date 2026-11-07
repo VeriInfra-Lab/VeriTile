@@ -6,26 +6,26 @@ open scoped VeriTile.Spec
 noncomputable section
 
 abbrev forwardOriginal := SourceEquivalence.forwardProgram Bool.false
-abbrev forwardIndexCommuted := SourceEquivalence.forwardProgram Bool.true
+abbrev forwardIndexCommutedKernel := SourceEquivalence.forwardProgram Bool.true
 abbrev chunkedOriginal := SourceEquivalence.chunkedProgram Bool.false
-abbrev chunkedIndexCommuted := SourceEquivalence.chunkedProgram Bool.true
+abbrev chunkedIndexCommutedKernel := SourceEquivalence.chunkedProgram Bool.true
 abbrev backwardOriginal := SourceEquivalence.backwardProgram Bool.false
-abbrev backwardIndexCommuted := SourceEquivalence.backwardProgram Bool.true
+abbrev backwardIndexCommutedKernel := SourceEquivalence.backwardProgram Bool.true
 def assumptions := SourceEquivalence.assumptions
 
 /-- Complete repaired FP32 sources versus the retained signed row-index
 commutation. Int64 labels, every mask, runtime branch, reduction and cast are
 unchanged. The equality preserves complete states and failure behavior. -/
 specification forward_kernel (p : Parameters) :
-    forwardOriginal p ≡[assumptions] forwardIndexCommuted p :=
+    forwardOriginal p ≡[assumptions] forwardIndexCommutedKernel p :=
   SourceEquivalence.forward_equivalent p
 
 specification chunked_kernel (p : Parameters) :
-    chunkedOriginal p ≡[assumptions] chunkedIndexCommuted p :=
+    chunkedOriginal p ≡[assumptions] chunkedIndexCommutedKernel p :=
   SourceEquivalence.chunked_equivalent p
 
 specification backward_kernel (p : Parameters) :
-    backwardOriginal p ≡[assumptions] backwardIndexCommuted p :=
+    backwardOriginal p ≡[assumptions] backwardIndexCommutedKernel p :=
   SourceEquivalence.backward_equivalent p
 
 #print_fp_assumptions forward_kernel

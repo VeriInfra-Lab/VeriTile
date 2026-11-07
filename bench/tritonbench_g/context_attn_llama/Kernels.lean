@@ -4,7 +4,7 @@ import VeriTile.Triton.DSL.IntegerWhereLiterals
 
 /-! Complete repaired Python bodies. Invocation storage/scalar metadata is
 outside the quotations; no source cast, mask or loop bound is removed. -/
-namespace VeriTile.Bench.Repairs.ContextAttnLlama.Bodies
+namespace VeriTile.Bench.Repairs.ContextAttnLlama
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ContextAttnLlama
 noncomputable section
@@ -15,7 +15,7 @@ def signature (dtype : Storage) : CallSignature where
   readPorts := ["Q","K","V","B_Start_Loc","B_Seqlen","Req_to_tokens","B_req_idx","b_prompt_cache_len"]
   writePorts := ["Out"]
 
-def originalBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
+def originalKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
     (B_Start_Loc B_Seqlen Req_to_tokens B_req_idx b_prompt_cache_len : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [sm_scale := sm_scale, stride_qbs := stride_qbs, stride_qh := stride_qh, stride_qd := stride_qd, stride_kbs := stride_kbs, stride_kh := stride_kh, stride_kd := stride_kd, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, stride_req_to_tokens_b := stride_req_to_tokens_b, stride_req_to_tokens_s := stride_req_to_tokens_s, kv_group_num := kv_group_num] in triton {
@@ -65,7 +65,7 @@ def originalBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : 
     tl.store(out_ptrs, acc, mask=offs_m[:, None] < cur_batch_seq_len)
   }
 
-def scaleFirstBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
+def scaleFirstKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
     (B_Start_Loc B_Seqlen Req_to_tokens B_req_idx b_prompt_cache_len : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [sm_scale := sm_scale, stride_qbs := stride_qbs, stride_qh := stride_qh, stride_qd := stride_qd, stride_kbs := stride_kbs, stride_kh := stride_kh, stride_kd := stride_kd, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, stride_req_to_tokens_b := stride_req_to_tokens_b, stride_req_to_tokens_s := stride_req_to_tokens_s, kv_group_num := kv_group_num] in triton {
@@ -115,7 +115,7 @@ def scaleFirstBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out 
     tl.store(out_ptrs, acc, mask=offs_m[:, None] < cur_batch_seq_len)
   }
 
-def blockEndFactoredBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
+def blockEndFactoredKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
     (B_Start_Loc B_Seqlen Req_to_tokens B_req_idx b_prompt_cache_len : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (signature dtype) call_args [sm_scale := sm_scale, stride_qbs := stride_qbs, stride_qh := stride_qh, stride_qd := stride_qd, stride_kbs := stride_kbs, stride_kh := stride_kh, stride_kd := stride_kd, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, stride_req_to_tokens_b := stride_req_to_tokens_b, stride_req_to_tokens_s := stride_req_to_tokens_s, kv_group_num := kv_group_num] in triton {
@@ -166,4 +166,4 @@ def blockEndFactoredBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
   }
 
 end
-end VeriTile.Bench.Repairs.ContextAttnLlama.Bodies
+end VeriTile.Bench.Repairs.ContextAttnLlama

@@ -66,8 +66,8 @@ specification final_correct (m : Model ℝ) (laws : SourceFinalReal.Laws m)
   LogicalProof.final_implements m laws M N BN pid
 
 #specNonCircular forwardFormula avoiding [FP.Structural.exec,FP.Structural.run,TypedSource.forward]
-#specNonCircular groupedFormula avoiding [FP.Structural.exec,FP.Structural.run,TypedSource.groupedBackward]
-#specNonCircular FinalRealIO.formula avoiding [FP.Structural.exec,FP.Structural.run,TypedSource.finalBackward]
+#specNonCircular groupedFormula avoiding [FP.Structural.exec,FP.Structural.run,TypedSource.groupedBackwardKernel]
+#specNonCircular FinalRealIO.formula avoiding [FP.Structural.exec,FP.Structural.run,TypedSource.finalBackwardKernel]
 #axiomsClean forward_correct
 #axiomsClean grouped_correct
 #axiomsClean final_correct

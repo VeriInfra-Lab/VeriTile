@@ -14,7 +14,7 @@ def signature (dtype : FloatDType) : CallSignature where
     ("stride_cm",.integer),("stride_cn",.integer)]
   constexpr := ["BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K","GROUP_SIZE_M"]
 
-def rawBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+def rawKernel (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
   with_triton_signature (signature dtype) in triton {
     # Widen before all dimension, offset, and stride arithmetic.
@@ -73,7 +73,7 @@ def rawBody (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
 def call (dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
-  (rawBody dtype a_ptr b_ptr c_ptr BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M).withScalarArguments
+  (rawKernel dtype a_ptr b_ptr c_ptr BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M).withScalarArguments
     [ScalarArgument.integer "M" M,ScalarArgument.integer "N" N,ScalarArgument.integer "K" K,
      ScalarArgument.integer "stride_am" stride_am,ScalarArgument.integer "stride_ak" stride_ak,
      ScalarArgument.integer "stride_bk" stride_bk,ScalarArgument.integer "stride_bn" stride_bn,

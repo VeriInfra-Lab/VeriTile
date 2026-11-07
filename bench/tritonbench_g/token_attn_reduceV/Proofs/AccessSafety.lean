@@ -25,7 +25,7 @@ structure Bounds (p : Parameters) (s : State A) (bounds : RegionName → Nat) : 
 theorem prelude_safe (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (s : State A) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (withSum M R) bounds (prelude p) s := by
-  simp [prelude,kernel,TokenAttnReduceV.kernel,source,ComputeKernel.surfaceBody,
+  simp [prelude,kernel,TokenAttnReduceV.kernel,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,
@@ -37,7 +37,7 @@ theorem body_safe (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (ready : Ready p s t a) (bounds : RegionName → Nat) (hb : Bounds p s bounds) (nonzero : p.block≠0) :
     Safety.traceSafeList (withSum M R) bounds (body p)
       (t.setReg "start_n" .int [] (fun _ => (n : Int))) := by
-  simp [body,kernel,TokenAttnReduceV.kernel,source,ComputeKernel.surfaceBody,
+  simp [body,kernel,TokenAttnReduceV.kernel,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
@@ -71,7 +71,7 @@ theorem postlude_safe (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (s t : State A) (a : TileIndex [p.width] → A) (ready : Ready p s t a)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (withSum M R) bounds (postlude p) t := by
-  simp [postlude,kernel,TokenAttnReduceV.kernel,source,ComputeKernel.surfaceBody,
+  simp [postlude,kernel,TokenAttnReduceV.kernel,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,ComputeDType.eraseDType,

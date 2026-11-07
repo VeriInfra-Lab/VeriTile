@@ -10,27 +10,27 @@ open VeriTile.Bench.TritonBenchG.DiagSsmTriton.TypedSource
 def blockSize : Nat := 128
 
 abbrev forwardTyped :=
-  Bodies.forwardBody Storage.fp32
+  forwardKernel Storage.fp32
 
 abbrev forwardIndexCommuted :=
-  Bodies.forwardCandidateBody Storage.fp32
+  forwardCandidateKernel Storage.fp32
 
 abbrev backwardTyped :=
-  Bodies.backwardBody Storage.fp32
+  backwardKernel Storage.fp32
 
 abbrev backwardIndexCommuted :=
-  Bodies.backwardCandidateBody Storage.fp32
+  backwardCandidateKernel Storage.fp32
 
 abbrev complexForwardTyped :=
-  Bodies.complexForwardBody
+  complexForwardKernel
 
 abbrev complexForwardIndexCommuted :=
-  Bodies.complexForwardCandidateBody
+  complexForwardCandidateKernel
 
 abbrev complexBackwardTyped :=
-  Bodies.complexBackwardBody
+  complexBackwardKernel
 
 abbrev complexBackwardIndexCommuted :=
-  Bodies.complexBackwardCandidateBody
+  complexBackwardCandidateKernel
 
 end VeriTile.Bench.Repairs.DiagSsmTriton.Kernels

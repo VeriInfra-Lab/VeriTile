@@ -11,7 +11,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize","nElements"]
 
-def addKernelMasked (xReg yReg outReg : RegionName) (blockSize nElements : Nat) : ComputeKernel :=
+def addMaskedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offsets = pid * blockSize + tl.arange(0, blockSize)
@@ -34,7 +34,7 @@ def commutedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) :
   }
 
 def originalKernel (nElements blockSize : Nat) : ComputeKernel :=
-  addKernelMasked "x" "y" "out" blockSize nElements
+  addMaskedKernel "x" "y" "out" blockSize nElements
 
 def optimizedKernel (nElements blockSize : Nat) : ComputeKernel :=
   commutedKernel "x" "y" "out" blockSize nElements

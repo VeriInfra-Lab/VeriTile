@@ -19,7 +19,7 @@ theorem epilogue (p : Ops α) (s : State α) (T D BD : Nat) (S : Bool)
       q.mem=(if S then scatter s "ht" BD (slot s D BD)
         (fun j => lane s BD j < D) carry else s).mem ∧ q.pids=s.pids := by
   cases S <;>
-    simp [forwardEpilogue,forward,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [forwardEpilogue,forwardKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,numericLt,Region.cast,State.setReg,algebra,store,hm,hb,hd,hc,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,scatter,slot,lane,
@@ -34,7 +34,7 @@ def ForwardWrites (s : State α) (T D BD : Nat) (S : Bool) (r : RegionName) (a :
   (S=Bool.true ∧ r="ht" ∧ ∃ j, lane s BD j < D ∧ a=slot s D BD j)
 
 theorem forward_complete (p : Ops α) (s : State α) (T D BD : Nat) (U S : Bool) :
-    ∃ q, run (algebra p) (forward T D BD U S).surfaceBody s=some q ∧ q.pids=s.pids ∧
+    ∃ q, run (algebra p) (forwardKernel T D BD U S).surfaceBody s=some q ∧ q.pids=s.pids ∧
       (∀ t, t < T → ∀ j, lane s BD j < D →
         q.mem "o" (row s t T D BD j)=.mk .real (values p s U T D BD (t+1) j)) ∧
       (S=Bool.true → ∀ j, lane s BD j < D →

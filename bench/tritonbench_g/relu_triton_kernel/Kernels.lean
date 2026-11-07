@@ -19,7 +19,7 @@ def sourceSignature : CallSignature where
   readPorts := ["x_ptr"]
   writePorts := ["out_ptr"]
 
-def kernel (input output : RegionName) (ib ob elementBytes N B : Nat) : ComputeKernel :=
+def sourceKernel (input output : RegionName) (ib ob elementBytes N B : Nat) : ComputeKernel :=
   let x_ptr := input
   let out_ptr := output
   let block_size := B
@@ -55,7 +55,7 @@ def fusedKernel (input output : RegionName) (ib ob elementBytes N B : Nat) : Com
   }
 
 /-- Source selected by the checked Python wrapper. -/
-def originalKernel (N : Nat) : ComputeKernel := kernel "x" "out" 0 0 1 N blockSize
+def originalKernel (N : Nat) : ComputeKernel := sourceKernel "x" "out" 0 0 1 N blockSize
 
 def inlinedKernel (N : Nat) : ComputeKernel := fusedKernel "x" "out" 0 0 1 N blockSize
 

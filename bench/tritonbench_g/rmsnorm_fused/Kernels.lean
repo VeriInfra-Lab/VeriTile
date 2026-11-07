@@ -15,7 +15,7 @@ def callSignature : CallSignature where
 /-- Complete repaired runtime-epsilon source. The FP32 scalar is supplied by
 `Runtime.bind` and the IO invocation; its declaration emits no statement.
 The int64 PID conversion, both loops and undefined inactive W are retained. -/
-def source (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+def sourceKernel (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
   let BLOCK_SIZE : Nat := B
   with_triton_call callSignature call_args [stride := N, N := N] in
   triton {
@@ -42,11 +42,11 @@ def source (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
 
 /-- Compatibility name for the complete readable runtime source. -/
 abbrev template (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
-  source X Y W N B
+  sourceKernel X Y W N B
 
 /-- The existing output-address candidate, with only `row*N` changed to
 `N*row`. Both complete numerical loops and the runtime FP32 scalar remain. -/
-def addressCommutedSource (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
+def addressCommutedKernel (X Y W : RegionName) (N B : Nat) : ComputeKernel :=
   let BLOCK_SIZE : Nat := B
   with_triton_call callSignature call_args [stride := N, N := N] in
   triton {

@@ -21,7 +21,7 @@ theorem body_safe (bounds : RegionBounds) (os ol ns : Region .int) (src dst : Re
     (hout : ∀ i : TileIndex [B], current + (i.1.val : Int) < length →
       address newStart current i < bounds dst) :
     Stmt.TraceSafeList bounds (body os ol ns src dst B) s := by
-  simp [body, source, kernel,Source.body,Source.commutedBody, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+  simp [body, source, kernel,Source.bodyKernel,Source.commutedBodyPastedKernel, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType,

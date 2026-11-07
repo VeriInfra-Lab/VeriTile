@@ -17,7 +17,7 @@ def maskExecution (rest : Algebra Word) (p : Parameters) (s : State Word) :
     {t : State Word // FP.Structural.run (backend rest) ((source p).surfaceBody.drop 13 |>.take 3) (loadExecution rest p s).val = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody, ComputeKernel.surfaceBody, List.drop, List.take]
+  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel, ComputeKernel.surfaceBody, List.drop, List.take]
   simp [List.drop, List.take, loadExecution_x_pos, loadExecution_sign_f4, loadExecution_pid, loadExecution_n_elements_out, unscaled, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalComputeOp,
     FP.Structural.evalOp, FP.Structural.store, FP.Structural.numeric,
@@ -100,7 +100,7 @@ def addBiasExecution (rest : Algebra Word) (p : Parameters) (s : State Word) :
     {t : State Word // FP.Structural.run (backend rest) ((source p).surfaceBody.drop 16 |>.take 1) (maskExecution rest p s).val = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody, ComputeKernel.surfaceBody, List.drop, List.take]
+  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel, ComputeKernel.surfaceBody, List.drop, List.take]
   simp [List.drop, List.take, loadExecution_x_pos, loadExecution_sign_f4, loadExecution_pid, loadExecution_n_elements_out, maskExecution_exp_biased_f4, maskExecution_x_pos, maskExecution_sign_f4, maskExecution_zero_mask, maskExecution_denormal_mask, maskExecution_pid, maskExecution_n_elements_out, unscaled, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalComputeOp,
     FP.Structural.evalOp, FP.Structural.store, FP.Structural.numeric,
@@ -434,7 +434,7 @@ def storeExecution (rest : Algebra Word) (p : Parameters) (s : State Word) :
     {t : State Word // FP.Structural.run (backend rest) ((source p).surfaceBody.drop 26 |>.take 8) (signExecution rest p s).val = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalBody, ComputeKernel.surfaceBody, List.drop, List.take]
+  dsimp only [source, unscaled, VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel, ComputeKernel.surfaceBody, List.drop, List.take]
   simp [List.drop, List.take, loadExecution_x_pos, loadExecution_sign_f4, loadExecution_pid, loadExecution_n_elements_out, maskExecution_exp_biased_f4, maskExecution_x_pos, maskExecution_sign_f4, maskExecution_zero_mask, maskExecution_denormal_mask, maskExecution_pid, maskExecution_n_elements_out, addBiasExecution_exp_biased_f32, addBiasExecution_x_pos, addBiasExecution_sign_f4, addBiasExecution_zero_mask, addBiasExecution_denormal_mask, addBiasExecution_pid, addBiasExecution_n_elements_out, expExecution_exp_biased_f32, expExecution_x_pos, expExecution_sign_f4, expExecution_zero_mask, expExecution_denormal_mask, expExecution_pid, expExecution_n_elements_out, normalExecution_result, normalExecution_x_pos, normalExecution_sign_f4, normalExecution_zero_mask, normalExecution_denormal_mask, normalExecution_pid, normalExecution_n_elements_out, signExecution_result, signExecution_x_pos, signExecution_sign_f4, signExecution_zero_mask, signExecution_denormal_mask, signExecution_pid, signExecution_n_elements_out, unscaled, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalComputeOp,
     FP.Structural.evalOp, FP.Structural.store, FP.Structural.numeric,

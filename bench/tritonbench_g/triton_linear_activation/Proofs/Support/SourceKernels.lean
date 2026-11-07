@@ -33,7 +33,7 @@ def typed (dtype : FloatDType)
       a_m_stride a_k_stride b_n_stride b_k_stride BLOCK_M GROUP_M BLOCK_N BLOCK_K : Nat)
     (HAS_BIAS SHOULD_SAVE_ACT_INPUTS K_LOAD_MASK_NEEDED : Bool) (ACTIVATION : Option String) :
     ComputeKernel :=
-  Bodies.originalBody dtype C ACT_INPUTS A B biasR
+  originalKernel dtype C ACT_INPUTS A B biasR
     M N K (M/32) (N/32) (K/32)
     output_m_stride output_n_stride act_inputs_m_stride act_inputs_n_stride
     a_m_stride a_k_stride b_n_stride b_k_stride BLOCK_M GROUP_M BLOCK_N BLOCK_K 1

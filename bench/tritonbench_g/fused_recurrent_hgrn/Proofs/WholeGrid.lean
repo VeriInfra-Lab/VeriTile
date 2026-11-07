@@ -20,7 +20,7 @@ variable {α : Type} [Inhabited α]
 
 theorem forward_program (p : Ops α) (input : Input α) (T D BD : Nat) (U S : Bool)
     (id : Program) (s : State α) (h : Inputs s input T D) :
-    ∃ q, run (algebra p) (forward T D BD U S).surfaceBody (enter s id)=some q ∧
+    ∃ q, run (algebra p) (forwardKernel T D BD U S).surfaceBody (enter s id)=some q ∧
       Inputs q input T D ∧
       (∀ r a, fWrites T D BD S id r a → q.mem r a=forwardTarget p input U T D r a) ∧
       (∀ r a, ¬ fWrites T D BD S id r a → q.mem r a=s.mem r a) := by
@@ -59,7 +59,7 @@ def Saved (p : Ops α) (s : State α) (input : Input α) (U : Bool) (BH T D : Na
 theorem backward_program (p : Ops α) (input : Input α) (BH T D BD : Nat) (U V : Bool)
     (id : Program) (hid : id.2 < BH) (s : State α) (h : Inputs s input T D)
     (hs : Saved p s input U BH T D) :
-    ∃ q, run (algebra p) (backward T D BD U V).surfaceBody (enter s id)=some q ∧
+    ∃ q, run (algebra p) (backwardKernel T D BD U V).surfaceBody (enter s id)=some q ∧
       (Inputs q input T D ∧ Saved p q input U BH T D) ∧
       (∀ r a, bWrites T D BD id r a → q.mem r a=backwardTarget p input U V T D r a) ∧
       (∀ r a, ¬ bWrites T D BD id r a → q.mem r a=s.mem r a) := by

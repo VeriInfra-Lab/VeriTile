@@ -16,7 +16,7 @@ theorem accesses (M : Algebra α) (dot : Dot α) (c : Config) (s current : State
     traceSafeList (engine (withDot M dot)) bounds ((parts c).body.take 8)
       (current.setReg "i_v" .nat [] (fun _=>block)) := by
   rw [←TypedMemoryFree.body_eq]
-  simp only [TypedMemoryFree.body,kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [TypedMemoryFree.body,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.drop,List.take,List.getElem?_cons_zero,List.getElem?_cons_succ]
   simp only [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold]
   simp only [safeBlockPtr1,safeBlockPtr2]

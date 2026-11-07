@@ -18,7 +18,7 @@ theorem source_trace_safe {α : Type} [Inhabited α] (rest : Algebra α)
     (input : ∀ i,active p i → inputOffset p s i<bounds p.K)
     (output : ∀ i,active p i → outputOffset p s i<bounds p.Out) :
     TraceSafe (rawBackend rest) bounds (kernel p) s := by
-  simp [TraceSafe,kernel,sourceBody,
+  simp [TraceSafe,kernel,sourceKernel,
     ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

@@ -60,7 +60,7 @@ class AttentionFwd3BodyMigration(unittest.TestCase):
         r = self.records[1]
         py = (ROOT / r['python']).read_text()
         for before, after in [('("Q",.fp32)', '("Q",.fp16)'),
-                              ('_attn_fwd_inner := inner]', '_attn_fwd_inner := innerCSE]')]:
+                              ('_attn_fwd_inner := innerSource]', '_attn_fwd_inner := innerCSESource]')]:
             with self.subTest(before=before), self.assertRaises(ValueError):
                 check(py, self.lean.replace(before, after), r['python_function'], r['lean_definition'],
                       r['signature_definition'], r['expected_signature'], r['expected_call_bindings'],

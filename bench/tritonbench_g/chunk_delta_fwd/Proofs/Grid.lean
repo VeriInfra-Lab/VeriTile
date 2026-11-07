@@ -25,7 +25,7 @@ def runGrid (M : Algebra α) (D : DotPrimitive α) (p : Parameters) :
     List PID → Memory α → Option (Memory α)
   | [],m => some m
   | pid::rest,m => do
-      let t ← FP.Structural.exec (engine (withDot M D)) (kernel p) (launchState p pid m)
+      let t ← FP.Structural.exec (engine (withDot M D)) (sourceKernel p) (launchState p pid m)
       runGrid M D p rest t.mem
 def gridMemory (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (schedule : List PID) (input current : Memory α) : Memory α :=

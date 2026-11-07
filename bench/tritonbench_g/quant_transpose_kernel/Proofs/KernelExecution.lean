@@ -27,7 +27,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec
     {t : State α // exec M round p Bool.false s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := { maxSteps := 1000000 }) [exec, typed, kernel, quotedOriginal, quotedCommuted,
+  simp (config := { maxSteps := 1000000 }) [exec, typed, kernel, quotedOriginalKernel, quotedCommutedKernel,
     ComputeKernel.surfaceBody, QuantizeIntegerStage.exec, QuantizeIntegerStage.run,
     QuantizeIntegerStage.step, QuantizeIntegerStage.evalExpr, QuantizeIntegerStage.store,
     QuantizeIntegerStage.storedInteger, QuantizeIntegerStage.byteOutput,
@@ -73,7 +73,7 @@ private theorem address_run {α : Type} [Inhabited α] (M : Algebra α)
       bodyRun M round p (addressBody p Bool.true) s := by
   cases hr : s.regs .nat [128] "rm" <;>
     cases hc : s.regs .nat [128] "rn" <;>
-    simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel, quotedOriginal, quotedCommuted,
+    simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel, quotedOriginalKernel, quotedCommutedKernel,
       ComputeKernel.surfaceBody, List.drop, List.take,
       QuantizeIntegerStage.run, QuantizeIntegerStage.step, QuantizeIntegerStage.evalExpr,
       FP.Structural.evalOp_unfold, FP.Structural.numeric, FP.Structural.bop,

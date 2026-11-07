@@ -38,9 +38,9 @@ def Holds {α : Type} (c : Shape) (s : State α) : Prop :=
 
 theorem entry {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α) :
     ∃ t, run (engine M) (parts c scale).before s = some t ∧ Holds c t := by
-  simp only [parts,kernel,fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,
+  simp only [parts,kernel,fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  dsimp [fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,Option.getD]
+  dsimp [fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -50,9 +50,9 @@ theorem iteration {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale
     (d : Dots M c) (n : Nat) (s : State α) (hs : Holds c s) :
     ∃ t, run (engine M) (parts c scale).body (s.setReg "i_k" .int [] (fun _ => (n : Int))) = some t ∧ Holds c t := by
   rcases hs with ⟨⟨bh,hbh⟩,⟨it,hit⟩,⟨rows,hr⟩,⟨cols,hc⟩,⟨mask,hm⟩,⟨bo,ho⟩,⟨bs,hbs⟩,⟨skh,hskh⟩,⟨skt,hskt⟩,⟨svh,hsvh⟩,⟨svt,hsvt⟩,⟨shh,hshh⟩,⟨sht,hsht⟩⟩
-  simp only [parts,kernel,fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,
+  simp only [parts,kernel,fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  dsimp [fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,Option.getD]
+  dsimp [fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -76,9 +76,9 @@ theorem finish {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : 
     (d : Dots M c) (s : State α) (hs : Holds c s) :
     ∃ t, run (engine M) (parts c scale).after s = some t := by
   rcases hs with ⟨⟨bh,hbh⟩,⟨it,hit⟩,⟨rows,hr⟩,⟨cols,hc⟩,⟨mask,hm⟩,⟨bo,ho⟩,⟨bs,hbs⟩,⟨skh,hskh⟩,⟨skt,hskt⟩,⟨svh,hsvh⟩,⟨svt,hsvt⟩,⟨shh,hshh⟩,⟨sht,hsht⟩⟩
-  simp only [parts,kernel,fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,
+  simp only [parts,kernel,fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  dsimp [fp32Original,originalBody,ComputeKernel.surfaceBody,Source.intRange?,Option.map,Option.getD]
+  dsimp [fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,

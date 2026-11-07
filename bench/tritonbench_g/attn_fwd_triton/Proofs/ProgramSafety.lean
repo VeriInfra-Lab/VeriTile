@@ -76,7 +76,7 @@ theorem finish_safe (p : Config) (BD : Nat) (second : Bool)
     Safety.traceSafeList (engine backend) bounds (finish p BD second) s := by
   cases second <;> cases hd : decide (p.stage=2)
   all_goals simp only [finish,parts,code,source,AttnFwdTriton.TypedSource.repaired,
-    AttnFwdTriton.Bodies.originalBody,hd,workName,Bool.false_eq_true,Bool.true_eq,
+    AttnFwdTriton.originalKernel,hd,workName,Bool.false_eq_true,Bool.true_eq,
     ↓reduceIte,ComputeKernel.surfaceBody,Source.intRange?,Option.map_some,
     Option.getD_some,beq_self_eq_true,List.take_succ_cons,List.take_zero]
   all_goals simp [Source.intRange?,Safety.traceSafeList,Safety.stepSafe,
@@ -116,7 +116,7 @@ theorem source_safe (p : Config) (BD : Nat) (idx : ProgramIndex p)
       setupCode p BD Bool.false ++ loopCode p BD Bool.false ++
       setupCode p BD Bool.true ++ loopCode p BD Bool.true ++ tail p BD Bool.false := by
     by_cases hd : p.stage=2
-    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.Bodies.originalBody,ComputeKernel.surfaceBody,
+    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,
       AttnFwdTriton.ControlView.compute,setupCode,setup,preloop,parts,finish,loopCode,body,lowerOp,lowerName,upperName,tail,workName,Source.intRange?,hd]
   obtain ⟨s0,h0,b0,m0⟩ := initial_exact p BD s
   obtain ⟨s1,h1,b1,l1,m1⟩ := setup_exact p BD stage Bool.false f (initialCarry BD) s0 b0

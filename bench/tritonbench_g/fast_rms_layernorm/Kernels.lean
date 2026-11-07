@@ -46,7 +46,7 @@ def weightSignature : CallSignature where
   readPorts := ["dY","X","r"]
   writePorts := ["dW"]
 
-def regularRuntimeSource (Y X W r : RegionName)
+def regularRuntimeKernel (Y X W r : RegionName)
     (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call forwardSignature call_args [Y_row_stride := Y_row_stride,
     X_row_stride := X_row_stride, W_row_stride := W_row_stride,
@@ -76,7 +76,7 @@ def regularRuntimeSource (Y X W r : RegionName)
     tl.store(Y + col_offsets, output, mask=mask)
   }
 
-def gemmaRuntimeSource (Y X W r : RegionName)
+def gemmaRuntimeKernel (Y X W r : RegionName)
     (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call forwardSignature call_args [Y_row_stride := Y_row_stride,
     X_row_stride := X_row_stride, W_row_stride := W_row_stride,
@@ -101,7 +101,7 @@ def gemmaRuntimeSource (Y X W r : RegionName)
     tl.store(Y + col_offsets, output, mask=mask)
   }
 
-def regularRuntimeSourceIndexCommuted (Y X W r : RegionName)
+def regularRuntimeSourceIndexCommutedKernel (Y X W r : RegionName)
     (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call forwardSignature call_args [Y_row_stride := Y_row_stride,
     X_row_stride := X_row_stride, W_row_stride := W_row_stride,
@@ -131,7 +131,7 @@ def regularRuntimeSourceIndexCommuted (Y X W r : RegionName)
     tl.store(Y + col_offsets, output, mask=mask)
   }
 
-def gemmaRuntimeSourceIndexCommuted (Y X W r : RegionName)
+def gemmaRuntimeSourceIndexCommutedKernel (Y X W r : RegionName)
     (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call forwardSignature call_args [Y_row_stride := Y_row_stride,
     X_row_stride := X_row_stride, W_row_stride := W_row_stride,
@@ -156,7 +156,7 @@ def gemmaRuntimeSourceIndexCommuted (Y X W r : RegionName)
     tl.store(Y + col_offsets, output, mask=mask)
   }
 
-def inputGradientSource (dY X W r dW : RegionName)
+def inputGradientKernel (dY X W r dW : RegionName)
     (dY_row_stride X_row_stride W_row_stride r_row_stride dW_row_stride n_cols BLOCK_SIZE : Nat)
     (_eps : ℝ) (GEMMA : Bool) : ComputeKernel :=
   with_triton_call backwardSignature call_args [dY_row_stride := dY_row_stride,
@@ -190,7 +190,7 @@ def inputGradientSource (dY X W r dW : RegionName)
     tl.store(dY + col_offsets, output, mask=mask)
   }
 
-def inputGradientSourceIndexCommuted (dY X W r dW : RegionName)
+def inputGradientSourceIndexCommutedKernel (dY X W r dW : RegionName)
     (dY_row_stride X_row_stride W_row_stride r_row_stride dW_row_stride n_cols BLOCK_SIZE : Nat)
     (_eps : ℝ) (GEMMA : Bool) : ComputeKernel :=
   with_triton_call backwardSignature call_args [dY_row_stride := dY_row_stride,
@@ -224,7 +224,7 @@ def inputGradientSourceIndexCommuted (dY X W r dW : RegionName)
     tl.store(dY + col_offsets, output, mask=mask)
   }
 
-def runtimeWeightSource (dW dY X r : RegionName)
+def runtimeWeightKernel (dW dY X r : RegionName)
     (n_rows n_cols BLOCK_SIZE : Nat) (GEMMA : Bool) : ComputeKernel :=
   with_triton_call weightSignature call_args [n_rows := n_rows, n_cols := n_cols] in triton {
     col = tl.program_id(0).to(tl.int64) * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
@@ -245,18 +245,18 @@ def runtimeWeightSource (dW dY X r : RegionName)
 The assignment supplies the caller's scalar argument before the unchanged JIT body. -/
 def regularSource (Y X W r : RegionName)
     (YR XR WR RR N B : Nat) (eps : ℝ) : ComputeKernel :=
-  (regularRuntimeSource Y X W r YR XR WR RR N B).withScalarArguments
+  (regularRuntimeKernel Y X W r YR XR WR RR N B).withScalarArguments
     [ScalarArgument.fp32 "eps" eps]
 
 /-- The same runtime ABI binding for the Gemma constexpr branch. -/
 def gemmaSource (Y X W r : RegionName)
     (YR XR WR RR N B : Nat) (eps : ℝ) : ComputeKernel :=
-  (gemmaRuntimeSource Y X W r YR XR WR RR N B).withScalarArguments
+  (gemmaRuntimeKernel Y X W r YR XR WR RR N B).withScalarArguments
     [ScalarArgument.fp32 "eps" eps]
 
 def forwardRuntime (h : Call) : ComputeKernel :=
-  if h.gemma then gemmaRuntimeSource "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
-  else regularRuntimeSource "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
+  if h.gemma then gemmaRuntimeKernel "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
+  else regularRuntimeKernel "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
 
 
 def forward (h : Call) : ComputeKernel :=
@@ -264,18 +264,18 @@ def forward (h : Call) : ComputeKernel :=
   else regularSource "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block h.eps
 
 def backward (h : Call) : ComputeKernel :=
-  inputGradientSource "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps h.gemma
+  inputGradientKernel "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps h.gemma
 
 
 def forwardRuntimeIndexCommuted (h : Call) : ComputeKernel :=
-  if h.gemma then gemmaRuntimeSourceIndexCommuted "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
-  else regularRuntimeSourceIndexCommuted "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
+  if h.gemma then gemmaRuntimeSourceIndexCommutedKernel "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
+  else regularRuntimeSourceIndexCommutedKernel "y" "x" "w" "r" h.cols h.cols 1 1 h.cols h.block
 
 def backwardIndexCommuted (h : Call) : ComputeKernel :=
-  inputGradientSourceIndexCommuted "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps h.gemma
+  inputGradientSourceIndexCommutedKernel "dx" "x" "w" "r" "dw" h.cols h.cols 1 1 1 h.cols h.block h.eps h.gemma
 
 def weightBackward (h : Call) (K : Nat) : ComputeKernel :=
-  runtimeWeightSource "dw" "dx" "x" "r" h.rows h.cols K h.gemma
+  runtimeWeightKernel "dw" "dx" "x" "r" h.rows h.cols K h.gemma
 
 end
 end Kernels

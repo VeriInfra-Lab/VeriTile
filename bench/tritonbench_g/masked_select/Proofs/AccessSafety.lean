@@ -21,7 +21,7 @@ theorem source_safe {α : Type} [Inhabited α] (rest : Algebra α) (p : Paramete
       outputOffset p s j < bounds p.output) :
     FP.Structural.TraceSafe (copyBackend rest) bounds (kernel p) s := by
   simp [FP.Structural.TraceSafe, kernel, Whole.kernel, TypedCopy.source,
-    VeriTile.Bench.Repairs.MaskedSelect.sourceFor,
+    VeriTile.Bench.Repairs.MaskedSelect.sourceForKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

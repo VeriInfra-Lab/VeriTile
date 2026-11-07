@@ -17,7 +17,7 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (P G Y : RegionName
     traceSafeList A bounds (rangeBody (code P G Y rows N K B C) 3)
       (s.setReg "_" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hpid,hm,hn,ho,hv,hmem⟩
-  simp [rangeBody,code,branch,Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_noninner,
+  simp [rangeBody,code,branch,Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
@@ -38,7 +38,7 @@ theorem emit_safe (A : Algebra α) (base s : State α) (P G Y : RegionName)
     traceSafeList A bounds (rangeBody (code P G Y rows N K B C) 7)
       (s.setReg "_" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hpid,hm,hn,ho,hv,hmem⟩
-  simp [rangeBody,code,branch,Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_noninner,
+  simp [rangeBody,code,branch,Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
@@ -75,7 +75,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (P G Y : RegionName)
     constructor <;>
       simp [before,kernel,Source.softmax_backward_kernel_non_inner_fp32,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_noninner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalOp_unfold,Option.bind,
         numeric,bop,State.setReg,ready]
@@ -91,7 +91,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (P G Y : RegionName)
     constructor <;>
       simp [init,code,branch,Source.softmax_backward_kernel_non_inner_fp32,
         VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,
-        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_noninner,
+        VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner_kernel,
         ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,
         safeCompute_unfold,safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
         numeric,bop,State.setReg,ready,initial,offset,ComputeDType.eraseDType,literal]
@@ -110,7 +110,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (P G Y : RegionName)
       rangeIntSafe A bounds "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N K B C) 7)
         (writeInitial A mid row col N K B C v) := by
   rcases hs with ⟨hpid,hm,hn,ho,hv,hmem⟩
-  simp [code,branch,rangeBody,Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.Bodies.backward_noninner,
+  simp [code,branch,rangeBody,Source.softmax_backward_kernel_non_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_noninner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,

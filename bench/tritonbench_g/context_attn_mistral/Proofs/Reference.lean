@@ -154,7 +154,7 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α) 
     ∃ t,run (engine o.algebra) (parts p r .fp32 scale).before s=some t ∧
       Matches p r o (inputs p r s) (initial p o) t ∧ t.mem=s.mem := by
   simp (config := {maxSteps := 500000}) [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.Bodies.originalBody,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,FPBackend.Ops.algebra,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

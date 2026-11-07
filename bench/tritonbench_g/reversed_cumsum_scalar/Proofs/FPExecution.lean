@@ -143,12 +143,12 @@ def Post (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (posit
 
 theorem source_correct (M : Algebra α) (scan : ScanBackend α) (h : Call) (layout : Geometry.OutputLayout h)
     (c : Config) (positive : 0<c.BT) (u : State α) (hr : u.pids 0<h.B*h.H) :
-    ∃ v, FP.Structural.exec (machine M scan) (Kernels.source h c) u=some v ∧ Post M scan h c positive u v := by
+    ∃ v, FP.Structural.exec (machine M scan) (Kernels.sourceKernel h c) u=some v ∧ Post M scan h c positive u v := by
   have hi : (1-(1-(Geometry.chunks h c:Int))).toNat=Geometry.chunks h c := by omega
   obtain ⟨v,he,inv⟩ := loop_executes M scan u h layout c positive (u.pids 0) hr _
     (1-(Geometry.chunks h c:Int)) (initial M u) (by simpa only [hi] using invariant M scan h c u)
   refine ⟨v,?_,?_,inv.frame⟩
-  · change run (machine M scan) (Kernels.source h c).surfaceBody u=some v
+  · change run (machine M scan) (Kernels.sourceKernel h c).surfaceBody u=some v
     rw [source_body,body,run_append,init_executes]
     simp only [Option.bind_some,run,statement_eval,he]
     rfl

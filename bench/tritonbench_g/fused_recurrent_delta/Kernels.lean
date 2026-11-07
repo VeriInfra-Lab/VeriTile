@@ -69,7 +69,7 @@ def backwardSignature : CallSignature where
   readPorts := ["dht", "q", "k", "v", "do", "beta", "h0", "dk", "dv"]
   writePorts := ["dk", "dv", "dbeta", "dh0", "dq"]
 
-def forward
+def forwardKernel
     (q k v beta o h0 ht : RegionName)
     (s_qk_h s_vo_h B H T K V BK BV : Nat)
     (USE_INITIAL_STATE STORE_FINAL_STATE IS_HEADWISE_BETA : Bool) : ComputeKernel :=
@@ -122,7 +122,7 @@ def forward
         tl.store(p_ht, h.to(p_ht.dtype.element_ty), mask=mask_kv)
   }
 
-def backward
+def backwardKernel
     (q k v beta dht dh0 do_ dq dk dv dbeta h0 : RegionName)
     (s_qk_h s_vo_h NK B H T K V BK BV : Nat)
     (USE_INITIAL_STATE IS_HEADWISE_BETA USE_DH0 USE_DHT : Bool) : ComputeKernel :=
@@ -241,7 +241,7 @@ def backward
         p_beta += V if IS_HEADWISE_BETA else 1
   }
 
-def forwardDirectOutput
+def forwardDirectOutputKernel
     (q k v beta o h0 ht : RegionName)
     (s_qk_h s_vo_h B H T K V BK BV : Nat)
     (USE_INITIAL_STATE STORE_FINAL_STATE IS_HEADWISE_BETA : Bool) : ComputeKernel :=

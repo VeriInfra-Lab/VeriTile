@@ -10,7 +10,7 @@ noncomputable section
 def invocation {α : Type} (M : Algebra α)
     (D : VeriTile.Bench.Repairs.ChunkGlaFwd.FPOutput.DotPrimitive α)
     (p : Parameters) (pid : PID) : Invocation α :=
-  { Interface.invocation M D p pid with kernel := ChunkDeltaFwdStaticDot.addressFold p }
+  { Interface.invocation M D p pid with kernel := ChunkDeltaFwdStaticDot.addressFoldKernel p }
 
 def io (I : WordPrimitives) (p : Parameters) (schedule : List PID) : ProgramIO (BitVec 32) Expr :=
   Interface.io Native.algebra Native.dot p schedule Expr.bits (Reference.nativeObserve I)
@@ -24,7 +24,7 @@ def original (I : WordPrimitives) (p : Parameters) (schedule : List PID) :=
   ProgramIO.Implementation.original (io I p schedule) (fun _ => True)
 
 /-- Full candidate grid; only compile-time state/history address products differ. -/
-def addressFold (I : WordPrimitives) (p : Parameters) (schedule : List PID) :=
+def addressFoldKernel (I : WordPrimitives) (p : Parameters) (schedule : List PID) :=
   ProgramIO.Implementation.ofVariant (candidate I p schedule) (fun _ => True)
 
 end

@@ -15,7 +15,7 @@ specification softmax_row_correct (Y X : RegionName) (M N : Nat) (separate : Y �
       Real.exp (xs j) / ∑ i : Fin N, Real.exp (xs i)) :=
   logical_correct Y X M N separate positive
 
-#specNonCircular rowSoftmax avoiding [exec,kernel]
+#specNonCircular rowSoftmax avoiding [exec,sourceKernel]
 #axiomsClean softmax_row_correct
 #stmtSurfaceSubset softmax_row_correct ⊆
   [Spec.Real, LogicalIO.Implements, logicalIO, RegionName, Real.exp, Finset.sum,UKernelIO.Ctx,io,UKernelIO.nOut,UKernelIO.oarity,ChanTy.carrier,UKernelIO.oty,UKernelIO.RegionalImplements]

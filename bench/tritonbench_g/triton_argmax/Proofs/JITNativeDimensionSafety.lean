@@ -17,7 +17,7 @@ theorem body_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : R
     Safety.traceSafeList (Typed.backend rest) bounds (JITDimension.body X O BM BN index64)
       (s.setReg "start_n" .int [] (fun _ => (cur : Int))) := by
   obtain ⟨hM,hN,hK,hk,hm,hv,hi⟩ := ready
-  simp [JITDimension.body, JITDimension.rangeBody, JITSource.dimension, ComputeKernel.surfaceBody,
+  simp [JITDimension.body, JITDimension.rangeBody, JITSource.dimensionKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
     Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
@@ -36,9 +36,9 @@ theorem body_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : R
 theorem prefix_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : Region .int)
     (M N K BM BN base : Nat) (index64 : Bool) (bounds : RegionName → Nat) :
     Safety.traceSafeList (Typed.backend rest) bounds
-      ((JITSource.dimension X O BM BN index64).surfaceBody.take 7) (JITDimension.arguments s M N K base) := by
+      ((JITSource.dimensionKernel X O BM BN index64).surfaceBody.take 7) (JITDimension.arguments s M N K base) := by
   cases index64 <;>
-    simp [JITSource.dimension, ComputeKernel.surfaceBody,
+    simp [JITSource.dimensionKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
@@ -52,9 +52,9 @@ theorem tail_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O : R
     (bounds : RegionName → Nat)
     (outputBounds : ∀ i : Fin BM, row+i.val < M → (row+i.val)*K+inner < bounds (Region.cast O)) :
     Safety.traceSafeList (Typed.backend rest) bounds
-      ((JITSource.dimension X O BM BN index64).surfaceBody.drop 8) s := by
+      ((JITSource.dimensionKernel X O BM BN index64).surfaceBody.drop 8) s := by
   obtain ⟨hM,hN,hK,hk,hm,hv,hi⟩ := ready
-  simp [JITSource.dimension, ComputeKernel.surfaceBody,
+  simp [JITSource.dimensionKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
     Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
@@ -93,11 +93,11 @@ theorem source_safe (rest : Algebra Word) (s : State Word) (X : RegionName) (O :
       i*N*K+j*K+(s.pids 0+base)%K < bounds X)
     (outputBounds : ∀ i : Fin BM, ((s.pids 0+base)/K)*BM+i.val < M →
       (((s.pids 0+base)/K)*BM+i.val)*K+(s.pids 0+base)%K < bounds (Region.cast O)) :
-    TraceSafe (Typed.backend rest) bounds (JITSource.dimension X O BM BN index64) (JITDimension.arguments s M N K base) := by
+    TraceSafe (Typed.backend rest) bounds (JITSource.dimensionKernel X O BM BN index64) (JITDimension.arguments s M N K base) := by
   obtain ⟨a,ha,ma,ra⟩ := JITDimension.prefix_run rest s X O M N K BM BN base index64
   obtain ⟨b,hb,mb,rb⟩ := JITDimension.range_run rest s a ma X O M N K BM BN base
     (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K) 0 index64 positive _ ra
-  let code := (JITSource.dimension X O BM BN index64).surfaceBody
+  let code := (JITSource.dimensionKernel X O BM BN index64).surfaceBody
   change Safety.traceSafeList (Typed.backend rest) bounds code (JITDimension.arguments s M N K base)
   rw [←List.take_append_drop 7 code, Safety.traceSafeList_append]
   refine ⟨prefix_safe rest s X O M N K BM BN base index64 bounds, ?_⟩

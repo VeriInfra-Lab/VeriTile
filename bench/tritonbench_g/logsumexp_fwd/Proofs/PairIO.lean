@@ -34,7 +34,7 @@ theorem candidate_safe [Inhabited A] (engines : Nat → Engine A) (a : RawKernel
   | cons j jobs ih =>
     refine ⟨?_, ?_⟩
     · change FP.Structural.TraceSafe (engines j).algebra bounds
-        (rowBlockCandidate "input" "scratch" a.columns a.block a.hasScale)
+        (rowBlockCandidateKernel "input" "scratch" a.columns a.block a.hasScale)
         ((candidateInvocation (engines j) a scale j).initial s)
       change FP.Structural.TraceSafe _ _ _ (RawKernel.programState a scale j s)
       have hj := valid j (by simp)

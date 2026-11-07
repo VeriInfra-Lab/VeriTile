@@ -19,7 +19,7 @@ def sourceSignature : CallSignature where
   writePorts := ["output_ptr"]
 
 /-- Complete actual original Python body. -/
-def kernel (p : Layout) : ComputeKernel :=
+def sourceKernel (p : Layout) : ComputeKernel :=
   let output_ptr := p.output
   let source_ptr := p.source
   let index_ptr := p.index

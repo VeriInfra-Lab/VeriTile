@@ -41,7 +41,7 @@ theorem executes (s : BlockState) (p : Parameters) (BD : Nat) (second : Bool)
   cases second <;> by_cases hd : p.stage=2
   all_goals simp only [code,ActualSource.project,TypedExecution.finish,TypedExecution.parts,
     TypedExecution.code,TypedExecution.source,ActualSource.config,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody]
   all_goals simp [Source.intRange?,TypedExecution.workName]
   all_goals dsimp only [ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,

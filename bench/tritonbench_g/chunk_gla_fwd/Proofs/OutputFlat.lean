@@ -39,8 +39,8 @@ theorem decomposition (p : Layout) (r : Regions) (scale : ℝ) (swapped : Bool) 
       after p r scale := by
   cases swapped
   all_goals simp only [before,after,program,source,TypedOutput.source,TypedOutput.fp32Original,TypedOutput.fp32SumLeft,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.outputOriginalKernel,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.outputSumLeftKernel,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,
@@ -56,8 +56,8 @@ theorem fragment (p : Layout) (r : Regions) (scale : ℝ) :
     (program p r scale Bool.false).FlattenOk := by
   rw [Kernel.FlattenOk]
   simp only [program,source,TypedOutput.source,TypedOutput.fp32Original,TypedOutput.fp32SumLeft,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputOriginal,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.Bodies.outputSumLeft,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.outputOriginalKernel,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.outputSumLeftKernel,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,

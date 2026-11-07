@@ -21,7 +21,7 @@ theorem prefix_eq (p : Parameters) (BD : Nat) :
   by_cases hd : p.stage=2
   all_goals simp only [headerView,ActualSource.project,TypedExecution.coordinateCode,
     TypedExecution.pointerCode,TypedExecution.initializationCode,TypedExecution.code,
-    TypedExecution.source,ActualSource.config,TypedSource.repaired,Bodies.originalBody,
+    TypedExecution.source,ActualSource.config,TypedSource.repaired,originalKernel,
     hd,decide_true,decide_false,Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
     List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero]
   all_goals dsimp only [ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,

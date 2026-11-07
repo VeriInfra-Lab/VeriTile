@@ -6,7 +6,7 @@ source keeps all four Philox fields, FP32 affine FMAs and clamped tail stores. -
 namespace VeriTile.Bench.Repairs.UniformSampling
 open VeriTile.Triton
 
-def uniformDecoder : UniformJitFunction := triton_function (x) {
+def uniformDecoderSource : UniformJitFunction := with_triton_params (x) constexpr_args [] in triton {
     if tl.constexpr(x.dtype == tl.uint32) or tl.constexpr(x.dtype == tl.int32):
         x = x.to(tl.int32, bitcast=True)
         scale = 4.6566127342e-10
@@ -27,12 +27,12 @@ def callSignature : CallSignature where
   constexpr := ["BLOCK"]
   writePorts := ["out_ptr"]
 
-def runtimeSource (out_ptr : RegionName) (N : Nat) (seed offset : Int)
+def runtimeKernel (out_ptr : RegionName) (N : Nat) (seed offset : Int)
     (lower upper : Float32Bits) (BLOCK : Nat) (hBlock : Random.ArangeSizeDomain BLOCK) : ComputeKernel :=
   with_triton_call callSignature call_args [N := N]
     fp32_bits [from_ := lower, «to» := upper]
     i64_args [philox_seed := seed, philox_offset := offset]
-    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoder] in triton {
+    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoderSource] in triton {
     philox_seed = philox_seed.to(tl.int64)
     philox_offset = philox_offset.to(tl.int64)
     c0 = (philox_offset & 0xFFFFFFFF).to(tl.uint32)
@@ -62,12 +62,12 @@ def runtimeSource (out_ptr : RegionName) (N : Nat) (seed offset : Int)
              eviction_policy="evict_first")
   }
 
-def runtimeCandidate (out_ptr : RegionName) (N : Nat) (seed offset : Int)
+def runtimeCandidateKernel (out_ptr : RegionName) (N : Nat) (seed offset : Int)
     (lower upper : Float32Bits) (BLOCK : Nat) (hBlock : Random.ArangeSizeDomain BLOCK) : ComputeKernel :=
   with_triton_call callSignature call_args [N := N]
     fp32_bits [from_ := lower, «to» := upper]
     i64_args [philox_seed := seed, philox_offset := offset]
-    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoder] in triton {
+    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoderSource] in triton {
     philox_seed = philox_seed.to(tl.int64)
     philox_offset = philox_offset.to(tl.int64)
     c0 = (philox_offset & 0xFFFFFFFF).to(tl.uint32)
@@ -97,7 +97,7 @@ def runtimeCandidate (out_ptr : RegionName) (N : Nat) (seed offset : Int)
              eviction_policy="evict_first")
   }
 
-def kernel := runtimeSource
-def indexCommutedKernel := runtimeCandidate
+def kernel := runtimeKernel
+def indexCommutedKernel := runtimeCandidateKernel
 
 end VeriTile.Bench.Repairs.UniformSampling

@@ -151,7 +151,7 @@ theorem step_add (M : Algebra A) (comm : AdditionCommutes M)
 is abstracted into a numerical premise. -/
 theorem source_pair (M : Algebra A) (comm : AdditionCommutes M) (h : Call) :
     CodeEq M (Kernels.source h).surfaceBody (Kernels.outputFirst h).surfaceBody := by
-  simp only [Kernels.source,Kernels.outputFirst,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody]
+  simp only [Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody]
   repeat' first
     | exact code_refl M _
     | exact step_refl M _

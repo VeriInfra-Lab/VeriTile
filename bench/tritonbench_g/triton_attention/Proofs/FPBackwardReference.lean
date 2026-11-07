@@ -14,7 +14,7 @@ abbrev BScore (p : BackwardParameters) := TileIndex [p.blockM,p.blockM]
 abbrev BRow (p : BackwardParameters) := TileIndex [p.blockM]
 abbrev Memory (α : Type) := RegionName → Nat → Cell α
 
-def backwardSource (p : BackwardParameters) := backwardTyped p.dtype
+def backwardSource (p : BackwardParameters) := backwardTypedKernel p.dtype
   p.q p.k p.v "unused_Out" p.gradient p.dq p.dk p.dv "unused_L" p.maximum p.delta p.scale
   p.batchStride p.headStride p.head 1 0 0 p.head 1 0 0 p.head 1
   0 p.heads (p.blockM*p.blocks) p.rows p.blocks p.blockM p.head

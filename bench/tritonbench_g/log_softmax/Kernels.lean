@@ -12,7 +12,7 @@ def forwardSignature : CallSignature where
   scalars := [("M",.integer),("N",.integer),("K",.integer)]
   constexpr := ["BLOCK_M","BLOCK_N"]
 
-def forward (output_ptr input_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
+def forwardKernel (output_ptr input_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
   let BLOCK_M := BM
   let BLOCK_N := BN
   with_triton_call forwardSignature call_args [M := M, N := N, K := K] in triton {
@@ -34,7 +34,7 @@ def forward (output_ptr input_ptr : RegionName) (M N K BM BN : Nat) : ComputeKer
     tl.store(output_ptr + offset, result, mask=mask)
   }
 
-def forwardCommuted (output_ptr input_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
+def forwardCommutedKernel (output_ptr input_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
   let BLOCK_M := BM
   let BLOCK_N := BN
   with_triton_call forwardSignature call_args [M := M, N := N, K := K] in triton {
@@ -61,7 +61,7 @@ def backwardSignature : CallSignature where
   scalars := [("M",.integer),("N",.integer),("K",.integer)]
   constexpr := ["BLOCK_M","BLOCK_N"]
 
-def backward (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
+def backwardKernel (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
   let BLOCK_M := BM
   let BLOCK_N := BN
   with_triton_call backwardSignature call_args [M := M, N := N, K := K] in triton {
@@ -82,7 +82,7 @@ def backward (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K BM BN : Nat)
     tl.store(in_grad_ptr + offset, in_grad, mask=mask)
   }
 
-def backwardCommuted (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
+def backwardCommutedKernel (out_ptr out_grad_ptr in_grad_ptr : RegionName) (M N K BM BN : Nat) : ComputeKernel :=
   let BLOCK_M := BM
   let BLOCK_N := BN
   with_triton_call backwardSignature call_args [M := M, N := N, K := K] in triton {

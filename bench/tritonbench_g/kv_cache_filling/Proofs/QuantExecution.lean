@@ -172,11 +172,11 @@ theorem inputs_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       some (preparedInputs p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body, ComputeKernel.surfaceBody, List.take]
+    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody, List.take]
   all_goals
-    simp (maxSteps := 200000) [QuantSource.kernel8, QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body, loaded8, preparedInputs, pad, inputRow,
+    simp (maxSteps := 200000) [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, loaded8, preparedInputs, pad, inputRow,
       hs, hd, sk, sv, Int.mul_comm, Nat.mul_comm,
       ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericEq, bop,
@@ -194,8 +194,8 @@ theorem scalarLoads8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parame
       (preparedInputs p s src dst) = some (scalarLoaded8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body, ComputeKernel.surfaceBody, List.drop, List.take]
+    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody, List.drop, List.take]
   all_goals
     simp (maxSteps := 200000) [scalarLoaded8, preparedInputs, pad, inputRow, sk, sv, Int.mul_comm, Nat.mul_comm,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, numericLt, bop,
@@ -218,8 +218,8 @@ theorem load8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       some (loaded8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body, ComputeKernel.surfaceBody, List.take]
+    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody, List.take]
   all_goals
     simp (maxSteps := 200000) [loaded8,raw8,scalarLoaded8,preparedInputs,pad,inputRow,
       hs,hd,sk,sv,Int.mul_comm,Nat.mul_comm,
@@ -237,8 +237,8 @@ theorem key8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (loaded8 a p s src dst) = some (key8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [quantState,helperReg,key8,row8Data,row8,loaded8,raw8,scalarLoaded8,preparedInputs,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericEq,bop,
@@ -254,8 +254,8 @@ theorem value8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (key8 a p s src dst) = some (prepared8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
     simp [quantState,helperReg,prepared8,key8,row8Data,row8,loaded8,raw8,scalarLoaded8,preparedInputs,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericEq,bop,
@@ -307,8 +307,8 @@ theorem stores8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       (prepared8 a p s src dst) = some (result8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,Bodies.original8Body,
-      QuantSource.commuted8Kernel,Bodies.candidate8Body,ComputeKernel.surfaceBody,List.drop]
+    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel,ComputeKernel.surfaceBody,List.drop]
   all_goals
     simp [quantState,helperReg,result8,writeMetadata,QuantExecution.scatter,prepared8,key8,row8Data,row8,
       loaded8,raw8,scalarLoaded8,preparedInputs,

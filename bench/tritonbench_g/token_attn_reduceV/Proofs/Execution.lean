@@ -33,7 +33,7 @@ theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitiv
   have hr : ((s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .int) = (requestIndex p s : Int) := by
     exact (Int.toNat_of_nonneg valid.request).symm
   simp only [Region.cast] at hl hs hr
-  simp [prelude, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [prelude, kernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, numeric, bop, integralFloorDiv,
     withSum, Region.cast]
   constructor <;> try simp (config := {unfoldPartialApp := Bool.true}) [State.setReg, hl, hs, hr, probOffset,
@@ -47,7 +47,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive �
     (h : Ready p s t a) :
     ∃ u, run (withSum M R) (body p) (t.setReg "start_n" .int [] (fun _ => (n : Int))) = some u ∧
       Ready p s u (update M R p s n a) := by
-  simp [body, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [body, kernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, numericLt, natLt, Region.cast, withSum,

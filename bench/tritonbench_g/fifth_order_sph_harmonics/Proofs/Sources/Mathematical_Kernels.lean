@@ -21,7 +21,7 @@ structure Parameters where
 constexpr coefficient types explicit; Y07 retains the original subtraction,
 and unary negation is retained instead of real-algebra reassociation. -/
 def source (coord_ptr output_ptr : RegionName)
-    (block_size coord_numel output_numel col_offset output_stride : Nat) : ComputeKernel := VeriTile.Bench.Repairs.FifthOrderSphHarmonics.Bodies.forwardBody coord_ptr output_ptr block_size coord_numel output_numel col_offset output_stride
+    (block_size coord_numel output_numel col_offset output_stride : Nat) : ComputeKernel := VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardPastedKernel coord_ptr output_ptr block_size coord_numel output_numel col_offset output_stride
 def kernel (p : Parameters) := source p.input p.output p.blockSize p.coordNumel p.outputNumel p.columnOffset p.outputStride
 end
 end VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP

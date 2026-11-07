@@ -34,7 +34,7 @@ theorem decode_finite_value (word : Graph.Word) (domain : finite word) :
   rw [h]
   rfl
 
-#specNonCircular decode avoiding [forward,backward,runRows,Graph.eval]
+#specNonCircular decode avoiding [forwardKernel,backward,runRows,Graph.eval]
 #axiomsClean decode_finite
 #axiomsClean decode_negative_infinity
 #axiomsClean decode_finite_value

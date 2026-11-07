@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.MutableScalarCalls
-namespace VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies
+namespace VeriTile.Bench.Repairs.RotaryTransformTileChecked
 open VeriTile.Triton
 noncomputable section
 set_option maxRecDepth 30000
@@ -26,7 +26,7 @@ def opsScalarSignature (wideCu wideOffset : Bool) : CallSignature where
   scalars := [("SEQLEN_OFFSETS",.integer),("seqlen",.integer),("rotary_dim",.integer),("seqlen_ro",.integer),("stride_out_batch",.integer),("stride_out_seqlen",.integer),("stride_out_nheads",.integer),("stride_out_headdim",.integer),("stride_x_batch",.integer),("stride_x_seqlen",.integer),("stride_x_nheads",.integer),("stride_x_headdim",.integer)]
   constexpr := ["BLOCK_K","IS_SEQLEN_OFFSETS_TENSOR","IS_VARLEN","INTERLEAVED","CONJUGATE","BLOCK_M"]
 
-def originalTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def originalTensorKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.true
   with_triton_call (tensorSignature wideCu wideOffset) call_args [seqlen := seqlen, nheads := nheads, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, CACHE_KEY_SEQLEN := CACHE_KEY_SEQLEN, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -88,7 +88,7 @@ def originalTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQL
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def originalScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def originalScalarKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.false
   with_triton_call (scalarSignature wideCu wideOffset) call_args [SEQLEN_OFFSETS := SEQLEN_OFFSETS, seqlen := seqlen, nheads := nheads, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, CACHE_KEY_SEQLEN := CACHE_KEY_SEQLEN, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -150,7 +150,7 @@ def originalScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : Re
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def opsOriginalTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def opsOriginalTensorKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.true
   with_triton_call (opsTensorSignature wideCu wideOffset) call_args [seqlen := seqlen, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -212,7 +212,7 @@ def opsOriginalTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS S
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def opsOriginalScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def opsOriginalScalarKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.false
   with_triton_call (opsScalarSignature wideCu wideOffset) call_args [SEQLEN_OFFSETS := SEQLEN_OFFSETS, seqlen := seqlen, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -274,7 +274,7 @@ def opsOriginalScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS :
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def candidateTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def candidateTensorKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.true
   with_triton_call (tensorSignature wideCu wideOffset) call_args [seqlen := seqlen, nheads := nheads, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, CACHE_KEY_SEQLEN := CACHE_KEY_SEQLEN, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -336,7 +336,7 @@ def candidateTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQ
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def candidateScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def candidateScalarKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.false
   with_triton_call (scalarSignature wideCu wideOffset) call_args [SEQLEN_OFFSETS := SEQLEN_OFFSETS, seqlen := seqlen, nheads := nheads, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, CACHE_KEY_SEQLEN := CACHE_KEY_SEQLEN, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -398,7 +398,7 @@ def candidateScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : R
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def xorTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def xorTensorKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS : RegionName) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.true
   with_triton_call (opsTensorSignature wideCu wideOffset) call_args [seqlen := seqlen, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -486,7 +486,7 @@ def xorTensorBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS SEQLEN_OF
         tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
 }
 
-def xorScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
+def xorScalarKernel (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionName) (SEQLEN_OFFSETS : Int) (seqlen : Int) (rotary_dim seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim : Nat) (BLOCK_K BLOCK_M : Nat) (IS_VARLEN INTERLEAVED CONJUGATE : Bool) : ComputeKernel :=
   let IS_SEQLEN_OFFSETS_TENSOR := Bool.false
   with_triton_call (opsScalarSignature wideCu wideOffset) call_args [SEQLEN_OFFSETS := SEQLEN_OFFSETS, seqlen := seqlen, rotary_dim := rotary_dim, seqlen_ro := seqlen_ro, stride_out_batch := stride_out_batch, stride_out_seqlen := stride_out_seqlen, stride_out_nheads := stride_out_nheads, stride_out_headdim := stride_out_headdim, stride_x_batch := stride_x_batch, stride_x_seqlen := stride_x_seqlen, stride_x_nheads := stride_x_nheads, stride_x_headdim := stride_x_headdim] in triton {
     pid_m = tl.program_id(axis=0)
@@ -575,4 +575,4 @@ def xorScalarBody (wideCu wideOffset : Bool) (OUT X COS SIN CU_SEQLENS : RegionN
 }
 
 end
-end VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies
+end VeriTile.Bench.Repairs.RotaryTransformTileChecked

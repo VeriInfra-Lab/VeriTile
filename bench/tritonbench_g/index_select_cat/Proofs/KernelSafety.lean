@@ -17,8 +17,8 @@ theorem trace {α : Type} [Inhabited α] (rest : Algebra α) (p : Layout)
       s.pids 0 * p.BI + i.val < bounds p.index)
     (inputs : ∀ i, TypedGather.active p s i → TypedGather.inputOffset p s i < bounds p.source)
     (outputs : ∀ i, TypedGather.active p s i → TypedGather.outputOffset p s i < bounds p.output) :
-    FP.Structural.TraceSafe (copyBackend rest) bounds (kernel p) s := by
-  simp (config := { maxSteps := 500000 }) [FP.Structural.TraceSafe, kernel,
+    FP.Structural.TraceSafe (copyBackend rest) bounds (sourceKernel p) s := by
+  simp (config := { maxSteps := 500000 }) [FP.Structural.TraceSafe, sourceKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

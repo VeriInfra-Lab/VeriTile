@@ -23,7 +23,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameter
     Safety.traceSafeList (engine (withDot M D)) bounds (parts p scale terminal initial).before s := by
   cases terminal
   all_goals
-    simp [parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,
+    simp [parts,intParts,indexState,kernel,Source.backwardHKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -46,7 +46,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
       (indexState p n s) := by
   simp only [HasCarry] at hc
   have clock : (p.NT : Int)-((n : Int)+1)=((p.NT-1-n : Nat) : Int) := by omega
-  simp [parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,
+  simp [parts,intParts,indexState,kernel,Source.backwardHKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -73,7 +73,7 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramete
   simp only [HasCarry] at hc
   cases initial
   all_goals
-    simp [parts,intParts,indexState,kernel,Source.backwardH,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,
+    simp [parts,intParts,indexState,kernel,Source.backwardHKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.intRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

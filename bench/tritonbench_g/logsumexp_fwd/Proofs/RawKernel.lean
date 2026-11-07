@@ -43,7 +43,7 @@ theorem output_index (a : Geometry) (j : Nat) :
 scale parameter is bound to the runtime FP32 argument, not a Real literal. -/
 theorem program_exec [Inhabited A] (engines : Nat → Engine A) (a : Geometry)
     (scale : A) (j : Nat) (s : State A) :
-    ∃ t,FP.Structural.exec (engines j).algebra (rowBlock "input" "scratch" a.columns a.block a.hasScale)
+    ∃ t,FP.Structural.exec (engines j).algebra (rowBlockKernel "input" "scratch" a.columns a.block a.hasScale)
         (programState a scale j s)=some t ∧
       flatten t=Scatter.write (flatten s) ("scratch",j)
         (.mk .real (compute engines a scale (fun i => (s.mem "input" i).read .real) j)) := by
@@ -59,7 +59,7 @@ theorem program_exec [Inhabited A] (engines : Nat → Engine A) (a : Geometry)
 def run [Inhabited A] (engines : Nat → Engine A) (a : Geometry) (scale : A) : List Nat → State A → Option (State A)
   | [],s => some s
   | j::rest,s => do
-      let t ← FP.Structural.exec (engines j).algebra (rowBlock "input" "scratch" a.columns a.block a.hasScale)
+      let t ← FP.Structural.exec (engines j).algebra (rowBlockKernel "input" "scratch" a.columns a.block a.hasScale)
         (programState a scale j s)
       run engines a scale rest t
 

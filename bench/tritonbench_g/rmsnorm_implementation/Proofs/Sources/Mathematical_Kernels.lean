@@ -19,7 +19,7 @@ def rmsnorm_implementation
 
 /-- Every retained storage combination selects the same original Python body. -/
 def originalTyped (input weight output : Storage) : Source :=
-  VeriTile.Bench.Repairs.RmsnormImplementation.originalFor input weight output
+  VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel input weight output
 
 /-- Select the complete existing address candidate without statement surgery. -/
 def typedKernel (input weight output : Storage) (v : Bool)

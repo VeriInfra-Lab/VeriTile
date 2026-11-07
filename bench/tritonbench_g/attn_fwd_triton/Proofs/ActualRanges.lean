@@ -21,7 +21,7 @@ theorem source (p : Parameters) (BD : Nat) (second : Bool) :
   cases second <;> by_cases hd : p.stage=2
   all_goals simp only [ActualSource.project,TypedExecution.loopCode,TypedExecution.body,
     TypedExecution.finish,TypedExecution.parts,TypedExecution.code,TypedExecution.source,
-    ActualSource.config,TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    ActualSource.config,TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody,
     ActualReturn.code,statement,HelperRegisters.body,HelperRegisters.parts,Verified.source,
     TypedExecution.lowerOp,TypedExecution.lowerName,TypedExecution.upperName]

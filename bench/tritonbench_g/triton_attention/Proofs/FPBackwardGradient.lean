@@ -25,7 +25,7 @@ theorem backwardGradientExecution (rest : Algebra α) (P : Primitives α) (p : B
       some (backwardWeights P p initial st.mem (backwardRead p initial outerMem p.k c) c j)) :
     run (backend rest P) (((backwardInnerBody p).drop 6).take 6) current=
       some (backwardGradientResult P p initial current c j outerMem st) := by
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,numeric,backend,backwardGradientResult,
     h.dv,h.value,h.doPtr,h.deltaPtr,h.memory,h.undef,hr,hp,
     backwardPointer,backwardRead,backwardOffset,backwardRowOffset,

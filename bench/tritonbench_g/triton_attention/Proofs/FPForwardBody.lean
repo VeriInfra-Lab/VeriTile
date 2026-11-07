@@ -44,7 +44,7 @@ theorem forwardSoftmaxExecution (rest : Algebra α) (P : Primitives α) (p : For
     run (backend rest P) (((forwardBody p).drop 5).take 5) current=
       some (forwardSoftmaxResult P p initial current c st) := by
   have source_one : (1.0:ℝ)=1 := by norm_num
-  simp [source_one,forwardBody,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [source_one,forwardBody,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,backend,forwardSoftmaxResult,hqk,hm,hl,TileShape.axisDim,hn,
     FP.Structural.ofFloat,FP.Structural.toFloat,ComputeDType.eraseDType,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind]
@@ -61,7 +61,7 @@ theorem forwardNormalizeExecution (rest : Algebra α) (P : Primitives α) (p : F
     (ha : current.regs .real [p.blockM,p.head] "acc"=some st.numerator) :
     run (backend rest P) (((forwardBody p).drop 10).take 3) current=
       some (forwardNormalizeResult P p initial current c st) := by
-  simp [forwardBody,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [forwardBody,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,backend,forwardNormalizeResult,hp,hl,hr,ha,
     FP.Structural.ofFloat,FP.Structural.toFloat,ComputeDType.eraseDType,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind]
@@ -80,7 +80,7 @@ theorem forwardAccumulateExecution (rest : Algebra α) (P : Primitives α) (p : 
     (ha : current.regs .real [p.blockM,p.head] "acc"=some (forwardRescaled P p initial c st)) :
     run (backend rest P) ((forwardBody p).drop 13) current=
       some (forwardAccumulateResult P p initial current c st) := by
-  simp [forwardBody,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [forwardBody,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,backend,forwardAccumulateResult,hmem,hu,hk,hv,hp,hl,hm,ha,
     forwardKVPointer,forwardKV,forwardKVOffset,TileShape.indexToList,Nat.add_mul,Nat.add_assoc,
     FP.Structural.ofFloat,FP.Structural.toFloat,ComputeDType.eraseDType,

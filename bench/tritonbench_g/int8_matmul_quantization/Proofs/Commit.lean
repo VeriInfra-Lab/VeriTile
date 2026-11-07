@@ -69,10 +69,10 @@ variable {I F H : Type} [Inhabited F]
 
 def source (rowScale output : Precision) (p : Parameters) : ComputeKernel :=
   match rowScale, output with
-  | .half, .half => Source.gemmHalfHalf p
-  | .half, .single => Source.gemmHalfSingle p
-  | .single, .half => Source.gemmSingleHalf p
-  | .single, .single => Source.gemmSingleSingle p
+  | .half, .half => Source.gemmHalfHalfKernel p
+  | .half, .single => Source.gemmHalfSingleKernel p
+  | .single, .half => Source.gemmSingleHalfKernel p
+  | .single, .single => Source.gemmSingleSingleKernel p
 
 theorem source_identity (rowScale output : Precision) (p : Parameters) :
     source rowScale output p = KernelGemm.source rowScale output p := by

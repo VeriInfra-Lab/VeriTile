@@ -22,7 +22,7 @@ theorem body_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parameter
   rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
   cases fast <;> cases backward
   all_goals simp (maxSteps := 1600000) [Source.body, Source.source,
-    RopeEmbedding.Kernels.rope,Kernels.rope,Kernels.ropeFor, ComputeKernel.surfaceBody,
+    RopeEmbedding.Kernels.ropeKernel,Kernels.rope,Kernels.ropeForKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
@@ -67,7 +67,7 @@ theorem prelude_safe {A : Type} [Inhabited A] (M : Algebra A) (p : Source.Parame
   rcases p with ⟨input,cosine,sine,rowStride,cosineStride,sineStride,length,dimension,heads,width,fast⟩
   cases fast <;> cases backward
   all_goals simp (maxSteps := 1600000) [Source.prelude, Source.source,
-    RopeEmbedding.Kernels.rope,Kernels.rope,Kernels.ropeFor, ComputeKernel.surfaceBody,
+    RopeEmbedding.Kernels.ropeKernel,Kernels.rope,Kernels.ropeForKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

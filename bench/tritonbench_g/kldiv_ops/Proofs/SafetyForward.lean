@@ -29,7 +29,7 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
           (traceSafeList_cons_of_step ?_ (step4 M p flag red row start eps carry s h)
             (traceSafeList_cons_intro ?_ (by intro t _;exact traceSafeList_nil _ _ _))))))
   all_goals cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardSourceBody,forwardCandidateSourceBody,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,
@@ -78,7 +78,7 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row star
   apply SafetyBackward.pure_trace
   intro cmd member state
   cases flag
-  all_goals simp only [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardSourceBody,forwardCandidateSourceBody,KernelDSL.forwardLog,ComputeKernel.surfaceBody,List.take,
+  all_goals simp only [forwardPrefix,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,ComputeKernel.surfaceBody,List.take,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
@@ -112,7 +112,7 @@ theorem finish_safe (M : Algebra α) (p : Parameters) (flag : Bool) (red row : N
     (bounds : RegionName → Nat) (ho : red≠0 → row<bounds p.O) :
     traceSafeList (engine M) bounds (forwardFinish p flag red) s := by
   cases flag <;> by_cases hr : red=0
-  all_goals simp only [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardSourceBody,forwardCandidateSourceBody,KernelDSL.forwardLog,ComputeKernel.surfaceBody,List.drop,
+  all_goals simp only [forwardFinish,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,ComputeKernel.surfaceBody,List.drop,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false]
   all_goals apply traceSafeList_cons_intro
   all_goals try (intro final _;exact traceSafeList_nil _ _ _)

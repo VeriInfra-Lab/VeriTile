@@ -22,7 +22,7 @@ def callSignature (out_dtype : FloatDType) : CallSignature where
   readPorts := ["q","k","v","h","g"]
   writePorts := ["o"]
 
-def originalBody (out_dtype : FloatDType) (q k v h g o : RegionName)
+def originalKernel (out_dtype : FloatDType) (q k v h g o : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV : Nat) : ComputeKernel :=
   with_triton_call (callSignature out_dtype) call_args [s_k_h := s_k_h,s_k_t := s_k_t,
@@ -66,7 +66,7 @@ def originalBody (out_dtype : FloatDType) (q k v h g o : RegionName)
     tl.store(p_o, b_o.to(p_o.dtype.element_ty), mask=(rows[:, None] < T) & (cols[None, :] < V))
   }
 
-def rowReusedBody (out_dtype : FloatDType) (q k v h g o : RegionName)
+def rowReusedBodyPastedKernel (out_dtype : FloatDType) (q k v h g o : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV : Nat) : ComputeKernel :=
   with_triton_call (callSignature out_dtype) call_args [s_k_h := s_k_h,s_k_t := s_k_t,
@@ -113,12 +113,12 @@ def rowReusedBody (out_dtype : FloatDType) (q k v h g o : RegionName)
 def fp32Original (out_dtype : FloatDType) (q k v h g o : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV : Nat) : ComputeKernel :=
-  originalBody out_dtype q k v h g o s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV
+  originalKernel out_dtype q k v h g o s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV
 
 def rowReusedSource (out_dtype : FloatDType) (q k v h g o : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat) (scale : ℝ)
     (T K V BT BK BV : Nat) : ComputeKernel :=
-  rowReusedBody out_dtype q k v h g o s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV
+  rowReusedBodyPastedKernel out_dtype q k v h g o s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV
 
 abbrev Shape := Host.Shape
 /-- The repair wrapper admits FP32 tensors. Its complete three-dimensional

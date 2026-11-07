@@ -30,7 +30,7 @@ theorem epilogue_safe (c : Call) (o : Ops α) (bounds : RegionName → Nat)
   all_goals
     simp (config := {maxSteps := 500000}) [parts,Kernels.source,Quoted.kernel,
       DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,
-      Bodies.kernel,Bodies.kernelCSE,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
+      sourceKernel,kernelCSEKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
       ComputeKernel.surfaceBody,Source.intRange?,traceSafeList_unfold,stepSafe_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,
       addressSafe_unfold,maskActive_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,

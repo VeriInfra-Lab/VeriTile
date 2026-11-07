@@ -100,7 +100,7 @@ def registers (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
   (((((reduced M ops p positive entry).setReg "normalized" .real [p.width] (quotient M ops p positive entry)).setReg "normalized" .real [p.width] (normalized M ops p positive entry)).setReg "normalized" .real [p.width] (clipped M ops p positive entry)).setReg "biased" .real [p.width] (biased M ops p positive entry)).setReg "quantized" .int [p.width] (quantized M ops p positive entry)
 
 def segment (p : Parameters) (start count : Nat) : List ComputeStmt :=
-  ((source p).surfaceBody.drop start).take count
+  ((sourceKernel p).surfaceBody.drop start).take count
 
 theorem signed_nonnegative (n : Nat) : ¬ (n : Int)<0 := by omega
 
@@ -119,7 +119,7 @@ theorem signed_mod_pulled (a b : Nat) :
 theorem addressed_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (entry : State α) :
     run (Model.backend M ops) (segment p 0 8) entry=some (addressed M p entry) := by
-  simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [segment,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Model.backend,Option.bind,numericLt,numericLe,numericEq,natLt,natLe,
     bop,numeric,ofFloat,toFloat,Region.cast,ComputeDType.eraseDType,
     integralMod,integralFloorDiv,addressed,loaded,Model.group,Model.offset,Model.active]
@@ -153,7 +153,7 @@ theorem prescaled_run (M : Algebra α) (ops : Model.Primitives α) (p : Paramete
     (entry : State α) :
     run (Model.backend M ops) (segment p 8 1) (addressed M p entry)=some (prescaled M p entry) := by
   cases query : p.query <;>
-    simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    simp [segment,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Model.backend,Option.bind,bop,numeric,addressed,prescaled,transformed,query,ComputeDType.eraseDType,Parameters.factor,factorTree]
   all_goals
     delta bop Model.offset Model.group loaded transformed flags sanitized scalar32 maximum scale usable denominator quotient normalized clipped biased quantized
@@ -164,7 +164,7 @@ theorem classified_run (M : Algebra α) (ops : Model.Primitives α) (p : Paramet
     (positive : 0< p.width) (entry : State α) :
     run (Model.backend M ops) (segment p 9 3) (prescaled M p entry)=some (classified M ops p positive entry) := by
   cases query : p.query <;>
-    simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    simp [segment,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Model.backend,Option.bind,numericLe,numericEq,bop,numeric,ofFloat,toFloat,
       classified,prescaled,addressed,flags,badValue,sanitized,transformed,query,Parameters.factor,factorTree,
       TileShape.discreteMaximum,TileShape.axisDim,positive,TileShape.insertAxisIndex,ComputeDType.eraseDType]
@@ -176,7 +176,7 @@ theorem classified_run (M : Algebra α) (ops : Model.Primitives α) (p : Paramet
 theorem reduced_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
     run (Model.backend M ops) (segment p 12 4) (classified M ops p positive entry)=some (reduced M ops p positive entry) := by
-  simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [segment,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Model.backend,Option.bind,numericLt,numericEq,bop,numeric,ofFloat,toFloat,
     reduced,classified,maximum,scale,usable,denominator,TileShape.axisDim,positive,ComputeDType.eraseDType]
   all_goals
@@ -187,7 +187,7 @@ theorem reduced_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
 theorem registers_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
     run (Model.backend M ops) (segment p 16 5) (reduced M ops p positive entry)=some (registers M ops p positive entry) := by
-  simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [segment,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Model.backend,Option.bind,numericLt,numericLe,bop,numeric,ofFloat,toFloat,
     registers,reduced,classified,quotient,normalized,clipped,biased,quantized,ComputeDType.eraseDType]
   all_goals

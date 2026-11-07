@@ -30,7 +30,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α
   simp only [HasAcc] at ha
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue,source,typed,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,
+  simp [epilogue,source,typedKernel,ComputeKernel.surfaceBody,FP.Structural.run,FP.Structural.step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,VeriTile.Triton.Region.cast,Option.bind,integralFloorDiv,integralMod,

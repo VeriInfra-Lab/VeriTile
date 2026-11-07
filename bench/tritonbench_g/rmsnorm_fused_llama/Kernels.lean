@@ -44,7 +44,7 @@ def runtimeKernel (X Y W : RegionName) (N B : Nat) (stride : Nat := N) : Compute
         tl.store(Y + cols, y.to(tl.float16), mask=mask)
   }
 
-def runtimeCandidate (X Y W : RegionName) (N B : Nat) (stride : Nat := N) : ComputeKernel :=
+def runtimeCandidateKernel (X Y W : RegionName) (N B : Nat) (stride : Nat := N) : ComputeKernel :=
   let BLOCK_SIZE := B
   with_triton_call callSignature call_args [stride := stride,N := N] in triton {
     row = tl.program_id(0)
@@ -74,7 +74,7 @@ def kernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
   (runtimeKernel X Y W N B).withScalarArguments [ScalarArgument.fp32 "eps" eps]
 
 def indexCommutedKernel (X Y W : RegionName) (N B : Nat) (eps : ℝ) : ComputeKernel :=
-  (runtimeCandidate X Y W N B).withScalarArguments [ScalarArgument.fp32 "eps" eps]
+  (runtimeCandidateKernel X Y W N B).withScalarArguments [ScalarArgument.fp32 "eps" eps]
 
 end
 end VeriTile.Bench.Repairs.RmsnormFusedLlama

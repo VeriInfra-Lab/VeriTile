@@ -44,7 +44,7 @@ theorem executes {A : Type} [Inhabited A] (precision : Precision) (classify : A 
       final.mem=(stores classify input output n B (s.pids 0) s s).mem := by
   cases precision
   all_goals
-    simp +contextual [source,source32,source64,sourceBody,View.address,View.signedAddress,
+    simp +contextual [source,source32,source64,sourceKernel,View.address,View.signedAddress,
       FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       algebra,Precision.finite,ComputeDType.eraseDType,numeric,numericEq,natLt,bop,FP.Structural.store,Region.cast,
       ofFloat,toFloat,stores,Option.bind,
@@ -58,7 +58,7 @@ theorem commuted_executes {A : Type} [Inhabited A] (precision : Precision) (clas
       final.mem=(stores classify input output n B (s.pids 0) s s).mem := by
   cases precision
   all_goals
-    simp +contextual [indexCommuted,candidate32,candidate64,candidateBody,Nat.mul_comm,View.address,View.signedAddress,
+    simp +contextual [indexCommuted,candidate32,candidate64,candidateKernel,Nat.mul_comm,View.address,View.signedAddress,
       FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       algebra,Precision.finite,ComputeDType.eraseDType,numeric,numericEq,natLt,bop,FP.Structural.store,Region.cast,
       ofFloat,toFloat,stores,Option.bind,

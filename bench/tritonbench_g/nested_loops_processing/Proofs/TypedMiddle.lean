@@ -31,7 +31,7 @@ theorem middle_prefix_step (M : Algebra α) (count : Nat) (u : Unique)
     run M (middlePrefix count cols) s =
       some (middlePrefixState count u s a 2) := by
   all_goals simp only [middlePrefix, middle, outer, source,
-    kernel, originalKernel, quotedOriginal, ComputeKernel.surfaceBody, List.getElem?_cons_zero, List.getElem?_cons_succ,
+    kernel, originalKernel, quotedOriginalKernel, ComputeKernel.surfaceBody, List.getElem?_cons_zero, List.getElem?_cons_succ,
     List.take_succ_cons, List.take_zero, Bool.false_eq_true, ↓reduceIte, run, step, evalExpr, evalComputeOp]
   all_goals simp [ComputeDType.eraseDType, Option.bind, evalOp_unfold, numeric, natLt, natLe, numericLt, ha,
     middlePrefixState, loaded, bump, signedOffsets, numericLt, ← min_def_lt]

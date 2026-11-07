@@ -13,7 +13,7 @@ theorem pointer_step {α : Type} [Inhabited α] (M : Algebra α)
     (count cols : Nat) (s : State α) :
     step M (initialPointer Bool.false count cols) s =
       step M (initialPointer Bool.true count cols) s := by
-  simp only [initialPointer, kernel, originalKernel, commutedKernel, quotedOriginal, quotedCommuted, ComputeKernel.surfaceBody,
+  simp only [initialPointer, kernel, originalKernel, commutedKernel, quotedOriginalKernel, quotedCommutedKernel, ComputeKernel.surfaceBody,
     List.getElem?_cons_succ, List.getElem?_cons_zero, Option.getD_some,
     Bool.false_eq_true, ↓reduceIte]
   simp [step, evalExpr, evalComputeOp, evalOp_unfold, numeric]

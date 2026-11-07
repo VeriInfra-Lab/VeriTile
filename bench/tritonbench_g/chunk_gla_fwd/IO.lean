@@ -111,7 +111,7 @@ set_option linter.unusedSimpArgs false
 def interSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
   kernel := (SourceBridge.interNew (ProducerGeometry.layout c.producer) ProducerGeometry.regions scale).eraseDType
   projection := by
-    simp only [SourceBridge.interNew, TypedInter.original, TypedInter.source, TypedInter.fp32Original, Bodies.interOriginal, ComputeKernel.eraseDType,
+    simp only [SourceBridge.interNew, TypedInter.original, TypedInter.source, TypedInter.fp32Original, interOriginalKernel, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeKernel.surfaceBody,
       Except.bind, bind, Bool.false_eq_true, ↓reduceIte]
@@ -122,7 +122,7 @@ def interSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
 def intraSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
   kernel := (SourceBridge.intraNew (IntraGrid.layout c.producer c.intraBK) IntraGrid.regions scale).eraseDType
   projection := by
-    simp only [SourceBridge.intraNew, TypedIntra.original, TypedIntra.source, TypedIntra.fp32Original, Bodies.intraOriginal, ComputeKernel.eraseDType,
+    simp only [SourceBridge.intraNew, TypedIntra.original, TypedIntra.source, TypedIntra.fp32Original, intraOriginalKernel, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeKernel.surfaceBody,
       Except.bind, bind, Bool.false_eq_true, ↓reduceIte]
@@ -133,7 +133,7 @@ def intraSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
 def splitSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
   kernel := (SourceBridge.splitNew (SplitGrid.layout c.split) SplitGrid.regions scale).eraseDType
   projection := by
-    simp only [SourceBridge.splitNew, TypedSplit.original, TypedSplit.source, TypedSplit.fp32Original, Bodies.splitOriginal, ComputeKernel.eraseDType,
+    simp only [SourceBridge.splitNew, TypedSplit.original, TypedSplit.source, TypedSplit.fp32Original, splitOriginalKernel, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeKernel.surfaceBody,
       Except.bind, bind, Bool.false_eq_true, ↓reduceIte]
@@ -144,7 +144,7 @@ def splitSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
 def mergeSource (c : Host.Dimensions) : AlgorithmSource where
   kernel := (SourceBridge.mergeNew (MergeGrid.layout c.split) "scratch" "attention").eraseDType
   projection := by
-    simp only [SourceBridge.mergeNew, TypedMerge.original, Bodies.mergeOriginal, ComputeKernel.eraseDType,
+    simp only [SourceBridge.mergeNew, TypedMerge.original, mergeOriginalKernel, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeKernel.surfaceBody,
       Except.bind, bind, Bool.false_eq_true, ↓reduceIte]
@@ -155,7 +155,7 @@ def mergeSource (c : Host.Dimensions) : AlgorithmSource where
 def outputSource (c : Host.Dimensions) (scale : ℝ) : AlgorithmSource where
   kernel := (SourceBridge.outputNew (OutputGrid.layout c.consumer) OutputGrid.regions scale).eraseDType
   projection := by
-    simp only [SourceBridge.outputNew, TypedOutput.original, TypedOutput.source, TypedOutput.fp32Original, Bodies.outputOriginal, ComputeKernel.eraseDType,
+    simp only [SourceBridge.outputNew, TypedOutput.original, TypedOutput.source, TypedOutput.fp32Original, outputOriginalKernel, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeKernel.surfaceBody,
       Except.bind, bind, Bool.false_eq_true, ↓reduceIte]

@@ -42,7 +42,7 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α) (d : Storage)
      swap
      simp [source,
        VeriTile.Bench.Repairs.MaskedSelect.kernel,
-       VeriTile.Bench.Repairs.MaskedSelect.sourceFor, FP.Structural.exec, ComputeKernel.surfaceBody,
+       VeriTile.Bench.Repairs.MaskedSelect.sourceForKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
        FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
        FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
        FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,

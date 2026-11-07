@@ -33,7 +33,7 @@ def interFEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : Sta
     {t : State α // run (engine (withDot M D)) (interForwardParts p).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

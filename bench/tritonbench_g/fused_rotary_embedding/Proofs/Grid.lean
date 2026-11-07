@@ -12,7 +12,7 @@ threading its resulting memory into the next program. -/
 def grid (rest : Algebra α) (ops : Ops α) (p : Parameters) :
     List Program → Mem α → Option (Mem α)
   | [],m=>some m
-  | pid::ps,m=>(FP.Structural.exec (algebra rest ops) (kernel p) (state pid m)).bind
+  | pid::ps,m=>(FP.Structural.exec (algebra rest ops) (sourceKernel p) (state pid m)).bind
       (fun final=>grid rest ops p ps final.mem)
 
 theorem grid_memory (rest : Algebra α) (ops : Ops α) (c : Config) (hc : c.Valid)
@@ -52,6 +52,6 @@ theorem complete_real (rest : Algebra ℝ) (c : Config) (hc : c.Valid) (m : Memo
 
 #axiomsClean complete
 #axiomsClean complete_real
-#specNonCircular formula avoiding [grid,kernel,written,naturalProgram,actualSource]
+#specNonCircular formula avoiding [grid,sourceKernel,written,naturalProgram,actualSource]
 end
 end VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Source

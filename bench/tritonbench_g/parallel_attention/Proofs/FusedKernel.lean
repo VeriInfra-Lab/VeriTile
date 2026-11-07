@@ -123,7 +123,7 @@ theorem shell_equal (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig) :
     exact CodeEq.refl (withDot M D) _
 
 theorem shell_original (c : QueryConfig) :
-    shell c=Bodies.backward c.q c.k c.v c.do_ c.dz c.dq c.dk c.dv
+    shell c=backwardPastedKernel c.q c.k c.v c.do_ c.dz c.dq c.dk c.dv
       c.s_qk_h c.s_qk_t c.s_qk_d c.s_vo_h c.s_vo_t c.s_vo_d c.scale
       c.B c.H c.T c.K c.V c.BTL c.BTS c.BK c.BV:=rfl
 

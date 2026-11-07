@@ -37,7 +37,7 @@ theorem traceSafe (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     (hpost : T * S ≤ bounds "h_post")
     (hout : s.pid * (S * D) + S * D ≤ bounds "out") :
     Kernel.TraceSafe bounds
-      (if optimized then (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
+      (if optimized then (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
        else (matrixOriginal S T D iters tau).toAlgKernel) s := by
   cases optimized <;> simp only [Bool.false_eq_true, ↓reduceIte]
   all_goals
@@ -152,9 +152,9 @@ theorem traceSafe (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
 
 /-- Both sources remain in the fragment supported by address relocation. -/
 theorem flattenOk (optimized : Bool) (S T D iters : Nat) (tau : ℝ) :
-    (if optimized then (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
+    (if optimized then (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
      else (matrixOriginal S T D iters tau).toAlgKernel).FlattenOk := by
-  cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimized, ComputeKernel.toAlgKernel,
+  cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimizedKernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end VeriTile.Bench.Examples.HyperConnectionsDepth.Memory
@@ -436,7 +436,7 @@ Tile.bop WithBot.realAdd (.consSame (.consSame .nil)) res
           (congrFun (congrFun (hmem.trans hm) r) o)
 
 theorem matrix_optimized_run (S T D iters : Nat) (tau : ℝ) (s : BlockState) :
-    Spec.Real (∃ t, exec (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau) s = some t ∧
+    Spec.Real (∃ t, exec (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau) s = some t ∧
       (∀ i : TileIndex [S, D], t.readMem "out" (s.pid * (S * D) + i.1.val * D + i.2.1.val) =
         (((fun {S T D : Nat} (res : Tile .real [S, D]) (branch : Tile .real [T, D])
     (logits : Tile .real [T, S]) (tau : ℝ) (iters : Nat) =>
@@ -461,7 +461,7 @@ theorem matrix_region_run (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     (hy : ∀ i, s.readMem "branch_out" (s.pid * (T * D) + i.val) = ys i)
     (hz : ∀ i, s.readMem "h_post" (0 + i.val) = zs i) :
     ∃ t, exec (if optimized then
-        matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau
+        matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau
       else matrixOriginal S T D iters tau) s = some t ∧
       (∀ i : Fin (S * D), t.readMem "out" (s.pid * (S * D) + i.val) =
         ((Tile.bop WithBot.realAdd (.consSame (.consSame .nil)) (matrixTile xs)

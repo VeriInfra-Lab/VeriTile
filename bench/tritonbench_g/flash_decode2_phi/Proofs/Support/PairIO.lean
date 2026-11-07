@@ -11,7 +11,7 @@ def io (g : PhiIO.Geometry) (order : List Nat) :=
 
 def job (g : PhiIO.Geometry) (row : Nat) : Invocation Native.Term :=
   { PhiIO.launch Native.algebra g row with
-    kernel := Candidates.phiSharedBase g.H g.S g.D g.Q g.BD }
+    kernel := Candidates.phiSharedBaseKernel g.H g.S g.D g.Q g.BD }
 
 def variant (g : PhiIO.Geometry) (order : List Nat) :
     ProgramIO.Variant (io g order) where

@@ -73,7 +73,7 @@ theorem source_safe (bounds : RegionBounds) (Y X : RegionName) (M N B : Nat)
     (hN : 0 < N) (hB : 0 < B) (s : BlockState)
     (hx : ∀ i, i < N → s.pid*N+i < bounds X)
     (hy : ∀ i, i < N → s.pid*N+i < bounds Y) :
-    Kernel.TraceSafe bounds (kernel Y X M N B).eraseDType.toAlgKernel s := by
+    Kernel.TraceSafe bounds (sourceKernel Y X M N B).eraseDType.toAlgKernel s := by
   unfold Kernel.TraceSafe
   rw [Source.source_body]
   change Stmt.TraceSafeList bounds

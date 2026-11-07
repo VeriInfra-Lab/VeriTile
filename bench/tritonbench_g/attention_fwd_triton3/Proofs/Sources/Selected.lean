@@ -18,7 +18,7 @@ def kernel
       SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Nat)
     (sliding_window_offset sliding_window_size : Int) :
     ComputeKernel :=
-  Bodies.kernel Q K V M Out L sm_scale
+  sourceKernel Q K V M Out L sm_scale
     stride_qz stride_qh stride_qm stride_qk
     stride_kz stride_kh stride_kn stride_kk
     stride_vz stride_vh stride_vk stride_vn
@@ -39,7 +39,7 @@ def keyMaskCSE
       SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW : Nat)
     (sliding_window_offset sliding_window_size : Int) :
     ComputeKernel :=
-  Bodies.kernelCSE Q K V M Out L sm_scale
+  kernelCSEKernel Q K V M Out L sm_scale
     stride_qz stride_qh stride_qm stride_qk
     stride_kz stride_kh stride_kn stride_kk
     stride_vz stride_vh stride_vk stride_vn

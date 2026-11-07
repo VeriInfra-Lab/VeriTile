@@ -18,7 +18,7 @@ theorem after_code (p : BackwardLayout) (length : Nat) :
       (.ref .real [p.B] "grad_Lambda") (.mask (.ref .bool [p.B] "mask"))] := by
   unfold after source Erasure.backward TypedSource.backward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,
@@ -90,7 +90,7 @@ theorem source_code (p : BackwardLayout) (length : Nat) :
         after p length := by
   unfold before body after source Erasure.backward TypedSource.backward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,

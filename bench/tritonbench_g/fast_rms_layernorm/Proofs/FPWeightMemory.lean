@@ -17,7 +17,7 @@ def expectedHeap (M : Algebra α) (h : Call) (K pid : Nat) (u : State α) :=
 theorem tail_executes (M : Algebra α) (h : Call) (K pid : Nat) (initial u : State α)
     (inv : Holds M h K pid initial h.rows u) :
     ∃ v, run (engine M) (tailCode h K) u=some v ∧ v.mem=expectedHeap M h K pid initial := by
-  simp [tailCode,Kernels.weightBackward,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [tailCode,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,FP.Structural.store,
     inv.col,inv.mask,inv.acc,inv.mem,expectedHeap,columns,masks,FPReference.cast,fold_mem]

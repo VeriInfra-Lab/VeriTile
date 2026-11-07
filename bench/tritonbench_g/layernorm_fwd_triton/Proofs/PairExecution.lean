@@ -64,7 +64,7 @@ theorem candidate_body_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Par
     (weight : ∀ j,j<p.columns → wBase p s+j*p.weightDimStride<bounds p.weight)
     (output : ∀ j,j<p.columns → yBase p s+j*p.yDimStride<bounds p.y) :
     Safety.traceSafeList M bounds (outputBody p) (t.setReg "off" .int [] (fun _ => (off : Int))) := by
-  simp [outputBody,candidateKernel,runtimeSourceCandidate,ComputeKernel.surfaceBody,
+  simp [outputBody,candidateKernel,runtimeSourceCandidateKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

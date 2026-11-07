@@ -28,7 +28,7 @@ decreasing_by omega
 theorem exact (m : Model α) (s : State α) (stride M N G B : Nat) :
     FP.Structural.exec (engine m) (kernel stride M N G B) s =
       FP.Structural.exec (engine m)
-        (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s := by
+        (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s := by
   obtain ⟨a,ha,hready,hrow⟩ := prelude_refines m s stride M N G B
   have hg := hready.2.2.1
   change run (engine m) (kernel stride M N G B).surfaceBody s =
@@ -48,8 +48,8 @@ theorem body_safe_iff (m : Model α) (s t : State α) (stride M N G B group row 
       (t.setReg "row" .int [] (fun _ => (row : Int))) := by
   obtain ⟨hmem,hu,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb⟩ := h
   by_cases same : row=group <;>
-    simp [body,kernel,TypedSource.groupedBackwardCandidate,Bodies.groupedBackwardCandidate,SourceGrouped.body,SourceGrouped.code,
-      TypedSource.groupedBackward,Bodies.groupedBackward,ComputeKernel.surfaceBody,
+    simp [body,kernel,TypedSource.groupedBackwardCandidateKernel,groupedBackwardCandidateKernel,SourceGrouped.body,SourceGrouped.code,
+      TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -85,7 +85,7 @@ decreasing_by omega
 theorem safe_iff (m : Model α) (s : State α) (stride M N G B : Nat) (bounds : RegionName → Nat) :
     TraceSafe (engine m) bounds (kernel stride M N G B) s ↔
       TraceSafe (engine m) bounds
-        (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s := by
+        (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s := by
   obtain ⟨a,ha,hready,hrow⟩ := prelude_refines m s stride M N G B
   have hg := hready.2.2.1
   have eq := range_eq m s a stride M N G B (s.pids 0) (s.pids 0) (zero m B) hready

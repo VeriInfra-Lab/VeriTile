@@ -30,7 +30,7 @@ theorem implements (h : Call) (layout : Geometry.OutputLayout h) (c : Config)
   refine ⟨final,trace,?_,?_,?_⟩
   · intro bounds backed
     refine ⟨?_,trivial⟩
-    change Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel entered
+    change Kernel.TraceSafe bounds (Kernels.sourceKernel h c).eraseDType.toAlgKernel entered
     apply SourceSafety.source_safe h layout c positive entered hr bounds
     · intro t ht
       exact backed.1 (0 : Fin 1) ⟨t,ht⟩ trivial

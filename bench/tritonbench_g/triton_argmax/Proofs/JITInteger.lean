@@ -21,12 +21,12 @@ def secondIndex (kind : Formats.IntegerKind) (s : State Word) (V : RegionName)
 
 theorem second_run (kind : Formats.IntegerKind) (rest : Algebra Word) (s : State Word)
     (V : RegionName) (I O : Region .int) (size block : Nat) :
-    ∃ t, FP.Structural.exec rest (JITSource.stage2 V I O (sourceType kind) block)
+    ∃ t, FP.Structural.exec rest (JITSource.stage2Kernel V I O (sourceType kind) block)
       (s.setReg "mid_size" .int [] (fun _ => (size : Int)))=some t ∧
       t.mem=(s.write (Region.cast O) 0 (.mk .int
         ((s.mem (Region.cast I) (secondIndex kind s V size block)).read .int))).mem := by
   cases kind <;>
-    simp [sourceType, JITSource.stage2, ComputeKernel.surfaceBody, FP.Structural.exec,
+    simp [sourceType, JITSource.stage2Kernel, ComputeKernel.surfaceBody, FP.Structural.exec,
       run, step, evalExpr, evalComputeOp, evalOp_unfold,
       TileShape.axisDim, TileShape.insertAxisIndex, TileShape.eraseAxis,
       ofFloat, toFloat, bop, numeric, numericLt, numericEq, natLt, TileShape.discreteIntArgMax,

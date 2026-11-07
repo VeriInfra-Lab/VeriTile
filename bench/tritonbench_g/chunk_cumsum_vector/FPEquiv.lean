@@ -13,7 +13,7 @@ abbrev prefixNativeIO := @FloatingIO.prefixNativeIO
 abbrev sumLeftVariant := @FloatingIO.sumLeftVariant
 abbrev carryDomain := @FloatingIO.carryDomain
 abbrev original := @FloatingIO.original
-abbrev sumLeft := @FloatingIO.sumLeft
+abbrev sumLeftKernel := @FloatingIO.sumLeftKernel
 
 /-- Both complete source invocations succeed, have bounded actual accesses,
 agree on every active typed output and preserve their exact exterior frames.
@@ -23,12 +23,12 @@ specification memory_equiv (M : Algebra α) (dot : DotBackend α)
     (D : FP.Guarded.Domain α) (model : FP.Guarded.Models [] M D)
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (chosen : c∈configurations)
     (p : Geometry.Program h) :
-    original M dot D h c p ≡[[]] sumLeft M dot D h c p :=
+    original M dot D h c p ≡[[]] sumLeftKernel M dot D h c p :=
   ProgramIO.Implementation.of_equivalentOn (sumLeftVariant M dot h c p)
     (NativeIO.equivalent M dot D model h layout c chosen p)
 
 #print_fp_assumptions memory_equiv
-#specNonCircular carryDomain avoiding [Kernels.source,Kernels.sumLeft,run,FPExecution.source_correct]
+#specNonCircular carryDomain avoiding [Kernels.sourceKernel,Kernels.sumLeftKernel,run,FPExecution.source_correct]
 #axiomsClean memory_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

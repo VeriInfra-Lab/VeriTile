@@ -62,7 +62,7 @@ def statement (h : Call) (c : Config) : ComputeStmt :=
   .forRangeInt "__rev_i_t" (reverseStart h c) (.constInt 1) (.constNat 1) (loopBody h c)
 def body (h : Call) (c : Config) := initCode c++[statement h c]
 
-theorem source_body (h : Call) (c : Config) : (Kernels.source h c).surfaceBody=body h c := by rfl
+theorem source_body (h : Call) (c : Config) : (Kernels.sourceKernel h c).surfaceBody=body h c := by rfl
 
 #print axioms source_body
 end VeriTile.Bench.Repairs.ReversedCumsum.FPProgram

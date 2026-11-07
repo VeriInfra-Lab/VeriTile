@@ -44,7 +44,7 @@ def changed_word (out_ptr : RegionName) (N : Nat) (seed offset : Int)
   with_triton_call callSignature call_args [N := N]
     fp32_bits [from_ := lower, «to» := upper]
     i64_args [philox_seed := seed, philox_offset := offset]
-    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoder] in triton {
+    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoderSource] in triton {
     from_ += 1
   }
 
@@ -55,7 +55,7 @@ def shadowed_helper (out_ptr : RegionName) (N : Nat) (seed offset : Int)
   with_triton_call callSignature call_args [N := N]
     fp32_bits [from_ := lower, «to» := upper]
     i64_args [philox_seed := seed, philox_offset := offset]
-    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoder] in triton {
+    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoderSource] in triton {
     for uint_to_uniform_float in range(0, N):
         temp = 0
   }
@@ -67,7 +67,7 @@ def changed_integer (out_ptr : RegionName) (N : Nat) (seed offset : Int)
   with_triton_call callSignature call_args [N := N]
     fp32_bits [from_ := lower, «to» := upper]
     i64_args [philox_seed := seed, philox_offset := offset]
-    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoder] in triton {
+    arange_args [BLOCK := hBlock] uniform_helpers [uint_to_uniform_float := uniformDecoderSource] in triton {
     philox_seed = philox_seed.to(tl.int32)
   }
 

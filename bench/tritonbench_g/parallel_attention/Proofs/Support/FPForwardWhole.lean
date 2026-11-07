@@ -32,7 +32,7 @@ theorem first_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPri
     (c : ForwardConfig) (s : State α) :
     ∃ final, run (withDot M D) (firstPrefix c) s = some final ∧
       ForwardReady M c s final 0 (initialAccumulator M c) := by
-  simp [firstPrefix, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
+  simp [firstPrefix, forwardKernel, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType,
     numeric, bop, Region.cast, withDot, TileShape.indexToList,
     BlockPtr.address_2d_offsets, BlockPtr.inBounds_2d_offsets, ofFloat, toFloat]
@@ -46,7 +46,7 @@ theorem between_loops_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotPr
     (h : ForwardReady M c s t last acc) :
     ∃ final, run (withDot M D) (betweenLoops c) t = some final ∧
       DiagonalReady M c s final (queryChunk c s) acc := by
-  simp [betweenLoops, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
+  simp [betweenLoops, forwardKernel, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType,
     numeric, bop, Region.cast, withDot, h.head, h.chunk, h.keyBlock, h.valueBlock,
     TileShape.indexToList, ofFloat, toFloat]
@@ -82,7 +82,7 @@ theorem forward_suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : DotP
     ∃ final, run (withDot M D) (forwardSuffix c) t = some final ∧
       final.mem = (outputMemory M c s acc).mem := by
   by_cases hv : s.pids 0 % ((c.V+c.BV-1)/c.BV) = 0
-  all_goals simp [hv, numericEq, forwardSuffix, forwardKernel, forwardSource,Bodies.forward, ComputeKernel.surfaceBody, run, step,
+  all_goals simp [hv, numericEq, forwardSuffix, forwardKernel, forwardSource,forwardPastedKernel, ComputeKernel.surfaceBody, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind, ComputeDType.eraseDType, store,
     numeric, bop, natLt, numericLt, Region.cast, withDot,
     h.head, h.chunk, h.keyBlock, h.valueBlock, h.output, h.normalizer,

@@ -29,7 +29,7 @@ theorem backward_prefix_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot
     (c : QueryConfig) (s : State α) (r : Registers c.toBackwardConfig s) :
     ∃ final, run (withDot M D) (backwardPrefix c) s = some final ∧
       BackwardReady M c s final (backwardInitial M c) := by
-  simp [backwardPrefix, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [backwardPrefix, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind,
     r.head,r.chunk,r.keyBlock,r.valueBlock,ComputeDType.eraseDType, numeric, bop, Region.cast, withDot,
     TileShape.indexToList, BlockPtr.address_2d_offsets, BlockPtr.inBounds_2d_offsets, ofFloat, toFloat]
@@ -41,7 +41,7 @@ theorem backward_middle_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot
     (h : BackwardReady M c s t acc) :
     ∃ final, run (withDot M D) (backwardMiddle c) t = some final ∧
       BackwardDiagonalReady M c s final (c.i_c*c.BTL) acc := by
-  simp [backwardMiddle, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [backwardMiddle, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, Option.bind,h.head,h.chunk,h.keyBlock,h.valueBlock, ComputeDType.eraseDType]
   constructor
   · constructor <;> simp [h.head,h.chunk,h.keyBlock,h.valueBlock, h.mem, h.pids, h.undef, h.key, h.value, h.keyGrad, h.valueGrad]
@@ -54,7 +54,7 @@ theorem backward_suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot
     (h : BackwardReady M c s t acc) :
     ∃ final, run (withDot M D) (backwardSuffix c) t = some final ∧
       final.mem = (backwardOutputMemory M c.toBackwardConfig s acc).mem := by
-  simp [backwardSuffix, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [backwardSuffix, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, evalOffsets, Option.bind,h.head,h.chunk,h.keyBlock,h.valueBlock,
     ComputeDType.eraseDType, numeric, bop, Region.cast, withDot, store,
     h.keyGrad, h.valueGrad, TileShape.indexToList, BlockPtr.address_2d_offsets,
@@ -72,14 +72,14 @@ theorem backward_first_range_statement {α : Type} [Inhabited α] (M : Algebra �
     step (withDot M D) (backwardFirstRange c) t =
       rangeInt (withDot M D) "__rev_i" (DescendingRange.lower c.toBackwardConfig) (DescendingRange.upper c.toBackwardConfig)
         c.BTS (backwardFirstBody c) t := by
-  simp [backwardFirstRange,backwardFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+  simp [backwardFirstRange,backwardFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
     step,evalOp_unfold,boundaryZero,numeric,bop,Option.bind,r.head,r.chunk,r.keyBlock,r.valueBlock,DescendingRange.lower,DescendingRange.upper,sub_eq_add_neg,add_comm]
 
 theorem backward_second_range_statement {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
     (c : QueryConfig) (t : State α) (r : Registers c.toBackwardConfig t) :
     step (withDot M D) (backwardSecondRange c) t =
       FP.Structural.range (withDot M D) "i" (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) c.BTS (backwardSecondBody c) t := by
-  simp [backwardSecondRange, backwardSecondBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  simp [backwardSecondRange, backwardSecondBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     step, evalOp_unfold, boundaryZero, numeric, bop, Option.bind,r.head,r.chunk,r.keyBlock,r.valueBlock]
 
 /-- Complete original accepted DK/DV stage, including both loop ranges and

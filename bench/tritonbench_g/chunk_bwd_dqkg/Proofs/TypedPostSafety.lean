@@ -16,7 +16,7 @@ theorem accesses (M : Algebra α) (dot : Dot α) (c : Config) (s current : State
     traceSafeList (engine (withDot M dot)) bounds ((parts c).after.take 4) current := by
   change traceSafeList (engine (withDot M dot)) bounds
     (((kernel c).surfaceBody.drop 13).take 4) current
-  simp only [kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.drop,List.take]
   simp only [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold]
   simp only [safeBlockPtr1,safeBlockPtr2]
@@ -47,7 +47,7 @@ theorem stores_safe (M : Algebra α) (dot : Dot α) (c : Config) (s current : St
     (bounds : RegionName → Nat) (cap : Capacity c bounds) :
     traceSafeList (engine (withDot M dot)) bounds ((parts c).after.drop 17) current := by
   change traceSafeList (engine (withDot M dot)) bounds ((kernel c).surfaceBody.drop 30) current
-  simp only [kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.drop]
   simp [traceSafeList_unfold,stepSafe_unfold,safeAddress_unfold,safeMask_unfold,
     safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,

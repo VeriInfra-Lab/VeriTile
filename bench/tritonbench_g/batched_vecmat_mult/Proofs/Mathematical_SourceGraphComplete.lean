@@ -43,7 +43,7 @@ def tailExecution (rest : Algebra Word) (plans : PlanSelector)
     {t : State Word // run (engine rest plans) (tail p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [tail, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.kernel, ComputeKernel.surfaceBody,
+  simp [tail, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.sourceKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     store, h.offsets, h.carry, Region.cast]
   rfl

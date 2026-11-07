@@ -40,7 +40,7 @@ def Invariant (s : State α) (BM BN : Nat) (a : Carries α BM BN) (t : State α)
 
 theorem prelude_refines [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) :
     ∃ t,run (engine m) (SourceFinal.prelude M N BM BN) s=some t ∧ Invariant s BM BN (zero m BM BN) t := by
-  simp [SourceFinal.prelude,SourceFinal.code,TypedSource.finalBackward,Bodies.finalBackward,ComputeKernel.surfaceBody,
+  simp [SourceFinal.prelude,SourceFinal.code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,columns,zero,lit,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -53,7 +53,7 @@ theorem body_refines [Inhabited α] (m : Model α) (s t : State α) (M N BM BN c
     ∃ u,run (engine m) (SourceFinal.body M N BM BN) (t.setReg "i" .int [] (fun _ => cur))=some u ∧
       Invariant s BM BN (next m s M N BM BN cur a) u := by
   obtain ⟨hm,hcols,hdw,hdb⟩ := h
-  simp [SourceFinal.body,SourceFinal.code,TypedSource.finalBackward,Bodies.finalBackward,ComputeKernel.surfaceBody,
+  simp [SourceFinal.body,SourceFinal.code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,columns,next,loadTile,lit,bin,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -95,7 +95,7 @@ theorem suffix_refines [Inhabited α] (m : Model α) (s t : State α) (M N BM BN
     ∃ u,run (engine m) (SourceFinal.suffix M N BM BN) t=some u ∧
       u.mem=(stores m s N BM BN a).mem := by
   obtain ⟨hm,hcols,hdw,hdb⟩ := h
-  simp [SourceFinal.suffix,SourceFinal.code,TypedSource.finalBackward,Bodies.finalBackward,ComputeKernel.surfaceBody,
+  simp [SourceFinal.suffix,SourceFinal.code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
@@ -115,7 +115,7 @@ def final [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) : State
 
 theorem source_refines [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t ∧
+      (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t ∧
       t.mem=(final m s M N BM BN).mem := by
   obtain ⟨a,ha,hready⟩ := prelude_refines m s M N BM BN
   obtain ⟨b,hb,hbready⟩ := range_refines m s a M N BM BN 0 (zero m BM BN) hready

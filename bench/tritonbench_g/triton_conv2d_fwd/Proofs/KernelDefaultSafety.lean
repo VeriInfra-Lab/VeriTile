@@ -21,7 +21,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem prelude_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) :
     Safety.traceSafeList (backend M D) bounds (prelude p) s := by
-  simp [prelude,source,typed,Pasted.originalBody,Pasted.candidateBody,
+  simp [prelude,source,typed,Pasted.originalKernel,Pasted.candidateKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -40,7 +40,7 @@ theorem body_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (cBody p)
       (current.setReg "c" .nat [] (fun _ => c)) := by
   simp only [HasAcc] at ha
-  simp [cBody,wBody,hBody,source,typed,Pasted.originalBody,Pasted.candidateBody,
+  simp [cBody,wBody,hBody,source,typed,Pasted.originalKernel,Pasted.candidateKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -62,7 +62,7 @@ theorem epilogue_safe (M : Algebra α) (D : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (backend M D) bounds (epilogue p) current := by
   simp only [HasAcc] at ha
-  simp [epilogue,source,typed,Pasted.originalBody,Pasted.candidateBody,
+  simp [epilogue,source,typed,Pasted.originalKernel,Pasted.candidateKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

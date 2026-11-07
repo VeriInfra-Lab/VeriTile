@@ -25,7 +25,7 @@ theorem source_split (c : Shape) (scale : ℝ) :
 No floating operation or payload value is rewritten. -/
 theorem prefix_eq (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α) :
     run M (candidatePrefix c scale) s = run M (prelude c scale) s := by
-  simp [candidatePrefix,prelude,rowReusedKernel,kernel,fp32Original,rowReusedSource,originalBody,rowReusedBody,
+  simp [candidatePrefix,prelude,rowReusedKernel,kernel,fp32Original,rowReusedSource,originalKernel,rowReusedBodyPastedKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     numeric,numericLe,natLe,bop,Region.cast,ComputeDType.eraseDType,Option.bind]
 
@@ -40,7 +40,7 @@ theorem prefix_safe (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList M bounds (prelude c scale) s ∧
       Safety.traceSafeList M bounds (candidatePrefix c scale) s := by
-  simp [candidatePrefix,prelude,rowReusedKernel,kernel,fp32Original,rowReusedSource,originalBody,rowReusedBody,
+  simp [candidatePrefix,prelude,rowReusedKernel,kernel,fp32Original,rowReusedSource,originalKernel,rowReusedBodyPastedKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,

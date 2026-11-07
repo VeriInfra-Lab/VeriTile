@@ -14,7 +14,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α)
   refine ⟨?_, ?_⟩
   swap
   rw [prelude_profiles]
-  simp [prelude,source,typed,Pasted.originalBody,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,source,typed,Pasted.originalKernel,dtype,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod]
@@ -29,7 +29,7 @@ def loopStop (p : Parameters) : Int :=
 theorem loop_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (st : Storage) (s : State α) :
     run M [loopStatement p st] s=rangeInt M "k" 0 (loopStop p) 1 (body p st) s := by
   cases st <;>
-    simp [loopStatement,body,source,typed,Pasted.originalBody,dtype,ComputeKernel.surfaceBody,
+    simp [loopStatement,body,source,typed,Pasted.originalKernel,dtype,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,integralFloorDiv,numeric,
       numericLt,bop,Broadcast.leftIndex,Broadcast.rightIndex,loopStop]
   all_goals exact Option.bind_fun_some _

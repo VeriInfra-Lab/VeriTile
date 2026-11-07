@@ -110,8 +110,8 @@ theorem signed_readback (x m : ℝ) (hm : 0 ≤ m) (hx : |x| ≤ m) :
   have h := quantized_bounds x m hm hx
   apply BitVec.toInt_ofInt_eq_self (by decide) <;> norm_num <;> omega
 
-#specNonCircular Maximum avoiding [source,kernel,scalar]
-#specNonCircular quantized avoiding [source,kernel,scalar,scaled,bounded]
+#specNonCircular Maximum avoiding [sourceKernel,kernel,scalar]
+#specNonCircular quantized avoiding [sourceKernel,kernel,scalar,scaled,bounded]
 #axiomsClean tree_maximum
 #axiomsClean scalar_correct
 #axiomsClean signed_readback

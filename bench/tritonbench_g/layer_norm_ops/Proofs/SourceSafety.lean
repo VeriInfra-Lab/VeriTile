@@ -28,7 +28,7 @@ theorem forward (M : Algebra α) (p : ForwardParameters) (s : State α)
   cases hR : p.rms <;> cases hA : p.hasResidual <;>
     cases hS : p.storeResidual <;> cases hB : p.hasBias
   all_goals
-    simp [TraceSafe,forwardKernel,forwardSource,ComputeKernel.surfaceBody,
+    simp [TraceSafe,forwardKernel,forwardSourcePastedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
@@ -70,7 +70,7 @@ theorem prelude_safe (M : Algebra α) (p : BackwardParameters) (s : State α)
   cases hD : p.hasDres <;> cases hS : p.storeDres <;>
     cases hB : p.hasBias <;> cases hY : p.recompute
   all_goals
-    simp [prelude,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    simp [prelude,backwardKernel,backwardSourcePastedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,
@@ -99,7 +99,7 @@ theorem body_safe (M : Algebra α) (p : BackwardParameters)
   cases hR : p.rms <;> cases hD : p.hasDres <;> cases hS : p.storeDres <;>
     cases hB : p.hasBias <;> cases hY : p.recompute
   all_goals
-    simp [body,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    simp [body,backwardKernel,backwardSourcePastedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,
@@ -127,7 +127,7 @@ theorem postlude_safe (M : Algebra α) (p : BackwardParameters)
     traceSafeList M bounds (postlude p) t := by
   cases hB : p.hasBias
   all_goals
-    simp [postlude,backwardKernel,backwardSource,ComputeKernel.surfaceBody,
+    simp [postlude,backwardKernel,backwardSourcePastedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,

@@ -29,7 +29,7 @@ specification rowwise_grid_real (rest : Algebra ℝ) (p : Launch) (schedule : Sc
     Spec.Real (quantizerIO rest p schedule ⊨ formula p) :=
   IOResults.reader_correct rest p schedule maximumAbs (fun _ => rfl) (fun _ _ => rfl)
 
-#specNonCircular formula avoiding [RowwiseQuantizationTriton.source,KernelExecution.exec,KernelGrid.run]
+#specNonCircular formula avoiding [RowwiseQuantizationTriton.sourceKernel,KernelExecution.exec,KernelGrid.run]
 #axiomsClean rowwise_grid_real
 #stmtSurfaceSubset rowwise_grid_real ⊆
   [Spec.Real,FP.Structural.Algebra,Launch,Schedule,quantizerIO,LogicalIO.Implements,formula,ChannelValues,IO.inputs,IO.outputs,Launch.rows,Launch.columns,

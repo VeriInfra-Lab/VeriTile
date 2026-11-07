@@ -29,7 +29,7 @@ theorem forward_prefix_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.forwardParts (layout s b) forwardRegions seed final).before initial := by
   cases seed <;>
-    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,ComputeKernel.surfaceBody,
+    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -47,7 +47,7 @@ theorem forward_body_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (pl
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.forwardParts (layout s b) forwardRegions seed final).body
       (current.setReg "_" .nat [] (fun _ => t)) := by
-  simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,ComputeKernel.surfaceBody,
+  simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardKernel,ComputeKernel.surfaceBody,
     Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -67,7 +67,7 @@ theorem forward_final_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (p
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.forwardParts (layout s b) forwardRegions seed final).after current := by
   cases final <;>
-    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardBody,ComputeKernel.surfaceBody,
+    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardKernel,ComputeKernel.surfaceBody,
       Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

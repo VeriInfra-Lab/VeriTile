@@ -50,7 +50,7 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Shape
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,Bodies.outputOriginal,OutputGrid.layout,OutputGrid.regions,
+  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,outputOriginalKernel,OutputGrid.layout,OutputGrid.regions,
     ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

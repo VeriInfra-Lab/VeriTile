@@ -16,7 +16,7 @@ theorem forward (M : Algebra α) (R : SumPrimitive α) (p : Forward.Parameters)
     (hr : s.pids 0*p.rstdStride<bounds p.rstd)
     (hy : ∀ i : Fin p.block,i.val<p.columns → s.pids 0*p.yStride+i.val<bounds p.y) :
     TraceSafe (withSum M R) bounds (Forward.candidateKernel p) s := by
-  simp [TraceSafe,Forward.candidateKernel,Forward.candidateSource,ComputeKernel.surfaceBody,
+  simp [TraceSafe,Forward.candidateKernel,Forward.candidateSourcePastedKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,

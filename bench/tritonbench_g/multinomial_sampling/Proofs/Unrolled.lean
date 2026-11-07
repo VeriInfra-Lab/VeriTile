@@ -44,7 +44,7 @@ theorem body_split (p : Parameters) : body p=scale p::SourceValue.body .fp32 p :
 theorem scale_run (M : Algebra α) (p : Parameters) (s : State α) (n : Nat) :
     step M (scale p) (s.setReg "b_idx" .nat [] (fun _=>n))=
       some (s.setReg "b_idx" .nat [] (fun _=>n*p.blockTokens)) := by
-  simp [scale,body,kernel,Source.unrolled,Source.unrolledBody,ComputeKernel.surfaceBody,step,evalExpr,
+  simp [scale,body,kernel,Source.unrolled,Source.unrolledKernel,ComputeKernel.surfaceBody,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,overwrite]
   rfl
 
@@ -56,7 +56,7 @@ theorem body_run (M : Algebra α) (p : Parameters) (s : State α) (n : Nat) :
 
 theorem scale_safe (M : Algebra α) (p : Parameters) (cap : RegionName → Nat) (s : State α) :
     Safety.stepSafe M cap (scale p) s := by
-  simp [scale,body,kernel,Source.unrolled,Source.unrolledBody,ComputeKernel.surfaceBody,
+  simp [scale,body,kernel,Source.unrolled,Source.unrolledKernel,ComputeKernel.surfaceBody,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold]
 
 theorem body_safe (M : Algebra α) (p : Parameters) (cap : RegionName → Nat) (s : State α) (n : Nat) :

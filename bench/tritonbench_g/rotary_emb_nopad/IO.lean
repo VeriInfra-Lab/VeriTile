@@ -71,7 +71,7 @@ def uMemory (α : Type) (g : Geometry) (pid0 pid1 : Nat) : MemoryIO α where
 
 def uInvocation {α : Type} (rest : Algebra α) (ops : Ops α)
     (g : Geometry) (pid0 pid1 : Nat) : Invocation α where
-  kernel := Kernels.uncached (Typed.uLayout g.request)
+  kernel := Kernels.uncachedKernel (Typed.uLayout g.request)
   backend := Typed.algebra rest ops
   pids := fun ax => if ax=0 then pid0 else pid1
   setPids := fun ax => ax==0 || ax==1
@@ -158,7 +158,7 @@ def cMemory (α : Type) (g : Geometry) (pid0 pid1 : Nat) : MemoryIO α where
 
 def cInvocation {α : Type} (rest : Algebra α) (ops : Ops α)
     (g : Geometry) (pid0 pid1 : Nat) : Invocation α where
-  kernel := Kernels.cached (Typed.cLayout g.request)
+  kernel := Kernels.cachedKernel (Typed.cLayout g.request)
   backend := Typed.algebra rest ops
   pids := fun ax => if ax=0 then pid0 else pid1
   setPids := fun ax => ax==0 || ax==1

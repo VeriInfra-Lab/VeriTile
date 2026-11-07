@@ -11,7 +11,7 @@ def dequantTyped (dtype : FloatDType)
     (fpb_ptr : RegionName)
     (K N group_size stride_bk stride_bn stride_bsk stride_bsn
       stride_bzpk stride_bzpn stride_fpbk stride_fpbn : Nat)
-    (BLOCK_SIZE_K BLOCK_SIZE_N : Nat) : ComputeKernel := MatmulDequantInt4.Body.dequantizeBody dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn stride_fpbk stride_fpbn BLOCK_SIZE_K BLOCK_SIZE_N
+    (BLOCK_SIZE_K BLOCK_SIZE_N : Nat) : ComputeKernel := MatmulDequantInt4.Body.dequantizeKernel dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn stride_fpbk stride_fpbn BLOCK_SIZE_K BLOCK_SIZE_N
 
 namespace Standalone
 abbrev Parameters := MatmulDequantInt4.FPTyped.Parameters

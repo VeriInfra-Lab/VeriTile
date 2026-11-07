@@ -8,13 +8,13 @@ open VeriTile.Bench.Repairs.SwigluTriton
 
 def typedFwd (storage partner : Storage) (commuted : Bool)
     (a_ptr b_ptr c_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
-  if commuted then forwardCommutedTyped storage partner a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
-  else forwardTyped storage partner a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
+  if commuted then forwardCommutedTypedKernel storage partner a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
+  else forwardTypedKernel storage partner a_ptr b_ptr c_ptr stride n_cols BLOCK_SIZE
 
 def typedBwd (storage partner gradient : Storage) (commuted : Bool)
     (dc_ptr a_ptr b_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=
-  if commuted then backwardCommutedTyped storage partner gradient dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
-  else backwardTyped storage partner gradient dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
+  if commuted then backwardCommutedTypedKernel storage partner gradient dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
+  else backwardTypedKernel storage partner gradient dc_ptr a_ptr b_ptr stride n_cols BLOCK_SIZE
 
 def typedBwd_fp32_fp32 (gradient : Storage) (commuted : Bool)
     (dc_ptr a_ptr b_ptr : RegionName) (stride n_cols BLOCK_SIZE : Nat) : ComputeKernel :=

@@ -15,7 +15,7 @@ variable {α : Type} [Inhabited α]
 theorem prelude_safe (M : Algebra α) (D : DotAcc α)
     (p : Config) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (backend M D) bounds (prelude p) s := by
-  simp [prelude,KernelSource.source,KernelSource.typed,ComputeKernel.surfaceBody,
+  simp [prelude,KernelSource.source,KernelSource.typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -32,7 +32,7 @@ theorem body_safe (M : Algebra α) (D : DotAcc α) (p : Config)
     Safety.traceSafeList (backend M D) bounds (body p)
       (current.setReg "k" .nat [] (fun _ => k)) := by
   simp only [HasAcc] at acc
-  simp [body,KernelSource.source,KernelSource.typed,ComputeKernel.surfaceBody,
+  simp [body,KernelSource.source,KernelSource.typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -48,7 +48,7 @@ theorem epilogue_safe (M : Algebra α) (D : DotAcc α) (p : Config)
     (hc : ∀ i : CIndex p, active p initial i → cOffset p initial i<bounds "C") :
     Safety.traceSafeList (backend M D) bounds (epilogue p) current := by
   simp only [HasAcc] at acc
-  simp [epilogue,KernelSource.source,KernelSource.typed,ComputeKernel.surfaceBody,
+  simp [epilogue,KernelSource.source,KernelSource.typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,

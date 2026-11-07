@@ -67,7 +67,7 @@ theorem prefix_run (M : Algebra α) (c : Parameters) (candidate : Bool) (s : Sta
     run M (sourcePrefix c candidate) s=some (prepared c s) := by
   cases candidate <;> cases branch : c.oneTile
   all_goals simp [sourcePrefix,controlBody,PastedTile.oneTile,PastedTile.grid,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-    oneTileKernel,oneTileCommuted,originalBody,commutedBody,ComputeKernel.surfaceBody,List.take,
+    oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,List.take,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     numeric,FP.Structural.bop,prepared,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -79,7 +79,7 @@ theorem prefix_safe (M : Algebra α) (c : Parameters) (candidate : Bool)
     (bounds : RegionName → Nat) (s : State α) : traceSafeList M bounds (sourcePrefix c candidate) s := by
   cases candidate <;> cases branch : c.oneTile
   all_goals simp [sourcePrefix,controlBody,PastedTile.oneTile,PastedTile.grid,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-    oneTileKernel,oneTileCommuted,originalBody,commutedBody,ComputeKernel.surfaceBody,List.take,
+    oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,List.take,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeOp_unfold,
     step,evalExpr,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
@@ -100,7 +100,7 @@ theorem control_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bound
   · have code : (controlBody c candidate).drop 3=
         [.forRange "j" 0 c.tiles 1 (loopBody c candidate)] := by
       cases candidate <;> simp [controlBody,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-        oneTileKernel,oneTileCommuted,originalBody,commutedBody,perTile,PastedTile.body,loopBody,tileAssign,ComputeKernel.surfaceBody,List.drop,
+        oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,perTile,PastedTile.body,loopBody,tileAssign,ComputeKernel.surfaceBody,List.drop,
         Bool.false_eq_true,ite_false,ite_true]
     rw [code]
     apply traceSafeList_cons_intro
@@ -110,7 +110,7 @@ theorem control_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bound
       · simp [prepared,branch]
     · intro t _;exact traceSafeList_nil _ _ _
   · have code : (controlBody c candidate).drop 3=perTile c candidate := by
-      cases candidate <;> simp [controlBody,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,sourceKernel,kernel,commutedKernel,branch,perTile,PastedTile.body,oneTileKernel,oneTileCommuted,originalBody,commutedBody,ComputeKernel.surfaceBody,Bool.false_eq_true,ite_false,ite_true]
+      cases candidate <;> simp [controlBody,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,sourceKernel,kernel,commutedKernel,branch,perTile,PastedTile.body,oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,Bool.false_eq_true,ite_false,ite_true]
     rw [code]
     exact tile_safe M c candidate (prepared c s) (s.pids 0) (by simp [prepared,branch]) bounds
       (fun j active => hi _ active) (fun j active => ho _ active)
@@ -127,7 +127,7 @@ private theorem source_layout (c : Parameters) (candidate : Bool) :
       [.ifThenElse (.constBool c.oneTile) (PastedTile.oneTile c candidate) (PastedTile.grid c candidate)] := by
   cases candidate <;> cases branch : c.oneTile <;>
     simp [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,gridStrideKernel,
-      oneTileCommuted,gridStrideCommuted,originalBody,commutedBody,ComputeKernel.surfaceBody,
+      oneTileCommuted,gridStrideCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,
       PastedTile.oneTile,PastedTile.grid]
 
 theorem source_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds : RegionName → Nat)

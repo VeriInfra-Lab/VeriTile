@@ -36,7 +36,7 @@ theorem site_values_iff {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
       ∀ j : TileIndex [p.block], s.pids 0 * p.block + j.1.val < p.n →
         D .finite (combined M p m s j) ∧
         D .finite (loaded M p s p.y ((s.pids 0 * p.block + j.1.val) % W) j) := by
-  cases a <;> simp [additionSite, Site.Holds, Source.prefixBefore, candidateKernel, kernel,
+  cases a <;> simp [additionSite, Site.Holds, Source.prefixBefore, candidateKernel, sourceKernel,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind, numeric, numericLt, natLt, integralMod, bop, Region.cast,
     engine, Algebra.withDefaultPrecision, resolvePrecision, loaded, combined]

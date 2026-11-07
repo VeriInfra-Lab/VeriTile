@@ -25,7 +25,7 @@ abbrev io {α β : Type} (M : Algebra β) (encode : α → β) (observe : β →
   scratchWrite := fun k => Fin.elim0 k
   scratchMask := fun k => Fin.elim0 k
   schedule := fun _ => [{
-    kernel := kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
+    kernel := sourceKernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
     backend := M
     pids := fun ax => if ax=0 then row else if ax=1 then tile else 0 }]
   encode := encode

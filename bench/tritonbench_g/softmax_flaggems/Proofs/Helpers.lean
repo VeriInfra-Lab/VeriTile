@@ -17,7 +17,7 @@ private def signature : CallSignature where
 the canonical declaration in Kernels; this harness supplies its integer ABI. -/
 private def nextInvocation (a b : Int) : ComputeKernel :=
   with_triton_call signature call_args [a := a,b := b]
-    jit_functions [next_multiple_of := Bodies.next_multiple_of] in triton {
+    jit_functions [next_multiple_of := next_multiple_ofSource] in triton {
       answer = next_multiple_of(a,b)
     }
 

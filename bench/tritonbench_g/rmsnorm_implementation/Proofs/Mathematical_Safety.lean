@@ -81,8 +81,8 @@ theorem uncast_safe (bounds : RegionBounds) (X W O : RegionName)
       [.forRange "block_n_strart_ptr" 0 N B (uncastVarBody X sxk N B)] ++
       (rmsStdPostLoop N B eps ++
       [.forRange "block_n_strart_ptr" 0 N B (rmsOutLoopBody X W O sxk sw sob som sok N B)]) := by
-    simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalFor,
-    VeriTile.Bench.Repairs.RmsnormImplementation.commutedFor,
+    simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.family,
     uncastMathKernel, VeriTile.Bench.Repairs.RmsnormImplementation.kernel,
     VeriTile.Bench.Repairs.RmsnormImplementation.indexCommutedKernel,

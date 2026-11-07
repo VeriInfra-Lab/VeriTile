@@ -8,7 +8,7 @@ noncomputable section
 
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 def original (p : Layout) : Program where
-  kernel := kernel p
+  kernel := sourceKernel p
   domain := []
 def indexCommuted (p : Layout) : Program where
   kernel := indexCommutedKernel p

@@ -27,7 +27,7 @@ theorem prelude_safe (rest : Algebra α) (P : Core.Primitives α) (p : Core.Para
     Safety.traceSafeList (VeriTile.Bench.Repairs.MatmulTriton1.DotProfile.algebra rest P) bounds (prelude p) s := by
   apply pureList_safe
   simp [prelude,VeriTile.Bench.Repairs.MatmulTriton1.Kernel.source,VeriTile.Bench.Repairs.MatmulTriton1.Kernel.arguments,
-    VeriTile.Bench.Repairs.MatmulTriton1.Kernel.body,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,
+    VeriTile.Bench.Repairs.MatmulTriton1.Kernel.bodyKernel,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,
     ScalarArgument.integer,ScalarArgument.statement,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask]
@@ -47,7 +47,7 @@ theorem body_safe (rest : Algebra α) (P : Core.Primitives α) (p : Core.Paramet
   have hsx := h.metadata "stride_xk" p.inputInner (by simp [VeriTile.Bench.Repairs.MatmulTriton1.Kernel.scalarParameters])
   have hsy := h.metadata "stride_yk" p.weightInner (by simp [VeriTile.Bench.Repairs.MatmulTriton1.Kernel.scalarParameters])
   simp [loopBody,loopStatement,VeriTile.Bench.Repairs.MatmulTriton1.Kernel.source,VeriTile.Bench.Repairs.MatmulTriton1.Kernel.arguments,
-    VeriTile.Bench.Repairs.MatmulTriton1.Kernel.body,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,
+    VeriTile.Bench.Repairs.MatmulTriton1.Kernel.bodyKernel,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,
     ScalarArgument.integer,ScalarArgument.statement,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,
@@ -72,7 +72,7 @@ theorem epilogue_safe (rest : Algebra α) (P : Core.Primitives α) (p : Core.Par
   have hm := h.metadata "m_size" p.rows (by simp [VeriTile.Bench.Repairs.MatmulTriton1.Kernel.scalarParameters])
   have hn := h.metadata "n_size" p.columns (by simp [VeriTile.Bench.Repairs.MatmulTriton1.Kernel.scalarParameters])
   simp [epilogue,VeriTile.Bench.Repairs.MatmulTriton1.Kernel.source,VeriTile.Bench.Repairs.MatmulTriton1.Kernel.arguments,
-    VeriTile.Bench.Repairs.MatmulTriton1.Kernel.body,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,
+    VeriTile.Bench.Repairs.MatmulTriton1.Kernel.bodyKernel,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,
     ScalarArgument.integer,ScalarArgument.statement,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,

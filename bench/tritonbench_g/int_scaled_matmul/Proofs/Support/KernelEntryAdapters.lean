@@ -12,7 +12,7 @@ def unscaledSource
     (stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) :
     ComputeKernel :=
-  Body.unscaledBody (Region.cast a_ptr) (Region.cast b_ptr) c_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_M BLOCK_N BLOCK_K GROUP_M
+  Body.unscaledKernel (Region.cast a_ptr) (Region.cast b_ptr) c_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_M BLOCK_N BLOCK_K GROUP_M
 
 def unscaledCopyFreeSource
     (a_ptr b_ptr : Region .int) (c_ptr : RegionName)
@@ -20,7 +20,7 @@ def unscaledCopyFreeSource
     (stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) :
     ComputeKernel :=
-  Body.unscaledCandidateBody (Region.cast a_ptr) (Region.cast b_ptr) c_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_M BLOCK_N BLOCK_K GROUP_M
+  Body.unscaledCandidateKernel (Region.cast a_ptr) (Region.cast b_ptr) c_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_M BLOCK_N BLOCK_K GROUP_M
 
 def scaledSource
     (a_ptr b_ptr : Region .int) (c_ptr s1_ptr : RegionName)
@@ -29,7 +29,7 @@ def scaledSource
       stride_s1m stride_s1n : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) (EVEN_K : Bool) :
     ComputeKernel :=
-  Body.scaledBody (Region.cast a_ptr) (Region.cast b_ptr) c_ptr s1_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_s1m stride_s1n BLOCK_M BLOCK_N BLOCK_K GROUP_M EVEN_K
+  Body.scaledKernel (Region.cast a_ptr) (Region.cast b_ptr) c_ptr s1_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_s1m stride_s1n BLOCK_M BLOCK_N BLOCK_K GROUP_M EVEN_K
 
 def scaledSharedIndicesSource
     (a_ptr b_ptr : Region .int) (c_ptr s1_ptr : RegionName)
@@ -38,7 +38,7 @@ def scaledSharedIndicesSource
       stride_s1m stride_s1n : Nat)
     (BLOCK_M BLOCK_N BLOCK_K GROUP_M : Nat) (EVEN_K : Bool) :
     ComputeKernel :=
-  Body.scaledCandidateBody (Region.cast a_ptr) (Region.cast b_ptr) c_ptr s1_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_s1m stride_s1n BLOCK_M BLOCK_N BLOCK_K GROUP_M EVEN_K
+  Body.scaledCandidateKernel (Region.cast a_ptr) (Region.cast b_ptr) c_ptr s1_ptr M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn stride_s1m stride_s1n BLOCK_M BLOCK_N BLOCK_K GROUP_M EVEN_K
 
 def unscaled (p : BlockWord.Parameters) : ComputeKernel :=
   unscaledSource

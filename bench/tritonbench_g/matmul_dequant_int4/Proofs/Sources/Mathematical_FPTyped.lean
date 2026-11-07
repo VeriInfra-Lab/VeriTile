@@ -23,7 +23,7 @@ def typed (dtype : FloatDType)
     (fpb_ptr : RegionName)
     (K N group_size stride_bk stride_bn stride_bsk stride_bsn
       stride_bzpk stride_bzpn stride_fpbk stride_fpbn : Nat)
-    (BLOCK_SIZE_K BLOCK_SIZE_N : Nat) : ComputeKernel := Body.dequantizeBody dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn stride_fpbk stride_fpbn BLOCK_SIZE_K BLOCK_SIZE_N
+    (BLOCK_SIZE_K BLOCK_SIZE_N : Nat) : ComputeKernel := Body.dequantizeKernel dtype b_ptr b_scale_ptr b_zp_ptr fpb_ptr K N group_size stride_bk stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn stride_fpbk stride_fpbn BLOCK_SIZE_K BLOCK_SIZE_N
 
 def source (p : Parameters) : ComputeKernel := typed .fp16 p.weight p.scale p.zero p.output
   p.rows p.columns p.groupSize p.weightRowStride p.weightColumnStride p.scaleRowStride p.scaleColumnStride
@@ -65,7 +65,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
     {t : State α // FP.Structural.exec M (source p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, typed, Body.dequantizeBody, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [source, typed, Body.dequantizeKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.eval_intShiftRight, FP.Structural.eval_intBitAnd,
     FP.Structural.evalOp_unfold, FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,

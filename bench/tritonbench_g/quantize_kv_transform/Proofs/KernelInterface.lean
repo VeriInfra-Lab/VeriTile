@@ -52,6 +52,6 @@ theorem complete {α : Type} [Inhabited α] (M : Algebra α) (convert : α → I
       r o codes scales initial ⟨fun _ => rfl, fun _ => rfl⟩
 
 #axiomsClean complete
-#specNonCircular Result avoiding [KernelSource.kernel, FP.Structural.exec, KernelGrid.run]
+#specNonCircular Result avoiding [KernelSource.sourceKernel, FP.Structural.exec, KernelGrid.run]
 end
 end VeriTile.Bench.Repairs.QuantizeKvTransform.KernelInterface

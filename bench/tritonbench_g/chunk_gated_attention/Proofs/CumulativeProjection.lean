@@ -14,7 +14,7 @@ def projection (p : Parameters) (dtype out_dtype : FloatDType) (s o : RegionName
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumBody,ComputeKernel.withScalarArguments,
+    simp only [kernel,h,NativeSource.cumIndexFirst,NativeSource.cumIndexFirstBody,NativeSource.cumOriginal,NativeSource.cumKernel,ComputeKernel.withScalarArguments,
       ScalarArgument.integer,ScalarArgument.statement,ComputeKernel.surfaceBody,
       ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,

@@ -20,7 +20,7 @@ abbrev Parameters.v := Parameters.q
 abbrev Parameters.o := Parameters.q
 
 def kernel (p : Parameters) : ComputeKernel :=
-  TypedSource.repaired p.Q p.K p.V p.QS p.KS p.Out
+  TypedSource.repairedKernel p.Q p.K p.V p.QS p.KS p.Out
     p.q.batch p.q.head p.q.row p.q.dim p.k.batch p.k.head p.k.row p.k.dim
     p.v.batch p.v.head p.v.row p.v.dim p.o.batch p.o.head p.o.row p.o.dim
     p.batches p.heads p.length 128 128 64

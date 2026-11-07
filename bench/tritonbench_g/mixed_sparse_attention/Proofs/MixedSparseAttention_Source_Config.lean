@@ -45,10 +45,10 @@ structure Config where
 
 def parsedKernel (c : Config) : ComputeKernel :=
   match c.storage with
-  | .fp16=>TypedSource.FP16.source c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
+  | .fp16=>TypedSource.FP16.sourceKernel c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
     c.sqz c.sqh c.sqm c.sqk c.skz c.skh c.skn c.skk c.svz c.svh c.svn c.svk
     c.soz c.soh c.som c.sok c.Z c.H c.T c.NR c.NS c.NV c.BM c.BN c.BD
-  | .bf16=>TypedSource.BF16.source c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
+  | .bf16=>TypedSource.BF16.sourceKernel c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
     c.sqz c.sqh c.sqm c.sqk c.skz c.skh c.skn c.skk c.svz c.svh c.svn c.svk
     c.soz c.soh c.som c.sok c.Z c.H c.T c.NR c.NS c.NV c.BM c.BN c.BD
 
@@ -107,7 +107,7 @@ theorem maximum_source_nodes (c : Config) :
     (blockBody c)[12]? = some (maximumAssignment c.BM c.BN) ∧
     (columnBody c)[10]? = some (maximumAssignment c.BM c.BN) := by
   cases hs : c.storage <;> constructor <;>
-    simp [hs,blockBody,columnBody,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,
+    simp [hs,blockBody,columnBody,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,
       ComputeKernel.surfaceBody,maximumAssignment]
 
 #axiomsClean kernel_exact

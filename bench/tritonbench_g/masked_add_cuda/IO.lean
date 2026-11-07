@@ -46,7 +46,7 @@ def invocation (rest : Algebra Graph.Expr) (alphaWord : Graph.Word)
     (storage : MaskStorage) (n pid : Nat) (token : ℝ) (candidate : Bool) :
     Invocation Graph.Expr where
   kernel := if candidate then commutedKernel storage "grad" "data" "mask" n token
-    else kernel storage "grad" "data" "mask" n token
+    else sourceKernel storage "grad" "data" "mask" n token
   backend := Graph.nativeAlgebra rest alphaWord
   pids := fun ax => if ax = 0 then pid else 0
 
@@ -88,7 +88,7 @@ noncomputable section
 separate logical channel; it is read under the bounds mask, while only zero
 mask values enable a store. Read-only data/mask regions need no separation. -/
 def io (storage : MaskStorage) (n : Nat) (alpha : ℝ) : UKernelIO where
-  kernel := (kernel storage "grad" "data" "mask" n alpha).eraseDType
+  kernel := (sourceKernel storage "grad" "data" "mask" n alpha).eraseDType
   projection := by
     rw [kernel_eq_original]
     exact integer_supported storage Bool.false "grad" "data" "mask" n alpha blockSize

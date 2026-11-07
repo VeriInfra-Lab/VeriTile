@@ -56,7 +56,7 @@ theorem loop_step_safe {α : Type} [Inhabited α] (M : Algebra α)
   · rw [SourceBounds.stop_common]
     simp [SourceParts.loopParts,SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,
       SourceParts.thenBody,SourceParts.outer,Source.intRange?,kernel,primaryHalf,sourceFace,
-      sourceHalfSingle323232,Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,Safety.safeOp_unfold]
+      sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,Safety.safeOp_unfold]
   · rw [loop_stride,Safety.safeOp_unfold]; trivial
   · rw [SourceBounds.eval_start,SourceBounds.eval_stop _ _ _ _ h.inner,SourceBounds.eval_stride]
     exact loop_safe M dot abi p c s t 0 acc h bounds hb

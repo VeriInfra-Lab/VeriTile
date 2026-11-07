@@ -13,7 +13,7 @@ specification sin_kernel_correctness (n : Nat) :
     Spec.Real (sinIO n ⊨ fun xs i => Real.sin (xs i)) :=
   ReaderProof.correct n
 
-#specNonCircular formula avoiding [kernel,originalKernel,candidateKernel]
+#specNonCircular formula avoiding [sourceKernel,originalKernel,candidateKernel]
 #axiomsClean sin_kernel_correctness
 #guard_msgs (drop info) in
 #auditModuleAxioms

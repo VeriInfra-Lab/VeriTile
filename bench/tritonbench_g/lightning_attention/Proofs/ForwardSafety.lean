@@ -11,7 +11,7 @@ variable {α : Type} [Inhabited α]
 theorem entry (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (engine (withDot M D)) bounds (fwdParts p).before s := by
-  simp [fwdParts,forward,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [fwdParts,forwardKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -29,7 +29,7 @@ theorem body (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)
   have hv := ctx.inputs "value" (by simp)
   simp only [FwdRows] at rows
   simp only [FwdCarry] at hc
-  simp [fwdParts,forward,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [fwdParts,forwardKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
@@ -72,10 +72,10 @@ theorem loop (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (pid : PID)
 theorem program (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α)
     (backed : ForwardBounds p ⟨s.pids 0,s.pids 1⟩ bounds) (hBT : p.BT≤2^31) :
-    TraceSafe (engine (withDot M D)) bounds (forward p) s := by
+    TraceSafe (engine (withDot M D)) bounds (forwardKernel p) s := by
   let start := fwdEntry M D p s
   have he := fwdEntry_ready M D p s hBT
-  change Safety.traceSafeList _ _ (forward p).surfaceBody s
+  change Safety.traceSafeList _ _ (forwardKernel p).surfaceBody s
   rw [forward_parts,Safety.traceSafeList_append]
   refine ⟨entry M D p bounds s,?_⟩
   intro t ran

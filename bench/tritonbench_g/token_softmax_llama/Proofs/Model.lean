@@ -22,7 +22,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
   cases d
   all_goals
     refine ⟨?_, ?_⟩; swap
-    simp [kernel, source, FP.Structural.exec, ComputeKernel.surfaceBody, run, step,
+    simp [kernel, sourceKernel, FP.Structural.exec, ComputeKernel.surfaceBody, run, step,
       evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric, bop, numericLt,
       natLt, ofFloat, toFloat, Region.cast, Option.bind, FloatDType.toTileDType,
       FloatDType.numericDType, ComputeDType.eraseDType, TileShape.axisDim, hwidth]

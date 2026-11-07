@@ -15,7 +15,7 @@ variable {A : Type} [Inhabited A]
 theorem prelude_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     (bounds : RegionName → Nat) (s : State A) :
     Safety.traceSafeList (backend M D) bounds (prelude p) s := by
-  simp [prelude, kernel, typed, Pasted.candidateBody, ComputeKernel.surfaceBody,
+  simp [prelude, kernel, typed, Pasted.candidateKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, bop, natLt, numericLt, numericEq,
@@ -32,7 +32,7 @@ theorem body_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (body p)
       (current.setReg "k" .int [] (fun _ => (k : Int))) := by
   simp only [HasAcc] at acc
-  simp [body, kernel, typed, Pasted.candidateBody, ComputeKernel.surfaceBody,
+  simp [body, kernel, typed, Pasted.candidateKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold,
@@ -55,7 +55,7 @@ theorem epilogue_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (epilogue p) current := by
   simp only [HasAcc] at acc
   cases enabled : p.ACTIVATION
-  all_goals simp [epilogue, kernel, typed, Pasted.candidateBody, enabled, ComputeKernel.surfaceBody,
+  all_goals simp [epilogue, kernel, typed, Pasted.candidateKernel, enabled, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets,
@@ -98,7 +98,7 @@ theorem loop_step_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     Safety.stepSafe (backend M D) bounds (loopStatement p) s=
       Safety.rangeIntSafe (backend M D) bounds "k" 0 (p.numKBlocks : Int) 1 (body p) s := by
   rw [←FPValue.loopStop_value]
-  simp [loopStatement,kernel,typed,Pasted.candidateBody,ComputeKernel.surfaceBody,
+  simp [loopStatement,kernel,typed,Pasted.candidateKernel,ComputeKernel.surfaceBody,
     Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,Safety.safeOp.eq_def,
     evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,integralFloorDiv,bop,
     Broadcast.leftIndex,Broadcast.rightIndex,FPValue.loopStop]

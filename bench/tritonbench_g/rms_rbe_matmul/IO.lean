@@ -203,7 +203,7 @@ noncomputable section
 /-- The separate pasted rotary entry, using the existing dense 2-by-1024 launch. -/
 def source (r : Request) (X Y : RegionName) : ComputeKernel :=
   let p := parameters r X Y
-  TypedSource.rbe .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
+  TypedSource.rbeKernel .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
     p.inputColumnStride p.outputBatchStride p.outputRowStride p.outputColumnStride
     p.startToken p.theta p.blockRows p.blockColumns
 

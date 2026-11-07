@@ -122,7 +122,7 @@ theorem forwardPrefix (M : Algebra α) (p : Parameters)
     simp [CrossEntropy1.RuntimeArgs.fp,abi.logitScale]
   cases hs : p.hasSmoothing
   all_goals
-    simp [front,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,ready,arguments,logits,loadedLogits,maxValue,sumValue,lseValue,maxTile,sumTile,lseTile,
+    simp [front,forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,ready,arguments,logits,loadedLogits,maxValue,sumValue,lseValue,maxTile,sumTile,lseTile,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,bop,ofFloat,toFloat,Region.cast,
@@ -304,7 +304,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
     by_cases ignored : target p initial=p.ignored
     · refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [tailCode,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
+      · simp [tailCode,forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
           evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
           Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -319,7 +319,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
           rotate_left
           · have condition := hit
             simp only [owns,lt_min_iff] at condition
-            simp [tailCode,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
+            simp [tailCode,forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
               evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
               Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
               numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -331,7 +331,7 @@ theorem forwardTail (M : Algebra α) (p : Parameters) (initial : State α)
       · have miss : ¬owns p initial := fun h => owner (owns_local p initial h)
         refine ⟨?_,?_,?_⟩
         rotate_left
-        · simp [tailCode,forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
+        · simp [tailCode,forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,run,step,
             evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
             Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
             numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -387,9 +387,9 @@ theorem forward_outputs (M : Algebra α) (p : Parameters) (initial : State α)
 
 #axiomsClean forward_executes
 #axiomsClean forward_outputs
-#specNonCircular lseValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
-#specNonCircular lossValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
-#specNonCircular zValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
+#specNonCircular lseValue avoiding [forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
+#specNonCircular lossValue avoiding [forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
+#specNonCircular zValue avoiding [forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

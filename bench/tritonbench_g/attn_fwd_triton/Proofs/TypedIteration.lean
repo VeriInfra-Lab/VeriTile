@@ -26,7 +26,7 @@ theorem iteration_success {α : Type} [Inhabited α] (A : Algebra α)
   cases second <;> by_cases hd : p.stage=2
   all_goals simp [workName,keyName,scaleName,valueName,lowerName,upperName,lowerValue,hd] at hkp hksp hvp hlo hhi hc0 hc1 hc2 hc3 hc4 hc5 hc6 hc7 hc8 hc9 hc10
   all_goals simp only [body,parts,code,source,hd,decide_true,decide_false,workName,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,Source.intRange?,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,ComputeKernel.surfaceBody,ControlView.compute,Source.intRange?,
     Option.map_some,Option.getD_some,beq_self_eq_true,List.drop_succ_cons,List.drop_zero]
   all_goals simp [hd,Source.intRange?,ControlView.compute,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,bop,

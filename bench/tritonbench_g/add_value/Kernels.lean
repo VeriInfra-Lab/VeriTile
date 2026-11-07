@@ -22,7 +22,7 @@ def mathematical (xs : Nat → ℝ) (i : Nat) : ℝ := xs i + 10
 
 /-- Checked `x + 10` source. Typed regions retain explicit FP32 load,
 computation and store precision; no handwritten AST is maintained beside it. -/
-def kernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
+def sourceKernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
   let x_ptr : RegionName := X
   let output_ptr : RegionName := O
   let BLOCK_SIZE : Nat := B
@@ -38,7 +38,7 @@ def kernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
   }
 
 /-- The actual wrapper selection of the authoritative source. -/
-def originalKernel (n : Nat) : ComputeKernel := kernel "x" "out" n blockSize
+def originalKernel (n : Nat) : ComputeKernel := sourceKernel "x" "out" n blockSize
 
 /-- ADD-COMMUTE candidate. The scalar is a local constant, not a kernel input;
 load, mask, addition precision and store match the original source. -/

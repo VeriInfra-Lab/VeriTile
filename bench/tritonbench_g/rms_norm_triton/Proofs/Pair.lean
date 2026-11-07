@@ -24,7 +24,7 @@ theorem run_eq {α : Type} [Inhabited α] (M : Algebra α)
       ((ActualRow.source c).surfaceBody.take 3 ++ (ActualRow.source c).surfaceBody.drop 3) s
   rw [run_append, run_append]
   congr 1
-  simp [sourceCandidate,runtimeCandidate,rawCommuted,ActualRow.source,runtimeKernel,rawKernel,ComputeKernel.surfaceBody,run,step,
+  simp [sourceCandidate,runtimeCandidate,rawCommutedKernel,ActualRow.source,runtimeKernel,rawKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,bop,store,Option.bind,numeric,
     Region.cast,State.setReg,Nat.mul_comm]
   funext d sh n
@@ -58,7 +58,7 @@ theorem row_safe {α : Type} [Inhabited α] (M : Algebra α) (c : Layout) (eps :
     (output : ∀ i : Fin c.B,i.val<c.N → pid*c.N+i.val<bounds c.Y)
     (epsilon : α := ActualRow.argument M eps) :
     TraceSafe (engine M) bounds (sourceCandidate c eps) (ActualRow.entry epsilon pid s) := by
-  simp [TraceSafe,sourceCandidate,runtimeCandidate,rawCommuted,ActualRow.entry,ComputeKernel.surfaceBody,
+  simp [TraceSafe,sourceCandidate,runtimeCandidate,rawCommutedKernel,ActualRow.entry,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

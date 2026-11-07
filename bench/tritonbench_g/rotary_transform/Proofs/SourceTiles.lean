@@ -61,14 +61,14 @@ theorem quotation_shapes_bounded (s : Shape) (cu64 offset64 : Bool) (tiles : Sta
   cases hi : s.interleaved <;>
     simp only [hi,Bool.false_eq_true,if_false,if_true] at matrix
   all_goals cases hv : s.varlen <;> cases ho : s.offsetTensor <;> cases hc : s.conjugate <;>
-    simp [KernelSource.source64_64,VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,statementListShapes,statementShapes,
+    simp [KernelSource.source64_64,VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,statementListShapes,statementShapes,
       algorithmListShapes,algorithmShapes,staticBool,hi,hv,ho,hc,List.mem_append,
       vectors.1,vectors.2.1,vectors.2.2,matrix]
 

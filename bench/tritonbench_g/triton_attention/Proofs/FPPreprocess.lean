@@ -13,7 +13,7 @@ structure PreParameters where
 abbrev PreRow (p : PreParameters) := TileIndex [p.rows]
 abbrev PreLane (p : PreParameters) := TileIndex [p.rows,p.head]
 def preSource (p : PreParameters) :=
-  preprocessTyped p.dtype .fp32 p.output p.gradient p.denominator p.newGradient p.delta p.rows p.head
+  preprocessTypedKernel p.dtype .fp32 p.output p.gradient p.denominator p.newGradient p.delta p.rows p.head
 def preRow (p : PreParameters) (s : State α) (i : PreRow p) := s.pids 0*p.rows+i.1.val
 def preOffset (p : PreParameters) (s : State α) (i : PreLane p) :=
   (s.pids 0*p.rows+i.1.val)*p.head+i.2.1.val
@@ -54,7 +54,7 @@ def preRegisters (P : Primitives α) (p : PreParameters) (s : State α) : State 
 theorem preprocessExecution (rest : Algebra α) (P : Primitives α) (p : PreParameters) (s : State α) :
     FP.Structural.exec (backend rest P) (preSource p) s=
       some (preWrite P p s (preRegisters P p s)) := by
-  simp [FP.Structural.exec,preSource,preprocessTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [FP.Structural.exec,preSource,preprocessTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,store,backend,preWrite,preRegisters,preRow,preOffset,
     preInput,preDenominator,preQuotient,preProducts,preDelta,preGradientCell,preDeltaCell,
     Region.cast,FP.Structural.ofFloat,FP.Structural.toFloat,ComputeDType.eraseDType,

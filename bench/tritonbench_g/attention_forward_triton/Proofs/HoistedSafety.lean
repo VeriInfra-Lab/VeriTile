@@ -15,7 +15,7 @@ abbrev counter : RegName := HoistedSource.counter
 theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (hb : Access.Bounds p s bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (HoistedSource.parts p).before s := by
-  simp [HoistedSource.parts,HoistedSource.kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,
+  simp [HoistedSource.parts,HoistedSource.kernel,TypedSource.hoistedHeadMask,candidateKernel,
     ComputeKernel.surfaceBody,counter,HoistedSource.counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -35,7 +35,7 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Access.Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (HoistedSource.parts p).body
       (current.setReg counter .nat [] (fun _ => row)) := by
-  simp [HoistedSource.parts,HoistedSource.kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,
+  simp [HoistedSource.parts,HoistedSource.kernel,TypedSource.hoistedHeadMask,candidateKernel,
     ComputeKernel.surfaceBody,counter,HoistedSource.counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -54,7 +54,7 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (ctx : HoistedSource.Context M p initial row a current)
     (bounds : RegionName → Nat) (hb : Access.Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (HoistedSource.parts p).after current := by
-  simp [HoistedSource.parts,HoistedSource.kernel,TypedSource.hoistedHeadMask,Bodies.candidateBody,
+  simp [HoistedSource.parts,HoistedSource.kernel,TypedSource.hoistedHeadMask,candidateKernel,
     ComputeKernel.surfaceBody,counter,HoistedSource.counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

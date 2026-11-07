@@ -15,7 +15,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α) (n : Nat) (s :
     {t : State α // FP.Structural.exec (engine M) (originalKernel n) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [originalKernel, kernel, FP.Structural.exec, run, step, evalExpr,
+  simp [originalKernel, sourceKernel, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, numeric, numericLt, natLt, bop,
     store, Region.cast]
   rfl
@@ -53,7 +53,7 @@ theorem site_values_iff {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
         D .finite (loadedValue M n s i) ∧
         D .finite (M.literal (some .fp32) .real 10) := by
   simp [additionSite, Site.Holds, VeriTile.Triton.Source.prefixBefore,
-    originalKernel, kernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+    originalKernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind, numeric, numericLt, natLt, bop, Region.cast, loadedValue,
     engine, Algebra.withDefaultPrecision, resolvePrecision]
 

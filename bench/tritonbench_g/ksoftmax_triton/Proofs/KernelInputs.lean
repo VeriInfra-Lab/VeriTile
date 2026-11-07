@@ -45,7 +45,7 @@ theorem backward_words (depth : Host.DepthLibrary) (dst grad saved : TensorMetad
   · intro b r j _ _
     exact KernelTensor.native_right _ _ _ _ _ _
 
-#specNonCircular maskTensor avoiding [forward,backward,runRows]
+#specNonCircular maskTensor avoiding [forwardKernel,backward,runRows]
 #axiomsClean mask_admitted
 #axiomsClean forward_words
 #axiomsClean backward_words

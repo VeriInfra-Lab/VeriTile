@@ -24,7 +24,7 @@ def bf16Signature : CallSignature where
   readPorts := ["Q","K","V","B0"]
   writePorts := ["Out"]
 
-def originalHalf (Q K V B0 Out : RegionName)
+def originalHalfKernel (Q K V B0 Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ : Nat) (sm_scale : ℝ)
     (BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   let «OUT_DTYPE» : FloatDType := .fp16
@@ -114,7 +114,7 @@ def originalHalf (Q K V B0 Out : RegionName)
     tl.store(O_block_ptr, acc.to(OUT_DTYPE), boundary_check=(0, 1))
   }
 
-def originalBF16 (Q K V B0 Out : RegionName)
+def originalBF16Kernel (Q K V B0 Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ : Nat) (sm_scale : ℝ)
     (BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   let «OUT_DTYPE» : FloatDType := .bf16
@@ -204,7 +204,7 @@ def originalBF16 (Q K V B0 Out : RegionName)
     tl.store(O_block_ptr, acc.to(OUT_DTYPE), boundary_check=(0, 1))
   }
 
-def earlyHalf (Q K V B0 Out : RegionName)
+def earlyHalfKernel (Q K V B0 Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ : Nat) (sm_scale : ℝ)
     (BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   let «OUT_DTYPE» : FloatDType := .fp16
@@ -294,7 +294,7 @@ def earlyHalf (Q K V B0 Out : RegionName)
     tl.store(O_block_ptr, acc.to(OUT_DTYPE), boundary_check=(0, 1))
   }
 
-def earlyBF16 (Q K V B0 Out : RegionName)
+def earlyBF16Kernel (Q K V B0 Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ : Nat) (sm_scale : ℝ)
     (BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
   let «OUT_DTYPE» : FloatDType := .bf16
@@ -393,11 +393,11 @@ open VeriTile.Bench.Repairs.AttentionKernelAligned.Full
 noncomputable section
 def typedSurface (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalf Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
+  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
 
 def typedSurfaceQueryEarly (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalf Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
+  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
 
 def source (p : Parameters) : ComputeKernel :=
   typedSurface p.q p.k p.v p.bias p.output p.scale
@@ -427,11 +427,11 @@ open VeriTile.Bench.Repairs.AttentionKernelAligned.Full
 noncomputable section
 def typedSurface (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16 Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
+  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
 
 def typedSurfaceQueryEarly (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     (stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16 Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
+  VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel Q K V B0 Out stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om stride_on stride_b0z stride_b0h stride_b0m Z H N_CTX P_SEQ sm_scale BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL BLOCK_M BLOCK_N
 
 def source (p : Parameters) : ComputeKernel :=
   typedSurface p.q p.k p.v p.bias p.output p.scale

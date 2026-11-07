@@ -33,7 +33,7 @@ def setup (A : FlatAlloc) (p : BackwardLayout) (length : Nat) (u : BlockState) :
   swap
   unfold before source Erasure.backward TypedSource.backward
   simp only [Bool.false_eq_true,if_false]
-  unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+  unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
   simp only [
     ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,
@@ -101,7 +101,7 @@ def sourceNext (A : FlatAlloc) (p : BackwardLayout) (base : BlockState) (length 
     swap
     unfold body source Erasure.backward TypedSource.backward
     simp only [Bool.false_eq_true,if_false]
-    unfold VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody
+    unfold VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel
     simp only [
       ComputeKernel.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
       ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,

@@ -18,7 +18,7 @@ def callSignature (storage : VeriTile.Bench.TritonBenchG.MaskedSelect.TypedCopy.
   readPorts := ["inp_ptr","select_mask_ptr","prefix_sum_ptr"]
   writePorts := ["out_ptr"]
 
-def sourceFor (storage : VeriTile.Bench.TritonBenchG.MaskedSelect.TypedCopy.Storage) (p : Parameters) : ComputeKernel :=
+def sourceForKernel (storage : VeriTile.Bench.TritonBenchG.MaskedSelect.TypedCopy.Storage) (p : Parameters) : ComputeKernel :=
   let inp_ptr := p.input
   let out_ptr := p.output
   let select_mask_ptr := p.selection
@@ -37,7 +37,7 @@ def sourceFor (storage : VeriTile.Bench.TritonBenchG.MaskedSelect.TypedCopy.Stor
     tl.store(out_ptr + out_offset, inp, mask=(select_mask and mask))
   }
 
-def kernel (p : Parameters) : ComputeKernel := sourceFor .fp32 p
+def kernel (p : Parameters) : ComputeKernel := sourceForKernel .fp32 p
 
 end VeriTile.Bench.Repairs.MaskedSelect
 namespace VeriTile.Bench.TritonBenchG.MaskedSelect
@@ -45,7 +45,7 @@ open VeriTile.Triton
 namespace TypedCopy
 open VeriTile.Bench.Repairs.MaskedSelect
 
-abbrev source : Storage → Parameters → ComputeKernel := sourceFor
+abbrev source : Storage → Parameters → ComputeKernel := sourceForKernel
 end TypedCopy
 namespace Whole
 abbrev kernel := TypedCopy.source .fp32

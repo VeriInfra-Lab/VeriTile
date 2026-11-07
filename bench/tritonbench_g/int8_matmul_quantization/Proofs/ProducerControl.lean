@@ -30,7 +30,7 @@ theorem code_decomposition (p : Parameters) : code p =
 
 theorem limit_eval {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     evalOp M none (limit p) s=some (fun _=>(tripCount p : Int)) := by
-  simp only [limit,maxLoop,code,KernelSource.quantize,Bodies.quantize,parameters,
+  simp only [limit,maxLoop,code,KernelSource.quantize,quantizeKernel,parameters,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   simp [evalOp_unfold,FP.Structural.bop,numeric,NumericDType.sub,Option.bind,
     ComputeDType.eraseDType,tripCount,integralFloorDiv,integralMod]

@@ -10,7 +10,7 @@ noncomputable section
 abbrev Memory := KernelBackward.Memory
 
 def kernel (p : Parameters) (scale : ℝ) : ComputeKernel :=
-  Source.backwardQKV "q" "k" "v" "h" "incoming" "dhistory" "queryGradient" "keyGradient" "valuePartials"
+  Source.backwardQKVKernel "q" "k" "v" "h" "incoming" "dhistory" "queryGradient" "keyGradient" "valuePartials"
     (p.T*p.K) p.K 1 (p.T*p.V) p.V 1 (p.NT*p.K*p.V) p.V
     scale p.H p.T p.K p.V p.BT p.BK p.BV p.NT
 

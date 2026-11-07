@@ -20,7 +20,7 @@ theorem source_traceSafe {A : Type} [Inhabited A] (M : Algebra A)
       ((row : Int)*(a : Int)+(lane : Int)*(b : Int)).toNat=row*a+lane*b := by
     rw [←Int.natCast_mul,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
   have index_lt (lane : Nat) : ((lane : Int)<(N : Int)) ↔ lane<N := by omega
-  simp (maxSteps := 1600000) [FP.Structural.TraceSafe,source,kernel,
+  simp (maxSteps := 1600000) [FP.Structural.TraceSafe,source,sourceKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

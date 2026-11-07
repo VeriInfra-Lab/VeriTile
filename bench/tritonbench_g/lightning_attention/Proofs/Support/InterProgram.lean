@@ -6,7 +6,7 @@ noncomputable section
 set_option maxHeartbeats 6000000
 variable {α : Type} [Inhabited α]
 theorem inter_parts (p : Parameters) :
-    (inter p).surfaceBody=(interForwardParts p).before ++
+    (interKernel p).surfaceBody=(interForwardParts p).before ++
     [.forRange "i" 0 p.NT 1 (interForwardParts p).body] ++
     (interReverseParts p).before ++
     [.forRangeInt "__rev_i" (reverseStart p.NT) (.constInt 1) (.constNat 1) (interReverseParts p).body] := rfl
@@ -16,7 +16,7 @@ updates consume the intra stage's current memory, with no supplied-gradient or
 successful-execution premise. -/
 theorem interProgram (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (hbalance : p.NC*p.CB=p.BT) (input : Memory α) (s : State α) (hin : Inputs s.mem input) :
-    ∃ t, FP.Structural.exec (engine (withDot M D)) (inter p) s=some t ∧
+    ∃ t, FP.Structural.exec (engine (withDot M D)) (interKernel p) s=some t ∧
       t.mem=interMemory M D p (s.pids 0) input s.mem ∧ Inputs t.mem input := by
   let start := interFEntry M D p s
   have hstart := interFEntry_ready M D p s
@@ -28,7 +28,7 @@ theorem interProgram (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   have hrm := interREntry_memory M D p (s.pids 0) _ _ input _ q hqc
   obtain ⟨t,ht,htc,htm⟩ := interReverseScan M D p hbalance (s.pids 0) input reset.val hreset
   refine ⟨t,?_,?_,htc.inputs⟩
-  · change run (engine (withDot M D)) (inter p).surfaceBody s=some t
+  · change run (engine (withDot M D)) (interKernel p).surfaceBody s=some t
     rw [inter_parts]
     have hsExec : run (engine (withDot M D)) (interForwardParts p).before s=some start.val := start.property
     have hqExec : FP.Structural.range (engine (withDot M D)) "i" 0 p.NT 1 (interForwardParts p).body start.val=some q := hq

@@ -28,7 +28,7 @@ theorem block_formula (input : Nat → ℝ) (row segment D B : Nat) (positive : 
   have inside : segment*(n+1)+i.val<D := (Finset.mem_filter.mp hi).2
   simp [scaledLane_full,inside]
 
-#specNonCircular block avoiding [rowBlock,Source.rowValue,blockValue]
+#specNonCircular block avoiding [rowBlockKernel,Source.rowValue,blockValue]
 #axiomsClean block_formula
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -16,7 +16,7 @@ theorem initial_sameInputs (M : Algebra α) (p : Parameters) (pid : PID)
 memory agreeing on its read regions with an immutable input snapshot. -/
 theorem program (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (input : Memory α) (s : State α) (hk : s.pids 0=0) (hi : SameInputs s.mem input) :
-    ∃ t, FP.Structural.exec (engine (withDot M D)) (kernel p) s=some t ∧
+    ∃ t, FP.Structural.exec (engine (withDot M D)) (sourceKernel p) s=some t ∧
       t.mem=programMemory M D p (s.pids 1,s.pids 2) input s.mem ∧
       SameInputs t.mem input := by
   let pid : PID := (s.pids 1,s.pids 2)
@@ -34,7 +34,7 @@ theorem program (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   refine ⟨finish,?_,?_,(finish_ready M p pid input mid hfinal hctx).inputs⟩
   · have hl : step (engine (withDot M D)) (.forLoop "i_t" p.NT (outer p).body)
         start.val=some mid := by simpa only [step, loop_eq_range_one] using hm
-    change run (engine (withDot M D)) (kernel p).surfaceBody s=some finish
+    change run (engine (withDot M D)) (sourceKernel p).surfaceBody s=some finish
     rw [outer_parts,List.append_assoc,run_append,start.property]
     simp only [Option.bind_some,List.singleton_append,run,hl,bind,hf]
     rfl

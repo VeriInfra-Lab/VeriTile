@@ -25,7 +25,7 @@ def backwardSignature : CallSignature where
   readPorts := ["q","k","v","do","initial_state","d_final_state"]
   writePorts := ["dq","dk","dv"]
 
-def forwardBody (q k v o initial_state final_state : RegionName)
+def forwardKernel (q k v o initial_state final_state : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (BK BV DK DV : Nat)
     (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
   with_triton_call forwardSignature call_args [s_qk_h := s_qk_h,s_qk_t := s_qk_t,s_qk_d := s_qk_d,s_vo_h := s_vo_h,s_vo_t := s_vo_t,s_vo_d := s_vo_d,B := B,H := H,T := T] in triton {
@@ -76,10 +76,10 @@ def forward (dtype out_dtype : FloatDType)
         (q k v o initial_state final_state : RegionName)
         (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
         (BK BV DK DV : Nat) (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
-  forwardBody q k v o initial_state final_state
+  forwardKernel q k v o initial_state final_state
     s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T BK BV DK DV USE_INITIAL_STATE STORE_FINAL_STATE
 
-def backwardBody (q k v «do» dq dk dv initial_state d_final_state : RegionName)
+def backwardKernel (q k v «do» dq dk dv initial_state d_final_state : RegionName)
     (s_do_b s_do_h s_do_t s_do_d s_df_b s_df_h s_df_k s_df_v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (BK BV DK DV : Nat)
     (USE_INITIAL_STATE USE_FINAL_GRAD : Bool) : ComputeKernel :=
   with_triton_call backwardSignature call_args [s_do_b := s_do_b,s_do_h := s_do_h,s_do_t := s_do_t,s_do_d := s_do_d,s_df_b := s_df_b,s_df_h := s_df_h,s_df_k := s_df_k,s_df_v := s_df_v,s_qk_h := s_qk_h,s_qk_t := s_qk_t,s_qk_d := s_qk_d,s_vo_h := s_vo_h,s_vo_t := s_vo_t,s_vo_d := s_vo_d,B := B,H := H,T := T] in triton {
@@ -163,10 +163,10 @@ def backward (dtype out_dtype : FloatDType)
         (s_do_b s_do_h s_do_t s_do_d s_df_b s_df_h s_df_k s_df_v : Nat)
         (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
         (BK BV DK DV : Nat) (USE_INITIAL_STATE USE_FINAL_GRAD : Bool) : ComputeKernel :=
-  backwardBody q k v do_ dq dk dv initial_state d_final_state
+  backwardKernel q k v do_ dq dk dv initial_state d_final_state
     s_do_b s_do_h s_do_t s_do_d s_df_b s_df_h s_df_k s_df_v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T BK BV DK DV USE_INITIAL_STATE USE_FINAL_GRAD
 
-def forwardCompareRightBody (q k v o initial_state final_state : RegionName)
+def forwardCompareRightKernel (q k v o initial_state final_state : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (BK BV DK DV : Nat)
     (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
   with_triton_call forwardSignature call_args [s_qk_h := s_qk_h,s_qk_t := s_qk_t,s_qk_d := s_qk_d,s_vo_h := s_vo_h,s_vo_t := s_vo_t,s_vo_d := s_vo_d,B := B,H := H,T := T] in triton {
@@ -217,10 +217,10 @@ def forwardCompareRight (dtype out_dtype : FloatDType)
         (q k v o initial_state final_state : RegionName)
         (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
         (BK BV DK DV : Nat) (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) : ComputeKernel :=
-  forwardCompareRightBody q k v o initial_state final_state
+  forwardCompareRightKernel q k v o initial_state final_state
     s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T BK BV DK DV USE_INITIAL_STATE STORE_FINAL_STATE
 
-def backwardCompareRightBody (q k v «do» dq dk dv initial_state d_final_state : RegionName)
+def backwardCompareRightKernel (q k v «do» dq dk dv initial_state d_final_state : RegionName)
     (s_do_b s_do_h s_do_t s_do_d s_df_b s_df_h s_df_k s_df_v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (BK BV DK DV : Nat)
     (USE_INITIAL_STATE USE_FINAL_GRAD : Bool) : ComputeKernel :=
   with_triton_call backwardSignature call_args [s_do_b := s_do_b,s_do_h := s_do_h,s_do_t := s_do_t,s_do_d := s_do_d,s_df_b := s_df_b,s_df_h := s_df_h,s_df_k := s_df_k,s_df_v := s_df_v,s_qk_h := s_qk_h,s_qk_t := s_qk_t,s_qk_d := s_qk_d,s_vo_h := s_vo_h,s_vo_t := s_vo_t,s_vo_d := s_vo_d,B := B,H := H,T := T] in triton {
@@ -304,7 +304,7 @@ def backwardCompareRight (dtype out_dtype : FloatDType)
         (s_do_b s_do_h s_do_t s_do_d s_df_b s_df_h s_df_k s_df_v : Nat)
         (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
         (BK BV DK DV : Nat) (USE_INITIAL_STATE USE_FINAL_GRAD : Bool) : ComputeKernel :=
-  backwardCompareRightBody q k v do_ dq dk dv initial_state d_final_state
+  backwardCompareRightKernel q k v do_ dq dk dv initial_state d_final_state
     s_do_b s_do_h s_do_t s_do_d s_df_b s_df_h s_df_k s_df_v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T BK BV DK DV USE_INITIAL_STATE USE_FINAL_GRAD
 
 end

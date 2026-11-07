@@ -28,7 +28,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).before s := by
-  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -48,7 +48,7 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).body
       (current.setReg counter .nat [] (fun _ => row)) := by
-  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -67,7 +67,7 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
     (ctx : Context M p initial row a current)
     (bounds : RegionName → Nat) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).after current := by
-  simp [parts,kernel,TypedSource.repaired,Bodies.originalBody,
+  simp [parts,kernel,TypedSource.repaired,originalKernel,
     ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

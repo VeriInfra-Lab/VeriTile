@@ -64,7 +64,7 @@ theorem epilogueExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
   cases dm : p.divM <;> cases dn : p.divN <;> cases dk : p.divK
   all_goals
     simp only [dm,dn,Bool.false_eq_true,false_implies,true_implies] at hm hn
-    simp [epilogue,parts,kernel,sourceBody,candidateSourceBody,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp [epilogue,parts,kernel,sourceKernel,candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
       dm,dn,dk,epilogueResult,scatter,storeMaskResult,active,
       run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,store,numeric,FP.Structural.bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,

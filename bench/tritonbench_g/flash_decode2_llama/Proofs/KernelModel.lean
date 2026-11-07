@@ -20,7 +20,7 @@ def run {α : Type} [Inhabited α] (A : Algebra α) (c : Call)
 theorem source (c : Call) :
     kernel c.val.masked (Checked.heads c.val) (Checked.capacity c.val) (Checked.width c.val)
       c.val.blockSeq (Checked.block c.val) =
-    llama (Checked.heads c.val) (Checked.capacity c.val) (Checked.width c.val)
+    llamaKernel (Checked.heads c.val) (Checked.capacity c.val) (Checked.width c.val)
       c.val.blockSeq (Checked.block c.val) := by
   simp only [kernel,c.property]; rfl
 

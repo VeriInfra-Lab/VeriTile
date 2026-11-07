@@ -78,7 +78,7 @@ theorem backward_source (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
   simp only [List.singleton_append]
   apply Safety.traceSafeList_cons_of_step
   · have safe:=backward_first_range M D c bounds s initial 0 (by omega) _ hi hb
-    simpa [backwardFirstRange,backwardFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+    simpa [backwardFirstRange,backwardFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
       Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,numeric,bop,Option.bind,DescendingRange.lower,DescendingRange.upper,sub_eq_add_neg,add_comm,hi.head,hi.chunk,hi.keyBlock,hi.valueBlock] using safe
   · rw [backward_first_range_statement M D c initial hi.registers]
     exact hr
@@ -90,7 +90,7 @@ theorem backward_source (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     apply Safety.traceSafeList_cons_of_step
     · have safe:=backward_second_range M D c bounds s diagonal
         (c.i_c*c.BTL) ((c.i_c+1)*c.BTL) _ hd hb
-      simpa [backwardSecondRange,backwardSecondBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody,
+      simpa [backwardSecondRange,backwardSecondBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody,
         Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,numeric,bop,Option.bind,hd.head,hd.chunk,hd.keyBlock,hd.valueBlock] using safe
     · rw [backward_second_range_statement M D c diagonal hd.toBackwardReady.registers]
       exact hs

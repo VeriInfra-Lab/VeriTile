@@ -178,6 +178,7 @@ globs = [
 [[lean_lib]]
 name = "TritonBenchGFinal"
 globs = ["bench.tritonbench_g.+"]
+weakLeanArgs = ["--tstack=65536"]
 
 [[lean_lib]]
 name = "FinalRegressions"

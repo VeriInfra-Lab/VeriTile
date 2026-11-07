@@ -21,7 +21,7 @@ def entry (h : Call) (p : Storage.Placement h) (row : Nat) (heap : Heap) : Block
   undef := fun _ _ => 0
 
 def execute (h : Call) (p : Storage.Placement h) (c : Config) (row : Nat) (heap : Heap) : Option Heap :=
-  (exec (Kernels.source h c).eraseDType.toAlgKernel (entry h p row heap)).map
+  (exec (Kernels.sourceKernel h c).eraseDType.toAlgKernel (entry h p row heap)).map
     (fun v => Storage.commit h p heap v.mem)
 
 def input (h : Call) (p : Storage.Placement h) (heap : Heap) (row time : Nat) : ℝ :=

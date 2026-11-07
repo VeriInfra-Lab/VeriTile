@@ -15,7 +15,7 @@ def forward
     (s_qk_h s_vo_h B H T K V BK BV : Nat) (scale : ℝ)
     (USE_INITIAL_STATE STORE_FINAL_STATE IS_HEADWISE_BETA : Bool) : ComputeKernel :=
   source_scalar_view
-    (Runtime.forward q k v beta o h0 ht s_qk_h s_vo_h B H T K V BK BV
+    (Runtime.forwardKernel q k v beta o h0 ht s_qk_h s_vo_h B H T K V BK BV
       USE_INITIAL_STATE STORE_FINAL_STATE IS_HEADWISE_BETA) at "scale" := scale
 
 def backward
@@ -23,7 +23,7 @@ def backward
     (s_qk_h s_vo_h NK B H T K V BK BV : Nat) (scale : ℝ)
     (USE_INITIAL_STATE IS_HEADWISE_BETA USE_DH0 USE_DHT : Bool) : ComputeKernel :=
   source_scalar_view
-    (Runtime.backward q k v beta dht dh0 do_ dq dk dv dbeta h0
+    (Runtime.backwardKernel q k v beta dht dh0 do_ dq dk dv dbeta h0
       s_qk_h s_vo_h NK B H T K V BK BV
       USE_INITIAL_STATE IS_HEADWISE_BETA USE_DH0 USE_DHT) at "scale" := scale
 

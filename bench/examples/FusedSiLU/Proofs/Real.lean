@@ -21,7 +21,7 @@ attribute [local simp] ComputeKernel.seq ComputeKernel.surfaceBody
   MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
   VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
   IntegralDType.eraseDType ComputeDType.eraseDType
-attribute [local simp] fusedSiLUKernel siluStepGate siluStepSilu siluStepResidual unfusedSiLUKernel
+attribute [local simp] fusedSiLUKernel siluStepGateKernel siluStepSiluKernel siluStepResidualKernel unfusedSiLUKernel
 
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
@@ -34,7 +34,7 @@ def fusedMathKernel (xReg gateReg residualReg outReg : RegionName)
 
 def residualMathKernel (siluReg residualReg outReg : RegionName)
     (blockSize : Nat) : ComputeKernel :=
-  (siluStepResidual siluReg residualReg outReg blockSize).eraseDType
+  (siluStepResidualKernel siluReg residualReg outReg blockSize).eraseDType
 
 def unfusedMathKernel (xReg gateReg residualReg zReg siluReg outReg : RegionName)
     (B : Nat) : ComputeKernel :=
@@ -59,7 +59,7 @@ theorem unfused_projection (xReg gateReg residualReg zReg siluReg outReg : Regio
 theorem gate_region_run (B : Nat) (s : BlockState) (xs gs : Fin B → ℝ)
     (hxs : ∀ i : Fin B, s.readMem "x" (s.pid * B + i.val) = xs i)
     (hgs : ∀ i : Fin B, s.readMem "gate" (s.pid * B + i.val) = gs i) :
-    ∃ s1, exec (siluStepGate "x" "gate" "z" B).toAlgKernel s = some s1 ∧
+    ∃ s1, exec (siluStepGateKernel "x" "gate" "z" B).toAlgKernel s = some s1 ∧
       (∀ i : Fin B, s1.readMem "z" (s.pid * B + i.val) = xs i * gs i) ∧
       (∀ (r : RegionName) o, (r ≠ "z" ∨ ∀ i : Fin B, o ≠ s.pid * B + i.val) →
         s1.mem r o = s.mem r o) := by
@@ -68,7 +68,7 @@ theorem gate_region_run (B : Nat) (s : BlockState) (xs gs : Fin B → ℝ)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hxs hgs ⊢
-  simp [siluStepGate, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [siluStepGateKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, NumericDType.add, NumericDType.mul]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [BlockState.scatter_readback_nd _ _ _ hinj (i, PUnit.unit)]
@@ -83,7 +83,7 @@ theorem gate_region_run (B : Nat) (s : BlockState) (xs gs : Fin B → ℝ)
 
 theorem silu_region_run (B : Nat) (s : BlockState) (zs : Fin B → ℝ)
     (hzs : ∀ i : Fin B, s.readMem "z" (s.pid * B + i.val) = zs i) :
-    ∃ s1, exec (siluStepSilu "z" "silu" B).toAlgKernel s = some s1 ∧
+    ∃ s1, exec (siluStepSiluKernel "z" "silu" B).toAlgKernel s = some s1 ∧
       (∀ i : Fin B, s1.readMem "silu" (s.pid * B + i.val) = zs i * Real.sigmoid (zs i)) ∧
       (∀ (r : RegionName) o, (r ≠ "silu" ∨ ∀ i : Fin B, o ≠ s.pid * B + i.val) →
         s1.mem r o = s.mem r o) := by
@@ -92,7 +92,7 @@ theorem silu_region_run (B : Nat) (s : BlockState) (zs : Fin B → ℝ)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hzs ⊢
-  simp [siluStepSilu, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [siluStepSiluKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [BlockState.scatter_readback_nd _ _ _ hinj (i, PUnit.unit)]
@@ -159,11 +159,11 @@ theorem fused_region_run (B : Nat) (s : BlockState) (xs gs rs : Fin B → ℝ)
 /-- The original concatenated pipeline executes its three stages in order. -/
 theorem unfused_exec_split (B : Nat) (s : BlockState) :
     exec (unfusedMathKernel "x" "gate" "residual" "z" "silu" "out" B).toAlgKernel s =
-      (exec (siluStepGate "x" "gate" "z" B).toAlgKernel s).bind (fun s1 =>
-        (exec (siluStepSilu "z" "silu" B).toAlgKernel s1).bind (fun s2 =>
+      (exec (siluStepGateKernel "x" "gate" "z" B).toAlgKernel s).bind (fun s1 =>
+        (exec (siluStepSiluKernel "z" "silu" B).toAlgKernel s1).bind (fun s2 =>
           exec (residualMathKernel "silu" "residual" "out" B).toAlgKernel s2)) := by
   have h := execR_toAlgKernel_seq .triv ["x", "gate", "residual"] ["out"]
-    [siluStepGate "x" "gate" "z" B, siluStepSilu "z" "silu" B,
+    [siluStepGateKernel "x" "gate" "z" B, siluStepSiluKernel "z" "silu" B,
       residualMathKernel "silu" "residual" "out" B] s (by
         intro k hk
         simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
@@ -228,7 +228,7 @@ theorem fused_traceSafe (xReg gateReg residualReg outReg : RegionName) (B : Nat)
     (h3 : s.pid * B + B ≤ bounds outReg) :
     Kernel.TraceSafe bounds (fusedMathKernel xReg gateReg residualReg outReg B).toAlgKernel s := by
   unfold Kernel.TraceSafe
-  try simp only [fusedMathKernel, residualMathKernel, unfusedMathKernel, fusedSiLUKernel, siluStepGate, siluStepSilu, siluStepResidual, unfusedSiLUKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
+  try simp only [fusedMathKernel, residualMathKernel, unfusedMathKernel, fusedSiLUKernel, siluStepGateKernel, siluStepSiluKernel, siluStepResidualKernel, unfusedSiLUKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at h0 h1 h2 h3
   simp [fusedMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
@@ -240,7 +240,7 @@ theorem fused_traceSafe (xReg gateReg residualReg outReg : RegionName) (B : Nat)
 
 theorem unfused_flattenOk (xReg gateReg residualReg zReg siluReg outReg : RegionName) (B : Nat) :
     (unfusedMathKernel xReg gateReg residualReg zReg siluReg outReg B).toAlgKernel.FlattenOk := by
-  simp [Kernel.FlattenOk, unfusedMathKernel, siluStepGate, siluStepSilu, residualMathKernel, StmtList.FlattenOk, Stmt.FlattenOk,
+  simp [Kernel.FlattenOk, unfusedMathKernel, siluStepGateKernel, siluStepSiluKernel, residualMathKernel, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -254,9 +254,9 @@ theorem unfused_traceSafe (xReg gateReg residualReg zReg siluReg outReg : Region
     (h5 : s.pid * B + B ≤ bounds outReg) :
     Kernel.TraceSafe bounds (unfusedMathKernel xReg gateReg residualReg zReg siluReg outReg B).toAlgKernel s := by
   unfold Kernel.TraceSafe
-  try simp only [fusedMathKernel, residualMathKernel, unfusedMathKernel, fusedSiLUKernel, siluStepGate, siluStepSilu, siluStepResidual, unfusedSiLUKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
+  try simp only [fusedMathKernel, residualMathKernel, unfusedMathKernel, fusedSiLUKernel, siluStepGateKernel, siluStepSiluKernel, siluStepResidualKernel, unfusedSiLUKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at h0 h1 h2 h3 h4 h5
-  simp [unfusedMathKernel, siluStepGate, siluStepSilu, residualMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
+  simp [unfusedMathKernel, siluStepGateKernel, siluStepSiluKernel, residualMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
     MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
     MaskOpt.Active, BlockState.setReg, Tile.bop, Tile.uop,

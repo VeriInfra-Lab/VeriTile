@@ -11,7 +11,7 @@ def io (p : RawNative.Ops) (g : KernelInterface.Geometry) (order : List Nat) :=
 
 def job (g : KernelInterface.Geometry) (row : Nat) : Invocation Native.Term :=
   { IO.launch Native.algebra g row with
-    kernel := Candidates.llamaSharedBase g.H g.S g.D g.Q g.D }
+    kernel := Candidates.llamaSharedBaseKernel g.H g.S g.D g.Q g.D }
 
 def variant (p : RawNative.Ops) (g : KernelInterface.Geometry) (order : List Nat) :
     ProgramIO.Variant (io p g order) where

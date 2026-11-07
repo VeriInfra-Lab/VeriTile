@@ -67,14 +67,14 @@ theorem guard_eval {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
   by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
     simp [guard,guardOf,kernel,KernelSource.source,KernelSource.source64_64,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.originalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.opsOriginalScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.candidateScalarBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorTensorBody,
-      VeriTile.Bench.Repairs.RotaryTransformTileChecked.Bodies.xorScalarBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,setup,hv,ht,evalOp_unfold,numeric,numericLe,bop,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,setup,hv,ht,evalOp_unfold,numeric,numericLe,bop,
       ProgramModel.sequenceLength,Int.natCast_mul]
     funext i
     simp only [← decide_not,not_le,lt_sub_iff_add_lt]

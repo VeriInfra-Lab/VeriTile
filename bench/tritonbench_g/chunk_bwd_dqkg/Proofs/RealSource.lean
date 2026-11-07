@@ -38,7 +38,7 @@ theorem real_body_matches :
       cbdPostLoop q k dq dk dg s_k_h s_k_t scale T K BT BK := by
   cases hist <;> cases dhist
   all_goals
-    simp only [source, TypedSource.original,TypedSource.originalBody, TypedSource.Storage.dtype,
+    simp only [source, TypedSource.original,TypedSource.originalKernel, TypedSource.Storage.dtype,
         VeriTile.Triton.eraseDType, Region.cast, ComputeKernel.surfaceBody,
         ComputeKernel.eraseDType, cbdPreLoop, cbdLoopBody, cbdPostLoop, cbdStopOp,
         List.append,

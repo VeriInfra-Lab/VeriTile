@@ -22,7 +22,7 @@ theorem score_phase (c : Call) (o : Ops α) (positive : 0<c.BN)
   all_goals
     simp (config := {maxSteps := 1000000}) [parts,Kernels.source,Quoted.kernel,
       DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,
-      Bodies.kernel,Bodies.kernelCSE,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
+      sourceKernel,kernelCSEKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
       ComputeKernel.surfaceBody,Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,
       FPBackend.Ops.algebra,resolvePrecision,numeric,numericLt,numericLe,numericEq,

@@ -12,7 +12,7 @@ set_option maxRecDepth 3000
 set_option linter.unusedSimpArgs false
 
 def kernel (h : Host.Call) : Kernel :=
-  (Kernels.clearUpper h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)).eraseDType.toAlgKernel
+  (Kernels.clearUpperKernel h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)).eraseDType.toAlgKernel
 
 def store (out : RegionName) (memory : RegionName → Nat → MemCell) (address : Nat) :
     RegionName → Nat → MemCell :=
@@ -38,8 +38,8 @@ theorem kernel_body (h : Host.Call) : (kernel h).body=code h := rfl
 theorem program (h : Host.Call) (p : Cleanup.PID h) (s : BlockState) :
     ∃ t, exec (kernel h) (s.withGridIndex p)=some t ∧
       t.mem=(CleanupSource.addresses h p).foldl (store h.Out) s.mem := by
-  simp (config := {maxSteps := 300000}) [exec,kernel_body,code,kernel,Kernels.clearUpper,
-    VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.clearUpper,
+  simp (config := {maxSteps := 300000}) [exec,kernel_body,code,kernel,Kernels.clearUpperKernel,
+    VeriTile.Bench.Repairs.BmmChunkFwd.clearUpperKernel,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,

@@ -16,7 +16,7 @@ def addressSetup (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :
     {t : State α // run (engine (withDot M dot)) ((kernel c).surfaceBody.take 4) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp only [kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.take]
   simp [run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
     numeric,natLt,bop,TileShape.axisDim,Region.cast,State.setReg]
@@ -26,7 +26,7 @@ theorem address_setup_safe (M : Algebra α) (dot : Dot α) (c : Config)
     (bounds : RegionName → Nat) (s : State α) :
     traceSafeList (engine (withDot M dot)) bounds ((kernel c).surfaceBody.take 4) s := by
   apply pure_trace
-  simp only [kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.take,List.mem_cons,List.not_mem_nil,or_false,forall_eq_or_imp,forall_eq]
   simp only [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,step,evalExpr,Option.bind]
   simp only [safeBlockPtr1,safeBlockPtr2]
@@ -39,7 +39,7 @@ theorem entry_loads_safe (M : Algebra α) (dot : Dot α) (c : Config) (s : State
       (((kernel c).surfaceBody.drop 4).take 3) (addressSetup M dot c (Typed.prepare c s a)).val := by
   have hg := gate_bound c a bounds cap
   have hl : min (a.time.val*64+64) c.T-1<c.T := by have := T_pos c a; omega
-  simp only [kernel,TypedSource.original,TypedSource.originalBody,TypedSource.Storage.dtype,
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.drop,List.take]
   simp [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     addressSafe_unfold,maskActive_unfold,

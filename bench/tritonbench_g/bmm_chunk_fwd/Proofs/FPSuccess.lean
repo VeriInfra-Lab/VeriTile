@@ -45,14 +45,14 @@ theorem source_split (h : Host.Call) (c : Host.Config) :
     (Kernels.source h c).surfaceBody=(branch h c).before ++
       [.ifThen (branch h c).condition (branch h c).yes] := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;>
-    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original] <;> rfl
+    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel] <;> rfl
 
 theorem branch_split (h : Host.Call) (c : Host.Config) :
     (branch h c).yes=(parts h c).before ++
       [.forRangeInt "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body] ++
       (parts h c).after := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;>
-    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original] <;> rfl
+    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel] <;> rfl
 
 def Has {α : Type} (s : State α) (d : TileDType) (sh : TileShape) (n : RegName) := (s.regs d sh n).isSome
 
@@ -99,7 +99,7 @@ theorem prologue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
       Controls h c s t := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;> cases causal : h.causal
   all_goals
-    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
       ha,hb,causal,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
@@ -132,7 +132,7 @@ theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
   obtain ⟨v4,h4⟩ := Option.isSome_iff_exists.mp h4
   cases ha : h.aStorage <;> cases hb : h.bStorage <;> cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 300000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.original,
+    simp (config := {maxSteps := 300000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
       ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,

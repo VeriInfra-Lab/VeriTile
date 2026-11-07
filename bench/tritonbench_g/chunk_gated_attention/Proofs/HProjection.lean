@@ -32,7 +32,7 @@ def projection (p : Parameters) (r : RealHProgram.Regions)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [kernel,h,NativeSource.hOriginalTyped,NativeSource.hBody,NativeSource.hSumLeftTyped,
+    simp only [kernel,h,NativeSource.hOriginalTyped,NativeSource.hKernel,NativeSource.hSumLeftTyped,
       NativeSource.hSumLeftBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,
       ScalarArgument.statement,ComputeKernel.surfaceBody,ComputeKernel.toAlgorithm?,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,

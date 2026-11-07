@@ -58,7 +58,7 @@ theorem prefix_run (M : Algebra α) (equal32 : α → α → Bool) (s : State α
       (SourcePieces.statistics Bool.false X W Bias Y Mean Rstd S D B tree).before s = some final ∧
       WelfordLanesReady s final (zeroLanes M B) := by
   simp only [SourcePieces.statistics, SourcePieces.source, Bool.false_eq_true, ite_false,
-    Kernels.kernel, Pasted.originalBody, ComputeKernel.surfaceBody, Source.intRange?, Option.map,
+    Kernels.kernel, Pasted.originalKernel, ComputeKernel.surfaceBody, Source.intRange?, Option.map,
     Option.getD, String.reduceEq, beq_self_eq_true, ↓reduceIte]
   simp [run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     ComputeDType.eraseDType, numeric, bop, natLt, numericLt, numericEq, withEquality,
@@ -74,7 +74,7 @@ theorem first_run (M : Algebra α) (equal32 : α → α → Bool) (s t : State �
       (t.setReg "roffset" .int [] (fun _ => 0)) = some final ∧
       WelfordLanesReady s final (firstLaneValues M s X D B) := by
   simp only [SourcePieces.statistics, SourcePieces.source, Bool.false_eq_true, ite_false,
-    Kernels.kernel, Pasted.originalBody, ComputeKernel.surfaceBody, Source.intRange?, Option.map,
+    Kernels.kernel, Pasted.originalKernel, ComputeKernel.surfaceBody, Source.intRange?, Option.map,
     Option.getD, String.reduceEq, beq_self_eq_true, ↓reduceIte]
   simp [run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     ComputeDType.eraseDType, numeric, bop, natLt, numericLt, numericEq, withEquality,
@@ -94,7 +94,7 @@ theorem chunk_run (M : Algebra α) (equal32 : α → α → Bool) (s t : State �
       WelfordLanesReady s final (advance M s X D B k previous) := by
   have hn : k*B ≠ 0 := Nat.ne_of_gt (Nat.mul_pos hk hB)
   simp only [SourcePieces.statistics, SourcePieces.source, Bool.false_eq_true, ite_false,
-    Kernels.kernel, Pasted.originalBody, ComputeKernel.surfaceBody, Source.intRange?, Option.map,
+    Kernels.kernel, Pasted.originalKernel, ComputeKernel.surfaceBody, Source.intRange?, Option.map,
     Option.getD, String.reduceEq, beq_self_eq_true, ↓reduceIte]
   simp [run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     ComputeDType.eraseDType, numeric, bop, natLt, numericLt, numericEq, withEquality,
@@ -148,7 +148,7 @@ theorem middle_eq (X W Bias Y Mean Rstd : RegionName) (S D B : Nat)
       [.ifThen (.constBool Bool.true) (welfordTupleCode (legacyTree tree))] ++
         welfordSuffix Rstd Mean D := by
   unfold SourcePieces.normalization SourcePieces.statistics SourcePieces.source
-    Kernels.kernel Pasted.originalBody
+    Kernels.kernel Pasted.originalKernel
   simp only [Bool.false_eq_true,ite_false,ComputeKernel.surfaceBody,Source.intRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
   unfold welfordTupleCode

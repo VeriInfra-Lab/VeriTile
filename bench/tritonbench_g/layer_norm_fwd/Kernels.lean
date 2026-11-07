@@ -2,7 +2,7 @@ import VeriTile.Triton.DSL.FP32CallValues
 
 /-! Complete pasted repaired Python and the existing integer-product candidate.
 All invocation typing and the checked arange size remain outside the body. -/
-namespace VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies
+namespace VeriTile.Bench.Repairs.LayerNormFwdSelectedSource
 open VeriTile.Triton
 noncomputable section
 def signature : CallSignature where
@@ -12,7 +12,7 @@ def signature : CallSignature where
   readPorts := ["X","W","B","RESIDUAL","X1","W1","B1","ROWSCALE","SEEDS"]
   writePorts := ["Y","Y1","RESIDUAL_OUT","DROPOUT_MASK","Mean","Rstd"]
 
-def originalBody (X Y W B RESIDUAL X1 W1 B1 Y1 RESIDUAL_OUT ROWSCALE : RegionName)
+def originalKernel (X Y W B RESIDUAL X1 W1 B1 Y1 RESIDUAL_OUT ROWSCALE : RegionName)
           (SEEDS : Region .int) (DROPOUT_MASK : Region .bool) (Mean Rstd : RegionName)
           (stride_x_row stride_y_row stride_res_row stride_res_out_row
             stride_x1_row stride_y1_row M N : Nat)
@@ -83,7 +83,7 @@ def originalBody (X Y W B RESIDUAL X1 W1 B1 Y1 RESIDUAL_OUT ROWSCALE : RegionNam
         tl.store(Y1 + cols, y1, mask=mask)
   }
 
-def indexCommutedBody (X Y W B RESIDUAL X1 W1 B1 Y1 RESIDUAL_OUT ROWSCALE : RegionName)
+def indexCommutedKernel (X Y W B RESIDUAL X1 W1 B1 Y1 RESIDUAL_OUT ROWSCALE : RegionName)
           (SEEDS : Region .int) (DROPOUT_MASK : Region .bool) (Mean Rstd : RegionName)
           (stride_x_row stride_y_row stride_res_row stride_res_out_row
             stride_x1_row stride_y1_row M N : Nat)
@@ -155,4 +155,4 @@ def indexCommutedBody (X Y W B RESIDUAL X1 W1 B1 Y1 RESIDUAL_OUT ROWSCALE : Regi
   }
 
 end
-end VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.Bodies
+end VeriTile.Bench.Repairs.LayerNormFwdSelectedSource

@@ -39,8 +39,8 @@ specification kernel_correct (BH T D BDF BDB : Nat) (hF : 0<BDF) (hB : 0<BDB)
              dg realOps U V (IO.tensorData BH T D vals) T bh.val d.val t*vg t)) 0) :=
   IO.logical_correct BH T D BDF BDB hF hB U S V
 
-#specNonCircular formula avoiding [forward,backward,Execution.gridRun,FP.Structural.exec]
-#specNonCircular objective avoiding [forward,backward,Execution.gridRun,FP.Structural.exec]
+#specNonCircular formula avoiding [forwardKernel,backwardKernel,Execution.gridRun,FP.Structural.exec]
+#specNonCircular objective avoiding [forwardKernel,backwardKernel,Execution.gridRun,FP.Structural.exec]
 #axiomsClean kernel_correct
 #stmtSurfaceSubset kernel_correct ⊆
   [VeriTile.Spec.Real,kernelIO,LogicalProgramIO.Implements,formula,objective,

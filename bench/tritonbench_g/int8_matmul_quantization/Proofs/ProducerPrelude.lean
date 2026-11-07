@@ -82,7 +82,7 @@ def prefixExecution {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α �
     {t : State α // run (backend M integer8) (prelude p) s=some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp only [prelude, code, KernelSource.quantize, Bodies.quantize, parameters,
+  simp only [prelude, code, KernelSource.quantize, quantizeKernel, parameters,
     ComputeKernel.surfaceBody, List.take_succ_cons, List.take_zero]
   simp [run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, numeric,
     bop, backend, ComputeDType.eraseDType, Option.bind, NumericDType.sub,

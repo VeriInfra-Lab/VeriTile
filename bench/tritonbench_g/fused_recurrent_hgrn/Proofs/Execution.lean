@@ -55,7 +55,7 @@ theorem prologue (p : Ops α) (s : State α) (T D BD : Nat) (U : Bool) :
       q.regs .ptr [BD] "p_o"=some (fun j => (("o" : RegionName),row s 0 T D BD j)) ∧
       q.regs .real [BD] "b_h"=some (initial p s U D BD) := by
   cases U <;>
-    simp [forwardPrologue,forward,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [forwardPrologue,forwardKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,numericLt,Region.cast,State.setReg,algebra,initial,masked,read,lane,row,slot,
       VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.channel,
@@ -92,7 +92,7 @@ theorem forward_step (p : Ops α) (s : State α) (T D BD t : Nat)
       q.regs .ptr [BD] "p_g"=some (fun j => (("g" : RegionName),row s (t+1) T D BD j)) ∧
       q.regs .ptr [BD] "p_o"=some (fun j => (("o" : RegionName),row s (t+1) T D BD j)) ∧
       q.regs .real [BD] "b_h"=some (next p s T D BD t carry) := by
-  simp [forwardBody,forward,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [forwardBody,forwardKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
     natLt,numericLt,Region.cast,algebra,store,State.setReg,hm,hx,hg,ho,hc,
     Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,masked_regs]

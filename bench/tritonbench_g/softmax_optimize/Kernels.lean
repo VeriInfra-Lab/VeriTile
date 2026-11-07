@@ -12,15 +12,15 @@ def callSignature : CallSignature where
   readPorts := ["input_ptr"]
   writePorts := ["output_ptr"]
 
-def previousMultiple : BinaryPureJitFunction := triton_function (a, b) {
+def previousMultipleSource : BinaryPureJitFunction := with_triton_params (a, b) constexpr_args [] in triton {
     return tl.cdiv(a, b) * b - b
 }
 
-def kernel (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) : ComputeKernel :=
+def sourceKernel (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) : ComputeKernel :=
   let M_value : Int := M
   let N_value : Int := N
   with_triton_call callSignature call_args [M := M_value, N := N_value]
-    binary_functions [prev_multiple_of := previousMultiple] in triton {
+    binary_functions [prev_multiple_of := previousMultipleSource] in triton {
     pid_m = tl.program_id(0).to(tl.int64)
     m = tl.full((TILE_N,), value=-float("inf"), dtype=output_ptr.dtype.element_ty)
     z = tl.full((TILE_N,), value=0, dtype=output_ptr.dtype.element_ty)
@@ -74,7 +74,7 @@ def kernel (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) : ComputeKerne
         tl.store(output_ptrs, out, mask=mask)
   }
 
-def commutedPreviousMultiple : BinaryPureJitFunction := triton_function (a, b) {
+def commutedPreviousMultipleSource : BinaryPureJitFunction := with_triton_params (a, b) constexpr_args [] in triton {
     return tl.cdiv(a, b) * b - b
 }
 
@@ -82,7 +82,7 @@ def indexCommutedKernel (output_ptr input_ptr : RegionName) (M N TILE_N : Nat) :
   let M_value : Int := M
   let N_value : Int := N
   with_triton_call callSignature call_args [M := M_value, N := N_value]
-    binary_functions [prev_multiple_of_candidate := commutedPreviousMultiple] in triton {
+    binary_functions [prev_multiple_of_candidate := commutedPreviousMultipleSource] in triton {
     pid_m = tl.program_id(0).to(tl.int64)
     m = tl.full((TILE_N,), value=-float("inf"), dtype=output_ptr.dtype.element_ty)
     z = tl.full((TILE_N,), value=0, dtype=output_ptr.dtype.element_ty)

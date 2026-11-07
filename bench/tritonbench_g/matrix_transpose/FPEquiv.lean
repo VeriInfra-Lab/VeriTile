@@ -10,11 +10,11 @@ noncomputable section
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
 def original (m d : Nat) : Program where
-  kernel := source "matrix" "out" m d
+  kernel := sourceKernel "matrix" "out" m d
   domain := []
 
 def indexCommuted (m d : Nat) : Program :=
-  { original m d with kernel := indexCommutedSource "matrix" "out" m d }
+  { original m d with kernel := indexCommutedKernel "matrix" "out" m d }
 
 /-- The actual existing index-commuted variant and the original both succeed
 and agree on every typed memory cell. There are no numerical assumptions or

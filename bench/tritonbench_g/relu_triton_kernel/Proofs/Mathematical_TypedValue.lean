@@ -102,7 +102,7 @@ def outputState {α : Type} [Inhabited α] (M : Algebra α)
       else t) s
   else s
 
-#specNonCircular resultValue avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel, FP.Structural.exec]
+#specNonCircular resultValue avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.sourceKernel, FP.Structural.exec]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

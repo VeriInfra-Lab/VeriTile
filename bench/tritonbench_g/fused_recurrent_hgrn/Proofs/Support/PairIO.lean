@@ -7,12 +7,12 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 
 def invocation {α : Type} (p : Ops α) (T D BD : Nat) (U S : Bool) (id : Nat × Nat) :=
-  IO.invocation p (forwardStrideFolded T D BD U S) id
+  IO.invocation p (forwardStrideFoldedKernel T D BD U S) id
 
 def variant {α : Type} (p : Ops α) (observe : α → α) (BH T D BDF BDB : Nat) (U S V : Bool) :
     ProgramIO.Variant (IO.recurrentIO p observe BH T D BDF BDB U S V) where
   schedule := fun _ => (IO.programs BH D BDF).map (invocation p T D BDF U S) ++
-    (IO.programs BH D BDB).map (IO.invocation p (backward T D BDB U V))
+    (IO.programs BH D BDB).map (IO.invocation p (backwardKernel T D BDB U V))
   observe := (IO.recurrentIO p observe BH T D BDF BDB U S V).observe
 
 def original {α : Type} (p : Ops α) (observe : α → α) (BH T D BDF BDB : Nat) (U S V : Bool) :=

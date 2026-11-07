@@ -10,7 +10,7 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 def kernel (c : Shape) (seed final : Bool) :=
-  Kernels.forwardH "k" "v" "h" "h0" "ht"
+  Kernels.forwardHKernel "k" "v" "h" "h0" "ht"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     c.H c.T c.K c.V 64 c.BK c.BV c.chunks seed final
 def parts (c : Shape) (seed final : Bool) : Source.DynamicRange :=
@@ -60,7 +60,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fina
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
+    simp [parts,kernel,Kernels.forwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
       resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
@@ -106,7 +106,7 @@ def preludeExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (seed fi
   simp only [HasCarry] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,parts,kernel,Kernels.forwardH,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [prelude,parts,kernel,Kernels.forwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,

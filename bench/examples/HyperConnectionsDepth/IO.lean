@@ -70,7 +70,7 @@ open scoped VeriTile.Triton.KernelIO₃
 
 /-- Row-major input/output windows for either complete matrix source. -/
 def matrixIO (optimized : Bool) (S T D iters : Nat) (tau : ℝ) : KernelIO₃ where
-  kernel := if optimized then matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau
+  kernel := if optimized then matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau
     else matrixOriginal S T D iters tau
   projection := by cases optimized <;> rfl
   in1 := "res_mix"

@@ -79,7 +79,7 @@ theorem source_safe (bounds : RegionBounds)
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0 < c.BT)
     (p : Geometry.Program h) (bounded : Bounds h p bounds) (u : BlockState)
     (hf : u.pids 0 = p.feature) (hr : u.pids 1 = p.row) :
-    Kernel.TraceSafeR .triv bounds (Kernels.source h c).eraseDType.toAlgKernel u := by
+    Kernel.TraceSafeR .triv bounds (Kernels.sourceKernel h c).eraseDType.toAlgKernel u := by
   unfold Kernel.TraceSafeR
   rw [RealProgram.source_body, RealProgram.body]
   apply Stmt.TraceSafeListR.append_intro _ u (init_safe bounds h c u)

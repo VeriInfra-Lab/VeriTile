@@ -15,7 +15,7 @@ def callSignature : CallSignature where
 def blockSize : Nat := 1024
 def gridCount (n : Nat) : Nat := (n + 1023) / 1024
 
-def kernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
+def sourceKernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
   let x_ptr : RegionName := X
   let output_ptr : RegionName := O
   let BLOCK_SIZE : Nat := B
@@ -53,6 +53,6 @@ def indexCommutedKernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
     tl.store(output_ptr + offsets, output, mask=mask)
   }
 
-def originalKernel (n : Nat) : ComputeKernel := kernel "x_ptr" "output_ptr" n blockSize
+def originalKernel (n : Nat) : ComputeKernel := sourceKernel "x_ptr" "output_ptr" n blockSize
 def candidateKernel (n : Nat) : ComputeKernel := indexCommutedKernel "x_ptr" "output_ptr" n blockSize
 end VeriTile.Bench.Repairs.SinKernel

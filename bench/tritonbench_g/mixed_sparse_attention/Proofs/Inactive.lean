@@ -12,7 +12,7 @@ theorem inactive_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α) (c
     ∃ t, FP.Structural.exec (backend M D) (kernel c) s=some t ∧ t.mem=s.mem := by
   simp only [sequenceLength,rowStart,Region.cast] at h
   rcases c with ⟨storage,q,k,v,out,seq,blocks,offsets,counts,columns,sqz,sqh,sqm,sqk,skz,skh,skn,skk,svz,svh,svn,svk,soz,soh,som,sok,Z,H,T,NR,NS,NV,BM,BN,BD,scale⟩
-  cases storage <;> dsimp only at h <;> simp [kernel,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,
+  cases storage <;> dsimp only at h <;> simp [kernel,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,integralFloorDiv,integralMod,
     backend,Region.cast,State.setReg,show ¬s.pids 0*BM<(s.mem {name:=seq.name} (s.pids 1/H)).read .nat by exact Nat.not_lt.mpr h]

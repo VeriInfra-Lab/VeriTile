@@ -11,14 +11,14 @@ def shellSource
     (i_bh i_c i_k i_v i_h : Nat)
     (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat) (scale : ℝ)
     (B H T K V BTL BTS BK BV : Nat) : ComputeKernel :=
-  Bodies.backward q k v do_ dz dq dk dv s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale B H T K V BTL BTS BK BV
+  backwardPastedKernel q k v do_ dz dq dk dv s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale B H T K V BTL BTS BK BV
 
 def fusedShellSource
     (q k v do_ dz dq dk dv : RegionName)
     (i_bh i_c i_k i_v i_h : Nat)
     (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat) (scale : ℝ)
     (B H T K V BTL BTS BK BV : Nat) : ComputeKernel :=
-  Bodies.fusedBackward q k v do_ dz dq dk dv s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale B H T K V BTL BTS BK BV
+  fusedBackwardKernel q k v do_ dz dq dk dv s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale B H T K V BTL BTS BK BV
 
 end
 end VeriTile.Bench.Repairs.ParallelAttentionKernel

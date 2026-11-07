@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.ImplicitAtomicAdd
-namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.Bodies
+namespace VeriTile.Bench.Repairs.Int8MatmulQuantization
 open VeriTile.Triton
 noncomputable section
 set_option maxHeartbeats 8000000
@@ -12,7 +12,7 @@ def quantizeSignature : CallSignature where
   readPorts := ["fpa_ptr"]
   writePorts := ["a_ptr","as_ptr"]
 
-def quantize
+def quantizeKernel
     (fpa_ptr a_ptr as_ptr : RegionName)
     (M K stride_fpam stride_fpak stride_am stride_ak stride_asm BLOCK_SIZE_M BLOCK_SIZE_K : Nat) : ComputeKernel :=
   with_triton_call quantizeSignature call_args [M := M, K := K, stride_fpam := stride_fpam, stride_fpak := stride_fpak, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm] in triton {
@@ -46,7 +46,7 @@ def quantize
     tl.store(as_ptr + as_offs, a_scale)
   }
 
-def unwrappedQuantize
+def unwrappedQuantizeKernel
     (fpa_ptr a_ptr as_ptr : RegionName)
     (M K stride_fpam stride_fpak stride_am stride_ak stride_asm BLOCK_SIZE_M BLOCK_SIZE_K : Nat) : ComputeKernel :=
   with_triton_call quantizeSignature call_args [M := M, K := K, stride_fpam := stride_fpam, stride_fpak := stride_fpak, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm] in triton {
@@ -87,7 +87,7 @@ def gemmHalfHalfSignature : CallSignature where
   readPorts := ["a_ptr","as_ptr","b_ptr","bs_ptr","c_ptr"]
   writePorts := ["c_ptr"]
 
-def gemmHalfHalf
+def gemmHalfHalfKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmHalfHalfSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -168,7 +168,7 @@ def gemmHalfHalf
         tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
 
-def unmaskedGemmHalfHalf
+def unmaskedGemmHalfHalfKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmHalfHalfSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -256,7 +256,7 @@ def gemmHalfSingleSignature : CallSignature where
   readPorts := ["a_ptr","as_ptr","b_ptr","bs_ptr","c_ptr"]
   writePorts := ["c_ptr"]
 
-def gemmHalfSingle
+def gemmHalfSingleKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmHalfSingleSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -337,7 +337,7 @@ def gemmHalfSingle
         tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
 
-def unmaskedGemmHalfSingle
+def unmaskedGemmHalfSingleKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmHalfSingleSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -425,7 +425,7 @@ def gemmSingleHalfSignature : CallSignature where
   readPorts := ["a_ptr","as_ptr","b_ptr","bs_ptr","c_ptr"]
   writePorts := ["c_ptr"]
 
-def gemmSingleHalf
+def gemmSingleHalfKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmSingleHalfSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -506,7 +506,7 @@ def gemmSingleHalf
         tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
 
-def unmaskedGemmSingleHalf
+def unmaskedGemmSingleHalfKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmSingleHalfSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -594,7 +594,7 @@ def gemmSingleSingleSignature : CallSignature where
   readPorts := ["a_ptr","as_ptr","b_ptr","bs_ptr","c_ptr"]
   writePorts := ["c_ptr"]
 
-def gemmSingleSingle
+def gemmSingleSingleKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmSingleSingleSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -675,7 +675,7 @@ def gemmSingleSingle
         tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
 
-def unmaskedGemmSingleSingle
+def unmaskedGemmSingleSingleKernel
     (a_ptr as_ptr b_ptr bs_ptr c_ptr : RegionName)
     (M N K stride_am stride_ak stride_asm stride_bk stride_bn stride_bsn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
   with_triton_call gemmSingleSingleSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_asm := stride_asm, stride_bk := stride_bk, stride_bn := stride_bn, stride_bsn := stride_bsn, stride_cm := stride_cm, stride_cn := stride_cn] in triton {
@@ -757,4 +757,4 @@ def unmaskedGemmSingleSingle
   }
 
 end
-end VeriTile.Bench.Repairs.Int8MatmulQuantization.Bodies
+end VeriTile.Bench.Repairs.Int8MatmulQuantization

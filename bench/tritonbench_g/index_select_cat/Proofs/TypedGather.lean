@@ -44,10 +44,10 @@ def copied {α : Type} [Inhabited α] (p : Layout) (s : State α) : State α :=
 carrier, arbitrary initial registers, and arbitrary unused numeric callbacks. -/
 @[irreducible] def execution {α : Type} [Inhabited α] (rest : Algebra α)
     (p : Layout) (s : State α) :
-    {t : State α // FP.Structural.exec (copyBackend rest) (kernel p) s = some t} := by
+    {t : State α // FP.Structural.exec (copyBackend rest) (sourceKernel p) s = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [kernel,
+  simp [sourceKernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     Option.bind,copyBackend,natLt,numericLt,ComputeDType.eraseDType,numeric,bop,

@@ -26,7 +26,7 @@ private theorem pure_list (M : Algebra α) (bounds : RegionName → Nat)
 theorem backward_prefix (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     (bounds : RegionName → Nat) (s : State α) (r : Registers c.toBackwardConfig s) (hb : BackwardBounds c.toBackwardConfig bounds) :
     Safety.traceSafeList (withDot M D) bounds (backwardPrefix c) s := by
-  simp [backwardPrefix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody]
+  simp [backwardPrefix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
@@ -40,7 +40,7 @@ private theorem first_tail (M : Algebra α) (D : DotPrimitive α) (c : QueryConf
     Safety.traceSafeList (withDot M D) bounds ((backwardFirstBody c).drop 8) s := by
   apply pure_list
   intro st hs t
-  simp [backwardFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody] at hs
+  simp [backwardFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals by_cases hv : c.i_v=0
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -52,7 +52,7 @@ private theorem second_tail (M : Algebra α) (D : DotPrimitive α) (c : QueryCon
     Safety.traceSafeList (withDot M D) bounds ((backwardSecondBody c).drop 7) s := by
   apply pure_list
   intro st hs t
-  simp [backwardSecondBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody] at hs
+  simp [backwardSecondBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals by_cases hv : c.i_v=0
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -65,7 +65,7 @@ theorem backward_first_body (M : Algebra α) (D : DotPrimitive α) (c : QueryCon
     Safety.traceSafeList (withDot M D) bounds (backwardFirstBody c) t := by
   rw [←List.take_append_drop 8 (backwardFirstBody c),Safety.traceSafeList_append]
   refine ⟨?_,fun u _=>first_tail M D c bounds u⟩
-  simp [backwardFirstBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody]
+  simp [backwardFirstBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
@@ -82,7 +82,7 @@ theorem backward_second_body (M : Algebra α) (D : DotPrimitive α) (c : QueryCo
     Safety.traceSafeList (withDot M D) bounds (backwardSecondBody c) t := by
   rw [←List.take_append_drop 7 (backwardSecondBody c),Safety.traceSafeList_append]
   refine ⟨?_,fun u _=>second_tail M D c bounds u⟩
-  simp [backwardSecondBody,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody]
+  simp [backwardSecondBody,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
@@ -98,7 +98,7 @@ theorem backward_middle (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     Safety.traceSafeList (withDot M D) bounds (backwardMiddle c) s := by
   apply pure_list
   intro st hs t
-  simp [backwardMiddle,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody] at hs
+  simp [backwardMiddle,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
@@ -107,7 +107,7 @@ theorem backward_suffix (M : Algebra α) (D : DotPrimitive α) (c : QueryConfig)
     (acc : BackwardAccumulator α c.BTL c.BK c.BV) (h : BackwardReady M c s t acc)
     (hb : BackwardBounds c.toBackwardConfig bounds) :
     Safety.traceSafeList (withDot M D) bounds (backwardSuffix c) t := by
-  simp [backwardSuffix,kernel,shellSource,Bodies.backward,ComputeKernel.surfaceBody]
+  simp [backwardSuffix,kernel,shellSource,backwardPastedKernel,ComputeKernel.surfaceBody]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe,Safety.maskActive,

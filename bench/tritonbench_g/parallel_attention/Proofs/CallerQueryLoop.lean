@@ -57,7 +57,7 @@ theorem query_first_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : Do
     ∃ final, run (withDot M D) (queryFirstBody c) t = some final ∧
       QueryReady M c s final (start+c.BTS) (queryUpdate M D c s Bool.false start acc) := by
   by_cases hv : c.i_v=0
-  all_goals simp [hv, queryFirstBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  all_goals simp [hv, queryFirstBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, Option.bind,
     ComputeDType.eraseDType, numeric, bop, numericEq, Region.cast, withDot,
     h.query, h.outGrad, h.normGrad, h.queryGrad, h.key, h.value, h.head, h.chunk, h.keyBlock, h.valueBlock, h.mem, h.pids, h.undef,
@@ -84,7 +84,7 @@ theorem query_second_body_run {α : Type} [Inhabited α] (M : Algebra α) (D : D
     ∃ final, run (withDot M D) (querySecondBody c) t = some final ∧
       QueryDiagonalReady M c s final (start+c.BTS) (queryUpdate M D c s Bool.true start acc) := by
   by_cases hv : c.i_v=0
-  all_goals simp [hv, querySecondBody, kernel, shellSource, Bodies.backward, ComputeKernel.surfaceBody,
+  all_goals simp [hv, querySecondBody, kernel, shellSource, backwardPastedKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, boundaryZero, Option.bind,
     ComputeDType.eraseDType, numeric, bop, numericEq, Region.cast, withDot,
     h.query, h.outGrad, h.normGrad, h.queryGrad, h.key, h.value, h.head, h.chunk, h.keyBlock, h.valueBlock, h.mem, h.pids, h.undef,

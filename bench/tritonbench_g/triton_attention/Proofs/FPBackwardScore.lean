@@ -22,7 +22,7 @@ theorem backwardScoreExecution (rest : Algebra α) (P : Primitives α) (p : Back
     (h : BackwardInnerInvariant p initial c j outerMem st current) :
     run (backend rest P) ((backwardInnerBody p).take 6) (current.setReg "start_m" .nat [] (fun _ => j*p.blockM))=
       some (backwardScoreResult P p initial current c j outerMem st) := by
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,numeric,numericLe,natLe,backend,backwardScoreResult,
     h.rows,h.cols,h.key,h.qPtr,h.maxPtr,h.memory,h.undef,
     backwardPointer,backwardRead,backwardOffset,backwardRowOffset,

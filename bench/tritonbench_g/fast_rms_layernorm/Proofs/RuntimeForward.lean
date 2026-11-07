@@ -64,7 +64,7 @@ theorem forward_memory (M : Algebra α) (h : Call) (epsilon : α) (u : State α)
   unfold Kernels.forwardRuntime
   split <;> rename_i branch
   all_goals
-    simp [branch,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,FP.Structural.exec,Kernels.regularRuntimeSource,Kernels.gemmaRuntimeSource,bind,
+    simp [branch,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,FP.Structural.exec,Kernels.regularRuntimeKernel,Kernels.gemmaRuntimeKernel,bind,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,

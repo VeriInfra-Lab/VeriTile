@@ -48,7 +48,7 @@ theorem epilogue_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes M)
     (p : Problem) (b : Buffers) (s : State α) :
     run (backend M D) (epilogue p b) s = run (backend M D) (suffix p b) s := by
   simp only [epilogue,suffix,source,candidate,TypedSource.kernel,TypedSource.rightSlope,
-    Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.drop]
+    Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,List.drop]
   simp only [run,step,evalExpr,evalComputeOp,evalOp_unfold,
     numeric,backend,bop,Broadcast.leftIndex,Broadcast.rightIndex]
   simp only [MulCommutes] at h
@@ -60,7 +60,7 @@ theorem epilogue_safety_equal (M : Algebra α) (D : DotAcc α) (h : MulCommutes 
     Safety.traceSafeList (backend M D) bounds (epilogue p b) s ↔
       Safety.traceSafeList (backend M D) bounds (suffix p b) s := by
   simp only [epilogue,suffix,source,candidate,TypedSource.kernel,TypedSource.rightSlope,
-    Pasted.originalBody,Pasted.candidateBody,ComputeKernel.surfaceBody,List.drop]
+    Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,List.drop]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,

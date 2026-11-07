@@ -13,7 +13,7 @@ specification uncached_source_candidate_equivalence (rest : Algebra Native.Node)
     (op : Native.Instructions) (g : Geometry) (p q : Nat)
     (heads : ∀ key,0<g.request.heads key) :
     PairIO.uncachedOriginal rest (Native.ops op Bool.false) g p q ≡[[]]
-    PairIO.uncachedShared rest (Native.ops op Bool.false) g p q := by
+    PairIO.uncachedSharedKernel rest (Native.ops op Bool.false) g p q := by
   exact ProgramIO.Implementation.of_equivalent (PairIO.uncached _ _ g p q)
     (PairIO.uncached_equivalent _ _ g p q heads)
 
@@ -23,7 +23,7 @@ domain. Numeric operations and cache-before-Q store order are identical. -/
 specification cached_source_candidate_equivalence (rest : Algebra Native.Node)
     (op : Native.Instructions) (g : Geometry) (p q : Nat) (token : q<g.tokens) :
     PairIO.cachedOriginal rest (Native.ops op Bool.true) g p q ≡[[]]
-    PairIO.cachedShared rest (Native.ops op Bool.true) g p q := by
+    PairIO.cachedSharedKernel rest (Native.ops op Bool.true) g p q := by
   exact ProgramIO.Implementation.of_equivalentOn (PairIO.cached _ _ g p q)
     (PairIO.cached_equivalent _ _ g p q token)
 

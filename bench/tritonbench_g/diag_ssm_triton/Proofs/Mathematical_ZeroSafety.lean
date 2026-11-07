@@ -24,7 +24,7 @@ theorem forward_safe (bounds : RegionBounds) (u : BlockState)
     (s x l y : RegionName) (batch dim block : Nat)
     (hb : forwardBounds bounds u s l batch dim block) :
     (Erasure.forward Bool.false s x l y 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
-  simp only [Erasure.forward,TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.forwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [Erasure.forward,TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
@@ -76,7 +76,7 @@ theorem complex_forward_safe (bounds : RegionBounds) (u : BlockState)
     (s x y l : RegionName) (batch dim block : Nat)
     (hb : complexForwardBounds bounds u s l batch dim block) :
     (Erasure.complexForward Bool.false s x y l 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
-  simp only [Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexForwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
@@ -139,7 +139,7 @@ theorem backward_safe (bounds : RegionBounds) (u : BlockState)
     (s l y gs gx gl gy : RegionName) (batch dim block : Nat)
     (hb : backwardBounds bounds u l gs gl batch dim block) :
     (Erasure.backward Bool.false s l y gs gx gl gy 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
-  simp only [Erasure.backward,TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.backwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [Erasure.backward,TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
@@ -197,7 +197,7 @@ theorem complex_backward_safe (bounds : RegionBounds) (u : BlockState)
     (s l y gs gx gl gy : RegionName) (batch dim block : Nat)
     (hb : complexBackwardBounds bounds u l gs gl batch dim block) :
     (Erasure.complexBackward Bool.false s l y gs gx gl gy 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
-  simp only [Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Bodies.complexBackwardBody,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,

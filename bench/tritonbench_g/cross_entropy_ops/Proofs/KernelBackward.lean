@@ -80,7 +80,7 @@ theorem backward_executes (M : Algebra α) (p : Parameters) (initial : State α)
       simp only [target,Region.cast] at ignored
       refine ⟨?_,?_,?_⟩
       rotate_left
-      · simp [exec,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,run,step,
+      · simp [exec,backwardSyntax,backwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,hs,ComputeKernel.surfaceBody,run,step,
           evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
           Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
           numeric,numericEq,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
@@ -136,7 +136,7 @@ theorem backward_outputs (M : Algebra α) (p : Parameters) (initial : State α)
 #axiomsClean backward_outputs
 
 #axiomsClean backward_executes
-#specNonCircular gradientValue avoiding [forwardSyntax,forwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardBody,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
+#specNonCircular gradientValue avoiding [forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,backwardSyntax,backwardKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,Source.forward,Source.backward,exec,run]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

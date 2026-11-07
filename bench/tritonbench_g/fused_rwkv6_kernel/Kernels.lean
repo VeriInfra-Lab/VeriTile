@@ -19,7 +19,7 @@ def signature : CallSignature where
   readPorts := ["q","k","v","w","u","h0"]
   writePorts := ["o","ht"]
 
-def originalBody (q k v w u o h0 ht : RegionName) (s_k_h s_v_h : Nat)
+def originalKernel (q k v w u o h0 ht : RegionName) (s_k_h s_v_h : Nat)
     (B H T K V BK BV : Nat) (USE_INITIAL_STATE STORE_FINAL_STATE REVERSE : Bool) : ComputeKernel :=
   with_triton_call signature call_args [s_k_h := s_k_h,s_v_h := s_v_h] in triton {
     i_v, i_k, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
@@ -65,7 +65,7 @@ def originalBody (q k v w u o h0 ht : RegionName) (s_k_h s_v_h : Nat)
         tl.store(p_ht, b_h.to(p_ht.dtype.element_ty), mask=mask_kv)
   }
 
-def candidateBody (q k v w u o h0 ht : RegionName) (s_k_h s_v_h : Nat)
+def candidateKernel (q k v w u o h0 ht : RegionName) (s_k_h s_v_h : Nat)
     (B H T K V BK BV : Nat) (USE_INITIAL_STATE STORE_FINAL_STATE REVERSE : Bool) : ComputeKernel :=
   with_triton_call signature call_args [s_k_h := s_k_h,s_v_h := s_v_h] in triton {
     i_v, i_k, i_bh = tl.program_id(0), tl.program_id(1), tl.program_id(2)
@@ -112,11 +112,11 @@ def candidateBody (q k v w u o h0 ht : RegionName) (s_k_h s_v_h : Nat)
   }
 
 def kernel (c : FusedRwkv6Kernel.Shape) : ComputeKernel :=
-  originalBody "q" "k" "v" "w" "u" "o" "h0" "ht" c.keyPitch c.valuePitch
+  originalKernel "q" "k" "v" "w" "u" "o" "h0" "ht" c.keyPitch c.valuePitch
     c.B c.H c.T c.K c.V c.BK c.BV c.initial c.final c.reverse
 
 def earlyUKernel (c : FusedRwkv6Kernel.Shape) : ComputeKernel :=
-  candidateBody "q" "k" "v" "w" "u" "o" "h0" "ht" c.keyPitch c.valuePitch
+  candidateKernel "q" "k" "v" "w" "u" "o" "h0" "ht" c.keyPitch c.valuePitch
     c.B c.H c.T c.K c.V c.BK c.BV c.initial c.final c.reverse
 
 end

@@ -97,7 +97,7 @@ structure Inv (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD j : Na
 
 theorem prologue_run (A : Algebra α) (s : State α) (masked : Bool) (H S D Q BD : Nat) :
     ∃ q, run A (prologue H S D Q BD) s=some q ∧ Inv A s masked H S D Q BD 0 q := by
-  simp [prologue,phi,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prologue,phiKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
     natLt,natLe,numericLt,numericLe,integralFloorDiv,integralMod,Region.cast,State.setReg,
     Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat]
@@ -116,7 +116,7 @@ theorem body_run (A : Algebra α) (s q : State α) (masked : Bool) (H S D Q BD j
       Inv A s masked H S D Q BD (j+1) r := by
   rcases I with ⟨hm,hp,hb,hh,hl,hs,hv,he,hmax,hsum,ha⟩
   cases masked <;>
-    simp [body,kernel,phi,llama,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [body,kernel,phiKernel,llamaKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,natLe,numericLt,numericLe,integralFloorDiv,integralMod,Region.cast,State.setReg,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,
@@ -203,7 +203,7 @@ theorem epilogue_run (A : Algebra α) (s q : State α) (masked : Bool) (H S D Q 
       r.mem=(scatter s H D BD masked (output A s masked H S D Q BD)).mem := by
   rcases I with ⟨hm,hp,hb,hh,hl,hs,hv,he,hmax,hsum,ha⟩
   cases masked <;>
-    simp [epilogue,kernel,phi,llama,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [epilogue,kernel,phiKernel,llamaKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,natLe,numericLt,numericLe,integralFloorDiv,integralMod,Region.cast,State.setReg,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,

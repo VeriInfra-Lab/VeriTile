@@ -27,7 +27,7 @@ structure Parameters where
   block : Nat
   heads : Nat
 
-def kernel (p : Parameters) : ComputeKernel := KernelSyntax.source p.groups p.block p.heads
+def kernel (p : Parameters) : ComputeKernel := KernelSyntax.sourceKernel p.groups p.block p.heads
 
 def reduction (op : Ops α) {shape : TileShape} (ax : Fin shape.length) :
     (keep : Bool)→Values α .real shape→Values α .real (TileShape.reduceShape shape ax keep)
@@ -55,7 +55,7 @@ def execution [Inhabited α] (op : Ops α) (p : Parameters) (s : State α) :
     {t : State α // FP.Structural.exec (backend op) (kernel p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [kernel, KernelSyntax.source, FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run,
+  simp [kernel, KernelSyntax.sourceKernel, FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run,
     FP.Structural.step, FP.Structural.evalExpr, FP.Structural.evalComputeOp,
     FP.Structural.evalOp_unfold, FP.Structural.store, FP.Structural.numeric,
     FP.Structural.bop, FP.Structural.natLt, FP.Structural.numericLt, FP.Structural.numericEq,

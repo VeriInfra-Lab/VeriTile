@@ -1,5 +1,5 @@
 import VeriTile.Triton.DSL.PositionalLoadOther
-namespace VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked.Bodies
+namespace VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked
 open VeriTile.Triton
 noncomputable section
 set_option maxHeartbeats 8000000
@@ -12,7 +12,7 @@ def halfSignature : CallSignature where
   readPorts := ["Q","K","V"]
   writePorts := ["Out"]
 
-def half
+def halfKernel
     (Q K V Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
@@ -102,7 +102,7 @@ def half
     tl.store(out_ptrs, acc, offs_m[:, None] < H)
   }
 
-def carryFirstHalf
+def carryFirstHalfKernel
     (Q K V Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
@@ -199,7 +199,7 @@ def bytesSignature : CallSignature where
   readPorts := ["Q","K","V"]
   writePorts := ["Out"]
 
-def bytes
+def bytesKernel
     (Q K V Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
@@ -289,7 +289,7 @@ def bytes
     tl.store(out_ptrs, acc, offs_m[:, None] < H)
   }
 
-def carryFirstBytes
+def carryFirstBytesKernel
     (Q K V Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
@@ -379,4 +379,4 @@ def carryFirstBytes
     tl.store(out_ptrs, acc, offs_m[:, None] < H)
   }
 end
-end VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked.Bodies
+end VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked

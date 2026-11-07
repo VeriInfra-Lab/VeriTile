@@ -63,9 +63,9 @@ theorem cleanup_safe (rest : Algebra Expr) (p : Parameters) (pid : Cleanup.PID (
     (output : ∀ off,Cleanup.Upper (parameters p) off → off<bounds p.Out) (s : State Expr) :
     (cleanupInvocation rest p pid).Safe bounds s := by
   change TraceSafe (engine (CleanupSource.algebra rest (.leaf .fp32 0))) bounds
-    (Kernels.clearUpper p.Out p.shape.chunk (p.shape.chunks*p.shape.groups))
+    (Kernels.clearUpperKernel p.Out p.shape.chunk (p.shape.chunks*p.shape.groups))
     (CleanupSource.atIndex (parameters p) s pid)
-  simp (config := {maxSteps := 400000}) [TraceSafe,Kernels.clearUpper,VeriTile.Bench.Repairs.BmmChunkFwd.Bodies.clearUpper,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 400000}) [TraceSafe,Kernels.clearUpperKernel,VeriTile.Bench.Repairs.BmmChunkFwd.clearUpperKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,

@@ -21,7 +21,7 @@ def sourceSignature (storage : Storage) (keeping : KeepStorage) : CallSignature 
   writePorts := ["output_ptr"]
 
 /-- Complete selected original Python body. -/
-def quotedOriginal (storage : Storage) (keeping : KeepStorage) (X K O : RegionName) (n B : Nat) (p : ℝ) : ComputeKernel :=
+def quotedOriginalKernel (storage : Storage) (keeping : KeepStorage) (X K O : RegionName) (n B : Nat) (p : ℝ) : ComputeKernel :=
   let x_ptr := X
   let x_keep_ptr := K
   let output_ptr := O
@@ -42,7 +42,7 @@ def quotedOriginal (storage : Storage) (keeping : KeepStorage) (X K O : RegionNa
   }
 
 /-- Complete selected pre-existing candidate Python body. -/
-def quotedCommuted (storage : Storage) (keeping : KeepStorage) (X K O : RegionName) (n B : Nat) (p : ℝ) : ComputeKernel :=
+def quotedCommutedKernel (storage : Storage) (keeping : KeepStorage) (X K O : RegionName) (n B : Nat) (p : ℝ) : ComputeKernel :=
   let x_ptr := X
   let x_keep_ptr := K
   let output_ptr := O
@@ -64,7 +64,7 @@ def quotedCommuted (storage : Storage) (keeping : KeepStorage) (X K O : RegionNa
 
 def sourceFamily (storage : Storage) (keeping : KeepStorage) (swapped : Bool) :
     RegionName → RegionName → RegionName → Nat → Nat → ℝ → ComputeKernel :=
-  if swapped then quotedCommuted storage keeping else quotedOriginal storage keeping
+  if swapped then quotedCommutedKernel storage keeping else quotedOriginalKernel storage keeping
 
 def sourceKernel := sourceFamily .fp32 .int32 Bool.false
 def commutedSourceKernel := sourceFamily .fp32 .int32 Bool.true

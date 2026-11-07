@@ -33,7 +33,7 @@ def storeExecution {α : Type} [Inhabited α] (a : Arithmetic α)
   refine ⟨?_,?_⟩
   swap
   rw [hep]
-  simp [epilogue,source,Source.kernel,Source.half, Bodies.halfBody,ComputeKernel.surfaceBody,
+  simp [epilogue,source,Source.kernel,Source.half, halfKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
     FP.Structural.bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
     Region.cast,Option.bind,integralFloorDiv,integralMod,

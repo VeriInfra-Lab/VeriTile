@@ -16,7 +16,7 @@ theorem run10 {α : Type} [Inhabited α] (M : Algebra α)
     ∃ t, FP.Structural.exec M (forwardKernel p) s = some t ∧ t.mem = (reference M p s).mem := by
   cases hs : p.storeResidual <;> cases hb : p.hasBias
   all_goals
-    simp [FP.Structural.exec, forwardKernel, forwardSource, hr, ha, hs, hb,
+    simp [FP.Structural.exec, forwardKernel, forwardSourcePastedKernel, hr, ha, hs, hb,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store,
       Option.bind, ComputeDType.eraseDType, FloatDType.toTileDType,
       FloatDType.numericDType, ofFloat, toFloat, numeric, bop, numericLt,

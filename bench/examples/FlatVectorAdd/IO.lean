@@ -23,7 +23,7 @@ open VeriTile.Examples (observeAt)
 
 /-- Masked tile windows: only lanes with pid * B + i < n are active. -/
 def addMaskedIO (B n : Nat) : MaskedKernelIO₂ where
-  kernel := addKernelMasked ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n
+  kernel := addMaskedKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n
   in1 := ⟨"x"⟩
   in2 := ⟨"y"⟩
   out := ⟨"out"⟩

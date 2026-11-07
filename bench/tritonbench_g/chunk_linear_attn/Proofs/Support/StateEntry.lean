@@ -24,7 +24,7 @@ def stateEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : 
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [stateParts,stateIntParts,stateKernel,loopName,forwardH,Bodies.forwardHBody,backwardH,Bodies.backwardHBody,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+    simp [stateParts,stateIntParts,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,

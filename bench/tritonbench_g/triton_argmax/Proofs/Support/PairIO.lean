@@ -8,7 +8,7 @@ open VeriTile.Bench.Repairs.TritonArgmax Source
 noncomputable section
 
 def candidateFirst {casts kind} (binding : BoundSource.Binding casts kind) (c : GlobalConfig) (index64 : Bool) :=
-  JITCandidate.stage1 BoundSource.X BoundSource.V BoundSource.I (JITBinding.dtype binding) c.block index64
+  JITCandidate.stage1Kernel BoundSource.X BoundSource.V BoundSource.I (JITBinding.dtype binding) c.block index64
 
 def firstInvocation {casts kind} (binding : BoundSource.Binding casts kind) (rest : Algebra Word)
     (c : GlobalConfig) (index64 : Bool) (pid : Nat) : Invocation Word :=
@@ -27,7 +27,7 @@ def globalVariant (casts : Request.Casts) (kind : Request.Kind) (binding : Bound
 
 def dimensionInvocation (rest : Algebra Word) (c : DimConfig) (index64 : Bool) (job : Nat × Nat) : Invocation Word :=
   JITIO.dimensionLaunch (Typed.backend rest)
-    (JITCandidate.dimension BoundSource.X BoundSource.O 128 128 index64)
+    (JITCandidate.dimensionKernel BoundSource.X BoundSource.O 128 128 index64)
     c.outer c.extent c.inner 0 (job.1*c.inner+job.2)
 
 def dimensionVariant (rest : Algebra Word) (c : DimConfig) (index64 : Bool) :

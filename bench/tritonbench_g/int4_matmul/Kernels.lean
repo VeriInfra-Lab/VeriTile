@@ -23,7 +23,7 @@ def callSignature : CallSignature where
   scalars := [("M",.integer), ("N",.integer), ("K",.integer), ("stride_am",.integer), ("stride_ak",.integer), ("stride_bk",.integer), ("stride_bn",.integer), ("stride_cm",.integer), ("stride_cn",.integer), ("stride_bsk",.integer), ("stride_bsn",.integer), ("stride_bzpk",.integer), ("stride_bzpn",.integer), ("group_size",.integer)]
   constexpr := ["BLOCK_SIZE_M", "BLOCK_SIZE_N", "BLOCK_SIZE_K", "GROUP_SIZE_M", "SPLIT_K"]
 
-def sourceBody (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
+def sourceKernel (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       stride_bsk stride_bsn stride_bzpk stride_bzpn group_size
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
@@ -95,7 +95,7 @@ def sourceBody (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
         tl.atomic_add(c_ptrs, c, mask=c_mask)
   }
 
-def candidateBody (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
+def candidateKernel (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
       stride_bsk stride_bsn stride_bzpk stride_bzpn group_size
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M SPLIT_K : Nat) : ComputeKernel :=
@@ -168,14 +168,14 @@ def candidateBody (a_ptr b_ptr c_ptr bs_ptr bzp_ptr : RegionName)
   }
 
 def kernel (p : Parameters) : ComputeKernel :=
-  sourceBody p.input p.weight p.output p.scale p.zero
+  sourceKernel p.input p.weight p.output p.scale p.zero
     p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.weightInnerStride
     p.weightColumnStride p.outputRowStride p.outputColumnStride p.scaleGroupStride
     p.scaleColumnStride p.zeroGroupStride p.zeroColumnStride p.groupSize
     p.blockRows p.blockColumns p.blockInner p.groupRows p.splits
 
 def foldStrideKernel (p : Parameters) : ComputeKernel :=
-  candidateBody p.input p.weight p.output p.scale p.zero
+  candidateKernel p.input p.weight p.output p.scale p.zero
     p.rows p.columns p.inner p.inputRowStride p.inputInnerStride p.weightInnerStride
     p.weightColumnStride p.outputRowStride p.outputColumnStride p.scaleGroupStride
     p.scaleColumnStride p.zeroGroupStride p.zeroColumnStride p.groupSize

@@ -41,7 +41,7 @@ theorem outer_prefix_step (M : Algebra α) (count : Nat) (u : Unique)
     (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a)) :
     run M (outerPrefix count cols) s =
       some (s.setReg "a1" .int [2,2] (loaded count s a)) := by
-  all_goals simp [ComputeDType.eraseDType, Option.bind, outerPrefix, outer, source, kernel, originalKernel, quotedOriginal, ComputeKernel.surfaceBody,
+  all_goals simp [ComputeDType.eraseDType, Option.bind, outerPrefix, outer, source, kernel, originalKernel, quotedOriginalKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, natLt, natLe, numericLt,
     ha, loaded, ← min_def_lt]
   all_goals unfold FP.Structural.bop
@@ -57,7 +57,7 @@ theorem outer_suffix_step (M : Algebra α) (count : Nat) (u : Unique)
     (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a)) :
     run M (outerSuffix count cols) s =
       some (s.setReg "a_offsets" .int [2,2] (signedOffsets (bump a 2))) := by
-  all_goals simp [ComputeDType.eraseDType, Option.bind, outerSuffix, outer, source, kernel, originalKernel, quotedOriginal, ComputeKernel.surfaceBody,
+  all_goals simp [ComputeDType.eraseDType, Option.bind, outerSuffix, outer, source, kernel, originalKernel, quotedOriginalKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, natLt, natLe, numericLt, ha, bump, signedOffsets]
   all_goals unfold FP.Structural.bop
   all_goals simp [ComputeDType.eraseDType, Option.bind, Broadcast.leftIndex, Broadcast.rightIndex, ha, bump, signedOffsets]

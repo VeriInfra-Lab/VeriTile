@@ -24,7 +24,7 @@ structure Bounds (cfg : Parameters) (s : RegisterState (Node α)) (bounds : Regi
 theorem prelude_safe (o : Ops α) (rest : Algebra α) (cfg : Parameters)
     (s : RegisterState (Node α)) (bounds : RegionName → Nat) :
     traceSafeList (engine o rest) bounds (prelude cfg) s := by
-  simp (config:={maxSteps:=500000}) [prelude,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
+  simp (config:={maxSteps:=500000}) [prelude,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -37,7 +37,7 @@ theorem body_safe (o : Ops α) (rest : Algebra α) (cfg : Parameters)
     (bounds : RegionName → Nat) (inside : Bounds cfg initial bounds) (live : k<steps cfg) :
     traceSafeList (engine o rest) bounds (body cfg)
       (current.setReg "k" .nat [] (fun _=>k)) := by
-  simp (config:={maxSteps:=500000}) [body,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
+  simp (config:={maxSteps:=500000}) [body,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -79,7 +79,7 @@ theorem epilogue_safe (o : Ops α) (rest : Algebra α) (cfg : Parameters)
     traceSafeList (engine o rest) bounds (epilogue cfg) current := by
   by_cases split : cfg.splits=1
   all_goals
-    simp (config:={maxSteps:=500000}) [epilogue,kernel,KernelSource.sourceBody,ComputeKernel.surfaceBody,
+    simp (config:={maxSteps:=500000}) [epilogue,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,

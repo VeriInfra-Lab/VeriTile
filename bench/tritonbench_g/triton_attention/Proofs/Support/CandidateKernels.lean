@@ -6,6 +6,6 @@ noncomputable section
 
 /-- Existing shifted address candidate, on its original 128-row launch. -/
 def preprocessKernel (c : Shape) : ComputeKernel :=
-  Source.preprocessShiftedTyped .fp32 .fp32 "Out" "DO" "L" "NewDO" "Delta" c.dim
+  Source.preprocessShiftedTypedKernel .fp32 .fp32 "Out" "DO" "L" "NewDO" "Delta" c.dim
 end
 end VeriTile.Bench.Repairs.TritonAttentionScalarABI.CandidateSource

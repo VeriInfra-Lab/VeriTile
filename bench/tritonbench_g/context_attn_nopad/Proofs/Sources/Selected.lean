@@ -8,14 +8,14 @@ def original (Q K V : RegionName) (sm_scale : ℝ)
       (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd
         stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od : Nat)
       (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
-  Bodies.originalBody .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od BLOCK_M BLOCK_DMODEL BLOCK_N
+  originalKernel .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od BLOCK_M BLOCK_DMODEL BLOCK_N
 
 def scaleFirst (Q K V : RegionName) (sm_scale : ℝ)
       (B_Start_Loc B_Seqlen Out : RegionName)
       (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd
         stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od : Nat)
       (BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
-  Bodies.scaleFirstBody .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od BLOCK_M BLOCK_DMODEL BLOCK_N
+  scaleFirstKernel .fp32 Q K V sm_scale B_Start_Loc B_Seqlen Out stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od BLOCK_M BLOCK_DMODEL BLOCK_N
 
 end
 end VeriTile.Bench.Repairs.ContextAttnNopad.SelectedSource

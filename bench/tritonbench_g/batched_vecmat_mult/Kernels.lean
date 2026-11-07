@@ -17,7 +17,7 @@ def callSignature (storage : FloatDType) : CallSignature where
   readPorts := ["A","B"]
   writePorts := ["output"]
 
-def kernel (A B output : RegionName)
+def sourceKernel (A B output : RegionName)
     (dim_m dim_n dim_k BLOCK_M BLOCK_N BLOCK_K : Nat) : ComputeKernel :=
   let block_m := BLOCK_M
   let block_n := BLOCK_N
@@ -82,7 +82,7 @@ def blockFirstKernel (A B output : RegionName)
   }
 
 def source (p : Parameters) : ComputeKernel :=
-  kernel p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
+  sourceKernel p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
 
 def blockFirst (p : Parameters) : ComputeKernel :=
   blockFirstKernel p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK

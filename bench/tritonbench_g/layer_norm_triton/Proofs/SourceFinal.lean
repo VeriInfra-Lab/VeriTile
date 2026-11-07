@@ -14,7 +14,7 @@ set_option linter.unusedSimpArgs false
   rw [State.masked_scatter_eq_filter,State.scatter_regs]
 
 def code (M N BM BN : Nat) : List ComputeStmt :=
-  (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN).surfaceBody
+  (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN).surfaceBody
 def prelude (M N BM BN : Nat) := (code M N BM BN).take 6
 def body (M N BM BN : Nat) : List ComputeStmt :=
   match (code M N BM BN).drop 6 with
@@ -34,7 +34,7 @@ def Ready (BM BN : Nat) (s : State α) : Prop :=
 
 theorem prelude_success [Inhabited α] (m : Model α) (M N BM BN : Nat) (s : State α) :
     ∃ t,run (engine m) (prelude M N BM BN) s=some t ∧ Ready BM BN t := by
-  simp [prelude,code,TypedSource.finalBackward,Bodies.finalBackward,ComputeKernel.surfaceBody,
+  simp [prelude,code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Ready,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -45,7 +45,7 @@ theorem body_success [Inhabited α] (m : Model α) (M N BM BN : Nat) (i : Int)
     (s : State α) (h : Ready BM BN s) :
     ∃ t,run (engine m) (body M N BM BN) (s.setReg "i" .int [] (fun _ => i))=some t ∧ Ready BM BN t := by
   obtain ⟨⟨pid,hpid⟩,⟨cols,hcols⟩,⟨dw,hdw⟩,⟨db,hdb⟩⟩ := h
-  simp [body,code,TypedSource.finalBackward,Bodies.finalBackward,ComputeKernel.surfaceBody,
+  simp [body,code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Ready,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -71,7 +71,7 @@ theorem suffix_success [Inhabited α] (m : Model α) (M N BM BN : Nat)
     (s : State α) (h : Ready BM BN s) :
     ∃ t,run (engine m) (suffix M N BM BN) s=some t := by
   obtain ⟨⟨pid,hpid⟩,⟨cols,hcols⟩,⟨dw,hdw⟩,⟨db,hdb⟩⟩ := h
-  simp [suffix,code,TypedSource.finalBackward,Bodies.finalBackward,ComputeKernel.surfaceBody,
+  simp [suffix,code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
@@ -80,7 +80,7 @@ theorem suffix_success [Inhabited α] (m : Model α) (M N BM BN : Nat)
 
 theorem source_executes [Inhabited α] (m : Model α) (M N BM BN : Nat) (s : State α) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t := by
+      (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t := by
   obtain ⟨a,ha,hready⟩ := prelude_success m M N BM BN s
   obtain ⟨b,hb,hbready⟩ := range_success (engine m) "i" 0 M BM (body M N BM BN)
     (Ready BM BN) (body_success m M N BM BN) a hready

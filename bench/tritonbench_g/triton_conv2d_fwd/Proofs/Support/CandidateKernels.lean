@@ -16,7 +16,7 @@ def typed (dtype : FloatDType)
     (_fp16 _tf32 : Bool)
     (BLOCK_SIZE_BATCH_HEIGHT_WIDTH BLOCK_SIZE_IN_FEAT BLOCK_SIZE_OUT_FEAT : Nat) :
     ComputeKernel :=
-  Pasted.candidateBody dtype Input Weight Output
+  Pasted.candidateKernel dtype Input Weight Output
     (batch_dim := batch_dim) (in_feat_dim := in_feat_dim) (in_height := in_height)
     (in_width := in_width) (out_feat_dim := out_feat_dim) (out_height := out_height)
     (out_width := out_width) (input_batch_stride := input_batch_stride) (input_in_feat_stride := input_in_feat_stride)
@@ -56,7 +56,7 @@ def typed (dtype : FloatDType)
     (_tf32 : Bool)
     (BLOCK_SIZE_BATCH_HEIGHT_WIDTH BLOCK_SIZE_IN_FEAT BLOCK_SIZE_OUT_FEAT : Nat) :
     ComputeKernel :=
-  Pasted.candidateBody dtype Input Weight Output
+  Pasted.candidateKernel dtype Input Weight Output
     (batch_dim := batch_dim) (in_feat_dim := in_feat_dim) (in_height := in_height)
     (in_width := in_width) (out_feat_dim := out_feat_dim) (out_height := out_height)
     (out_width := out_width) (input_batch_stride := input_batch_stride) (input_in_feat_stride := input_in_feat_stride)

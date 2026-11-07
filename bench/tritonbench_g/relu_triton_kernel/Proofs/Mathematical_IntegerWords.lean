@@ -143,7 +143,7 @@ theorem scalar_refines {α : Type} [Inhabited α] (M : Algebra α)
     Cell.read, wordValue]
   all_goals rfl
 
-#specNonCircular wordValue avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runPrefix,runGrid,FP.Structural.exec]
+#specNonCircular wordValue avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.sourceKernel,runPrefix,runGrid,FP.Structural.exec]
 #axiomsClean signed_extension_value
 #axiomsClean decoded_signed_bounds
 #axiomsClean decoded_unsigned_bound

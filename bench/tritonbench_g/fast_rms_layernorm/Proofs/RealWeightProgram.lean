@@ -19,7 +19,7 @@ def tailCode (h : Call) (K : Nat) := (source h K).body.drop 4
 theorem source_body (h : Call) (K : Nat) :
     (source h K).body=prefixCode h K++
       [.forRangeInt "row" (.constInt 0) (.castNatToInt (.constNat h.rows)) (.constNat 1) (loopBody h K)]++tailCode h K := by
-  simp [prefixCode,loopBody,tailCode,source,Kernels.weightBackward,Kernels.runtimeWeightSource,Kernels.runtimeWeightSource,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  simp [prefixCode,loopBody,tailCode,source,Kernels.weightBackward,Kernels.runtimeWeightKernel,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,

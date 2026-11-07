@@ -19,7 +19,7 @@ theorem source (p : Parameters) (BD : Nat) : code p BD=epilogue 128 BD p.headDim
   by_cases hd : p.stage=2
   all_goals simp only [code,ActualSource.project,TypedExecution.tail,TypedExecution.parts,
     TypedExecution.code,TypedExecution.source,ActualSource.config,
-    TypedSource.repaired,Bodies.originalBody,hd,decide_true,decide_false,
+    TypedSource.repaired,originalKernel,hd,decide_true,decide_false,
     Bool.false_eq_true,Bool.true_eq,↓reduceIte,ComputeKernel.surfaceBody]
   all_goals simp [Source.intRange?,TypedExecution.workName]
   all_goals dsimp only [ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,

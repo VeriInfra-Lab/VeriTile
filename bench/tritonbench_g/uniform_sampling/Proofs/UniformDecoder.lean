@@ -26,7 +26,7 @@ theorem sign_fold (word : Random.Word) :
 /-- Source bitcast, sign fold, integer conversion and scale multiplication
 retain both rounding operations of the existing fixed software decoder. -/
 theorem decoder_eq (word : Random.Word) :
-    uniformDecoder.eval32 word = Random.uniform word := by
+    uniformDecoderSource.eval32 word = Random.uniform word := by
   dsimp only [UniformJitFunction.eval32]
   rw [sign_fold,scale_literal]
   rfl
@@ -38,7 +38,7 @@ theorem eval_decoder {shape : TileShape} (words : TileIndex shape → Random.Wor
     (s : State α) (operand : Op .nat shape)
     (h : FP.Structural.evalOp M p operand s = some (fun i => (words i).toNat)) :
     FP.Structural.evalOp M p (.uniform32 operand) s =
-      some (fun i => M.fp32Bits ⟨(uniformDecoder.eval32 (words i)).bits⟩) := by
+      some (fun i => M.fp32Bits ⟨(uniformDecoderSource.eval32 (words i)).bits⟩) := by
   simp only [decoder_eq]
   exact TypedRandom.eval_uniform words M p s operand h
 

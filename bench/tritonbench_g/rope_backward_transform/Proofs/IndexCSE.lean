@@ -12,12 +12,12 @@ set_option maxSynthPendingDepth 3000
 set_option linter.unusedSimpArgs false
 
 def original (p : Source.Parameters) : ComputeKernel :=
-  Kernels.source .fp32 .fp32 p.q p.k p.cos p.sin
+  Kernels.sourceKernel .fp32 .fp32 p.q p.k p.cos p.sin
     p.qStride p.kStride p.cosStride p.sinStride p.cosColStride p.sinColStride p.length 0
     p.qHeads p.kHeads p.headDim p.paddedQHeads p.paddedKHeads p.paddedHeadDim 0 p.backward
 
 def candidate (p : Source.Parameters) : ComputeKernel :=
-  Kernels.indexShared .fp32 .fp32 p.q p.k p.cos p.sin
+  Kernels.indexSharedKernel .fp32 .fp32 p.q p.k p.cos p.sin
     p.qStride p.kStride p.cosStride p.sinStride p.cosColStride p.sinColStride p.length 0
     p.qHeads p.kHeads p.headDim p.paddedQHeads p.paddedKHeads p.paddedHeadDim 0 p.backward
 
@@ -39,7 +39,7 @@ theorem prefix_execution {α : Type} [Inhabited α] (M : Algebra α)
   rcases p with ⟨q,k,c,sn,qs,ks,cs,ss,cc,sc,len,nq,nk,hd,pq,pk,ph,back⟩
   cases back
   all_goals
-    simp [sourcePrefix,candidatePrefix,original,candidate,Kernels.source,Kernels.indexShared,
+    simp [sourcePrefix,candidatePrefix,original,candidate,Kernels.sourceKernel,Kernels.indexSharedKernel,
       ComputeKernel.surfaceBody,List.take,
       FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
       FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
@@ -57,7 +57,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases back
   all_goals
     simp (config := { maxSteps := 200000 }) [sourcePrefix,candidatePrefix,
-      original,candidate,Kernels.source,Kernels.indexShared,ComputeKernel.surfaceBody,List.take,
+      original,candidate,Kernels.sourceKernel,Kernels.indexSharedKernel,ComputeKernel.surfaceBody,List.take,
       Safety.traceSafeList_cons,Safety.traceSafeList_nil,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

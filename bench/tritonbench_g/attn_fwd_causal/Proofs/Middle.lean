@@ -28,7 +28,7 @@ def middleExec (M : Algebra α) (dot : Dot α) (p : Parameters)
   simp [workName] at h_length h_startM h_firstLo h_firstHi h_rows h_cols h_query h_scale h_keyPointer h_valuePointer h_scalePointer h_maximum h_normalizer h_value
   refine ⟨?_,?_⟩
   swap
-  simp [middle,parts,kernel,TypedSource.repaired,
+  simp [middle,parts,kernel,TypedSource.repairedKernel,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

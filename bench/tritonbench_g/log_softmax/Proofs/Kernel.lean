@@ -149,24 +149,24 @@ def stores [Inhabited A] (O : RegionName) (M N K BM C : Nat)
 arbitrary FP32 words, casts, special-value policies and unchanged reducers. -/
 theorem forward_total [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s : State A) (hc : 0<C) :
-    ∃ final,FP.Structural.exec algebra (Source.forward O X M N K BM C) s=some final := by
-  simp (config := { unfoldPartialApp := Bool.true }) [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    ∃ final,FP.Structural.exec algebra (Source.forwardKernel O X M N K BM C) s=some final := by
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.forwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,hc,Nat.ne_of_gt hc,
     State.setReg]
 
 theorem backward_total [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (M N K BM C : Nat) (s : State A) :
-    ∃ final,FP.Structural.exec algebra (Source.backward Y G O M N K BM C) s=some final := by
-  simp (config := { unfoldPartialApp := Bool.true }) [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    ∃ final,FP.Structural.exec algebra (Source.backwardKernel Y G O M N K BM C) s=some final := by
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.backwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg]
 
 theorem forward_exec [Inhabited A] (e : Engine A C) (O X : RegionName)
     (M N K BM : Nat) (s : State A) (hc : 0<C) :
-    ∃ final,FP.Structural.exec e.algebra (Source.forward O X M N K BM C) s=some final ∧
+    ∃ final,FP.Structural.exec e.algebra (Source.forwardKernel O X M N K BM C) s=some final ∧
       final.mem=(stores O M N K BM C s (forwardValue e X M N K BM s)).mem := by
-  simp (config := { unfoldPartialApp := Bool.true }) [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.forwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,reduceWith,extend,
     active,address,signedClamp,loaded,forwardValue,stores,TileShape.axisDim,TileShape.insertAxisIndex,
@@ -178,9 +178,9 @@ theorem forward_exec [Inhabited A] (e : Engine A C) (O X : RegionName)
 
 theorem backward_exec [Inhabited A] (e : Engine A C) (Y G O : RegionName)
     (M N K BM : Nat) (s : State A) :
-    ∃ final,FP.Structural.exec e.algebra (Source.backward Y G O M N K BM C) s=some final ∧
+    ∃ final,FP.Structural.exec e.algebra (Source.backwardKernel Y G O M N K BM C) s=some final ∧
       final.mem=(stores O M N K BM C s (backwardValue e Y G M N K BM s)).mem := by
-  simp (config := { unfoldPartialApp := Bool.true }) [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.backwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,reduceWith,extend,
     active,address,signedClamp,loaded,backwardValue,stores,TileShape.axisDim,TileShape.insertAxisIndex,
@@ -193,10 +193,10 @@ theorem backward_exec [Inhabited A] (e : Engine A C) (Y G O : RegionName)
 /-- Exterior memory is preserved for arbitrary source floating semantics. -/
 theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s final : State A) (hc : 0<C)
-    (ran : FP.Structural.exec algebra (Source.forward O X M N K BM C) s=some final)
+    (ran : FP.Structural.exec algebra (Source.forwardKernel O X M N K BM C) s=some final)
     (r : RegionName) (o : Nat) (outside : r≠O ∨ M*N*K≤o) :
     final.mem r o=s.mem r o := by
-  simp (config := { unfoldPartialApp := Bool.true }) [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.forwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg,hc,Nat.ne_of_gt hc,and_assoc] at ran
   subst final
@@ -221,10 +221,10 @@ theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
 /-- Exterior memory is preserved for arbitrary source floating semantics. -/
 theorem backward_frame [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (M N K BM C : Nat) (s final : State A)
-    (ran : FP.Structural.exec algebra (Source.backward Y G O M N K BM C) s=some final)
+    (ran : FP.Structural.exec algebra (Source.backwardKernel Y G O M N K BM C) s=some final)
     (r : RegionName) (o : Nat) (outside : r≠O ∨ M*N*K≤o) :
     final.mem r o=s.mem r o := by
-  simp (config := { unfoldPartialApp := Bool.true }) [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.backwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg,and_assoc] at ran
   subst final

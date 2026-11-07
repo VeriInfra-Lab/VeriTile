@@ -15,7 +15,7 @@ def forwardSignature : CallSignature where
   scalars := [("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.forward
+def forwardPastedKernel
     (q k v o : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
     (BTL BTS BK BV DK DV : Nat) : ComputeKernel :=
@@ -109,8 +109,8 @@ def querySignature : CallSignature where
   scalars := [("i_bh",.integer),("i_c",.integer),("i_k",.integer),("i_v",.integer),("i_h",.integer),("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.query : ProcedureJitFunction :=
-  triton_rebinding_procedure querySignature (i_bh,i_c,i_k,i_v,i_h,k,v,«do»,dq,s_qk_h,s_qk_t,s_qk_d,s_vo_h,s_vo_t,s_vo_d,B,H,T,scale,BTL,BTS,BK,BV,DK,DV) constexpr_args [BTL,BTS,BK,BV,DK,DV] {
+def queryProcedureSource : ProcedureJitFunction :=
+  with_triton_params (i_bh,i_c,i_k,i_v,i_h,k,v,«do»,dq,s_qk_h,s_qk_t,s_qk_d,s_vo_h,s_vo_t,s_vo_d,B,H,T,scale,BTL,BTS,BK,BV,DK,DV) constexpr_args [BTL,BTS,BK,BV,DK,DV] rebinding_signature querySignature in triton {
     s_qk_h = tl.cast(s_qk_h, tl.int64)
     s_qk_t = tl.cast(s_qk_t, tl.int64)
     s_qk_d = tl.cast(s_qk_d, tl.int64)
@@ -185,8 +185,8 @@ def keyValueSignature : CallSignature where
   scalars := [("i_bh",.integer),("i_c",.integer),("i_k",.integer),("i_v",.integer),("i_h",.integer),("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.keyValue : ProcedureJitFunction :=
-  triton_rebinding_procedure keyValueSignature (i_bh,i_c,i_k,i_v,i_h,q,k,v,«do»,dk,dv,s_qk_h,s_qk_t,s_qk_d,s_vo_h,s_vo_t,s_vo_d,B,H,T,scale,BTL,BTS,BK,BV,DK,DV) constexpr_args [BTL,BTS,BK,BV,DK,DV] {
+def keyValueProcedureSource : ProcedureJitFunction :=
+  with_triton_params (i_bh,i_c,i_k,i_v,i_h,q,k,v,«do»,dk,dv,s_qk_h,s_qk_t,s_qk_d,s_vo_h,s_vo_t,s_vo_d,B,H,T,scale,BTL,BTS,BK,BV,DK,DV) constexpr_args [BTL,BTS,BK,BV,DK,DV] rebinding_signature keyValueSignature in triton {
     s_qk_h = tl.cast(s_qk_h, tl.int64)
     s_qk_t = tl.cast(s_qk_t, tl.int64)
     s_qk_d = tl.cast(s_qk_d, tl.int64)
@@ -267,12 +267,12 @@ def backwardSignature : CallSignature where
   scalars := [("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.backward
+def backwardPastedKernel
     (q k v «do» dq dk dv : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
     (BTL BTS BK BV DK DV : Nat) : ComputeKernel :=
   with_triton_call backwardSignature call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, s_vo_h := s_vo_h, s_vo_t := s_vo_t, s_vo_d := s_vo_d, B := B, H := H, T := T, scale := scale]
-    rebinding_jit_procedures [_parallel_retention_bwd_dq := Bodies.query, _parallel_retention_bwd_dkv := Bodies.keyValue] in triton {
+    rebinding_jit_procedures [_parallel_retention_bwd_dq := queryProcedureSource, _parallel_retention_bwd_dkv := keyValueProcedureSource] in triton {
     s_qk_h = tl.cast(s_qk_h, tl.int64)
     s_qk_t = tl.cast(s_qk_t, tl.int64)
     s_qk_d = tl.cast(s_qk_d, tl.int64)
@@ -305,7 +305,7 @@ def fusedForwardSignature : CallSignature where
   scalars := [("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.fusedForward
+def fusedForwardPastedKernel
     (q k v o : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
     (BTL BTS BK BV DK DV : Nat) : ComputeKernel :=
@@ -398,8 +398,8 @@ def fusedQuerySignature : CallSignature where
   scalars := [("i_bh",.integer),("i_c",.integer),("i_k",.integer),("i_v",.integer),("i_h",.integer),("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.fusedQuery : ProcedureJitFunction :=
-  triton_rebinding_procedure fusedQuerySignature (i_bh,i_c,i_k,i_v,i_h,k,v,«do»,dq,s_qk_h,s_qk_t,s_qk_d,s_vo_h,s_vo_t,s_vo_d,B,H,T,scale,BTL,BTS,BK,BV,DK,DV) constexpr_args [BTL,BTS,BK,BV,DK,DV] {
+def fusedQueryProcedureSource : ProcedureJitFunction :=
+  with_triton_params (i_bh,i_c,i_k,i_v,i_h,k,v,«do»,dq,s_qk_h,s_qk_t,s_qk_d,s_vo_h,s_vo_t,s_vo_d,B,H,T,scale,BTL,BTS,BK,BV,DK,DV) constexpr_args [BTL,BTS,BK,BV,DK,DV] rebinding_signature fusedQuerySignature in triton {
     s_qk_h = tl.cast(s_qk_h, tl.int64)
     s_qk_t = tl.cast(s_qk_t, tl.int64)
     s_qk_d = tl.cast(s_qk_d, tl.int64)
@@ -473,12 +473,12 @@ def fusedBackwardSignature : CallSignature where
   scalars := [("s_qk_h",.integer),("s_qk_t",.integer),("s_qk_d",.integer),("s_vo_h",.integer),("s_vo_t",.integer),("s_vo_d",.integer),("B",.integer),("H",.integer),("T",.integer),("scale",.fp32)]
   constexpr := ["BTL","BTS","BK","BV","DK","DV"]
 
-def Bodies.fusedBackward
+def fusedBackwardPastedKernel
     (q k v «do» dq dk dv : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d B H T : Nat) (scale : ℝ)
     (BTL BTS BK BV DK DV : Nat) : ComputeKernel :=
   with_triton_call fusedBackwardSignature call_args [s_qk_h := s_qk_h, s_qk_t := s_qk_t, s_qk_d := s_qk_d, s_vo_h := s_vo_h, s_vo_t := s_vo_t, s_vo_d := s_vo_d, B := B, H := H, T := T, scale := scale]
-    rebinding_jit_procedures [_parallel_retention_bwd_dq_fused := Bodies.fusedQuery, _parallel_retention_bwd_dkv := Bodies.keyValue] in triton {
+    rebinding_jit_procedures [_parallel_retention_bwd_dq_fused := fusedQueryProcedureSource, _parallel_retention_bwd_dkv := keyValueProcedureSource] in triton {
     s_qk_h = tl.cast(s_qk_h, tl.int64)
     s_qk_t = tl.cast(s_qk_t, tl.int64)
     s_qk_d = tl.cast(s_qk_d, tl.int64)
@@ -507,5 +507,5 @@ def Bodies.fusedBackward
   }
 
 end
-attribute [reducible] Bodies.forward Bodies.backward Bodies.fusedForward Bodies.fusedBackward
+attribute [reducible] forwardPastedKernel backwardPastedKernel fusedForwardPastedKernel fusedBackwardPastedKernel
 end VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel

@@ -69,7 +69,7 @@ theorem flatten_ok (B D : Nat) (p : Parameters) (candidate : Bool) :
   cases candidate
   all_goals
     simp only [RealProgram.program,RealPrefix.prelude_shape,RealPrefix.beforeKey,RealPrefix.afterKey,
-      RealProgram.postlude,RealProgram.rawAfter,TypedSource.original,TypedSource.originalBody,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
+      RealProgram.postlude,RealProgram.rawAfter,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,

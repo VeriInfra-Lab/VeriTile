@@ -13,7 +13,7 @@ def seeds (mode : Mode) (p : Parameters) := ((flagged mode p p.hasBias Bool.fals
 theorem front_split (mode : Mode) (p : Parameters) : front mode p=scalars p++seeds mode p := by
   cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
     cases hl : (p.inner%p.blockInner==0) <;>
-    simp only [front,scalars,seeds,frontCount,source,flagged,typed,Bodies.originalBody,
+    simp only [front,scalars,seeds,frontCount,source,flagged,typed,originalKernel,
       dtype,hb,hs,hl,Bool.false_eq_true,if_false,if_true] <;> rfl
 
 structure Offsets (p : Parameters) (s t : State α) : Prop where
@@ -38,7 +38,7 @@ structure Ready (p : Parameters) (s t : State α) (cur : Nat) (acc : Accumulator
 
 theorem scalars_run (M : Algebra α) (p : Parameters) (s : State α) :
     ∃ t, run M (scalars p) s=some t ∧ Offsets p s t := by
-  simp [scalars,flagged,source,typed,Bodies.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [scalars,flagged,source,typed,originalKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg]
   constructor <;> simp [State.setReg,KernelValues.row,KernelValues.col,gridRows,gridCols,width,groupIdx,groupSize,blockRow,blockCol]
@@ -49,7 +49,7 @@ theorem seeds_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters) (
     ∃ u, run (engine M D) (seeds mode p) t=some u ∧
       Ready p s u 0 (initial M mode p s) := by
   cases mode <;> cases hb : p.hasBias <;>
-    simp [seeds,flagged,source,typed,Bodies.originalBody,dtype,ComputeKernel.surfaceBody,run,step,
+    simp [seeds,flagged,source,typed,originalKernel,dtype,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
       numeric,bop,natLt,numericLt,Region.cast,ofFloat,toFloat,State.setReg,
       h.mem,h.pids,h.undef,h.rawm,h.rawn,h.offm,h.offn,h.offk,hb,

@@ -56,8 +56,8 @@ def preludeExecution (P : Source.Arithmetic α α) (p : Parameters) (s : State �
   simp only [← Int.dvd_iff_emod_eq_zero] at hn
   norm_num only at hn
   rw [prelude_raw]
-  simp [rawPrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalBody,
-    TypedSource.candidateBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [rawPrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,
+    TypedSource.candidateKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,ComputeDType.eraseDType,
     ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,Region.cast,Option.bind,
     integralFloorDiv,integralMod,backend,Broadcast.leftIndex,Broadcast.rightIndex,

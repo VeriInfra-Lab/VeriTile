@@ -35,7 +35,7 @@ private theorem prefix_tail (M : Algebra α) (D : DotPrimitive α) (c : ForwardC
     Safety.traceSafeList (withDot M D) bounds ((firstPrefix c).drop 8) s := by
   apply pure_list
   intro st hs t
-  simp only [firstPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,List.take,List.drop,
+  simp only [firstPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,List.take,List.drop,
     List.mem_cons,List.not_mem_nil,or_false] at hs
   rcases hs with rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
@@ -48,7 +48,7 @@ private theorem first_body_tail (M : Algebra α) (D : DotPrimitive α) (c : Forw
     Safety.traceSafeList (withDot M D) bounds ((firstBody c.BTL c.BTS c.BK c.BV).drop 2) s := by
   apply pure_list
   intro st hs t
-  simp [firstBody,forwardSource,Bodies.forward,ComputeKernel.surfaceBody] at hs
+  simp [firstBody,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals try simp only [safeBlockPtr2]
@@ -60,7 +60,7 @@ private theorem prefix_head (M : Algebra α) (D : DotPrimitive α) (c : ForwardC
     Safety.traceSafeList (withDot M D) bounds ((firstPrefix c).take 7) s := by
   apply pure_list
   intro st hs t
-  simp [firstPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody] at hs
+  simp [firstPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals try simp only [safeBlockPtr2]
@@ -73,7 +73,7 @@ private theorem prefix_pointer (M : Algebra α) (D : DotPrimitive α) (c : Forwa
     t.regs .blockPtr [c.BTL,c.BK] "p_q" = some (fun _=>
       BlockPtr.mk c.q (s.pids 2*c.s_qk_h) [c.T,c.K] [c.BTL,c.BK] [c.s_qk_t,c.s_qk_d]
         [queryChunk c s,keyChunk c s]) := by
-  simp [firstPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,run,step,
+  simp [firstPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,evalOffsets,Option.bind,
     ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,
     TileShape.indexToList,ofFloat,toFloat] at ran
@@ -89,7 +89,7 @@ theorem forward_prefix (M : Algebra α) (D : DotPrimitive α) (c : ForwardConfig
   intro t ht
   have hp:=prefix_pointer M D c s t ht
   apply Safety.traceSafeList_cons_intro
-  · simp [firstPrefix,forwardKernel,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,
+  · simp [firstPrefix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.addressSafe,Safety.maskActive,evalOp_unfold,boundaryZero,hp,
       TileShape.indexToList,BlockPtr.address_2d_offsets,BlockPtr.inBounds_2d_offsets]
@@ -106,7 +106,7 @@ theorem forward_first_body (M : Algebra α) (D : DotPrimitive α) (c : ForwardCo
     Safety.traceSafeList (withDot M D) bounds (firstBody c.BTL c.BTS c.BK c.BV) t := by
   rw [←List.take_append_drop 2 (firstBody c.BTL c.BTS c.BK c.BV),Safety.traceSafeList_append]
   refine ⟨?_,fun u _=>first_body_tail M D c bounds u⟩
-  simp [firstBody,forwardSource,Bodies.forward,ComputeKernel.surfaceBody,
+  simp [firstBody,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,Option.bind,

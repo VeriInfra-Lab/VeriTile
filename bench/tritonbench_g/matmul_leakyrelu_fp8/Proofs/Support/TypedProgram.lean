@@ -57,7 +57,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α
   cases he : p.enabled <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [epilogue,source,TypedSource.kernel,Pasted.originalBody,ComputeKernel.surfaceBody,run,step,evalExpr,
+     simp [epilogue,source,TypedSource.kernel,Pasted.originalKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
        evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericLt,numericEq,numericLe,
        ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,
        FloatDType.toTileDType,Region.cast,Option.bind,integralFloorDiv,integralMod,

@@ -67,7 +67,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerMo
       all_goals
         refine ⟨?_,?_⟩
         swap
-        simp [epilogue,source,TypedSource.kernel,TypedSource.sourceBody,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
+        simp [epilogue,source,TypedSource.kernel,TypedSource.sourceKernel,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
           FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
           numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
           FloatDType.numericDType,FloatDType.toTileDType,VeriTile.Triton.Region.cast,

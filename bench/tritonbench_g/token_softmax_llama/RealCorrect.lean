@@ -22,7 +22,7 @@ specification token_softmax_grid_real (p : Parameters) (positive : 0<p.width)
     Spec.Real (PublicIO.logicalRealIO p work ⊨{PublicIO.logicalDomain p work} segmentSoftmax p work) := by
   exact (PublicIO.logical_iff p work).2 (PublicIO.real p positive separate work)
 
-#specNonCircular realRow avoiding [source,Grid.run,outputValues,FP.Structural.exec]
+#specNonCircular realRow avoiding [sourceKernel,Grid.run,outputValues,FP.Structural.exec]
 #axiomsClean token_softmax_grid_real
 #stmtSurfaceSubset token_softmax_grid_real ⊆
   [Spec.Real,LogicalProgramIO.ImplementsOn,PublicIO.logicalRealIO,PublicIO.logicalDomain,segmentSoftmax,

@@ -17,7 +17,7 @@ def prefixExecution {α : Type} [Inhabited α] (M : Algebra α)
   refine ⟨?_, ?_⟩
   swap
   rw [prelude_half]
-  simp [prelude, source, Source.kernel, Source.half, Bodies.halfBody,
+  simp [prelude, source, Source.kernel, Source.half, halfKernel,
       ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp,
       evalOp_unfold, evalOffsets, evalDeltas, numeric, bop, natLt, numericLt,
       ComputeDType.eraseDType, ofFloat, toFloat, Region.cast, Option.bind,

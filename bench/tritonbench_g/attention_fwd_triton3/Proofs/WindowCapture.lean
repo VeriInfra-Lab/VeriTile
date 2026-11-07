@@ -35,7 +35,7 @@ theorem capture (c : Call) (o : Ops α) (initialState s : State α)
       Captured c o (inputs initialState) t ∧ t.mem=initialState.mem := by
   rcases live with ⟨⟨h0,h1,h2,h3,h4,h5,h6,hscale⟩,h7,h8,h9,h10,h11⟩
   simp (config := {maxSteps := 250000}) [parts,Kernels.source,Quoted.kernel,
-    DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,Bodies.kernel,
+    DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,sourceKernel,
     ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
     ComputeKernel.surfaceBody,Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,

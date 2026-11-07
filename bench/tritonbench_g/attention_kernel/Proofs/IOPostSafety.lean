@@ -20,7 +20,7 @@ theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters)
   rcases p with ⟨storage,Q,K,V,Bias,Out,q,k,v,bias,o,batches,heads,length,dim,bm,bn,scale⟩
   cases storage
   all_goals
-    simp only [parts,partsAs,kernelAs,TypedSource.repaired,TypedSource.FP16.repaired,TypedSource.originalBody,TypedSource.queryEarlyBody,TypedSource.Storage.float,TypedSource.BF16.repaired,
+    simp only [parts,partsAs,kernelAs,TypedSource.repaired,TypedSource.FP16.repaired,TypedSource.originalKernel,TypedSource.queryEarlyKernel,TypedSource.Storage.float,TypedSource.BF16.repaired,
       ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
       String.reduceEq,beq_self_eq_true,↓reduceIte]
     simp only [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold]

@@ -8,7 +8,7 @@ theorem configurations_positive (c : Config) (hc : c ∈ configurations) :
   rcases hc with rfl | rfl | rfl | rfl | rfl <;> decide
 
 theorem source_projects (h : Call) (c : Config) :
-    (source h c).toAlgorithm? = .ok (source h c).toAlgKernel := by
+    (sourceKernel h c).toAlgorithm? = .ok (sourceKernel h c).toAlgKernel := by
   cases ha : h.inputDType <;> cases hb : h.outputDType <;> rfl
 
 #axiomsClean source_projects

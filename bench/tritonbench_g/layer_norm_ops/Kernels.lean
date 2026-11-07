@@ -19,7 +19,7 @@ def backwardCallSignature (dtype : FloatDType) : CallSignature where
   scalars := [("stride_x_row",.integer), ("stride_y_row",.integer), ("stride_dy_row",.integer), ("stride_dx_row",.integer), ("stride_dres_row",.integer), ("stride_dres_in_row",.integer), ("stride_mean",.integer), ("stride_rstd",.integer), ("M",.integer), ("N",.integer), ("eps",.fp32), ("rows_per_program",.integer)]
   constexpr := ["IS_RMS_NORM", "BLOCK_N", "HAS_DRESIDUAL", "STORE_DRESIDUAL", "HAS_BIAS", "RECOMPUTE_OUTPUT"]
 
-def forwardSource (dtype : FloatDType)
+def forwardSourcePastedKernel (dtype : FloatDType)
     (X Y W B RESIDUAL RESIDUAL_OUT Mean Rstd : RegionName)
     (stride_x_row stride_y_row stride_res_row stride_res_out_row
       N BLOCK_N : Nat)
@@ -60,7 +60,7 @@ def forwardSource (dtype : FloatDType)
     tl.store(Y + cols, y, mask=mask)
   }
 
-def backwardSource (dtype : FloatDType)
+def backwardSourcePastedKernel (dtype : FloatDType)
     (X W B Y DY DX DW DB DRESIDUAL DRESIDUAL_IN Mean Rstd : RegionName)
     (stride_x_row stride_y_row stride_dy_row stride_dx_row stride_dres_row
       stride_dres_in_row stride_mean stride_rstd M N rows_per_program BLOCK_N : Nat)
@@ -132,7 +132,7 @@ def backwardSource (dtype : FloatDType)
         tl.store(DB + row_block_id * N + cols, db, mask=mask)
   }
 
-def forwardMaskReusedSource (dtype : FloatDType)
+def forwardMaskReusedSourcePastedKernel (dtype : FloatDType)
     (X Y W B RESIDUAL RESIDUAL_OUT Mean Rstd : RegionName)
     (stride_x_row stride_y_row stride_res_row stride_res_out_row
       N BLOCK_N : Nat)
@@ -173,7 +173,7 @@ def forwardMaskReusedSource (dtype : FloatDType)
     tl.store(Y + cols, y, mask=mask)
   }
 
-def backwardRowStartReusedSource (dtype : FloatDType)
+def backwardRowStartReusedSourcePastedKernel (dtype : FloatDType)
     (X W B Y DY DX DW DB DRESIDUAL DRESIDUAL_IN Mean Rstd : RegionName)
     (stride_x_row stride_y_row stride_dy_row stride_dx_row stride_dres_row
       stride_dres_in_row stride_mean stride_rstd M N rows_per_program BLOCK_N : Nat)
@@ -258,23 +258,23 @@ structure BackwardParameters where
   epsilon : ℝ
   (rms hasDres storeDres hasBias recompute : Bool)
 
-def forwardKernel (p : ForwardParameters) := forwardSource .fp32
+def forwardKernel (p : ForwardParameters) := forwardSourcePastedKernel .fp32
   p.x p.y p.weight p.bias p.residual p.residualOut p.mean p.rstd
   p.xStride p.yStride p.residualStride p.residualOutStride p.columns p.block p.epsilon
   p.rms p.hasResidual p.storeResidual p.hasBias
 
-def backwardKernel (p : BackwardParameters) := backwardSource .fp32
+def backwardKernel (p : BackwardParameters) := backwardSourcePastedKernel .fp32
   p.x p.weight p.bias p.y p.dy p.dx p.dw p.db p.dres p.dresIn p.mean p.rstd
   p.xStride p.yStride p.dyStride p.dxStride p.dresStride p.dresInStride
   p.meanStride p.rstdStride p.rows p.columns p.rowsPerProgram p.block p.epsilon
   p.rms p.hasDres p.storeDres p.hasBias p.recompute
 
-def forwardMaskReusedKernel (p : ForwardParameters) := forwardMaskReusedSource .fp32
+def forwardMaskReusedKernel (p : ForwardParameters) := forwardMaskReusedSourcePastedKernel .fp32
   p.x p.y p.weight p.bias p.residual p.residualOut p.mean p.rstd
   p.xStride p.yStride p.residualStride p.residualOutStride p.columns p.block p.epsilon
   p.rms p.hasResidual p.storeResidual p.hasBias
 
-def backwardRowStartReusedKernel (p : BackwardParameters) := backwardRowStartReusedSource .fp32
+def backwardRowStartReusedKernel (p : BackwardParameters) := backwardRowStartReusedSourcePastedKernel .fp32
   p.x p.weight p.bias p.y p.dy p.dx p.dw p.db p.dres p.dresIn p.mean p.rstd
   p.xStride p.yStride p.dyStride p.dxStride p.dresStride p.dresInStride
   p.meanStride p.rstdStride p.rows p.columns p.rowsPerProgram p.block p.epsilon

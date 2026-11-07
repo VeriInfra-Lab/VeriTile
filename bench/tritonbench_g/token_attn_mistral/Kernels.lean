@@ -14,7 +14,7 @@ def callSignature (dtype : FloatDType) : CallSignature where
   readPorts := ["B_Seqlen", "B_Att_Start_Loc", "B_req_idx", "B_Att_Seqlen", "Prob", "Req_to_tokens", "V"]
   writePorts := ["Out"]
 
-def source (dtype : FloatDType) (Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen : RegionName)
+def sourceKernel (dtype : FloatDType) (Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen : RegionName)
     (stride_b_req_idx stride_b_seq_len stride_b_att_start stride_b_att_len stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od kv_group_num sliding_window BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [stride_b_req_idx := stride_b_req_idx, stride_b_seq_len := stride_b_seq_len, stride_b_att_start := stride_b_att_start, stride_b_att_len := stride_b_att_len, stride_req_to_tokens_b := stride_req_to_tokens_b, stride_req_to_tokens_s := stride_req_to_tokens_s, stride_ph := stride_ph, stride_pbs := stride_pbs, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, kv_group_num := kv_group_num, sliding_window := sliding_window] in triton {
     cur_batch = tl.program_id(0)
@@ -59,7 +59,7 @@ def source (dtype : FloatDType) (Prob V Out Req_to_tokens B_req_idx B_Start_Loc 
   }
 
 def kernel (p : Parameters) : ComputeKernel :=
-  source .fp32 p.prob p.value p.output p.tokens p.request p.unusedStart p.length p.start p.attentionLength
+  sourceKernel .fp32 p.prob p.value p.output p.tokens p.request p.unusedStart p.length p.start p.attentionLength
     p.requestStride p.sequenceStride p.attentionStartStride p.attentionLengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.window p.width p.block
 
 end VeriTile.Bench.Repairs.TokenAttnMistral
@@ -69,7 +69,7 @@ open VeriTile.Triton TokenAttnMistral
 
 abbrev kernel := TokenAttnMistral.kernel
 
-def affineSource (dtype : FloatDType) (Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen : RegionName)
+def affineSourcePastedKernel (dtype : FloatDType) (Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen : RegionName)
     (stride_b_req_idx stride_b_seq_len stride_b_att_start stride_b_att_len stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od kv_group_num sliding_window BLOCK_DMODEL BLOCK_N : Nat) : ComputeKernel :=
   with_triton_call (callSignature dtype) call_args [stride_b_req_idx := stride_b_req_idx, stride_b_seq_len := stride_b_seq_len, stride_b_att_start := stride_b_att_start, stride_b_att_len := stride_b_att_len, stride_req_to_tokens_b := stride_req_to_tokens_b, stride_req_to_tokens_s := stride_req_to_tokens_s, stride_ph := stride_ph, stride_pbs := stride_pbs, stride_vbs := stride_vbs, stride_vh := stride_vh, stride_vd := stride_vd, stride_obs := stride_obs, stride_oh := stride_oh, stride_od := stride_od, kv_group_num := kv_group_num, sliding_window := sliding_window] in triton {
     cur_batch = tl.program_id(0)
@@ -114,7 +114,7 @@ def affineSource (dtype : FloatDType) (Prob V Out Req_to_tokens B_req_idx B_Star
   }
 
 def affineKernel (p : Parameters) : ComputeKernel :=
-  affineSource .fp32 p.prob p.value p.output p.tokens p.request p.unusedStart p.length p.start p.attentionLength
+  affineSourcePastedKernel .fp32 p.prob p.value p.output p.tokens p.request p.unusedStart p.length p.start p.attentionLength
     p.requestStride p.sequenceStride p.attentionStartStride p.attentionLengthStride p.requestBatchStride p.requestTokenStride p.probHeadStride p.probTokenStride p.valueBatchStride p.valueHeadStride p.valueDimStride p.outputBatchStride p.outputHeadStride p.outputDimStride p.kvGroup p.window p.width p.block
 
 end VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked

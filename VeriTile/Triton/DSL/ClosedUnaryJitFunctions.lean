@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.StatementJitFunctions
 import VeriTile.Triton.DSL.ModuleMathConstants
 import VeriTile.Triton.DSL.BooleanCallControl
@@ -193,3 +194,20 @@ def elaborateInvocation : TermElab := fun stx expected=>do
   else ModuleMathConstants.elaborateInvocation base expected
 end DSL.ClosedUnaryJitFunctions
 end VeriTile.Triton
+
+namespace VeriTile.Triton.DSL.ClosedUnaryJitFunctions
+open Lean Elab Term Meta
+
+/-- Forward the common source block to this helper's established elaborator. -/
+@[term_elab SourceProcedures.sourceParams]
+def elaborateSourceParams : TermElab := fun stx expected => do
+  let some type := expected | throwUnsupportedSyntax
+  unless (← whnf type).isConstOf ``ClosedUnaryJitFunction do throwUnsupportedSyntax
+  let parameters := stx[2].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  let constants := stx[6].getSepArgs.map (⟨·⟩ : Syntax → Ident)
+  unless stx[8].getArgs.isEmpty do
+    throwError "symbolic FP32 constants require a SourceProcedure"
+  let body ← `(triton_function ($parameters,*) constexpr_args [$constants,*] {})
+  elaborateFunction (SourceSyntax.attachBody body.raw stx) expected
+
+end VeriTile.Triton.DSL.ClosedUnaryJitFunctions

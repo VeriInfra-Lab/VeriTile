@@ -18,7 +18,7 @@ theorem signed_prelude {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimi
       some (some (fun _ => (s.mem (Region.cast p.length) (s.pids 0*p.lengthStride)).read .int),
         some (fun _ => (s.mem (Region.cast p.start) (s.pids 0*p.startStride)).read .int),
         some (fun _ => (s.mem (Region.cast p.request) (s.pids 0*p.requestStride)).read .int)) := by
-  simp [prelude,kernel,source,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,kernel,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,bop,integralFloorDiv,
     withSum,Region.cast,State.setReg]
 

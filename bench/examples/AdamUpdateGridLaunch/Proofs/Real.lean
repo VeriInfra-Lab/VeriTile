@@ -637,7 +637,7 @@ theorem optional_add_comm (a b : Option ℝ) :
 theorem optimized_exec (lr wd beta1 beta2 : ℝ) (n B : Nat) (s : BlockState) :
     exec (optimizedKernel lr wd beta1 beta2 n B).toAlgKernel s =
       exec (update_fn_kernel "p" "grad" "exp_avg" lr wd beta1 beta2 n B).toAlgKernel s := by
-  simp [optimizedKernel, commuted_update, update_fn_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel, commuted_update_kernel, update_fn_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.cop, Tile.select, Tile.ptrAdd,
       NumericDType.add, NumericDType.mul, NumericDType.sub,
       ComparableDType.lt, ComparableDType.gt, ComparableDType.ne, add_comm, optional_add_comm]

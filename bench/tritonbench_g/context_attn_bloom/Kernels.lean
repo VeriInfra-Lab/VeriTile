@@ -4,7 +4,7 @@ import VeriTile.Triton.DSL.ExactIntegerFloatStrings
 
 /-! Complete pasted repaired Python bodies. Storage and call bindings stay
 outside the quotations; no casts, masks, branches or return are removed. -/
-namespace VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies
+namespace VeriTile.Bench.Repairs.ContextAttnBloomSource
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ContextAttnBloom
 noncomputable section
@@ -15,7 +15,7 @@ def signature (dtype : Storage) : CallSignature where
   readPorts := ["Q","K","V","B_Start_Loc","B_Seqlen","Req_to_tokens","B_req_idx","b_prompt_cache_len"]
   writePorts := ["Out"]
 
-def originalBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
+def originalKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num : Nat)
     (b_prompt_cache_len : RegionName)
@@ -73,7 +73,7 @@ def originalBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     return
   }
 
-def indexSharedBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
+def indexSharedKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num : Nat)
     (b_prompt_cache_len : RegionName)
@@ -131,7 +131,7 @@ def indexSharedBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     return
   }
 
-def scaleFirstBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
+def scaleFirstKernel (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
     (B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx : RegionName)
     (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num : Nat)
     (b_prompt_cache_len : RegionName)
@@ -190,4 +190,4 @@ def scaleFirstBody (dtype : Storage) (Q K V : RegionName) (sm_scale : ℝ)
   }
 
 end
-end VeriTile.Bench.Repairs.ContextAttnBloomSource.Bodies
+end VeriTile.Bench.Repairs.ContextAttnBloomSource

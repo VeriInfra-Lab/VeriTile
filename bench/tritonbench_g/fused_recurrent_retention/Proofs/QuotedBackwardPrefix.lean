@@ -16,7 +16,7 @@ theorem backward_prefix_values {α : Type} [Inhabited α] (a : Arithmetic α)
         (Program.backwardFirst (layout s b) backwardRegions seed final).before initial = some entry ∧
       BackwardFirstInvariant a s b initial seed (launch initial) 0 entry ∧ entry.mem=initial.mem := by
   cases seed <;>
-    simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardBody,
+    simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,
       ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
       natLt,integralFloorDiv,integralMod,Region.cast,hscale,BackwardFirstInvariant,layout,backwardRegions,

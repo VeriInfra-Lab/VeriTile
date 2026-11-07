@@ -16,8 +16,8 @@ specification kernel_correct (rest : Algebra ℝ) (p : Layout) (rowPid colPid : 
   logical_gather_correct rest p rowPid colPid unique
 
 #axiomsClean kernel_correct
-#specNonCircular LogicalIO.read avoiding [kernel, FP.Structural.exec]
-#specNonCircular copyValues avoiding [kernel, FP.Structural.exec]
+#specNonCircular LogicalIO.read avoiding [sourceKernel, FP.Structural.exec]
+#specNonCircular copyValues avoiding [sourceKernel, FP.Structural.exec]
 #stmtSurfaceSubset kernel_correct ⊆
   [Spec.Real, LogicalProgramIO.Implements, logicalGatherIO, LogicalIO.Unique,
    Layout, FP.Structural.Algebra, GatherValues, GatherValues.payload, Layout.BI, Layout.BC]

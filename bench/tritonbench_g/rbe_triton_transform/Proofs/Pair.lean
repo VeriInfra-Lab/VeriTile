@@ -13,7 +13,7 @@ set_option linter.unusedSimpArgs false
 theorem kernel_run {β : Type} [Inhabited β] (M : Algebra β)
     (p : Source.Parameters) (s : State β) :
     FP.Structural.exec M (maskReuse p) s = FP.Structural.exec M (source p) s := by
-  simp [source, typed, maskReuse, typedMaskReuse, FP.Structural.exec,
+  simp [source, typedKernel, maskReuse, typedMaskReuseKernel, FP.Structural.exec,
     ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
     FP.Structural.evalExpr, FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,
@@ -26,7 +26,7 @@ theorem kernel_run {β : Type} [Inhabited β] (M : Algebra β)
 theorem kernel_safe {β : Type} [Inhabited β] (M : Algebra β)
     (p : Source.Parameters) (bounds : RegionName → Nat) (s : State β) :
     TraceSafe M bounds (maskReuse p) s ↔ TraceSafe M bounds (source p) s := by
-  simp (maxSteps := 1800000) [TraceSafe, source, typed, maskReuse, typedMaskReuse,
+  simp (maxSteps := 1800000) [TraceSafe, source, typedKernel, maskReuse, typedMaskReuseKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

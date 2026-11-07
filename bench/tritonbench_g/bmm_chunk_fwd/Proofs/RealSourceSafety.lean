@@ -39,7 +39,7 @@ theorem cleanup_safe (p : Parameters) (pid : Cleanup.PID (parameters p))
   change Kernel.TraceSafe bounds (CleanupReal.kernel (parameters p)) (s.withGridIndex pid)
   unfold Kernel.TraceSafe
   rw [CleanupReal.kernel_body]
-  simp (config := {maxSteps := 300000}) [CleanupReal.code,CleanupReal.kernel,Kernels.clearUpper,Bodies.clearUpper,
+  simp (config := {maxSteps := 300000}) [CleanupReal.code,CleanupReal.kernel,Kernels.clearUpperKernel,clearUpperKernel,
     ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,
