@@ -23,9 +23,9 @@ class EquivalenceTacticTests(unittest.TestCase):
              "bench.tritonbench_g.attention_fwd_triton2.FPEquiv",
              "bench.tritonbench_g.attention_fwd_triton3.FPEquiv",
              "bench.tritonbench_g.attention_kernel.FPEquiv",
-             "bench.tritonbench_g.bgmv_expand_slice.Proofs.FP",
-             "bench.tritonbench_g.bgmv_shrink_kernel.Proofs.FP",
-             "bench.tritonbench_g.block_sparse_attn.Proofs.FP",
+             "bench.tritonbench_g.bgmv_expand_slice.FPEquiv",
+             "bench.tritonbench_g.bgmv_shrink_kernel.FPEquiv",
+             "bench.tritonbench_g.block_sparse_attn.FPEquiv",
              "VeriTile.Triton.Float.Integer"]
             + [f"bench.examples.{family}.FPEquiv" for family in FAMILIES],
             cwd=ROOT, capture_output=True, text=True, timeout=300,
@@ -46,6 +46,16 @@ class EquivalenceTacticTests(unittest.TestCase):
         result = self.lean((ROOT / "tests/lean/EquivTactics.lean").read_text())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertNotIn("warning:", result.stdout)
+
+    def test_previous_names_keep_options_hints_and_semantic_adapters(self):
+        for fixture in ("EquivTactics", "ProfiledRewriteTactics"):
+            with self.subTest(fixture=fixture):
+                source = (ROOT / f"tests/lean/{fixture}.lean").read_text()
+                source = source.replace("split_equiv", "equiv_decompose").replace(
+                    "solve_fp", "fp_prove")
+                result = self.lean(source)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertNotIn("warning:", result.stdout)
 
     def test_semantic_decomposition_and_reduction_boundaries(self):
         result = self.lean((ROOT / "tests/lean/ReductionTactics.lean").read_text())
@@ -231,7 +241,7 @@ open VeriTile
 open scoped VeriTile.Spec
 theorem example_decomposition (R : Spec.Assumptions Nat)
     (h : Spec.Derivation R [1] [2]) : [0, 1, 9] ≡[R] [0, 2, 9] := by
-  equiv_decompose
+  split_equiv
   exact h
 open Lean Elab Command in
 run_cmd do
@@ -254,10 +264,10 @@ example : ({ maxSteps := 5 } : UserOptions).maxSteps = 5 := by
         result = self.lean("""
 import VeriTile.Meta.FPProve
 example : VeriTile.Spec.Derivation ([] : VeriTile.Spec.Assumptions Nat) [1] [2] := by
-  fp_prove
+  solve_fp
 """)
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("fp_prove could not close this goal", result.stdout)
+        self.assertIn("solve_fp could not close this goal", result.stdout)
         self.assertIn("domain premise or structural lemma", result.stdout)
         self.assertNotIn("maximum number of heartbeats", result.stdout)
 

@@ -28,8 +28,8 @@ private def program (wide swap : Bool) : Program where
 
 theorem reduce_then_add (R : ScalarArithmetic.Rules) :
     program Bool.false Bool.false ≡[R] program Bool.false Bool.true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by reduce_then_add:
 ---
@@ -48,27 +48,27 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({program Bool.false Bool.false with domain := []} : Program) ≡[R]
         ({program Bool.false Bool.true with domain := []} : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- A check before the prefix inspects a different state.
   fail_if_success
     have : ({program Bool.false Bool.false with domain := [.addFP32 [] [2] sum carry]} : Program) ≡[R]
         ({program Bool.false Bool.true with domain := [.addFP32 [] [2] sum carry]} : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- An fp32 atom supplies no law for fp64 addition.
   fail_if_success
     have : program Bool.true Bool.false ≡[R] program Bool.true Bool.true := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- The selected strict fp32 model supplies commutativity independently of R.
 theorem reduce_then_add_without_experiments :
     program Bool.false Bool.false ≡[([] : Spec.Assumptions GuardedFragment)]
       program Bool.false Bool.true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -50,8 +50,8 @@ private def original : Program where
 private def scaleFirst : Program := { original with kernel := scaleFirstKernel }
 
 theorem broadcast_equiv (R : FP.ScalarArithmetic.Rules) : original ≡[R] scaleFirst := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 private def originalDefaultKernel (dtype out_dtype : FloatDType) : ComputeKernel :=
   let x : RegionName := "x"
@@ -92,8 +92,8 @@ private def scaleFirstDefault (dtype out_dtype : FloatDType) : Program :=
 
 theorem broadcast_default_equiv (dtype out_dtype : FloatDType) (R : FP.ScalarArithmetic.Rules) :
     originalDefault dtype out_dtype ≡[R] scaleFirstDefault dtype out_dtype := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 #print_fp_assumptions broadcast_default_equiv
 

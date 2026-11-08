@@ -40,7 +40,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
         (.mul .int .nil (.ref .int [] "pid_c") (.castNatToInt (.constNat h.shape.groups))))))
       (.assign .int [] "pid_h" (.alg (.sub .int .nil (.ref .int [] "pid_ch")
         (.mul .int .nil (.castNatToInt (.constNat h.shape.groups)) (.ref .int [] "pid_c")))))
-    fp_prove
+    solve_fp
   have tailEq : (Kernels.fp32Source h c).surfaceBody.drop 23=
       (Kernels.indexCommutedKernel h c).surfaceBody.drop 23 := rfl
   have old : Safety.traceSafeList (engine algebra) bounds

@@ -35,13 +35,13 @@ private def program (precision : ComputeDType) (optimized : Bool) (one : ℝ) : 
 -- integer and decimal spellings of the reciprocal numerator are supported.
 theorem rank_three_broadcast (R : ScalarArithmetic.Rules) :
     program .fp32 Bool.false 1 ≡[R] program .fp32 Bool.true 1 := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 theorem decimal_reciprocal (R : ScalarArithmetic.Rules) :
     program .fp32 Bool.false 1 ≡[R] program .fp32 Bool.true 1.0 := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by decimal_reciprocal:
 ---
@@ -58,33 +58,33 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program .fp32 Bool.false 1 with domain := [] } : Program) ≡[R]
         ({ program .fp32 Bool.true 1 with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- Checks made before the operands are assigned cannot stand in for the site.
   fail_if_success
     have : ({ program .fp32 Bool.false 1 with domain :=
           [.divBroadcast [] [2, 3, 4] 2 [1, 4] numerator denominator] } : Program) ≡[R]
         ({ program .fp32 Bool.true 1 with domain :=
           [.divBroadcast [] [2, 3, 4] 2 [1, 4] numerator denominator] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- A fp32 atom cannot authorize fp64 arithmetic or a different numerator.
   fail_if_success
     have : program .fp64 Bool.false 1 ≡[R] program .fp64 Bool.true 1 := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : program .fp32 Bool.false 1 ≡[R] program .fp32 Bool.true 2 := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 example : True := by
   fail_if_success
     have : program .fp32 Bool.false 1 ≡[([] : Spec.Assumptions GuardedFragment)]
         program .fp32 Bool.true 1 := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 end FPBroadcastRewriteTests

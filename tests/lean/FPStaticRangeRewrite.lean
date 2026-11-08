@@ -26,8 +26,8 @@ private def program (swapped : Bool) (start stop stride : Nat) : Program :=
 theorem static_range_with_insertions (R : FP.ScalarArithmetic.Rules)
     (start stop stride : Nat) :
     program false start stop stride ≡[R] program true start stop stride := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 private def nested (swapped : Bool) (outer inner : Nat) : Program where
   kernel := .mk [] [] [.forRange "j" 0 outer 1 (code swapped 0 inner 1)]
@@ -38,8 +38,8 @@ private def nested (swapped : Bool) (outer inner : Nat) : Program where
 
 theorem nested_static_ranges (R : FP.ScalarArithmetic.Rules) (outer inner : Nat) :
     nested false outer inner ≡[R] nested true outer inner := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 /-- A common inner loop before the changed statement stays in its guard. -/
 private def precedingLoop : ComputeStmt :=
@@ -51,8 +51,8 @@ private def afterInner (swapped : Bool) : Program where
 
 theorem static_rewrite_after_inner_loop (R : FP.ScalarArithmetic.Rules) :
     afterInner false ≡[R] afterInner true := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 /-- Occurrences count matching static and dynamic natural ranges together. -/
 theorem mixed_range_lookup :
@@ -67,29 +67,29 @@ example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program false 0 2 1 with domain := [] } : Program) ≡[R]
         ({ program true 0 2 1 with domain := [] } : Program) := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   fail_if_success
     have : ({ program false 0 2 1 with domain := [.add [] [] x one] } : Program) ≡[R]
         ({ program true 0 2 1 with domain := [.add [] [] x one] } : Program) := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   fail_if_success
     have : program false 0 2 1 ≡[R]
         ({ program true 0 3 1 with domain := sites 0 2 1 } : Program) := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   fail_if_success
     have : ({ afterInner false with domain := sites 0 2 1 } : Program) ≡[R]
         ({ afterInner true with domain := sites 0 2 1 } : Program) := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   trivial
 
 example : program false 0 2 1 ≡[([] : Spec.Assumptions FP.GuardedFragment)]
     program true 0 2 1 := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 /-- info: FP assumptions used by static_range_with_insertions:
 ---

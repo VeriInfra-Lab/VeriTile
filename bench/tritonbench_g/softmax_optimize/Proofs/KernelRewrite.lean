@@ -14,7 +14,7 @@ loop. The complete floating program remains in its original context. -/
 theorem equivalent (Y X : RegionName) (M N B : Nat) :
     program (sourceKernel Y X M N B) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       program (indexCommutedKernel Y X M N B) := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     (Y X : RegionName) (M N B : Nat) (s : FP.Structural.State A) :

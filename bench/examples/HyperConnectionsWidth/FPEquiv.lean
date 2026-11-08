@@ -43,8 +43,8 @@ def optimized (tau : ℝ) : Program :=
 /-- Both product commutations use the shared strict FP32 theorem. -/
 specification mhc_width_equiv (tau : ℝ) :
     original tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions mhc_width_equiv
 #guard_msgs (drop info) in
@@ -74,8 +74,8 @@ def matrixOptimizedProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewri
 The two matrix products retain their original operand order and backend. -/
 specification mhc_width_matrix_equiv (S T D numIters : Nat) (tau : ℝ) (R : Rules) :
     matrixOriginalProgram S T D numIters tau ≡[R] matrixOptimizedProgram S T D numIters tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions mhc_width_matrix_equiv
 #guard_msgs (drop info) in

@@ -33,8 +33,8 @@ def optimized (nElements blockSize : Nat) : Program :=
 including all registers and memory; failed surrounding executions also agree. -/
 specification vector_addition_equiv (nElements blockSize : Nat) :
     original nElements blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized nElements blockSize := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions vector_addition_equiv
 #guard_msgs (drop info) in

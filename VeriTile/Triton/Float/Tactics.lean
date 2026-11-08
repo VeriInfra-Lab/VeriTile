@@ -15,7 +15,7 @@ open VeriTile.Meta.EquivDecompose
 open Structural Equational
 
 initialize executionAttr : TagAttribute ←
-  registerTagAttribute `equiv_exec "A successful execution summary used by equiv_decompose's IO adapter."
+  registerTagAttribute `equiv_exec "A successful execution summary used by split_equiv's IO adapter."
 
 def executionFacts : MetaM (Array Expr) := do
   let env ← getEnv
@@ -81,7 +81,7 @@ def decomposeIO (goal : MVarId) : MetaM (List MVarId) := goal.withContext do
         let t ← instantiateMVars (← g.getType)
         if t.isAppOfArity ``ScalarRun 6 then
           unless ← execute g facts 8 do
-            throwTacticEx `equiv_decompose g
+            throwTacticEx `split_equiv g
               "No applicable @[equiv_exec] summary proves this successful run and memory frame."
       let mut results := []
       for g in pending do
@@ -101,7 +101,7 @@ def decomposeIO (goal : MVarId) : MetaM (List MVarId) := goal.withContext do
 -- This elaborator is optional: importing the generic tactic alone does not
 -- load an FP model. All other program views retain the original tactic.
 elab_rules : tactic
-  | `(tactic| equiv_decompose) => do
+  | `(tactic| split_equiv) => do
     let goal ← getMainGoal
     goal.withContext do
       let target ← whnf (← goal.getType)
@@ -203,7 +203,7 @@ partial def proveValues (goal : MVarId) (facts : Array Expr) (fuel : Nat) : Meta
     return false
 
 elab_rules : tactic
-  | `(tactic| fp_prove $[ (maxSteps := $steps:num)]? $[ [$hints:term,*]]?) => do
+  | `(tactic| solve_fp $[ (maxSteps := $steps:num)]? $[ [$hints:term,*]]?) => do
     let goal ← getMainGoal
     goal.withContext do
       unless (← whnf (← goal.getType)).isAppOfArity ``TermEq 4 do throwUnsupportedSyntax
@@ -218,7 +218,7 @@ elab_rules : tactic
         replaceMainGoal []
       else
         saved.restore
-        throwTacticEx `fp_prove goal
-          "fp_prove could not close this FP output relation. Reduction reordering requires the fp32 scalar addition rules and a checked permutation of all inputs; precision, casts and padding remain observable."
+        throwTacticEx `solve_fp goal
+          "solve_fp could not close this FP output relation. Reduction reordering requires the fp32 scalar addition rules and a checked permutation of all inputs; precision, casts and padding remain observable."
 
 end VeriTile.Triton.FP.Tactics

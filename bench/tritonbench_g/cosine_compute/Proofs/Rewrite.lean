@@ -25,7 +25,7 @@ theorem execution_eq {α : Type} [Inhabited α] (M : Algebra α) (n : Nat) (s : 
       (.mul .nat .nil (.programId 0) (.constNat blockSize)) (.arange blockSize))))
     (.assign .nat [blockSize] "offset" (.alg (.add .nat .scalarL
       (.mul .nat .nil (.constNat blockSize) (.programId 0)) (.arange blockSize))))
-  fp_prove
+  solve_fp
 
 #axiomsClean originalExecution
 #axiomsClean execution_eq

@@ -38,8 +38,8 @@ def optimized (tau : ℝ) : Program :=
 including all registers and memory; failed surrounding executions also agree. -/
 specification mhc_depth_equiv (tau : ℝ) :
     original tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions mhc_depth_equiv
 #guard_msgs (drop info) in
@@ -63,8 +63,8 @@ def matrixOptimizedProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewri
 /-- Contextual equivalence for every matrix dimension and iteration count. -/
 specification mhc_depth_matrix_equiv (S T D numIters : Nat) (tau : ℝ) :
     matrixOriginalProgram S T D numIters tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] matrixOptimizedProgram S T D numIters tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions mhc_depth_matrix_equiv
 #guard_msgs (drop info) in

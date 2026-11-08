@@ -47,7 +47,7 @@ theorem equivalent (p : Parameters) (r : RealHProgram.Regions)
     original p r dot gate history seed final ≡[R] candidate p r dot gate history seed final := by
   cases p with
   | mk layout base gateK hasSeed storeFinal swapped =>
-    cases gateK <;> equiv_decompose <;> fp_prove
+    cases gateK <;> split_equiv <;> solve_fp
 
 #print_fp_assumptions equivalent
 #axiomsClean domain_present
