@@ -31,7 +31,7 @@ def KernelCorrect (source : ComputeKernel) (n : Nat) (alpha : ℝ) : Prop :=
           i ≠ integerAddOffset before blockSize j) → final.mem r i = before.mem r i)
 
 theorem masked_add_kernel_correctness (storage : MaskStorage) (n : Nat) (alpha : ℝ) :
-    Spec.Real (KernelCorrect (kernel storage "grad" "data" "mask" n alpha) n alpha) := by
+    Spec.Real (KernelCorrect (sourceKernel storage "grad" "data" "mask" n alpha) n alpha) := by
   intro before grad data mask hg hp hm
   obtain ⟨final, he⟩ := integer_math_kernel_exec_isSome "grad" "data" "mask" n alpha blockSize before
   refine ⟨final, ?_, ?_, ?_⟩
@@ -62,7 +62,7 @@ theorem masked_add_commuted_correctness (storage : MaskStorage) (n : Nat) (alpha
 theorem masked_add_access_safe (storage : MaskStorage) (n : Nat) (alpha : ℝ)
     (before : BlockState) (bounds : RegionBounds)
     (hg : n ≤ bounds "grad") (hp : n ≤ bounds "data") (hm : n ≤ bounds "mask") :
-    Kernel.TraceSafe bounds (kernel storage "grad" "data" "mask" n alpha).eraseDType.toAlgKernel before ∧
+    Kernel.TraceSafe bounds (sourceKernel storage "grad" "data" "mask" n alpha).eraseDType.toAlgKernel before ∧
     Kernel.TraceSafe bounds (commutedKernel storage "grad" "data" "mask" n alpha).eraseDType.toAlgKernel before := by
   rw [kernel_eq_original, commutedKernel_eq_original]
   exact ⟨integer_traceSafe storage Bool.false _ _ _ n alpha blockSize bounds before
@@ -73,7 +73,7 @@ theorem masked_add_access_safe (storage : MaskStorage) (n : Nat) (alpha : ℝ)
       (fun _ h => Nat.lt_of_lt_of_le h hm)⟩
 
 
-#specNonCircular formula avoiding [kernel, commutedKernel, exec]
+#specNonCircular formula avoiding [sourceKernel, commutedKernel, exec]
 #axiomsClean masked_add_kernel_correctness
 #axiomsClean masked_add_commuted_correctness
 #axiomsClean masked_add_access_safe

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealSplitFlat
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealSplitFlat
 
 /-! Complete split intra-subblock executions with three columns, both causal arms,
 a masked row, a partial K tile, nonzero launch and timeStride != K. Arbitrary

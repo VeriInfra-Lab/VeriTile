@@ -1,5 +1,5 @@
-import bench.tritonbench_g.rotary_transform_ops.KernelSource
-import bench.tritonbench_g.rotary_transform_ops.XorSource
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.KernelSource
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.XorSource
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.RotaryTransformOps

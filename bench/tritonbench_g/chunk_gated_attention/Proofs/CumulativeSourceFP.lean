@@ -1,7 +1,7 @@
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Triton.Float.ExpressionRewrite
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.chunk_gated_attention.Sources.Kernels
+import bench.tritonbench_g.chunk_gated_attention.Kernels
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.CumulativeSourceFP
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.Repairs.ChunkGatedAttention

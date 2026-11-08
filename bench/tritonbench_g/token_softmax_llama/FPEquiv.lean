@@ -17,7 +17,7 @@ def indexCommuted (p : Parameters) : Program where
 /-- The complete FP32 source is equivalent after commuting its integer
 length-address product. No floating transformation law is used.
 The full native IO observation remains PublicIO.native; the previous combined
-full-grid source/candidate endpoint remains in Misc/KernelNativeResults. -/
+complete-grid native source observation remains in Proofs/IOCorrect.lean. -/
 specification token_softmax_source_equiv (p : Parameters) :
     original p ≡[assumptions] indexCommuted p := KernelSource.equivalent p
 

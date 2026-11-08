@@ -16,18 +16,18 @@ condition is required, and no primitive exp/log conformance experiment is due. -
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
 def forwardOriginal (O X : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.forward O X M N K BM C,[]⟩
-def forwardCommuted (O X : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.forwardCommuted O X M N K BM C,[]⟩
+  ⟨Source.forwardKernel O X M N K BM C,[]⟩
+def forwardCommutedKernel (O X : RegionName) (M N K BM C : Nat) : Program :=
+  ⟨Source.forwardCommutedKernel O X M N K BM C,[]⟩
 def backwardOriginal (Y G O : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.backward Y G O M N K BM C,[]⟩
-def backwardCommuted (Y G O : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.backwardCommuted Y G O M N K BM C,[]⟩
+  ⟨Source.backwardKernel Y G O M N K BM C,[]⟩
+def backwardCommutedKernel (Y G O : RegionName) (M N K BM C : Nat) : Program :=
+  ⟨Source.backwardCommutedKernel Y G O M N K BM C,[]⟩
 
 /-- Both complete actual forward sources succeed and agree on all typed memory
 cells under arbitrary unchanged primitive, cast and reduction interpretations. -/
 theorem forward_index_equiv (O X : RegionName) (M N K BM C : Nat) (hc : 0<C) :
-    forwardOriginal O X M N K BM C ≡[assumptions] forwardCommuted O X M N K BM C := by
+    forwardOriginal O X M N K BM C ≡[assumptions] forwardCommutedKernel O X M N K BM C := by
   apply Spec.FloatingPoint.ofNumerical
   · rfl
   · rfl
@@ -39,7 +39,7 @@ theorem forward_index_equiv (O X : RegionName) (M N K BM C : Nat) (hc : 0<C) :
 source order. Compiler FMA contraction remains the same lowering boundary for
 both variants; no equality of differently rounded schedules is assumed. -/
 theorem backward_index_equiv (Y G O : RegionName) (M N K BM C : Nat) :
-    backwardOriginal Y G O M N K BM C ≡[assumptions] backwardCommuted Y G O M N K BM C := by
+    backwardOriginal Y G O M N K BM C ≡[assumptions] backwardCommutedKernel Y G O M N K BM C := by
   apply Spec.FloatingPoint.ofNumerical
   · rfl
   · rfl

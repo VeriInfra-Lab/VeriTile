@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.FPReferenceProgram
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.FPReferenceProgram
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ContextAttnLlama.KernelOnly.NativeSourceSafety
@@ -8,6 +8,9 @@ set_option maxHeartbeats 16000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
+  FPReference.signed_nat_address
+attribute [local simp] FPReference.signed_mod_nat FPReference.signed_div_mod_nat
 
 /-- Source-free windows of one input-array tile. Signed request/page values
 retain the evaluator's exact toNat address conversion. -/
@@ -33,8 +36,12 @@ structure Bounds (p : Layout) (r : Regions) (a : FPReference.Inputs α)
 theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α) (s : State α)
     (bounds : RegionName → Nat) (access : Bounds p r (inputs p r s) bounds) :
     Safety.traceSafeList (M.withDefaultPrecision .fp32) bounds (parts p r scale).before s := by
-  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,ComputeKernel.surfaceBody,Source.intRange?]
+  simp [parts,kernel,originalFP32,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,
+    VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,
+    VeriTile.Bench.Repairs.ContextAttnLlama.originalKernel,
+    ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=400000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -42,6 +49,7 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α) (s : S
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,numericLt,natLt,
     bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,integralFloorDiv,integralMod,
+    Nat.cast_mul,Nat.cast_add,
     State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,
     Broadcast.leftIndex,Broadcast.rightIndex]
   repeat' apply And.intro

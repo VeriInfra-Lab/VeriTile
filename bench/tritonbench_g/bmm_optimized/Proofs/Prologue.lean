@@ -69,7 +69,7 @@ theorem prelude_split (p : Parameters) : prelude p=gridCode p++tailCode p := by
 private theorem gridExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
     (p : Parameters) (s : RegisterState α) :
     run o rest (gridCode p) s=some (gridResult p s) := by
-  simp only [gridCode,prelude,parts,kernel,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+  simp only [gridCode,prelude,parts,kernel,sourceKernel,candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
     Option.map,Option.getD,beq_self_eq_true,↓reduceIte,List.take]
   by_cases hg : p.GROUP=1
   all_goals
@@ -79,7 +79,7 @@ private theorem gridExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
         VeriTile.Bench.TritonBenchG.BmmOptimized.RealGrid.rowTile,
         VeriTile.Bench.TritonBenchG.BmmOptimized.RealGrid.columnTile,
         VeriTile.Bench.TritonBenchG.BmmOptimized.RealGrid.groupSize,
-        hg,hb,run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
+        hg,hb,run,step,localStep,FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
         numeric,FP.Structural.bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,Region.cast,
         Option.bind,integralFloorDiv,integralMod,algebra,Broadcast.leftIndex,Broadcast.rightIndex]
       try rfl
@@ -112,7 +112,7 @@ private theorem tailExecution (o : BmmOptimized.Scalar α) (rest : Algebra α)
     some (tailResult o ⟨A,B,O,M,N,K,TM,TN,TK,G,dm,dn,Bool.false⟩ s t)
   cases dm <;> cases dn
   all_goals
-    simp only [tailCode,prelude,parts,kernel,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp only [tailCode,prelude,parts,kernel,sourceKernel,candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,ComputeKernel.surfaceBody,
       Option.map,Option.getD,beq_self_eq_true,↓reduceIte,List.drop]
     simp [tailResult,row,column,aOffset,bOffset,oOffset,iterations,
       run,step,localStep,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,

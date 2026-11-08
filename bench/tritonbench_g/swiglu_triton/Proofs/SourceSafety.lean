@@ -25,7 +25,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (backward : Bool
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
       Safety.addressSafe_unfold, Safety.maskActive_unfold, Safety.safeAlg_unfold,
       directSource, forwardKernel, backwardKernel, typedFwd,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted, typedBwd, typedBwd_fp32_fp32,VeriTile.Bench.Repairs.SwigluTriton.forwardKernel,VeriTile.Bench.Repairs.SwigluTriton.forwardIndexCommuted,VeriTile.Bench.Repairs.SwigluTriton.backwardKernel,VeriTile.Bench.Repairs.SwigluTriton.backwardIndexCommuted,
-      ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr, evalComputeOp,
+      VeriTile.Bench.Repairs.SwigluTriton.forwardTypedKernel, VeriTile.Bench.Repairs.SwigluTriton.forwardCommutedTypedKernel, VeriTile.Bench.Repairs.SwigluTriton.backwardTypedKernel, VeriTile.Bench.Repairs.SwigluTriton.backwardCommutedTypedKernel, ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr, evalComputeOp,
       evalOp_unfold, evalOffsets, evalDeltas, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, natLt, DirectTile.rowState, ofFloat, toFloat, TileShape.axisDim,
       Region.cast, State.setReg, ha, hb, hdc, hc]

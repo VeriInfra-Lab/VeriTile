@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize.Sources.Mathematical_FPDequant
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Mathematical_FPDequant
 import bench.tritonbench_g.matmul_dequantize.Proofs.Grid
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001.DequantGrid16

@@ -9,8 +9,8 @@ theorem forward (M : Algebra α) (p : Parameters) (s : State α)
     (positive : 0<p.block) (valid : label p s = -100 ∨ 0≤label p s)
     (distinct : p.loss≠p.lse) :
     ∃ final,exec (engine M) (KernelSource.forward p) s=some final ∧
-      final.mem p.lse (s.pids 0)=.mk .real (KernelModel.cast M (lseValue M p s 0)) ∧
-      final.mem p.loss (s.pids 0)=.mk .real (KernelModel.cast M (forwardLoss M p s)) ∧
+      final.mem p.lse (s.pids 0)=.mk .real (lseValue M p s 0) ∧
+      final.mem p.loss (s.pids 0)=.mk .real (forwardLoss M p s) ∧
       (∀ r o,(r≠p.loss ∨ o≠s.pids 0) → (r≠p.lse ∨ o≠s.pids 0) →
         final.mem r o=s.mem r o) := by
   obtain ⟨final,ran,memory⟩ := forward_executes M p s positive valid
@@ -29,9 +29,9 @@ theorem chunked (M : Algebra α) (p : Parameters) (s : State α)
     (distinct : p.loss≠p.lse) :
     ∃ final,exec (engine M) (KernelSource.chunked p) s=some final ∧
       final.mem p.lse (s.pids 0*p.chunks+s.pids 1)=
-        .mk .real (KernelModel.cast M (lseValue M p s (s.pids 1))) ∧
+        .mk .real (lseValue M p s (s.pids 1)) ∧
       (s.pids 1=0 → final.mem p.loss (s.pids 0)=
-        .mk .real (KernelModel.cast M (chunkLoss M p s))) ∧
+        .mk .real (chunkLoss M p s)) ∧
       (∀ r o,(s.pids 1=0 → r≠p.loss ∨ o≠s.pids 0) →
         (r≠p.lse ∨ o≠s.pids 0*p.chunks+s.pids 1) → final.mem r o=s.mem r o) := by
   obtain ⟨final,ran,memory⟩ := chunked_executes M p s positive valid

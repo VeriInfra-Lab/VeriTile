@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.SurfaceSource
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Support.SurfaceSource
 import VeriTile.Triton.Float.Structural
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPProgram
 open VeriTile.Triton
@@ -12,15 +12,15 @@ def active (h : Call) := ((Source.conditional? (code h)
 def setup (h : Call) := ((Source.intRange? (active h) "k").map (·.before)).getD []
 def body (h : Call) := ((Source.intRange? (active h) "k").map (·.body)).getD []
 def tail (h : Call) := ((Source.intRange? (active h) "k").map (·.after)).getD []
-def guard : Op .bool [] := .ne .int .nil (.ref .int [] "lora_index") (.constInt (-1))
-def loop (h : Call) : ComputeStmt := .forRangeInt "k" (.constInt 0) (.constInt h.K) (.constNat 16384) (body h)
+def guard : Op .bool [] := .boolNot (.eq .int .nil (.ref .int [] "lora_index") (.constInt (-1)))
+def loop (h : Call) : ComputeStmt := .forRangeInt "k" (.castNatToInt (.constNat 0)) (.castNatToInt (.constNat h.K)) (.mul .nat .nil (.constNat 256) (.constNat 64)) (body h)
 
 theorem complete_code (h : Call) : code h=prelude h++[.ifThen guard (active h)] := by
-  cases eq : h.storage <;> simp only [code,prelude,active,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.source,eq]
+  cases eq : h.storage <;> simp only [code,prelude,active,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Pasted.originalKernel,Pasted.candidateKernel,Kernels.source,eq]
   all_goals rfl
 
 theorem complete_active (h : Call) : active h=setup h++loop h::tail h := by
-  cases eq : h.storage <;> simp only [code,prelude,active,setup,body,loop,tail,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.source,eq]
+  cases eq : h.storage <;> simp only [code,prelude,active,setup,body,loop,tail,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Pasted.originalKernel,Pasted.candidateKernel,Kernels.source,eq]
   all_goals rfl
 
 #axiomsClean complete_code

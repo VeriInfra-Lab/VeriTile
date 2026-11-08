@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.Sources.Geometry
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.Geometry
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwd.Ownership
 open VeriTile Triton
 open Geometry

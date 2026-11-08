@@ -64,7 +64,7 @@ theorem harness_scalar_words :
       (wordRelu (FP.Value.ofBits .fp32 word)).bits.toNat)) = harnessExpectedWords := by
   decide
 
-#specNonCircular expected avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runPrefix,runGrid,FP.Structural.exec]
+#specNonCircular expected avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.sourceKernel,runPrefix,runGrid,FP.Structural.exec]
 #axiomsClean quiet_nan_becomes_positive_zero
 #axiomsClean signaling_nan_becomes_positive_zero
 #axiomsClean negative_zero_is_preserved

@@ -68,15 +68,35 @@ def update (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α)
      (M.binary (some .fp32) .real .mul (a.value i) (rescale M dot p s row a i.1))
      (contribution M dot p s row a i)⟩
 
-theorem body_context (M : Algebra α) (dot : Dot α) (p : Parameters)
+private theorem maskOrder {β : Type} (N row col query : Nat) (yes no : β) :
+    (if row+col≤query ∧ col<N-row then yes else no)=
+      (if col<N-row ∧ row+col≤query then yes else no) := by
+  by_cases h : row+col≤query <;> by_cases t : col<N-row <;>
+    simp only [h,t,and_true,and_false,true_and,false_and,ite_true,ite_false]
+
+theorem body_context {phase : Bool} (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α)
-    (ctx : Context M p initial row a current) :
+    (ctx : Context M p initial row a current (phase:=phase)) :
     Context M p initial (row+64) (update M dot p initial row a)
-      (bodyExec M dot p initial current row a ctx).val := by
+      (bodyExec M dot p initial current row a ctx).val (phase:=phase) := by
   have row_step : (row+64)/64=row/64+1 := by omega
-  constructor
-  all_goals simp [bodyExec,ctx.memory,ctx.startM,ctx.firstLo,ctx.firstHi,ctx.keyBase,ctx.valueBase,ctx.scaleBase,ctx.aligned,ctx.rows,ctx.cols,ctx.query,ctx.scale,
-    ctx.keyPointer,ctx.valuePointer,ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value,
+  have h_length:=ctx.length
+  have h_startM:=ctx.startM
+  have h_firstLo:=ctx.firstLo
+  have h_firstHi:=ctx.firstHi
+  have h_rows:=ctx.rows
+  have h_cols:=ctx.cols
+  have h_query:=ctx.query
+  have h_scale:=ctx.scale
+  have h_keyPointer:=ctx.keyPointer
+  have h_valuePointer:=ctx.valuePointer
+  have h_scalePointer:=ctx.scalePointer
+  have h_maximum:=ctx.maximum
+  have h_normalizer:=ctx.normalizer
+  have h_value:=ctx.value
+  cases phase <;> simp [workName] at h_length h_startM h_firstLo h_firstHi h_rows h_cols h_query h_scale h_keyPointer h_valuePointer h_scalePointer h_maximum h_normalizer h_value <;> constructor
+  all_goals simp [bodyExec,workName,h_length,ctx.callerStartM,ctx.callerRows,ctx.callerCols,ctx.callerQuery,ctx.callerScale,ctx.memory,h_startM,h_firstLo,h_firstHi,ctx.keyBase,ctx.valueBase,ctx.scaleBase,ctx.aligned,h_rows,h_cols,h_query,h_scale,
+    h_keyPointer,h_valuePointer,h_scalePointer,ctx.outputPointer,h_maximum,h_normalizer,h_value,
     update,maximum,rescale,probability,scores,contribution,key,keyScale,value,zero,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
     Nat.add_mul,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm,row_step]
@@ -89,6 +109,10 @@ theorem body_context (M : Algebra α) (dot : Dot α) (p : Parameters)
   all_goals norm_num
   all_goals try omega
   all_goals try rfl
+  all_goals simp [show p.k.row=128 by rfl,show p.v.row=128 by rfl]
+  all_goals first
+  | omega
+  | (simp only [maskOrder] <;> rfl)
 
 #specNonCircular update avoiding [run,FP.Structural.exec,bodyExec]
 #guard_msgs (drop info) in

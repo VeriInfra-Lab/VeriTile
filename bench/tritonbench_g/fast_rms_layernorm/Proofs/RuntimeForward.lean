@@ -16,17 +16,17 @@ open FPReference
 def inv (M : Algebra α) (h : Call) (epsilon : α) (x : Fin h.block → α) : α :=
   M.unary (some .fp32) .rsqrt
     (add M (div M (reduce M h.block (fun j => mul M (input M h x j) (input M h x j)))
-      (literal M (h.cols:ℝ))) epsilon)
+      (M.fromNat (some .fp32) h.cols)) epsilon)
 
 def normalized (M : Algebra α) (h : Call) (epsilon : α) (x : Fin h.block → α) (j : Fin h.block) :=
   mul M (input M h x j) (inv M h epsilon x)
 
 def output (M : Algebra α) (h : Call) (epsilon : α) (x w : Fin h.block → α) (j : Fin h.block) : Cell α :=
-  .mk .real (cast M (if h.gemma then
+  .mk .real (if h.gemma then
     mul M (normalized M h epsilon x j) (add M (input M h w j) (literal M 1))
-  else mul M (cast M (normalized M h epsilon x j)) (M.fp32Load (padded M h w j))))
+  else mul M (cast M (normalized M h epsilon x j)) (M.fp32Load (padded M h w j)))
 
-def savedInv (M : Algebra α) (h : Call) (epsilon : α) (x : Fin h.block → α) : Cell α := .mk .real (cast M (inv M h epsilon x))
+def savedInv (M : Algebra α) (h : Call) (epsilon : α) (x : Fin h.block → α) : Cell α := .mk .real (inv M h epsilon x)
 /-- Supplying the mathematical epsilon value specializes the scalar formula. -/
 theorem literal_inv (M : Algebra α) (h : Call) (x : Fin h.block → α) :
     inv M h (FPReference.literal M h.eps) x=FPReference.inv M h x := rfl
@@ -64,7 +64,7 @@ theorem forward_memory (M : Algebra α) (h : Call) (epsilon : α) (u : State α)
   unfold Kernels.forwardRuntime
   split <;> rename_i branch
   all_goals
-    simp [branch,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,FP.Structural.exec,Kernels.regularRuntimeSource,Kernels.gemmaRuntimeSource,bind,
+    simp [branch,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,FP.Structural.exec,Kernels.regularRuntimeKernel,Kernels.gemmaRuntimeKernel,bind,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,

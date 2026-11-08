@@ -1,0 +1,21 @@
+{
+  "AdamUpdateGridLaunch": "bench/examples/AdamUpdateGridLaunch/AdamUpdateGridLaunch.py",
+  "FlatVectorAdd": "bench/examples/FlatVectorAdd/FlatVectorAdd.py",
+  "FloatDTypeAdd": "bench/examples/FloatDTypeAdd/FloatDTypeAdd.py",
+  "FloatDTypeSoftmax": "bench/examples/FloatDTypeSoftmax/FloatDTypeSoftmax.py",
+  "FusedLayerNorm": "bench/examples/FusedLayerNorm/FusedLayerNorm.py",
+  "FusedSiLU": "bench/examples/FusedSiLU/FusedSiLU.py",
+  "FusedSwiglu": "bench/examples/FusedSwiglu/FusedSwiglu.py",
+  "HyperConnectionsDepth": "bench/examples/HyperConnectionsDepth/HyperConnectionsDepth.py",
+  "HyperConnectionsWidth": "bench/examples/HyperConnectionsWidth/HyperConnectionsWidth.py",
+  "LogExp": "bench/examples/LogExp/LogExp.py",
+  "OnlineSoftmax": "bench/examples/OnlineSoftmax/OnlineSoftmax.py",
+  "RowWiseMax": "bench/examples/RowWiseMax/RowWiseMax.py",
+  "RowWiseSum": "bench/examples/RowWiseSum/RowWiseSum.py",
+  "SoftmaxReciprocal": "bench/examples/SoftmaxReciprocal/SoftmaxReciprocal.py",
+  "SoftmaxStable": "bench/examples/SoftmaxStable/SoftmaxStable.py",
+  "StableLogSumExp": "bench/examples/StableLogSumExp/StableLogSumExp.py",
+  "TritonBenchVectorAddition": "bench/examples/TritonBenchVectorAddition/TritonBenchVectorAddition.py",
+  "VectorAdd": "bench/examples/VectorAdd/VectorAdd.py",
+  "Welford": "bench/examples/Welford/Welford.py"
+}

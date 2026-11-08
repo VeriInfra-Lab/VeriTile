@@ -86,8 +86,8 @@ theorem executes (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ)
     (f4.registers .real [p.BM,p.BN] "p" (by decide)).trans hprob3
   have hac4 : s4.regs .real [p.BM,p.D] "acc" = some acc :=
     (f1234.registers .real [p.BM,p.D] "acc" (by decide)).trans hd.accumulator
-  have hrows4 : s4.regs .nat [p.BM] "offs_m" = some (Tile.vec rows) :=
-    (f1234.registers .nat [p.BM] "offs_m" (by decide)).trans hs.rows
+  have hrows4 : s4.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))) :=
+    (f1234.registers .int [p.BM] "offs_m" (by decide)).trans hs.rows
   have hprompt4 : s4.regs .int [] "prompt_cache_len" = some (Tile.scalar prompt) :=
     (f1234.registers .int [] "prompt_cache_len" (by decide)).trans hs.prompt
   have f234 := then_frame (then_frame f2 f3) f4
@@ -108,9 +108,9 @@ theorem executes (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ)
   let s6 := ValuesExecution.prepared p r sn last group pages s5
   have e6 := ValuesExecution.executes p r sn last group pages s5 hn5
     ((f12345.registers .int [] "block_end_loc" (by decide)).trans hs.ending)
-    ((f12345.registers .nat [] "cur_kv_head" (by decide)).trans hs.kv_head)
-    ((f12345.registers .nat [p.BN] "offs_n" (by decide)).trans hs.lanes)
-    ((f12345.registers .nat [p.D] "offs_d" (by decide)).trans hs.channels) hg5
+    ((f12345.registers .int [] "cur_kv_head" (by decide)).trans hs.kv_head)
+    ((f12345.registers .int [p.BN] "offs_n" (by decide)).trans hs.lanes)
+    ((f12345.registers .int [p.D] "offs_d" (by decide)).trans hs.channels) hg5
   have f6 := StageFrames.values p r sn last group pages s5
   have f123456 := then_frame f12345 f6
   have hv6 : s6.regs .real [p.BN,p.D] "v" = some vt :=

@@ -41,7 +41,7 @@ def outputMask (c : Layout) (R : Bool) (o : Fin (outputs c).length) :
 /-- The same selected FP32 source and program axes at every grid position. -/
 def invocation (M : Algebra β) (c : Layout) (B : Nat) (R : Bool)
     (tile : Nat × Nat) : Invocation β where
-  kernel := kernel c.X c.Y c.DOUT c.OUT c.DX c.DY c.sx c.sy c.sd c.so c.sdx c.sdy c.cols B R
+  kernel := sourceKernel c.X c.Y c.DOUT c.OUT c.DX c.DY c.sx c.sy c.sd c.so c.sdx c.sdy c.cols B R
   backend := M
   pids := fun ax => if ax=0 then tile.1 else if ax=1 then tile.2 else 0
 

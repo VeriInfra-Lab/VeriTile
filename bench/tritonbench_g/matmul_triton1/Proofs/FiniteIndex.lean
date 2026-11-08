@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_triton1.Sources.Kernels
-import bench.tritonbench_g.int_scaled_matmul.Sources.GroupedGrid
+import bench.tritonbench_g.matmul_triton1.Proofs.Sources.Kernels
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GroupedGrid
 import Mathlib.Data.BitVec
 
 /-! Shared finite arithmetic for the two concrete contiguous matrix repairs.

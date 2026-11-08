@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention.Spec
+import bench.tritonbench_g.chunk_retention.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.PublicIO
 open VeriTile Triton FP.Structural KernelPacket KernelStaging

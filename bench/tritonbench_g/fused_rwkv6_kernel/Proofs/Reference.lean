@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_rwkv6_kernel.Sources.Kernels
+import bench.tritonbench_g.fused_rwkv6_kernel.Proofs.Sources.Kernels
 namespace VeriTile.Bench.Repairs.FusedRwkv6Kernel
 noncomputable section
 set_option maxHeartbeats 4000000
@@ -23,7 +23,7 @@ def inputs {α : Type} (c : Shape) (m : Memory α) : Input α where
 /-- Source-order padded scalar recurrence for bit-level/native interpretation.
 The independent arrays are read directly; current memory is absent. -/
 def scalarSeed {α : Type} (a : Ops α) (c : Shape) (x : Input α) (z e f : Nat) : α :=
-  if c.initial then a.add a.zero (a.loadCast (if e<c.K ∧ f<c.V then x.h0 z e f else a.zero)) else a.zero
+  if c.initial then a.add a.zero (a.seedLoadCast (if e<c.K ∧ f<c.V then x.h0 z e f else a.zero)) else a.zero
 
 def scalarOuter {α : Type} (a : Ops α) (c : Shape) (x : Input α) (z n e f : Nat) :=
   a.mul (a.loadCast (if e<c.K then x.k z (visit c n) e else a.zero))

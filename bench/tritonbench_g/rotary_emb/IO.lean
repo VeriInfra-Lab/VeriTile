@@ -125,7 +125,7 @@ def memory (shape : Shape) (pids : Nat → Nat) : MemoryIO A where
 
 def invocation (rest : Algebra A) (ops : Ops A) (shape : Shape)
     (pids : Nat → Nat) : Invocation A where
-  kernel := Kernels.kernel (Typed.layout shape)
+  kernel := Kernels.sourceKernel (Typed.layout shape)
   backend := Typed.algebra rest ops
   pids := pids
 
@@ -154,7 +154,7 @@ def original (rest : Algebra Native.Node) (p : Native.Instructions)
   ProgramIO.Implementation.original (kernelIO rest (Native.ops p) shape pids) (fun _ => True)
 
 /-- Existing address-only candidate on the same eight-input/four-output IO. -/
-def indexCommuted (rest : Algebra Native.Node) (p : Native.Instructions)
+def indexCommutedKernel (rest : Algebra Native.Node) (p : Native.Instructions)
     (shape : Shape) (pids : Nat → Nat) :=
   ProgramIO.Implementation.ofVariant (candidate rest (Native.ops p) shape pids) (fun _ => True)
 

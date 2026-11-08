@@ -18,7 +18,7 @@ theorem backward_score_safe (rest : Algebra α) (P : Primitives α)
     (maximum : ∀ i : BRow p,backwardRowOffset p initial query i<bounds p.maximum) :
     Safety.traceSafeList (backend rest P) bounds ((backwardInnerBody p).take 6)
       (current.setReg "start_m" .nat [] (fun _=>query*p.blockM)) := by
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -42,7 +42,7 @@ theorem backward_gradient_safe (rest : Algebra α) (P : Primitives α)
     (gradient : ∀ i : BLane p,backwardOffset p initial query i<bounds p.gradient)
     (delta : ∀ i : BRow p,backwardRowOffset p initial query i<bounds p.delta) :
     Safety.traceSafeList (backend rest P) bounds (((backwardInnerBody p).drop 6).take 6) current := by
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -68,7 +68,7 @@ theorem backward_store_safe (rest : Algebra α) (P : Primitives α)
     (bounds : RegionName→Nat)
     (dq : ∀ i : BLane p,backwardOffset p initial query i<bounds p.dq) :
     Safety.traceSafeList (backend rest P) bounds (((backwardInnerBody p).drop 12).take 4) current := by
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

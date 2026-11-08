@@ -1,3 +1,4 @@
+import Mathlib.Tactic.IntervalCases
 import bench.tritonbench_g.kv_cache_filling.Proofs.QuantExecution
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.QuantStores

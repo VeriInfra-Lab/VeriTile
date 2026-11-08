@@ -25,13 +25,13 @@ theorem forward_memory (M : Algebra α) (N B : Nat) (eps : ℝ) (bias : Bool) (u
       v.mem=forwardHeap M N B eps bias u := by
   cases bias
   all_goals
-    simp [forwardKernel,ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
+    simp [forwardKernel,forwardBodyPastedKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,FP.Structural.store,
       TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
       forwardHeap,raw,KernelReference.output,KernelReference.savedMean,KernelReference.savedInverse,
       KernelReference.centered,KernelReference.mean,KernelReference.inverse,KernelReference.reduce,
-      KernelReference.input,KernelReference.literal,KernelReference.cast,KernelReference.add,
+      KernelReference.input,KernelReference.loaded,KernelReference.count,KernelReference.literal,KernelReference.cast,KernelReference.add,
       KernelReference.sub,KernelReference.mul,KernelReference.div,fold_mem,
       ofFloat,toFloat,Broadcast.leftIndex,Broadcast.rightIndex]
     <;> dsimp only [State.write,update]
@@ -47,12 +47,12 @@ def backwardHeap (M : Algebra α) (N B : Nat) (u : State α) :=
 theorem backward_memory (M : Algebra α) (N B : Nat) (u : State α) :
     ∃ v, FP.Structural.exec (engine M) (backwardKernel "dx" "dy" "x" "w" "r" "mu" N B) u=some v ∧
       v.mem=backwardHeap M N B u := by
-  simp [backwardKernel,ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
+  simp [backwardKernel,backwardBodyPastedKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,FP.Structural.exec,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,FP.Structural.store,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     backwardHeap,raw,KernelReference.gradient,KernelReference.normalized,KernelReference.weighted,
-    KernelReference.product,KernelReference.reduce,KernelReference.input,KernelReference.literal,
+    KernelReference.product,KernelReference.reduce,KernelReference.input,KernelReference.loaded,KernelReference.count,KernelReference.literal,
     KernelReference.cast,KernelReference.add,KernelReference.sub,KernelReference.mul,KernelReference.div,
     fold_mem,ofFloat,toFloat,Broadcast.leftIndex,Broadcast.rightIndex]
   <;> (try dsimp only [State.write,update])

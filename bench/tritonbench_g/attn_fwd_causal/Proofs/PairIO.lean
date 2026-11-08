@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_causal.PairIO
+import bench.tritonbench_g.attn_fwd_causal.Proofs.Support.PairIO
 import bench.tritonbench_g.attn_fwd_causal.Proofs.PairConnection
 
 namespace VeriTile.Bench.Repairs.AttnFwdCausal.PairIO

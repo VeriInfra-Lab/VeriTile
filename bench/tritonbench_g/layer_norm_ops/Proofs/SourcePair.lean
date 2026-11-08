@@ -10,10 +10,10 @@ set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-private def backBefore (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 14
+private def backBefore (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 15
 private def backIndex (reuse : Bool) (p : BackwardParameters) :=
-  ((if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody.drop 14).take 1
-private def backAfter (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 15
+  ((if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody.drop 15).take 1
+private def backAfter (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 16
 private theorem back_split (reuse : Bool) (p : BackwardParameters) :
     (if reuse then backwardRowStartReusedKernel p else backwardKernel p).surfaceBody =
       backBefore p ++ (backIndex reuse p ++ backAfter p) := by
@@ -26,7 +26,7 @@ private theorem back_registers (M : Algebra α) (p : BackwardParameters) (s t : 
   cases hd : p.hasDres <;> cases hs : p.storeDres <;>
     cases hy : p.recompute <;> cases hb : p.hasBias
   all_goals
-    simp [backBefore,backwardKernel,backwardSource,ComputeKernel.surfaceBody,List.take,
+    simp [backBefore,backwardKernel,backwardSourcePastedKernel,ComputeKernel.surfaceBody,List.take,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,FP.Structural.numeric,FP.Structural.bop,FP.Structural.numericLt,FP.Structural.natLt,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,Region.cast,
       hd,hs,hy,hb,State.setReg] at ran
@@ -38,8 +38,8 @@ private theorem back_index_run (M : Algebra α) (p : BackwardParameters) (s t : 
     (ran : run M (backBefore p) s=some t) :
     run M (backIndex Bool.false p) t=run M (backIndex Bool.true p) t := by
   obtain ⟨pid,start⟩ := back_registers M p s t ran
-  simp [backIndex,backwardKernel,backwardSource,backwardRowStartReusedKernel,
-    backwardRowStartReusedSource,ComputeKernel.surfaceBody,List.drop,List.take,
+  simp [backIndex,backwardKernel,backwardSourcePastedKernel,backwardRowStartReusedKernel,
+    backwardRowStartReusedSourcePastedKernel,ComputeKernel.surfaceBody,List.drop,List.take,
     run,step,evalExpr,evalOp_unfold,Option.bind,FP.Structural.numeric,FP.Structural.bop,FP.Structural.numericLt,FP.Structural.natLt,
     Broadcast.leftIndex,Broadcast.rightIndex,pid,start,Nat.add_mul]
 
@@ -48,8 +48,8 @@ private theorem back_index_safe (M : Algebra α) (bounds : RegionName → Nat)
     Safety.traceSafeList M bounds (backIndex reuse p) s := by
   cases reuse
   all_goals
-    simp [backIndex,backwardKernel,backwardSource,backwardRowStartReusedKernel,
-      backwardRowStartReusedSource,ComputeKernel.surfaceBody,List.drop,List.take,
+    simp [backIndex,backwardKernel,backwardSourcePastedKernel,backwardRowStartReusedKernel,
+      backwardRowStartReusedSourcePastedKernel,ComputeKernel.surfaceBody,List.drop,List.take,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeAlg,
       Safety.safeOp,Safety.safeOp_unfold]
     split <;> trivial
@@ -94,7 +94,7 @@ theorem forward_memory (M : Algebra α) (p : ForwardParameters) (s : State α) :
   cases hr : p.rms <;> cases ha : p.hasResidual <;>
     cases hs : p.storeResidual <;> cases hb : p.hasBias
   all_goals
-    simp [FP.Structural.exec,forwardKernel,forwardSource,forwardMaskReusedKernel,forwardMaskReusedSource,
+    simp [FP.Structural.exec,forwardKernel,forwardSourcePastedKernel,forwardMaskReusedKernel,forwardMaskReusedSourcePastedKernel,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
       Option.bind,ComputeDType.eraseDType,FloatDType.toTileDType,
       FloatDType.numericDType,ofFloat,toFloat,FP.Structural.numeric,FP.Structural.bop,FP.Structural.numericLt,
@@ -118,7 +118,7 @@ theorem forward_candidate_safe (M : Algebra α) (p : ForwardParameters) (s : Sta
   cases hR : p.rms <;> cases hA : p.hasResidual <;>
     cases hS : p.storeResidual <;> cases hB : p.hasBias
   all_goals
-    simp [TraceSafe,forwardMaskReusedKernel,forwardMaskReusedSource,ComputeKernel.surfaceBody,
+    simp [TraceSafe,forwardMaskReusedKernel,forwardMaskReusedSourcePastedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,Option.bind,

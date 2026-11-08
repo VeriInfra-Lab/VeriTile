@@ -4,7 +4,7 @@ open VeriTile.Triton FP.Structural
 open FPValue (Word OutputFormat)
 open FP.Equational (ReductionPlan)
 noncomputable section
-attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat
+attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateKernel VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source
 set_option maxRecDepth 40000
 set_option maxHeartbeats 40000000
 set_option linter.unusedSimpArgs false
@@ -34,16 +34,19 @@ def body (profile : InputProfile) (out : OutputFormat) (p : Parameters) : List C
   | some (ComputeStmt.forRangeDyn _ _ _ _ b) => b
   | _ => []
 
+theorem header_common (profile : InputProfile) (out : OutputFormat) (p : Parameters) :
+    header profile out p = header .singleHalf .single p := by
+  cases profile <;> cases out <;> rfl
+
 def headerExecution (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     (profile : InputProfile) (out : OutputFormat) (p : Parameters) (s : State Word) :
     {t : State Word // run (engine rest cfg plans) (header profile out p) s = some t} := by
-  cases profile <;> cases out
-  all_goals
-    refine ⟨?_, ?_⟩
-    swap
-    simp [header, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource, run, step, evalExpr,
-      evalComputeOp, evalOp_unfold, Region.cast, Option.bind]
-    rfl
+  refine ⟨?_, ?_⟩
+  swap
+  rw [header_common]
+  simp [header, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
+    run, step, evalExpr, evalComputeOp, evalOp_unfold, Region.cast, Option.bind]
+  rfl
 
 def setupExecution (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     (profile : InputProfile) (out : OutputFormat) (p : Parameters) (s : State Word) :
@@ -56,7 +59,7 @@ def setupExecution (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, Reduc
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp [setup, active, castBranch, headerExecution, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,
+    simp [setup, active, castBranch, headerExecution, source, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel,VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateKernel,VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
       bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
       FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,
@@ -80,6 +83,7 @@ theorem setupInvariant (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, R
     simp [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex, Region.cast]
   all_goals try rfl
 
+#axiomsClean header_common
 #axiomsClean headerExecution
 #axiomsClean setupExecution
 #axiomsClean setupInvariant

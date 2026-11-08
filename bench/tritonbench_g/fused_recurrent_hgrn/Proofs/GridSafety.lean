@@ -57,7 +57,7 @@ private theorem range_safe (M : Algebra α) (bounds : RegionName → Nat)
 
 theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     (U S V : Bool) (bounds : RegionName → Nat) (W : Windows bounds BH T D U S V)
-    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (forward T D BD U S) s := by
+    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (forwardKernel T D BD U S) s := by
   obtain ⟨q,he,hm,hp,hmask,hbh,hod,hx,hg,ho,hcarry⟩ := prologue p s T D BD U
   have P : FwdInv p s U T D BD 0 q :=
     ⟨hp,hmask,hbh,hod,hx,hg,ho,hcarry,by intro t ht;omega,by intro r a _;rw [hm]⟩
@@ -65,9 +65,9 @@ theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     forward_invariant_step p s q U T D BD i h
   have safe : ∀ i, i<T → ∀ q, FwdInv p s U T D BD i q →
       Safety.traceSafeList (algebra p) bounds (forwardBody D BD)
-        (q.setReg "_i" .nat [] (fun _ => i)) := by
+        (q.setReg "_" .nat [] (fun _ => i)) := by
     intro i hi q h
-    let b := q.setReg "_i" .nat [] (fun _ => i)
+    let b := q.setReg "_" .nat [] (fun _ => i)
     have pids : b.pids=s.pids := h.pids
     have lanes : lane b BD=lane s BD := by
       funext j
@@ -84,13 +84,13 @@ theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     · exact W.rows "x" (by simp) _ (pids ▸ hb) _ hi _ hj
     · exact W.rows "g" (by simp) _ (pids ▸ hb) _ hi _ hj
     · exact W.rows "o" (by simp) _ (pids ▸ hb) _ hi _ hj
-  have hs := range_safe (algebra p) bounds "_i" (forwardBody D BD) T
+  have hs := range_safe (algebra p) bounds "_" (forwardBody D BD) T
     (FwdInv p s U T D BD) one safe q 0 (by omega) P
-  obtain ⟨r,hr,hR⟩ := range_complete (algebra p) "_i" (forwardBody D BD) T
+  obtain ⟨r,hr,hR⟩ := range_complete (algebra p) "_" (forwardBody D BD) T
     (FwdInv p s U T D BD) one q 0 (by omega) P
-  have ran : run (algebra p) [.forRange "_i" 0 T 1 (forwardBody D BD)] q=some r := by
+  have ran : run (algebra p) [.forRange "_" 0 T 1 (forwardBody D BD)] q=some r := by
     simpa [run,step] using hr
-  have loop : Safety.traceSafeList (algebra p) bounds [.forRange "_i" 0 T 1 (forwardBody D BD)] q := by
+  have loop : Safety.traceSafeList (algebra p) bounds [.forRange "_" 0 T 1 (forwardBody D BD)] q := by
     apply Safety.traceSafeList_cons_intro
     · simpa only [Safety.stepSafe_unfold] using hs
     · intro t _;exact Safety.traceSafeList_nil _ _ _
@@ -110,7 +110,7 @@ theorem forward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
 
 theorem backward_safe (p : Ops α) (s : State α) (BH T D BD : Nat)
     (U S V : Bool) (bounds : RegionName → Nat) (W : Windows bounds BH T D U S V)
-    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (backward T D BD U V) s := by
+    (hb : s.pids 1<BH) : TraceSafe (algebra p) bounds (backwardKernel T D BD U V) s := by
   obtain ⟨q,he,hm,hp,hmask,hbh,hod,hcarry⟩ := backward_prologue p s T D BD V
   have P : BwdInv p s U V T D BD 0 q :=
     ⟨hp,hmask,hbh,hod,hcarry,by intro t ht;omega,by intro t ht;omega,by intro r a _;rw [hm]⟩

@@ -12,7 +12,7 @@ set_option linter.unusedSimpArgs false
 theorem secondBody_safe (f : Flags) (r : Regions) (M row start N block : Nat)
     (p : ℝ) (s : BlockState) (bounds : RegionBounds) (hBlock : Random.ArangeSizeDomain block)
     (hptr : s.regs .ptr [] "X1" = some (Tile.scalar (r.x1, start)))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hx : ∀ col, col < N → start+col < bounds r.x1)
     (hscale : f.rowscale = Bool.true → M+row < bounds r.rowscale)
@@ -22,10 +22,15 @@ theorem secondBody_safe (f : Flags) (r : Regions) (M row start N block : Nat)
     Stmt.TraceSafeList bounds (InputSuffix.secondBody f r M N block p) s := by
   simp only [InputSuffix.secondBody, List.append_assoc]
   apply append_after bounds _ _ s (InputSuffix.loadedState r start N block s)
-  · rw [singleton]
-    simpa only [Stmt.TraceSafe] using rowLoadOp_safe "X1" r.x1 start N block s bounds hptr hcols hx
-  · rw [InputSuffix.exec_single]
-    exact stepStmt_assign_eq_some (InputSuffix.rowLoadOp_eval "X1" r.x1 start N block s hptr hcols)
+  · apply TraceProofs.assign_cons
+    · exact rowLoadOp_safe "X1" r.x1 start N block s bounds hptr hcols hx
+    intro loaded
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt.eq_def]
+  · rw [stepStmts.cons_some (stepStmt_assign_eq_some (name := "__veritile_load_2")
+      (InputSuffix.rowLoadOp_eval "X1" r.x1 start N block s hptr hcols))]
+    simp [stepStmts,stepStmt,evalOp.eq_def,InputSuffix.loadedState]
+
   apply append_after bounds _ _ _ (InputSuffix.scaledState f r M row start N block s)
   · apply secondScale_safe f.rowscale r.rowscale M row block _ bounds _ hscale
     simpa [InputSuffix.loadedState] using hrow

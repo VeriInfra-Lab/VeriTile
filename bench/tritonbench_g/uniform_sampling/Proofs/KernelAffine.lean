@@ -1,4 +1,5 @@
 import bench.tritonbench_g.uniform_sampling.Proofs.KernelPrefix
+import bench.tritonbench_g.uniform_sampling.Proofs.UniformDecoder
 import bench.tritonbench_g.uniform_sampling.Proofs.Mathematical_TypedAffine
 
 namespace VeriTile.Bench.Repairs.UniformSampling.KernelAffine
@@ -13,8 +14,8 @@ def expr (B : Nat) (name : RegName) : ComputeExpr .real [B] :=
   .fma .fp32 .scalarR .scalarR
     (.compute (.alg .fp32 (.uniform32 (.ref .nat [B] name))))
     (.compute (.alg .fp32 (.sub .real .nil
-      (.ref .real [] "upper_arg") (.ref .real [] "lower_arg"))))
-    (.compute (.alg .fp32 (.ref .real [] "lower_arg")))
+      (.ref .real [] "to") (.ref .real [] "from_"))))
+    (.compute (.alg .fp32 (.ref .real [] "from_")))
 
 def stmt (B : Nat) (name : RegName) : ComputeStmt := .assign .real [B] name (expr B name)
 
@@ -27,12 +28,13 @@ theorem eval {α : Type} [Inhabited α] (M : Algebra α) (fused : α → α → 
     (hf : M.fma .fp32 = some fused) {B : Nat} (words : TileIndex [B] → Random.Word)
     (name : RegName) (lower upper : Float32Bits) (s : State α)
     (hw : s.regs .nat [B] name = some (fun i => (words i).toNat))
-    (hl : s.regs .real [] "lower_arg" = some (fun _ => M.fp32Bits lower))
-    (hu : s.regs .real [] "upper_arg" = some (fun _ => M.fp32Bits upper)) :
+    (hl : s.regs .real [] "from_" = some (fun _ => M.fp32Bits lower))
+    (hu : s.regs .real [] "to" = some (fun _ => M.fp32Bits upper)) :
     evalExpr M (expr B name) s = some (values M fused words lower upper) := by
-  have random := TypedRandom.eval_uniform words M (some .fp32) s (.ref .nat [B] name)
+  have random := DecoderProof.eval_decoder words M (some .fp32) s (.ref .nat [B] name)
     (by simpa only [evalOp_unfold] using hw)
   simp only [expr,evalExpr,hf,bind,Option.bind,evalComputeOp]
+  simp only [DecoderProof.decoder_eq] at random
   erw [random]
   simp [ComputeDType.eraseDType,evalOp_unfold,hl,hu,values,bop,numeric,Option.bind]
   rfl
@@ -41,8 +43,8 @@ theorem assign {α : Type} [Inhabited α] (M : Algebra α) (fused : α → α �
     (hf : M.fma .fp32 = some fused) {B : Nat} (words : TileIndex [B] → Random.Word)
     (name : RegName) (lower upper : Float32Bits) (s : State α)
     (hw : s.regs .nat [B] name = some (fun i => (words i).toNat))
-    (hl : s.regs .real [] "lower_arg" = some (fun _ => M.fp32Bits lower))
-    (hu : s.regs .real [] "upper_arg" = some (fun _ => M.fp32Bits upper)) :
+    (hl : s.regs .real [] "from_" = some (fun _ => M.fp32Bits lower))
+    (hu : s.regs .real [] "to" = some (fun _ => M.fp32Bits upper)) :
     step M (stmt B name) s = some (s.setReg name .real [B] (values M fused words lower upper)) := by
   simp only [stmt,step,eval M fused hf words name lower upper s hw hl hu,bind,Option.bind,pure]
 
@@ -61,8 +63,8 @@ theorem exec {α : Type} [Inhabited α] (M : Algebra α) (fused : α → α → 
     (words : Random.Direct.Field → TileIndex [B] → Random.Word)
     (lower upper : Float32Bits) (s : State α)
     (hw : ∀ f, s.regs .nat [B] (fieldName f) = some (fun i => (words f i).toNat))
-    (hl : s.regs .real [] "lower_arg" = some (fun _ => M.fp32Bits lower))
-    (hu : s.regs .real [] "upper_arg" = some (fun _ => M.fp32Bits upper)) :
+    (hl : s.regs .real [] "from_" = some (fun _ => M.fp32Bits lower))
+    (hu : s.regs .real [] "to" = some (fun _ => M.fp32Bits upper)) :
     run M (body B) s = some (result M fused words lower upper s) := by
   let s0 := s.setReg "r0" .real [B] (values M fused (words .c0) lower upper)
   let s1 := s0.setReg "r1" .real [B] (values M fused (words .c1) lower upper)

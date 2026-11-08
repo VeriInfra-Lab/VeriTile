@@ -18,7 +18,7 @@ theorem centerVariance_safe (rms : Bool) (N block : Nat) (s : BlockState)
 
 theorem statistics_safe (rms : Bool) (mean : RegionName) (N block row : Nat)
     (s : BlockState) (bounds : RegionBounds)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hb : rms = Bool.false → row < bounds mean) :
     Stmt.TraceSafe bounds (Normalization.statisticsStmt rms mean N block) s := by
   have hcond : evalOp (.boolNot (.constBool rms)) s = some (Tile.scalar (!rms)) := by
@@ -44,7 +44,7 @@ theorem normalization_safe (f : Flags) (a : Inputs) (r : Regions)
     (M N block row : Nat) (eps p : ℝ) (hN : N ≤ block) (s : BlockState) (bounds : RegionBounds)
     (hx : s.regs .real [block] "x" = some (Reduction.combinedTile f a M N block p row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hmean : f.rms = Bool.false → row < bounds r.mean) (hstd : row < bounds r.rstd) :
     Stmt.TraceSafeList bounds (Normalization.phase f r N block eps) s := by
   unfold Normalization.phase

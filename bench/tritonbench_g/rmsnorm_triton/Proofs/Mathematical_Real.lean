@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_triton.Sources.Mathematical_Kernels
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Sources.Mathematical_Kernels
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormTriton
 open VeriTile.Triton
@@ -217,12 +217,13 @@ def wbBody (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) : List S
         (MemAccess.region w
           (Op.mul .nat Broadcast.scalarR (Op.ref .nat [B] "offs_n") (Op.constNat srw)))
         (MaskOpt.mask (Op.ref .bool [B] "x_ptr_mask"))),
-    Stmt.assign .real [B] "x"
+    Stmt.assign .real [B] "__veritile_load_0"
       (Op.load .real
         (MemAccess.region x
           (Op.add .nat Broadcast.scalarL (Op.ref .nat [] "offs_m")
             (Op.mul .nat Broadcast.scalarR (Op.ref .nat [B] "offs_n") (Op.constNat sxk))))
         (MaskOpt.maskOther (Op.ref .bool [B] "x_ptr_mask") (Op.broadcast (Op.const 0.0) [B]))),
+    Stmt.assign .real [B] "x" (Op.ref .real [B] "__veritile_load_0"),
     Stmt.assign .real [B] "x_hat"
       (Op.mul .real Broadcast.scalarR (Op.ref .real [B] "x") (Op.ref .real [] "rstd")),
     Stmt.assign .real [B] "out"
@@ -484,7 +485,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (mask_eval N B s1 c hoffsn1))]
   set s2 := s1.setReg "x_ptr_mask" .bool [B] (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) with hs2
   have hoffsn2 : s2.regs .nat [B] "offs_n" = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
-    rw [hs2]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x_ptr_mask" by decide)]; exact hoffsn1
+    rw [hs2]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x_ptr_mask" by decide)]; exact hoffsn1
   have hmask2 : s2.regs .bool [B] "x_ptr_mask" = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by rw [hs2]; simp
   -- rms_w (per-region w)
   have hrm2w : s2.readMem w = s0.readMem w := by funext ofs; rw [hs2, hs1]; simp only [BlockState.setReg_readMem]; exact congrFun hrmw ofs
@@ -494,23 +496,32 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
   have hpids3 : s3.pids = s0.pids := by rw [hs3, hs2, hs1]; simp [hpids]
   have hrm3x : s3.readMem x = s0.readMem x := by funext ofs; rw [hs3, hs2, hs1]; simp only [BlockState.setReg_readMem]; exact congrFun hrmx ofs
   have hoffsn3 : s3.regs .nat [B] "offs_n" = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
-    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "rms_w" by decide)]; exact hoffsn2
+    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "rms_w" by decide)]; exact hoffsn2
   have hmask3 : s3.regs .bool [B] "x_ptr_mask" = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
-    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "rms_w" by decide)]; exact hmask2
+    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "rms_w" by decide)]; exact hmask2
   have hoffsm3 : s3.regs .nat [] "offs_m" = some (Tile.scalar (s0.pids 0 * sxb + s0.pids 1 * sxm)) := by
     rw [hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "rms_w" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "rms_w" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "x_ptr_mask" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "offs_n" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "block_n_start_idx" by decide)]
     exact hoffsm
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (xload_eval x sxb sxm sxk N B s0 s3 c hpids3 hrm3x hoffsn3 hmask3 hoffsm3))]
-  set s4 := s3.setReg "x" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ with hs4
+  have copied : evalOp (Op.ref .real [B] "__veritile_load_0")
+      (s3.setReg "__veritile_load_0" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩) = some ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ := by
+    rw [evalOp_ref]
+    exact BlockState.setReg_same _ _ _ _ _
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some copied)]
+  set s4 := (s3.setReg "__veritile_load_0" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩).setReg "x" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ with hs4
   -- x_hat
   have hx4 : s4.regs .real [B] "x" = some ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ := by
     rw [hs4]; exact BlockState.setReg_same _ _ _ _ _
   have hrstd4 : s4.regs .real [] "rstd" = some (Tile.scalar (some RS)) := by
-    rw [hs4, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x" by decide), hs3,
+    rw [hs4, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x" by decide),
+        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "__veritile_load_0" by decide), hs3,
         BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "rms_w" by decide), hs2,
         BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x_ptr_mask" by decide), hs1,
         BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "offs_n" by decide),
@@ -524,7 +535,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
     rw [hs5]; exact BlockState.setReg_same _ _ _ _ _
   have hrw5 : s5.regs .real [B] "rms_w" = some ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s2.readMem w ((c*B+j.1.val)*srw) else s2.undef w ((c*B+j.1.val)*srw))⟩ := by
     rw [hs5, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "x_hat" by decide), hs4,
-        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "x" by decide), hs3]
+        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "x" by decide),
+        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "__veritile_load_0" by decide), hs3]
     exact BlockState.setReg_same _ _ _ _ _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (out_eval B s5 (fun j => (if c*B + j.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.val)) else 0) * RS)
@@ -534,7 +546,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
   have hpids6 : s6.pids = s0.pids := by rw [hs6, hs5, hs4]; simp [hpids3]
   have hpb6 : s6.regs .nat [] "pid_batch" = some (Tile.scalar (s6.pids 0)) := by
     rw [hpids6, hs6, hs5, hs4, hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "out" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "x" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "rms_w" by decide),
@@ -544,7 +557,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
     exact hpb
   have hpm6 : s6.regs .nat [] "pid_m" = some (Tile.scalar (s6.pids 1)) := by
     rw [hpids6, hs6, hs5, hs4, hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "out" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "x" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "rms_w" by decide),
@@ -554,7 +568,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
     exact hpm
   have hoffsn6 : s6.regs .nat [B] "offs_n" = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
     rw [hs6, hs5, hs4]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "out" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x" by decide)]
     exact hoffsn3
@@ -569,7 +584,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
     exact BlockState.setReg_same _ _ _ _ _
   have hmask7 : s7.regs .bool [B] "x_ptr_mask" = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
     rw [hs7, hs6, hs5, hs4]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "out_off" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "out_off" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "x" by decide)]
@@ -595,7 +611,8 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
     rw [hpm6, hpids6]
   have hbN7 : s7.regs .nat [B] "block_N" = some (Tile.vec (fun j : Fin B => j.val)) := by
     rw [hs7, hs6, hs5, hs4, hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("block_N":RegName) ≠ "out_off" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("block_N":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("block_N":RegName) ≠ "out_off" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("block_N":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("block_N":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("block_N":RegName) ≠ "x" by decide),
@@ -606,14 +623,16 @@ theorem wbStep (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (s0 
     exact hblockN
   have hom7 : s7.regs .nat [] "offs_m" = some (Tile.scalar (s0.pids 0 * sxb + s0.pids 1 * sxm)) := by
     rw [hs7, hs6, hs5, hs4]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "out_off" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "out_off" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "x" by decide)]
     exact hoffsm3
   have hrs7 : s7.regs .real [] "rstd" = some (Tile.scalar (some RS)) := by
     rw [hs7, hs6, hs5, hs4]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "out_off" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "out_off" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x" by decide)]
@@ -758,10 +777,10 @@ theorem vardiv_eval (s0 : BlockState) (x : RegionName) (sxb sxm sxk N B c : Nat)
     (hvar : s.regs .real [B] "var" = some ⟨fun idx : TileIndex [B] => some (varAcc s0 x sxb sxm sxk N B c idx.1)⟩) :
     evalOp (Op.div .real Broadcast.nil
         (Op.reduceSum (⟨0, by simp⟩ : Fin [B].length) Bool.false (Op.ref .real [B] "var"))
-        (Op.const (N : ℝ))) s
+        (Op.natToReal (Op.constNat N))) s
       = some (Tile.scalar (some ((∑ j : Fin B, varAcc s0 x sxb sxm sxk N B c j) / (N : ℝ)))) := by
   have hs := var_sum s0 x sxb sxm sxk N B c s hvar
-  simp only [evalOp_div, evalOp_const, Option.bind_eq_bind]
+  simp only [evalOp_div, evalOp_const, evalOp_natToReal, evalOp_constNat, Option.bind_eq_bind]
   erw [hs]
   simp only [Option.bind_some]
   apply congrArg some
@@ -838,7 +857,7 @@ def postStmts (N B : Nat) (eps : ℝ) : List Stmt :=
   [ Stmt.assign .real [] "var"
       (Op.div .real Broadcast.nil
         (Op.reduceSum (⟨0, by simp⟩ : Fin [B].length) Bool.false (Op.ref .real [B] "var"))
-        (Op.const (N:ℝ))),
+        (Op.natToReal (Op.constNat N))),
     Stmt.assign .real [] "rstd"
       (Op.rsqrt (Op.add .real Broadcast.nil (Op.ref .real [] "var") (Op.const eps))) ]
 
@@ -877,7 +896,10 @@ theorem body_decomp (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat)
         ++ [Stmt.forRange "block_n_start_idx" 0 N B (varBody x sxk N B)]
         ++ postStmts N B eps
         ++ [Stmt.forRange "block_n_start_idx" 0 N B (wbBody x w o sxb sxm sxk srw sob som sok N B)] := by
-  simp only [rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,RealSquareView.assignment,RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,ComputeDType.eraseDType,FloatDType.toTileDType,Region.cast,Except.bind,bind,List.map_cons,List.map_nil,prefixStmts,varBody,postStmts,wbBody]
+  simp only [VeriTile.Bench.Repairs.RmsnormTriton.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.family,
+    rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,RealSquareView.assignment,RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,ComputeDType.eraseDType,FloatDType.toTileDType,Region.cast,Except.bind,bind,List.map_cons,List.map_nil,prefixStmts,varBody,postStmts,wbBody]
   try rfl
 
 end Final
@@ -998,7 +1020,10 @@ theorem rmsnorm_full_compute_correct
       (expected := fun k : Fin N => rmsSpecFull s x w sxb sxm sxk srw N eps k.val) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,
+  · simp [VeriTile.Bench.Repairs.RmsnormTriton.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.family,
+    VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,
     RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,
     VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
@@ -1033,7 +1058,10 @@ theorem rmsnorm_full_output_summary_bridge
         (fun k => (o, outOff s sob som sok k.val)))
       (expected := fun k : Fin N => rmsSpecFull s x w sxb sxm sxk srw N eps k.val) := by
   refine ⟨?_, rmsnorm_full_compute_correct x w o sxb sxm sxk srw sob som sok N B eps s hB hNpos hox how hsok⟩
-  simp [VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,
+  simp [VeriTile.Bench.Repairs.RmsnormTriton.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.family,
+    VeriTile.Bench.TritonBenchG.RmsnormTriton.rmsnorm_triton,RealSquareView.ofKernel,RealSquareView.bindings,RealSquareView.binding,RealSquareView.assignment,
     RealSquareView.sum,RealSquareView.square,IntegerExpr.sameShape,
     VeriTile.Bench.Repairs.RmsnormTriton.kernel,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
@@ -1331,7 +1359,7 @@ set_option maxHeartbeats 8000000 in
 iteration leaves every cell off the `{(out, outOff k) : k < N_SIZE}`
 write window untouched — the masked scatter store only hits active lanes
 `i + j < N_SIZE`, whose offsets are `outOff (i + j)`. -/
-private theorem rms_wbBody_step_frame (x w o : RegionName)
+theorem rms_wbBody_step_frame (x w o : RegionName)
     (sxb sxm sxk srw sob som sok N B : Nat)
     (s0 st st' : BlockState) (RS : ℝ) (i : Nat) (hiB : B ∣ i)
     (hpids : st.pids = s0.pids)
@@ -1356,29 +1384,39 @@ private theorem rms_wbBody_step_frame (x w o : RegionName)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (mask_eval N B s1 c hoffsn1))] at hstep
   set s2 := s1.setReg "x_ptr_mask" .bool [B] (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) with hs2
   have hoffsn2 : s2.regs .nat [B] "offs_n" = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
-    rw [hs2]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x_ptr_mask" by decide)]; exact hoffsn1
+    rw [hs2]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x_ptr_mask" by decide)]; exact hoffsn1
   have hmask2 : s2.regs .bool [B] "x_ptr_mask" = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by rw [hs2]; simp
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (rmsw_eval w srw N B s2 c hoffsn2 hmask2))] at hstep
   set s3 := s2.setReg "rms_w" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s2.readMem w ((c*B+j.1.val)*srw) else s2.undef w ((c*B+j.1.val)*srw))⟩ with hs3
   have hpids3 : s3.pids = s0.pids := by rw [hs3, hs2, hs1]; simp [hpids]
   have hrm3x : s3.readMem x = s0.readMem x := by funext ofs; rw [hs3, hs2, hs1]; simp only [BlockState.setReg_readMem]; exact congrFun hrmx ofs
   have hoffsn3 : s3.regs .nat [B] "offs_n" = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
-    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "rms_w" by decide)]; exact hoffsn2
+    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "rms_w" by decide)]; exact hoffsn2
   have hmask3 : s3.regs .bool [B] "x_ptr_mask" = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
-    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "rms_w" by decide)]; exact hmask2
+    rw [hs3]; simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "rms_w" by decide)]; exact hmask2
   have hoffsm3 : s3.regs .nat [] "offs_m" = some (Tile.scalar (s0.pids 0 * sxb + s0.pids 1 * sxm)) := by
     rw [hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "rms_w" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "rms_w" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "x_ptr_mask" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "offs_n" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "block_n_start_idx" by decide)]
     exact hoffsm
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (xload_eval x sxb sxm sxk N B s0 s3 c hpids3 hrm3x hoffsn3 hmask3 hoffsm3))] at hstep
-  set s4 := s3.setReg "x" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ with hs4
+  have copied : evalOp (Op.ref .real [B] "__veritile_load_0")
+      (s3.setReg "__veritile_load_0" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩) = some ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ := by
+    rw [evalOp_ref]
+    exact BlockState.setReg_same _ _ _ _ _
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some copied)] at hstep
+  set s4 := (s3.setReg "__veritile_load_0" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩).setReg "x" .real [B] ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ with hs4
   have hx4 : s4.regs .real [B] "x" = some ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.1.val)) else 0)⟩ := by
     rw [hs4]; exact BlockState.setReg_same _ _ _ _ _
   have hrstd4 : s4.regs .real [] "rstd" = some (Tile.scalar (some RS)) := by
-    rw [hs4, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x" by decide), hs3,
+    rw [hs4, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x" by decide),
+        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "__veritile_load_0" by decide), hs3,
         BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "rms_w" by decide), hs2,
         BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "x_ptr_mask" by decide), hs1,
         BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rstd":RegName) ≠ "offs_n" by decide),
@@ -1391,7 +1429,8 @@ private theorem rms_wbBody_step_frame (x w o : RegionName)
     rw [hs5]; exact BlockState.setReg_same _ _ _ _ _
   have hrw5 : s5.regs .real [B] "rms_w" = some ⟨fun j : TileIndex [B] => some (if c*B + j.1.val < N then s2.readMem w ((c*B+j.1.val)*srw) else s2.undef w ((c*B+j.1.val)*srw))⟩ := by
     rw [hs5, BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "x_hat" by decide), hs4,
-        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "x" by decide), hs3]
+        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "x" by decide),
+        BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("rms_w":RegName) ≠ "__veritile_load_0" by decide), hs3]
     exact BlockState.setReg_same _ _ _ _ _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (out_eval B s5 (fun j => (if c*B + j.val < N then s0.readMem x (xOff s0 sxb sxm sxk (c*B+j.val)) else 0) * RS)
@@ -1400,7 +1439,8 @@ private theorem rms_wbBody_step_frame (x w o : RegionName)
   have hpids6 : s6.pids = s0.pids := by rw [hs6, hs5, hs4]; simp [hpids3]
   have hpb6 : s6.regs .nat [] "pid_batch" = some (Tile.scalar (s6.pids 0)) := by
     rw [hpids6, hs6, hs5, hs4, hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "out" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "x" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "rms_w" by decide),
@@ -1410,7 +1450,8 @@ private theorem rms_wbBody_step_frame (x w o : RegionName)
     exact hpb
   have hpm6 : s6.regs .nat [] "pid_m" = some (Tile.scalar (s6.pids 1)) := by
     rw [hpids6, hs6, hs5, hs4, hs3, hs2, hs1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "out" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "x" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "rms_w" by decide),
@@ -1420,7 +1461,8 @@ private theorem rms_wbBody_step_frame (x w o : RegionName)
     exact hpm
   have hoffsn6 : s6.regs .nat [B] "offs_n" = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
     rw [hs6, hs5, hs4]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "out" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "x" by decide)]
     exact hoffsn3
@@ -1434,7 +1476,8 @@ private theorem rms_wbBody_step_frame (x w o : RegionName)
     exact BlockState.setReg_same _ _ _ _ _
   have hmask7 : s7.regs .bool [B] "x_ptr_mask" = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
     rw [hs7, hs6, hs5, hs4]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "out_off" by decide),
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "out_off" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "out" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "x_hat" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "x" by decide)]
@@ -1639,7 +1682,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
   have hoffsn2 : q2.regs .nat [B] "offs_n"
       = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
     rw [hq2]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
       (show ("offs_n":RegName) ≠ "x_ptr_mask" by decide)]
     exact hoffsn1
   have hmask2 : q2.regs .bool [B] "x_ptr_mask"
@@ -1648,7 +1692,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
   have hom2 : q2.regs .nat [] "offs_m"
       = some (Tile.scalar (s0.pids 0 * sxb + s0.pids 1 * sxm)) := by
     rw [hq2, hq1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("offs_m":RegName) ≠ "x_ptr_mask" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("offs_m":RegName) ≠ "offs_n" by decide),
@@ -1657,7 +1702,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
     exact hom
   have hpb2 : q2.regs .nat [] "pid_batch" = some (Tile.scalar (s0.pids 0)) := by
     rw [hq2, hq1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("pid_batch":RegName) ≠ "x_ptr_mask" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("pid_batch":RegName) ≠ "offs_n" by decide),
@@ -1666,7 +1712,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
     exact hpb
   have hpm2 : q2.regs .nat [] "pid_m" = some (Tile.scalar (s0.pids 1)) := by
     rw [hq2, hq1]
-    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+    simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("pid_m":RegName) ≠ "x_ptr_mask" by decide),
       BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("pid_m":RegName) ≠ "offs_n" by decide),
@@ -1692,19 +1739,22 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
     have hoffsn3 : q3.regs .nat [B] "offs_n"
         = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
       rw [hq3]
-      simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+      simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("offs_n":RegName) ≠ "rms_w" by decide)]
       exact hoffsn2
     have hmask3 : q3.regs .bool [B] "x_ptr_mask"
         = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
       rw [hq3]
-      simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+      simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("x_ptr_mask":RegName) ≠ "rms_w" by decide)]
       exact hmask2
     have hom3 : q3.regs .nat [] "offs_m"
         = some (Tile.scalar (s0.pids 0 * sxb + s0.pids 1 * sxm)) := by
       rw [hq3]
-      simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+      simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
         (show ("offs_m":RegName) ≠ "rms_w" by decide)]
       exact hom2
     -- the masked x load
@@ -1722,7 +1772,11 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
       have hlt : c * B + idx.1.val < N := by simpa [Tile.vec] using hmi
       simpa [Region.cast_id, Tile.vec] using hbx idx.1 hlt
     · obtain ⟨v4, -, rfl⟩ := stepStmtR_assign_inv ht4
-      set q4 := q3.setReg "x" .real [B] v4 with hq4
+      -- The typed load is materialized before the existing x binding.
+      refine Stmt.TraceSafeListR.cons_intro
+        (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) (fun copied hcopied => ?_)
+      obtain ⟨vCopied, -, rfl⟩ := stepStmtR_assign_inv hcopied
+      set q4 := (q3.setReg "__veritile_load_0" .real [B] v4).setReg "x" .real [B] vCopied with hq4
       -- x_hat (register-only)
       refine Stmt.TraceSafeListR.cons_intro
         (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) (fun t5 ht5 => ?_)
@@ -1738,7 +1792,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
         rw [hq6, hq5, hq4, hq3]; simp [hpids2]
       have hpb6 : q6.regs .nat [] "pid_batch" = some (Tile.scalar (q6.pids 0)) := by
         rw [hpids6, hq6, hq5, hq4, hq3]
-        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_batch":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("pid_batch":RegName) ≠ "out" by decide),
           BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("pid_batch":RegName) ≠ "x_hat" by decide),
@@ -1749,7 +1804,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
         exact hpb2
       have hpm6 : q6.regs .nat [] "pid_m" = some (Tile.scalar (q6.pids 1)) := by
         rw [hpids6, hq6, hq5, hq4, hq3]
-        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("pid_m":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("pid_m":RegName) ≠ "out" by decide),
           BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("pid_m":RegName) ≠ "x_hat" by decide),
@@ -1761,7 +1817,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
       have hoffsn6 : q6.regs .nat [B] "offs_n"
           = some (Tile.vec (fun j : Fin B => c*B + j.val)) := by
         rw [hq6, hq5, hq4]
-        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("offs_n":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("offs_n":RegName) ≠ "out" by decide),
           BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("offs_n":RegName) ≠ "x_hat" by decide),
@@ -1771,7 +1828,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
       have hmask6 : q6.regs .bool [B] "x_ptr_mask"
           = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
         rw [hq6, hq5, hq4]
-        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("x_ptr_mask":RegName) ≠ "out" by decide),
           BlockState.setReg_ne_name _ _ _ _ _ _ _ _
             (show ("x_ptr_mask":RegName) ≠ "x_hat" by decide),
@@ -1802,7 +1860,8 @@ private theorem rms_wbBodySafeR (R : RoundingModel) (bounds : RegionBounds)
       have hmask7 : q7.regs .bool [B] "x_ptr_mask"
           = some (Tile.vec (fun j : Fin B => decide (c*B + j.val < N))) := by
         rw [hq7]
-        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _
+        simp only [BlockState.setReg_ne_name _ _ _ _ _ _ _ _ (show ("x_ptr_mask":RegName) ≠ "__veritile_load_0" by decide),
+      BlockState.setReg_ne_name _ _ _ _ _ _ _ _
           (show ("x_ptr_mask":RegName) ≠ "out_off" by decide)]
         exact hmask6
       -- the masked store

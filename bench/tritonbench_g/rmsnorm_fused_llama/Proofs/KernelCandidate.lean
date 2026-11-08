@@ -19,7 +19,7 @@ theorem typed {α : Type} [Inhabited α] (A : Algebra α) (X Y W : RegionName)
   let original := (kernel X Y W N B eps).surfaceBody
   let candidate := (indexCommutedKernel X Y W N B eps).surfaceBody
   have pref : run A (candidate.take 3) s=run A (original.take 3) s := by
-    simp [candidate,original,indexCommutedKernel,runtimeCandidate,kernel,runtimeKernel,
+    simp [candidate,original,indexCommutedKernel,runtimeCandidateKernel,kernel,runtimeKernel,
       ComputeKernel.withScalarArguments, ScalarArgument.statement, ScalarArgument.fp32,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,bop,State.setReg,Option.bind]
     delta bop

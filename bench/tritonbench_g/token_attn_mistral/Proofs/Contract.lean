@@ -19,7 +19,7 @@ theorem fold_write_memory {α ι : Type} (xs : List ι) (region : ι → RegionN
 theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s t : State α) (h : Ready p s t (accumulated M R p s)) :
     ∃ u, run (withSum M R) (postlude p) t = some u ∧ u.mem = (reference M R p s).mem := by
-  simp [postlude, kernel, source, ComputeKernel.surfaceBody, run, step, evalExpr,
+  simp [postlude, kernel, sourceKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
     FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
     numeric, bop, Region.cast, withSum, h.mem, h.pids, h.undef, h.batch, h.head,
@@ -28,16 +28,17 @@ theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
   rfl
 
 theorem source_split (p : Parameters) : (kernel p).surfaceBody = prelude p ++
-    [ComputeStmt.forRangeDyn "start_n" (Op.constNat 0)
-      (Op.ref .nat [] "cur_att_seq_len") (Op.constNat p.block) (body p)] ++ postlude p := by
+    [ComputeStmt.forRangeInt "start_n" (Op.constInt 0)
+      (Op.ref .int [] "cur_att_seq_len") (Op.constNat p.block) (body p)] ++ postlude p := by
   rfl
 
 theorem complete_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
-    (p : Parameters) (s : State α) :
+    (p : Parameters) (s : State α) (valid : ValidMetadata p s) :
     ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧
       t.mem = (reference M R p s).mem := by
-  obtain ⟨a,ha,hr⟩ := prelude_run M R p s
-  obtain ⟨b,hb,hs⟩ := range_run M R p s a 0 (count p s) (initial M p) hr
+  obtain ⟨a,ha,hr⟩ := prelude_run M R p s valid
+  obtain ⟨b,hb,hs⟩ := range_run M R p s a 0 (count p s) (initial M p) hr (Nat.le_refl _) (by simp)
+  simp only [Nat.cast_zero] at hb
   obtain ⟨c,hc,hm⟩ := postlude_run M R p s b hs
   refine ⟨c,?_,hm⟩
   change run (withSum M R) (kernel p).surfaceBody s = some c

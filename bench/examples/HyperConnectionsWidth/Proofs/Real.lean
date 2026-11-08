@@ -13,7 +13,17 @@ import VeriTile.Triton.Math.SinkhornMemory
 /-! Real execution, arithmetic and memory lemmas for HyperConnectionsWidth.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
+  VeriTile.Triton.ComputeKernel.toAlgorithm? VeriTile.Triton.ComputeStmt.toAlgorithm?
+  VeriTile.Triton.ComputeStmt.listToAlgorithm?
+
+@[simp] private theorem source_except_ok_bind {α β ε : Type _} (a : α)
+    (f : α → Except ε β) :
+    (Except.ok a : Except ε α) >>= f = f a := rfl
 namespace VeriTile.Bench.Examples.HyperConnectionsWidth.Memory
+
+
 open VeriTile Triton TraceProofs Kernels
 
 set_option maxHeartbeats 6400000
@@ -28,7 +38,7 @@ theorem traceSafe (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     (hmix : s.pid * (S * D) + S * D ≤ bounds "res_mix")
     (hbranch : s.pid * (T * D) + T * D ≤ bounds "branch_in") :
     Kernel.TraceSafe bounds
-      (if optimized then (matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).toAlgKernel
+      (if optimized then (matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).toAlgKernel
        else (matrixOriginal S T D iters tau).toAlgKernel) s := by
   cases optimized <;> simp only [Bool.false_eq_true, ↓reduceIte]
   all_goals
@@ -175,9 +185,9 @@ theorem traceSafe (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
 
 /-- Both sources remain in the fragment supported by address relocation. -/
 theorem flattenOk (optimized : Bool) (S T D iters : Nat) (tau : ℝ) :
-    (if optimized then (matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).toAlgKernel
+    (if optimized then (matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).toAlgKernel
      else (matrixOriginal S T D iters tau).toAlgKernel).FlattenOk := by
-  cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimized, ComputeKernel.toAlgKernel,
+  cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimizedKernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end VeriTile.Bench.Examples.HyperConnectionsWidth.Memory
@@ -202,7 +212,7 @@ private theorem mhcWidth_exec_view (tau : ℝ) (s : BlockState) :
       = some
         (Real.exp (s.readMem ⟨"h_res"⟩ 0 / tau) * s.readMem ⟨"res"⟩ s.pid,
          Real.exp (s.readMem ⟨"h_pre"⟩ 0 / tau) * s.readMem ⟨"res"⟩ s.pid) := by
-  simp [mhcWidthConnectionKernel, exec, stepStmts,
+  simp [scalarKernel, mhcWidthConnectionKernel, exec, stepStmts,
     stepStmt, NumericDType.mul, NumericDType.div,
     WithBot.realMul, WithBot.realDiv, BlockState.writeMem, BlockState.readMem]
 
@@ -215,7 +225,7 @@ private theorem mhcWidth_frame (tau : ℝ) (s s1 : BlockState)
     (h1 : ¬(r = ⟨"res_mix"⟩ ∧ o = s.pid))
     (h2 : ¬(r = ⟨"branch_in"⟩ ∧ o = s.pid)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, mhcWidthConnectionKernel,
+  simp [exec, scalarKernel, mhcWidthConnectionKernel,
     ComputeKernel.toAlgKernel, stepStmts, stepStmt,
     NumericDType.mul, NumericDType.div] at hExec
   subst hExec
@@ -386,7 +396,7 @@ theorem mhcWidth_flattenOk (tau : ℝ) :
     ((mhcWidthConnectionKernel ⟨"res"⟩ ⟨"h_res"⟩ ⟨"h_pre"⟩ ⟨"res_mix"⟩
       ⟨"branch_in"⟩ 1 1 1 0 tau).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [mhcWidthConnectionKernel,
+  simp [scalarKernel, mhcWidthConnectionKernel,
     ComputeKernel.toAlgKernel, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
@@ -399,7 +409,7 @@ attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? ComputeDT
 theorem optimized_exec (tau : ℝ) (s : BlockState) :
     exec (optimizedKernel tau).toAlgKernel s =
       exec (mhcWidthConnectionKernel "res" "h_res" "h_pre" "res_mix" "branch_in" 1 1 1 0 tau).toAlgKernel s := by
-  simp [optimizedKernel, mhcWidthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel, scalarKernel, mhcWidthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, Tile.uop, NumericDType.mul, NumericDType.div, mul_comm]
 
 end Optimized
@@ -517,7 +527,7 @@ Tile.dot [] (weights (scale logits tau) iters) res)
     exact congrFun (congrFun (hum.trans hqm) r) o
 
 theorem matrix_optimized_run (S T D iters : Nat) (tau : ℝ) (s : BlockState) :
-    Spec.Real (∃ t, exec (matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau) s = some t ∧
+    Spec.Real (∃ t, exec (matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau) s = some t ∧
       (∀ i : TileIndex [S, D], t.readMem "res_mix" (s.pid * (S * D) + i.1.val * D + i.2.1.val) =
         (((fun {S D : Nat} (res : Tile .real [S, D]) (logits : Tile .real [S, S])
     (tau : ℝ) (iters : Nat) =>
@@ -534,12 +544,12 @@ Tile.dot [] (Tile.transpose [] (weights (scale logits tau) iters)) res) (readMat
         t.mem r o = s.mem r o)) := by
   obtain ⟨t, ht, post⟩ := matrix_original_run S T D iters tau s
   refine ⟨t, ?_, post⟩
-  have hmid : exec (matrixMiddle "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau) s = some t :=
+  have hmid : exec (matrixMiddleKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau) s = some t :=
     MatrixRewrite.div_mul_rcp ((matrixOriginal S T D iters tau).body.take 9)
       ((matrixOriginal S T D iters tau).body.drop 10) "z" _ tau s t ht
   exact MatrixRewrite.div_mul_rcp
-    ((matrixMiddle "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).body.take 17)
-    ((matrixMiddle "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).body.drop 18)
+    ((matrixMiddleKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).body.take 17)
+    ((matrixMiddleKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau).body.drop 18)
     "z" _ tau s t hmid
 
 /-- Transport both matrix outputs and their shared memory frame to the flat
@@ -551,7 +561,7 @@ theorem matrix_region_run (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     (hy : ∀ i, s.readMem "h_res" (0 + i.val) = ys i)
     (hz : ∀ i, s.readMem "h_pre" (0 + i.val) = zs i) :
     ∃ t, exec (if optimized then
-        matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau
+        matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D iters tau
       else matrixOriginal S T D iters tau) s = some t ∧
       (∀ i : Fin (S * D), t.readMem "res_mix" (s.pid * (S * D) + i.val) =
         ((Tile.dot [] (weights (scale (matrixTile ys) tau) iters)

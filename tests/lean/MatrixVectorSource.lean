@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_vector_multip.Correct
+import bench.tritonbench_g.matrix_vector_multip.RealCorrect
 import bench.tritonbench_g.matrix_vector_multip.FPEquiv
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Tests.MatrixVectorSource

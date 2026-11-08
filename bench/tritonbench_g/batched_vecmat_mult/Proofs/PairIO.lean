@@ -28,10 +28,10 @@ theorem expected_memory (cfg : FP.Config) (plans : PlanSelector) (p : Parameters
       MemoryEqual cfg
         (xs.foldl (fun mem i => fun reg off =>
           if reg=p.output ∧ off=outputOffset p s i then
-            .mk .real (SourceGraph.accumulated plans p s (p.K/p.BK) i) else mem reg off) l)
+            .mk .fp32 (SourceGraph.accumulated plans p s (p.K/p.BK) i) else mem reg off) l)
         (xs.foldl (fun mem i => fun reg off =>
           if reg=p.output ∧ off=outputOffset p t i then
-            .mk .real (BlockFirst.accumulated plans p t (p.K/p.BK) i) else mem reg off) r) := by
+            .mk .fp32 (BlockFirst.accumulated plans p t (p.K/p.BK) i) else mem reg off) r) := by
     intro xs
     induction xs with
     | nil => intro l r same; exact same
@@ -43,7 +43,7 @@ theorem expected_memory (cfg : FP.Config) (plans : PlanSelector) (p : Parameters
       rw [offsets]
       dsimp only
       split
-      · change Cell.mk .real (Expr.word _) = Cell.mk .real (Expr.word _)
+      · change Cell.mk .fp32 (Expr.word _) = Cell.mk .fp32 (Expr.word _)
         rw [BlockFirst.accumulated_evaluate cfg plans p s t hp ha hb]
       · exact same reg off
   exact aux _ _ _ same

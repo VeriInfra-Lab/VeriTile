@@ -5,7 +5,7 @@ import bench.tritonbench_g.attention_llama.Proofs.HostResult
 import bench.tritonbench_g.attention_llama.Proofs.Geometry
 import bench.tritonbench_g.attention_llama.Proofs.Mathematical_FP8RealMemory
 import VeriTile.Triton.Memory.AlgorithmProgramIO
-import bench.tritonbench_g.attention_llama.IOLayout
+import bench.tritonbench_g.attention_llama.Proofs.Support.IOLayout
 
 namespace VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked.RealLayout
 open VeriTile Triton Source

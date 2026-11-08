@@ -3,7 +3,7 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.Frame
 import bench.tritonbench_g.layer_norm_liger.Proofs.ForwardContract
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Grid
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum softwareSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive softwareSum)
 noncomputable section
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000

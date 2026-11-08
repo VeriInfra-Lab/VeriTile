@@ -21,12 +21,12 @@ variable {α : Type} [Inhabited α]
 
 @[simp] theorem registers_block (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
-    (registers M ops p positive entry).regs .nat [] "block"=some (fun _=> Model.group p entry) := by
+    (registers M ops p positive entry).regs .int [] "block"=some (fun _=> (Model.group p entry : Int)) := by
   cases query : p.query <;> simp [registers,reduced,classified,prescaled,addressed,query]
 
 @[simp] theorem registers_offset (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
-    (registers M ops p positive entry).regs .nat [p.width] "offset"=some (Model.offset p entry) := by
+    (registers M ops p positive entry).regs .int [p.width] "offset"=some (fun i=> (Model.offset p entry i : Int)) := by
   cases query : p.query <;> simp [registers,reduced,classified,prescaled,addressed,query]
 
 @[simp] theorem registers_active (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
@@ -63,21 +63,21 @@ theorem stores_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
     run (Model.backend M ops) (segment p 21 2) (registers M ops p positive entry)=
       some (finalState M ops p positive entry) := by
-  simp [segment,source,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [segment,sourceKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Model.backend,Option.bind,numericEq,bop,numeric,FP.Structural.store,
     Region.cast,ComputeDType.eraseDType,masked_scatter_regs,finalState,savedScale]
 
 theorem segments_cover (p : Parameters) :
-    (source p).surfaceBody=segment p 0 8++segment p 8 1++segment p 9 3++
+    (sourceKernel p).surfaceBody=segment p 0 8++segment p 8 1++segment p 9 3++
       segment p 12 4++segment p 16 5++segment p 21 2 := rfl
 
 /-- Constructed successful execution of the whole typed production source,
 with the actual final registers and both observable stores. -/
 theorem source_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) :
-    FP.Structural.exec (Model.backend M ops) (source p) entry=
+    FP.Structural.exec (Model.backend M ops) (sourceKernel p) entry=
       some (finalState M ops p positive entry) := by
-  change run (Model.backend M ops) (source p).surfaceBody entry=_
+  change run (Model.backend M ops) (sourceKernel p).surfaceBody entry=_
   rw [segments_cover]
   simp only [run_append,addressed_run,prescaled_run,classified_run M ops p positive,reduced_run,registers_run,stores_run,
     Option.bind_some]

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int_scaled_matmul.Proofs.BlockWordComplete
-import bench.tritonbench_g.int_scaled_matmul.Sources.LogicalSum
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.LogicalSum
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord
 open VeriTile.Triton FP.Structural
 noncomputable section

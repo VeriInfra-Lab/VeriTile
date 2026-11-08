@@ -1,4 +1,4 @@
-import bench.tritonbench_g.diag_ssm_triton.Sources.Mathematical_Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.destindex_copy.Proofs.Mathematical_IndexRewrite
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.FPProof
 open VeriTile Triton FP.ProfiledRewrite TypedSource

@@ -8,7 +8,7 @@ noncomputable section
 
 abbrev channels (g : KernelInterface.Geometry) : List IOChannel :=
   [⟨.real, [g.B * g.H, g.S], "E"⟩, ⟨.real, [g.B * g.H, g.S, g.D], "M"⟩,
-   ⟨.nat, [g.B], "L"⟩]
+   ⟨.int, [g.B], "L"⟩]
 abbrev Inputs (α : Type) (g : KernelInterface.Geometry) := ChannelValues α (channels g)
 
 def logValues {α : Type} [Inhabited α] {g : KernelInterface.Geometry} (vals : Inputs α g)
@@ -22,7 +22,7 @@ def midValues {α : Type} [Inhabited α] {g : KernelInterface.Geometry} (vals : 
     vals 1 (⟨row, h.1⟩, ⟨split, h.2.1⟩, ⟨dim, h.2.2⟩, PUnit.unit) else default
 
 def lengths {α : Type} {g : KernelInterface.Geometry} (vals : Inputs α g) (batch : Nat) : Nat :=
-  if h : batch < g.B then vals 2 (⟨batch, h⟩, PUnit.unit) else 0
+  if h : batch < g.B then (vals 2 (⟨batch, h⟩, PUnit.unit)).toNat else 0
 
 /-- Existing length domain: only launched rows require positive lengths bounded
 by the available split capacity. Empty batch/head grids remain allowed. -/
@@ -31,7 +31,7 @@ def Lengths {α : Type} (g : KernelInterface.Geometry) (vals : Inputs α g) : Pr
     lengths vals (row / g.H) ≤ g.S * g.Q
 
 def launch {β : Type} (A : Algebra β) (g : KernelInterface.Geometry) (row : Nat) : Invocation β where
-  kernel := FlashDecode2.llama g.H g.S g.D g.Q g.D
+  kernel := FlashDecode2.llamaKernel g.H g.S g.D g.Q g.D
   backend := A
   clearRegisters := Bool.true
   pids := fun a => if a = 0 then row / g.H else if a = 1 then row % g.H else 0
@@ -40,7 +40,7 @@ def launch {β : Type} (A : Algebra β) (g : KernelInterface.Geometry) (row : Na
 def schedule {β : Type} (A : Algebra β) (g : KernelInterface.Geometry) (order : List Nat) :=
   order.map (launch A g)
 
-/-- Full unmasked Llama source grid with natural length metadata and FP32
+/-- Full unmasked Llama source grid with signed Int32 length metadata and FP32
 payload channels. Explicit order retains every original permutation. -/
 abbrev decodeIO {α β : Type} (A : Algebra β) (g : KernelInterface.Geometry) (order : List Nat)
     (encode : α → β) (observe : β → α) : ProgramIO α β where
@@ -82,7 +82,7 @@ noncomputable section
 structure Inputs (g : KernelInterface.Geometry) where
   logs : Fin (g.B*g.H) → Fin g.S → ℝ
   mids : Fin (g.B*g.H) → Fin g.S → Fin g.D → ℝ
-  lengths : Fin g.B → Nat
+  lengths : Fin g.B → Int
 
 def inputEquiv (g : KernelInterface.Geometry) : IO.Inputs ℝ g ≃ Inputs g where
   toFun xs := ⟨fun row j => xs (0 : Fin 3) (row,j,()),fun row j d => xs (1 : Fin 3) (row,j,d,()),fun b => xs (2 : Fin 3) (b,())⟩
@@ -106,7 +106,7 @@ def Inputs.mid {g : KernelInterface.Geometry} (xs : Inputs g) (row : Fin (g.B*g.
   if h : j<g.S then xs.mids row ⟨j,h⟩ d else default
 
 def Inputs.length {g : KernelInterface.Geometry} (xs : Inputs g) (row : Fin (g.B*g.H)) : Nat :=
-  if h : row.val/g.H<g.B then xs.lengths ⟨row.val/g.H,h⟩ else 0
+  if h : row.val/g.H<g.B then (xs.lengths ⟨row.val/g.H,h⟩).toNat else 0
 
 
 def view (g : KernelInterface.Geometry) (order : List Nat) (observe : Option ℝ → ℝ) :

@@ -31,7 +31,7 @@ def result {B : Nat} (u : BlockState) (x y : RegionName) (off : TileIndex [B] �
     (mask : TileIndex [B] → Bool) (state transition : TileIndex [B] → ℂ) : BlockState :=
   let xs := input u x off mask
   let ns := next u x off mask state transition
-  let indexed := u.setReg "offsets" .nat [B] ⟨fun j => off j*2⟩
+  let indexed := u.setReg "offsets" .int [B] ⟨fun j => ((off j*2 : Nat) : Int)⟩
   let realLoaded := indexed.setReg "x_real" .real [B] (realTile xs)
   let imagLoaded := realLoaded.setReg "x_imag" .real [B] (imagTile xs)
   let realUpdated := imagLoaded.setReg "new_s_real" .real [B] (realTile ns)
@@ -45,8 +45,8 @@ addition, with the source mask and the two interleaved stores unchanged. -/
 theorem body_step (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
     (state transition : TileIndex [B] → ℂ)
-    (ht : u.regs .nat [] "t" = some (Tile.scalar t))
-    (hc : u.regs .nat [B] "col_offsets" = some ⟨col⟩)
+    (ht : u.regs .int [] "t" = some (Tile.scalar (t : Int)))
+    (hc : u.regs .int [B] "col_offsets" = some ⟨fun j=>(col j : Int)⟩)
     (hm : u.regs .bool [B] "mask" = some ⟨mask⟩)
     (hsr : u.regs .real [B] "s_real" = some (realTile state))
     (hsi : u.regs .real [B] "s_imag" = some (imagTile state))
@@ -54,9 +54,9 @@ theorem body_step (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
     (hli : u.regs .real [B] "lambda_imag" = some (imagTile transition)) :
     stepStmts (ComplexForwardSource.body x y batch dim B) u =
       some (result u x y (offset batch dim t col) mask state transition) := by
-  simp only [ComplexForwardSource.body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+  simp only [ComplexForwardSource.body,Erasure.complexForward,TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,Bench.Repairs.DiagSsmTriton.complexForwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeStmt.listToAlgorithm?_map_alg,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
@@ -73,9 +73,14 @@ theorem body_step (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
     Option.bind_some,Option.map_some,Bool.true_eq_false,↓reduceIte,ne_eq,not_false_eq_true,
     ht,hc,hm,hsr,hsi,hlr,hli,realTile,imagTile,Nat.mul_assoc,
     FloatDType.storeValue,FloatDType.toWithBot,WithBot.unbotD_some]
+  simp only [Int.ofNat_eq_natCast,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast,
+    IntegerExpr.same_left,IntegerExpr.same_right]
   simp only [result,ComplexMemory.store,realTile,imagTile,next,input,offset,
     Complex.add_re,Complex.add_im,Complex.mul_re,Complex.mul_im]
   simp only [apply_ite,Option.map₂_some_some,WithBot.unbotD_some]
+  have twice (n : Nat) : (n : Int)*2=((n*2 : Nat) : Int) := by omega
+  have plusOne (n : Nat) : (n : Int)+1=((n+1 : Nat) : Int) := by omega
+  simp only [twice,plusOne,Int.toNat_natCast,Nat.mul_assoc]
   rfl
 
 
@@ -83,7 +88,7 @@ theorem body_step (x y : RegionName) (batch dim B t : Nat) (u : BlockState)
 forLoop at each step, so it is not part of this persistent context. -/
 structure Registers {B : Nat} (u : BlockState) (col : TileIndex [B] → Nat)
     (mask : TileIndex [B] → Bool) (state transition : TileIndex [B] → ℂ) : Prop where
-  columns : u.regs .nat [B] "col_offsets" = some ⟨col⟩
+  columns : u.regs .int [B] "col_offsets" = some ⟨fun j=>(col j : Int)⟩
   active : u.regs .bool [B] "mask" = some ⟨mask⟩
   realState : u.regs .real [B] "s_real" = some (realTile state)
   imagState : u.regs .real [B] "s_imag" = some (imagTile state)
@@ -93,7 +98,7 @@ structure Registers {B : Nat} (u : BlockState) (col : TileIndex [B] → Nat)
 theorem Registers.setCounter {B : Nat} {u : BlockState} {col : TileIndex [B] → Nat}
     {mask : TileIndex [B] → Bool} {state transition : TileIndex [B] → ℂ}
     (h : Registers u col mask state transition) (t : Nat) :
-    Registers (u.setReg "t" .nat [] (Tile.scalar t)) col mask state transition := by
+    Registers (u.setReg "t" .int [] (Tile.scalar (t : Int))) col mask state transition := by
   constructor
   · simpa using h.columns
   · simpa using h.active

@@ -15,10 +15,10 @@ variable {A : Type} [Inhabited A]
 theorem prelude_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     (bounds : RegionName → Nat) (s : State A) :
     Safety.traceSafeList (backend M D) bounds (prelude p) s := by
-  simp [prelude, kernel, typed, ComputeKernel.surfaceBody,
+  simp [prelude, kernel, typed, Pasted.candidateKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask,
-    run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, bop, natLt, numericEq,
+    run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, bop, natLt, numericLt, numericEq,
     ComputeDType.eraseDType, ofFloat, toFloat, FloatDType.numericDType,
     FloatDType.toTileDType, Region.cast, Option.bind, integralFloorDiv, integralMod]
 
@@ -30,20 +30,22 @@ theorem body_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     (hb : ∀ i : BIndex p, k * BK p + i.1.val < p.K →
       (k * BK p + i.1.val) * p.stride_bk + bCol p initial i.2.1 * p.stride_bn < bounds p.B) :
     Safety.traceSafeList (backend M D) bounds (body p)
-      (current.setReg "kk" .nat [] (fun _ => k)) := by
+      (current.setReg "k" .int [] (fun _ => (k : Int))) := by
   simp only [HasAcc] at acc
-  simp [body, kernel, typed, ComputeKernel.surfaceBody,
+  simp [body, kernel, typed, Pasted.candidateKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold,
-    numeric, bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
+    numeric, bop, natLt, numericLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,
     ctx.memory, ctx.offk, ctx.am, ctx.bn, acc, backend, State.setReg]
   constructor
   · intro i j active
-    simpa only [active, if_true] using ha (i, j, PUnit.unit) active
+    have hn : k*BK p+j.val<p.K := by simpa only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt] using active
+    simpa only [←Int.natCast_add,←Int.natCast_mul,Int.ofNat_lt,hn,if_true,Int.toNat_natCast] using ha (i,j,PUnit.unit) hn
   · intro i j active
-    simpa only [active, if_true] using hb (i, j, PUnit.unit) active
+    have hn : k*BK p+i.val<p.K := by simpa only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt] using active
+    simpa only [←Int.natCast_add,←Int.natCast_mul,Int.ofNat_lt,hn,if_true,Int.toNat_natCast] using hb (i,j,PUnit.unit) hn
 
 theorem epilogue_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State A)
@@ -53,19 +55,20 @@ theorem epilogue_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (epilogue p) current := by
   simp only [HasAcc] at acc
   cases enabled : p.ACTIVATION
-  all_goals simp [epilogue, kernel, typed, enabled, ComputeKernel.surfaceBody,
+  all_goals simp [epilogue, kernel, typed, Pasted.candidateKernel, enabled, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets,
-    store, numeric, bop, natLt, numericEq, numericLe, ComputeDType.eraseDType,
+    store, numeric, bop, natLt, numericLt, numericEq, numericLe, ComputeDType.eraseDType,
     ofFloat, toFloat, FloatDType.numericDType, FloatDType.toTileDType, Region.cast,
     Option.bind, ctx.memory, ctx.pm, ctx.pn, acc, backend, State.setReg]
   all_goals
     intro i j hr hn
-    have bound := hc (i, j, PUnit.unit) ⟨hr, hn⟩
-    simp only [cOffset, row, col] at bound
-    simp only [hr, hn, if_true]
-    simpa [Nat.mul_comm] using bound
+    have hr' : pidM p initial*BM p+i.val<p.M := by simpa only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt] using hr
+    have hn' : pidN p initial*BN p+j.val<p.N := by simpa only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt] using hn
+    have bound := hc (i,j,PUnit.unit) ⟨hr',hn'⟩
+    simp only [cOffset,row,col] at bound
+    simpa only [←Int.natCast_add,←Int.natCast_mul,Int.ofNat_lt,hr',hn',if_true,Int.toNat_natCast] using bound
 
 theorem range_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     (bounds : RegionName → Nat) (initial current : State A) (k : Nat) (a : CIndex p → A)
@@ -74,22 +77,35 @@ theorem range_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
       aRow p initial i.1 * p.stride_am + (q * BK p + i.2.1.val) * p.stride_ak < bounds p.A)
     (hb : ∀ q (i : BIndex p), q * BK p + i.1.val < p.K →
       (q * BK p + i.1.val) * p.stride_bk + bCol p initial i.2.1 * p.stride_bn < bounds p.B) :
-    Safety.rangeSafe (backend M D) bounds "kk" k p.numKBlocks 1 (body p) current := by
+    Safety.rangeIntSafe (backend M D) bounds "k" (k : Int) (p.numKBlocks : Int) 1 (body p) current := by
   by_cases inside : k < p.numKBlocks
-  · rw [Safety.rangeSafe_unfold]
-    simp only [show ¬(1 : Nat) = 0 by decide, if_false, inside, if_true]
+  · have hi : (k : Int)<(p.numKBlocks : Int) := by exact_mod_cast inside
+    rw [Safety.rangeIntSafe_unfold]
+    simp only [show ¬(1 : Nat) = 0 by decide, if_false, hi, if_true]
     refine ⟨body_safe M D p bounds initial current k a ctx acc (ha k) (hb k), ?_⟩
     rw [(bodyExecution M D p initial current k a ctx acc).property]
-    exact range_safe M D p bounds initial _ (k + 1) (update M D p .single initial k a)
+    simpa only [Int.natCast_add,Int.natCast_one] using range_safe M D p bounds initial _ (k + 1) (update M D p .single initial k a)
       (bodyContext M D p initial current k a ctx acc).1
       (bodyContext M D p initial current k a ctx acc).2 ha hb
-  · rw [Safety.rangeSafe_unfold]
-    simp only [show ¬(1 : Nat) = 0 by decide, if_false, inside]
+  · have hi : ¬(k : Int)<(p.numKBlocks : Int) := by exact_mod_cast inside
+    rw [Safety.rangeIntSafe_unfold]
+    simp only [show ¬(1 : Nat) = 0 by decide, if_false, hi]
 termination_by p.numKBlocks - k
 decreasing_by omega
 
+theorem loop_step_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
+    (bounds : RegionName→Nat) (s : State A) :
+    Safety.stepSafe (backend M D) bounds (loopStatement p) s=
+      Safety.rangeIntSafe (backend M D) bounds "k" 0 (p.numKBlocks : Int) 1 (body p) s := by
+  rw [←FPValue.loopStop_value]
+  simp [loopStatement,kernel,typed,Pasted.candidateKernel,ComputeKernel.surfaceBody,
+    Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,Safety.safeOp.eq_def,
+    evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,integralFloorDiv,bop,
+    Broadcast.leftIndex,Broadcast.rightIndex,FPValue.loopStop]
+  rfl
+
 theorem source_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
-    (bounds : RegionName → Nat) (initial : State A)
+    (bounds : RegionName → Nat) (initial : State A) (geo : FPValue.Geometry p initial)
     (ha : ∀ q (i : AIndex p), q * BK p + i.2.1.val < p.K →
       aRow p initial i.1 * p.stride_am + (q * BK p + i.2.1.val) * p.stride_ak < bounds p.A)
     (hb : ∀ q (i : BIndex p), q * BK p + i.1.val < p.K →
@@ -104,17 +120,20 @@ theorem source_safe (M : Algebra A) (D : DotAcc A) (p : Parameters)
     Option.some.inj (ran.symm.trans (preludeExecution M D p initial).property)
   subst start
   obtain ⟨middle, loop, ctx, acc⟩ := loopExecution M D p initial _
-    (preludeContext M D p initial).1 (preludeContext M D p initial).2
+    (preludeContext M D p initial geo).1 (preludeContext M D p initial geo).2
   rw [List.singleton_append, Safety.traceSafeList_unfold]
   refine ⟨?_, ?_⟩
-  · simpa only [Safety.stepSafe_unfold] using range_safe M D p bounds initial _ 0 _
-      (preludeContext M D p initial).1 (preludeContext M D p initial).2 ha hb
-  · simp only [step]
-    change (match FP.Structural.range (backend M D) "kk" 0 p.numKBlocks 1 (body p)
-        (preludeExecution M D p initial).val with
-      | some after => Safety.traceSafeList (backend M D) bounds (epilogue p) after
-      | none => True)
-    rw [loop]
+  · rw [loop_step_safe]
+    exact range_safe M D p bounds initial _ 0 _
+      (preludeContext M D p initial geo).1 (preludeContext M D p initial geo).2 ha hb
+  · have hrun : run (backend M D) [loopStatement p] (preludeExecution M D p initial).val=some middle := by
+      change run (backend M D) [FPValue.loopStatement p .single] _=some middle
+      rw [FPValue.loop_run,FPValue.loopStop_value]
+      exact loop
+    have hstep : step (backend M D) (loopStatement p) (preludeExecution M D p initial).val=some middle := by
+      cases hs : step (backend M D) (loopStatement p) (preludeExecution M D p initial).val <;>
+        simpa [run,hs] using hrun
+    rw [hstep]
     exact epilogue_safe M D p bounds initial middle ctx acc hc
 
 #axiomsClean source_safe

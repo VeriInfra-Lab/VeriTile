@@ -6,19 +6,20 @@ open scoped VeriTile.Spec
 noncomputable section
 
 abbrev original := FloatingIO.original
-abbrev safeAddresses := FloatingIO.safe
+abbrev indexCommuted := FloatingIO.safe
+abbrev safeAddresses := indexCommuted
 
 def assumptions : Spec.Assumptions ComputeStmt := []
 
-/-- The original source and existing safe-address candidate both execute the
-complete selected grid and agree on every typed memory cell. Only integer
-address/control expressions change; FP32 dot carry and FP16 stores are retained. -/
+/-- The repaired source and integer-index candidate both execute the
+complete selected grid and agree on every typed memory cell. Only the integer product counting
+programs per group is commuted; FP32 dot carry and FP16 stores are retained. -/
 specification matmul_equiv (instructions : Floating.Instructions) (g : Geometry)
     (ids : List Nat) (order : ids.Perm (List.range (programs g.request))) :
-    original instructions g ids order ≡[assumptions] safeAddresses instructions g ids order := by
+    original instructions g ids order ≡[assumptions] indexCommuted instructions g ids order := by
   apply Spec.FloatingPoint.ofStructural
     (lhs := original instructions g ids order)
-    (rhs := safeAddresses instructions g ids order)
+    (rhs := indexCommuted instructions g ids order)
     (structural := FloatingIO.Equivalent) rfl rfl
   exact EquivalenceProof.equivalent instructions g ids order
 

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_retention_ops.Proofs.Execution
-import bench.tritonbench_g.chunk_retention_ops.Sources.AddressSafety
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.AddressSafety
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001
 noncomputable section
 namespace Source

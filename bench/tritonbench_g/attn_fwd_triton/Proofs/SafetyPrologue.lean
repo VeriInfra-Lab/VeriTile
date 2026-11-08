@@ -1,11 +1,10 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.AttnFwdTriton_Verified_AccessSafety_AccessSafety
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Prologue
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealSafetyParts
-
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.All
 /-! Memory safety of coordinates, pointers and the two initial loads. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.SafetyPrologue
 open VeriTile.Triton Memory AccessSafety
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
 noncomputable section
@@ -15,7 +14,7 @@ set_option linter.unusedSimpArgs false
 theorem coordinates_safe (bounds : RegionBounds) (s : BlockState) (p : Parameters) (BM BN : Nat) :
     Stmt.TraceSafeList bounds (Coordinates.code p BM BN) s := by
   apply list_safe
-  simp [Coordinates.code,Coordinates.ceilExpr,wide,Op.SafeAt.eq_def]
+  simp [Coordinates.code,Coordinates.ceilExpr,Coordinates.runtimeInteger,wide,Op.SafeAt.eq_def]
 
 theorem pointers_safe (bounds : RegionBounds) (s : BlockState) (p : Parameters) (BM BN BD : Nat) :
     Stmt.TraceSafeList bounds (Pointers.code p BM BN BD) s := by

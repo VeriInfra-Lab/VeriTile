@@ -54,7 +54,7 @@ theorem equivalent (rest : Algebra Graph.Expr) (word : Graph.Word)
       (s.mem p.output (offset p s i)).read .real = .leaf (grad (offset p s i))) :
     ∃ originalFinal commutedFinal,
       FP.Structural.exec (Graph.nativeAlgebra rest word)
-        (kernel storage p.output p.x p.y p.n alpha p.block) s = some originalFinal ∧
+        (sourceKernel storage p.output p.x p.y p.n alpha p.block) s = some originalFinal ∧
       FP.Structural.exec (Graph.nativeAlgebra rest word)
         (commutedKernel storage p.output p.x p.y p.n alpha p.block) s = some commutedFinal ∧
       originalFinal.mem = commutedFinal.mem := by

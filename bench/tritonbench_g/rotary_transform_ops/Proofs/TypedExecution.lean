@@ -24,12 +24,12 @@ theorem continuation_run {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (initial : State α) :
     run M (continuation s) (setup M s Bool.true Bool.true initial).val =
       some (finish M s initial).val := by
-  conv_lhs => rw [← List.take_append_drop 4 (continuation s)]
+  conv_lhs => rw [← List.take_append_drop (TypedExecution.indicesCount s) (continuation s)]
   rw [run_append]
   calc
-    _ = (some (indices M s initial).val).bind (run M ((continuation s).drop 4)) :=
+    _ = (some (indices M s initial).val).bind (run M ((continuation s).drop (TypedExecution.indicesCount s))) :=
       congrArg (fun value : Option (State α) =>
-        value.bind (run M ((continuation s).drop 4))) (indices M s initial).property
+        value.bind (run M ((continuation s).drop (TypedExecution.indicesCount s)))) (indices M s initial).property
     _ = run M (payload s) (indices M s initial).val := continuation_tail M s _
     _ = some (finish M s initial).val := payload_run M s initial
 

@@ -40,7 +40,7 @@ def realOps : Ops ℝ where
   scale := fun n => (Real.sqrt (n : ℝ))⁻¹
 
 def logDecay (a : Ops α) (head : Nat) : α :=
-  a.log2 (a.sub a.one (a.exp2 (a.sub a.negFive (a.mul (a.fromNat head) a.one))))
+  a.log2 (a.sub a.one (a.exp2 (a.sub a.negFive (a.mul (a.fromInt (head : Int)) a.one))))
 def decayNat (a : Ops α) (b : α) (n : Nat) := a.exp2 (a.mul (a.fromNat n) b)
 def decayInt (a : Ops α) (b : α) (n : Int) := a.exp2 (a.mul (a.fromInt n) b)
 def blockDecay (a : Ops α) (b : α) (n : Nat) := a.exp2 (a.mul b (a.fromNat n))

@@ -41,7 +41,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     {t : State α // run (backend M D) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, source, FPTyped.matmulTyped, ComputeKernel.surfaceBody,
+  simp [epilogue, source, FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -65,8 +65,17 @@ theorem epilogueMemory {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     and_assoc, and_comm, and_left_comm]
 
 theorem source_decomposition (p : Parameters) :
-    (source p).surfaceBody = prelude p ++ [.forRange "k" 0 p.steps 1 (body p)] ++ epilogue p := by
+    (source p).surfaceBody = prelude p ++ [loopStatement p] ++ epilogue p := by
   rfl
+
+theorem loop_step {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
+    (p : Parameters) (s : State α) :
+    step (backend M D) (loopStatement p) s =
+      FP.Structural.range (backend M D) "k" 0 p.steps 1 (body p) s := by
+  simp [loopStatement,source,FPTyped.matmulTyped,
+    VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,
+    body,ComputeKernel.surfaceBody,Parameters.steps,step,
+    evalOp_unfold,evalOffsets,numeric,bop,natLt,integralFloorDiv]
 
 def Post {α : Type} (p : Parameters) (initial final : State α) (values : CIndex p → α) : Prop :=
   (∀ i, active p initial i → final.mem p.output (outputOffset p initial i) = .mk .fp16 (values i)) ∧
@@ -87,9 +96,12 @@ theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   · change run (backend M D) (source p).surfaceBody initial = some finish.val
     rw [source_decomposition, run_append, run_append, start.property]
     have hsingle (s : State α) :
-        run (backend M D) [.forRange "k" 0 p.steps 1 (body p)] s =
+        run (backend M D) [loopStatement p] s =
           FP.Structural.range (backend M D) "k" 0 p.steps 1 (body p) s := by
-      simp [run, step]
+      simp [loopStatement, source, FPTyped.matmulTyped,
+        VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,
+        body,ComputeKernel.surfaceBody,Parameters.steps,run,step,
+        evalOp_unfold,evalOffsets,numeric,bop,natLt,integralFloorDiv]
     simp only [Option.bind_some, hsingle, hm]
     exact finish.property
   · intro i hi
@@ -103,6 +115,7 @@ theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
 #axiomsClean epilogueExecution
 #axiomsClean epilogueMemory
 #axiomsClean source_decomposition
+#axiomsClean loop_step
 #axiomsClean correctness
 end
 end VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FPTypedSecond

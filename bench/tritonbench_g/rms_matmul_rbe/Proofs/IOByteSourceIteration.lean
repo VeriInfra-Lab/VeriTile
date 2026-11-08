@@ -38,7 +38,7 @@ def sourceIteration (a : Arithmetic α) (fp8 outputFP8 : Bool) (p : Arguments) (
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : InputBytes fp8 p s)
     (regions : PointerRegions p v) (t : Nat) :
     {next : State α // run a.model (body fp8 outputFP8 p)
-      (s.setReg "step" .nat [] (fun _=>t))=some next} := by
+      (s.setReg "step" .int [] (fun _=>t))=some next} := by
   have hw:=masked_weight fp8 p s bytes v regions
   have hr:=masked_rms fp8 p s bytes v regions
   cases fp8 <;> cases outputFP8
@@ -46,7 +46,7 @@ def sourceIteration (a : Arithmetic α) (fp8 outputFP8 : Bool) (p : Arguments) (
     refine ⟨?_,?_⟩
     swap
     simp [
-      body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,run,
+      body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
       Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,

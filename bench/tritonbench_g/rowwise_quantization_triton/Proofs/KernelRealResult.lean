@@ -41,6 +41,6 @@ theorem kernel_correct (rest : Algebra ℝ) (p : Launch) (schedule : Schedule p)
     exact source_maximum_is_logical (fun _ => ⟨0, by decide⟩) p (values r)
 
 #axiomsClean kernel_correct
-#specNonCircular Result avoiding [RowwiseQuantizationTriton.source, KernelExecution.exec, KernelGrid.run]
+#specNonCircular Result avoiding [RowwiseQuantizationTriton.sourceKernel, KernelExecution.exec, KernelGrid.run]
 end
 end VeriTile.Bench.Repairs.RowwiseQuantizationTriton.KernelRealResult

@@ -32,6 +32,17 @@ structure Invariant (p : Parameters) (initial : State ℝ) (k : Nat) (current : 
   bptrs : current.regs .ptr [p.blockInner,p.blockColumns] "B" =
     some (fun i => (p.weight, bOffset p initial k i))
   acc : current.regs .int [p.blockRows,p.blockColumns] "acc" = some (accumulation p initial k)
+  rows : current.regs .nat [p.blockRows] "rm" = some (fun i=>rowBlock p initial*p.blockRows+i.1.val)
+  columns : current.regs .nat [p.blockColumns] "rn" = some (fun i=>columnBlock p initial*p.blockColumns+i.1.val)
+
+structure OutputReady (p : Parameters) (initial current : State ℝ) : Prop where
+  memory : current.mem=initial.mem
+  undefined : current.undef=initial.undef
+  pidm : current.regs .nat [] "pid_m"=some (fun _=>rowBlock p initial)
+  pidn : current.regs .nat [] "pid_n"=some (fun _=>columnBlock p initial)
+  acc : current.regs .int [p.blockRows,p.blockColumns] "acc"=some (accumulation p initial p.steps)
+  rows : current.regs .nat [p.blockRows] "rm" = some (fun i=>rowBlock p initial*p.blockRows+i.1.val)
+  columns : current.regs .nat [p.blockColumns] "rn" = some (fun i=>columnBlock p initial*p.blockColumns+i.1.val)
 
 def preludeExecution (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
     {t : State ℝ // run (backend rest) (prelude p) s = some t} := by
@@ -40,9 +51,14 @@ def preludeExecution (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
   simp [prelude, Revision001.ScaledWord.prelude, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateKernel,
+    ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
-    bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
+    bop, natLt, numericLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,
     integralFloorDiv, integralMod, backend]
   rfl
@@ -59,7 +75,9 @@ theorem preludeInvariant (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
 
 
 def bodyResult (p : Parameters) (initial current : State ℝ) (k : Nat) : State ℝ :=
-  let s1 := (current.setReg "j" .nat [] (fun _ => k)).setReg "k" .nat [] (fun _ => p.inner-k*p.blockInner)
+  let s1 := (current.setReg "__rev_k" .int [] (fun _ => Revision001.ScaledWord.mirror p k)).setReg "k" .int []
+    (FP.Structural.bop (fun a b : Int=>a-b) Broadcast.nil (fun _=>0)
+      (fun _=>Revision001.ScaledWord.mirror p k))
   let s2 := s1.setReg "a" .int [p.blockRows,p.blockInner] (aValue p initial k)
   let s3 := s2.setReg "b" .int [p.blockInner,p.blockColumns] (bValue p initial k)
   let s4 := s3.setReg "acc" .int [p.blockRows,p.blockColumns] (accumulation p initial (k+1))
@@ -71,18 +89,24 @@ def bodyResult (p : Parameters) (initial current : State ℝ) (k : Nat) : State 
 def bodyExecution (rest : Algebra ℝ) (p : Parameters)
     (initial current : State ℝ) (k : Nat) (h : Invariant p initial k current) :
     {t : State ℝ // run (backend rest) (body p)
-      (current.setReg "j" .nat [] (fun _ => k)) = some t} := by
+      (current.setReg "__rev_k" .int [] (fun _ => Revision001.ScaledWord.mirror p k)) = some t} := by
   refine ⟨bodyResult p initial current k, ?_⟩
+  have mask_eq (t : Nat) : ((t:Int)<(p.inner:Int)-(k*p.blockInner:Int)) ↔ t<p.inner-k*p.blockInner := by omega
   cases he : p.even <;>
-    simp [body, Revision001.ScaledWord.body, originalBody, Revision001.ScaledWord.originalBody, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
+    simp [body, Revision001.ScaledWord.body, originalBody, Revision001.ScaledWord.statement, Revision001.ScaledWord.originalBody, Revision001.ScaledWord.statement, original, Revision001.ScaledWord.original, typedScaled, Revision001.ScaledWord.typedScaled, VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateKernel,
+    ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
-      bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
+      bop, natLt, numericLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
       FloatDType.numericDType, FloatDType.toTileDType, Region.cast, Option.bind,
       integralFloorDiv, integralMod, h.offsk, h.aptrs, h.bptrs, h.acc, h.memory,
-      backend, IntegerExpr.sameShape, he, bodyResult, accumulation]
+      backend, IntegerExpr.sameShape, he, bodyResult, accumulation, Revision001.ScaledWord.mirror]
   all_goals rw [show aValue p initial k = (fun i => Int.bmod
       (if p.even=Bool.true ∨ inputInner p initial i.2.1 < p.inner-k*p.blockInner then
         (initial.mem p.input (aOffset p initial k i)).read .int else 0) 256) from by
@@ -95,13 +119,14 @@ def bodyExecution (rest : Algebra ℝ) (p : Parameters)
     simp [bValue,wrap]]
   all_goals simp only [he, Bool.false_eq_true, false_or, true_or, ↓reduceIte]
   all_goals simp only [wrap, BitVec.toInt_ofInt, twoIndex_eta, pointer_step]
-  all_goals rfl
+  all_goals simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,zero_sub,neg_sub,mask_eq,
+    Word32.unsigned_then_bmod]
 
 theorem bodyInvariant (rest : Algebra ℝ) (p : Parameters)
     (initial current : State ℝ) (k : Nat) (h : Invariant p initial k current) :
     Invariant p initial (k+1) (bodyExecution rest p initial current k h).val := by
   constructor <;>
-    simp [bodyExecution, bodyResult, h.memory, h.undefined, h.pidm, h.pidn, h.offsk,
+    simp [bodyExecution, bodyResult, h.memory, h.undefined, h.pidm, h.pidn, h.offsk, h.rows, h.columns,
       aOffset, bOffset, Nat.add_mul, Nat.add_assoc]
 
 

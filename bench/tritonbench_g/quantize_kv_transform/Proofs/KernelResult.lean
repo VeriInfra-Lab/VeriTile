@@ -1,5 +1,5 @@
 import bench.tritonbench_g.quantize_kv_transform.Proofs.KernelExecution
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.QuantizeKvTransform.KernelResult
 open VeriTile.Triton FP.Structural KernelSource KernelExecution
@@ -141,6 +141,6 @@ theorem written_frame {α : Type} [Inhabited α] (M : Algebra α) (convert : α 
 #axiomsClean written_code
 #axiomsClean written_scale
 #axiomsClean written_frame
-#specNonCircular code avoiding [FP.Structural.exec,kernel]
+#specNonCircular code avoiding [FP.Structural.exec,sourceKernel]
 end
 end VeriTile.Bench.Repairs.QuantizeKvTransform.KernelResult

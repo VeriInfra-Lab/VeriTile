@@ -142,6 +142,8 @@ private partial def exprRegions (assigned : RegionBindings) :
   | `(tritonExpr| tl.sqrt($e:tritonExpr))        => exprRegions assigned e
   | `(tritonExpr| tl.math.rsqrt($e:tritonExpr)) => exprRegions assigned e
   | `(tritonExpr| tl.rsqrt($e:tritonExpr))      => exprRegions assigned e
+  | `(tritonExpr| libdevice.rsqrt($e:tritonExpr)) => exprRegions assigned e
+  | `(tritonExpr| tl.extra.cuda.libdevice.rsqrt($e:tritonExpr)) => exprRegions assigned e
   | `(tritonExpr| tl.tanh($e:tritonExpr))        => exprRegions assigned e
   | `(tritonExpr| triton_tanh($e:tritonExpr)) => exprRegions assigned e
   | `(tritonExpr| libdevice.tanh($e:tritonExpr)) => exprRegions assigned e

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.streamk_matmul.SourceReads
+import bench.tritonbench_g.streamk_matmul.Proofs.Support.SourceReads
 import bench.tritonbench_g.streamk_matmul.Proofs.ClosedRefinement
 
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked.ClosedSource

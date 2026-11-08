@@ -1,3 +1,4 @@
+import bench.tritonbench_g.softmax_triton3.Proofs.Addresses
 import bench.tritonbench_g.softmax_triton3.Proofs.Mathematical_Source
 import VeriTile.Triton
 import VeriTile.Triton.Semantics.MaskedReduction

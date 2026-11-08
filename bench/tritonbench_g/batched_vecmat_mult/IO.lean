@@ -17,8 +17,8 @@ open SourceGraph (Expr)
 noncomputable section
 
 def inputs (p : Parameters) : List IOChannel :=
-  [⟨.real,[p.M,p.K],p.A⟩,⟨.real,[p.M,p.N,p.K],p.B⟩]
-def outputs (p : Parameters) : List IOChannel := [⟨.real,[p.M,p.N],p.output⟩]
+  [⟨.fp32,[p.M,p.K],p.A⟩,⟨.fp32,[p.M,p.N,p.K],p.B⟩]
+def outputs (p : Parameters) : List IOChannel := [⟨.fp32,[p.M,p.N],p.output⟩]
 
 def memoryIO (α : Type) (p : Parameters) : MemoryIO α where
   inputs := inputs p

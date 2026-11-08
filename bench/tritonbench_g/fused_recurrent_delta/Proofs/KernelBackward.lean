@@ -33,7 +33,7 @@ theorem executes (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv :
     · exact KernelBackwardStateMemory.mem_congr M s "dh0" bh iv _ _ _ revInv.memory
   have seed : (KernelBackwardReference.input M s f bh iv reverse).initial=
       (KernelBackwardReference.input M s f bh iv (start M s f scale bh iv u)).initial := by
-    simp only [KernelBackwardReference.input,KernelReference.read,revInv.memory]
+    simp only [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,revInv.memory]
     unfold start
     cases hf : f.initialGrad <;> simp only [hf,Bool.false_eq_true,ite_false,ite_true]
     simp only [KernelBackwardStateMemory.frame M s "dh0" bh iv _ _ "h0" _ (Or.inl (by decide))]

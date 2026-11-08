@@ -3,7 +3,7 @@ import bench.tritonbench_g.lightning_attention.Proofs.ForwardBody
 import bench.tritonbench_g.lightning_attention.Proofs.IntraModel
 import bench.tritonbench_g.lightning_attention.Proofs.InterReverseProgram
 import bench.tritonbench_g.lightning_attention.Proofs.HostMetadata
-import bench.tritonbench_g.chunk_delta_fwd.Sources.Readback
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.Readback
 namespace VeriTile.Bench.Repairs.LightningAttention
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.Repairs.ChunkGlaFwd.FPOutput (DotPrimitive withDot)
@@ -45,6 +45,6 @@ def modelThree (M : Algebra α) (D : DotPrimitive α) (d : Host.Dimensions)
     (sf si sb : List PID) (m : Memory α) : Memory α :=
   gridMemory M D .inter d sb (gridMemory M D .intra d si (gridMemory M D .forward d sf m))
 
-#specNonCircular modelThree avoiding [VeriTile.Bench.Repairs.LightningAttention.KernelOnly.forward,run,FP.Structural.exec]
+#specNonCircular modelThree avoiding [VeriTile.Bench.Repairs.LightningAttention.KernelOnly.forwardKernel,run,FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.LightningAttention

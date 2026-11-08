@@ -19,7 +19,7 @@ set_option maxHeartbeats 3000000
 
 @[simp] theorem divisor (q : Quote.IntegerModel I F H) (s : Shape) (c : Config)
     (hasBias : Bool) (divisor : F) (p : IOPrograms.Program s c) (base : State (Sum F H)) :
-    ((IO.invocation q s c hasBias divisor p).initial base).regs .fp32 [] "divfactor"=
+    ((IO.invocation q s c hasBias divisor p).initial base).regs .real [] "divfactor"=
       some (fun _=>Sum.inl divisor) := by
   simp [IO.invocation,IntegerDotInvocation.initial,Invocation.initial,bindRegisters]
 

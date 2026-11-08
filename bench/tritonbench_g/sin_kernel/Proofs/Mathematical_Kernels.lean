@@ -7,7 +7,7 @@ namespace VeriTile.Bench.TritonBenchG.SinKernel
 open VeriTile.Triton
 
 def kernel_function (X O : RegionName) (n B : Nat) : ComputeKernel :=
-  let k := (VeriTile.Bench.Repairs.SinKernel.kernel X O n B).toAlgKernel
+  let k := (VeriTile.Bench.Repairs.SinKernel.sourceKernel X O n B).toAlgKernel
   ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
 end VeriTile.Bench.TritonBenchG.SinKernel

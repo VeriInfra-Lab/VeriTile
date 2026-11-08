@@ -1,12 +1,12 @@
 # Source obligations under active verification
 
-Current selected public entries: [Contract.lean](../../../bench/tritonbench_g/kldiv_compute/Contract.lean), [Correct.lean](../../../bench/tritonbench_g/kldiv_compute/Correct.lean), [FPEquiv.lean](../../../bench/tritonbench_g/kldiv_compute/FPEquiv.lean). The [contract review](../../contracts.json) records their current scope and assumptions.
+Current selected public entries: [Contract.lean](../../../bench/tritonbench_g/kldiv_compute/Contract.lean), [RealCorrect.lean](../../../bench/tritonbench_g/kldiv_compute/RealCorrect.lean), [FPEquiv.lean](../../../bench/tritonbench_g/kldiv_compute/FPEquiv.lean). The [archived contract review](../../archive/contracts.json) records the scope and assumptions of the earlier review.
 
 ## Historical implementation and audit notes
 
 The notes below describe earlier revisions and their recorded boundaries. Their old file lists, receipts and completion counts are historical; they do not establish the current selected contract.
 
-Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](../../../bench/tritonbench_g/kldiv_compute/Correct.lean) and [FPEquiv.lean](../../../bench/tritonbench_g/kldiv_compute/FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [RealCorrect.lean](../../../bench/tritonbench_g/kldiv_compute/RealCorrect.lean) and [FPEquiv.lean](../../../bench/tritonbench_g/kldiv_compute/FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
 
 The source computes the elementwise term `x * log(x / y)`, without a reduction.
 Both loads use the same lane mask and omit `other`; the store uses that mask.

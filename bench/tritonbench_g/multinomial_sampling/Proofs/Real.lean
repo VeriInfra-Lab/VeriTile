@@ -28,6 +28,7 @@ def reduceMax {shape : TileShape} (ax : Fin shape.length) :
 def primitives : Primitives ℝ :=
   { zero := fun _ _ => 0
     cast := fun _ _ _ x => x
+    load32 := id
     bits32 := fun b => ((FP.Value.mk b.bits : FP.Value .fp32).toRat?.getD 0 : ℝ)
     add := (· + ·)
     sub := (· - ·)

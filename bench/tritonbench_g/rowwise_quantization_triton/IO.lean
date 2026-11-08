@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.rowwise_quantization_triton.Proofs.IntegerBinding
-import bench.tritonbench_g.rowwise_quantization_triton.Candidate
+import bench.tritonbench_g.rowwise_quantization_triton.Proofs.Support.Candidate
 import VeriTile.Triton.Float.IntegerProgramEquivalenceSyntax
 
 namespace VeriTile.Bench.Repairs.RowwiseQuantizationTriton.IO
@@ -13,7 +13,7 @@ abbrev outputs (p : Launch) : List IOChannel :=
 
 def invocation (M : Algebra α) (round : α → BitVec 64) (equal : α → α → Bool)
     (p : Launch) (row : Nat) : IntegerInvocation α where
-  kernel := source "x" "q" "m" p.columns p.width
+  kernel := sourceKernel "x" "q" "m" p.columns p.width
   backend := KernelExecution.backend M equal
   pids := fun _ => row
   setPids := fun ax => decide (ax=0)

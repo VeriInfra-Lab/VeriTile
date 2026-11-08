@@ -1,4 +1,4 @@
-import bench.tritonbench_g.sgmv_expand_slice.Candidate
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Support.Candidate
 import bench.tritonbench_g.sgmv_expand_slice.Proofs.SourceExecution
 import VeriTile.Triton.Float.StructuralSafety
 
@@ -41,10 +41,10 @@ theorem indices_eq (M : Algebra α) (add : Bool) (p : KernelArgs)
     (hm : t.regs .int [32] "offset_m" = some (fun i => (SourceSetup.rowIndex c.tileRow i.1 : Int)))
     (hn : t.regs .int [32] "offset_n" = some (fun i => (SourceSetup.columnIndex c.tileColumn i.1 : Int))) :
     run M ((suffix add p).take 3) t = run M ((SourceParts.suffix (abi add) p).take 3) t := by
-  simp [suffix,active,IndexReuse.kernel,IndexReuse.sourceFace,IndexReuse.sourceHalfSingle323232,
+  simp [suffix,active,IndexReuse.kernel,IndexReuse.sourceFace,IndexReuse.sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,
     SourceParts.suffix,SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,
     SourceParts.thenBody,SourceParts.outer,VeriTile.Bench.Repairs.SgmvExpandSlice.kernel,sourceFace,
-    sourceHalfSingle323232,abi,ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
+    sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,abi,ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,
     FP.Structural.bop,numericLt,Region.cast,ofFloat,toFloat,SourceSetup.rowIndex,SourceSetup.columnIndex,
     hm,hn,h.start,h.row,h.column,h.slice,h.acc,Int.natCast_add,Int.natCast_mul,Int.add_assoc]
@@ -74,10 +74,10 @@ theorem suffix_safe_iff (M : Algebra α) (add : Bool) (p : KernelArgs)
   have sameTail : (suffix add p).drop 3 = (SourceParts.suffix (abi add) p).drop 3 := by rfl
   have prefixSafe : Safety.traceSafeList M bounds ((suffix add p).take 3) t ↔
       Safety.traceSafeList M bounds ((SourceParts.suffix (abi add) p).take 3) t := by
-    simp [suffix,active,IndexReuse.kernel,IndexReuse.sourceFace,IndexReuse.sourceHalfSingle323232,
+    simp [suffix,active,IndexReuse.kernel,IndexReuse.sourceFace,IndexReuse.sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,
       SourceParts.suffix,SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,
       SourceParts.thenBody,SourceParts.outer,VeriTile.Bench.Repairs.SgmvExpandSlice.kernel,sourceFace,
-      sourceHalfSingle323232,abi,ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
+      sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,abi,ComputeKernel.surfaceBody,ScalarFormat.dtype,LowFormat.scalar,
       Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeOp_unfold,Safety.safeCompute_unfold]
   conv_lhs => rw [← List.take_append_drop 3 (suffix add p)]

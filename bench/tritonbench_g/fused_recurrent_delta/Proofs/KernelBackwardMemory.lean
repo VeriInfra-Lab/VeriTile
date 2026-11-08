@@ -70,7 +70,7 @@ theorem memory (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv t :
       KernelBackwardReference.dv,KernelBackwardReference.dbeta,KernelBackwardReference.rawDv,
       KernelBackwardReference.input,KernelBackwardReference.keySum,KernelBackwardReference.valueSum,
       KernelBackwardReference.betaSum,KernelReference.add,KernelReference.mul,
-      KernelReference.read,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
+      KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
       KernelReference.stored,keyStore,betaStore,KernelMemory.rowStore,
       keyPtr,valPtr,betaPtr,dbetaPtr,keyMask,valMask,
       FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,

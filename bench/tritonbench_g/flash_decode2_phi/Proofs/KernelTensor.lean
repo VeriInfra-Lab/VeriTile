@@ -35,13 +35,20 @@ retain the caller's arbitrary memory; stores are performed only by the source. -
 def lift {α : Type} (observe : RegionName → Nat → Native.Word → α)
     (c : Call) (heap : Heap) (other : State α) : State α :=
   {other with mem := fun r i =>
-    if r="L" then .mk .nat (lengths c heap i).toNat
+    if r="L" then .mk .int (lengths c heap i)
     else if r="M" ∨ r="E" ∨ r="O" then .mk .real (observe r i (word c heap r i))
     else other.mem r i}
 
+/-- The physical Int32 load retains its signed value before source int64 widening. -/
+theorem lift_length_signed {α : Type} [Inhabited α]
+    (observe : RegionName → Nat → Native.Word → α)
+    (c : Call) (heap : Heap) (other : State α) (b : Nat) :
+    ((lift observe c heap other).mem "L" b).read .int = lengths c heap b := by
+  simp [lift, Cell.read_same]
+
 theorem lift_length {α : Type} [Inhabited α] (observe : RegionName → Nat → Native.Word → α)
     (c : Call) (heap : Heap) (other : State α) (b : Nat) :
-    ((lift observe c heap other).mem "L" b).read .nat = (lengths c heap b).toNat := by
+    (((lift observe c heap other).mem "L" b).read .int).toNat = (lengths c heap b).toNat := by
   simp [lift,Cell.read_same]
 
 def readWord (heap : Heap) (address : Nat) : VeriTile.Torch.FP32.Word := ⟨load heap address⟩

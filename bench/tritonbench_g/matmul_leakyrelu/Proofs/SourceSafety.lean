@@ -1,8 +1,9 @@
-import bench.tritonbench_g.matmul_leakyrelu.Sources.Mathematical_FPFusedComplete
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Sources.Mathematical_FPFusedComplete
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.SourceSafety
 open VeriTile.Triton FP.Structural
+open VeriTile.Bench.TritonBenchG.MatmulLeakyrelu
 open VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.FPFused
 noncomputable section
 set_option maxHeartbeats 12000000
@@ -24,7 +25,7 @@ private theorem append_safe (m : Algebra α) (bounds : RegionName → Nat)
 theorem prelude_safe (M : Algebra α) (D : DotAcc α) (p : Parameters)
     (s : State α) (bounds : RegionName → Nat) :
     Safety.traceSafeList (backend M D) bounds (prelude p .single) s := by
-  simp [prelude,source,typed,dtype,ComputeKernel.surfaceBody,
+  simp [prelude,source,typed,Pasted.originalKernel,Pasted.candidateKernel,dtype,ComputeKernel.surfaceBody,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,numeric,bop,natLt,numericEq,
@@ -40,7 +41,7 @@ theorem body_safe (M : Algebra α) (D : DotAcc α) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (body p .single)
       (current.setReg "k" .nat [] (fun _ => k)) := by
   simp only [HasAcc] at ha
-  simp [body,source,typed,dtype,ComputeKernel.surfaceBody,
+  simp [body,source,typed,Pasted.originalKernel,Pasted.candidateKernel,dtype,ComputeKernel.surfaceBody,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -85,7 +86,7 @@ theorem epilogue_safe (M : Algebra α) (D : DotAcc α) (p : Parameters)
     Safety.traceSafeList (backend M D) bounds (epilogue p .single) current := by
   simp only [HasAcc] at ha
   cases he : p.ACTIVATION <;>
-    simp [epilogue,source,typed,dtype,ComputeKernel.surfaceBody,
+    simp [epilogue,source,typed,Pasted.originalKernel,Pasted.candidateKernel,dtype,ComputeKernel.surfaceBody,
       Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

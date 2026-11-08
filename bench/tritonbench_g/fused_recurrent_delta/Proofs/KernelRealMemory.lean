@@ -17,7 +17,7 @@ theorem input_start {α : Type} [Inhabited α] (M : Algebra α) (s : Shape) (f :
     (scale : ℝ) (bh iv : Nat) (u : State α) :
     KernelBackwardReference.input M s f bh iv (KernelBackward.start M s f scale bh iv u)=
       KernelBackwardReference.input M s f bh iv u := by
-  simp only [KernelBackwardReference.input,KernelReference.read,
+  simp only [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,
     start_readonly M s f scale bh iv u "q" _ (by decide) (by decide) (by decide) (by decide),
     start_readonly M s f scale bh iv u "k" _ (by decide) (by decide) (by decide) (by decide),
     start_readonly M s f scale bh iv u "v" _ (by decide) (by decide) (by decide) (by decide),
@@ -42,7 +42,7 @@ theorem reloaded_key (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : St
   have time : s.T-1-(s.T-1-t)=t := by omega
   have stored := KernelBackwardResults.reverse_key algebra s f scale bh iv u s.T (s.T-1-t) (by omega) le_rfl i hi
   rw [time,enhanced_time s f scale bh iv u t ht] at stored
-  simp only [KernelReference.read,hi,decide_true,ite_true]
+  simp only [KernelReference.read,KernelReference.loaded,hi,decide_true,ite_true]
   rw [KernelBackwardFacts.start_other algebra s f scale bh iv u "dk" _ (by decide),stored]
   rfl
 theorem reloaded_value (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : State ℝ)
@@ -54,7 +54,7 @@ theorem reloaded_value (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : 
   have time : s.T-1-(s.T-1-t)=t := by omega
   have stored := KernelBackwardResults.reverse_value algebra s f scale bh iv u s.T (s.T-1-t) (by omega) le_rfl j hj
   rw [time,enhanced_time s f scale bh iv u t ht] at stored
-  simp only [KernelReference.read,hj,decide_true,ite_true]
+  simp only [KernelReference.read,KernelReference.loaded,hj,decide_true,ite_true]
   rw [KernelBackwardFacts.start_other algebra s f scale bh iv u "dv" _ (by decide),stored]
   rfl
 
@@ -63,7 +63,7 @@ theorem recompute_padding (s : Shape) (f : Flags) (bh iv : Nat) (u : State ℝ)
     KernelBackwardReference.forward algebra s (KernelBackwardReference.input algebra s f bh iv u) n (i,j,PUnit.unit)=0 := by
   induction n with
   | zero =>
-    simp [KernelBackwardReference.forward,KernelBackwardReference.input,KernelReference.read,
+    simp [KernelBackwardReference.forward,KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,
       KernelReference.cast,KernelReference.zero,KernelReference.add,algebra,padding]
   | succ n ih =>
     change KernelBackwardReference.forward algebra s (KernelBackwardReference.input algebra s f bh iv u) n (i,j,PUnit.unit)+
@@ -71,7 +71,7 @@ theorem recompute_padding (s : Shape) (f : Flags) (bh iv : Nat) (u : State ℝ)
         ((KernelBackwardReference.input algebra s f bh iv u).value n j*
           (KernelBackwardReference.input algebra s f bh iv u).beta n j)=0
     rw [ih]
-    simp [KernelBackwardReference.input,KernelReference.read,KernelReference.cast,KernelReference.zero,algebra,padding]
+    simp [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,algebra,padding]
 
 theorem query_memory (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : State ℝ) (t : Nat) :
     KernelRecomputeReferenceMemory.query algebra s f scale bh iv (KernelBackward.start algebra s f scale bh iv u) t=

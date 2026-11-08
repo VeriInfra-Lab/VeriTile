@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealRegisterSafety
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_RealRegisterSafety
 
 /-! Safety of the actual Q/K/V load choices, INIT carry loads and END stores.
 Pointer registers are supplied by verified source execution. Only addresses of

@@ -1,9 +1,10 @@
+import bench.tritonbench_g.triton_conv2d_fwd.Proofs.UnitRanges
 import bench.tritonbench_g.triton_conv2d_fwd.Kernels
 import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 namespace VeriTile.Bench.Repairs.Conv2d.KernelHalf
 open VeriTile.Triton FP.Structural
 noncomputable section
@@ -21,11 +22,11 @@ abbrev CIndex (p : Parameters) := TileIndex [BHW p,OF p]
 def prelude (p : Parameters) := (source p).surfaceBody.take 14
 def hBody (p : Parameters) : List ComputeStmt :=
   match (source p).surfaceBody[14]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forLoop _ _ code) => code
   | _ => []
 def wBody (p : Parameters) : List ComputeStmt :=
   match (hBody p)[0]? with
-  | some (ComputeStmt.forRange _ _ _ _ code) => code
+  | some (ComputeStmt.forLoop _ _ code) => code
   | _ => []
 def cBody (p : Parameters) : List ComputeStmt :=
   match (wBody p)[0]? with
@@ -47,10 +48,10 @@ def backend {α : Type} (rest : Algebra α) (D : Dot α) : Algebra α :=
 
 theorem decomposition (p : Parameters) :
     (source p).surfaceBody = prelude p ++
-      [.forRange "h" 0 p.kernel_height 1 (hBody p)] ++ epilogue p := by rfl
+      [.forLoop "h" p.kernel_height (hBody p)] ++ epilogue p := by rfl
 
 theorem hBody_shape (p : Parameters) :
-    hBody p = [.forRange "w" 0 p.kernel_width 1 (wBody p)] := by rfl
+    hBody p = [.forLoop "w" p.kernel_width (wBody p)] := by rfl
 
 theorem wBody_shape (p : Parameters) :
     wBody p = [.forRangeDyn "c" (.constNat 0) (.ref .nat [] "in_group_dim")

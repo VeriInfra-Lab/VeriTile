@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.PairIO
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Support.PairIO
 import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.PairConnection
 import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.IOImplements
 import VeriTile.Triton.Float.PerAddressProgramEquivalenceSyntax

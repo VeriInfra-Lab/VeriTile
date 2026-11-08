@@ -32,7 +32,7 @@ termination_by (p.inner+15)/16-start
 decreasing_by omega
 
 theorem loop_start (abi : SourceABI) (p : KernelArgs) :
-    (SourceParts.loopParts abi p).start = .constInt 0 := by
+    (SourceParts.loopParts abi p).start = .castNatToInt (.constNat 0) := by
   rcases abi with ⟨input,weight,output,starts,lengths,adapters,add⟩
   cases weight <;> cases output <;> cases starts <;> cases lengths <;> cases adapters <;> rfl
 
@@ -52,11 +52,11 @@ theorem loop_step_safe {α : Type} [Inhabited α] (M : Algebra α)
         (SourceParts.loopParts abi p).stride (SourceParts.body abi p)) t := by
   rw [Safety.stepSafe_unfold]
   refine ⟨?_,?_,?_,?_⟩
-  · rw [loop_start,Safety.safeOp_unfold]; trivial
+  · simp only [loop_start,Safety.safeOp_unfold]
   · rw [SourceBounds.stop_common]
     simp [SourceParts.loopParts,SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,
       SourceParts.thenBody,SourceParts.outer,Source.intRange?,kernel,primaryHalf,sourceFace,
-      sourceHalfSingle323232,ComputeKernel.surfaceBody,Safety.safeOp_unfold]
+      sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,Safety.safeOp_unfold]
   · rw [loop_stride,Safety.safeOp_unfold]; trivial
   · rw [SourceBounds.eval_start,SourceBounds.eval_stop _ _ _ _ h.inner,SourceBounds.eval_stride]
     exact loop_safe M dot abi p c s t 0 acc h bounds hb

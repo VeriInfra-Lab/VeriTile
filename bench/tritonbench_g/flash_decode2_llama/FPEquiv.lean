@@ -19,6 +19,7 @@ specification kernel_equivalent (p : RawNative.Ops) (g : KernelInterface.Geometr
   apply ProgramIO.Implementation.of_equivalentOn
   exact IOPair.equivalent p g order coverage
 
+#print_fp_assumptions kernel_equivalent
 #axiomsClean kernel_equivalent
 end
 end VeriTile.Bench.Repairs.FlashDecode2Llama.FPEquiv

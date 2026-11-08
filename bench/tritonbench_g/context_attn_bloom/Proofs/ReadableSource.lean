@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_bloom.Kernels
+import bench.tritonbench_g.context_attn_bloom.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.context_attn_bloom.Proofs.Kernels
 
 namespace VeriTile.Bench.Repairs.ContextAttnBloomSource

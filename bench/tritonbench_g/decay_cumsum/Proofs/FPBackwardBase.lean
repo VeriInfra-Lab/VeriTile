@@ -47,7 +47,7 @@ structure Holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
   reads : ∀ r∈inputRegions, ∀ t, t<p.span-n → ∀ j : Fin h.BK,
     u.mem r (off h p prog t j)=initial.mem r (off h p prog t j)
   output : ∀ r∈outputRegions, ∀ t, p.span-n≤t → t<p.span → ∀ j : Fin h.BK,
-    u.mem r (off h p prog t j)=FPReference.stored M (output M h p prog initial r t (j,PUnit.unit))
+    u.mem r (off h p prog t j)=FPReference.stored M (output M h p prog initial r t (j,PUnit.unit)) (r == "dg")
   frame : FPMemory.Frame h p prog outputRegions initial u
 
 theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.span)

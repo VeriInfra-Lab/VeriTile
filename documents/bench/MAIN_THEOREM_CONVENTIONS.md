@@ -237,10 +237,10 @@ The per-task review records the actual formula, input domain, complete scope,
 proof connection and FP program/rule binding. Format repair and a substantive
 proof gap are different findings. Syntax checks, successful compilation and
 earlier task acceptance alone are insufficient evidence of semantic review.
-Run `python scripts/bench/final_inventory.py --check` to check the current selected
-readers, reviewed source connections, recorded rules and per-task evidence
-against that explicit review. This is a drift guard, not a replacement for
-semantic review, Lean proof checking or numerical validation.
+Run `python scripts/bench/final_inventory.py --check` to check the selected
+public entries and their imports. CI generates a temporary inventory and
+checks its hashes across the build and replay. The recorded contracts and
+independent replay receipts provide the evidence for each task's scope.
 
 ## 4. Structure — a **named** surface, `⊨` preferred
 

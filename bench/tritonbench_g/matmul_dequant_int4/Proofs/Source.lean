@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_FPContract
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Mathematical_FPContract
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 import VeriTile.Triton.Float.FixedInteger
 import VeriTile.Triton.Float.ScalarOps
 namespace VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.Source
@@ -71,7 +71,8 @@ def written {α : Type} [Inhabited α] (f : Profile) (M : Algebra α) (p : Param
 
 def execution {α : Type} [Inhabited α] (f : Profile) (M : Algebra α) (p : Parameters) (s : State α) :
     {t : State α // FP.Structural.exec M (source f p) s = some t} := by
-  cases f <;> (refine ⟨?_, ?_⟩; swap; simp [source, Profile.dtype, VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed, FP.Structural.exec, ComputeKernel.surfaceBody,
+  cases f <;> (refine ⟨?_, ?_⟩; swap; simp [source, Profile.dtype, VeriTile.Bench.TritonBenchG.MatmulDequantInt4.FPTyped.typed,
+      VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.eval_intShiftRight, FP.Structural.eval_intBitAnd,
     FP.Structural.evalOp_unfold, FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,

@@ -1,68 +1,146 @@
-import bench.tritonbench_g.matmul_leakyrelu.Contract
+import VeriTile.Triton.DSL.ConditionalPureJitFunctions
+import VeriTile.Meta.StatementAudit
+namespace VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.FPValue
+open VeriTile.Triton
+inductive Storage where | half | bfloat | single | e4m3 | e5m2
+  deriving DecidableEq
 
-namespace VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly
-open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.MatmulLeakyrelu
+def dtype : Storage → FloatDType | .half => .fp16 | .bfloat => .bf16 | .single => .fp32 | .e4m3 => .f8e4 | .e5m2 => .f8e5
+structure Parameters where
+  (A B C : RegionName)
+  (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
+  (ACTIVATION : Bool)
+end VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.FPValue
+
+namespace VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.FPFused
+open VeriTile.Triton
+inductive Storage where | half | bfloat | single | e4m3 | e5m2
+  deriving DecidableEq
+
+def dtype : Storage → FloatDType | .half => .fp16 | .bfloat => .bf16 | .single => .fp32 | .e4m3 => .f8e4 | .e5m2 => .f8e5
+structure Parameters where
+  (A B C : RegionName)
+  (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
+  (ACTIVATION : Bool)
+end VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.FPFused
+
+namespace VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.Pasted
+open VeriTile.Triton
 noncomputable section
 set_option maxHeartbeats 3000000
+set_option maxRecDepth 32000
 
-/-- Complete legal launch order, without a fixed sequential PID convention. -/
-structure Schedule (r : Whole.Request) where
-  order : List Nat
-  complete : order.Perm (List.range (Whole.programs r))
+def callSignature (input_dtype : FloatDType) : CallSignature where
+  pointers := [("c_ptr",.fp16)]
+  floatingPointers := [("a_ptr",input_dtype),("b_ptr",input_dtype)]
+  scalars := [("M",.integer), ("N",.integer), ("K",.integer), ("stride_am",.integer), ("stride_ak",.integer), ("stride_bk",.integer), ("stride_bn",.integer), ("stride_cm",.integer), ("stride_cn",.integer)]
+  constexpr := ["BLOCK_SIZE_M", "BLOCK_SIZE_N", "BLOCK_SIZE_K", "GROUP_SIZE_M", "ACTIVATION"]
+  readPorts := ["a_ptr","b_ptr"]
+  writePorts := ["c_ptr"]
 
-abbrev dsl := Whole.contractedKernel
-abbrev sourceDsl := Whole.kernel
-abbrev run := @Whole.Contracted.runPrograms
+def leakyReluSource : PureJitFunction := with_triton_params (x) constexpr_args [] in triton {
+    return tl.where(x >= 0, x, 0.01 * x)
+  }
 
-theorem scheduled_grid {α : Type} [Inhabited α]
-    (M : Algebra α) (D : FPFused.DotAcc α) (Q : Whole.Contracted.Numerics α)
-    (law : Whole.Contracted.PrimitiveLaws M D Q) (r : Whole.Request)
-    (schedule : Schedule r) (start : State α) (hCA : r.C ≠ r.A) (hCB : r.C ≠ r.B) :
-    ∃ final, run M D r schedule.order start = some final ∧
-      Whole.Contracted.Result Q r start final := by
-  obtain ⟨final, he, _, _, frame, _, value⟩ :=
-    Whole.Contracted.programs_correct M D Q law r start start schedule.order
-      hCA hCB (fun _ => rfl) (fun _ => rfl)
-  refine ⟨final, he, ?_, frame⟩
-  intro row hr col hc
-  obtain ⟨pid, hp, i, hi, hj⟩ := Whole.cell_covered r start row col hr hc
-  exact value row hr col hc
-    ⟨pid, schedule.complete.mem_iff.mpr (List.mem_range.mpr hp), i, hi, hj⟩
+def leakyReluRhsSource : PureJitFunction := with_triton_params (x) constexpr_args [] in triton {
+    return tl.where(x >= 0, x, x * 0.01)
+  }
 
-theorem empty_grid {α : Type} [Inhabited α] (M : Algebra α) (D : FPFused.DotAcc α)
-    (r : Whole.Request) (schedule : Schedule r) (s : State α)
-    (empty : r.rows = 0 ∨ r.columns = 0) : run M D r schedule.order s = some s := by
-  have hp : Whole.programs r = 0 := by
-    rcases empty with h | h
-    all_goals simp [Whole.programs, Whole.tileRows, Whole.tileColumns, h]
-  have hz : schedule.order = [] := by
-    have h := schedule.complete
-    simpa [hp] using h
-  simp [run, hz, Whole.Contracted.runPrograms]
+def originalKernel (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
+  with_triton_call (callSignature input_dtype) call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
+    pure_functions [leaky_relu := leakyReluSource] in triton {
+    """Kernel for computing the matmul C = A x B.
+    A has shape (M, K), B has shape (K, N) and C has shape (M, N)
+    """
+    pid = tl.program_id(axis=0)
+    num_pid_m = tl.cdiv(M, BLOCK_SIZE_M)
+    num_pid_n = tl.cdiv(N, BLOCK_SIZE_N)
+    num_pid_in_group = GROUP_SIZE_M * num_pid_n
+    group_id = pid // num_pid_in_group
+    first_pid_m = group_id * GROUP_SIZE_M
+    group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)
+    pid_m = first_pid_m + ((pid % num_pid_in_group) % group_size_m)
+    pid_n = (pid % num_pid_in_group) // group_size_m
 
-/-- Complete selected DSL execution plus all existing finite source safety
-facts, derived from the actual Tensor bindings and executed guards. -/
-theorem execute {α : Type} [Inhabited α]
-    (M : Algebra α) (D : FPFused.DotAcc α) (Q : Whole.Contracted.Numerics α)
-    (law : Whole.Contracted.PrimitiveLaws M D Q)
-    (a b : Matrix) (al : MatrixLaws a) (bl : MatrixLaws b)
-    (h : InputContract (metadata a b)) (activation : String)
-    (c : OutputTensor) (cl : OutputLaws c a b) (fresh : Fresh a b c)
-    (output : outputCheck (metadata a b) (outputBase c) = Bool.true)
-    (schedule : Schedule (request a b activation)) (read : Nat → α) (scratch : State α) :
-    ∃ final, run M D (request a b activation) schedule.order (initial a b read scratch) = some final ∧
-      Whole.Contracted.Result Q (request a b activation) (initial a b read scratch) final ∧
-      Whole.SourceSafety (request a b activation) (initial a b read scratch)
-        (tensorContract a b al bl h activation c cl fresh output read scratch) := by
-  obtain ⟨final, he, result⟩ := scheduled_grid M D Q law (request a b activation) schedule
-    (initial a b read scratch)
-    (by change ("c" : RegionName) ≠ "a"; decide)
-    (by change ("c" : RegionName) ≠ "b"; decide)
-  exact ⟨final, he, result, Whole.source_safety _ (admitted a b al bl h activation).1 _ _⟩
+    # Create pointers for the first blocks of A and B
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
+    b_ptrs = b_ptr + (offs_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn)
 
-#specNonCircular Whole.Contracted.logicalReference avoiding [run, dsl, sourceDsl]
-#guard_msgs (drop info) in
-#auditModuleAxioms
+    # Compute a block of the C matrix
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    for k in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - k * BLOCK_SIZE_K, other=0.0)
+        b = tl.load(b_ptrs, mask=offs_k[:, None] < K - k * BLOCK_SIZE_K, other=0.0)
+        accumulator += tl.dot(a, b)
+        a_ptrs += BLOCK_SIZE_K * stride_ak
+        b_ptrs += BLOCK_SIZE_K * stride_bk
+
+    # Apply activation function if specified
+    if ACTIVATION == "leaky_relu":
+        accumulator = leaky_relu(accumulator)
+
+    c = accumulator.to(tl.float16)
+
+    # Write back the block of the output matrix C with masks
+    offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
+    offs_cn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    c_ptrs = c_ptr + stride_cm * offs_cm[:, None] + stride_cn * offs_cn[None, :]
+    c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
+    tl.store(c_ptrs, c, mask=c_mask)
+  }
+
+def candidateKernel (input_dtype : FloatDType) (a_ptr b_ptr c_ptr : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn : Nat)
+    (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) (ACTIVATION : String) : ComputeKernel :=
+  with_triton_call (callSignature input_dtype) call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_bk := stride_bk, stride_bn := stride_bn, stride_cm := stride_cm, stride_cn := stride_cn]
+    pure_functions [leaky_relu_rhs := leakyReluRhsSource] in triton {
+    """Kernel for computing the matmul C = A x B.
+    A has shape (M, K), B has shape (K, N) and C has shape (M, N)
+    """
+    pid = tl.program_id(axis=0)
+    num_pid_m = tl.cdiv(M, BLOCK_SIZE_M)
+    num_pid_n = tl.cdiv(N, BLOCK_SIZE_N)
+    num_pid_in_group = GROUP_SIZE_M * num_pid_n
+    group_id = pid // num_pid_in_group
+    first_pid_m = group_id * GROUP_SIZE_M
+    group_size_m = min(num_pid_m - first_pid_m, GROUP_SIZE_M)
+    pid_m = first_pid_m + ((pid % num_pid_in_group) % group_size_m)
+    pid_n = (pid % num_pid_in_group) // group_size_m
+
+    # Create pointers for the first blocks of A and B
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
+    b_ptrs = b_ptr + (offs_k[:, None] * stride_bk + offs_bn[None, :] * stride_bn)
+
+    # Compute a block of the C matrix
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    for k in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - k * BLOCK_SIZE_K, other=0.0)
+        b = tl.load(b_ptrs, mask=offs_k[:, None] < K - k * BLOCK_SIZE_K, other=0.0)
+        accumulator = tl.dot(a, b, accumulator)
+        a_ptrs += BLOCK_SIZE_K * stride_ak
+        b_ptrs += BLOCK_SIZE_K * stride_bk
+
+    # Apply activation function if specified
+    if ACTIVATION == "leaky_relu":
+        accumulator = leaky_relu_rhs(accumulator)
+
+    c = accumulator.to(tl.float16)
+
+    # Write back the block of the output matrix C with masks
+    offs_cm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
+    offs_cn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    c_ptrs = c_ptr + stride_cm * offs_cm[:, None] + stride_cn * offs_cn[None, :]
+    c_mask = (offs_cm[:, None] < M) & (offs_cn[None, :] < N)
+    tl.store(c_ptrs, c, mask=c_mask)
+  }
+
 end
-end VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly
+end VeriTile.Bench.TritonBenchG.MatmulLeakyrelu.Pasted

@@ -48,7 +48,7 @@ theorem program (rest : Algebra Word) (c : DimConfig) (index64 : Bool)
       (∀ r o, (r ≠ Region.cast BoundSource.O ∨ ∀ lane : Fin 128,
         job.1*128+lane.val < c.outer → o ≠ (job.1*128+lane.val)*c.inner+job.2) →
           t.mem r o = s.mem r o) := by
-  let initial := (JITIO.atProgram (Typed.backend rest) (JITSource.dimension BoundSource.X BoundSource.O 128 128 index64) (job.1*c.inner+job.2)).initial s
+  let initial := (JITIO.atProgram (Typed.backend rest) (JITSource.dimensionKernel BoundSource.X BoundSource.O 128 128 index64) (job.1*c.inner+job.2)).initial s
   have hp : initial.pids 0 = job.1*c.inner+job.2 := by simp [initial, launch]
   have hm : initial.mem = s.mem := Invocation.initial_mem _ _
   obtain ⟨t,ran,output,frame⟩ := JITDimension.source_reference rest initial BoundSource.X BoundSource.O

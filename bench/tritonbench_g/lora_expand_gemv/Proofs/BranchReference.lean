@@ -1,11 +1,11 @@
-import bench.tritonbench_g.lora_expand_gemv.Sources.Kernels
+import bench.tritonbench_g.lora_expand_gemv.Proofs.Sources.Kernels
 
 namespace VeriTile.Bench.Repairs.LoraExpandGemv.Branches
 open VeriTile.Triton FP.Structural
 open FPValue (Word OutputFormat castWord mulWord addWord treeValue)
 open FP.Equational (ReductionPlan)
 noncomputable section
-attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat
+attribute [local simp] VeriTile.Bench.Repairs.LoraExpandGemv.ByteSeparated.fullSource VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.length VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.inputFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.weightFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.effectiveFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.promote VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.productFormat VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.resultFormat VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.originalKernel VeriTile.Bench.Repairs.LoraExpandGemv.Pasted.candidateKernel VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.source
 local instance : Inhabited Word := ⟨FPValue.Word.zero⟩
 
 /-- Static float32 pointer annotations use the historical erased real channel. -/

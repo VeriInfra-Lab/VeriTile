@@ -19,13 +19,13 @@ def rawBefore (Q K M : RegionName) (sm_scale : ℝ)
   (TypedSource.original Q K M "unused"
     stride_qz stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk 0 0 0
     0 H H_KV N_CTX ROUND_CTX NKV_CTX BN BD BN 0 0 sm_scale
-    Bool.false Bool.false Bool.false evenN rfl).toAlgKernel.body.take 16
+    Bool.false Bool.false Bool.false evenN rfl).toAlgKernel.body.take 17
 
 /-- The output fragment is also extracted from the repaired source. -/
 def rawAfter (Out : RegionName) (BN NKV_CTX stride_oz stride_oh : Nat) : List Stmt :=
   (TypedSource.original "q" "k" "m" Out
     0 0 0 0 0 0 0 0 stride_oz stride_oh 0 0 0 0 0 0 NKV_CTX BN 0 BN
-    0 0 0 Bool.false Bool.false Bool.false Bool.false rfl).toAlgKernel.body.drop 17
+    0 0 0 Bool.false Bool.false Bool.false Bool.false rfl).toAlgKernel.body.drop 18
 
 def prelude (Q K M : RegionName) (scale : ℝ)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (evenN : Bool) : List Stmt :=
@@ -67,12 +67,12 @@ theorem original_source :
       [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat BN)
         ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD [])] ++
       rawAfter Out BN NK soz soh := by
-    simp only [actual,rawBefore,rawAfter,TypedSource.original,TypedSource.original,
+    simp only [actual,rawBefore,rawAfter,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
       RealArithmetic.loopBody?,Option.getD]
-    rfl
+    try rfl
   have loop := RealBody.original_loop Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size scale window complement evenM evenN rfl
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_,rfl⟩),
     RealArithmetic.loopBody_erased] at loop
@@ -100,12 +100,12 @@ theorem candidate_source :
       [.forRangeInt "start_m" (.castNatToInt (.ref .nat [] "lo")) (.ref .int [] "hi") (.constNat BN)
         ((RealArithmetic.loopBody? actual.toAlgKernel.body).getD [])] ++
       rawAfter Out BN NK soz soh := by
-    simp only [actual,rawBefore,rawAfter,TypedSource.scalarLeft,TypedSource.original,
+    simp only [actual,rawBefore,rawAfter,TypedSource.scalarLeft,TypedSource.scalarLeftKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.take_succ_cons,List.take_zero,List.drop_succ_cons,List.drop_zero,
       RealArithmetic.loopBody?,Option.getD]
-    rfl
+    try rfl
   have loop := RealBody.candidate_loop Q K M Out sqz sqh sqm sqk skz skh skn skk soz soh son Z H HK N RN NK BN BD BN offset size scale window complement evenM evenN rfl
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_,rfl⟩),
     RealArithmetic.loopBody_erased] at loop
@@ -125,14 +125,14 @@ end
 /-- Every prelude statement writes registers only, including the checked and
 unchecked K-load alternatives. -/
 def writes : List RegName :=
-  ["start_n","off_hz","off_z","off_h","off_hkv","q_offset","k_offset",
+  ["sm_scale","start_n","off_hz","off_z","off_h","off_hkv","q_offset","k_offset",
     "m_ptrs","o","Q_block_ptr","K_block_ptr","k","lo","hi","qk_scale"]
 
 theorem prelude_code (Q K M : RegionName) (scale : ℝ)
     (H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk : Nat) (evenN : Bool) :
     RealFrame.Code writes (prelude Q K M scale H HK N RN NK B D
       sqz sqh sqm sqk skz skh skn skk evenN) := by
-  simp only [prelude,rawBefore,TypedSource.original,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [prelude,rawBefore,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,List.take_succ_cons,List.take_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def]
   repeat' first

@@ -19,7 +19,7 @@ theorem first_safe (s : State Math.Value) (xs : Nat → ℝ) (pid : Nat) (active
     (indexBounds : ∀ i, i < c.blocks → i < bounds (Region.cast I))
     (reads : ∀ i, i < c.size → (s.mem X i).read .real = (xs i : Math.Value)) :
     (JITIO.firstLaunch (TypedReal.backend rest)
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size 0 pid).Safe bounds s := by
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size 0 pid).Safe bounds s := by
   let initial := TypedReal.atProgram s pid
   have selected := (TypedReal.first_reference (adapter := .directCast kind.direct) initial X c
     coverage 0 xs (by simpa [initial, TypedReal.atProgram] using active) reads).1
@@ -43,7 +43,7 @@ theorem grid_safe (inputValue : X ≠ V) (inputIndex : X ≠ Region.cast I)
     (indexBounds : ∀ i, i < c.blocks → i < bounds (Region.cast I))
     (reads : ∀ i, i < c.size → (s.mem X i).read .real = (xs i : Math.Value)) :
     ScheduleSafe bounds (jobs.map (JITIO.firstLaunch (TypedReal.backend rest)
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size 0)) s := by
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size 0)) s := by
   induction jobs generalizing s with
   | nil => trivial
   | cons pid jobs ih =>
@@ -56,7 +56,7 @@ theorem grid_safe (inputValue : X ≠ V) (inputIndex : X ≠ Region.cast I)
       have equal : some actual = some t := actualRun.symm.trans (by
         simp only [Invocation.run, JITIO.firstLaunch_initial, JITIO.atProgram_initial]
         change exec (TypedReal.backend rest)
-          (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) (JITStage1.arguments (JITRealGrid.atProgram s pid) c.size 0) = some t
+          (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) (JITStage1.arguments (JITRealGrid.atProgram s pid) c.size 0) = some t
         exact ran)
       exact Option.some.inj equal
     subst actual
@@ -73,7 +73,7 @@ theorem second_safe (s : State Math.Value) (xs : Nat → ℝ)
     (values : ∀ i, i < c.blocks → toFloat (TypedScratch.channel kind)
       ((s.mem V i).read (TypedScratch.channel kind).toTileDType) = (xs (Math.firstIndex c xs i) : Math.Value)) :
     (JITIO.secondLaunch (TypedReal.backend rest)
-      (JITSource.stage2 V I O (JITStage1.floatingType kind) c.midBlock) c.blocks).Safe bounds s := by
+      (JITSource.stage2Kernel V I O (JITStage1.floatingType kind) c.midBlock) c.blocks).Safe bounds s := by
   let positive := coverage.blocksPositive.trans_le coverage.midFits
   have loads : (fun lane : Fin c.midBlock => if lane.val < c.blocks then
       toFloat (TypedScratch.channel kind) ((s.mem V lane.val).read (TypedScratch.channel kind).toTileDType)

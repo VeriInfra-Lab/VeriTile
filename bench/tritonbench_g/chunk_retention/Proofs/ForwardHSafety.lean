@@ -51,20 +51,17 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
   have hc := entryContext M D c seed final initial
   have hmem : start.val.mem=initial.mem := by cases seed <;> simp [start,entryExecution]
   obtain ⟨mid,hm,⟨n,ctx⟩,ha,hmm⟩ := loopExecution M D c seed final initial start.val hc.1 hc.2 hmem
-  have h0' : (parts c seed final).start=.constNat 0 := rfl
-  have hn' : (parts c seed final).stop=.constNat c.chunks := rfl
-  have h1' : (parts c seed final).stride=.constNat 1 := rfl
   refine ⟨⟨entry_safe M D c seed final initial bounds h0,?_⟩,?_⟩
   · intro t ran
     rw [start.property] at ran
     cases ran
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,h0',hn',h1',evalOp_unfold]
+    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold]
         using loopSafe start.val hc.1 hc.2
     · intro _ _; exact Safety.traceSafeList_nil _ _ _
   · intro t ran
     rw [run_append,start.property] at ran
-    simp only [Option.bind_some,run,step,h0',hn',h1',evalOp_unfold] at ran
+    simp only [Option.bind_some,run,step,evalOp_unfold] at ran
     change (range (engine (withDot M D)) "i_t" 0 c.chunks 1 (parts c seed final).body start.val).bind
       (fun s => some s)=some t at ran
     rw [hm] at ran

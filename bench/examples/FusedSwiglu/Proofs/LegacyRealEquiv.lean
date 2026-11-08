@@ -82,6 +82,9 @@ bridged once in the library (`ComputeKernel.execR_seq_rel_execPipelineR`,
 is register-closed; this file's headline is about the concatenated kernel.
 -/
 
+attribute [local simp] VeriTile.Triton.ComputeOp.toAlgorithm?
+  VeriTile.Triton.ComputeDType.eraseDType
+
 namespace VeriTile.Bench.Examples.FusedSwigluEquiv
 open VeriTile.Bench.Examples.FusedSwiglu.Kernels
 open VeriTile.Triton
@@ -112,10 +115,10 @@ stages). -/
 private theorem exec_swiglu_unfusedR (R : RoundingModel)
     (X Y S OUT : RegionName) (ncols BLOCK_N : Nat) (s : BlockState) :
     execR R (swiglu_unfused X Y S OUT ncols BLOCK_N) s =
-      (execR R (silu_step X S ncols BLOCK_N) s).bind
-        (fun s1 => execR R (mul_step S Y OUT ncols BLOCK_N) s1) := by
+      (execR R (silu_step_kernel X S ncols BLOCK_N) s).bind
+        (fun s1 => execR R (mul_step_kernel S Y OUT ncols BLOCK_N) s1) := by
   show execR R (ComputeKernel.seq [X, Y] [OUT]
-      [silu_step X S ncols BLOCK_N, mul_step S Y OUT ncols BLOCK_N]).toAlgKernel s = _
+      [silu_step_kernel X S ncols BLOCK_N, mul_step_kernel S Y OUT ncols BLOCK_N]).toAlgKernel s = _
   rw [execR_toAlgKernel_seq R _ _ _ s (by
     intro k hk
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
@@ -134,13 +137,13 @@ are stated directly through `ComputeCorrect.OutputReadable.read`.
 at each active `OUT` lane, under rounding model `R`. -/
 private theorem swiglu_fused_realizesR
     (h_x : InputLoadedAt s X BLOCK_N xs) (h_y : InputLoadedAt s Y BLOCK_N ys) :
-    ComputeKernel.ExecCorrectR R (swiglu_fused X Y OUT ncols BLOCK_N) s (fun s' =>
+    ComputeKernel.ExecCorrectR R (swiglu_fused_kernel X Y OUT ncols BLOCK_N) s (fun s' =>
       ∀ i : Fin BLOCK_N, s.pid * BLOCK_N + i.val < ncols →
         ComputeCorrect.OutputReadable.read s' (OUT, s.pid * BLOCK_N + i.val)
           = floatCell .bf16 (R.castTo .bf16 (R.castTo .bf16 (R.castTo .bf16 (TiledActivation.silu (xs i)) * ys i)))) := by
   unfold InputLoadedAt at h_x h_y
   apply ComputeKernel.computeCorrectR_of_toAlgKernel
-  · simp [swiglu_fused, ComputeExpr.toAlgorithm?]
+  · simp [swiglu_fused_kernel, ComputeExpr.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i hActive
@@ -151,7 +154,7 @@ private theorem swiglu_fused_realizesR
       simpa using hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
     rfl
-  simp [execR, swiglu_fused, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, swiglu_fused_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   simp only [ComputeCorrect.OutputReadable.read_memcell, BlockState.pid_eq]
@@ -167,13 +170,13 @@ private theorem swiglu_fused_realizesR
 `S` receive `c(c(silu x))` (the `.to(bf16)` cast + the store to the bf16
 tensor) as bf16 cells. -/
 private theorem silu_step_realizesR (h_x : InputLoadedAt s X BLOCK_N xs) :
-    ComputeKernel.ExecCorrectR R (silu_step X S ncols BLOCK_N) s (fun s' =>
+    ComputeKernel.ExecCorrectR R (silu_step_kernel X S ncols BLOCK_N) s (fun s' =>
       ∀ i : Fin BLOCK_N, s.pid * BLOCK_N + i.val < ncols →
         ComputeCorrect.OutputReadable.read s' (S, s.pid * BLOCK_N + i.val)
           = floatCell .bf16 (R.castTo .bf16 (R.castTo .bf16 (TiledActivation.silu (xs i))))) := by
   unfold InputLoadedAt at h_x
   apply ComputeKernel.computeCorrectR_of_toAlgKernel
-  · simp [silu_step, silu_step_source, siluPrecision, ComputeExpr.toAlgorithm?]
+  · simp [silu_step_kernel, ComputeExpr.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i hActive
@@ -184,7 +187,7 @@ private theorem silu_step_realizesR (h_x : InputLoadedAt s X BLOCK_N xs) :
       simpa using hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
     rfl
-  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   simp only [ComputeCorrect.OutputReadable.read_memcell, BlockState.pid_eq]
@@ -199,10 +202,10 @@ private theorem silu_step_realizesR (h_x : InputLoadedAt s X BLOCK_N xs) :
 every rounding model. -/
 private theorem silu_step_preservesR (s' : BlockState)
     (keepReg : RegionName) (h_keep : keepReg ≠ S)
-    (hExec : execR R (silu_step X S ncols BLOCK_N) s = some s') :
+    (hExec : execR R (silu_step_kernel X S ncols BLOCK_N) s = some s') :
     ∀ offset : Nat, s'.mem keepReg offset = s.mem keepReg offset := by
   intro offset
-  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_other_region R .bf16 _ _ _
@@ -212,9 +215,9 @@ private theorem silu_step_preservesR (s' : BlockState)
 /-- Step A leaves the program ids untouched (needed to carry the lane
 addressing across the composition). -/
 private theorem silu_step_execR_pids (s1 : BlockState)
-    (hExec : execR R (silu_step X S ncols BLOCK_N) s = some s1) :
+    (hExec : execR R (silu_step_kernel X S ncols BLOCK_N) s = some s1) :
     s1.pids = s.pids := by
-  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s1
   rw [BlockState.foldl_writeMemAsR_masked_pids]
@@ -224,14 +227,14 @@ private theorem silu_step_execR_pids (s1 : BlockState)
 payloads `zs`, the active lanes of `OUT` receive `c(c(z·y))` under `R`. -/
 private theorem mul_step_realizesR (zs : Fin BLOCK_N → ℝ)
     (h_z : InputCellsLoadedAt s S ncols BLOCK_N .bf16 zs) (h_y : InputLoadedAt s Y BLOCK_N ys) :
-    ComputeKernel.ExecCorrectR R (mul_step S Y OUT ncols BLOCK_N) s (fun s' =>
+    ComputeKernel.ExecCorrectR R (mul_step_kernel S Y OUT ncols BLOCK_N) s (fun s' =>
       ∀ i : Fin BLOCK_N, s.pid * BLOCK_N + i.val < ncols →
         ComputeCorrect.OutputReadable.read s' (OUT, s.pid * BLOCK_N + i.val)
           = floatCell .bf16 (R.castTo .bf16 (R.castTo .bf16 (zs i * ys i)))) := by
   unfold InputCellsLoadedAt floatCell at h_z
   unfold InputLoadedAt at h_y
   apply ComputeKernel.computeCorrectR_of_toAlgKernel
-  · simp [mul_step, ComputeExpr.toAlgorithm?]
+  · simp [mul_step_kernel, ComputeExpr.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i hActive
@@ -242,7 +245,7 @@ private theorem mul_step_realizesR (zs : Fin BLOCK_N → ℝ)
       simpa using hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
     rfl
-  simp [execR, mul_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, mul_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   simp only [ComputeCorrect.OutputReadable.read_memcell, BlockState.pid_eq]
@@ -274,17 +277,17 @@ private theorem swiglu_unfused_realizesR
   subst s0
   rw [exec_swiglu_unfusedR] at hExec
   intro i hActive
-  cases hA : execR R (ComputeKernel.toAlgKernel (silu_step X S ncols BLOCK_N)) s with
+  cases hA : execR R (ComputeKernel.toAlgKernel (silu_step_kernel X S ncols BLOCK_N)) s with
   | none => rw [hA] at hExec; exact absurd hExec (by simp)
   | some s1 =>
       rw [hA] at hExec
-      have hExecB : execR R (ComputeKernel.toAlgKernel (mul_step S Y OUT ncols BLOCK_N)) s1
+      have hExecB : execR R (ComputeKernel.toAlgKernel (mul_step_kernel S Y OUT ncols BLOCK_N)) s1
           = some s' := hExec
       have hpids : s1.pids = s.pids := silu_step_execR_pids X S ncols BLOCK_N s R s1 hA
       -- intermediate `S` cells from step A's realization
       have hAout := ComputeKernel.ExecCorrectR.out
         (silu_step_realizesR X S ncols BLOCK_N s xs R h_x)
-        (by simp [silu_step, silu_step_source, siluPrecision, ComputeExpr.toAlgorithm?]) hA
+        (by simp [silu_step_kernel, ComputeExpr.toAlgorithm?]) hA
       have h_z1 : InputCellsLoadedAt s1 S ncols BLOCK_N .bf16 (fun j => R.castTo .bf16 (R.castTo .bf16 (TiledActivation.silu (xs j)))) := by
         intro j hj
         rw [BlockState.pid_eq] at hj
@@ -307,7 +310,7 @@ private theorem swiglu_unfused_realizesR
       -- step B's realization at the intermediate state
       have hBout := ComputeKernel.ExecCorrectR.out
         (mul_step_realizesR Y S OUT ncols BLOCK_N s1 ys R (fun j => R.castTo .bf16 (R.castTo .bf16 (TiledActivation.silu (xs j)))) h_z1 h_y1)
-        (by simp [mul_step, ComputeExpr.toAlgorithm?]) hExecB
+        (by simp [mul_step_kernel, ComputeExpr.toAlgorithm?]) hExecB
       have hAct1 : s1.pids 0 * BLOCK_N + i.val < ncols := by rw [hpids]; exact hActive
       have hout := hBout i (by rw [BlockState.pid_eq]; exact hAct1)
       simpa [programLaneOffset, hpids] using hout
@@ -324,10 +327,10 @@ the library's **masked** scatter frame
 untouched. -/
 private theorem swiglu_fused_preservesR (s' : BlockState)
     (r : RegionName) (hrOUT : r ≠ OUT)
-    (hExec : execR R (swiglu_fused X Y OUT ncols BLOCK_N) s = some s') :
+    (hExec : execR R (swiglu_fused_kernel X Y OUT ncols BLOCK_N) s = some s') :
     ∀ o : Nat, s'.mem r o = s.mem r o := by
   intro o
-  simp [execR, swiglu_fused, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, swiglu_fused_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_other_region R .bf16 _ _ _ r hrOUT o]
@@ -339,9 +342,9 @@ private theorem swiglu_fused_preserves_unhitR (s' : BlockState)
     (o : Nat)
     (ho : ∀ i : Fin BLOCK_N, s.pids 0 * BLOCK_N + i.val < ncols →
       programLaneOffset s BLOCK_N i ≠ o)
-    (hExec : execR R (swiglu_fused X Y OUT ncols BLOCK_N) s = some s') :
+    (hExec : execR R (swiglu_fused_kernel X Y OUT ncols BLOCK_N) s = some s') :
     s'.mem OUT o = s.mem OUT o := by
-  simp [execR, swiglu_fused, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, swiglu_fused_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_masked_prop R .bf16 _ _ _ o _
@@ -351,10 +354,10 @@ private theorem swiglu_fused_preserves_unhitR (s' : BlockState)
 /-- Frame lemma for step B: every region other than `OUT` is untouched. -/
 private theorem mul_step_preservesR (s' : BlockState)
     (r : RegionName) (hrOUT : r ≠ OUT)
-    (hExec : execR R (mul_step S Y OUT ncols BLOCK_N) s = some s') :
+    (hExec : execR R (mul_step_kernel S Y OUT ncols BLOCK_N) s = some s') :
     ∀ o : Nat, s'.mem r o = s.mem r o := by
   intro o
-  simp [execR, mul_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, mul_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_other_region R .bf16 _ _ _ r hrOUT o]
@@ -366,9 +369,9 @@ private theorem mul_step_preserves_unhitR (s' : BlockState)
     (o : Nat)
     (ho : ∀ i : Fin BLOCK_N, s.pids 0 * BLOCK_N + i.val < ncols →
       programLaneOffset s BLOCK_N i ≠ o)
-    (hExec : execR R (mul_step S Y OUT ncols BLOCK_N) s = some s') :
+    (hExec : execR R (mul_step_kernel S Y OUT ncols BLOCK_N) s = some s') :
     s'.mem OUT o = s.mem OUT o := by
-  simp [execR, mul_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, mul_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_masked_prop R .bf16 _ _ _ o _
@@ -383,9 +386,9 @@ private theorem silu_step_preserves_unhitR (s' : BlockState)
     (o : Nat)
     (ho : ∀ i : Fin BLOCK_N, s.pids 0 * BLOCK_N + i.val < ncols →
       programLaneOffset s BLOCK_N i ≠ o)
-    (hExec : execR R (silu_step X S ncols BLOCK_N) s = some s') :
+    (hExec : execR R (silu_step_kernel X S ncols BLOCK_N) s = some s') :
     s'.mem S o = s.mem S o := by
-  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, silu_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?] at hExec
   subst s'
   rw [BlockState.foldl_writeMemAsR_preserve_masked_prop R .bf16 _ _ _ o _
@@ -402,22 +405,22 @@ computes to `some _` by the same computational unfold the realizations use. -/
 
 /-- The fused kernel terminates under `execR R` from every state. -/
 private theorem swiglu_fused_execR_isSome :
-    ∃ s', execR R ((swiglu_fused X Y OUT ncols BLOCK_N).toAlgKernel) s
+    ∃ s', execR R ((swiglu_fused_kernel X Y OUT ncols BLOCK_N).toAlgKernel) s
       = some s' := by
-  simp [execR, swiglu_fused, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, swiglu_fused_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?]
 
 /-- Step A terminates under `execR R` from every state. -/
 private theorem silu_step_execR_isSome :
-    ∃ s', execR R ((silu_step X S ncols BLOCK_N).toAlgKernel) s = some s' := by
-  simp [execR, silu_step, silu_step_source, siluPrecision, stepStmtsR, stepStmtR, evalOpR.eq_def,
+    ∃ s', execR R ((silu_step_kernel X S ncols BLOCK_N).toAlgKernel) s = some s' := by
+  simp [execR, silu_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?]
 
 /-- Step B terminates under `execR R` from every state. -/
 private theorem mul_step_execR_isSome :
-    ∃ s', execR R ((mul_step S Y OUT ncols BLOCK_N).toAlgKernel) s
+    ∃ s', execR R ((mul_step_kernel S Y OUT ncols BLOCK_N).toAlgKernel) s
       = some s' := by
-  simp [execR, mul_step, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, mul_step_kernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         tile_elementwise, ComputeExpr.toAlgorithm?]
 
 end Swiglu.lemmas
@@ -439,10 +442,10 @@ theorem swiglu_fused_refines_unfused
     (h_x : InputLoadedAt s X BLOCK_N xs) (h_y : InputLoadedAt s Y BLOCK_N ys)
     (h_SY : S ≠ Y) :
     ComputeRefine.Refines R
-      (swiglu_fused X Y OUT ncols BLOCK_N)
+      (swiglu_fused_kernel X Y OUT ncols BLOCK_N)
       (swiglu_unfused X Y S OUT ncols BLOCK_N) s [S] := by
   apply ComputeKernel.computeRefineR_of_toAlgKernel
-  · simp [swiglu_fused, ComputeExpr.toAlgorithm?]
+  · simp [swiglu_fused_kernel, ComputeExpr.toAlgorithm?]
   · rfl
   intro s0 lhs' rhs' hL hR hs0
   subst s0
@@ -451,11 +454,11 @@ theorem swiglu_fused_refines_unfused
   -- split the pipeline execution into A ; B (keeping the original `hR`)
   have hRsplit := hR
   rw [exec_swiglu_unfusedR] at hRsplit
-  cases hA : execR R (ComputeKernel.toAlgKernel (silu_step X S ncols BLOCK_N)) s with
+  cases hA : execR R (ComputeKernel.toAlgKernel (silu_step_kernel X S ncols BLOCK_N)) s with
   | none => rw [hA] at hRsplit; exact absurd hRsplit (by simp)
   | some s1 =>
       rw [hA] at hRsplit
-      have hRB : execR R (ComputeKernel.toAlgKernel (mul_step S Y OUT ncols BLOCK_N)) s1
+      have hRB : execR R (ComputeKernel.toAlgKernel (mul_step_kernel S Y OUT ncols BLOCK_N)) s1
           = some rhs' := hRsplit
       have hpids : s1.pids = s.pids := silu_step_execR_pids X S ncols BLOCK_N s R s1 hA
       -- step A only touches `S`, and `r ≠ S`
@@ -471,7 +474,7 @@ theorem swiglu_fused_refines_unfused
           obtain ⟨i, hAct, rfl⟩ := hhit
           have hFout := ComputeKernel.ExecCorrectR.out
             (swiglu_fused_realizesR X Y OUT ncols BLOCK_N s xs ys R h_x h_y)
-            (by simp [swiglu_fused, ComputeExpr.toAlgorithm?]) hL
+            (by simp [swiglu_fused_kernel, ComputeExpr.toAlgorithm?]) hL
           have hUout := ComputeKernel.ExecCorrectR.out
             (swiglu_unfused_realizesR X Y S OUT ncols BLOCK_N s xs ys R h_x h_y h_SY)
             (by rfl) hR
@@ -520,9 +523,9 @@ section Swiglu.bridge
 
 /-- The fused kernel sits inside the bridge's covered fragment. -/
 theorem swiglu_fused_flattenOk :
-    ((swiglu_fused X Y OUT ncols BLOCK_N).toAlgKernel).FlattenOk := by
+    ((swiglu_fused_kernel X Y OUT ncols BLOCK_N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [swiglu_fused, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [swiglu_fused_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- The concatenated unfused pipeline sits inside the bridge's covered
@@ -530,7 +533,7 @@ fragment (concatenation adds no new statement forms). -/
 theorem swiglu_unfused_flattenOk :
     ((swiglu_unfused X Y S OUT ncols BLOCK_N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [swiglu_unfused, silu_step, silu_step_source, siluPrecision, mul_step, ComputeKernel.toAlgKernel,
+  simp [swiglu_unfused, silu_step_kernel, mul_step_kernel, ComputeKernel.toAlgKernel,
     ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
@@ -549,10 +552,10 @@ theorem swiglu_fused_traceSafeR (bounds : RegionBounds)
     (hout : ∀ j : Fin BLOCK_N, s.pid * BLOCK_N + j.val < ncols →
       s.pid * BLOCK_N + j.val < bounds OUT) :
     Kernel.TraceSafeR R bounds
-      ((swiglu_fused X Y OUT ncols BLOCK_N).toAlgKernel) s := by
+      ((swiglu_fused_kernel X Y OUT ncols BLOCK_N).toAlgKernel) s := by
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy hout
-  simp [swiglu_fused, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [swiglu_fused_kernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,
     tile_elementwise,
@@ -581,7 +584,7 @@ theorem swiglu_unfused_traceSafeR (bounds : RegionBounds)
       ((swiglu_unfused X Y S OUT ncols BLOCK_N).toAlgKernel) s := by
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy hout hs
-  simp [swiglu_unfused, silu_step, silu_step_source, siluPrecision, mul_step, ComputeKernel.toAlgKernel,
+  simp [swiglu_unfused, silu_step_kernel, mul_step_kernel, ComputeKernel.toAlgKernel,
     ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,
@@ -626,7 +629,7 @@ verbatim), with the fused kernel plugged in and **no scratch** (it stages
 nothing through memory). -/
 def swigluFusedIO (ncols B : Nat) : MaskedKernelIO₂ :=
   { swigluUnfusedIO ncols B with
-    kernel := swiglu_fused ⟨"X"⟩ ⟨"Y"⟩ ⟨"OUT"⟩ ncols B
+    kernel := swiglu_fused_kernel ⟨"X"⟩ ⟨"Y"⟩ ⟨"OUT"⟩ ncols B
     projection := by rfl
     scratch := [] }
 
@@ -685,7 +688,7 @@ specification swiglu_equiv (R : RoundingModel) (ncols B : Nat) :
         ∀ o, s1.mem r o = s2.mem r o :=
       (swiglu_fused_refines_unfused ⟨"X"⟩ ⟨"Y"⟩ ⟨"S"⟩ ⟨"OUT"⟩ ncols B s₀
           _ _ R hxs hys (by decide)).out
-        (by simp [swiglu_fused, ComputeExpr.toAlgorithm?])
+        (by simp [swiglu_fused_kernel, ComputeExpr.toAlgorithm?])
         (by rfl)
         hexec1 hexec2
     refine ⟨s1, s2, hexec1, hexec2, ?_, ?_, ?_⟩

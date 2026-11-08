@@ -30,7 +30,7 @@ def fp32_source_run {α : Type} [Inhabited α] (algebra : Algebra α)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (maxSteps := 300000) [Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forward, MaskMode.python,
+    simp (maxSteps := 300000) [Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forwardKernel, MaskMode.python,
       ComputeKernel.surfaceBody, run, step, stepAlg,
       FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
       Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision,

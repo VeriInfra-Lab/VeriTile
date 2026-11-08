@@ -153,7 +153,7 @@ run_cmd do
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_real_correctness_spec_is_independent_of_fp_assumptions(self):
-        source = '''import bench.examples.TritonBenchVectorAddition.Correct
+        source = '''import bench.examples.TritonBenchVectorAddition.RealCorrect
 open VeriTile
 open VeriTile.Bench.Examples.TritonBenchVectorAddition.Kernels
 open VeriTile.Bench.Examples.TritonBenchVectorAdditionCorrect

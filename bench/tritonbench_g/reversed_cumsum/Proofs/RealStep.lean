@@ -10,20 +10,21 @@ set_option linter.unusedSimpArgs false
 
 def indexed (h : Call) (c : Config) (q f : Nat) (u : BlockState) : BlockState :=
   let u1 := u.setReg "start_t" .int [] (Tile.scalar (q*c.BT:Int))
-  let u2 := u1.setReg "start_s" .nat [] (Tile.scalar (f*BS))
-  let u3 := u2.setReg "lane_t" .nat [c.BT] (lanes c.BT)
-  let u4 := u3.setReg "lane_s" .nat [BS] (lanes BS)
+  let u2 := u1.setReg "start_s" .int [] (Tile.scalar (f*BS:Int))
+  let u3 := u2.setReg "lane_t" .int [c.BT] (lanes c.BT)
+  let u4 := u3.setReg "lane_s" .int [BS] (lanes BS)
   let u5 := u4.setReg "active_t" .bool [c.BT] (maskT h c q)
   let u6 := u5.setReg "active_s" .bool [BS] (maskS h f)
   let u7 := u6.setReg "times" .int [c.BT] (times h c q)
-  let u8 := u7.setReg "features" .nat [BS] (features h f)
+  let u8 := u7.setReg "features" .int [BS] (features h f)
   u8.setReg "active" .bool [c.BT,BS] (mask h c q f)
 
 def beforeStore (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ)
     (acc : Fin BS → ℝ) (u : BlockState) : BlockState :=
   let u1 := (indexed h c q f u).setReg "p_s" .ptr [c.BT,BS] (pointer h c row q f h.input)
   let u2 := u1.setReg "p_z" .ptr [c.BT,BS] (pointer h c row q f h.output)
-  let u3 := u2.setReg "b_s" .real [c.BT,BS] (inputTile h c row f a q)
+  let uload := u2.setReg "__veritile_load_0" .real [c.BT,BS] (inputTile h c row f a q)
+  let u3 := uload.setReg "b_s" .real [c.BT,BS] (inputTile h c row f a q)
   u3.setReg "b_c" .real [c.BT,BS] (outputTile (layout h c) (launch row f) a (fun _ => 0) q acc)
 
 def result (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ)
@@ -73,8 +74,8 @@ def chunkCode (h : Call) (c : Config) : List Stmt := (loopBody h c).tail
 
 theorem executes (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBlock h)
     (a : Nat → ℝ) (acc : Fin BS → ℝ) (u : BlockState) (start : q*c.BT<h.T)
-    (his : u.regs .nat [] "i_s"=some (Tile.scalar f.val))
-    (hih : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (his : u.regs .int [] "i_s"=some (Tile.scalar (f.val:Int)))
+    (hih : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (hit : u.regs .int [] "i_t"=some (Tile.scalar (q:Int)))
     (read : ∀ off, u.readMem h.input off=a off)
     (htri : u.regs .real [c.BT,c.BT] "m_s"=some (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealMath.upperTriTile c.BT))
@@ -83,8 +84,8 @@ theorem executes (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBloc
   simp only [chunkCode,loopBody,List.tail_cons]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (startT_eval c q u hit))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (startS_eval f.val _ (by simp [his])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c.BT) from by rw [evalOp]; rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.arange BS) _=some (lanes BS) from by rw [evalOp]; rfl))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange c.BT)) _=some (lanes c.BT) from by simp [evalOp,lanes,Tile.vec]))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange BS)) _=some (lanes BS) from by simp [evalOp,lanes,Tile.vec]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (activeT_eval h c q _ start (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (activeS_eval h f.val _ (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (time_eval h c q _ (by simp) (by simp) (by simp)))]
@@ -97,6 +98,8 @@ theorem executes (h : Call) (c : Config) (row q : Nat) (f : Geometry.FeatureBloc
     (by simp [indexed,hih]) (by simp [indexed]) (by simp [indexed])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_eval h c row q f a _ start (by simp)
     (by simp [indexed]) (by intro off; simpa [indexed] using read off)))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (show evalOp (.ref .real [c.BT,BS] "__veritile_load_0") _ = some (inputTile h c row f.val a q) from by simp))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (output_eval h c row q f.val a acc _
     (by simp [indexed,hacc]) (by simp [indexed,htri]) (by simp)))]
   rw [stepStmts.cons_some (store_eval h c row q f a acc _ start (by simp) (by simp [indexed]) (by simp; rfl))]

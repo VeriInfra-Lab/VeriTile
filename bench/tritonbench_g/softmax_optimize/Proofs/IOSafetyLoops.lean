@@ -13,7 +13,6 @@ set_option maxRecDepth 16000
 
 def Control (N B row : Nat) (s : BlockState) : Prop :=
   s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)) ∧
-  s.regs .int [] "cols" = some (Tile.scalar (N : Int)) ∧
   s.regs .int [] "prev_multiple" = some (Tile.scalar (Config.previous N B : Int))
 
 def Bodies (Y X : RegionName) (N B : Nat) : List (List Stmt) :=
@@ -21,11 +20,11 @@ def Bodies (Y X : RegionName) (N B : Nat) : List (List Stmt) :=
     Source.outputFull Y X N B, Source.outputTail Y X N B, reductionStmts B]
 
 theorem avoids (Y X : RegionName) (N B : Nat) (body : List Stmt) (member : body ∈ Bodies Y X N B)
-    (name : RegName) (hn : name ∈ ["pid_m","cols","prev_multiple"]) :
+    (name : RegName) (hn : name ∈ ["pid_m","prev_multiple"]) :
     ∀ st ∈ body, Safety.AvoidsRegister name st := by
   simp only [Bodies, List.mem_cons, List.not_mem_nil, or_false] at member
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hn
-  rcases hn with rfl | rfl | rfl
+  rcases hn with rfl | rfl
   all_goals rcases member with rfl | rfl | rfl | rfl | rfl <;>
     simp [Source.inputFull,Source.inputTail,Source.outputFull,Source.outputTail,
       Source.indexPrefix,Source.maskStatement,Source.update,sourceMaximum,outputPointer,
@@ -34,12 +33,11 @@ theorem avoids (Y X : RegionName) (N B : Nat) (body : List Stmt) (member : body 
 theorem preserves (Y X : RegionName) (N B row : Nat) (body : List Stmt)
     (member : body ∈ Bodies Y X N B) (s t : BlockState) (hc : Control N B row s)
     (run : stepStmts body s = some t) : Control N B row t := by
-  have eq (name : RegName) (hn : name ∈ ["pid_m","cols","prev_multiple"]) :=
+  have eq (name : RegName) (hn : name ∈ ["pid_m","prev_multiple"]) :=
     Safety.list_preserves_register name .int [] body s t (avoids Y X N B body member name hn) run
-  refine ⟨?_,?_,?_⟩
+  refine ⟨?_,?_⟩
   · rw [eq "pid_m" (by simp)]; exact hc.1
-  · rw [eq "cols" (by simp)]; exact hc.2.1
-  · rw [eq "prev_multiple" (by simp)]; exact hc.2.2
+  · rw [eq "prev_multiple" (by simp)]; exact hc.2
 
 theorem full_range (bounds : RegionBounds) (Y X : RegionName) (N B row : Nat)
     (hB : 0 < B) (body : List Stmt) (member : body ∈ Bodies Y X N B)
@@ -75,20 +73,20 @@ theorem tail_range (bounds : RegionBounds) (Y X : RegionName) (N B row : Nat)
 
 def fullLoop (B : Nat) (body : List Stmt) : Stmt :=
   .forRangeInt "start_n" (.constInt 0) (.ref .int [] "prev_multiple") (.constNat B) body
-def tailLoop (B : Nat) (body : List Stmt) : Stmt :=
-  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B) body
+def tailLoop (N B : Nat) (body : List Stmt) : Stmt :=
+  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.constInt N) (.constNat B) body
 
 theorem full_safe (bounds : RegionBounds) (N B row : Nat) (body : List Stmt)
     (s : BlockState) (hc : Control N B row s)
     (hs : Stmt.forRangeIntTraceSafe bounds "start_n" 0 (Config.previous N B : Int) B body s) :
     Stmt.TraceSafe bounds (fullLoop B body) s := by
-  simpa [fullLoop,Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp.eq_def,hc.2.2] using hs
+  simpa [fullLoop,Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp.eq_def,hc.2] using hs
 
 theorem tail_safe (bounds : RegionBounds) (N B row : Nat) (body : List Stmt)
     (s : BlockState) (hc : Control N B row s)
     (hs : Stmt.forRangeIntTraceSafe bounds "start_n" (Config.previous N B : Int) (N : Int) B body s) :
-    Stmt.TraceSafe bounds (tailLoop B body) s := by
-  simpa [tailLoop,Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp.eq_def,hc.2.1,hc.2.2] using hs
+    Stmt.TraceSafe bounds (tailLoop N B body) s := by
+  simpa [tailLoop,Stmt.TraceSafe,Op.SafeAt.eq_def,evalOp.eq_def,hc.2] using hs
 
 theorem range_preserves (Y X : RegionName) (N B row stop c : Nat) (body : List Stmt)
     (member : body ∈ Bodies Y X N B) (s t : BlockState) (hc : Control N B row s)
@@ -102,13 +100,13 @@ theorem range_preserves (Y X : RegionName) (N B row stop c : Nat) (body : List S
 theorem full_preserves (Y X : RegionName) (N B row : Nat) (body : List Stmt)
     (member : body ∈ Bodies Y X N B) (s t : BlockState) (hc : Control N B row s)
     (run : stepStmt (fullLoop B body) s = some t) : Control N B row t := by
-  simp only [fullLoop,stepStmt,evalOp.eq_def,hc.2.2,Option.bind_some,Tile.scalar_data] at run
+  simp only [fullLoop,stepStmt,evalOp.eq_def,hc.2,Option.bind_some,Tile.scalar_data] at run
   exact range_preserves Y X N B row (Config.previous N B) 0 body member s t hc run
 
 theorem tail_preserves (Y X : RegionName) (N B row : Nat) (body : List Stmt)
     (member : body ∈ Bodies Y X N B) (s t : BlockState) (hc : Control N B row s)
-    (run : stepStmt (tailLoop B body) s = some t) : Control N B row t := by
-  simp only [tailLoop,stepStmt,evalOp.eq_def,hc.2.1,hc.2.2,Option.bind_some,Tile.scalar_data] at run
+    (run : stepStmt (tailLoop N B body) s = some t) : Control N B row t := by
+  simp only [tailLoop,stepStmt,evalOp.eq_def,hc.2,Option.bind_some,Tile.scalar_data] at run
   exact range_preserves Y X N B row N (Config.previous N B) body member s t hc run
 
 #axiomsClean full_range

@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_gated_attention.Tensor
-import bench.tritonbench_g.chunk_gated_attention.Sources.HostStorage
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Support.Tensor
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.HostStorage
 
 /-! Kernel-only contracts preserve the selected Python guards and ordinary
 padding/copy API relations. They do not assume compilation, execution, or any

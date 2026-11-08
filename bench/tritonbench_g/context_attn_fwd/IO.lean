@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.Kernels
+import bench.tritonbench_g.context_attn_fwd.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.context_attn_fwd.Proofs.Mathematical_RealIO
 import VeriTile.Triton.Memory.AlgorithmProgramIO
 import VeriTile.Triton.Memory.LogicalIO

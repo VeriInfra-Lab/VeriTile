@@ -157,7 +157,7 @@ def reference (rest : Algebra Expr) (profile : Profile) (ops : Operations) (op :
   eval ops ((gridValue (algebra rest profile) op Q K batch row
     (fun j => .input leftId j (left j)) (fun j => .input rightId j (right j)) i).read .real)
 
-#specNonCircular reference avoiding [forward,backward,runRows]
+#specNonCircular reference avoiding [forwardKernel,backward,runRows]
 #axiomsClean reference
 end
 end VeriTile.Bench.Repairs.Ksoftmax.Graph

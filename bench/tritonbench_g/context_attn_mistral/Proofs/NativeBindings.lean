@@ -1,5 +1,5 @@
-import bench.tritonbench_g.context_attn_mistral.NativeArrays
-import bench.tritonbench_g.context_attn_mistral.Footprint
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.NativeArrays
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.Footprint
 
 namespace VeriTile.Bench.Repairs.ContextAttnMistralKernel.NativeBindings
 open VeriTile Triton FP.Structural

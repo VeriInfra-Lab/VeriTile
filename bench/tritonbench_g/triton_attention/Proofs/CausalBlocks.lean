@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_attention.Sources.Geometry
+import bench.tritonbench_g.triton_attention.Proofs.Sources.Geometry
 
 namespace VeriTile.Bench.Repairs.TritonAttention.Whole001
 namespace Math

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_matmul.Raw
+import bench.tritonbench_g.triton_matmul.Proofs.Support.Raw
 import bench.tritonbench_g.triton_matmul.Proofs.Native
 import bench.tritonbench_g.triton_matmul.Proofs.KernelRealModel
 import VeriTile.Triton.Float.ProgramIO

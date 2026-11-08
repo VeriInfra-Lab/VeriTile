@@ -159,6 +159,7 @@ def Op.SafeAtR (R : RoundingModel) (bounds : RegionBounds) (s : BlockState) : Op
   | .sub _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .mul _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .div _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
+  | .divRN _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .floorDiv _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .mod _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .bitAnd _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
@@ -178,6 +179,7 @@ def Op.SafeAtR (R : RoundingModel) (bounds : RegionBounds) (s : BlockState) : Op
   | .sigmoid a => a.SafeAtR R bounds s
   | .sqrt a => a.SafeAtR R bounds s
   | .rsqrt a => a.SafeAtR R bounds s
+  | .libdeviceRsqrt a => a.SafeAtR R bounds s
   | .tanh a => a.SafeAtR R bounds s
   | .sin a => a.SafeAtR R bounds s
   | .cos a => a.SafeAtR R bounds s
@@ -615,6 +617,16 @@ theorem FlatAlloc.evalOpR_flatten (A : FlatAlloc) (hd : A.Disjoint)
         evalOpR_flatten A hd hcov R b s hmb hkb hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
+  | _, _, .divRN bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAtR] at hms
+      simp only [Op.FlattenOkR] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOpR,
+        evalOpR_flatten A hd hcov R a s hma hka hu,
+        evalOpR_flatten A hd hcov R b s hmb hkb hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
   | _, _, .libdevicePowi bc a b, s, hms, hok, hu => by
       simp only [Op.SafeAtR] at hms
       simp only [Op.FlattenOkR] at hok
@@ -738,6 +750,12 @@ theorem FlatAlloc.evalOpR_flatten (A : FlatAlloc) (hd : A.Disjoint)
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .rsqrt a, s, hms, hok, hu => by
+      simp only [Op.SafeAtR] at hms
+      simp only [Op.FlattenOkR] at hok
+      simp only [flattenOp, evalOpR, evalOpR_flatten A hd hcov R a s hms hok hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .libdeviceRsqrt a, s, hms, hok, hu => by
       simp only [Op.SafeAtR] at hms
       simp only [Op.FlattenOkR] at hok
       simp only [flattenOp, evalOpR, evalOpR_flatten A hd hcov R a s hms hok hu,

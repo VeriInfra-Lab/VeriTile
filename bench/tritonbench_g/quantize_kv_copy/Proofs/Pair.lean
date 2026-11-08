@@ -1,4 +1,4 @@
-import bench.tritonbench_g.quantize_kv_copy.PairIO
+import bench.tritonbench_g.quantize_kv_copy.Proofs.Support.PairIO
 import bench.tritonbench_g.quantize_kv_copy.Proofs.IOGrid
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 
@@ -12,9 +12,9 @@ set_option linter.unusedSimpArgs false
 
 /-- Complete successful states agree: only independent pure assignments moved. -/
 theorem kernel_run [Inhabited α] (op : Ops α) (p : Parameters) (s : State α) :
-    FP.Structural.exec (backend op) (KernelSyntax.addressEarly p.groups p.block p.heads) s =
+    FP.Structural.exec (backend op) (KernelSyntax.addressEarlyKernel p.groups p.block p.heads) s =
       FP.Structural.exec (backend op) (kernel p) s := by
-  simp [kernel, KernelSyntax.source, KernelSyntax.addressEarly, FP.Structural.exec,
+  simp [kernel, KernelSyntax.sourceKernel, KernelSyntax.addressEarlyKernel, FP.Structural.exec,
     ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
     FP.Structural.evalExpr, FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.store, FP.Structural.numeric, FP.Structural.bop, FP.Structural.natLt,
@@ -34,10 +34,10 @@ theorem kernel_run [Inhabited α] (op : Ops α) (p : Parameters) (s : State α) 
 theorem kernel_safe [Inhabited α] (op : Ops α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) :
     FP.Structural.TraceSafe (backend op) bounds
-      (KernelSyntax.addressEarly p.groups p.block p.heads) s ↔
+      (KernelSyntax.addressEarlyKernel p.groups p.block p.heads) s ↔
     FP.Structural.TraceSafe (backend op) bounds (kernel p) s := by
-  simp (maxSteps := 1600000) [FP.Structural.TraceSafe, kernel, KernelSyntax.source,
-    KernelSyntax.addressEarly, ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
+  simp (maxSteps := 1600000) [FP.Structural.TraceSafe, kernel, KernelSyntax.sourceKernel,
+    KernelSyntax.addressEarlyKernel, ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
     Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
     Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
     Safety.addressSafe_unfold, Safety.maskActive_unfold, step, evalExpr, evalComputeOp,

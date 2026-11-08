@@ -20,15 +20,13 @@ theorem projection (storage : Storage) (X Y : RegionName) (sm sn sy M N : Nat) :
         simp only [ComputeKernel.toAlgKernel_mk]
         cases ComputeStmt.listToAlgorithm? ab <;> rfl
   rw [body_eq _ _ (source_shape storage X Y sm sn sy M N)]
-  simp [load_reduce_kernel, ComputeKernel.eraseDType,
-    ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?, Except.bind, bind, Kernel.eraseDType, Stmt.eraseDTypeList,
-    Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
-    ComputeKernel.fromKernelBody, VeriTile.Triton.eraseDType, ComputeDType.eraseDType]
-  repeat' constructor
-  all_goals simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
-    MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType]
+  conv_lhs => rw [ComputeKernel.eraseDType, real_projection]
+  simp only [ComputeKernel.toAlgKernel, real_projection]
+  simp [realBody, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, Kernel.eraseDType,
+    Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType, MaskOpt.eraseDType, VeriTile.Triton.eraseDType,
+    Except.bind, bind, pure]
 
 theorem coordinates (storage : Storage) (M N : Nat) (hN : 0 < N)
     (s : BlockState) (xs : Fin M → Fin N → ℝ)

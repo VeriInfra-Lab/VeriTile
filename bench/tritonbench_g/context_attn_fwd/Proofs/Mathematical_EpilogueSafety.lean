@@ -8,11 +8,11 @@ set_option linter.unusedSimpArgs false
 
 theorem stores_safe (p : Layout) (r : Regions) (head : Nat) (start seq : Int) (rows : Fin p.BM → Nat)
     (u : BlockState) (bounds : RegionBounds)
-    (hh : u.regs .nat [] "cur_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "cur_batch_in_all_start_index" = some (Tile.scalar start))
     (hl : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq))
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hb : ∀ i : TileIndex [p.BM,p.D], (rows i.1 : Int) < seq →
       address p head start rows i < bounds r.out) :
     Stmt.TraceSafeList bounds ((EpilogueProgram.code p r).drop 1) u := by
@@ -57,11 +57,11 @@ theorem stores_safe (p : Layout) (r : Regions) (head : Nat) (start seq : Int) (r
 
 theorem safe (p : Layout) (r : Regions) (head : Nat) (start seq : Int) (rows : Fin p.BM → Nat)
     (u : BlockState) (bounds : RegionBounds)
-    (hh : u.regs .nat [] "cur_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "cur_batch_in_all_start_index" = some (Tile.scalar start))
     (hl : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq))
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hb : ∀ i : TileIndex [p.BM,p.D], (rows i.1 : Int) < seq → address p head start rows i < bounds r.out) :
     Stmt.TraceSafeList bounds (EpilogueProgram.post p r) u := by
   rw [EpilogueProgram.source]

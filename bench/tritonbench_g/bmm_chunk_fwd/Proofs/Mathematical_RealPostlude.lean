@@ -33,7 +33,7 @@ theorem matches_source (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parame
       outputCode, RealStore.code, RealStore.basePointer, RealStore.pointers, RealStore.mask,
       RealSequence.code, RealSequence.indexLoad, RealSequence.limitOp, RealSequence.filtered,
       RealProgram.realPart, RealProgram.parts, RealProgram.branch, RealProgram.source,
-      TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+      TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel, VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel, Source.conditional?, Source.signedRange?, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
@@ -53,11 +53,11 @@ def outputPrepared (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
 
 theorem output_preparation (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
     (pb pc ph : Nat) (rs : Fin BM → Nat) (ns : Fin BN → Nat) (values : Fin BM → Fin BN → ℝ)
-    (hb : s.regs .nat [] "pid_b" = some (Tile.scalar pb))
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
-    (hh : s.regs .nat [] "pid_h" = some (Tile.scalar ph))
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rs))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec ns))
+    (hb : s.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
+    (hh : s.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rs i : Int))))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (ns i : Int))))
     (hv : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (values i j))) :
     stepStmts (outputCode BM BN p) s = some (outputPrepared s BM BN p pb pc ph rs ns values) := by
   let so := s.setReg "out" .real [BM, BN] (Tile.mat fun i j => some (values i j))

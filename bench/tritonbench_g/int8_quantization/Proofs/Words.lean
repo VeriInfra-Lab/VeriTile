@@ -1,4 +1,3 @@
-import Mathlib
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.Int8Quantization.Words
 abbrev Byte := BitVec 8

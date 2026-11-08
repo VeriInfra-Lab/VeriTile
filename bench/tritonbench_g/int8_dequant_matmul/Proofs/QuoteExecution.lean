@@ -34,12 +34,12 @@ def value (q : IntegerModel I F H) (s : Shape) (c : Config) (bias : Bool)
 
 theorem epilogue_value (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (base current : State (Sum F H))
-    (divisor : F) (hasDivisor : base.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor))
+    (divisor : F) (hasDivisor : base.regs .real [] "divfactor"=some (fun _=>.inl divisor))
     (ctx : Context s c base (steps s c) current)
     (acc : HasAcc c (accumulation q s c base) current) :
     let final:=(epilogueExecution (floating q) q s c bias base current (.inl divisor) hasDivisor
       (fun x y=>.inr (q.ops.hadd (asH q.ops x) (asH q.ops y))) rfl ctx acc).val
-    register final .fp16 [c.BM,c.BN] "out"=fun i=>.inr (value q s c bias base divisor i) := by
+    register final .fp16 [c.BM,c.BN] "acc"=fun i=>.inr (value q s c bias base divisor i) := by
   dsimp only
   by_cases split : c.S=1
   all_goals
@@ -58,24 +58,25 @@ theorem epilogue_value (q : IntegerModel I F H) [Inhabited (Sum F H)]
 
 theorem fullExecution (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (initial : State (Sum F H))
-    (divisor : F) (hasDivisor : initial.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor)) :
+    (divisor : F) (hasDivisor : initial.regs .real [] "divfactor"=some (fun _=>.inl divisor)) :
     ∃ final, execute (floating q) q s.M s.N (source s c bias) initial=some final ∧
-      register final .fp16 [c.BM,c.BN] "out"=
+      register final .fp16 [c.BM,c.BN] "acc"=
         fun i=>.inr (value q s c bias (preludeExecution (floating q) q s c bias initial).val divisor i) := by
   let base:=(preludeExecution (floating q) q s c bias initial).val
   have start:=preludeContext (floating q) q s c bias initial
   obtain ⟨current,hloop,ctx,acc⟩:=rangeExecution (floating q) q s c bias base base 0 (steps s c)
     (Nat.zero_le _) (fun _=>0) start.1 start.2
-  have hd : base.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor) := by
+  have hd : base.regs .real [] "divfactor"=some (fun _=>.inl divisor) := by
     simpa [base,preludeExecution] using hasDivisor
   let final:=epilogueExecution (floating q) q s c bias base current (.inl divisor) hd
     (fun x y=>.inr (q.ops.hadd (asH q.ops x) (asH q.ops y))) rfl ctx acc
   refine ⟨final.val,?_,epilogue_value q s c bias base current divisor hd ctx acc⟩
   unfold execute
   rw [source_decomposition,run_append,run_append,(preludeExecution (floating q) q s c bias initial).property]
-  change ((run (floating q) q s.M s.N [.forRange "k" 0 (steps s c) 1 (body s c bias)] base).bind
+  change ((run (floating q) q s.M s.N [loopStatement s c bias] base).bind
       (run (floating q) q s.M s.N (epilogue s c bias)))=some final.val
-  simp only [run,step,hloop,Option.bind_some]
+  simp only [Nat.cast_zero] at hloop
+  simp only [run,step_loop,hloop,bind,pure,Option.bind]
   exact final.property
 
 #axiomsClean epilogue_value
@@ -114,7 +115,7 @@ theorem fold_memory {α ι : Type} (l : List ι) (f : State α→ι→State α)
 
 theorem epilogue_memory (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (base current : State (Sum F H))
-    (divisor : F) (hasDivisor : base.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor))
+    (divisor : F) (hasDivisor : base.regs .real [] "divfactor"=some (fun _=>.inl divisor))
     (ctx : Context s c base (steps s c) current)
     (acc : HasAcc c (accumulation q s c base) current) :
     let final:=(epilogueExecution (floating q) q s c bias base current (.inl divisor) hasDivisor
@@ -144,16 +145,16 @@ theorem epilogue_memory (q : IntegerModel I F H) [Inhabited (Sum F H)]
 
 theorem fullExecution_memory (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (initial : State (Sum F H))
-    (divisor : F) (hasDivisor : initial.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor)) :
+    (divisor : F) (hasDivisor : initial.regs .real [] "divfactor"=some (fun _=>.inl divisor)) :
     ∃ final, execute (floating q) q s.M s.N (source s c bias) initial=some final ∧
-      (register final .fp16 [c.BM,c.BN] "out"=
+      (register final .fp16 [c.BM,c.BN] "acc"=
         fun i=>.inr (value q s c bias (preludeExecution (floating q) q s c bias initial).val divisor i)) ∧
       final.mem=stores q s c bias (preludeExecution (floating q) q s c bias initial).val divisor := by
   let base:=(preludeExecution (floating q) q s c bias initial).val
   have start:=preludeContext (floating q) q s c bias initial
   obtain ⟨current,hloop,ctx,acc⟩:=rangeExecution (floating q) q s c bias base base 0 (steps s c)
     (Nat.zero_le _) (fun _=>0) start.1 start.2
-  have hd : base.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor) := by
+  have hd : base.regs .real [] "divfactor"=some (fun _=>.inl divisor) := by
     simpa [base,preludeExecution] using hasDivisor
   let final:=epilogueExecution (floating q) q s c bias base current (.inl divisor) hd
     (fun x y=>.inr (q.ops.hadd (asH q.ops x) (asH q.ops y))) rfl ctx acc
@@ -161,9 +162,10 @@ theorem fullExecution_memory (q : IntegerModel I F H) [Inhabited (Sum F H)]
     epilogue_memory q s c bias base current divisor hd ctx acc⟩
   unfold execute
   rw [source_decomposition,run_append,run_append,(preludeExecution (floating q) q s c bias initial).property]
-  change ((run (floating q) q s.M s.N [.forRange "k" 0 (steps s c) 1 (body s c bias)] base).bind
+  change ((run (floating q) q s.M s.N [loopStatement s c bias] base).bind
       (run (floating q) q s.M s.N (epilogue s c bias)))=some final.val
-  simp only [run,step,hloop,Option.bind_some]
+  simp only [Nat.cast_zero] at hloop
+  simp only [run,step_loop,hloop,bind,pure,Option.bind]
   exact final.property
 
 #axiomsClean fullExecution_memory

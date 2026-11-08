@@ -19,7 +19,7 @@ theorem statistics_exec (f : Flags) (a : Inputs) (mean : RegionName)
     (M N block : Nat) (p : ℝ) (row : Nat) (hN : N ≤ block) (s : BlockState)
     (hx : s.regs .real [block] "x" = some (Reduction.combinedTile f a M N block p row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) :
     stepStmt (statisticsStmt f.rms mean N block) s =
       some (statisticsState f a mean M N block p row s) := by
   have hcond : evalOp (.boolNot (.constBool f.rms)) s = some (Tile.scalar (!f.rms)) := by
@@ -48,8 +48,8 @@ theorem statisticsState_var (f : Flags) (a : Inputs) (mean : RegionName)
 
 theorem statisticsState_row (f : Flags) (a : Inputs) (mean : RegionName)
     (M N block : Nat) (p : ℝ) (row : Nat) (s : BlockState) :
-    (statisticsState f a mean M N block p row s).regs .nat [] "row" =
-      s.regs .nat [] "row" := by
+    (statisticsState f a mean M N block p row s).regs .int [] "row" =
+      s.regs .int [] "row" := by
   cases hr : f.rms <;> simp [statisticsState, centerVarianceState, meanState, Memory.writeCell, hr]
 
 def state (f : Flags) (a : Inputs) (r : Regions) (M N block : Nat)
@@ -63,13 +63,13 @@ theorem phase_exec (f : Flags) (a : Inputs) (r : Regions) (M N block : Nat)
     (eps p : ℝ) (row : Nat) (hN : N ≤ block) (s : BlockState)
     (hx : s.regs .real [block] "x" = some (Reduction.combinedTile f a M N block p row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) :
     stepStmts (phase f r N block eps) s = some (state f a r M N block eps p row s) := by
   have hs := statistics_exec f a r.mean M N block p row hN s hx hcols hrow
   have hv := stepStmt_assign_eq_some (name := "rstd")
     (Reduction.rstd_op f a M N eps p row (statisticsState f a r.mean M N block p row s)
       (statisticsState_var f a r.mean M N block p row s))
-  have hr : (statisticsState f a r.mean M N block p row s).regs .nat [] "row" =
+  have hr : (statisticsState f a r.mean M N block p row s).regs .int [] "row" =
       some (Tile.scalar row) := by rw [statisticsState_row, hrow]
   have hw := Memory.scalar_store r.rstd "rstd" row (Formula.rstd f a M N eps p row)
     ((statisticsState f a r.mean M N block p row s).setReg "rstd" .real []
@@ -84,7 +84,7 @@ theorem source_phase_exec (f : Flags) (a : Inputs) (r : Regions) (stride : Strid
     (row : Nat) (hN : N ≤ block) (s : BlockState)
     (hx : s.regs .real [block] "x" = some (Reduction.combinedTile f a M N block p row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) :
     stepStmts (((Execution.source f r stride M N eps p block hBlock).body.drop 15).take 3) s =
       some (state f a r M N block eps p row s) := by
   rw [source_phase]

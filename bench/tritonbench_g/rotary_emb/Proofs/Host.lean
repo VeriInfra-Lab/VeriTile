@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rotary_emb.Proofs.Physical
-import bench.tritonbench_g.rotary_emb.Spec
+import bench.tritonbench_g.rotary_emb.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.RotaryEmb.Host
 

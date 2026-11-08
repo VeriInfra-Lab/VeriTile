@@ -46,18 +46,18 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
 
 theorem decomposition (v : Bool) (X Y DOUT OUT DX DY : RegionName)
     (sx sy sd so sdx sdy N B : Nat) (R : Bool) :
-    (if v then commutedKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R else kernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody =
+    (if v then commutedKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R else sourceKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody =
       sourcePrefix v X Y DOUT OUT DX DY sx sy sd so sdx sdy B R ++
-        (VeriTile.Bench.Repairs.SwigluBackward.kernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody.drop 9 := by
+        (VeriTile.Bench.Repairs.SwigluBackward.sourceKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody.drop 9 := by
   cases v <;> rfl
 
 theorem source_run {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (X Y DOUT OUT DX DY : RegionName) (sx sy sd so sdx sdy N B : Nat) (R : Bool) :
-    exec M (kernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R) s =
+    exec M (sourceKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R) s =
       exec M (commutedKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R) s := by
-  change run M (VeriTile.Bench.Repairs.SwigluBackward.kernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody s =
+  change run M (VeriTile.Bench.Repairs.SwigluBackward.sourceKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody s =
     run M (VeriTile.Bench.Repairs.SwigluBackward.commutedKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody s
-  rw [show (kernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody = _ from
+  rw [show (sourceKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody = _ from
     decomposition Bool.false X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R,
     show (commutedKernel X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R).surfaceBody = _ from
     decomposition Bool.true X Y DOUT OUT DX DY sx sy sd so sdx sdy N B R]

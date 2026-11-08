@@ -6,7 +6,7 @@ open VeriTile Triton FP.Structural Safety
 open VeriTile.Bench.TritonBenchG.PowScalarTensor WholeTile
 open VeriTile.Bench.TritonBenchG.ReluStridedBuffer
 noncomputable section
-set_option maxHeartbeats 300000
+set_option maxHeartbeats 1500000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
@@ -51,7 +51,11 @@ theorem loop_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds :
       · rw [preserveP];simp [atTile,atJ,hp]
       · rw [preserveC];simp [atTile,atJ,hc]
 
-def sourcePrefix (c : Parameters) (candidate : Bool) := (sourceKernel c candidate).surfaceBody.take 3
+/-- Proof-only decomposition of the immutable source branch. -/
+def controlBody (c : Parameters) (candidate : Bool) : List ComputeStmt :=
+  (sourceKernel c candidate).surfaceBody.take 2 ++
+    (if c.oneTile then PastedTile.oneTile c candidate else PastedTile.grid c candidate)
+def sourcePrefix (c : Parameters) (candidate : Bool) := (controlBody c candidate).take 3
 
 def prepared (c : Parameters) (s : State α) : State α :=
   let t := s.setReg "pid" .nat [] (fun _ => s.pids 0)
@@ -62,8 +66,8 @@ def prepared (c : Parameters) (s : State α) : State α :=
 theorem prefix_run (M : Algebra α) (c : Parameters) (candidate : Bool) (s : State α) :
     run M (sourcePrefix c candidate) s=some (prepared c s) := by
   cases candidate <;> cases branch : c.oneTile
-  all_goals simp only [sourcePrefix,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-    oneTileKernel,oneTileCommuted,ComputeKernel.surfaceBody,List.take,
+  all_goals simp [sourcePrefix,controlBody,PastedTile.oneTile,PastedTile.grid,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
+    oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,List.take,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
     numeric,FP.Structural.bop,prepared,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -74,8 +78,8 @@ theorem prefix_run (M : Algebra α) (c : Parameters) (candidate : Bool) (s : Sta
 theorem prefix_safe (M : Algebra α) (c : Parameters) (candidate : Bool)
     (bounds : RegionName → Nat) (s : State α) : traceSafeList M bounds (sourcePrefix c candidate) s := by
   cases candidate <;> cases branch : c.oneTile
-  all_goals simp only [sourcePrefix,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-    oneTileKernel,oneTileCommuted,ComputeKernel.surfaceBody,List.take,
+  all_goals simp [sourcePrefix,controlBody,PastedTile.oneTile,PastedTile.grid,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
+    oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,List.take,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeOp_unfold,
     step,evalExpr,evalOp_unfold,Option.bind_eq_bind,Option.pure_def,Option.bind,
@@ -83,21 +87,20 @@ theorem prefix_safe (M : Algebra α) (c : Parameters) (candidate : Bool)
     ne_eq,not_false_eq_true,not_true_eq_false,String.reduceEq,reduceCtorEq,
     dite_true,dite_false,ite_true,ite_false]
 
-theorem source_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds : RegionName → Nat)
+theorem control_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds : RegionName → Nat)
     (hi : ∀ i,i<c.n → (c.input.base+(i:Int)*c.input.stride).toNat<bounds c.input.region)
     (ho : ∀ i,i<c.n → (c.output.base+(i:Int)*c.output.stride).toNat<bounds c.output.region)
-    (s : State α) : FP.Structural.TraceSafe M bounds (sourceKernel c candidate) s := by
-  unfold FP.Structural.TraceSafe
-  rw [←List.take_append_drop 3 (sourceKernel c candidate).surfaceBody,traceSafeList_append]
+    (s : State α) : traceSafeList M bounds (controlBody c candidate) s := by
+  rw [←List.take_append_drop 3 (controlBody c candidate),traceSafeList_append]
   refine ⟨prefix_safe M c candidate bounds s,?_⟩
   intro t ran
   have same : t=prepared c s := Option.some.inj (ran.symm.trans (prefix_run M c candidate s))
   subst t
   cases branch : c.oneTile
-  · have code : (sourceKernel c candidate).surfaceBody.drop 3=
-        [.forRangeDyn "j" (.constNat 0) (.constNat c.tiles) (.constNat 1) (loopBody c candidate)] := by
-      cases candidate <;> simp only [sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-        oneTileKernel,oneTileCommuted,perTile,loopBody,tileAssign,ComputeKernel.surfaceBody,List.drop,
+  · have code : (controlBody c candidate).drop 3=
+        [.forRange "j" 0 c.tiles 1 (loopBody c candidate)] := by
+      cases candidate <;> simp [controlBody,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
+        oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,perTile,PastedTile.body,loopBody,tileAssign,ComputeKernel.surfaceBody,List.drop,
         Bool.false_eq_true,ite_false,ite_true]
     rw [code]
     apply traceSafeList_cons_intro
@@ -106,11 +109,34 @@ theorem source_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds
       · simp [prepared,branch]
       · simp [prepared,branch]
     · intro t _;exact traceSafeList_nil _ _ _
-  · have code : (sourceKernel c candidate).surfaceBody.drop 3=perTile c candidate := by
-      cases candidate <;> simp only [sourceKernel,kernel,commutedKernel,branch,perTile,Bool.false_eq_true,ite_false,ite_true]
+  · have code : (controlBody c candidate).drop 3=perTile c candidate := by
+      cases candidate <;> simp [controlBody,PastedTile.oneTile,PastedTile.grid,PastedTile.iterations,sourceKernel,kernel,commutedKernel,branch,perTile,PastedTile.body,oneTileKernel,oneTileCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,Bool.false_eq_true,ite_false,ite_true]
     rw [code]
     exact tile_safe M c candidate (prepared c s) (s.pids 0) (by simp [prepared,branch]) bounds
       (fun j active => hi _ active) (fun j active => ho _ active)
+
+private theorem constant_branch (M : Algebra α) (bounds : RegionName → Nat)
+    (flag : Bool) (pre yes no : List ComputeStmt) (s : State α) :
+    traceSafeList M bounds (pre++[.ifThenElse (.constBool flag) yes no]) s ↔
+      traceSafeList M bounds (pre++(if flag then yes else no)) s := by
+  simp only [traceSafeList_append]
+  cases flag <;> simp [traceSafeList_cons,stepSafe_unfold,safeOp_unfold,evalOp_unfold]
+
+private theorem source_layout (c : Parameters) (candidate : Bool) :
+    (sourceKernel c candidate).surfaceBody = (sourceKernel c candidate).surfaceBody.take 2 ++
+      [.ifThenElse (.constBool c.oneTile) (PastedTile.oneTile c candidate) (PastedTile.grid c candidate)] := by
+  cases candidate <;> cases branch : c.oneTile <;>
+    simp [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,gridStrideKernel,
+      oneTileCommuted,gridStrideCommuted,originalKernel,commutedBodyPastedKernel,ComputeKernel.surfaceBody,
+      PastedTile.oneTile,PastedTile.grid]
+
+theorem source_safe (M : Algebra α) (c : Parameters) (candidate : Bool) (bounds : RegionName → Nat)
+    (hi : ∀ i,i<c.n → (c.input.base+(i:Int)*c.input.stride).toNat<bounds c.input.region)
+    (ho : ∀ i,i<c.n → (c.output.base+(i:Int)*c.output.stride).toNat<bounds c.output.region)
+    (s : State α) : FP.Structural.TraceSafe M bounds (sourceKernel c candidate) s := by
+  change traceSafeList M bounds (sourceKernel c candidate).surfaceBody s
+  rw [source_layout,constant_branch]
+  exact control_safe M c candidate bounds hi ho s
 
 #axiomsClean source_safe
 #guard_msgs (drop info) in

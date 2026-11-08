@@ -17,7 +17,7 @@ theorem body_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
       Ready p s u (cur+1) (update M D mode p s cur a) := by
   cases mode <;> by_cases mask : p.inner%p.blockInner=0
   all_goals
-    simp [body,statement,source,typed,dtype,ComputeKernel.surfaceBody,run,step,
+    simp [body,statement,flagged,source,typed,originalKernel,dtype,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
       numeric,bop,natLt,numericLt,integralFloorDiv,integralMod,
       Region.cast,ofFloat,toFloat,State.setReg,h.mem,h.pids,h.undef,
@@ -39,7 +39,8 @@ theorem body_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
 theorem statement_eval (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters) (s : State α) :
     step (engine M D) (statement mode p) s=
       rangeInt (engine M D) "__rev_k" (mirror p 0) 0 p.blockInner (body mode p) s := by
-  simp [statement,body,source,typed,ComputeKernel.surfaceBody,step,evalOp_unfold,mirror,
+  cases mode <;> cases hl : (p.inner%p.blockInner==0)
+  all_goals simp [statement,body,flagged,source,typed,originalKernel,dtype,hl,ComputeKernel.surfaceBody,step,evalOp_unfold,mirror,
     numeric,bop,integralFloorDiv,integralMod,Broadcast.leftIndex,Broadcast.rightIndex]
 
 theorem loop_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)

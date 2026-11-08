@@ -1,8 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Mathematical_RealSafetySource
 
-/-! The complete source uses the fragment supported by the existing
-region-to-flat-memory bridge. This structural check preserves dynamic block
-pointers, signed range bounds, both carry branches and every store. -/
+/-! Flattenability of isolated mathematical proof fragments. This module constructs no alternative complete task kernel. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealFlatten
 open VeriTile.Triton
 
@@ -70,10 +68,6 @@ theorem epilogue_ok (BM BD finish : Nat) (reciprocal : Bool) :
       RealEpilogue.quotientExpr, RealEpilogue.denominatorExpr,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
-theorem code_ok (BM BN BD finish : Nat) (p : RealPrologue.Parameters) (reciprocal : Bool) :
-    StmtList.FlattenOk (RealSafety.code BM BN BD finish p reciprocal) := by
-  simp only [RealSafety.code, append_ok, StmtList.FlattenOk,
-    prologue_ok, loop_ok, epilogue_ok, and_self]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

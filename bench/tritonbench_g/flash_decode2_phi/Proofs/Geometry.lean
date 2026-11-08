@@ -26,7 +26,7 @@ def Geometry.Valid (g : Geometry) : Prop :=
   (∀ size∈[g.midSize,g.logSize,g.size,g.batches],size+g.laneBlock≤(2^63-1)/4)
 
 theorem count_eq {α : Type} [Inhabited α] (s : State α) (Q l : Nat)
-    (length : (s.mem "L" (s.pids 0)).read .nat=l) (positive : 0<l) :
+    (length : ((s.mem "L" (s.pids 0)).read .int).toNat=l) (positive : 0<l) :
     count s Q=(l+Q-1)/Q := by simp [count,length,show ¬l≤0 by omega]
 
 theorem ceil_positive (l Q : Nat) (hl : 0<l) (hq : 0<Q) : 0<(l+Q-1)/Q := by

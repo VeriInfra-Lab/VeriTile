@@ -12,7 +12,7 @@ class LayerNormFPTests(unittest.TestCase):
     def setUpClass(cls):
         result = subprocess.run(
             ['lake', 'build', 'bench.examples.FusedLayerNorm.Proofs.FP',
-             'bench.examples.FusedLayerNorm.Correct', 'VeriTile.Meta.StatementAudit'],
+             'bench.examples.FusedLayerNorm.RealCorrect', 'VeriTile.Meta.StatementAudit'],
             cwd=ROOT, text=True, capture_output=True, timeout=300)
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
@@ -30,7 +30,7 @@ class LayerNormFPTests(unittest.TestCase):
     def test_original_sources_and_real_spec_independence(self):
         output = self.check_lean('''
 import bench.examples.FusedLayerNorm.Proofs.FP
-import bench.examples.FusedLayerNorm.Correct
+import bench.examples.FusedLayerNorm.RealCorrect
 open VeriTile Triton VeriTile.Bench.Examples
 example (N stride : Nat) (ε : ℝ) :
     (FusedLayerNormCorrect.fusedIO N stride ε).kernel =

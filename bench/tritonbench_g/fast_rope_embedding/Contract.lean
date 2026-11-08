@@ -25,7 +25,7 @@ structure Call where
 
 def Call.parameters (c : Call) : Source.Parameters :=
   ⟨"Q","C","S",c.qStride,c.cosineStride,c.sineStride,c.geometry.sequence,
-    c.geometry.dimension,c.geometry.heads,c.geometry.block⟩
+    c.geometry.dimension,c.geometry.heads,c.geometry.block,Bool.true⟩
 
 def Call.source (c : Call) : ComputeKernel :=
   Kernels.rope "Q" "C" "S" c.qStride c.cosineStride c.sineStride

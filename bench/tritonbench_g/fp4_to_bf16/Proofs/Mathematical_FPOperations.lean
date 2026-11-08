@@ -54,13 +54,13 @@ theorem eval_or32 {α : Type} [Inhabited α] (M : Algebra α)
   rfl
 
 /-- Named AST nodes keep evaluator certificates small; source-slice equality
-is definitionally checked against the translated 31-statement kernel. -/
+is definitionally checked against the translated 34-statement kernel. -/
 def shiftExpr (x : Op .nat [n]) (amount : Nat) : Op .int [n] :=
   Op.intToSigned 32 (.mul .int .scalarR (Op.intToSigned 32 (.castNatToInt x))
     (.castNatToInt (.shiftLeft (IntegerExpr.sameShape []) (.full [] (.constNat 1)) (.constNat amount))))
 def orExpr (a b : Op .int [n]) : Op .int [n] :=
   Op.unsignedToInt 32 (.bitOr (IntegerExpr.sameShape [n]) (Op.intToUnsigned 32 a) (Op.intToUnsigned 32 b))
-def intConst (z : Int) : Op .int [] := Op.intToSigned 32 (.constInt z)
+def intConst (z : Nat) : Op .int [] := Op.intToSigned 32 (.castNatToInt (.constNat z))
 
 @[simp] theorem eval_shiftExpr {α : Type} [Inhabited α] (M : Algebra α)
     (p : Option ComputeDType) (x : Op .nat [n]) (amount : Nat) (s : State α) :
@@ -75,38 +75,40 @@ def intConst (z : Int) : Op .int [] := Op.intToSigned 32 (.constInt z)
           let vb ← FP.Structural.evalOp M p b s
           pure (fun i => or32 (va i) (vb i))) := eval_or32 M p a b s
 @[simp] theorem eval_intConst {α : Type} [Inhabited α] (M : Algebra α)
-    (p : Option ComputeDType) (z : Int) (s : State α) :
+    (p : Option ComputeDType) (z : Nat) (s : State α) :
     FP.Structural.evalOp M p (intConst z) s = some (fun _ => signed32 z) := by
-  rw [intConst, FP.Structural.eval_intToSigned, FP.Structural.evalOp]
+  rw [intConst, FP.Structural.eval_intToSigned]
+  simp only [FP.Structural.evalOp]
   simp only [bind, pure, Option.bind_some, signed32_bitvec]
+  rfl
 
 def exponentCode (p : Parameters) : List ComputeStmt :=
-  [.assign .int [p.block*2] "exp_biased_f32"
-    (.alg (shiftExpr (.ref .nat [p.block*2] "exp_biased_f32") 23))]
+  [.assign .int [p.block*2] "__veritile_statement_jit_14"
+    (.alg (shiftExpr (.ref .nat [p.block*2] "__veritile_statement_jit_14") 23))]
 def normalCode (p : Parameters) : List ComputeStmt :=
-  [.assign .nat [p.block*2] "mantissa_f4"
-    (.alg (.bitAnd .scalarR (.ref .nat [p.block*2] "x_pos") (.constNat 1))),
-   .assign .int [p.block*2] "mantissa_f32"
-    (.alg (shiftExpr (.ref .nat [p.block*2] "mantissa_f4") 22)),
-   .assign .int [p.block*2] "output" (.alg (.ref .int [p.block*2] "mantissa_f32")),
-   .assign .int [p.block*2] "result"
-    (.alg (orExpr (.ref .int [p.block*2] "exp_biased_f32") (.ref .int [p.block*2] "mantissa_f32"))),
-   .assign .int [p.block*2] "result" (.alg (.where (.ref .bool [p.block*2] "zero_mask")
-     (.broadcast (intConst 0) [p.block*2]) (.ref .int [p.block*2] "result")))]
+  [.assign .nat [p.block*2] "__veritile_statement_jit_15"
+    (.alg (.bitAnd .scalarR (.ref .nat [p.block*2] "__veritile_statement_jit_10") (.constNat 1))),
+   .assign .int [p.block*2] "__veritile_statement_jit_16"
+    (.alg (shiftExpr (.ref .nat [p.block*2] "__veritile_statement_jit_15") 22)),
+   .assign .int [p.block*2] "__veritile_statement_jit_17" (.alg (.ref .int [p.block*2] "__veritile_statement_jit_16")),
+   .assign .int [p.block*2] "__veritile_statement_jit_18"
+    (.alg (orExpr (.ref .int [p.block*2] "__veritile_statement_jit_14") (.ref .int [p.block*2] "__veritile_statement_jit_16"))),
+   .assign .int [p.block*2] "__veritile_statement_jit_18" (.alg (.where (.ref .bool [p.block*2] "__veritile_statement_jit_11")
+     (.broadcast (intConst 0) [p.block*2]) (.ref .int [p.block*2] "__veritile_statement_jit_18")))]
 def signCode (p : Parameters) : List ComputeStmt :=
-  [.assign .int [p.block*2] "result" (.alg (.where (.ref .bool [p.block*2] "denormal_mask")
-     (.broadcast (intConst 1056964608) [p.block*2]) (.ref .int [p.block*2] "result"))),
-   .assign .int [p.block*2] "sign_f32"
-    (.alg (shiftExpr (.ref .nat [p.block*2] "sign_f4") 28)),
-   .assign .int [p.block*2] "result"
-    (.alg (orExpr (.ref .int [p.block*2] "result") (.ref .int [p.block*2] "sign_f32")))]
+  [.assign .int [p.block*2] "__veritile_statement_jit_18" (.alg (.where (.ref .bool [p.block*2] "__veritile_statement_jit_12")
+     (.broadcast (intConst 1056964608) [p.block*2]) (.ref .int [p.block*2] "__veritile_statement_jit_18"))),
+   .assign .int [p.block*2] "__veritile_statement_jit_19"
+    (.alg (shiftExpr (.ref .nat [p.block*2] "__veritile_statement_jit_9") 28)),
+   .assign .int [p.block*2] "__veritile_statement_jit_18"
+    (.alg (orExpr (.ref .int [p.block*2] "__veritile_statement_jit_18") (.ref .int [p.block*2] "__veritile_statement_jit_19")))]
 
 theorem exponentCode_source (p : Parameters) :
-    ((source p).surfaceBody.drop 16 |>.take 1) = exponentCode p := rfl
+    ((source p).surfaceBody.drop 17 |>.take 1) = exponentCode p := rfl
 theorem normalCode_source (p : Parameters) :
-    ((source p).surfaceBody.drop 17 |>.take 5) = normalCode p := rfl
+    ((source p).surfaceBody.drop 18 |>.take 5) = normalCode p := rfl
 theorem signCode_source (p : Parameters) :
-    ((source p).surfaceBody.drop 22 |>.take 3) = signCode p := rfl
+    ((source p).surfaceBody.drop 23 |>.take 3) = signCode p := rfl
 def assignmentOnly : ComputeStmt → Bool
   | .assign .. => Bool.true
   | _ => Bool.false

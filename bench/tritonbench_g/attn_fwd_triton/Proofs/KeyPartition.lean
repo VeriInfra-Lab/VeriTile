@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.TwoLoops
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealKeys
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_RealKeys
 
 /-! The two host-stage key intervals partition precisely the causal prefix,
 including the final partial key block. This is independent of execution. -/
@@ -19,7 +19,7 @@ theorem concatenated (lo count N m : Nat) (diagonal : Bool) :
   rw [keys,← List.filter_flatMap,RealKeys.concatenate_blocks]
 
 theorem prefix_count (startM : Nat) : Loop.count 0 (startM*128) 64 = startM*2 := by
-  unfold Loop.count VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealFormula.tripCount
+  unfold Loop.count VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealFormula.tripCount
   omega
 
 theorem prefix_keys (startM N row : Nat) (hr : startM*128+row < N) :
@@ -40,7 +40,7 @@ theorem diagonal (startM N row : Nat) (hrow : row < 128) (hr : startM*128+row < 
   intro key
   simp only [List.mem_filter,List.mem_range'_1,keep,Bool.true_eq,↓reduceIte,decide_eq_true_eq]
   have hcover : row+1 ≤ Loop.count (startM*128) (min ((startM+1)*128) N) 64*64 := by
-    unfold Loop.count VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealFormula.tripCount
+    unfold Loop.count VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealFormula.tripCount
     omega
   omega
 

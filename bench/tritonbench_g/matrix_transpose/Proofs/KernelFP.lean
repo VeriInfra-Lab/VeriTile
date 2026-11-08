@@ -13,10 +13,10 @@ def parameters (m d : Nat) : FPBits.Parameters :=
   ⟨"matrix", "out", max d 1, 1, max m 1, 1, m, d⟩
 
 theorem original_source (m d : Nat) :
-    source "matrix" "out" m d = FPBits.source Bool.false (parameters m d) := rfl
+    sourceKernel "matrix" "out" m d = FPBits.source Bool.false (parameters m d) := rfl
 
 theorem commuted_source (m d : Nat) :
-    indexCommutedSource "matrix" "out" m d = FPBits.source Bool.true (parameters m d) := rfl
+    indexCommutedKernel "matrix" "out" m d = FPBits.source Bool.true (parameters m d) := rfl
 
 theorem output_injective (m d : Nat) :
     Function.Injective (FPBits.outputOffset (parameters m d)) := by
@@ -38,7 +38,7 @@ input premise is a concrete FP16 storage binding, not a numerical restriction. -
 theorem coordinates {α : Type} [Inhabited α] (M : Algebra α)
     (m d : Nat) (h : InputContract m d) (s : State α) (matrix : Nat → α)
     (input : InputCells m d s.mem matrix) :
-    ∃ t, exec M (source "matrix" "out" m d) s = some t ∧
+    ∃ t, exec M (sourceKernel "matrix" "out" m d) s = some t ∧
       (∀ row : Fin m, ∀ col : Fin d,
         t.mem "out" (col.val*m+row.val) = .mk .fp16 (formula matrix d row.val col.val)) ∧
       (∀ (r : RegionName) o, r ≠ "out" ∨ m*d ≤ o → t.mem r o = s.mem r o) := by
@@ -69,15 +69,15 @@ theorem coordinates {α : Type} [Inhabited α] (M : Algebra α)
 Only exact natural-number index multiplication is commuted. -/
 theorem variants_execute {α : Type} [Inhabited α] (M : Algebra α)
     (m d : Nat) (s : State α) :
-    ∃ t, exec M (source "matrix" "out" m d) s = some t ∧
-      exec M (indexCommutedSource "matrix" "out" m d) s = some t :=
+    ∃ t, exec M (sourceKernel "matrix" "out" m d) s = some t ∧
+      exec M (indexCommutedKernel "matrix" "out" m d) s = some t :=
   ⟨FPBits.execution (parameters m d) s,
     FPBits.execute M Bool.false (parameters m d) s, FPBits.execute M Bool.true (parameters m d) s⟩
 
 /-- This source's result cannot depend on any floating arithmetic backend. -/
 theorem backend_independent {α : Type} [Inhabited α] (M N : Algebra α)
     (m d : Nat) (s : State α) :
-    exec M (source "matrix" "out" m d) s = exec N (source "matrix" "out" m d) s :=
+    exec M (sourceKernel "matrix" "out" m d) s = exec N (sourceKernel "matrix" "out" m d) s :=
   FPBits.backend_independent M N Bool.false (parameters m d) s
 
 #axiomsClean original_source

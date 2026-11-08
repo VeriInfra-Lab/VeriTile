@@ -13,25 +13,15 @@ variable {α : Type} [Inhabited α]
 theorem loop_safe (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) (a : CTA c)
     (bounds : RegionName → Nat) (cap : Capacity c bounds) :
     stepSafe (engine (withDot M dot)) bounds
-      (.forRangeDyn "i_v" (parts c).start (parts c).stop (parts c).stride (parts c).body)
+      (.forLoop "i_v" (valueBlocks c) (parts c).body)
       (entry M dot c (Typed.prepare c s a)).val := by
   rw [stepSafe_unfold]
-  refine ⟨?_,?_,?_,?_⟩
-  · simp [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-      ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
-      Option.map,Option.getD,safeOp_unfold]
-  · simp [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-      ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
-      Option.map,Option.getD,safeOp_unfold]
-  · simp [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-      ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,
-      Option.map,Option.getD,safeOp_unfold]
-  · change rangeSafe (engine (withDot M dot)) bounds "i_v" 0 (valueBlocks c) 1 (parts c).body
-      (entry M dot c (Typed.prepare c s a)).val
-    simpa only [Nat.zero_add] using
-      TypedBodySafety.range_safe M dot c s a (valueBlocks c) 0
-        ⟨(entry M dot c (Typed.prepare c s a)).val,entry_ready M dot c (Typed.prepare c s a)⟩
-        (entry_context M dot c (Typed.prepare c s a)) bounds cap
+  change loopSafe (engine (withDot M dot)) bounds "i_v" 0 (valueBlocks c) (parts c).body
+    (entry M dot c (Typed.prepare c s a)).val
+  simpa only [Nat.zero_add] using
+    TypedBodySafety.loop_safe M dot c s a (valueBlocks c) 0
+      ⟨(entry M dot c (Typed.prepare c s a)).val,entry_ready M dot c (Typed.prepare c s a)⟩
+      (entry_context M dot c (Typed.prepare c s a)) bounds cap
 
 /-- Safety is checked on the same entry, loop successors, and final stores as
 `source_runs`. No bound/success premise about the program is assumed. -/

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.PairIO
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.PairIO
 import bench.tritonbench_g.context_attn_llama.Proofs.SourcePair
 import bench.tritonbench_g.context_attn_llama.Proofs.NativeImplementation
 

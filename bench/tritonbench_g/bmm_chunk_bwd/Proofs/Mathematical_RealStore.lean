@@ -32,16 +32,16 @@ def write (s : BlockState) (region : RegionName) (BM BN base row column length K
     if active BM BN length K rows columns i then
       t.writeMem region (offset BM BN base row column rows columns i) (values i.1 i.2.1) else t) s
 
-theorem executes (s : BlockState) (region : RegionName) (BM BN base row column length K : Nat)
+theorem executes (s : BlockState) (region : RegionName) (BM BN base row column : Nat) (length : Int) (K : Nat)
     (rows : Fin BM → Nat) (columns : Fin BN → Nat) (values : Fin BM → Fin BN → ℝ)
     (hp : s.regs .ptr [BM, BN] "db_ptrs" =
       some (RealResidual.pointerValues region BM BN base row column rows columns))
     (hv : s.regs .real [BM, BN] "db" = some (Tile.mat fun i j => some (values i j)))
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length)) :
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec fun i => (rows i : Int)))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec fun j => (columns j : Int)))
+    (hl : s.regs .int [] "chunk_size_limit" = some (Tile.scalar length)) :
     stepStmt (code BM BN K) s =
-      some (write s region BM BN base row column length K rows columns values) := by
+      some (write s region BM BN base row column length.toNat K rows columns values) := by
   have hm := RealResidual.mask_eval s BM BN K length rows columns hr hn hl
   rw [code, stepStmt]
   simp only [evalOp_ref, hp, hv, hm, bind, Option.bind_some,

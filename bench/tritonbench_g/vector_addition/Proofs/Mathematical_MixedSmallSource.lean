@@ -1,5 +1,5 @@
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_MixedFP32Source
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Mathematical_Binary16
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Mathematical_Binary16
 import bench.tritonbench_g.matrix_reduction.Proofs.BinaryConversion
 
 /-! Concrete software materializations of all 36 integer/bool ↔ fp16/bf16

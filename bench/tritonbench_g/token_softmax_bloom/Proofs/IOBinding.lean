@@ -20,7 +20,7 @@ theorem length_read (M : Algebra β) (encode : α → β) (p : Parameters)
     (vals : (io M encode p observe work).Inputs) (s : State β)
     (binding : (io M encode p observe work).InputBinding vals s) (r : Fin work.length) :
     count p (Grid.state s.mem (work.get r)) = SoftmaxIO.length p work vals r :=
-  binding (1 : Fin 3) (r,()) trivial
+  congrArg Int.toNat (binding (1 : Fin 3) (r,()) trivial)
 
 theorem payload_read (M : Algebra β) (encode : α → β) (p : Parameters)
     (observe : Fin p.width → β → α) (work : List Grid.PID)
@@ -62,7 +62,7 @@ theorem unique (M : Algebra β) (encode : α → β) (p : Parameters)
   have offsets := same
   rw [offset_read M encode p observe work vals s binding r,
     offset_read M encode p observe work vals s binding q] at offsets
-  obtain ⟨pidEq,laneEq⟩ := h r q i.1 j.1 ai aj offsets
+  obtain ⟨pidEq,laneEq⟩ := h.2 r q i.1 j.1 ai aj offsets
   exact Prod.ext pidEq (Prod.ext laneEq (Subsingleton.elim _ _))
 
 def RowBounds (p : Parameters) (base : Grid.Memory β) (pid : Grid.PID)
@@ -70,9 +70,9 @@ def RowBounds (p : Parameters) (base : Grid.Memory β) (pid : Grid.PID)
   pid.1*p.startStride < bounds (Region.cast p.start) ∧
   pid.1*p.lengthStride < bounds (Region.cast p.length) ∧
   (∀ i : Fin p.width, i.val < count p (Grid.state base pid) →
-    pid.2*p.inputHeadStride+(startIndex p (Grid.state base pid)+i.val)*p.inputTokenStride < bounds p.input) ∧
+    ((pid.2 : Int)*p.inputHeadStride+(startIndex p (Grid.state base pid)+i.val)*p.inputTokenStride).toNat < bounds p.input) ∧
   (∀ i : Fin p.width, i.val < count p (Grid.state base pid) →
-    pid.2*p.outputHeadStride+(startIndex p (Grid.state base pid)+i.val)*p.outputTokenStride < bounds p.output)
+    ((pid.2 : Int)*p.outputHeadStride+(startIndex p (Grid.state base pid)+i.val)*p.outputTokenStride).toNat < bounds p.output)
 
 theorem row_bounds (M : Algebra β) (encode : α → β) (p : Parameters)
     (observe : Fin p.width → β → α) (work : List Grid.PID)

@@ -75,11 +75,11 @@ class AuditGateTests(unittest.TestCase):
                 'mean_reduction/Kernels.lean', 'mean_reduction/Proofs/Candidate.lean',
                 'mean_reduction/Proofs/Source.lean']),
             ('scripts/bench/audit_trust.sh', 'AUDIT_TRUST_JOBS', [
-                'bench/tritonbench_g/vector_addition/Correct.lean',
+                'bench/tritonbench_g/vector_addition/RealCorrect.lean',
                 'bench/tritonbench_g/vector_addition/FPEquiv.lean',
                 'bench/tritonbench_g/vector_addition/Kernels.lean',
                 'bench/tritonbench_g/vector_addition/Proofs/Real.lean',
-                'bench/tritonbench_g/mean_reduction/Correct.lean',
+                'bench/tritonbench_g/mean_reduction/RealCorrect.lean',
                 'bench/tritonbench_g/mean_reduction/FPEquiv.lean',
                 'bench/tritonbench_g/mean_reduction/Kernels.lean',
                 'bench/tritonbench_g/mean_reduction/Proofs/Candidate.lean',

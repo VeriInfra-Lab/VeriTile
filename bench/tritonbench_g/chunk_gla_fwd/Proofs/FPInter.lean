@@ -12,7 +12,8 @@ set_option linter.unusedSimpArgs false
 
 def kernel (c : Shape) (scale : ℝ) := SourceBridge.interNew (ProducerGeometry.layout c) ProducerGeometry.regions scale
 def outer (c : Shape) (scale : ℝ) : Source.Conditional :=
-  (Source.conditional? (kernel c scale).surfaceBody (fun _ => Bool.true)).getD
+  (Source.conditional? (kernel c scale).surfaceBody (fun body =>
+    (Source.conditional? body (fun yes => (Source.dynamicRange? yes "i_k").isSome)).isSome)).getD
     ⟨[],.constBool Bool.false,[],[],[]⟩
 def inner (c : Shape) (scale : ℝ) : Source.Conditional :=
   (Source.conditional? (outer c scale).yes (fun _ => Bool.true)).getD
@@ -43,7 +44,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
     {t : State α // run (engine (withDot M D)) ((outer c scale).before++(parts c scale).before) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,interOriginalKernel,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -65,7 +66,7 @@ def bodyExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,interOriginalKernel,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

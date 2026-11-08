@@ -2,7 +2,7 @@ import bench.tritonbench_g.matmul_triton1.Proofs.RealSum
 import VeriTile.Triton.Float.LogicalProgramIO
 import VeriTile.Triton.Float.ProgramEquivalence
 import bench.tritonbench_g.matmul_triton1.Kernels
-import bench.tritonbench_g.matmul_triton1.Sources.DotProfile
+import bench.tritonbench_g.matmul_triton1.Proofs.Sources.DotProfile
 import bench.tritonbench_g.matmul_triton1.Proofs.Grid
 import VeriTile.Triton.Float.ProgramIO
 

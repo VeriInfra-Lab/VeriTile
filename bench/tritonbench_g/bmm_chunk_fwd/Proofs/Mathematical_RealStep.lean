@@ -17,7 +17,9 @@ def result {BM BN BK : Nat} (s : BlockState) (p : RealProgram.Parameters)
     (dp : Tile .ptr [BM, BK]) (ap : Tile .ptr [BK, BN])
     (rows : Fin BM → Nat) (columns : Fin BN → Nat) (length c : Nat)
     (carry : Fin BM → Fin BN → ℝ) : BlockState :=
-  let t := s.setReg "a" .real [BM, BK] (RealLoads.aValues s dp rows length p.K c)
+  let t := s.setReg "__veritile_load_0" .real [BM, BK] (RealLoads.aValues s dp rows length p.K c)
+  let t := t.setReg "a" .real [BM, BK] (RealLoads.aValues s dp rows length p.K c)
+  let t := t.setReg "__veritile_load_1" .real [BK, BN] (RealLoads.bValues s ap columns length p.K c)
   let t := t.setReg "b" .real [BK, BN] (RealLoads.bValues s ap columns length p.K c)
   let t := t.setReg "acc" .real [BM, BN] (Tile.mat fun i j => some
     (carry i j + RealDot.value s dp ap rows columns length p.K c i j))
@@ -30,16 +32,16 @@ theorem executes (swapped : Bool) (BM BN BK : Nat) (s : BlockState) (p : RealPro
     (carry : Fin BM → Fin BN → ℝ)
     (hdp : s.regs .ptr [BM, BK] "a_ptrs" = some dp)
     (hap : s.regs .ptr [BK, BN] "b_ptrs" = some ap)
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : RealLoads.LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int)))
     (hz : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j))) :
     stepStmts (RealLoads.code swapped BM BN BK p) s =
       some (result s p dp ap rows columns length c carry) := by
-  let sd := s.setReg "a" .real [BM, BK] (RealLoads.aValues s dp rows length p.K c)
-  let sa := sd.setReg "b" .real [BK, BN] (RealLoads.bValues s ap columns length p.K c)
+  let sd := (s.setReg "__veritile_load_0" .real [BM,BK] (RealLoads.aValues s dp rows length p.K c)).setReg "a" .real [BM, BK] (RealLoads.aValues s dp rows length p.K c)
+  let sa := (sd.setReg "__veritile_load_1" .real [BK,BN] (RealLoads.bValues s ap columns length p.K c)).setReg "b" .real [BK, BN] (RealLoads.bValues s ap columns length p.K c)
   let sz := sa.setReg "acc" .real [BM, BN] (Tile.mat fun i j => some
     (carry i j + RealDot.value s dp ap rows columns length p.K c i j))
   let sp := sz.setReg "a_ptrs" .ptr [BM, BK] (advance dp (BK * p.aColumn))
@@ -47,7 +49,7 @@ theorem executes (swapped : Bool) (BM BN BK : Nat) (s : BlockState) (p : RealPro
   have ha : evalOp (RealLoads.bLoad BN BK p.K) sd =
       some (RealLoads.bValues s ap columns length p.K c) := by
     apply RealLoads.b_load sd BN BK p.K length c columns ap
-    all_goals simpa [sd] using (by assumption)
+    all_goals simpa [sd,RealLoads.LimitAt] using (by assumption)
   have hadd : evalOp (RealLoads.update swapped BM BN BK) sa =
       some (Tile.mat fun i j => some
         (carry i j + RealDot.value s dp ap rows columns length p.K c i j)) := by
@@ -67,6 +69,7 @@ theorem executes (swapped : Bool) (BM BN BK : Nat) (s : BlockState) (p : RealPro
     rfl
   dsimp only [sp, sz, sa, sd] at ha hadd hdptr haptr
   simp only [RealLoads.code, stepStmts, stepStmt, hd, ha, hadd, hdptr, haptr,
+    evalOp_ref,BlockState.setReg_same,BlockState.setReg_ne_name,String.reduceEq,
     bind, Option.bind_some]
   rfl
 
@@ -84,12 +87,12 @@ theorem register_frame {BM BN BK : Nat} (s : BlockState) (p : RealProgram.Parame
     (dp : Tile .ptr [BM, BK]) (ap : Tile .ptr [BK, BN])
     (rows : Fin BM → Nat) (columns : Fin BN → Nat) (length c : Nat)
     (carry : Fin BM → Fin BN → ℝ) (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hn : name ∉ ["a", "b", "acc", "a_ptrs", "b_ptrs"]) :
+    (hn : name ∉ ["__veritile_load_0", "a", "__veritile_load_1", "b", "acc", "a_ptrs", "b_ptrs"]) :
     (result s p dp ap rows columns length c carry).regs dtype shape name =
       s.regs dtype shape name := by
   simp only [List.mem_cons, List.not_mem_nil, or_false, not_or] at hn
-  rcases hn with ⟨hd, ha, hz, hdp, hap⟩
-  simp [result, BlockState.setReg, hd, ha, hz, hdp, hap]
+  rcases hn with ⟨hload0, hd, hload1, ha, hz, hdp, hap⟩
+  simp [result, BlockState.setReg, hload0,hd,hload1,ha,hz,hdp,hap]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -49,10 +49,10 @@ theorem output_bounds (p : Config) (BD : Nat) (idx : ProgramIndex p)
 theorem range_safe (p : Config) (BD : Nat) (idx : ProgramIndex p)
     (memory : ReadLocality.Memory) (stage : p.stage=3) (second : Bool)
     (lo hi n : Nat) (stop : hi≤p.context) (old : Carry BD) (s : State Expr)
-    (hb : Bound (fixed p BD memory idx.1.val idx.2.val) old s)
+    {caller : Carry BD} (hb : HelperBound (fixed p BD memory idx.1.val idx.2.val) caller old second s)
     (hl : LoopBound second (cursor (fixed p BD memory idx.1.val idx.2.val) n) lo hi s)
     (bounds : RegionName → Nat) (windows : Windows p bounds) :
-    Safety.rangeIntSafe (engine backend) bounds "start_n" ((n*64 : Nat) : Int) (hi : Int) 64 (body p BD second) s := by
+    Safety.rangeIntSafe (engine backend) bounds (workName second "start_n") ((n*64 : Nat) : Int) (hi : Int) 64 (body p BD second) s := by
   rw [Safety.rangeIntSafe_unfold]
   simp only [OfNat.ofNat_ne_zero,if_false]
   by_cases active : n*64<hi
@@ -70,10 +70,23 @@ theorem range_safe (p : Config) (BD : Nat) (idx : ProgramIndex p)
 termination_by hi-n*64
 decreasing_by omega
 
+/-- Return temporaries only read and copy registers; they access no memory. -/
+theorem finish_safe (p : Config) (BD : Nat) (second : Bool)
+    (s : State Expr) (bounds : RegionName → Nat) :
+    Safety.traceSafeList (engine backend) bounds (finish p BD second) s := by
+  cases second <;> cases hd : decide (p.stage=2)
+  all_goals simp only [finish,parts,code,source,AttnFwdTriton.TypedSource.repaired,
+    AttnFwdTriton.originalKernel,hd,workName,Bool.false_eq_true,Bool.true_eq,
+    ↓reduceIte,ComputeKernel.surfaceBody,Source.intRange?,Option.map_some,
+    Option.getD_some,beq_self_eq_true,List.take_succ_cons,List.take_zero]
+  all_goals simp [Source.intRange?,Safety.traceSafeList,Safety.stepSafe,
+    Safety.safeExpr,Safety.safeCompute,Safety.safeOp.eq_def]
+  all_goals repeat' first | trivial | split
+
 theorem loop_safe (p : Config) (BD : Nat) (idx : ProgramIndex p)
     (memory : ReadLocality.Memory) (stage : p.stage=3) (second : Bool)
     (old : Carry BD) (s : State Expr)
-    (hb : Bound (fixed p BD memory idx.1.val idx.2.val) old s)
+    (hb : HelperBound (fixed p BD memory idx.1.val idx.2.val) old old second s)
     (hl : LoopBound second
       (startCursor (fixed p BD memory idx.1.val idx.2.val) second)
       (lower (fixed p BD memory idx.1.val idx.2.val) second)
@@ -87,7 +100,7 @@ theorem loop_safe (p : Config) (BD : Nat) (idx : ProgramIndex p)
   rw [←lower_chunk] at h
   rcases hl with ⟨_,_,_,hlo,hhi⟩
   unfold loopCode
-  apply Safety.traceSafeList_cons_intro ?_ (fun _ _ => Safety.traceSafeList_nil _ _ _)
+  apply Safety.traceSafeList_cons_intro ?_ (fun u _ => finish_safe p BD second u bounds)
   cases second
   all_goals simp only [lowerName,upperName,lowerValue,lower,Bool.false_eq_true,Bool.true_eq,↓reduceIte] at hlo hhi
   all_goals simpa [stage,lowerOp,lowerName,lowerValue,upperName,Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,hlo,hhi,
@@ -103,14 +116,13 @@ theorem source_safe (p : Config) (BD : Nat) (idx : ProgramIndex p)
       setupCode p BD Bool.false ++ loopCode p BD Bool.false ++
       setupCode p BD Bool.true ++ loopCode p BD Bool.true ++ tail p BD Bool.false := by
     by_cases hd : p.stage=2
-    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,ComputeKernel.surfaceBody,
-      AttnFwdTriton.ControlView.compute,setupCode,loopCode,body,lowerOp,lowerName,upperName,tail,hd]
+    all_goals simp [code,source,AttnFwdTriton.TypedSource.repaired,AttnFwdTriton.originalKernel,ComputeKernel.surfaceBody,
+      AttnFwdTriton.ControlView.compute,setupCode,setup,preloop,parts,finish,loopCode,body,lowerOp,lowerName,upperName,tail,workName,Source.intRange?,hd]
   obtain ⟨s0,h0,b0,m0⟩ := initial_exact p BD s
   obtain ⟨s1,h1,b1,l1,m1⟩ := setup_exact p BD stage Bool.false f (initialCarry BD) s0 b0
   obtain ⟨s2,h2,b2,m2⟩ := loop_exact p BD stage Bool.false f (initialCarry BD) s1 b1 l1
   obtain ⟨s3,h3,b3,l3,m3⟩ := setup_exact p BD stage Bool.true f _ s2 b2
   unfold TraceSafe
-  rw [←AttnFwdTriton.ControlView.compute_safe (engine backend) 32 6 _ (code_found p BD) bounds s]
   change Safety.traceSafeList (engine backend) bounds (code p BD) s
   rw [assembled]
   simp only [List.append_assoc,Safety.traceSafeList_append]

@@ -10,7 +10,7 @@ open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.KsoftmaxTriton
 noncomputable section
 
-def sourceSHA256 : String := "03d1517e3ac3ef0fdab20673a410d248d11461c1ddbc12df9e262119a98bd1e4"
+def sourceSHA256 : String := "de570d469f4976f6370b796860afbad79f67fc10a37abf55c1f2b514415ebf37"
 
 def leaves {ι : Type} : Graph.Plan ι → List ι
   | .lane i => [i]
@@ -143,8 +143,8 @@ theorem abi_scalar_values (x : TensorMetadata) (rank : x.shape.length=3)
     cases mode <;> simp [integerArguments,Forward.MaskMode.present,hk,product,zero]
   | backward log causal => simp [integerArguments,hk,product]
 
-#specNonCircular ValidReductions avoiding [forward,backward,runRows,Graph.eval]
-#specNonCircular Selected avoiding [forward,backward,runRows,Graph.eval]
+#specNonCircular ValidReductions avoiding [forwardKernel,backward,runRows,Graph.eval]
+#specNonCircular Selected avoiding [forwardKernel,backward,runRows,Graph.eval]
 #axiomsClean abi_scalar_values
 end
 end VeriTile.Bench.Repairs.Ksoftmax.KernelCompiler

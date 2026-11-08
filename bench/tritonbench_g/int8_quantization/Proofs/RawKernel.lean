@@ -42,6 +42,6 @@ theorem complete (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
   · exact fun w member => Grid.scale_readback M ops p positive _ (Schedule.unique _ _) entry w member
 
 #axiomsClean complete
-#specNonCircular Frame avoiding [source,FP.Structural.exec,Grid.model,Grid.launch]
+#specNonCircular Frame avoiding [sourceKernel,FP.Structural.exec,Grid.model,Grid.launch]
 end
 end VeriTile.Bench.Repairs.Int8Quantization.RawKernel

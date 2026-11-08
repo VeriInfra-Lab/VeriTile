@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.LogicalProgramIO
-import bench.tritonbench_g.matmul_persistent_triton.RawKernel
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Support.RawKernel
 import VeriTile.Triton.Float.ProgramIO
 
 namespace VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast

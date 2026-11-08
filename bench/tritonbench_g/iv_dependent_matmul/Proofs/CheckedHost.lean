@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.Sources.IvDependentMatmul_Contract_Contract
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.IvDependentMatmul_Contract_Contract
 import bench.tritonbench_g.iv_dependent_matmul.Proofs.Ideal
 import bench.tritonbench_g.iv_dependent_matmul.Proofs.Wrapper
 

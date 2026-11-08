@@ -4,6 +4,14 @@ import VeriTile.Triton.Semantics.TileOps
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSupport
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
+/-- Nonnegative source addresses retain their natural-number projection. -/
+@[simp] theorem nat_product_address (a b : Nat) :
+    ((a:Int)*(b:Int)).toNat=a*b := by rw [←Nat.cast_mul]; rfl
+@[simp] theorem nat_sum_address (a b : Nat) :
+    ((a:Int)+(b:Int)).toNat=a+b := by rw [←Nat.cast_add]; rfl
+@[simp] theorem nat_product_sum_address (a b c : Nat) :
+    ((a:Int)*(b:Int)+(c:Int)).toNat=a*b+c := by
+  rw [←Nat.cast_mul,←Nat.cast_add]; rfl
 /-- A masked store leaves the complete register map intact, including lanes
 whose inactive accesses retain unspecified values. -/
 @[simp] theorem masked_scatter_regs {α ι : Type} (s : State α) (items : List ι)

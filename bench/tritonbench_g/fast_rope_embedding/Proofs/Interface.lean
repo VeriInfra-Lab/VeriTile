@@ -10,17 +10,17 @@ set_option maxHeartbeats 4000000
 theorem implements {A : Type} [Inhabited A] (op : Operations A) (r : Request)
     (qStride cosineStride sineStride : Nat) (backward : Bool) (row group : Nat)
     (launch : r.Launched row group) (strideEq : row * qStride = row * (r.heads * r.dimension))
-    (cosineEq : cosineStride = r.half) (sineEq : sineStride = r.half) :
-    (programIO op r qStride cosineStride sineStride backward row group).Implements
+    (cosineEq : cosineStride = r.half) (sineEq : sineStride = r.half) (fast : Bool := Bool.true) :
+    (programIO op r qStride cosineStride sineStride backward row group fast).Implements
       (fun values => result (fun h c => scalarPair op backward
         (query values h (left r (lane r c))) (query values h (right r (lane r c)))
         (cosine values (lane r c)) (sine values (lane r c)) (decide (r.half ≤ c.val)))) := by
   apply ProgramIO.Implements.intro
   · intro values bounds hb s _
-    rw [show (programIO op r qStride cosineStride sineStride backward row group).schedule values =
-      [invocation op r qStride cosineStride sineStride backward row group] from rfl,
+    rw [show (programIO op r qStride cosineStride sineStride backward row group fast).schedule values =
+      [invocation op r qStride cosineStride sineStride backward row group fast] from rfl,
       scheduleSafe_singleton]
-    apply SourceSafety.source_safe op.backend (KernelInterface.rawParameters r qStride cosineStride sineStride)
+    apply SourceSafety.source_safe op.backend (KernelInterface.rawParameters r qStride cosineStride sineStride fast)
     · simpa [invocation, Invocation.initial, bindRegisters, KernelInterface.rawParameters]
         using Nat.le_of_lt (group_head r group launch.2.2)
     · intro i active
@@ -47,9 +47,9 @@ theorem implements {A : Type} [Inhabited A] (op : Operations A) (r : Request)
   · intro values s hin
     let before : State A := {s with pids := fun _ => 0}
     obtain ⟨final, ran, post⟩ := KernelInterface.executes op r qStride cosineStride sineStride
-      backward before row group launch strideEq cosineEq sineEq
+      backward before row group launch strideEq cosineEq sineEq fast
     refine ⟨final, ?_, ?_, ?_⟩
-    · change runSchedule [invocation op r qStride cosineStride sineStride backward row group] s = some final
+    · change runSchedule [invocation op r qStride cosineStride sineStride backward row group fast] s = some final
       rw [runSchedule_singleton]
       exact ran
     · intro o j active

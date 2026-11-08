@@ -40,8 +40,6 @@ structure Fixed (c : Shape) (p : Program c) (u : State α) : Prop where
   value : u.regs .nat [] "offset_s"=some (fun _ => p.value)
   numK : u.regs .nat [] "NUM_K"=some (fun _ => c.KT)
   numV : u.regs .nat [] "NUM_V"=some (fun _ => c.VT)
-  offsK : u.regs .nat [64] "offs_k"=some (fun i => i.1.val)
-  offsV : u.regs .nat [16] "offs_v"=some (fun i => i.1.val)
 
 #axiomsClean live
 #axiomsClean gradient_live

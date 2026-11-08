@@ -154,21 +154,21 @@ theorem addKernel_traceSafe (xReg yReg outReg : RegionName)
   obtain rfl := Option.some_inj.mp hv2
   -- shared register-readback fact at the state before the loads
   set sm := (s.setReg "pid" .nat []
-        (Tile.scalar (dtype := .nat) (s.pids 0))).setReg "offs" .nat [B]
+        (Tile.scalar (dtype := .nat) (s.pids 0))).setReg "offsets" .nat [B]
       ⟨fun i => s.pids 0 * B + i.1.val⟩
       with hsm
   have hAAS : ∀ (t : BlockState),
-      (∀ dt sh nm, nm = "offs" → t.regs dt sh nm = sm.regs dt sh nm) →
+      (∀ dt sh nm, nm = "offsets" → t.regs dt sh nm = sm.regs dt sh nm) →
       ∀ (reg : RegionName), s.pid * B + B ≤ bounds reg →
       MemAccess.ActiveAddressSafe bounds
-        (MemAccess.region reg (Op.ref .nat [B] "offs")) t
+        (MemAccess.region reg (Op.ref .nat [B] "offsets")) t
         ((MaskOpt.none (dtype := .real)).Active t) := by
     intro t hframe reg hreg
     simp only [MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe]
     intro offsets hoffs i _
-    rw [show evalOp (Op.ref .nat [B] "offs") t
+    rw [show evalOp (Op.ref .nat [B] "offsets") t
         = some ⟨fun i => s.pids 0 * B + i.1.val⟩ from by
-      simp [hframe .nat [B] "offs" rfl, hsm, BlockState.setReg]] at hoffs
+      simp [hframe .nat [B] "offsets" rfl, hsm, BlockState.setReg]] at hoffs
     obtain rfl := Option.some_inj.mp hoffs
     simp only [Region.cast_self]
     exact lt_of_lt_of_le (Nat.add_lt_add_left i.1.isLt _) hreg
@@ -212,7 +212,7 @@ attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? ComputeDT
 theorem optimized_exec (B : Nat) (s : BlockState) :
     exec (optimizedKernel B).toAlgKernel s =
       exec (addKernel "x" "y" "out" B).toAlgKernel s := by
-  simp [optimizedKernel, addKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel,commutedKernel, addKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, NumericDType.add, NumericDType.mul, add_comm]
 
 end Optimized

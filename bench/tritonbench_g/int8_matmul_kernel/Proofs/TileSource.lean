@@ -1,7 +1,8 @@
 import bench.tritonbench_g.int8_matmul_kernel.Kernels
 import bench.tritonbench_g.int8_matmul_kernel.Proofs.NativeArithmetic
 import VeriTile.Triton.Float.IntegerDot
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import VeriTile.Triton.Float.CountedRange
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.Int8MatmulKernelModularChecked.TileModel
 open VeriTile.Triton FP.Structural
@@ -49,7 +50,7 @@ theorem projection_length (p : Parameters) :
 
 def prelude (p : Parameters) := (source p).surfaceBody.take 16
 def outerBody (p : Parameters) : List ComputeStmt := match (source p).surfaceBody[16]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  | some (ComputeStmt.forLoop _ _ body) => body
   | _ => []
 def outerPrelude (p : Parameters) := (outerBody p).take 1
 def innerBody (p : Parameters) : List ComputeStmt := match (outerBody p)[1]? with
@@ -65,8 +66,7 @@ def stepsExpr (p : Parameters) : Op .nat [] :=
         (.constNat p.blockInner)) (.constNat 1)) (.constNat p.blockInner)
 
 theorem source_decomposition (p : Parameters) : (source p).surfaceBody =
-    prelude p ++ [.forRangeDyn "i" (.constNat 0) (.constNat 4) (.constNat 1)
-      (outerBody p)] ++ epilogue p := by rfl
+    prelude p ++ [.forLoop "i" 4 (outerBody p)] ++ epilogue p := by rfl
 
 theorem outer_decomposition (p : Parameters) : outerBody p =
     outerPrelude p ++ [.forRangeDyn "j" (.constNat 0) (stepsExpr p) (.constNat 1)

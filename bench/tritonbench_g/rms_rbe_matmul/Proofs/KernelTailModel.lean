@@ -5,13 +5,15 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 variable {α : Type} [Inhabited α]
 
+/-- K is an original runtime integer explicitly cast to int64. Its promotion
+uses the integer-to-FP32 port, rather than a constexpr literal realization. -/
 def norm (a : Operations α) (p : Parameters) (acc : Accumulator α) (i : Fin 16) : α :=
   a.scalar.unary (some .fp32) .rsqrt
     (a.scalar.binary (some .fp32) .real .add
       (a.scalar.binary (some .fp32) .real .div
         (a.scalar.reduceSum (some .fp32) (shape:=[16,64]) ⟨1,by simp⟩ Bool.false
           acc.squares (i,PUnit.unit))
-        (a.scalar.literal (some .fp32) .real p.K))
+        (a.scalar.fromInt (some .fp32) (p.K:Int)))
       (a.scalar.literal (some .fp32) .real (1/1000000)))
 def normalized (a : Operations α) (p : Parameters) (acc : Accumulator α)
     (i : TileIndex [16,64]) : α :=
@@ -22,13 +24,11 @@ def pairIndex (i : TileIndex [16,32]) (side : Fin 2) : TileIndex [16,64] :=
     (TileShape.appendAxisIndex [16,32] i side)
 def angle (a : Operations α) (p : Parameters) (s : State α) (i : TileIndex [16,32]) : α :=
   a.scalar.binary (some .fp32) .real .div
-    (a.scalar.cast (some .fp32) .real .real
-      (a.scalar.fromInt (some .fp32) (p.start+(row p s i.1 : Nat))))
+    (a.scalar.fromInt (some .fp32) (p.start+(row p s i.1 : Nat)))
     (a.scalar.binary (some .fp32) .real .pow
       (a.scalar.literal (some .fp32) .real 10000)
       (a.scalar.binary (some .fp32) .real .div
-        (a.scalar.cast (some .fp32) .real .real
-          (a.scalar.fromNat (some .fp32) ((pidN p s*64+2*i.2.1.val)%p.headDim)))
+        (a.scalar.fromInt (some .fp32) (((pidN p s*64+2*i.2.1.val)%p.headDim:Nat):Int))
         (a.scalar.literal (some .fp32) .real p.headDim)))
 def rotatedPair (a : Operations α) (p : Parameters) (s : State α)
     (values : TileIndex [16,64] → α) (i : TileIndex [16,32]) : α × α :=

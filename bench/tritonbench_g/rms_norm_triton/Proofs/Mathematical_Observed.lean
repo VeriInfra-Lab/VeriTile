@@ -11,6 +11,10 @@ set_option maxRecDepth 20000
 The interpreter builds these nodes before any native contraction. -/
 inductive Term (α : Type) where
   | input (value : α)
+  /-- A scalar supplied by the call ABI, distinct from a source literal. -/
+  | parameter (name : String)
+  /-- Integer call value converted at its actual floating use. -/
+  | fromNat (precision : Option ComputeDType) (value : Nat)
   | literal (precision : Option ComputeDType) (dtype : FloatDType) (value : ℝ)
   | cast (precision : Option ComputeDType) (source target : FloatDType) (value : Term α)
   | unary (precision : Option ComputeDType) (op : Unary) (value : Term α)
@@ -34,7 +38,7 @@ def graphAlgebra : Algebra (Term α) where
   binary := Term.binary
   unary := Term.unary
   cast := Term.cast
-  fromNat := fun _ _ => .unused
+  fromNat := Term.fromNat
   fromInt := fun _ _ => .unused
   fp32Bits := fun _ => .unused
   fp32Load := id
@@ -64,6 +68,8 @@ structure ReductionFamily where
 `epsilon` is a call argument, not an output callback or literal-equality law. -/
 structure NativeModel (α : Type) where
   literal : ℝ → α
+  /-- Native integer-to-FP32 conversion for non-specialized call integers. -/
+  fromNat : Nat → α
   epsilon : α
   mul : α → α → α
   add : α → α → α
@@ -98,6 +104,19 @@ def reduceInfo (M : NativeModel α) (profile : ReductionFamily) (B lane : Nat)
 def literalInfo (M : NativeModel α) (r : ℝ) : Lowered α :=
   ⟨M.literal r,none,some r,Bool.false⟩
 
+/-- Triton specializes an integer call value of one. Other integer arguments
+retain the native conversion and are not treated as floating constants. -/
+def naturalInfo (M : NativeModel α) (n : Nat) : Lowered α :=
+  if n = 1 then literalInfo M 1 else ⟨M.fromNat n,none,none,Bool.false⟩
+
+/-- The binder's one-specialization and an ordinary runtime integer remain
+separate even when a native model gives literals and conversions different values. -/
+theorem naturalInfo_one (M : NativeModel α) : naturalInfo M 1 = literalInfo M 1 := by
+  simp [naturalInfo]
+theorem naturalInfo_runtime (M : NativeModel α) (n : Nat) (h : n ≠ 1) :
+    naturalInfo M n = ⟨M.fromNat n,none,none,Bool.false⟩ := by
+  simp [naturalInfo,h]
+
 def multiplyInfo (M : NativeModel α) (left right : Lowered α) : Lowered α :=
   ⟨if right.reciprocal then M.mul right.value left.value else M.mul left.value right.value,
     some (left.value,right.value),none,Bool.false⟩
@@ -116,6 +135,8 @@ def addEpsilonInfo (M : NativeModel α) (left : Lowered α) : Lowered α :=
 
 def lower (M : NativeModel α) (profile : ReductionFamily) (lane : Nat) : Term α → Lowered α
   | .input value => ⟨value,none,none,Bool.false⟩
+  | .fromNat (some .fp32) n => naturalInfo M n
+  | .parameter "eps" => ⟨M.epsilon,none,none,Bool.false⟩
   | .literal (some .fp32) .real r => literalInfo M r
   | .cast (some .fp32) .real .real value => lower M profile lane value
   | .unary (some .fp32) .sqrt value => ⟨M.sqrt (lower M profile lane value).value,none,none,Bool.false⟩
@@ -124,6 +145,8 @@ def lower (M : NativeModel α) (profile : ReductionFamily) (lane : Nat) : Term �
   | .binary (some .fp32) .real .div left right =>
       divideInfo M (lower M profile lane left) (lower M profile lane right)
   | .binary (some .fp32) .real .add left (.cast (some .fp32) .real .real (.literal (some .fp32) .real _)) =>
+      addEpsilonInfo M (lower M profile lane left)
+  | .binary (some .fp32) .real .add left (.parameter "eps") =>
       addEpsilonInfo M (lower M profile lane left)
   | .sum (some .fp32) B values => reduceInfo M profile B lane (fun i => lower M profile lane (values i))
   | _ => ⟨M.unused,none,none,Bool.false⟩
@@ -140,7 +163,7 @@ def reference (M : NativeModel α) (profile : ReductionFamily) (N B : Nat)
     ⟨x,none,none,Bool.false⟩
   let squares := fun j => multiplyInfo M (inputs j) (inputs j)
   let total := reduceInfo M profile B i squares
-  let variance := divideInfo M total (literalInfo M N)
+  let variance := divideInfo M total (naturalInfo M N)
   let radicand := addEpsilonInfo M variance
   let root : Lowered α := ⟨M.sqrt radicand.value,none,none,Bool.false⟩
   let rrms := divideInfo M (literalInfo M 1) root
@@ -152,7 +175,7 @@ source's x*x+eps is one FMA, not a rounded multiplication followed by add. -/
 theorem reference_singleton (M : NativeModel α) (profile : ReductionFamily) (xs ws : Nat → α) :
     reference M profile 1 1 xs ws 0 =
       M.mul (M.mul (M.div (M.literal 1) (M.sqrt (M.fma (xs 0) (xs 0) M.epsilon))) (xs 0)) (ws 0) := by
-  simp [reference,reduceInfo,divideInfo,literalInfo,multiplyInfo,addEpsilonInfo]
+  simp [reference,naturalInfo,reduceInfo,divideInfo,literalInfo,multiplyInfo,addEpsilonInfo]
 
 theorem source_graph_lowering (M : NativeModel α) (profile : ReductionFamily)
     (c : Layout) (eps : ℝ) (xs ws : Nat → α) (i : Nat) :

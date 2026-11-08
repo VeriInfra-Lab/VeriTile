@@ -44,7 +44,7 @@ def prefixExec {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α) (c : Con
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [prelude,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,
+    simp [prelude,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,
       TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
       numeric,bop,natLt,numericLt,integralFloorDiv,integralMod,Op.tritonDiv,Op.tritonMod,

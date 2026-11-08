@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.NativeIO
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.NativeIO
 import bench.tritonbench_g.layer_norm_fwd.Proofs.RealIOInputs
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface

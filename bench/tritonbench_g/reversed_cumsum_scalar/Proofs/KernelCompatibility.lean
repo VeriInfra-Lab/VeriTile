@@ -11,7 +11,7 @@ noncomputable section
 
 /-- The physical execution uses the same readable source as the FP entry.
 Only the mathematical interpretation erases storage/computation dtypes. -/
-abbrev source := Kernels.source
+abbrev source := Kernels.sourceKernel
 
 theorem kernel_correct (h : Call) (layout : Geometry.OutputLayout h)
     (p : Storage.Placement h) (c : Config) (chosen : c∈configurations)
@@ -38,7 +38,7 @@ theorem source_execution (h : Call) (layout : Geometry.OutputLayout h)
   RealExecution.source_correct h layout c (Kernels.configurations_positive c chosen).1 u row
 
 
-#specNonCircular mathematical avoiding [Kernels.source, Kernels.indexCommuted]
+#specNonCircular mathematical avoiding [Kernels.sourceKernel, Kernels.indexCommutedKernel]
 #axiomsClean kernel_correct
 #axiomsClean source_execution
 #guard_msgs (drop info) in

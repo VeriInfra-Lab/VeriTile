@@ -63,7 +63,7 @@ def gatherIO (rest : Algebra ℝ) (p : Layout) (rowPid colPid : Nat) : ProgramIO
   scratchWrite := by intro port; exact Fin.elim0 port
   scratchMask := by intro port; exact Fin.elim0 port
   schedule := fun _ => [{
-    kernel := kernel p
+    kernel := sourceKernel p
     backend := copyBackend rest
     pids := fun ax => if ax = 0 then rowPid else if ax = 1 then colPid else 0 }]
   encode := id

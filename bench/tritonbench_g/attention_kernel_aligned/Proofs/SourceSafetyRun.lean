@@ -8,7 +8,7 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 theorem prefix_run (A : Algebra α) (P : Primitives α) (p : Parameters) (s : State α) :
     run (backend A P) (queryPrefix p) s=some (prefixResult P p s) := by
-  simp [queryPrefix,prologue,source,typedSurface,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [queryPrefix,prologue,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,numeric,backend,prefixResult,
     initialAccumulator,qPointer,kPointer,vPointer,integralMod,natLt,Fin.isLt,
     TileShape.indexToList,scaleValue,row,headBase,kvBase,valueBase,outputBase,ofFloat,toFloat,

@@ -20,7 +20,7 @@ theorem forward_source_safe (A : Algebra α) (X Y : RegionName) (d : Dimensions)
   unfold FPGrid.forwardKernel
   split
   · cases hc : c.one
-    · exact ForwardNoninner.source A s X Y d.M d.N d.K c.B c.C hB hr bounds hx hy
+    · exact ForwardNoninner.source A s X Y d.M d.N d.K c.B c.C hN hB hr bounds hx hy
     · exact forward_noninner_one A s X Y d.M d.N d.K c.B c.C hB hr bounds hx hy
   · have hk : d.K=1 := by omega
     have hx' : ∀ k,k<d.M*d.N → k<bounds X := by simpa only [hk,Nat.mul_one] using hx

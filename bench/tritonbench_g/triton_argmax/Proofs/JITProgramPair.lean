@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_argmax.PairIO
+import bench.tritonbench_g.triton_argmax.Proofs.Support.PairIO
 import bench.tritonbench_g.triton_argmax.Proofs.JITPair
 import bench.tritonbench_g.triton_argmax.Proofs.JITNativePublicIO
 import bench.tritonbench_g.triton_argmax.Proofs.JITNativeDimensionIO

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.sgmv_expand_slice.Proofs.IO
-import bench.tritonbench_g.sgmv_expand_slice.Candidate
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Support.Candidate
 import VeriTile.Triton.Float.ReadProgramEquivalenceSyntax
 namespace VeriTile.Bench.Repairs.SgmvExpandSlice.ByteSeparated.IndexPair
 open VeriTile Triton FP.Structural

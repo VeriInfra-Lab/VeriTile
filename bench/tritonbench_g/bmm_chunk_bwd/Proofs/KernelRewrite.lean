@@ -22,12 +22,12 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     FP.Structural.exec (engine algebra) (Kernels.fp32Source h c) s=
       FP.Structural.exec (engine algebra) (Kernels.indexCommuted h c) s := by
   change Contextual algebra s
-    ((Kernels.fp32Source h c).surfaceBody.take 3)
-    ((Kernels.fp32Source h c).surfaceBody.drop 4)
-    (.assign .nat [] "pid_h" (.alg (.sub .nat .nil (.ref .nat [] "pid_ch")
-      (.mul .nat .nil (.ref .nat [] "pid_c") (.constNat h.groupCount)))))
-    (.assign .nat [] "pid_h" (.alg (.sub .nat .nil (.ref .nat [] "pid_ch")
-      (.mul .nat .nil (.constNat h.groupCount) (.ref .nat [] "pid_c")))))
+    ((Kernels.fp32Source h c).surfaceBody.take 24)
+    ((Kernels.fp32Source h c).surfaceBody.drop 25)
+    (.assign .int [] "pid_h" (.alg (.sub .int .nil (.ref .int [] "pid_ch")
+      (.mul .int .nil (.ref .int [] "pid_c") (.castNatToInt (.constNat h.groupCount))))))
+    (.assign .int [] "pid_h" (.alg (.sub .int .nil (.ref .int [] "pid_ch")
+      (.mul .int .nil (.castNatToInt (.constNat h.groupCount)) (.ref .int [] "pid_c")))))
   fp_prove
 
 /-- The same candidate edit is exact in the actual signed-INT64 word arithmetic. -/

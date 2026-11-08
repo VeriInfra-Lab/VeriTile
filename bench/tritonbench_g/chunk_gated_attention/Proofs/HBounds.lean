@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHAccessSafety
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealHAccessSafety
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.HSource.Bounds
 open VeriTile.Triton
 open VeriTile.Bench.Repairs.ChunkGatedAttention

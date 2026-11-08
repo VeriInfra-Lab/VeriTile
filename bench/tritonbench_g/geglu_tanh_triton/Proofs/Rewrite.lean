@@ -21,7 +21,7 @@ theorem prefix_eq {α : Type} [Inhabited α] (M : Algebra α)
     exact Int.mul_comm _ _
   cases backward <;>
     simp [source,indexCommutedSource,forwardKernel,backwardKernel,
-      forwardIndexCommuted,backwardIndexCommuted,ComputeKernel.surfaceBody,
+      forwardIndexCommutedKernel,backwardIndexCommutedKernel,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalOp_unfold,numeric,State.setReg,product]
 
 theorem suffix_eq (backward : Bool) (block count : Nat) :

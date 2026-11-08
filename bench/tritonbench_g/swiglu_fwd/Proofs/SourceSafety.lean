@@ -21,9 +21,9 @@ theorem trace_safe {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     (inputX : ∀ j : Fin B, tile*B+j.val<c.cols → row*c.sx+(tile*B+j.val)<bounds c.X)
     (inputY : ∀ j : Fin B, tile*B+j.val<c.cols → row*c.sy+(tile*B+j.val)<bounds c.Y)
     (output : ∀ j : Fin B, tile*B+j.val<c.cols → row*c.so+(tile*B+j.val)<bounds c.OUT) :
-    TraceSafe M bounds (kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B)
+    TraceSafe M bounds (sourceKernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B)
       (tileState M c B row tile s) := by
-  simp (maxSteps := 1400000) [trace_last,TraceSafe,kernel,
+  simp (maxSteps := 1400000) [trace_last,TraceSafe,sourceKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

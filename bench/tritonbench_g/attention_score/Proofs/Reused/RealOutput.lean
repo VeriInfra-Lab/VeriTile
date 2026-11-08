@@ -95,7 +95,7 @@ theorem executes (s : BlockState) (Out : RegionName) (B NK soz soh batch head st
       FloatDType.real_toWithBot, WithBot.unbotD_some, Nat.add_comm, -Tile.scalar_eta]
   have he : stepStmts (RealProgram.postlude Out B NK soz soh) s =
       some (writeOutput sp Out B NK base startN values) := by
-    simp only [RealProgram.postlude,RealProgram.rawAfter,TypedSource.original,
+    simp only [RealProgram.postlude,RealProgram.rawAfter,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
       List.drop_succ_cons,List.drop_zero,Stmt.eraseDTypeList,Stmt.eraseDType.eq_def,

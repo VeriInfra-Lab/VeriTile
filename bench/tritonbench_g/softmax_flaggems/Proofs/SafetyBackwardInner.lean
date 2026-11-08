@@ -15,14 +15,15 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (P G Y : RegionName
     (hs : Ready base row N B C cur v s) (bounds : RegionName → Nat)
     (hp : ∀ k,k<rows*N → k<bounds P) (hg : ∀ k,k<rows*N → k<bounds G) :
     traceSafeList A bounds (rangeBody (code P G Y rows N B C) 3)
-      (s.setReg "unused_start_n" .nat [] (fun _ => cur)) := by
+      (s.setReg "_" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,
+  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
     TileShape.axisDim,State.setReg,and_assoc,hm,hn,ho,hv,hmem,offset]
+  all_goals try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   constructor
   · intro i j hr hn
     exact hp _ (HostGrid.inner_bound hr hn)
@@ -35,14 +36,15 @@ theorem emit_safe (A : Algebra α) (base s : State α) (P G Y : RegionName)
     (hp : ∀ k,k<rows*N → k<bounds P) (hg : ∀ k,k<rows*N → k<bounds G)
     (hy : ∀ k,k<rows*N → k<bounds Y) :
     traceSafeList A bounds (rangeBody (code P G Y rows N B C) 7)
-      (s.setReg "unused_start_n" .nat [] (fun _ => cur)) := by
+      (s.setReg "_" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,
+  simp [rangeBody,code,branch,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
     TileShape.axisDim,State.setReg,and_assoc,hm,hn,ho,hv,hmem,offset]
+  all_goals try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   refine ⟨?_,?_,?_⟩
   · intro i j hr hn
     exact hp _ (HostGrid.inner_bound hr hn)
@@ -55,12 +57,12 @@ theorem emit_safe (A : Algebra α) (base s : State α) (P G Y : RegionName)
 theorem initial_safety (A : Algebra α) (s : State α) (P G Y : RegionName)
     (rows N B C : Nat) (bounds : RegionName → Nat) :
     TraceSafe A bounds (Source.softmax_backward_kernel_inner_fp32 P G Y rows N C B Bool.false) s ↔
-      rangeSafe A bounds "unused_start_n" 0 N B (rangeBody (code P G Y rows N B C) 3)
+      rangeIntSafe A bounds "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N B C) 3)
         (initial A s N B C) ∧
-      ∀ mid, range A "unused_start_n" 0 N B (rangeBody (code P G Y rows N B C) 3)
+      ∀ mid, rangeInt A "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N B C) 3)
         (initial A s N B C)=some mid →
         traceSafeList A bounds ((code P G Y rows N B C).drop 4) mid := by
-  simp [TraceSafe,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,code,branch,rangeBody,
+  simp [TraceSafe,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,code,branch,rangeBody,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -68,6 +70,7 @@ theorem initial_safety (A : Algebra α) (s : State α) (P G Y : RegionName)
     TileShape.axisDim,State.setReg,and_assoc,initial,offset,literal]
   all_goals delta offset bop
   all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex]
+  all_goals try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   all_goals split <;> simp_all
   all_goals intros; split <;> trivial
 
@@ -75,10 +78,10 @@ theorem after_safety (A : Algebra α) (base mid : State α) (P G Y : RegionName)
     (row rows N B C cur : Nat) (v : Values α .real [C,B])
     (hs : Ready base row N B C cur v mid) (bounds : RegionName → Nat) :
     traceSafeList A bounds ((code P G Y rows N B C).drop 4) mid ↔
-      rangeSafe A bounds "unused_start_n" 0 N B (rangeBody (code P G Y rows N B C) 7)
+      rangeIntSafe A bounds "_" (0 : Int) (N : Int) B (rangeBody (code P G Y rows N B C) 7)
         (writeInitial A mid row N B C v) := by
   rcases hs with ⟨hm,hn,ho,hv,hmem⟩
-  simp [code,branch,rangeBody,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,
+  simp [code,branch,rangeBody,Source.softmax_backward_kernel_inner_fp32,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.backward_inner_kernel,
     ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -86,6 +89,7 @@ theorem after_safety (A : Algebra α) (base mid : State α) (P G Y : RegionName)
     TileShape.axisDim,State.setReg,and_assoc,hm,hn,ho,hv,hmem,writeInitial,reduced,offset]
   all_goals delta offset bop
   all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex,Option.bind_some]
+  all_goals try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   all_goals first | rfl | (split <;> simp)
 
 theorem source (A : Algebra α) (s : State α) (P G Y : RegionName)
@@ -94,12 +98,12 @@ theorem source (A : Algebra α) (s : State α) (P G Y : RegionName)
     (hy : ∀ k,k<rows*N → k<bounds Y) :
     TraceSafe A bounds (Source.softmax_backward_kernel_inner_fp32 P G Y rows N C B Bool.false) s := by
   let f := accumulate A s P G (s.pids 0) rows N B C
-  have safe₁ := range_safe A bounds "unused_start_n" (rangeBody (code P G Y rows N B C) 3)
+  have safe₁ := range_safe_int A bounds "_" (rangeBody (code P G Y rows N B C) 3)
     (fun cur v st => Ready s (s.pids 0) N B C cur v st) f N B
     (fun cur v st _ hs => accumulate_safe A s st P G Y (s.pids 0) rows N B C cur v hs bounds hp hg)
     (fun cur v st _ hs => accumulate_step A s st P G Y (s.pids 0) rows N B C cur v hs)
     0 (fun _ => literal A 0) (initial A s N B C) (initial_ready A s N B C)
-  obtain ⟨mid,ran,ready⟩ := range_model A "unused_start_n" (rangeBody (code P G Y rows N B C) 3)
+  obtain ⟨mid,ran,ready⟩ := range_model_int A "_" (rangeBody (code P G Y rows N B C) 3)
     f (fun cur v st => Ready s (s.pids 0) N B C cur v st) N B
     (fun cur v st _ hs => accumulate_step A s st P G Y (s.pids 0) rows N B C cur v hs)
     0 (fun _ => literal A 0) (initial A s N B C) (initial_ready A s N B C)
@@ -111,7 +115,7 @@ theorem source (A : Algebra α) (s : State α) (P G Y : RegionName)
   have : actual=mid := Option.some.inj (ha.symm.trans ran)
   subst actual
   apply (after_safety A s mid P G Y (s.pids 0) rows N B C _ _ ready bounds).mpr
-  exact range_safe A bounds "unused_start_n" (rangeBody (code P G Y rows N B C) 7)
+  exact range_safe_int A bounds "_" (rangeBody (code P G Y rows N B C) 7)
     (fun cur base st => WriteReady base (s.pids 0) N B C cur _ st)
     (emit A P G Y (s.pids 0) rows N B C _) N B
     (fun cur base st _ hs => emit_safe A base st P G Y (s.pids 0) rows N B C cur _ hs bounds hp hg hy)

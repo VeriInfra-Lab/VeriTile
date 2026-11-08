@@ -11,6 +11,7 @@ dtypes, options, complete block operands and lane are all explicit. -/
 structure Primitives (α : Type) where
   leaf : FloatDType → BitVec 32 → α
   literal : Option ComputeDType → FloatDType → ℝ → α
+  fp32Load : α → α
   cast : Option ComputeDType → FloatDType → FloatDType → α → α
   binary : Option ComputeDType → FloatDType → Binary → α → α → α
   dot : Host.Config → Option ComputeDType → FloatDType → FloatDType → FloatDType → DotOptions →
@@ -27,6 +28,7 @@ dot if explicitly observed; the source body consumes it before storing acc. -/
 def evaluate {α : Type} (p : Primitives α) : Expr → α
   | .leaf d w => p.leaf d w
   | .literal q d v => p.literal q d v
+  | .fp32Load x => p.fp32Load (evaluate p x)
   | .cast q l r x => p.cast q l r (evaluate p x)
   | .binary q d op x y => p.binary q d op (evaluate p x) (evaluate p y)
   | .pendingDot c q l r out opts batch m k n a b i =>

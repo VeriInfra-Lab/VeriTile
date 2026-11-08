@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int_scaled_matmul.Proofs.BlockWordLogical
-import bench.tritonbench_g.int_scaled_matmul.Sources.GridExecution
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GridExecution
 import bench.tritonbench_g.int_scaled_matmul.Proofs.Geometry
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.BlockWord
 open VeriTile.Triton FP.Structural

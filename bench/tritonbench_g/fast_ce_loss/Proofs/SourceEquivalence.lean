@@ -25,15 +25,15 @@ instance : Spec.ProgramSyntax Program where
 
 def assumptions : Spec.Assumptions ComputeStmt := []
 def forwardProgram (candidate : Bool) (p : Parameters) : Program :=
-  ⟨if candidate then TypedSource.forwardIndexCommuted p.hasSoftcap p.hasScaling
+  ⟨if candidate then TypedSource.forwardIndexCommutedKernel p.hasSoftcap p.hasScaling
       p.logits p.loss p.lse p.labels p.vocab p.logitsStride p.block p.softcap p.scaling
     else forward p⟩
 def chunkedProgram (candidate : Bool) (p : Parameters) : Program :=
-  ⟨if candidate then TypedSource.chunkedIndexCommuted p.hasSoftcap p.hasScaling
+  ⟨if candidate then TypedSource.chunkedIndexCommutedKernel p.hasSoftcap p.hasScaling
       p.logits p.loss p.lse p.labels p.vocab p.chunks p.logitsStride p.block p.softcap p.scaling
     else chunked p⟩
 def backwardProgram (candidate : Bool) (p : Parameters) : Program :=
-  ⟨if candidate then TypedSource.backwardIndexCommuted p.hasSoftcap p.hasScaling
+  ⟨if candidate then TypedSource.backwardIndexCommutedKernel p.hasSoftcap p.hasScaling
       p.logits p.upstream p.lse p.labels p.vocab p.logitsStride p.upstreamStride p.block p.softcap p.scaling
     else backward p⟩
 

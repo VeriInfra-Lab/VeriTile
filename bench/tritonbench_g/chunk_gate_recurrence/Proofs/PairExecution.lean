@@ -9,7 +9,7 @@ set_option linter.unusedSimpArgs false
 
 theorem candidate_source_body (kind : Kind) (c : Shape) (s : SeedStrides) (seed : Bool) :
     (candidateSource kind c s seed).surfaceBody = before kind c s seed ++
-      [.forRangeDyn "_i" (.constNat 0) (.sub .nat .nil (.constNat c.N) (.constNat 1))
+      [.forRangeDyn "i" (.constNat 0) (.sub .nat .nil (.constNat c.N) (.constNat 1))
         (.constNat 1) (candidateParts kind c s seed).body] ++ (candidateParts kind c s seed).after := by
   cases kind <;> rfl
 
@@ -44,7 +44,7 @@ theorem complete_run (isa : Instructions) (plan : Reduction.ProductPlan 1024) (s
   have ht := funext (after_run isa plan swap kind c s seed)
   have hl : run (engine (algebra isa plan swap)) [loop kind c s seed] =
       run (engine (candidateAlgebra isa plan swap))
-        [.forRangeDyn "_i" (.constNat 0) (.sub .nat .nil (.constNat c.N) (.constNat 1))
+        [.forRangeDyn "i" (.constNat 0) (.sub .nat .nil (.constNat c.N) (.constNat 1))
           (.constNat 1) (candidateParts kind c s seed).body] := by
     funext v
     simpa only [run,KernelProgram.loop,FP.Structural.step,FP.Structural.evalOp,

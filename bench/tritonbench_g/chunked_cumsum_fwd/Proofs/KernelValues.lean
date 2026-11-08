@@ -16,7 +16,7 @@ def scatter {α : Type} (c : Geometry) (l : Launch) (r : RegionName)
     (value : TileIndex [c.BH,c.BC] → α) (mem : RegionName → Nat → Cell α) :=
   (TileShape.allIndices [c.BH,c.BC]).foldl (fun m i =>
     if activeOutput c.layout l i.1.val i.2.1.val then
-      writeCell m r (outAddress c.layout l i.1.val i.2.1.val) (.mk .real (value i)) else m) mem
+      writeCell m r (outAddress c.layout l i.1.val i.2.1.val) (.mk .fp32 (value i)) else m) mem
 
 /-- Independent scalar preparation graph. Storage/load casts, both boolean
 branches, cutoff softplus, finite/default clamp and the final remask remain. -/
@@ -25,7 +25,7 @@ def prepare {α : Type} (c : Geometry) (p : Primitives α c)
     (active : Bool) (x bias : α) : α :=
   let m := p.model
   let x := m.cast (some .fp32) .fp32 .real x
-  let bias := m.cast (some .fp32) .real .real bias
+  let bias := m.cast (some .fp32) .fp32 .real bias
   let x := if hasBias then m.binary (some .fp32) .real .add x bias else x
   let x := if useSoftplus then
     if p.lessEqual x (m.literal (some .fp32) .real 20.0) then
@@ -43,8 +43,8 @@ def dtRaw {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
 
 def biasRaw {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
     (l : Launch) (s : State α) (i : Nat) : α :=
-  if head c.layout l i < c.heads then (s.mem "bias" (head c.layout l i*c.biasHead)).read .real
-  else p.model.literal (some .fp32) .real 0.0
+  if head c.layout l i < c.heads then (s.mem "bias" (head c.layout l i*c.biasHead)).read .fp32
+  else p.model.cast (some .fp32) .real .fp32 (p.model.literal (some .fp32) .real 0.0)
 
 def preparedTile {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
     (hasBias useSoftplus : Bool) (lower upper : α)
@@ -62,12 +62,12 @@ def tileMemory {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
     (hasBias useSoftplus : Bool) (lower upper : α)
     (l : Launch) (s : State α) : RegionName → Nat → Cell α :=
   let prepared := preparedTile c p hasBias useSoftplus lower upper l s
-  let middle := scatter c l "out" prepared s.mem
+  let middle := scatter c l "out" (fun i => p.model.cast (some .fp32) .real .fp32 (prepared i)) s.mem
   let scaled := fun i : TileIndex [c.BH,c.BC] => p.model.binary (some .fp32) .real .mul
     (prepared i) (rateRaw c p l middle i.1.val)
   let scanned := fun i : TileIndex [c.BH,c.BC] =>
     (p.plan.tree i.1 i.2.1).eval (p.model.binary (some .fp32) .real .add) p.fused (fun k => scaled (i.1,k,PUnit.unit))
-  scatter c l "sum" scanned middle
+  scatter c l "sum" (fun i => p.model.cast (some .fp32) .real .fp32 (scanned i)) middle
 
 theorem scatter_mem {α ι : Type} (r : RegionName) (off : ι → Nat) (value : ι → Cell α)
     (active : ι → Prop) [DecidablePred active] (lanes : List ι) (s : State α) :

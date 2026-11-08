@@ -8,57 +8,68 @@ open VeriTile.Triton
 noncomputable section
 set_option linter.unusedSimpArgs false
 
-def remaining (BK K : Nat) : Op .nat [] :=
-  .sub .nat .nil (.constNat K)
-    (.mul .nat .nil (.ref .nat [] "k") (.constNat BK))
+/-- Actual signed limit register together with its mathematical active extent.
+Negative source limits have extent zero, without changing the runtime value. -/
+def LimitAt (s : BlockState) (length : Nat) : Prop :=
+  ∃ raw : Int, s.regs .int [] "chunk_size_limit"=some (Tile.scalar raw) ∧ raw.toNat=length
+
+private theorem nat_lt_signed (i : Nat) (raw : Int) : (i : Int)<raw ↔ i<raw.toNat := by omega
+private theorem nat_lt_signed_sub (i K used : Nat) :
+    (i : Int)<(K : Int)-(used : Int) ↔ i<K-used := by omega
+
+def remaining (BK K : Nat) : Op .int [] :=
+  .sub .int .nil (.castNatToInt (.constNat K))
+    (.mul .int .nil (.ref .int [] "k") (.castNatToInt (.constNat BK)))
 
 def aMask (BM BK K : Nat) : Op .bool [BM, BK] :=
   .boolAnd Broadcast.nil.consL.consR
-    (.lt .nat .scalarR (.expandDim ⟨1, by simp⟩ (.ref .nat [BM] "offs_m")) (.ref .nat [] "chunk_size_limit"))
-    (.lt .nat .scalarR (.expandDim ⟨0, by simp⟩ (.ref .nat [BK] "offs_k")) (remaining BK K))
+    (.lt .int .scalarR (.expandDim ⟨1, by simp⟩ (.ref .int [BM] "offs_m")) (.ref .int [] "chunk_size_limit"))
+    (.lt .int .scalarR (.expandDim ⟨0, by simp⟩ (.ref .int [BK] "offs_k")) (remaining BK K))
 
 def bMask (BN BK K : Nat) : Op .bool [BK, BN] :=
   .boolAnd Broadcast.nil.consL.consR
-    (.lt .nat .scalarR (.expandDim ⟨1, by simp⟩ (.ref .nat [BK] "offs_k")) (remaining BK K))
-    (.lt .nat .scalarR (.expandDim ⟨0, by simp⟩ (.ref .nat [BN] "offs_n")) (.ref .nat [] "chunk_size_limit"))
+    (.lt .int .scalarR (.expandDim ⟨1, by simp⟩ (.ref .int [BK] "offs_k")) (remaining BK K))
+    (.lt .int .scalarR (.expandDim ⟨0, by simp⟩ (.ref .int [BN] "offs_n")) (.ref .int [] "chunk_size_limit"))
 
 def aLoad (BM BK K : Nat) : Op .real [BM, BK] :=
   .load .real (.ptr (.ref .ptr [BM, BK] "a_ptrs"))
-    (.maskOther (aMask BM BK K) ((Op.const 0).broadcast [BM, BK]))
+    (.maskOther (aMask BM BK K) ((Op.const 0.0).broadcast [BM, BK]))
 
 def bLoad (BN BK K : Nat) : Op .real [BK, BN] :=
   .load .real (.ptr (.ref .ptr [BK, BN] "b_ptrs"))
-    (.maskOther (bMask BN BK K) ((Op.const 0).broadcast [BK, BN]))
+    (.maskOther (bMask BN BK K) ((Op.const 0.0).broadcast [BK, BN]))
 
 theorem a_mask (s : BlockState) (BM BK K length c : Nat) (rows : Fin BM → Nat)
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c)) :
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int))) :
     evalOp (aMask BM BK K) s = some (Tile.mat fun i k =>
       decide (rows i < length ∧ k.val < K - c * BK)) := by
+  obtain ⟨raw,hl,hrange⟩ := hl
   simp [aMask, remaining, evalOp.eq_def, hr, hk, hl, hc, bind, Option.bind]
   apply Tile.ext
   rintro ⟨i, k, ⟨⟩⟩
   simp only [Tile.bop, Tile.cop, Tile.expandDim, Tile.vec, Tile.mat, Tile.scalar,
     ComparableDType.lt, NumericDType.sub, NumericDType.mul, Broadcast.leftIndex,
     Broadcast.rightIndex, TileShape.dropInsertedIndex]
-  rfl
+  simp only [← Int.natCast_mul, nat_lt_signed, hrange, nat_lt_signed_sub,Int.toNat_sub]
 
 theorem b_mask (s : BlockState) (BN BK K length c : Nat) (columns : Fin BN → Nat)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int))) :
     evalOp (bMask BN BK K) s = some (Tile.mat fun k j =>
       decide (k.val < K - c * BK ∧ columns j < length)) := by
+  obtain ⟨raw,hl,hrange⟩ := hl
   simp [bMask, remaining, evalOp.eq_def, hn, hk, hl, hc, bind, Option.bind]
   apply Tile.ext
   rintro ⟨k, j, ⟨⟩⟩
   simp only [Tile.bop, Tile.cop, Tile.expandDim, Tile.vec, Tile.mat, Tile.scalar,
     ComparableDType.lt, NumericDType.sub, NumericDType.mul, Broadcast.leftIndex,
     Broadcast.rightIndex, TileShape.dropInsertedIndex]
-  rfl
+  simp only [← Int.natCast_mul, nat_lt_signed, hrange, nat_lt_signed_sub,Int.toNat_sub]
 
 def aValues {BM BK : Nat} (s : BlockState) (ptrs : Tile .ptr [BM, BK])
     (rows : Fin BM → Nat) (length K c : Nat) : Tile .real [BM, BK] :=
@@ -73,15 +84,18 @@ def bValues {BN BK : Nat} (s : BlockState) (ptrs : Tile .ptr [BK, BN])
 theorem a_load (s : BlockState) (BM BK K length c : Nat) (rows : Fin BM → Nat)
     (ptrs : Tile .ptr [BM, BK])
     (hp : s.regs .ptr [BM, BK] "a_ptrs" = some ptrs)
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c)) :
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int))) :
     evalOp (aLoad BM BK K) s = some (aValues s ptrs rows length K c) := by
   have hm := a_mask s BM BK K length c rows hr hk hl hc
-  have hz : evalOp ((Op.const 0).broadcast [BM, BK]) s =
+  have hz : evalOp ((Op.const 0.0).broadcast [BM, BK]) s =
       some (⟨fun _ => some (0 : ℝ)⟩ : Tile .real [BM, BK]) := by
     simp [evalOp, evalOp_const, Option.bind]
+    funext i
+    congr 1
+    norm_num
   unfold aLoad
   rw [evalOp.eq_def]
   simp only [evalOp_ref, hp, hm, hz, bind, Option.bind_some]
@@ -94,15 +108,18 @@ theorem a_load (s : BlockState) (BM BK K length c : Nat) (rows : Fin BM → Nat)
 theorem b_load (s : BlockState) (BN BK K length c : Nat) (columns : Fin BN → Nat)
     (ptrs : Tile .ptr [BK, BN])
     (hp : s.regs .ptr [BK, BN] "b_ptrs" = some ptrs)
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
-    (hk : s.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hc : s.regs .nat [] "k" = some (Tile.scalar c)) :
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
+    (hk : s.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))))
+    (hl : LimitAt s length)
+    (hc : s.regs .int [] "k" = some (Tile.scalar (c : Int))) :
     evalOp (bLoad BN BK K) s = some (bValues s ptrs columns length K c) := by
   have hm := b_mask s BN BK K length c columns hn hk hl hc
-  have hz : evalOp ((Op.const 0).broadcast [BK, BN]) s =
+  have hz : evalOp ((Op.const 0.0).broadcast [BK, BN]) s =
       some (⟨fun _ => some (0 : ℝ)⟩ : Tile .real [BK, BN]) := by
     simp [evalOp, evalOp_const, Option.bind]
+    funext i
+    congr 1
+    norm_num
   unfold bLoad
   rw [evalOp.eq_def]
   simp only [evalOp_ref, hp, hm, hz, bind, Option.bind_some]
@@ -118,8 +135,10 @@ def update (swapped : Bool) (BM BN BK : Nat) : Op .real [BM, BN] :=
   else .add .real (.consSame (.consSame .nil)) (.ref .real [BM, BN] "acc") dot
 
 def code (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters) : List Stmt :=
-  [.assign .real [BM, BK] "a" (aLoad BM BK p.K),
-   .assign .real [BK, BN] "b" (bLoad BN BK p.K),
+  [.assign .real [BM, BK] "__veritile_load_0" (aLoad BM BK p.K),
+   .assign .real [BM, BK] "a" (.ref .real [BM,BK] "__veritile_load_0"),
+   .assign .real [BK, BN] "__veritile_load_1" (bLoad BN BK p.K),
+   .assign .real [BK, BN] "b" (.ref .real [BK,BN] "__veritile_load_1"),
    .assign .real [BM, BN] "acc"
      (update swapped BM BN BK),
    .assign .ptr [BM, BK] "a_ptrs"
@@ -131,7 +150,7 @@ def code (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters) : List S
 
 set_option maxRecDepth 18000 in
 set_option maxHeartbeats 3000000 in
-/-- The load views belong to the entire actual five-statement loop body,
+/-- The load views belong to the entire actual seven-statement loop body,
 including the dot update and both pointer advances. -/
 theorem matches_source (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters) :
     RealProgram.realPart (RealProgram.parts swapped BM BN BK p).body = code swapped BM BN BK p := by
@@ -139,7 +158,8 @@ theorem matches_source (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parame
   all_goals
     simp [code, update, aLoad, bLoad, aMask, bMask, remaining,
       RealProgram.realPart, RealProgram.parts, RealProgram.branch, RealProgram.source,
-      TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, Source.conditional?, Source.dynamicRange?, ComputeKernel.surfaceBody,
+      TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel,Source.conditional?, Source.signedRange?, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,

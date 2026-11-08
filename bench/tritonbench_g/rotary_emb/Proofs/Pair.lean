@@ -9,7 +9,7 @@ noncomputable section
 safe source traces, all four native output channels and exterior frames. -/
 theorem equivalent (rest : Algebra Native.Node) (p : Native.Instructions)
     (shape : Shape) (valid : shape.Valid) (pids : Nat → Nat) :
-    RotaryIO.original rest p shape pids ≡[[]] RotaryIO.indexCommuted rest p shape pids :=
+    RotaryIO.original rest p shape pids ≡[[]] RotaryIO.indexCommutedKernel rest p shape pids :=
   ProgramIO.Implementation.of_equivalent (RotaryIO.candidate rest (Native.ops p) shape pids)
     (RotaryIO.equivalent rest (Native.ops p) shape valid pids)
 

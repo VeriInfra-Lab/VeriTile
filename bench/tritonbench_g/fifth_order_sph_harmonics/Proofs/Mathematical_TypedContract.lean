@@ -33,6 +33,14 @@ private theorem fold_memory {α ι : Type} (l : List ι) (r : RegionName)
       funext r' o
       simp [hi]
 
+/-- Signed source indexing agrees with the natural logical addresses here:
+all factors and offsets are nonnegative. Numeral-specific simp instances avoid
+rewriting casts in the opposite direction. -/
+private theorem cast_add_literal (a b : Nat) :
+    (a : Int) + (OfNat.ofNat b : Int) = ((a + b : Nat) : Int) := by rfl
+private theorem cast_mul_literal (a b : Nat) :
+    (a : Int) * (OfNat.ofNat b : Int) = ((a * b : Nat) : Int) := by rfl
+
 /-- Memory of the full source equals the eleven independently specified
 channel scatters, preserving all original operation order and masks. -/
 theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
@@ -41,6 +49,9 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
     List.finRange_succ, List.foldl_map, fold_memory, expected, channels, loaded,
     coordOffset, outputOffset, bop, Region.cast]
   try rfl
+
+  all_goals simp only [cast_add_literal (b := 1), cast_add_literal (b := 2), cast_add_literal (b := 3), cast_add_literal (b := 4), cast_add_literal (b := 5), cast_add_literal (b := 6), cast_add_literal (b := 7), cast_add_literal (b := 8), cast_add_literal (b := 9), cast_add_literal (b := 10),
+    cast_mul_literal (b := 3), ← Nat.cast_add, ← Nat.cast_mul, Int.toNat_natCast, Int.ofNat_lt]
 
 #axiomsClean execution_memory
 end

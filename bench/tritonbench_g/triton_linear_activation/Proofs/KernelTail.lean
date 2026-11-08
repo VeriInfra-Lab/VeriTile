@@ -8,11 +8,14 @@ set_option maxRecDepth 35000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def saveCode (mode : Mode) (p : Parameters) := (tailCode mode p).take 1
-def activationCode (p : Parameters) := ((tailCode .fp32 p).drop 1).take 4
-def storeCode (mode : Mode) (p : Parameters) := (tailCode mode p).drop 5
+def saveCode (mode : Mode) (p : Parameters) := (tailCode mode p).take (if p.saveInputs then 3 else 0)
+def activationCode (p : Parameters) := ((flagged .fp32 p Bool.false Bool.false Bool.false).surfaceBody.drop 17).take 4
+def storeCode (mode : Mode) (p : Parameters) := (flagged mode p Bool.false Bool.false Bool.false).surfaceBody.drop 21
 theorem tail_split (mode : Mode) (p : Parameters) :
-    tailCode mode p=saveCode mode p++activationCode p++storeCode mode p := by rfl
+    tailCode mode p=saveCode mode p++activationCode p++storeCode mode p := by
+  cases mode <;> cases hs : p.saveInputs <;>
+    simp only [tailCode,saveCode,activationCode,storeCode,flagged,typed,originalKernel,dtype,hs,
+      Bool.false_eq_true,if_false,if_true] <;> rfl
 
 structure TailReady (p : Parameters) (s t : State α) (acc : Accumulator α p) : Prop where
   rawm : t.regs .nat [p.blockRows] "m_offs_untagged"=some (fun i => KernelValues.row p s i.1)
@@ -39,7 +42,7 @@ theorem save_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
       u.mem=(if p.saveInputs then scatter M mode p s s p.saved (savedOffset p s) acc else s).mem := by
   cases mode <;> cases saved : p.saveInputs
   all_goals
-    simp [saveCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,run,step,
+    simp [saveCode,tailCode,source,flagged,typed,originalKernel,dtype,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
       numeric,bop,natLt,numericLt,Region.cast,ofFloat,toFloat,State.setReg,store,
       h.rawm,h.rawn,h.acc,saved,engine,Algebra.withDefaultPrecision,resolvePrecision]
@@ -60,21 +63,23 @@ theorem activation_run (M : Algebra α) (D : Dot α) (p : Parameters) (s t : Sta
     (acc : Accumulator α p) (h : TailReady p s t acc) :
     ∃ u, run (engine M D) (activationCode p) t=some u ∧
       TailReady p s u (fun i => KernelValues.activation M p.activation (acc i)) ∧ u.mem=t.mem := by
+  simp only [activationCode,flagged,typed,originalKernel,dtype,
+    Bool.false_eq_true,if_false,if_true,ComputeKernel.surfaceBody,List.drop,List.take]
   cases name : p.activation with
   | none =>
-    simp [activationCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,run,step,
+    simp [activationCode,tailCode,source,flagged,typed,originalKernel,dtype,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
-      numeric,bop,ofFloat,toFloat,State.setReg,name,KernelValues.activation]
+      numeric,bop,ofFloat,toFloat,name,KernelValues.activation]
     exact h
   | some value =>
     rcases activation_cases value with ht | hg | hf | hr | ⟨ht,hg,hf,hr⟩
     all_goals
-      simp_all [activationCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,run,step,
+      simp_all [activationCode,tailCode,source,flagged,typed,originalKernel,dtype,ComputeKernel.surfaceBody,run,step,
         evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
-        numeric,bop,ofFloat,toFloat,State.setReg,h.rawm,h.rawn,h.acc,
-        engine,Algebra.withDefaultPrecision,resolvePrecision,KernelValues.activation,zero]
+        numeric,bop,ofFloat,toFloat,h.rawm,h.rawn,h.acc,
+        engine,Algebra.withDefaultPrecision,resolvePrecision,KernelValues.activation,zero,show (2.0:ℝ)=2 by norm_num]
     all_goals constructor
-    all_goals simp [State.setReg,h.rawm,h.rawn,h.acc,bop]
+    all_goals simp [h.rawm,h.rawn,h.acc,bop]
     all_goals rfl
 
 theorem store_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
@@ -83,7 +88,7 @@ theorem store_run (M : Algebra α) (D : Dot α) (mode : Mode) (p : Parameters)
       u.mem=(scatter M mode p s base p.output (KernelValues.outputOffset p s) acc).mem := by
   cases mode
   all_goals
-    simp [storeCode,tailCode,source,typed,dtype,ComputeKernel.surfaceBody,run,step,
+    simp [storeCode,tailCode,source,flagged,typed,originalKernel,dtype,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
       numeric,bop,natLt,numericLt,Region.cast,ofFloat,toFloat,State.setReg,store,
       h.rawm,h.rawn,h.acc,engine,Algebra.withDefaultPrecision,resolvePrecision]

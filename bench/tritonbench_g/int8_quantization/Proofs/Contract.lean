@@ -1,7 +1,8 @@
-import Mathlib
+import Mathlib.Data.Nat.Log
 import bench.tritonbench_g.int8_quantization.Contract
 import bench.tritonbench_g.int8_quantization.Proofs.SourceNative
 namespace VeriTile.Bench.Repairs.Int8Quantization.Direct
+open VeriTile.Triton
 
 theorem contract_iff (x : TensorMetadata) (block : Nat) : InputContract x block ↔
     (x.shape.length=3 ∨ x.shape.length=4) ∧ x.layout=.strided ∧ x.dtype=.floating .fp32 ∧
@@ -50,12 +51,12 @@ theorem width_covers (x : TensorMetadata) (block : Nat) : block*channels x≤ wi
 theorem width_bound (x : TensorMetadata) (block : Nat) (h : InputContract x block) : width x block≤2^20 :=
   Nat.pow_le_pow_right (by decide) (Nat.clog_le_of_le_pow h.tile)
 
-def parameters (x : TensorMetadata) (block : Nat) (query : Bool) (factor : ℝ) : Parameters :=
-  ⟨batches x,length x,channels x,block,blocks x block,0,width x block,query,factor⟩
+def parameters (x : TensorMetadata) (block : Nat) (query : Bool) (compiled : ConstexprFloat.Model) : Parameters :=
+  ⟨batches x,length x,channels x,block,blocks x block,0,width x block,query,compiled⟩
 
 theorem native_admitted (x : TensorMetadata) (block : Nat) (h : InputContract x block)
-    (query : Bool) (factor : ℝ) (positive : 0< channels x) :
-    Revision002.Native.Admitted (parameters x block query factor) := by
+    (query : Bool) (compiled : ConstexprFloat.Model) (positive : 0< channels x) :
+    Revision002.Native.Admitted (parameters x block query compiled) := by
   refine ⟨rfl,h.blockPositive,positive,width_covers x block,width_bound x block h,?_,?_⟩
   · have extent:=h.inputExtent
     rw [numel_eq x block h] at extent

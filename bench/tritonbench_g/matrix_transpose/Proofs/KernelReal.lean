@@ -13,7 +13,7 @@ open scoped VeriTile.Triton.Masked2DKernelIO₁
 noncomputable section
 
 theorem source_projection (m d : Nat) :
-    (source "matrix" "out" m d).eraseDType.toAlgKernel.body =
+    (sourceKernel "matrix" "out" m d).eraseDType.toAlgKernel.body =
       (VeriTile.Bench.TritonBenchG.MatrixTranspose.kernel "matrix" "out" (max d 1) 1 (max m 1) 1 m d).toAlgKernel.body := by
   change (VeriTile.Bench.TritonBenchG.MatrixTranspose.typedKernel Bool.false
     "matrix" "out" (max d 1) 1 (max m 1) 1 m d).eraseDType.toAlgKernel.body = _
@@ -41,11 +41,11 @@ theorem output_injective (m d : Nat) :
 theorem implements (m d : Nat) :
     transposeIO m d ⊨ fun _ _ xs j => xs j := by
   refine Masked2DKernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · change ((source "matrix" "out" m d).eraseDType.toAlgKernel).FlattenOk
+  · change ((sourceKernel "matrix" "out" m d).eraseDType.toAlgKernel).FlattenOk
     simpa only [Kernel.FlattenOk, source_projection] using
       kernel_flattenOk "matrix" "out" (max d 1) 1 (max m 1) 1 m d
   · intro bounds s hin hout _
-    change Kernel.TraceSafe bounds ((source "matrix" "out" m d).eraseDType.toAlgKernel) s
+    change Kernel.TraceSafe bounds ((sourceKernel "matrix" "out" m d).eraseDType.toAlgKernel) s
     simpa only [Kernel.TraceSafe, source_projection] using
       kernel_traceSafe "matrix" "out" (max d 1) 1 (max m 1) 1 m d bounds s
         (fun j => hin j trivial) (fun j => hout j trivial)
@@ -54,14 +54,14 @@ theorem implements (m d : Nat) :
       kernel_region_run "matrix" "out" (max d 1) 1 (max m 1) 1 m d s xs
         (output_injective m d) (fun j => hx j trivial)
     refine ⟨t, ?_, fun j _ => hv j, fun r o h _ => hf r o ?_⟩
-    · change exec ((source "matrix" "out" m d).eraseDType.toAlgKernel) s = some t
+    · change exec ((sourceKernel "matrix" "out" m d).eraseDType.toAlgKernel) s = some t
       simpa only [exec, source_projection] using he
     · exact h.imp_right (fun hh j => hh j trivial)
 
 /-- Independent coordinate formula plus the complete exterior frame, from
 arbitrary initial memory. No execution-success premise is assumed. -/
 theorem coordinates (m d : Nat) (h : InputContract m d) (s : BlockState) :
-    ∃ t, exec ((source "matrix" "out" m d).eraseDType.toAlgKernel) s = some t ∧
+    ∃ t, exec ((sourceKernel "matrix" "out" m d).eraseDType.toAlgKernel) s = some t ∧
       (∀ row : Fin m, ∀ col : Fin d,
         t.readMem "out" (col.val*m+row.val) = formula (s.readMem "matrix") d row.val col.val) ∧
       (∀ (r : RegionName) o, r ≠ "out" ∨ m*d ≤ o → t.mem r o = s.mem r o) := by

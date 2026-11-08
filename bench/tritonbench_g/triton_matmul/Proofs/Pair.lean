@@ -1,7 +1,7 @@
-import bench.tritonbench_g.triton_matmul.PairIO
+import bench.tritonbench_g.triton_matmul.Proofs.Support.PairIO
 import bench.tritonbench_g.triton_matmul.Proofs.PublicIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
-import bench.tritonbench_g.triton_matmul.CandidateKernels
+import bench.tritonbench_g.triton_matmul.Proofs.Support.CandidateKernels
 import bench.tritonbench_g.triton_matmul.Proofs.SourceDecomposition
 import VeriTile.Triton.Float.Integer
 import VeriTile.Triton.Float.StructuralSafety
@@ -30,13 +30,13 @@ theorem original_code (p : Parameters) (st : Storage) :
 
 theorem shifted_code (p : Parameters) (st : Storage) :
     (candidate p st).surfaceBody=before p st++shiftedSite p st::after p st := by
-  cases st <;> by_cases hg : p.GROUP_SIZE_M=8 <;> simp only [candidate,CandidateSource.typed,shiftedSite,before,after,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawBody,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,dtype,hg,↓reduceIte] <;> rfl
+  cases st <;> by_cases hg : p.GROUP_SIZE_M=8 <;> simp only [candidate,CandidateSource.typed,shiftedSite,before,after,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawKernel,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,dtype,hg,↓reduceIte] <;> rfl
 
 theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (st : Storage) (s : State α) :
     step M (originalSite p st) s=step M (shiftedSite p st) s := by
   cases st <;> by_cases hg:p.GROUP_SIZE_M=8
   all_goals simp only [originalSite,shiftedSite,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,candidate,CandidateSource.typed,
-    VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawBody,dtype,hg,↓reduceIte,
+    VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawKernel,dtype,hg,↓reduceIte,
     ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals try rfl
@@ -54,7 +54,7 @@ theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionNa
     Safety.stepSafe M bounds (originalSite p st) s ∧ Safety.stepSafe M bounds (shiftedSite p st) s := by
   cases st <;> by_cases hg:p.GROUP_SIZE_M=8
   all_goals simp only [originalSite,shiftedSite,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.typed,candidate,CandidateSource.typed,
-    VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawBody,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawBody,dtype,hg,↓reduceIte,
+    VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.Source.rawKernel,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.call,VeriTile.Bench.TritonBenchG.TritonMatmul.Repair.KernelOnly.CandidateSource.rawKernel,dtype,hg,↓reduceIte,
     ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,
     List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold,

@@ -54,7 +54,7 @@ theorem source_rotary_sites (fp8 outputFP8 : Bool) (p : Arguments) :
     (rotaryBody fp8 outputFP8 p)[11]?=some sourceRealNode ∧
     (rotaryBody fp8 outputFP8 p)[12]?=some sourceImagNode := by
   cases fp8 <;> cases outputFP8 <;>
-    simp [rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
+    simp [rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,
       sourceRealNode,sourceImagNode,fp,pairMul,pairRef,samePair,ComputeDType.eraseDType]
 
 /-- Finite site choices retain observed per-callee differences. The retained
@@ -91,7 +91,7 @@ theorem source_rotary_partition (fp8 outputFP8 : Bool) (p : Arguments) :
     rotaryBody fp8 outputFP8 p=(rotaryBody fp8 outputFP8 p).take 11 ++
       [sourceRealNode,sourceImagNode] ++ (rotaryBody fp8 outputFP8 p).drop 13 := by
   cases fp8 <;> cases outputFP8 <;>
-    simp [rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
+    simp [rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,
       sourceRealNode,sourceImagNode,fp,pairMul,pairRef,samePair,ComputeDType.eraseDType]
 
 /-- Selected local syntax changes. There is no claim that these native
@@ -103,7 +103,7 @@ def selectedEpilogue (plan : RotaryPlan) (fp8 outputFP8 : Bool) (p : Arguments) 
 
 def selectedSource (plan : RotaryPlan) (fp8 outputFP8 : Bool) (p : Arguments) :=
   prelude fp8 outputFP8 p ++
-    [.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1)
+    [.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p)
       (selectedBody fp8 outputFP8 p)] ++ selectedEpilogue plan fp8 outputFP8 p
 
 #axiomsClean source_dot_site

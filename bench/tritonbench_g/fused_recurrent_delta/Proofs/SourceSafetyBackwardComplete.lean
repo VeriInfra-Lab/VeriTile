@@ -10,7 +10,7 @@ theorem reverse_loop_safe (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ)
     (initial : State α) (n : Nat) (u : State α)
     (inv : KernelReverseLoop.Holds M s f scale bh iv initial n u)
     (bounds : RegionName → Nat) (access : Bounds s f bh iv bounds) :
-    Safety.rangeSafe (engine M) bounds "_i" n s.T 1 (first .backward s f scale).body u := by
+    Safety.rangeSafe (engine M) bounds "_" n s.T 1 (first .backward s f scale).body u := by
   rw [Safety.rangeSafe_unfold,if_neg (by decide)]
   by_cases inside : n<s.T
   · rw [if_pos inside]
@@ -79,7 +79,7 @@ theorem whole (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Na
       · exact KernelBackwardStateMemory.mem_congr M s "dh0" bh iv _ _ _ revInv.memory
     have seed : (KernelBackwardReference.input M s f bh iv rev).initial=
         (KernelBackwardReference.input M s f bh iv (KernelBackward.start M s f scale bh iv u)).initial := by
-      simp only [KernelBackwardReference.input,KernelReference.read,revInv.memory]
+      simp only [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,revInv.memory]
       unfold KernelBackward.start
       cases hf : f.initialGrad <;> simp only [hf,Bool.false_eq_true,ite_false,ite_true]
       simp only [KernelBackwardStateMemory.frame M s "dh0" bh iv _ _ "h0" _ (Or.inl (by decide))]

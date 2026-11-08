@@ -1,66 +1,47 @@
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealContract
+import bench.tritonbench_g.attn_fwd_causal.Proofs.AccessSafety
+import VeriTile.Meta.StatementAudit
 
-/-! A partial query block and an unaligned diagonal range. Its last tile has
-no active K/V lanes but still reads a key scale. Bounds must retain that read.
-The first range visits 0/2 and the reset second range visits 3/5. -/
+/-! The actual repaired D128 layout, with a partial second query block and
+three key-scale blocks. These bounds belong to the current source trace. -/
 namespace RealAttnFwdCausalIOTests
-open VeriTile.Triton
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.Repairs.AttnFwdCausal.Source
 noncomputable section
 
-private def configuration : RealLoads.Config where
-  Q := "Q"
-  K := "K"
-  V := "V"
-  QS := "QS"
-  KS := "KS"
-  base := 0
-  queryScaleBase := 0
-  keyScaleBase := 0
-  strideM := 2
-  strideD := 1
-  strideKN := 2
-  headDim := 2
-  context := 4
-  activeHead := 1
-  startM := 1
+private def parameters : Parameters:=⟨"Q","K","V","QS","KS","Out",1,1,130⟩
+private def allocated (scales : Nat) : RegionName → Nat :=
+  fun r=>if r="KS" then scales else if r="QS" then 2 else 16640
 
-private def allocated (scales : Nat) : RegionBounds :=
-  fun r => if r = "KS" then scales else if r = "QS" then 2 else 8
-
-theorem partial_unaligned_bounds :
-    RealAccessSafety.Windows configuration "Out" 3 2 2 3 (allocated 3) := by
+theorem partial_last_query_bounds {α : Type} [Inhabited α] (s : State α)
+    (queryBlock : s.pids 0=1) (head : s.pids 1=0) :
+    AccessSafety.Bounds parameters s (allocated 3) := by
   constructor
-  · intro r d hr hd
-    simp +decide [configuration, allocated] at hr hd ⊢
+  · intro i j active
+    simp [parameters,allocated,base,queryBlock,head,Parameters.q] at active ⊢
     omega
-  · intro v _ j d hj hd
-    simp +decide [configuration, allocated] at hj hd ⊢
+  · simp [parameters,allocated,queryBlock,head]
+  · intro row active j
+    simp [parameters,allocated,base,head,Parameters.q,Parameters.k] at active ⊢
     omega
-  · intro v _ j d hj hd
-    simp +decide [configuration, allocated] at hj hd ⊢
+  · intro row active j
+    simp [parameters,allocated,base,head,Parameters.q,Parameters.v] at active ⊢
     omega
-  · decide
-  · intro v hv
-    have hv' : v = ⟨0,Bool.false⟩ ∨ v = ⟨2,Bool.false⟩ ∨ v = ⟨3,Bool.true⟩ ∨ v = ⟨5,Bool.true⟩ := by
-      change v ∈ [⟨0,Bool.false⟩,⟨2,Bool.false⟩,⟨3,Bool.true⟩,⟨5,Bool.true⟩] at hv
-      simpa only [List.mem_cons, List.not_mem_nil, or_false] using hv
-    rcases hv' with rfl | rfl | rfl | rfl <;> decide
-  · rintro ⟨r,d,⟨⟩⟩ hi
-    simp +decide [RealEpilogue.active, RealEpilogue.address, configuration, allocated] at hi ⊢
+  · intro row active
+    simp [parameters,allocated,head] at active ⊢
+    omega
+  · intro i j active
+    simp [parameters,allocated,base,queryBlock,head,Parameters.q,Parameters.o] at active ⊢
     omega
 
-theorem last_tile_has_no_active_values (j d : Fin 2) :
-    ¬ (5+j.val < configuration.context ∧ d.val < configuration.activeHead) := by
-  dsimp [configuration]
-  omega
+/-- The final partial key block still performs its unmasked scale load. -/
+theorem missing_last_key_scale {α : Type} [Inhabited α] (s : State α)
+    (head : s.pids 1=0) : ¬ AccessSafety.Bounds parameters s (allocated 2) := by
+  intro bounds
+  have last:=bounds.keyScale 128 (by decide)
+  norm_num [parameters,allocated,head] at last
 
-theorem missing_padded_scale :
-    ¬ RealAccessSafety.Windows configuration "Out" 3 2 2 3 (allocated 2) := by
-  intro h
-  have hs := h.keyScale ⟨5,Bool.true⟩ (by decide)
-  norm_num [configuration, allocated] at hs
-
+#axiomsClean partial_last_query_bounds
+#axiomsClean missing_last_key_scale
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

@@ -40,7 +40,7 @@ theorem run_guarded {α : Type} [Inhabited α] (M : Algebra α)
     by_cases ht : length ≤ (tileRow : Int)*32 <;>
     by_cases ha : adapter = -1 <;>
     simp [guarded,SourceParts.condition,SourceParts.afterTile,SourceParts.afterLength,
-      SourceParts.thenBody,SourceParts.outer,kernel,primaryHalf,sourceFace,sourceHalfSingle323232,
+      SourceParts.thenBody,SourceParts.outer,kernel,primaryHalf,sourceFace,sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,
       ScalarFormat.dtype,LowFormat.scalar,ComputeKernel.surfaceBody,run,step,evalOp_unfold,
       evalExpr,evalComputeOp,ComputeDType.eraseDType,numeric,bop,
       numericLe,numericLt,numericEq,Region.cast,State.setReg,hm,hrow,hbatch,hadapter,

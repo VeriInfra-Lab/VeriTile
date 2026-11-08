@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealInterFlat
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealInterFlat
 
 /-! Complete inter-subblock regressions. Nonzero launch coordinates, two K
 blocks, partial rows/features, and timeStride != K exercise the source's two

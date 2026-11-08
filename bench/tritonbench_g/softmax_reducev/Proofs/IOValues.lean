@@ -1,5 +1,5 @@
 import bench.tritonbench_g.softmax_reducev.Proofs.IOBindings
-import bench.tritonbench_g.softmax_reducev.Targets
+import bench.tritonbench_g.softmax_reducev.Proofs.Support.Targets
 
 namespace VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.PublicIO
 open VeriTile Triton FP.Structural FPValue
@@ -19,15 +19,15 @@ theorem logits_logical (xs : Inputs A c counts) (s : State B)
     logits (M ⟨b.val,h.val⟩) (Host.parameters c)
       ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s) n=
     (fun i : TileIndex [64] =>
-      (M ⟨b.val,h.val⟩).cast (some .fp32) .fp32 .real
+      (M ⟨b.val,h.val⟩).fp32Load
         (if n+i.1.val < counts b then encode (logitAt xs b h (n+i.1.val))
-         else (M ⟨b.val,h.val⟩).cast (some .fp32) .real .fp32 (M ⟨b.val,h.val⟩).negInf)) := by
+         else (M ⟨b.val,h.val⟩).negInf)) := by
   have len := source_length M encode c observe counts work xs s bound hm b h
   funext i
   simp only [logits,active,len]
   split
   · rename_i hi
-    exact congrArg ((M ⟨b.val,h.val⟩).cast (some .fp32) .fp32 .real)
+    exact congrArg ((M ⟨b.val,h.val⟩).fp32Load)
       (source_logit M encode c observe counts work xs s bound b h n i.1 hi)
   · rfl
 
@@ -37,16 +37,15 @@ theorem values_logical (xs : Inputs A c counts) (s : State B)
     values (M ⟨b.val,h.val⟩) (Host.parameters c)
       ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s) n=
     (fun i : TileIndex [64,c.dimensions] =>
-      (M ⟨b.val,h.val⟩).cast (some .fp32) .fp32 .real
+      (M ⟨b.val,h.val⟩).fp32Load
         (if n+i.1.val < counts b then encode (valueAt xs b h (n+i.1.val) i.2.1)
-         else (M ⟨b.val,h.val⟩).cast (some .fp32) .real .fp32
-           ((M ⟨b.val,h.val⟩).literal (some .fp32) .real 0.0))) := by
+         else (M ⟨b.val,h.val⟩).literal (some .fp32) .real 0.0)) := by
   have len := source_length M encode c observe counts work xs s bound hm b h
   funext i
   simp only [values,active,len]
   split
   · rename_i hi
-    exact congrArg ((M ⟨b.val,h.val⟩).cast (some .fp32) .fp32 .real)
+    exact congrArg ((M ⟨b.val,h.val⟩).fp32Load)
       (source_value M encode c observe counts work xs s bound hm b h n i.1 i.2.1 hi)
   · rfl
 

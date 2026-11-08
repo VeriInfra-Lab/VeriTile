@@ -1,11 +1,11 @@
-import bench.tritonbench_g.masked_add_cuda.Sources.Mathematical_Kernels
+import bench.tritonbench_g.masked_add_cuda.Proofs.Sources.Mathematical_Kernels
 
 namespace VeriTile.Bench.TritonBenchG.MaskedAddCuda
 open VeriTile.Triton
 
 /-- Real projection of the shared repair, retaining the signed mask channel. -/
 def integer_math_kernel (g p m : RegionName) (n : Nat) (a : ℝ) (B : Nat) : ComputeKernel :=
-  (VeriTile.Bench.Repairs.MaskedAddCuda.kernel .int64 g p m n a B).eraseDType
+  (VeriTile.Bench.Repairs.MaskedAddCuda.sourceKernel .int64 g p m n a B).eraseDType
 
 def integer_commuted_math_kernel (g p m : RegionName) (n : Nat) (a : ℝ) (B : Nat) : ComputeKernel :=
   (VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel .int64 g p m n a B).eraseDType
@@ -56,7 +56,7 @@ theorem integer_projection (storage : MaskStorage) (v : Bool)
         integer_math_kernel g p m n a B).toAlgKernel := by
   rw [erased_kernel _ (typed_projects ..)]
   cases storage <;> cases v <;> simp only [Bool.false_eq_true, if_true, if_false]
-  all_goals simp only [integer_kernel, integer_math_kernel, integer_commuted_math_kernel, VeriTile.Bench.Repairs.MaskedAddCuda.kernel, VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel, ComputeKernel.eraseDType, Bool.false_eq_true, Bool.true_eq, ↓reduceIte, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody,
+  all_goals simp only [integer_kernel, integer_math_kernel, integer_commuted_math_kernel, VeriTile.Bench.Repairs.MaskedAddCuda.sourceKernel, VeriTile.Bench.Repairs.MaskedAddCuda.commutedKernel, ComputeKernel.eraseDType, Bool.false_eq_true, Bool.true_eq, ↓reduceIte, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,

@@ -19,8 +19,8 @@ def contextBody (M : Algebra α) (dot : Dot α) (c : Config)
       (current.setReg "i_v" .nat [] (fun _=>block))=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
+  simp [parts,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
+    ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Option.map,Option.getD,
     run,step.eq_2,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,
     Option.bind,engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,
     ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,natLe,numericLe,

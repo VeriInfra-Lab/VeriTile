@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.Sources.Mathematical_Kernels
+import bench.tritonbench_g.context_attn_llama.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.ContextAttnLlama.SourceTypes
 open VeriTile.Triton

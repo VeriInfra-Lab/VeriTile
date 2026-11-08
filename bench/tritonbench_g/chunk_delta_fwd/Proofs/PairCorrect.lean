@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.PairIO
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Support.PairIO
 import bench.tritonbench_g.chunk_delta_fwd.Proofs.PairSource
 import bench.tritonbench_g.chunk_delta_fwd.Proofs.IOImplements
 

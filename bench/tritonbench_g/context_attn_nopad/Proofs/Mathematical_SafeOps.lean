@@ -44,16 +44,16 @@ theorem maskedPointerLoad {dtype : TileDType} {shape : TileShape}
   exact hb i hi
 
 theorem metadata (r : RegionName) (batch : Nat) (u : BlockState) (bounds : RegionBounds)
-    (hr : u.regs .nat [] "cur_batch" = some (Tile.scalar batch)) (hb : batch < bounds r) :
+    (hr : u.regs .int [] "cur_batch" = some (Tile.scalar batch)) (hb : batch < bounds r) :
     (loadMeta r).SafeAt bounds u := by
-  simp only [loadMeta,Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,n,true_and]
+  simp only [loadMeta,Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,z,true_and]
   intro offsets he i _
-  rw [evalOp_ref,hr] at he
+  simp only [evalOp.eq_def,hr,Option.bind_some] at he
   cases he
-  exact hb
+  simpa using hb
 
 theorem queryMask_eval (p : Layout) (rows : Fin p.BM → Nat) (seq : Int) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
     (hs : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq)) :
     evalOp (queryMask p) u = some (Tile.mat (dtype := .bool)
       (fun i _ => decide ((rows i : Int) < seq))) := by

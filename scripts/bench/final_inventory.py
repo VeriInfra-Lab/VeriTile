@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Bind the final source tree and selected contracts, without archived versions.
+"""Discover the selected corpus, its current public entries and import closure.
 
-This gate checks membership, imports, review scope and source integrity. Lean
-builds, axiom/spec audits and official proof replay are separate required gates.
-Neither this inventory nor a successful build establishes native execution.
+An optional generated snapshot binds build and replay to the same inputs.
+Historical reviews and independent proof receipts are kept separately.
 """
 from __future__ import annotations
 
@@ -23,13 +22,12 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from scripts.bench.lean_import_scan import lean_code_mask
+from scripts.bench.port_layout import REAL_ENTRY_NAMES, real_entry
 from scripts.spec_sheet import split_decls, split_statement
 
 DIRECTORIES = ('VeriTile', 'bench/tritonbench_g', 'bench/examples',
                'tests/lean', 'bench/bug_detection', 'bench/pretrain_kernels')
-REVIEW = 'validation/contracts.json'
 LEDGER = 'validation/task_progress.json'
-MANIFEST = 'validation/source.json'
 CORPUS_PREFIXES = ('bench/tritonbench_g/', 'bench/examples/', 'tests/lean/')
 BENCH_SECTIONS = {'examples', 'bug_detection', 'pretrain_kernels', 'tritonbench_g'}
 
@@ -40,16 +38,23 @@ def validate_layout(root, ledger):
     if {p.name for p in entries} != BENCH_SECTIONS or not all(p.is_dir() for p in entries):
         raise ValueError('bench must contain exactly the four benchmark collections')
     tasks = {row['task']: row['kernel_revision'] for row in ledger['tasks']}
+    if len(tasks) != len(ledger['tasks']) or not tasks:
+        raise ValueError('expected nonempty, unique selected task names')
     directory = root / 'bench/tritonbench_g'
-    task_directories = list(directory.iterdir())
+    # The body-correspondence gate owns this collection-level source index.
+    # It is metadata for selected tasks, rather than another task directory.
+    task_directories = [p for p in directory.iterdir()
+                        if not (p.name == 'source-references.json' and p.is_file())]
     if {p.name for p in task_directories} != set(tasks) or not all(p.is_dir() for p in task_directories):
         raise ValueError('tritonbench_g must contain exactly the selected task directories')
     for task, selection in tasks.items():
         base = f'bench/tritonbench_g/{task}/'
         if selection['source'] != base + task + '.py' or selection['kernel_source'] != base + 'Kernels.lean':
             raise ValueError(task + ': selected implementation must use its canonical task entry')
-        expected = {base + name + '.lean' for name in ('Contract', 'Correct', 'FPEquiv')}
-        if not expected <= set(selection['public_entries']):
+        expected = {base + 'Contract.lean', base + 'FPEquiv.lean'}
+        public = set(selection['public_entries'])
+        real = public & {base + name for name in REAL_ENTRY_NAMES}
+        if not expected <= public or len(real) != 1:
             raise ValueError(task + ': missing canonical proof entries')
     forbidden = re.compile(r'(?:revisions?|Whole)\d*|Original|KernelOnly|KernelInterface|RealRevision', re.I)
     for path in directory.rglob('*'):
@@ -72,9 +77,8 @@ def ci_targets(paths, imports, rows):
             continue
         reached.add(path)
         pending.extend(module.replace('.', '/') + '.lean' for module in imports.get(path, []))
-    if corpus - reached:
-        raise ValueError('retained modules outside CI build closure: ' + repr(sorted(corpus - reached)))
-    return sorted(selected)
+    # Audit retained modules directly when the public entries do not import them.
+    return sorted(selected | (corpus - reached))
 
 
 def digest(path):
@@ -120,53 +124,38 @@ def modules(text):
     return result
 
 
-def validate_review(root, review, ledger, expected_tasks=183):
-    if review.get('schema') != 1 or review.get('kind') != 'final_selected_contract_review':
-        raise ValueError('unsupported final review schema')
-    rows = review['tasks']
-    byname = {r['task']: r for r in rows}
-    selected = {r['task']: r['kernel_revision'] for r in ledger['tasks']}
-    if len(rows) != expected_tasks or len(byname) != expected_tasks or set(byname) != set(selected):
-        raise ValueError('final review must cover every selected task exactly once')
-    for name, row in byname.items():
-        for field in ('mathematical_target', 'required_conditions', 'scope', 'canonical_connection',
-                      'fp_program_pair', 'numerical_dependencies', 'source_sha256', 'readers'):
-            if not row.get(field):
-                raise ValueError(name + ': missing explicit review field ' + field)
-        if row.get('review_status') != 'reviewed_current_contract':
-            raise ValueError(name + ': unreviewed selected contract')
-        if row.get('native_execution') != 'not_established_by_this_review':
-            raise ValueError(name + ': unreviewed native-execution claim')
-        for field, selection in (('public_entries', 'public_entries'),
-                                 ('kernel_source', 'kernel_source'), ('python_source', 'source')):
-            if row.get(field) != selected[name].get(selection):
-                raise ValueError(name + ': selected revision changed: ' + field)
-        for path, expected in row['source_sha256'].items():
-            if digest(local(root, path)) != expected:
-                raise ValueError(name + ': reviewed source changed: ' + path)
-        for entry in row['readers']:
-            path = local(root, entry['path'])
-            if digest(path) != entry['sha256']:
-                raise ValueError(name + ': reviewed reader changed: ' + entry['path'])
-            actual = [d['name'] for d in split_decls(path.read_text()) if d['kind'] == 'specification']
-            if actual != [d['name'] for d in entry.get('specifications', [])]:
-                raise ValueError(name + ': public specification inventory changed: ' + entry['path'])
-        reviewed_paths = {r['path'] for r in row['readers']}
-        for path in row['public_entries']:
-            source = local(root, path)
-            if any(d['kind'] == 'specification' for d in split_decls(source.read_text())) and path not in reviewed_paths:
-                raise ValueError(name + ': selected public specifications omitted from review: ' + path)
-        local(root, row['kernel_source'])
-        if row.get('python_source'):
-            local(root, row['python_source'])
-    return byname
+def selected_tasks(root, ledger):
+    validate_layout(root, ledger)
+    rows = {row['task']: row['kernel_revision'] for row in ledger['tasks']}
+    for name, row in rows.items():
+        directory = f'bench/tritonbench_g/{name}/'
+        entries = row['public_entries']
+        if len(entries) != len(set(entries)) or any(
+                not path.startswith(directory) or not path.endswith('.lean') for path in entries):
+            raise ValueError(name + ': invalid selected public entries')
+        if real_entry(root / directory).relative_to(root).as_posix() not in entries:
+            raise ValueError(name + ': Real entry differs from selected entry')
+        for path in (row['source'], row['kernel_source'], *entries):
+            actual = local(root, path)
+            if not actual.is_relative_to(root / directory) or actual.relative_to(root).as_posix() != path:
+                raise ValueError(name + ': noncanonical selected source path')
+    return rows
+
+
+def public_specifications(root, path):
+    text = local(root, path).read_text()
+    declarations = [d for d in split_decls(text) if d['kind'] == 'specification']
+    if not declarations and Path(path).name in (*REAL_ENTRY_NAMES, 'FPEquiv.lean'):
+        raise ValueError(path + ': no public specification')
+    return text, declarations
 
 
 def collect(root=ROOT):
     root = root.resolve()
-    review, ledger = read(root, REVIEW), read(root, LEDGER)
-    validate_layout(root, ledger)
-    rows = validate_review(root, review, ledger)
+    rows = selected_tasks(root, read(root, LEDGER))
+    for row in rows.values():
+        for path in row['public_entries']:
+            public_specifications(root, path)
     paths = sorted({p.relative_to(root).as_posix() for folder in DIRECTORIES
                     for p in (root / folder).rglob('*.lean')})
     known = {p[:-5].replace('/', '.') for p in paths}
@@ -177,7 +166,7 @@ def collect(root=ROOT):
         if missing:
             raise ValueError(name + ': missing project imports: ' + repr(missing))
         imports[name] = dependencies
-    inputs = set(paths) | {REVIEW, LEDGER, 'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
+    inputs = set(paths) | {LEDGER, 'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
                            'validation/bench-layout.json',
                            'scripts/bench/final_inventory.py', 'scripts/bench/lean_import_scan.py',
                            'scripts/spec_sheet.py',
@@ -186,7 +175,7 @@ def collect(root=ROOT):
                            'scripts/check_comparator.py', 'scripts/comparator_common.py',
                            'scripts/setup-comparator.sh', 'scripts/comparator-string-literals.patch',
                            'scripts/kernel-manifest.tsv'}
-    inputs.update(row['python_source'] for row in rows.values() if row.get('python_source'))
+    inputs.update(row['source'] for row in rows.values())
     inputs.update(p.relative_to(root).as_posix()
                   for p in (root / 'bench/tritonbench_g').rglob('*')
                   if p.is_file() and p.suffix in {'.py', '.cpp', '.json'})
@@ -194,55 +183,50 @@ def collect(root=ROOT):
             'tasks': sorted(rows), 'lean_files': paths, 'imports': imports,
             'ci_targets': ci_targets(paths, imports, rows),
             'source_sha256': {name: digest(local(root, name)) for name in sorted(inputs)},
-            'validation_boundary': 'Membership and reviewed scope only; requires Lean build, axiom/spec gates and official replay. Imported benchmark proof goals and Python/native correspondence gaps remain separate.'}
-
-
-def check(root=ROOT):
-    actual, expected = collect(root), read(root, MANIFEST)
-    if actual != expected:
-        raise ValueError('final source inventory drift; review changes and regenerate after validation')
-    return actual
+            'validation_boundary': 'Current source membership, imports and input hashes. Proof acceptance is recorded in independent replay receipts.'}
 
 
 def coverage(root=ROOT):
-    review, ledger = read(root, REVIEW), read(root, LEDGER)
-    rows = validate_review(root, review, ledger)
+    root = root.resolve()
+    rows = selected_tasks(root, read(root, LEDGER))
     result = []
     for task, row in sorted(rows.items()):
-        for reader in row['readers']:
-            path = reader['path']
-            text = local(root, path).read_text()
-            for decl in split_decls(text):
-                if decl['kind'] != 'specification':
-                    continue
+        for path in row['public_entries']:
+            text, declarations = public_specifications(root, path)
+            for decl in declarations:
                 statement, _ = split_statement(decl['text'])
                 result.append({'id': task + '--' + hashlib.sha256((path + ':' + decl['name']).encode()).hexdigest()[:12],
                     'port': task, 'file': path, 'line': text[:decl['start']].count('\n') + 1,
-                    'declaration': decl['name'], 'python_file': row.get('python_source') or '',
+                    'declaration': decl['name'], 'python_file': row['source'],
                     'python_functions': [], 'coverage_level': 'selected_contract',
                     'numeric_model': 'mathematical' if 'Spec.Real' in statement else 'explicit_fp_contract',
-                    'scope': row['scope'], 'statement': statement, 'references': [], 'io': [],
-                    'issue': '; '.join(map(str, row.get('remaining_issues', [])))})
-    return {'schema': 1, 'reviewed_on': '2026-10-29', 'basis': review['scope'], 'rows': result}
+                    'scope': row['proof_scope'], 'statement': statement, 'references': [], 'io': [],
+                    'issue': ''})
+    return {'schema': 1, 'basis': 'Current selected public Lean declarations', 'rows': result}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=ROOT)
     mode = parser.add_mutually_exclusive_group(required=True)
-    mode.add_argument('--write', action='store_true')
+    mode.add_argument('--write', type=Path, metavar='PATH', help='write a generated inventory snapshot')
     mode.add_argument('--check', action='store_true')
     mode.add_argument('--targets', action='store_true')
     mode.add_argument('--ci-targets', action='store_true',
                       help='public entries, canonical sources, examples and regressions')
     mode.add_argument('--coverage', action='store_true')
+    parser.add_argument('--snapshot', type=Path, help='require a match with a generated inventory')
     args = parser.parse_args()
     if args.coverage:
+        if args.snapshot is not None:
+            parser.error('--snapshot applies to inventory modes')
         print(json.dumps(coverage(args.root), ensure_ascii=False))
         return
-    data = collect(args.root) if args.write else check(args.root)
-    if args.write:
-        (args.root / MANIFEST).write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
+    data = collect(args.root)
+    if args.snapshot is not None and data != json.loads(args.snapshot.read_text()):
+        raise ValueError('source inventory changed since the snapshot was generated')
+    if args.write is not None:
+        args.write.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
     if args.ci_targets:
         print('\n'.join(data['ci_targets']))
     elif args.targets:

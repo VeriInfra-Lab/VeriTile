@@ -113,22 +113,25 @@ theorem update_fn_kernel_p_correct
       set g := s.readMem grad_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hg
       set p := s.readMem p_ptr (s.pids 0 * BLOCK_SIZE + i.val) with hp
       have heq : (m - g) * beta1 + g = beta1 * m + (1 - beta1) * g := by ring
-      split_ifs with c1 c2
-      · have hd : beta1 * m + (1 - beta1) * g = 0 := heq ▸ Option.some_inj.mp c1
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, hd, Real.sign_zero]
+      simp only [show (1.0 : ℝ) = 1 by norm_num, show (0.0 : ℝ) = 0 by norm_num,
+        WithBot.some_eq_coe, ← WithBot.coe_mul, ← WithBot.coe_add,
+        ← WithBot.coe_zero, ← WithBot.coe_one, WithBot.coe_lt_coe, WithBot.coe_eq_coe]
+      by_cases hz : (m - g) * beta1 + g = 0
+      · have hd : beta1 * m + (1 - beta1) * g = 0 := heq ▸ hz
+        simp [hz, hd, WithBot.some_eq_coe, WithBot.unbotD_coe]
+        try simp only [← WithBot.coe_mul, ← WithBot.coe_add, WithBot.unbotD_coe]
         ring
-      · have hd : (0 : ℝ) < beta1 * m + (1 - beta1) * g :=
-          heq ▸ WithBot.coe_lt_coe.mp c2
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_pos hd]
-        norm_num
-        ring
-      · have hne : (m - g) * beta1 + g ≠ 0 := fun hc => c1 (congrArg some hc)
-        have hnp : ¬ (0 : ℝ) < (m - g) * beta1 + g :=
-          fun hc => c2 (WithBot.coe_lt_coe.mpr hc)
-        have hd : beta1 * m + (1 - beta1) * g < 0 :=
-          heq ▸ lt_of_le_of_ne (not_lt.mp hnp) hne
-        simp only [WithBot.some_eq_coe, WithBot.unbotD_coe, Real.sign_of_neg hd]
-        ring
+      · by_cases hp : 0 < (m - g) * beta1 + g
+        · have hd : 0 < beta1 * m + (1 - beta1) * g := heq ▸ hp
+          simp [hz, hp, Real.sign_of_pos hd, WithBot.some_eq_coe, WithBot.unbotD_coe]
+          try simp only [← WithBot.coe_mul, ← WithBot.coe_add, WithBot.unbotD_coe]
+          ring
+        · have negative : (m - g) * beta1 + g < 0 :=
+            lt_of_le_of_ne (not_lt.mp hp) hz
+          have hd : beta1 * m + (1 - beta1) * g < 0 := heq ▸ negative
+          simp [hz, hp, Real.sign_of_neg hd, WithBot.some_eq_coe, WithBot.unbotD_coe]
+          try simp only [← WithBot.coe_mul, ← WithBot.coe_add, WithBot.unbotD_coe]
+          ring
     · simp [hi]
   · exact False.elim (hB (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
 
@@ -634,7 +637,7 @@ theorem optional_add_comm (a b : Option ℝ) :
 theorem optimized_exec (lr wd beta1 beta2 : ℝ) (n B : Nat) (s : BlockState) :
     exec (optimizedKernel lr wd beta1 beta2 n B).toAlgKernel s =
       exec (update_fn_kernel "p" "grad" "exp_avg" lr wd beta1 beta2 n B).toAlgKernel s := by
-  simp [optimizedKernel, update_fn_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel, commuted_update_kernel, update_fn_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.cop, Tile.select, Tile.ptrAdd,
       NumericDType.add, NumericDType.mul, NumericDType.sub,
       ComparableDType.lt, ComparableDType.gt, ComparableDType.ne, add_comm, optional_add_comm]

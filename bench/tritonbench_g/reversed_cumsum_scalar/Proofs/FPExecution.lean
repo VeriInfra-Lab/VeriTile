@@ -28,7 +28,7 @@ def expected (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (p
 structure Holds (M : Algebra α) (scan : ScanBackend α) (initial : State α) (h : Call) (c : Config)
     (row : Nat) (input : Nat → α) (remaining : Nat) (u : State α) : Prop where
   count_le : remaining≤Geometry.chunks h c
-  head : u.regs .nat [] "i_bh"=some (fun _ => row)
+  head : u.regs .int [] "i_bh"=some (fun _ => (row:Int))
   carryReg : u.regs .real [] "b_z"=some (fun _ => carry M h c input remaining)
   reads : ∀ t, t<h.T → toFloat h.inputDType
     ((u.mem h.input (h.inputStrides.address h.H row t)).read h.inputDType.toTileDType)=input t
@@ -76,7 +76,7 @@ theorem iteration (M : Algebra α) (scan : ScanBackend α) (initial : State α)
     exact (inv.frame r off hn).trans (frame r off hn)
 
 def initial (M : Algebra α) (u : State α) : State α :=
-  (u.setReg "i_bh" .nat [] (fun _ => u.pids 0)).setReg "b_z" .real [] (fun _ => M.literal (some .fp32) .real 0)
+  (u.setReg "i_bh" .int [] (fun _ => (u.pids 0:Int))).setReg "b_z" .real [] (fun _ => M.literal (some .fp32) .real 0)
 
 theorem init_executes (M : Algebra α) (scan : ScanBackend α) (u : State α) :
     run (machine M scan) initCode u=some (initial M u) := by
@@ -143,12 +143,12 @@ def Post (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (posit
 
 theorem source_correct (M : Algebra α) (scan : ScanBackend α) (h : Call) (layout : Geometry.OutputLayout h)
     (c : Config) (positive : 0<c.BT) (u : State α) (hr : u.pids 0<h.B*h.H) :
-    ∃ v, FP.Structural.exec (machine M scan) (Kernels.source h c) u=some v ∧ Post M scan h c positive u v := by
+    ∃ v, FP.Structural.exec (machine M scan) (Kernels.sourceKernel h c) u=some v ∧ Post M scan h c positive u v := by
   have hi : (1-(1-(Geometry.chunks h c:Int))).toNat=Geometry.chunks h c := by omega
   obtain ⟨v,he,inv⟩ := loop_executes M scan u h layout c positive (u.pids 0) hr _
     (1-(Geometry.chunks h c:Int)) (initial M u) (by simpa only [hi] using invariant M scan h c u)
   refine ⟨v,?_,?_,inv.frame⟩
-  · change run (machine M scan) (Kernels.source h c).surfaceBody u=some v
+  · change run (machine M scan) (Kernels.sourceKernel h c).surfaceBody u=some v
     rw [source_body,body,run_append,init_executes]
     simp only [Option.bind_some,run,statement_eval,he]
     rfl

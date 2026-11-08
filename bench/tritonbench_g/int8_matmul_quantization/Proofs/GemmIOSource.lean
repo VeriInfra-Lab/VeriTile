@@ -23,6 +23,7 @@ theorem source_result (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8De
     (Grid.atProgram base p.1 p.2)
     (Grid.reads_program s c columnMajor rowScale _ base (reads default s c rowScale output columnMajor xs base signed binding) _ _)
     (max_eq_left (columns_pos s c p.1 p.1.isLt)) rfl
+    (Grid.group_valid s c columnMajor base _ _ p.1.isLt)
   refine ⟨final,(invocation_run M carrier ops zero plans rowScale output s c columnMajor p base).trans ran,?_⟩
   intro r off outside
   apply frame
@@ -75,6 +76,7 @@ theorem source_cell (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8Dequ
       half single rowScale output (I32Safe.Gemm.parameters s c columnMajor) (input default s rowScale xs)
       (Grid.atProgram base p.1 p.2) (Grid.reads_program s c columnMajor rowScale _ base hr _ _)
       (max_eq_left (columns_pos s c p.1 p.1.isLt)) rfl
+      (Grid.group_valid s c columnMajor base _ _ p.1.isLt)
     rw [ran] at executed
     cases Option.some.inj executed
     apply frame

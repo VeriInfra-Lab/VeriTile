@@ -28,18 +28,18 @@ def bp {α : Type} [Inhabited α] (s : Shape) (c : Config) (base : State α)
 def av {α : Type} [Inhabited α] (s : Shape) (c : Config) (base : State α)
     (t : Nat) (i : TileIndex [c.BM,c.BK]) : Int :=
   if s.K%(c.BK*c.S)==0 then (base.mem (ap s c base t i).1 (ap s c base t i).2).read .int
-  else if register base .int [c.BK] "rk" (i.2.1,PUnit.unit)<(s.K-t*(c.BK*c.S) : Nat) then
+  else if register base .int [c.BK] "rk" (i.2.1,PUnit.unit)<((s.K:Int)-(t*(c.BK*c.S):Nat)) then
     (base.mem (ap s c base t i).1 (ap s c base t i).2).read .int else 0
 def bv {α : Type} [Inhabited α] (s : Shape) (c : Config) (base : State α)
     (t : Nat) (i : TileIndex [c.BK,c.BN]) : Int :=
   if s.K%(c.BK*c.S)==0 then (base.mem (bp s c base t i).1 (bp s c base t i).2).read .int
-  else if register base .int [c.BK] "rk" (i.1,PUnit.unit)<(s.K-t*(c.BK*c.S) : Nat) then
+  else if register base .int [c.BK] "rk" (i.1,PUnit.unit)<((s.K:Int)-(t*(c.BK*c.S):Nat)) then
     (base.mem (bp s c base t i).1 (bp s c base t i).2).read .int else 0
 
 def update {α : Type} [Inhabited α] (q : IntegerModel I F H)
     (s : Shape) (c : Config) (base : State α) (t : Nat)
     (old : TileIndex [c.BM,c.BN] → Int) : TileIndex [c.BM,c.BN] → Int :=
-  dotAdd q s.M s.N (base.setReg "k" .nat [] (fun _=>t)) old (av s c base t) (bv s c base t)
+  dotAdd q s.M s.N (base.setReg "k" .int [] (fun _=>(t:Int))) old (av s c base t) (bv s c base t)
 
 structure Context {α : Type} [Inhabited α] (s : Shape) (c : Config)
     (base : State α) (t : Nat) (current : State α) : Prop where
@@ -53,12 +53,12 @@ structure Context {α : Type} [Inhabited α] (s : Shape) (c : Config)
   rk : current.regs .int [c.BK] "rk"=some (register base .int [c.BK] "rk")
   wx : current.regs .real [1,c.BN] "w_factor"=some (register base .real [1,c.BN] "w_factor")
   xx : current.regs .real [c.BM,1] "x_factor"=some (register base .real [c.BM,1] "x_factor")
-  divisor : current.regs .fp32 [] "divfactor"=base.regs .fp32 [] "divfactor"
+  divisor : current.regs .real [] "divfactor"=base.regs .real [] "divfactor"
   a : current.regs .ptr [c.BM,c.BK] "A"=some (ap s c base t)
   b : current.regs .ptr [c.BK,c.BN] "B"=some (bp s c base t)
 
 def HasAcc {α : Type} (c : Config) (value : TileIndex [c.BM,c.BN] → Int) (s : State α) : Prop :=
-  s.regs .int [c.BM,c.BN] "acc_int"=some value
+  s.regs .int [c.BM,c.BN] "acc"=some value
 
 theorem preludeContext {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerModel I F H)
     (s : Shape) (c : Config) (bias : Bool) (initial : State α) :
@@ -77,13 +77,13 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerModel 
     (t : Nat) (old : TileIndex [c.BM,c.BN] → Int)
     (ctx : Context s c base t current) (acc : HasAcc c old current) :
     {final : State α // run M q s.M s.N (body s c bias)
-      (current.setReg "k" .nat [] (fun _=>t))=some final} := by
+      (current.setReg "k" .int [] (fun _=>(t:Int)))=some final} := by
   simp only [HasAcc] at acc
   by_cases even : s.K%(c.BK*c.S)=0
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [body,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
+    simp [body,source,TypedSource.kernel,TypedSource.sourceKernel,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
       numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
       FloatDType.numericDType,FloatDType.toTileDType,VeriTile.Triton.Region.cast,

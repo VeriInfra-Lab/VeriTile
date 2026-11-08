@@ -1,12 +1,11 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.AttnFwdTriton_Verified_AccessSafety_AccessSafety
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Preparation
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealSafetyParts
-
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.All
 /-! Source-level memory safety of the changed helper fragments. Register-only
 arithmetic is reused without conditions on its numerical values. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.SafetyParts
 open VeriTile.Triton Memory Preparation AccessSafety
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
 open VeriTile.Bench.TritonBenchG.AttentionScore

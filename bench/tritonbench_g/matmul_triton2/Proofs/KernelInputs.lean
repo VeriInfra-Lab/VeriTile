@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton2.Reference
+import bench.tritonbench_g.matmul_triton2.Proofs.Support.Reference
 import bench.tritonbench_g.matmul_triton2.Proofs.Real
 import bench.tritonbench_g.matmul_triton2.Proofs.Grid
 

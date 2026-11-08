@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_retention.Proofs.PureAccessSafety
-import bench.tritonbench_g.chunk_retention.Sources.ForwardOComplete
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.ForwardOComplete
 import bench.tritonbench_g.chunk_retention.Proofs.AccessSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.ForwardOSource
@@ -16,11 +16,12 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).before s := by
   apply AccessSafety.list_safe_of_steps
   intro statement member current
-  change statement ∈ ([_,_,_,_,_,_,_,_,_,_,_] : List ComputeStmt) at member
+  change statement ∈ ([_,_,_,_,_,_,_,_,_] : List ComputeStmt) at member
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
-  rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
+  rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
-    Safety.safeOp_unfold]
+    Safety.safeOp_unfold,evalOp_unfold,Safety.traceSafeList_cons,Safety.safeExpr_unfold,
+    Safety.stepSafe_unfold,step,run,evalExpr,Option.bind]
 
 private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     (scale : ℝ) (initial current : State α) (f : Nat) (a : Accum c α)
@@ -33,7 +34,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).body
       (current.setReg "i_k" .nat [] (fun _ => f)) := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,Kernels.forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -59,7 +60,7 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     (ho : ∀ i,active c initial i → outputAddress c initial i<bounds "o") :
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).after current := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,Kernels.forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
       Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -98,11 +99,6 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     exact ⟨body_safe M D c scale initial current f a h.1 ha bounds hq hk hh,
       next.val,next.property,hn.1,_,hn.2⟩
   obtain ⟨mid,hm,ctx,ha⟩ := loopExecution M D c scale initial start.val hc.1 hc.2
-  have h0' : (parts c scale).start=.constNat 0 := rfl
-  have hn' : (parts c scale).stop=.div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat c.K) (.constNat c.BK)) (.constNat 1))
-      (.constNat c.BK) := rfl
-  have h1' : (parts c scale).stride=.constNat 1 := rfl
   unfold TraceSafe
   rw [source_parts,Safety.traceSafeList_append,Safety.traceSafeList_append]
   refine ⟨⟨entry_safe M D c scale initial bounds,?_⟩,?_⟩
@@ -110,12 +106,12 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (c : Shape)
     rw [start.property] at ran
     cases ran
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,h0',hn',h1',evalOp_unfold,
+    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,
         numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,Shape.keyBlocks] using safeLoop
     · intro _ _; exact Safety.traceSafeList_nil _ _ _
   · intro t ran
     rw [run_append,start.property] at ran
-    simp only [Option.bind_some,run,step,h0',hn',h1',evalOp_unfold,numeric,bop,
+    simp only [Option.bind_some,run,step,evalOp_unfold,numeric,bop,
       Broadcast.leftIndex,Broadcast.rightIndex] at ran
     change (range (engine (withDot M D)) "i_k" 0 c.keyBlocks 1 (parts c scale).body start.val).bind
       (fun s => some s)=some t at ran

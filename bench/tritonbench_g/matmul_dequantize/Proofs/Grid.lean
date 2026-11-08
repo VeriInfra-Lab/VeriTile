@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int_scaled_matmul.Proofs.Geometry
-import bench.tritonbench_g.int_scaled_matmul.Sources.GridExecution
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GridExecution
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001.Grid
 open VeriTile.Triton FP.Structural

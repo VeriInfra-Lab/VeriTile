@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize.Sources.Kernels
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Kernels
 import Mathlib.Data.BitVec
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001.Native

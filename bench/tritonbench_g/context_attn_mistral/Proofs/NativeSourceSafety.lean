@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_mistral.Program
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.Program
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ContextAttnMistralKernel.NativeSourceSafety
@@ -30,7 +30,7 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (o : FPBackend.Ops α) 
     (bounds : RegionName → Nat) (access : Bounds p r (s.pids 0) (KernelReference.inputs p r s) bounds) :
     Safety.traceSafeList (engine o.algebra) bounds (parts p r .fp32 scale).before s := by
   simp [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,ComputeKernel.surfaceBody,Source.intRange?]
+    VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=400000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

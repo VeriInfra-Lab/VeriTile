@@ -50,7 +50,7 @@ def checkPrepared (inputPointer : Nat) : Except InputError Unit :=
 
 /-- The kernel consumes the already prepared contiguous FP32 payload, Bool mask
 and inclusive Int64 prefix. This realization constrains only input cells, never
-output values. The Nat prefix is its nonnegative mathematical projection;
+output values. The signed prefix port contains nonnegative counts;
 `prefix64_exact` and `destination64_selected` prove native Int64 correspondence. -/
 abbrev KernelInputs {A : Type} := @VeriTile.Bench.TritonBenchG.MaskedSelect.Whole.Reads A
 

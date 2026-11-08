@@ -1,7 +1,7 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexBackwardInit
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexBackwardStages
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexBackwardReference
-import VeriTile.Triton.KernelLemmas.LoopInvariant
+import bench.tritonbench_g.diag_ssm_triton.Proofs.SignedRealLoop
 import VeriTile.Triton.Semantics.ProgramRewrite
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.ComplexBackwardLoop
 open VeriTile.Triton
@@ -82,9 +82,9 @@ theorem separated (p : Layout) (u : BlockState) (t q : Nat) (htq : t≠q)
   omega
 
 theorem initial_invariant (p : Layout) (u : BlockState) (length : Nat) :
-    Invariant p u length 0 (ComplexBackwardInit.result u p.l p.batch p.dim p.B) := by
+    Invariant p u length 0 (ComplexBackwardInit.result u p.l length p.batch p.dim p.B) := by
   refine ⟨?_,rfl,?_,?_⟩
-  · exact ComplexBackwardInit.result_registers u p.l p.batch p.dim p.B
+  · exact ComplexBackwardInit.result_registers u p.l length p.batch p.dim p.B
   · intro t ht hlt; omega
   · intro r o _; rfl
 
@@ -93,13 +93,13 @@ recurrences and preserves already written gradients and every other cell. -/
 theorem step (p : Layout) (u : BlockState) (length k : Nat) (hk : k<length)
     (sep : ReadSeparation p) (v : BlockState) (h : Invariant p u length k v) :
     ∃ w, stepStmts (ComplexBackwardSource.body p.s p.y p.gx p.gy length p.batch p.dim p.B)
-      (v.setReg "i" .nat [] (Tile.scalar k)) = some w ∧ Invariant p u length (k+1) w := by
+      (v.setReg "i" .int [] (Tile.scalar (k : Int))) = some w ∧ Invariant p u length (k+1) w := by
   let t := length-1-k
-  let vt := v.setReg "i" .nat [] (Tile.scalar k)
+  let vt := v.setReg "i" .int [] (Tile.scalar (k : Int))
   let w := ComplexBackwardStep.result vt p.s p.y p.gx p.gy p.batch p.dim t (columns p u) (mask p u)
     (carry p u length k) (acc p u length k) (transition p u)
   have ht := h.registers.setCounter k
-  have hexec := ComplexBackwardStep.body_step p.s p.y p.gx p.gy length p.batch p.dim p.B k vt
+  have hexec := ComplexBackwardStep.body_step p.s p.y p.gx p.gy length p.batch p.dim p.B k vt hk
     (columns p u) (mask p u) (carry p u length k) (acc p u length k) (transition p u) (by simp [vt]) ht
   have hg : ComplexBackwardStep.gradient vt p.gy (offset p u t) (mask p u) (carry p u length k) =
       fun j => starRingEnd ℂ (gradOutput p u t j)+carry p u length k j := by
@@ -169,14 +169,17 @@ theorem step (p : Layout) (u : BlockState) (length k : Nat) (hk : k<length)
         (h.frame r o hpast)
 
 theorem run_loop (p : Layout) (u : BlockState) (length : Nat) (sep : ReadSeparation p) :
-    ∃ v, stepStmt (.forLoop "i" length
+    ∃ v, stepStmt (.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1)
       (ComplexBackwardSource.body p.s p.y p.gx p.gy length p.batch p.dim p.B))
-      (ComplexBackwardInit.result u p.l p.batch p.dim p.B) = some v ∧ Invariant p u length length v := by
-  exact forLoop_inv (idx := "i") (n := length)
-    (body := ComplexBackwardSource.body p.s p.y p.gx p.gy length p.batch p.dim p.B)
-    (P := Invariant p u length)
-    (s_init := ComplexBackwardInit.result u p.l p.batch p.dim p.B)
-    (initial_invariant p u length) (fun k v hk h => step p u length k hk sep v h)
+      (ComplexBackwardInit.result u p.l length p.batch p.dim p.B) = some v ∧ Invariant p u length length v := by
+  obtain ⟨v,he,hi⟩ := VeriTile.Bench.Repairs.DiagSsmTriton.SignedRealLoop.invariant "i" length
+    (ComplexBackwardSource.body p.s p.y p.gx p.gy length p.batch p.dim p.B)
+    (Invariant p u length) (fun k v hk h => step p u length k hk sep v h)
+    0 (Nat.zero_le _) (ComplexBackwardInit.result u p.l length p.batch p.dim p.B)
+    (initial_invariant p u length)
+  simp only [Nat.cast_zero] at he
+  refine ⟨v,?_,hi⟩
+  simp only [stepStmt,evalOp.eq_def,Tile.scalar,bind,pure,Option.bind_some,Int.ofNat_eq_natCast,he]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

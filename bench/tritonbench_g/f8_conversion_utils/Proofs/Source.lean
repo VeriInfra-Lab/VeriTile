@@ -41,8 +41,12 @@ theorem executes {α : Type} [Inhabited α] (M : Algebra α) (p : Profile)
   cases p
   all_goals
     simp +contextual [kernel,toHalf,toFP8,
-      VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toHalf,
-      VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toFP8,
+      VeriTile.Bench.Repairs.F8ConversionUtils.Body.toHalf,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.toFP8,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.decodeOriginalKernel,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.decodeCandidateKernel,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.encodeOriginalKernel,
+    VeriTile.Bench.Repairs.F8ConversionUtils.Body.encodeCandidateKernel,
       FP.Structural.exec,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,
       numeric,natLt,bop,FP.Structural.store,Region.cast,ofFloat,toFloat,

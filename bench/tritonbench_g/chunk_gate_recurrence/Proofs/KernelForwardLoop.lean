@@ -19,7 +19,7 @@ structure Holds (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (p 
   bound : n≤c.N-1
   sourcePtr : u.regs .ptr [64,16] "S"=some (ptr "S" (fun e j => address c p n e.val j.val))
   targetPtr : u.regs .ptr [64,16] "O"=some (ptr "O" (fun e j => address c p (n+1) e.val j.val))
-  gatePtr : u.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p n))
+  gatePtr : u.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p n))
   acc : u.regs .real [64,16] "acc"=some (carry M c s seed p initial n)
   readsSource : ∀ off, u.mem "S" off=initial.mem "S" off
   readsGate : ∀ off, u.mem "D" off=initial.mem "D" off
@@ -81,17 +81,17 @@ theorem iteration (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (
 
 theorem bind_holds (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (p : Program c)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M c s seed p initial n u) :
-    Holds M c s seed p initial n (u.setReg "_i" .nat [] (fun _ => n)) := by
+    Holds M c s seed p initial n (u.setReg "i" .nat [] (fun _ => n)) := by
   refine ⟨inv.bound,?_,?_,?_,?_,inv.readsSource,inv.readsGate,inv.output,inv.frame⟩
   all_goals simp [inv.sourcePtr,inv.targetPtr,inv.gatePtr,inv.acc]
 
 theorem executes (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (p : Program c)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M c s seed p initial n u) :
-    ∃ v, FP.Structural.range (engine M) "_i" n (c.N-1) 1 (KernelOps.forwardBody c) u=some v ∧
+    ∃ v, FP.Structural.range (engine M) "i" n (c.N-1) 1 (KernelOps.forwardBody c) u=some v ∧
       Holds M c s seed p initial (c.N-1) v := by
   by_cases hn : n<c.N-1
   · obtain ⟨v,he,hv⟩ := iteration M c s seed p initial n
-      (u.setReg "_i" .nat [] (fun _ => n)) hn (bind_holds M c s seed p initial n u inv)
+      (u.setReg "i" .nat [] (fun _ => n)) hn (bind_holds M c s seed p initial n u inv)
     obtain ⟨w,hw,hf⟩ := executes M c s seed p initial (n+1) v hv
     refine ⟨w,?_,hf⟩
     rw [FP.Structural.range]

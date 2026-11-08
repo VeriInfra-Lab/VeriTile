@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.ProgramEquivalence
 import bench.tritonbench_g.bmm_optimized.Proofs.SourceGraph
-import bench.tritonbench_g.bmm_optimized.Sources.Native
+import bench.tritonbench_g.bmm_optimized.Proofs.Sources.Native
 import VeriTile.Triton.Float.LogicalProgramIO
 
 /-! Public contiguous row-major BMM channels. Each finite channel is flattened

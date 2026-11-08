@@ -13,8 +13,12 @@ theorem after (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     (bounds : RegionName → Nat) (access : Bounds p r (inputs p r initialState) bounds) :
     Safety.traceSafeList (M.withDefaultPrecision .fp32) bounds (parts p r scale).after s := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
-  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,ComputeKernel.surfaceBody,Source.intRange?]
+  simp [parts,kernel,originalFP32,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
+    VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,
+    VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,
+    VeriTile.Bench.Repairs.ContextAttnLlama.originalKernel,
+    ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=250000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -22,6 +26,7 @@ theorem after (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,numericLt,numericLe,natLt,
     bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,integralFloorDiv,integralMod,
+    Nat.cast_mul,Nat.cast_add,
     State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,State.setReg_undef,
     Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,
     h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14]
@@ -69,7 +74,7 @@ theorem whole (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
       some (fun _=>p.BN) := rfl
   have hstop : evalOp (M.withDefaultPrecision .fp32) none (parts p r scale).stop pre'=
       some (fun _=>(blockMask p (inputs p r s) : Int)*keyEnd p (inputs p r s)) := by
-    change evalOp _ _ (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask"))
+    change evalOp _ _ (.mul .int .nil (.ref .int [] "block_mask")
       (.ref .int [] "block_end_loc")) pre'=_
     simp only [evalOp_unfold,hm,he,Option.bind,numeric]
     rfl
@@ -79,7 +84,7 @@ theorem whole (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
       range p r scale M dots hBN s pre' _ live memory 0 _ (by omega) bounds access⟩
     · change Safety.safeOp _ _ _ _ (.constInt 0)
       simp [Safety.safeOp_unfold]
-    · change Safety.safeOp _ _ _ _ (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask"))
+    · change Safety.safeOp _ _ _ _ (.mul .int .nil (.ref .int [] "block_mask")
         (.ref .int [] "block_end_loc"))
       simp [Safety.safeOp_unfold]
     · change Safety.safeOp _ _ _ _ (.constNat p.BN)

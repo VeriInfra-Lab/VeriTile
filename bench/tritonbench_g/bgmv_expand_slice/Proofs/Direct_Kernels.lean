@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_expand_slice.Sources.Kernels
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Sources.Kernels
 namespace VeriTile.Bench.Repairs.BgmvExpandSlice.Direct.Kernels
 
 abbrev hostCast := VeriTile.Bench.Repairs.BgmvExpandSlice.Kernels.hostCast

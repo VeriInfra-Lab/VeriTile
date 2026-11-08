@@ -24,7 +24,7 @@ theorem forward_memory (s : Shape) (tile : Tile) (valid : ProgramDomain s 128 ti
   rw [decoded.2.1,decoded.2.2]
   simp only [storeTile,tileOffset,Nat.mul_one]
 
-theorem forward_run (s : Shape) (tile : Tile) (valid : ProgramDomain s 128 tile)
+theorem forward_run (s : Shape) (tile : Tile) (shape : ShapeContract s) (valid : ProgramDomain s 128 tile)
     (state : State (Expr α)) :
     ∃ final, runSchedule [forwardInvocation α s tile] state=some final ∧
       final.mem=(storeTile "o" ((tile.bh+s.B*s.H*tile.key)*(s.T*s.DV)) s.T s.DV
@@ -32,13 +32,14 @@ theorem forward_run (s : Shape) (tile : Tile) (valid : ProgramDomain s 128 tile)
         (FPStages.forwardValues algebra dots (config s 128) ((forwardInvocation α s tile).initial state))).mem := by
   obtain ⟨final,ran,memory⟩ := FPStages.forward_fp32 algebra dots (config s 128)
     ((forwardInvocation α s tile).initial state)
+    (launch_index_bounds s tile 128 shape valid (Or.inr rfl) _ rfl rfl)
   refine ⟨final,?_,?_⟩
   · rw [runSchedule_singleton]
     exact ran
   · rw [memory,forward_memory s tile valid]
     rfl
 
-theorem backward_run (s : Shape) (tile : Tile) (valid : ProgramDomain s 64 tile)
+theorem backward_run (s : Shape) (tile : Tile) (shape : ShapeContract s) (valid : ProgramDomain s 64 tile)
     (state : State (Expr α)) :
     ∃ final, runSchedule [backwardInvocation α s tile] state=some final ∧
       final.mem=(storeTile "dv" ((tile.bh+s.B*s.H*tile.key)*(s.T*s.DV)) s.T s.DV
@@ -58,7 +59,16 @@ theorem backward_run (s : Shape) (tile : Tile) (valid : ProgramDomain s 64 tile)
     apply backwardValues_inputs
     all_goals apply queryMemory_inputs
     all_goals simp [backwardConfig,config]
+  have decoded:=grid_decode s 64 tile valid
+  have indices : Caller.Indices (backwardConfig s tile) start := by
+    constructor
+    · rfl
+    · rfl
+    · exact decoded.2.1
+    · exact decoded.2.2
+    · rfl
   obtain ⟨final,ran,memory⟩ := FPBackward.backward_fp32 algebra dots (backwardConfig s tile) "dq" start
+    indices (helper_launch_bounds s tile shape valid) (by change 0<32;decide)
   refine ⟨final,?_,?_⟩
   · rw [runSchedule_singleton]
     unfold Invocation.run

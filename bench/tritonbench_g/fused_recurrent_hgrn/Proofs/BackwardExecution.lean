@@ -37,7 +37,7 @@ theorem backward_prologue (p : Ops α) (s : State α) (T D BD : Nat) (V : Bool) 
       q.regs .nat [BD] "o_d"=some (lane s BD) ∧
       q.regs .real [BD] "b_dh"=some (reverseInitial p s V D BD) := by
   cases V <;>
-    simp [backwardPrologue,backward,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [backwardPrologue,backwardKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,numericLt,Region.cast,State.setReg,algebra,reverseInitial,masked,read,lane,slot,
       VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.channel,
@@ -67,7 +67,7 @@ theorem backward_step (p : Ops α) (s : State α) (T D BD n : Nat) (U : Bool)
       q.regs .real [BD] "b_dh"=some (reverseNext p s T D BD (T-1-n) carry) := by
   have hrow : 0 < T-1-n → s.pids 1*T+(T-1-n)-1=s.pids 1*T+(T-1-n-1) := by omega
   cases U <;> by_cases hi : 0 < T-1-n <;>
-    simp [backwardBody,backward,ComputeKernel.surfaceBody,run,step,evalExpr,
+    simp [backwardBody,backwardKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,
       natLt,numericLt,Region.cast,algebra,store,State.setReg,hn,hm,hb,hd,hc,hi,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat,masked_regs,

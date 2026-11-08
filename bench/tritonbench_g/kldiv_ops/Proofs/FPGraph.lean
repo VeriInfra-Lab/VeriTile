@@ -24,7 +24,8 @@ termination_by cols-start
 decreasing_by omega
 
 def row (M : Algebra α) (cols width : Nat) (flag : Bool) (eps : α)
-    (prediction target : Nat→α) : α := accumulate M cols width flag eps prediction target 0 (zero M)
+    (prediction target : Nat→α) : α :=
+  M.cast (some .fp32) .real .real (accumulate M cols width flag eps prediction target 0 (zero M))
 
 theorem block_binding {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (flag : Bool)
     (eps : α) (row start : Nat) (mem : Memory α) :

@@ -12,7 +12,8 @@ theorem liveKey_reference {α : Type} [Inhabited α] (a : Arithmetic α) (fp8 : 
     liveKey p (valuesAt a fp8 p s t) t k ↔ t*64+k.val<p.K := by
   unfold liveKey
   rw [valuesAt_keys]
-  exact Nat.lt_sub_iff_add_lt'
+  change ((k.val:Int)<(p.K:Int)-(t:Int)*64) ↔ t*64+k.val<p.K
+  omega
 
 theorem xTile_reference {α : Type} [Inhabited α] (a : Arithmetic α) (z : ZeroLaws a)
     (fp8 : Bool) (p : Arguments) (s : State α) (epsilon theta : α)

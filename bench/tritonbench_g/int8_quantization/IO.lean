@@ -44,7 +44,7 @@ def memory (α : Type) (p : Parameters) : MemoryIO α where
 /-- Exact existing finite launch order and base/program-ID ABI. -/
 def invocation {α : Type} (M : Algebra α) (ops : Model.Primitives α)
     (p : Parameters) (w : Schedule.Program) : Invocation α where
-  kernel := source (Grid.parameters p w)
+  kernel := sourceKernel (Grid.parameters p w)
   backend := Model.backend M ops
   pids := fun _ => w.pid
   setPids := fun ax => ax == 0
@@ -67,7 +67,7 @@ def maximum (p : Parameters) (values : Inputs ℝ p) (group : Fin (count p)) : �
   RealSpec.maxAbs ((logicalBlock p values group).map (fun x => RealSpec.factor p.query p.channels*x))
 def FiniteBlock (p : Parameters) (values : Inputs ℝ p) (group : Fin (count p)) : Prop :=
   ∀ lane, active p group.val lane.val →
-    |RealSpec.factor p.query p.channels*raw p values group lane| ≤ 340282346638528859811704183484516925440
+    |RealSpec.factor p.query p.channels*raw p values group lane| ≤ 340282346638528860000000000000000000000
 
 /-- Independent total mathematical formula: max-absolute scaling and nearest
 away rounding; every block outside finite FP32 range produces zero. -/
@@ -118,7 +118,7 @@ noncomputable section
 variable {α : Type} [Inhabited α]
 def biasInvocation (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (w : Schedule.Program) : Invocation α :=
-  { invocation M ops p w with kernel := biasFoldSource (Grid.parameters p w) }
+  { invocation M ops p w with kernel := biasFoldKernel (Grid.parameters p w) }
 
 def biasVariant (M : Algebra α) (ops : Model.Primitives α) (p : Parameters) :
     ProgramIO.Variant (quantizationIO M ops p) where
@@ -177,6 +177,6 @@ open Revision002
 noncomputable section
 def logicalFiniteBlock (p : Parameters) (xs : Fin (count p) → Fin p.width → ℝ) (group : Fin (count p)) : Prop :=
   ∀ lane, active p group.val lane.val →
-    |RealSpec.factor p.query p.channels*xs group lane| ≤ 340282346638528859811704183484516925440
+    |RealSpec.factor p.query p.channels*xs group lane| ≤ 340282346638528860000000000000000000000
 end
 end VeriTile.Bench.Repairs.Int8Quantization.QuantizationIO

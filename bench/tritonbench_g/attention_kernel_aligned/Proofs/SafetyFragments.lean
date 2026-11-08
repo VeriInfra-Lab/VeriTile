@@ -36,7 +36,7 @@ def queryPrefix (p : Parameters) : List ComputeStmt :=
     m_i = tl.zeros([$(p.blockM)], dtype=tl.float32) - float("inf")
     l_i = tl.zeros([$(p.blockM)], dtype=tl.float32)
     acc = tl.zeros([$(p.blockM), $(p.head)], dtype=tl.float32)
-    qk_scale = $((p.scale : ℝ)) * 1.44269504
+    qk_scale = $((VeriTile.Triton.DSL.CallValue.fp32 p.scale : ℝ)) * 1.44269504
   }).surfaceBody
 
 theorem queryPrefix_source (p : Parameters) : queryPrefix p=(prologue p).take 15 := rfl

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.FPReferenceGrid
+import bench.tritonbench_g.context_attn_nopad.Proofs.Support.FPReferenceGrid
 import VeriTile.Triton.Float.ObservedProgramIO
 import VeriTile.Triton.Memory.AlgorithmProgramIO
 import bench.tritonbench_g.context_attn_nopad.Proofs.Mathematical_HostCoverage

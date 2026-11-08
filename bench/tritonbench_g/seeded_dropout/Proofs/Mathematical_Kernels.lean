@@ -8,7 +8,7 @@ abbrev sourceType (seedKind : Random.IntegerType) :=
   RegionName → RegionName → Nat → ℝ → SeedCarrier seedKind →
     (B : Nat) → SourceDomain.LegalBlock B → ComputeKernel
 
-def source (storage : Storage) (seedKind : Random.IntegerType) (swapped : Bool) :
+noncomputable def source (storage : Storage) (seedKind : Random.IntegerType) (swapped : Bool) :
     sourceType seedKind :=
   fun x y n p seed B hB => VeriTile.Bench.Repairs.SeededDropout.sourceFamily
     storage seedKind swapped x y n p seed B (RandomDomain.arange_domain hB)

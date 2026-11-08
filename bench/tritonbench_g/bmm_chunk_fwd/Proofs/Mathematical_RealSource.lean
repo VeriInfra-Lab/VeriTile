@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.Erasure
 
 /-! Erase float precision in the complete two source variants. Signed metadata,
@@ -33,14 +33,14 @@ theorem storage_erasure :
       seqlen chunk K groups sab sas sah sak sbb sbs sbh sbk sob soc soh som son ssb sss BM BN BK causal hasSeq).eraseDType := by
   cases aStorage <;> cases bStorage <;> cases swapped
   all_goals
-    simp only [source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+    simp only [source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
       ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
       Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
       NumericDType.eraseDType, ComparableDType.eraseDType,
       IntegralDType.eraseDType, Except.bind, bind, eraseDType_float]
-    simp only [VeriTile.Triton.eraseDType]
+    try simp only [VeriTile.Triton.eraseDType]
     cases out_dtype <;> rfl
 
 end

@@ -16,7 +16,7 @@ def or32 (a b : Int) := IntegerExpr.signedBits 32 (unsigned32 a ||| unsigned32 b
 
 def sign (n : Nat) := n &&& 8
 def positive (n : Nat) := n ^^^ sign n
-def minusBias (n : Nat) := ((signed32 (↑(positive n >>> 1 : Nat) : Int) - 1) % (256 : Int)).toNat
+def minusBias (n : Nat) := (((↑(positive n >>> 1 : Nat) : Int) - 1) % (256 : Int)).toNat
 def addedBias (n : Nat) := (minusBias n + 127) % 256
 def shiftedExponent (n : Nat) := signed32 (signed32 (addedBias n) * 8388608)
 def shiftedMantissa (n : Nat) := signed32 (signed32 (↑(positive n &&& 1 : Nat) : Int) * 4194304)

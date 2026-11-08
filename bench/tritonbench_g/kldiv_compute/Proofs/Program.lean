@@ -1,3 +1,4 @@
+import bench.tritonbench_g.kldiv_compute.Proofs.HistoricalKernels
 import bench.tritonbench_g.kldiv_compute.Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_PointwiseSchedule
 import bench.tritonbench_g.kldiv_compute.Proofs.Mathematical_FP
@@ -37,7 +38,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
     {t : State α // FP.Structural.exec M (source p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel,
+  simp [source, KernelDSL.kernel,KernelDSL.commutedKernel,KernelDSL.family,KernelDSL.originalForKernel,KernelDSL.commutedForKernel, VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel,
     VeriTile.Bench.TritonBenchG.KldivCompute.TypedSource.kernel_fp32_fp32,VeriTile.Bench.Repairs.KldivCompute.SelectedSource.original,VeriTile.Bench.Repairs.KldivCompute.SelectedSource.commuted,
     FP.Structural.exec, ComputeKernel.surfaceBody, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, Option.bind, Algebra.withDefaultPrecision,

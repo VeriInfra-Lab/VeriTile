@@ -27,7 +27,9 @@ def bodyFor (v : Bool) (input output : RegionName) (T BT : Nat) : List Stmt :=
 
 theorem program_body (v : Bool) (input output : RegionName) (T BT : Nat) :
     (projected v input output T BT).body=prelude ++
-      [.forRangeInt "i_t" (.constInt 0) (.constInt ((T+BT-1)/BT : Nat)) (.constNat 1)
+      [.forRangeInt "i_t" (.castNatToInt (.constNat 0))
+        (.castNatToInt (.div .nat .nil
+          (.sub .nat .nil (.add .nat .nil (.constNat T) (.constNat BT)) (.constNat 1)) (.constNat BT))) (.constNat 1)
         (bodyFor v input output T BT)] := by
   cases v
   all_goals
@@ -68,7 +70,7 @@ private theorem carry_equal (s : BlockState) :
 
 private theorem body_view (v : Bool) (input output : RegionName) (T BT : Nat) :
     bodyFor v input output T BT=
-      (actualBody input output T BT).take 6 ++ carry v :: (actualBody input output T BT).drop 7 := by
+      (actualBody input output T BT).take 7 ++ carry v :: (actualBody input output T BT).drop 8 := by
   cases v
   all_goals
     simp only [bodyFor,projected,sourceFor,repairedKernel,sumLeftKernel,Bool.false_eq_true,↓reduceIte,
@@ -88,13 +90,13 @@ theorem body_equal (v : Bool) (input output : RegionName) (T BT : Nat) (s : Bloc
     stepStmts (bodyFor v input output T BT) s=stepStmts (actualBody input output T BT) s := by
   rw [body_view]
   have original : actualBody input output T BT =
-      (actualBody input output T BT).take 6 ++ carry Bool.false :: (actualBody input output T BT).drop 7 := rfl
+      (actualBody input output T BT).take 7 ++ carry Bool.false :: (actualBody input output T BT).drop 8 := rfl
   conv_rhs => rw [original]
   cases v
   · rfl
   · simpa only [List.singleton_append,List.append_assoc] using
-      ProgramRewrite.context ((actualBody input output T BT).take 6)
-        ((actualBody input output T BT).drop 7) [carry Bool.true] [carry Bool.false] carry_equal s
+      ProgramRewrite.context ((actualBody input output T BT).take 7)
+        ((actualBody input output T BT).drop 8) [carry Bool.true] [carry Bool.false] carry_equal s
 
 def Outside (s : BlockState) (output : RegionName) (T : Nat) (r : RegionName) (o : Nat) :=
   r≠output ∨ ∀ i,i<T → o≠s.pids 0*T+i
@@ -160,7 +162,13 @@ theorem complete_blocks (v : Bool) (input output : RegionName) (T BT : Nat) (s :
   refine ⟨x,?_,?_,?_⟩
   · change stepStmts (projected v input output T BT).body s=some x
     rw [program_body,stepStmts.append_some pre]
-    simp only [stepStmts,stepStmt,evalOp.eq_def,bind,pure,Option.bind,Tile.scalar,hx]
+    simp only [stepStmts,stepStmt,evalOp.eq_def,bind,pure,Option.bind,Tile.scalar,Tile.bop,NumericDType.add,NumericDType.sub,NumericDType.div,
+      Broadcast.leftIndex,Broadcast.rightIndex,hx]
+    change (match stepForRangeIntAux "i_t" 0 (↑((T+BT-1)/BT) : Int) 1
+      (bodyFor v input output T BT) initial with
+      | some t => some t
+      | none => none) = some x
+    rw [hx]
   · intro i hi
     have read := hy.2.2.2.2.1 i (lt_of_lt_of_le hi covered) hi
     simpa only [BlockState.readMem,hr.1,surfaceClosed] using read

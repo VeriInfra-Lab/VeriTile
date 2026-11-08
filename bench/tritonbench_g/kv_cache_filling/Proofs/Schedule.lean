@@ -1,3 +1,4 @@
+import Mathlib.Tactic.Ring
 import bench.tritonbench_g.kv_cache_filling.Contract
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling

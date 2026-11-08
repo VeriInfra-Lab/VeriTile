@@ -34,20 +34,24 @@ structure Context (M : Algebra α) (p : Parameters) (initial : State α)
   memory : current.mem=initial.mem
   aligned : row%64=0
   rows : current.regs .nat [128] "offs_m"=some (fun i => initial.pids 0*128+i.1.val)
-  cols : current.regs .nat [64] "offs_n"=some (fun i => i.1.val)
-  query : current.regs .real [128,128] "q"=some (Source.query M p initial)
-  scale : current.regs .real [] "q_scale"=some (fun _ => queryScale M p initial)
-  keyPointer : current.regs .ptr [128,64] "K_ptrs"=some (fun i =>
+  cols : current.regs .nat [64] "__veritile_statement_jit_11"=some (fun i => i.1.val)
+  query : current.regs .real [128,128] "__veritile_statement_jit_3"=some (Source.query M p initial)
+  scale : current.regs .real [] "__veritile_statement_jit_4"=some (fun _ => queryScale M p initial)
+  keyPointer : current.regs .ptr [128,64] "__veritile_statement_jit_5"=some (fun i =>
     (p.K,base p initial p.k+i.1.val*p.k.dim+(row+i.2.1.val)*p.k.row))
-  valuePointer : current.regs .ptr [64,128] "V_ptrs"=some (fun i =>
+  valuePointer : current.regs .ptr [64,128] "__veritile_statement_jit_7"=some (fun i =>
     (p.V,base p initial p.v+(row+i.1.val)*p.v.row+i.2.1.val*p.v.dim))
-  scalePointer : current.regs .ptr [] "K_scale_ptr"=some (fun _ =>
+  scalePointer : current.regs .ptr [] "__veritile_statement_jit_6"=some (fun _ =>
     (p.KS,initial.pids 1*((p.length+63)/64)+row/64))
   outputPointer : current.regs .ptr [128,128] "O_block_ptr"=some (fun i =>
     (p.Out,base p initial p.o+(initial.pids 0*128+i.1.val)*p.o.row+i.2.1.val*p.o.dim))
-  maximum : current.regs .real [128] "m_i"=some (fun i => a.maximum i.1)
-  normalizer : current.regs .real [128] "l_i"=some (fun i => a.normalizer i.1)
-  value : current.regs .real [128,128] "acc"=some a.value
+  maximum : current.regs .real [128] "__veritile_statement_jit_2"=some (fun i => a.maximum i.1)
+  normalizer : current.regs .real [128] "__veritile_statement_jit_1"=some (fun i => a.normalizer i.1)
+  value : current.regs .real [128,128] "__veritile_statement_jit_0"=some a.value
+
+  lengthArgument : current.regs .nat [] "__veritile_statement_jit_12"=some (fun _=>p.length)
+  keyStrideArgument : current.regs .nat [] "__veritile_statement_jit_13"=some (fun _=>p.k.row)
+  valueStrideArgument : current.regs .nat [] "__veritile_statement_jit_14"=some (fun _=>p.v.row)
 
 theorem entry_context (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State α) :
     Context M p s 0 (initialAcc M) (entry M dot p s).val := by

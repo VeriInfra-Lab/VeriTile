@@ -16,28 +16,28 @@ variable (M : Host.Job → Algebra B) (encode : A → B) (c : Host.Call)
 theorem length_binding (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (heads : 0 < c.heads) :
-    (s.mem "Lengths" b.val).read .nat=length xs b := by
-  simpa [sourceIO,memory,inputs,read,inputMask,mapValue,length] using
+    (s.mem "Lengths" b.val).read .int=lengthWord xs b := by
+  simpa [sourceIO,memory,inputs,read,inputMask,mapValue,lengthWord] using
     bound (0 : Fin 5) (b,()) heads
 
 theorem start_binding (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (heads : 0 < c.heads) :
-    (s.mem "Starts" b.val).read .nat=start xs b := by
-  simpa [sourceIO,memory,inputs,read,inputMask,mapValue,start] using
+    (s.mem "Starts" b.val).read .int=startWord xs b := by
+  simpa [sourceIO,memory,inputs,read,inputMask,mapValue,startWord] using
     bound (1 : Fin 5) (b,()) heads
 
 theorem page_binding (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (heads : 0 < c.heads) (k : Fin (capacity counts)) (hk : k.val < counts b) :
-    (s.mem "Locations" (b.val*c.maximum+(c.maximum-counts b)+k.val)).read .int=page xs b k := by
+    (s.mem "Locations" ((b.val*c.maximum : Nat)+((c.maximum : Int)-(counts b : Int))+(k.val : Int)).toNat).read .int=page xs b k := by
   simpa [sourceIO,memory,inputs,read,inputMask,mapValue,page] using
     bound (2 : Fin 5) (b,k,()) ⟨heads,hk⟩
 
 theorem logit_binding (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (h : Fin c.heads) (k : Fin (capacity counts)) (hk : k.val < counts b) :
-    (s.mem "Logics" (h.val*c.tokens+(start xs b+k.val))).read .fp32=encode (logit xs b h k) := by
+    (s.mem "Logics" ((h.val*c.tokens : Nat)+(startWord xs b+k.val) : Int).toNat).read .real=encode (logit xs b h k) := by
   simpa [sourceIO,memory,inputs,read,inputMask,mapValue,logit] using
     bound (3 : Fin 5) (b,h,k,()) hk
 
@@ -45,22 +45,30 @@ theorem value_binding (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (h : Fin c.heads) (k : Fin (capacity counts)) (d : Fin c.dimensions)
     (hk : k.val < counts b) :
-    (s.mem "V" (h.val*c.dimensions+d.val+(page xs b k*(c.heads*c.dimensions : Nat)).toNat)).read .fp32=
+    (s.mem "V" (h.val*c.dimensions+d.val+(page xs b k*(c.heads*c.dimensions : Nat)).toNat)).read .real=
       encode (value xs b h k d) := by
   simpa [sourceIO,memory,inputs,read,inputMask,mapValue,value] using
     bound (4 : Fin 5) (b,h,k,d,()) hk
+
+theorem source_word (xs : Inputs A c counts) (s : State B)
+    (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
+    (hm : LengthsMatch xs) (b : Fin c.batch) (h : Fin c.heads) :
+    sequenceWord (Host.parameters c) ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s)=(counts b : Int) := by
+  change (s.mem "Lengths" b.val).read .int=(counts b : Int)
+  rw [length_binding M encode c observe counts work xs s bound b (Nat.zero_lt_of_lt h.isLt),hm.length b (Nat.zero_lt_of_lt h.isLt)]
 
 theorem source_length (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (hm : LengthsMatch xs) (b : Fin c.batch) (h : Fin c.heads) :
     sequenceLength (Host.parameters c) ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s)=counts b := by
-  change (s.mem "Lengths" b.val).read .nat=counts b
-  rw [length_binding M encode c observe counts work xs s bound b (Nat.zero_lt_of_lt h.isLt),hm b (Nat.zero_lt_of_lt h.isLt)]
+  unfold sequenceLength
+  rw [source_word M encode c observe counts work xs s bound hm b h]
+  exact Int.toNat_natCast _
 
 theorem source_start (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (h : Fin c.heads) :
-    sequenceStart (Host.parameters c) ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s)=start xs b := by
+    sequenceStart (Host.parameters c) ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s)=startWord xs b := by
   exact start_binding M encode c observe counts work xs s bound b (Nat.zero_lt_of_lt h.isLt)
 
 theorem source_location (xs : Inputs A c counts) (s : State B)
@@ -70,8 +78,9 @@ theorem source_location (xs : Inputs A c counts) (s : State B)
     location (Host.parameters c) ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s) n i=
       page xs b ⟨n+i.val,lt_of_lt_of_le hi (count_le_capacity counts b)⟩ := by
   have len := source_length M encode c observe counts work xs s bound hm b h
-  simp only [location,active,len,if_pos hi,locationBase,len]
-  simpa [Host.parameters,invocation,Invocation.initial,bindRegisters,Region.cast,len,Nat.add_assoc] using
+  have word := source_word M encode c observe counts work xs s bound hm b h
+  simp only [location,active,len,if_pos hi,locationBase,word]
+  simpa [Host.parameters,invocation,Invocation.initial,bindRegisters,Region.cast,len,Int.natCast_add,Int.add_assoc] using
     page_binding M encode c observe counts work xs s bound b (Nat.zero_lt_of_lt h.isLt)
       ⟨n+i.val,lt_of_lt_of_le hi (count_le_capacity counts b)⟩ hi
 
@@ -79,13 +88,13 @@ theorem source_logit (xs : Inputs A c counts) (s : State B)
     (bound : (sourceIO M encode c observe counts work).InputBinding xs s)
     (b : Fin c.batch) (h : Fin c.heads) (n : Nat) (i : Fin 64) (hi : n+i.val < counts b) :
     let initial := (invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s
-    (initial.mem "Logics" (logicOffset (Host.parameters c) initial n i)).read .fp32=
+    (initial.mem "Logics" (logicOffset (Host.parameters c) initial n i)).read .real=
       encode (logitAt xs b h (n+i.val)) := by
   have st := source_start M encode c observe counts work xs s bound b h
   have hc := lt_of_lt_of_le hi (count_le_capacity counts b)
   simp only [logicOffset,st]
   simpa [Host.parameters,invocation,Invocation.initial,bindRegisters,Region.cast,
-    st,logitAt,hc,Nat.add_assoc] using
+    st,logitAt,hc,Int.natCast_add,Int.add_assoc] using
     logit_binding M encode c observe counts work xs s bound b h ⟨n+i.val,hc⟩ hi
 
 theorem source_value (xs : Inputs A c counts) (s : State B)
@@ -93,7 +102,7 @@ theorem source_value (xs : Inputs A c counts) (s : State B)
     (hm : LengthsMatch xs) (b : Fin c.batch) (h : Fin c.heads)
     (n : Nat) (i : Fin 64) (d : Fin c.dimensions) (hi : n+i.val < counts b) :
     let initial := (invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s
-    (initial.mem "V" (valueOffset (Host.parameters c) initial n (i,d,()))).read .fp32=
+    (initial.mem "V" (valueOffset (Host.parameters c) initial n (i,d,()))).read .real=
       encode (valueAt xs b h (n+i.val) d) := by
   have loc := source_location M encode c observe counts work xs s bound hm b h n i hi
   have hc := lt_of_lt_of_le hi (count_le_capacity counts b)
@@ -108,6 +117,7 @@ theorem source_bounds (xs : Inputs A c counts) (s : State B)
     IOSourceSafety.Bounds (Host.parameters c)
       ((invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).initial s) bounds := by
   have len := source_length M encode c observe counts work xs s bound hm b h
+  have word := source_word M encode c observe counts work xs s bound hm b h
   have st := source_start M encode c observe counts work xs s bound b h
   constructor
   · exact hb.2.1 (0 : Fin 5) (b,()) (Nat.zero_lt_of_lt h.isLt)
@@ -115,16 +125,16 @@ theorem source_bounds (xs : Inputs A c counts) (s : State B)
   · intro n i hi
     have hi' : n+i.val < counts b := by simpa [active,len] using hi
     have hc := lt_of_lt_of_le hi' (count_le_capacity counts b)
-    simp only [locationBase,len]
+    simp only [locationBase,word]
     simpa [Host.parameters,sourceIO,memory,inputs,read,
-      invocation,Invocation.initial,bindRegisters,Region.cast,Nat.add_assoc] using
+      invocation,Invocation.initial,bindRegisters,Region.cast,Int.natCast_add,Int.add_assoc] using
       hb.2.1 (2 : Fin 5) (b,⟨n+i.val,hc⟩,()) ⟨Nat.zero_lt_of_lt h.isLt,hi'⟩
   · intro n i hi
     have hi' : n+i.val < counts b := by simpa [active,len] using hi
     have hc := lt_of_lt_of_le hi' (count_le_capacity counts b)
     simp only [logicOffset,st]
     simpa [Host.parameters,sourceIO,memory,inputs,read,
-      invocation,Invocation.initial,bindRegisters,Region.cast,Nat.add_assoc] using
+      invocation,Invocation.initial,bindRegisters,Region.cast,Int.natCast_add,Int.add_assoc] using
       hb.2.1 (3 : Fin 5) (b,h,⟨n+i.val,hc⟩,()) hi'
   · intro n i hi
     have hi' : n+i.1.val < counts b := by simpa [active,len] using hi

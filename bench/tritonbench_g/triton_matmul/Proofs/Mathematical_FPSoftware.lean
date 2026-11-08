@@ -1,6 +1,6 @@
 import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_FPComplete
 import bench.tritonbench_g.triton_matmul.Proofs.Mathematical_E4M3
-import bench.tritonbench_g.quantize_kv_transform.Sources.Mathematical_MixedBits
+import bench.tritonbench_g.quantize_kv_transform.Proofs.Sources.Mathematical_MixedBits
 import VeriTile.Triton.Float.ScalarBackend
 namespace VeriTile.Bench.TritonBenchG.TritonMatmul.FPValue
 open VeriTile.Triton FP.Structural

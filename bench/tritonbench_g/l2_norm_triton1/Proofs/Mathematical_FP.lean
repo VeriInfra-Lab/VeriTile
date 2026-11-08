@@ -1,5 +1,5 @@
 import bench.tritonbench_g.l2_norm_triton1.Proofs.Mathematical_Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.TritonBenchG.L2NormTriton1.FPProof
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

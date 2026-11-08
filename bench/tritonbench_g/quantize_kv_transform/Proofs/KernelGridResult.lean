@@ -28,7 +28,7 @@ theorem run_finalState {α : Type} [Inhabited α] (M : Algebra α) (convert : α
   | nil => rfl
   | cons pid tail ih =>
     have hs := (execution M convert equal p (atProgram s pid) hw).property
-    change FP.Structural.exec (backend M convert equal) (kernel p) (atProgram s pid) =
+    change FP.Structural.exec (backend M convert equal) (sourceKernel p) (atProgram s pid) =
       some (advance M convert equal p hw s pid) at hs
     simpa only [KernelGrid.run, finalState, hs, Option.bind_some] using ih (advance M convert equal p hw s pid)
 

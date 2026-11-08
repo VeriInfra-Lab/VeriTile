@@ -1,5 +1,5 @@
 import bench.tritonbench_g.bmm_optimized.Proofs.Reference
-import bench.tritonbench_g.bmm_optimized.Sources.SourceIndex
+import bench.tritonbench_g.bmm_optimized.Proofs.Sources.SourceIndex
 
 namespace VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Bridge
 open VeriTile.Triton FP.Structural

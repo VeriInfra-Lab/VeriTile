@@ -68,6 +68,6 @@ theorem source_correct (ops : Operations α) (half : α → α)
         omega
 
 #axiomsClean source_correct
-#specNonCircular Reads avoiding [RowwiseQuantizationTriton.source, KernelExecution.exec]
+#specNonCircular Reads avoiding [RowwiseQuantizationTriton.sourceKernel, KernelExecution.exec]
 end
 end VeriTile.Bench.Repairs.RowwiseQuantizationTriton.KernelWhole

@@ -1,5 +1,5 @@
-import bench.tritonbench_g.lightning_attention.Grid
-import bench.tritonbench_g.lightning_attention.Algebras
+import bench.tritonbench_g.lightning_attention.Proofs.Support.Grid
+import bench.tritonbench_g.lightning_attention.Proofs.Support.Algebras
 import VeriTile.Triton.Float.ProgramIO
 import Mathlib.Tactic.FinCases
 import VeriTile.Triton.Float.LogicalProgramIO

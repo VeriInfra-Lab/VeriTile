@@ -101,7 +101,7 @@ def sourceRun {α : Type} [Inhabited α] (m : Model α) (s : State α)
     constructor <;> simp [start,initial,a5,a4,a3,a2,a1,a0,invocation]
   have h := iterate_runs m so st N B (s.pids 0*st) (s.pids 0*so) flag positive
     (rounds N B) 0 start (by omega) header
-  simp only [backwardSource,backwardTemplate,ComputeKernel.surfaceBody,List.drop,
+  simp only [backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,List.drop,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind_eq_bind,Option.bind,Option.pure_def]
   change (rangeInt m.alg "i" 0 (N:Int) B (body so st N B flag) start).bind (fun t => some t)=some final
   have hh : rangeInt m.alg "i" 0 (N:Int) B (body so st N B flag) start=some final := by

@@ -356,3 +356,112 @@ def quantize_int4(weight, group_size=128, tp_rank=0):
     '''
     weight = None
     return int_weight.transpose(1, 0).contiguous(), scale.transpose(1, 0).contiguous(), int_zero_point.transpose(1, 0).contiguous(), group_size
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@triton.autotune(
+    configs=[
+        triton.Config({'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 64}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 32}, num_stages=5, num_warps=2),
+        triton.Config({'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 64}, num_stages=5, num_warps=2),
+        triton.Config({'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 32}, num_stages=5, num_warps=2),
+        triton.Config({'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32}, num_stages=5, num_warps=2),
+    ],
+    key=['K', 'N'],
+)
+@triton.jit
+def dequantize_kernel_unit_stride(
+    # Pointers to matrices
+    b_ptr, b_scale_ptr, b_zp_ptr, fpb_ptr,
+    # Matrix dimensions
+    K, N, group_size,
+    stride_bk, stride_bn,
+    stride_bsk, stride_bsn,
+    stride_bzpk, stride_bzpn,
+    stride_fpbk, stride_fpbn,
+    # Meta-parameters
+    BLOCK_SIZE_K: tl.constexpr, BLOCK_SIZE_N: tl.constexpr,
+):
+    """Dequantize tile [BLOCK_SIZE_K, BLOCK_SIZE_N] in full precision.
+    We should assert BLOCK_SIZE_N % 8 == 0.
+    weight[K // 8, N], scale[K // group_size, N], zp[K // group_size, N // group_size]
+    """
+    k_block_idx = tl.program_id(axis=0)
+    n_block_idx = tl.program_id(axis=1)
+    offs_k = k_block_idx * BLOCK_SIZE_K + tl.arange(0, BLOCK_SIZE_K)
+    offs_n = n_block_idx * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    fpb_offs = offs_k[:, None] * stride_fpbk + offs_n[None, :]
+    b_offs = (offs_k[:, None] // 8) * stride_bk + offs_n[None, :] * stride_bn
+    bzp_offs = (offs_k[:, None] // group_size) * stride_bzpk + (offs_n[None, :] // 8) * stride_bzpn
+    bs_offs = (offs_k[:, None] // group_size) * stride_bsk + offs_n[None, :] * stride_bsn
+    n_mask = offs_n[None, :] < N
+    k_mask = offs_k[:, None] < K
+    mask = n_mask & k_mask
+    int32_b = tl.load(b_ptr + b_offs, mask=mask, other=0.0)
+    zp_b = tl.load(b_zp_ptr + bzp_offs, mask=mask, other=0.0)
+    scale_b = tl.load(b_scale_ptr + bs_offs, mask=mask, other=0.0)
+    b_shift = (offs_k[:, None] % 8) * 4
+    bzp_shift = (offs_n[None, :] % 8) * 4
+    fp_weight = (((int32_b >> b_shift) & 0xF) - ((zp_b >> bzp_shift) & 0xF)) * scale_b
+    tl.store(fpb_ptr + fpb_offs, fp_weight, mask=mask)
+
+
+def dequantize_int4_unit_stride(b, b_scale, b_zero_point, device, dtype, group_size):
+    _dequant_inputs(b, b_scale, b_zero_point, device, dtype, group_size)
+    Kw, N = b.shape
+    K = Kw * 8
+    fp_b = torch.ones((K, N), device=device, dtype=dtype)
+    _ordinary(fp_b, dtype, (K, N))
+    grid = lambda META: (
+        triton.cdiv(K, META['BLOCK_SIZE_K']),
+        triton.cdiv(N, META['BLOCK_SIZE_N']),
+    )
+    with torch.cuda.device(b.device):
+        dequantize_kernel_unit_stride[grid](
+            b, b_scale, b_zero_point, fp_b,
+            K, N, group_size,
+            b.stride(0), b.stride(1),
+            b_scale.stride(0), b_scale.stride(1),
+            b_zero_point.stride(0), b_zero_point.stride(1),
+            fp_b.stride(0), fp_b.stride(1)
+        )
+    return fp_b
+
+
+def matmul_dequantize_int4_s1_unit_stride(a, b, b_scale, b_zero_point, group_size=128, out=None):
+    """
+    Matmul dequantize int4 s1 dequantize weight to `fp_b` and do fp16 torch.mm,
+    this is for `prefill` stage, since weight size is fixed so is dequantize overhead,
+    perfill stage have more tokens to amortize dequant cost.
+    """
+    _matmul_inputs(a, b, b_scale, b_zero_point, group_size, out)
+    assert a.is_contiguous(), "Matrix A must be contiguous"
+    # assert b.is_contiguous(), "Matrix B must be contiguous"
+    M, K = a.shape
+    Kw, N = b.shape
+    if out is None:
+        # Allocates output.
+        out = torch.empty((M, N), device=a.device, dtype=a.dtype)
+        _ordinary(out, torch.float16, (M, N))
+    with torch.cuda.device(a.device):
+        fp_b = dequantize_int4_unit_stride(b, b_scale, b_zero_point, a.device, a.dtype, group_size)
+        torch.mm(a, fp_b, out=out)
+        fp_b = None
+    return out

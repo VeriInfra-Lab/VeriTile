@@ -109,8 +109,8 @@ theorem commuted_execution {α : Type} [Inhabited α] (A : Algebra α)
     (N B row : Nat) (eps : α) (before : State α) :
     FP.Structural.exec A (backwardCommuted N B) (Tile.rowState row eps before) =
       FP.Structural.exec A (backward N B) (Tile.rowState row eps before) := by
-  simp (maxSteps := 900000) [FP.Structural.exec,backwardCommuted,backward,backwardTemplate,
-    commutedBackwardTemplate,ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,
+  simp (maxSteps := 900000) [FP.Structural.exec,backwardCommuted,backward,backwardTemplateKernel,
+    commutedBackwardTemplateKernel,ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,ComputeDType.eraseDType,
     numeric,numericLt,bop,natLt,Tile.rowState,ofFloat,toFloat,TileShape.axisDim,
     Region.cast,State.setReg,Int.mul_comm]

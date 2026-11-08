@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.Sources.Program
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.Program
 import bench.tritonbench_g.chunk_delta_fwd.Proofs.ProgramReadback
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwd
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -25,7 +25,7 @@ def runGrid (M : Algebra α) (D : DotPrimitive α) (p : Parameters) :
     List PID → Memory α → Option (Memory α)
   | [],m => some m
   | pid::rest,m => do
-      let t ← FP.Structural.exec (engine (withDot M D)) (kernel p) (launchState p pid m)
+      let t ← FP.Structural.exec (engine (withDot M D)) (sourceKernel p) (launchState p pid m)
       runGrid M D p rest t.mem
 def gridMemory (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (schedule : List PID) (input current : Memory α) : Memory α :=

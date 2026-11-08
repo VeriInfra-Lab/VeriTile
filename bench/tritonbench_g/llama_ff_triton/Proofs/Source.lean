@@ -1,4 +1,4 @@
-import bench.tritonbench_g.llama_ff_triton.Kernels
+import bench.tritonbench_g.llama_ff_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution
@@ -22,13 +22,15 @@ def body (p : Parameters) : List ComputeStmt :=
   | _ => []
 def epilogue (p : Parameters) := (source p).surfaceBody.drop 26
 
-def countOp : Op .int [] :=
-  .truncDiv .nil (.sub .int .nil (.add .int .nil
-    (.ref .int [] "K64") (.constInt 64)) (.constInt 1)) (.constInt 64)
+/-- The actual copied half-body loop bound; both storage variants share it. -/
+def countOp (p : Parameters) : Op .int [] :=
+  match ((source {p with byte:=Bool.false}).surfaceBody[25]? : Option ComputeStmt) with
+  | some (.forRangeInt _ _ bound _ _) => bound
+  | _ => .constInt 0
 
 theorem partition (p : Parameters) :
     (source p).surfaceBody = prelude p ++
-      [.forRangeInt "step" (.constInt 0) countOp (.constNat 1) (body p)] ++ epilogue p := by
+      [.forRangeInt "step" (.constInt 0) (countOp p) (.constNat 1) (body p)] ++ epilogue p := by
   rcases p with ⟨M,N,K,fp8,eps⟩
   cases fp8 <;> rfl
 

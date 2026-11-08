@@ -106,8 +106,8 @@ theorem bottom_output {D : Nat} (values : Fin D → WithBot ℝ) (log : Bool)
     formula values log i=if log then none else some 0 := by
   cases log <;> simp only [formula,softmax,masked] <;> rfl
 
-#specNonCircular scores avoiding [forward,backward,runRows]
-#specNonCircular formula avoiding [forwardTail,forwardValue,forward,backward,runRows]
+#specNonCircular scores avoiding [forwardKernel,backward,runRows]
+#specNonCircular formula avoiding [forwardTail,forwardValue,forwardKernel,backward,runRows]
 #axiomsClean maximum_finite
 #axiomsClean tail_formula
 #axiomsClean forward_value

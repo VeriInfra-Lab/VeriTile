@@ -50,7 +50,7 @@ theorem source_flatten_ok (f : Flags) (r : Regions) (stride : Strides)
   simp [flatten_append, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,
     Execution.loadPrefix, Execution.baseStmt, Execution.scalePhase,
     Execution.dropoutPhase, Execution.keepOp, Execution.randomOp, Execution.dropoutValueOp,
-    Execution.dropoutMaskStmt, Op.intToUnsigned,
+    Execution.dropoutMaskStmt,Execution.maskOffsets,Execution.boolStoreValue, Op.boolToInt,Op.intToUnsigned,
     InputSuffix.phase, InputSuffix.secondBody, InputSuffix.rowLoadOp, InputSuffix.scalePhase,
     InputSuffix.secondRowOp, InputSuffix.dropoutPhase, InputSuffix.secondKeepOp,
     InputSuffix.secondRandomOp, InputSuffix.dropoutValueOp, InputSuffix.maskStmt,

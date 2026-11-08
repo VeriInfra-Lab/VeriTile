@@ -1,5 +1,5 @@
 import bench.tritonbench_g.triton_attention.Proofs.RealForwardInvariant
-import bench.tritonbench_g.triton_attention.Kernels
+import bench.tritonbench_g.triton_attention.Proofs.Support.KernelEntryAdapters
 namespace VeriTile.Bench.Repairs.TritonAttentionScalarABI.Erased
 open VeriTile Triton FP.Structural Source
 noncomputable section

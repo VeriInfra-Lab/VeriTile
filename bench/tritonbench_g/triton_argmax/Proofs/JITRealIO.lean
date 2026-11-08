@@ -24,14 +24,14 @@ theorem grid_execution (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
     (X V : RegionName) (I : Region .int) (c : GlobalConfig) (index64 : Bool)
     (jobs : List Nat) (s t : State Math.Value)
     (ran : JITRealGrid.GridRun (TypedReal.backend rest)
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size jobs s t) :
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size jobs s t) :
     runSchedule (jobs.map (JITIO.firstLaunch (TypedReal.backend rest)
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size 0)) s = some t := by
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size 0)) s = some t := by
   induction ran with
   | nil => rfl
   | cons first rest ih =>
     simp only [List.map_cons, runSchedule, Invocation.run, JITIO.firstLaunch_initial, JITIO.atProgram_initial]
-    change (exec (TypedReal.backend _) (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64)
+    change (exec (TypedReal.backend _) (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64)
       (JITStage1.arguments (JITRealGrid.atProgram _ _) c.size 0)).bind _ = _
     rw [first]
     exact ih

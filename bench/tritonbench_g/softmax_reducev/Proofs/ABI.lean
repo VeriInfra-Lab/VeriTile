@@ -35,11 +35,11 @@ def memoryLaunch {α} [Inhabited α] (index : α → Nat) (c : Call) (base : Nat
 
 theorem launch_binding {α} [Inhabited α] (index : α → Nat) (c : Call) (base : Nat)
     (m : Memory α) (j : Job) (a : Nat) :
-    (memoryLaunch index c base m j).mem "Logics" a=.mk .fp32 (m "Logics" a) ∧
-    (memoryLaunch index c base m j).mem "V" a=.mk .fp32 (m "V" a) ∧
-    (memoryLaunch index c base m j).mem "Out" a=.mk .fp32 (m "Out" (base+a)) ∧
-    (memoryLaunch index c base m j).mem "Starts" a=.mk .nat (index (m "Starts" a)) ∧
-    (memoryLaunch index c base m j).mem "Lengths" a=.mk .nat (index (m "Lengths" a)) ∧
+    (memoryLaunch index c base m j).mem "Logics" a=.mk .real (m "Logics" a) ∧
+    (memoryLaunch index c base m j).mem "V" a=.mk .real (m "V" a) ∧
+    (memoryLaunch index c base m j).mem "Out" a=.mk .real (m "Out" (base+a)) ∧
+    (memoryLaunch index c base m j).mem "Starts" a=.mk .int (Int.ofNat (index (m "Starts" a))) ∧
+    (memoryLaunch index c base m j).mem "Lengths" a=.mk .int (Int.ofNat (index (m "Lengths" a))) ∧
     (memoryLaunch index c base m j).mem "Locations" a=.mk .int (Int.ofNat (index (m "Locations" a))) := by
   simp [memoryLaunch,launch,decodeMemory,readOutput]
 
@@ -52,7 +52,7 @@ theorem execution_bridge {α} [Inhabited α] (M : Algebra α) (index : α → Na
     (run : FP.Structural.exec M (FPValue.source (parameters c)) (memoryLaunch index c base m j)=some u) :
     (∀ (r : RegionName) a, r≠"Out" → u.mem r a=(memoryLaunch index c base m j).mem r a) ∧
     (∀ r a, Outside c base r a →
-      putOutput base m (fun q => (u.mem "Out" q).read .fp32) r a=m r a) := by
+      putOutput base m (fun q => (u.mem "Out" q).read .real) r a=m r a) := by
   obtain ⟨v,hv,post⟩ := FPValue.correctness M (parameters c) (memoryLaunch index c base m j)
     (by change 0 < 64;decide) (source_injective c (decodeMemory index m) (readOutput base m) j)
   have eq : v=u := Option.some.inj (hv.symm.trans run)
@@ -71,7 +71,7 @@ theorem execution_bridge {α} [Inhabited α] (M : Algebra α) (index : α → Na
         intro i eq
         apply off j ((mem_workset c j).mpr legal)
         exact ⟨i.1.val,i.1.isLt,eq.trans (source_address c (decodeMemory index m) (readOutput base m) j i)⟩))
-      have value := congrArg (Cell.read .fp32) saved
+      have value := congrArg (Cell.read .real) saved
       simpa [putOutput,h,h.1,memoryLaunch,launch,readOutput,Nat.add_sub_of_le h.2] using value
     · simp [putOutput,h]
 
@@ -79,7 +79,7 @@ theorem execution_bridge {α} [Inhabited α] (M : Algebra α) (index : α → Na
 def memoryEvaluate {α} [Inhabited α] (M : Algebra α) (index : α → Nat)
     (c : Call) (base : Nat) (j : Job) (m : Memory α) : Option (Nat → α) :=
   (FP.Structural.exec M (FPValue.source (parameters c)) (memoryLaunch index c base m j)).map
-    (fun u a => (u.mem "Out" a).read .fp32)
+    (fun u a => (u.mem "Out" a).read .real)
 
 theorem memory_evaluate {α} [Inhabited α] (M : Algebra α) (index : α → Nat)
     (c : Call) (base : Nat) (j : Job) (m : Memory α) (out : Nat → α) :

@@ -18,7 +18,7 @@ theorem uncached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     (query : ∀ odd i, uActive p s Bool.false i → uOffset p s Bool.false odd i < bounds p.q)
     (key : s.pids 0 % p.KV_GROUP_NUM = 0 → ∀ odd i, uActive p s Bool.true i →
       uOffset p s Bool.true odd i < bounds p.k) :
-    TraceSafe (algebra rest ops) bounds (Kernels.uncached p) s := by
+    TraceSafe (algebra rest ops) bounds (Kernels.uncachedKernel p) s := by
   have headNonneg : ¬(s.pids 0 : Int)<0 := by omega
   have signedLeader :
       ((s.pids 0 : Int)-(p.KV_GROUP_NUM : Int)*((s.pids 0 : Int)/(p.KV_GROUP_NUM : Int))=0) ↔
@@ -26,11 +26,11 @@ theorem uncached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
     rw [←Int.emod_def,←Int.natCast_emod,Int.natCast_eq_zero]
   by_cases leader : s.pids 0 % p.KV_GROUP_NUM = 0
   all_goals
-    simp [TraceSafe,Kernels.uncached,ComputeKernel.surfaceBody,
+    simp [TraceSafe,Kernels.uncachedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
-      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLt,natLt,numericEq,
+      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLe,numericLt,natLt,numericEq,
       bop,numeric,store,Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
       integralFloorDiv,integralMod,headNonneg,signedLeader,leader]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]
@@ -68,14 +68,14 @@ theorem cached_safe {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops A)
       cInput p s key odd i < bounds (if key then p.k else p.q))
     (output : s.pids 0 < p.Q_HEAD_NUM → ∀ key odd i, cActive p s key i →
       cOffset p s key odd i < bounds (cRegion p key)) :
-    TraceSafe (algebra rest ops) bounds (Kernels.cached p) s := by
+    TraceSafe (algebra rest ops) bounds (Kernels.cachedKernel p) s := by
   by_cases head : s.pids 0 < p.Q_HEAD_NUM
   all_goals
-    simp [TraceSafe,Kernels.cached,ComputeKernel.surfaceBody,
+    simp [TraceSafe,Kernels.cachedKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
-      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLt,natLt,numericEq,
+      algebra,VeriTile.Bench.Repairs.RotaryEmb.Typed.algebra,numericLe,numericLt,natLt,numericEq,
       bop,numeric,store,Region.cast,ComputeDType.eraseDType,ofFloat,toFloat,
       integralFloorDiv,integralMod,head,token]
     try dsimp only [TileShape.insertAxis,TileShape.dropInsertedIndex]

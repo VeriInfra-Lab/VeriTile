@@ -1,5 +1,5 @@
 import bench.tritonbench_g.llama_ff_triton.Proofs.Output
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution
 open VeriTile.Triton FP.Structural
@@ -20,7 +20,7 @@ def epilogueExecution {α : Type} [Inhabited α] (a : Arithmetic α)
   refine ⟨?_, ?_⟩
   swap
   rw [hep]
-  simp [epilogue,source,Source.kernel,Source.half,ComputeKernel.surfaceBody,
+  simp [epilogue,source,Source.kernel,Source.half, halfKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
     FP.Structural.bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
     Region.cast,Option.bind,integralFloorDiv,integralMod,

@@ -16,7 +16,7 @@ end Control
 theorem exec_code (M : Algebra α) (h : Call) (s : State α) :
     FP.Structural.exec M (Surface.source h) s=run M (code h) s := by
   unfold code
-  cases eq : h.storage <;> simp only [Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,eq]
+  cases eq : h.storage <;> simp only [Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Pasted.originalKernel,Pasted.candidateKernel,eq]
   all_goals rfl
 
 theorem preguard_memory (M : Algebra α) (P : Primitives α) (h : Call)
@@ -29,9 +29,13 @@ theorem condition (M : Algebra α) (P : Primitives α) (h : Call)
     (batch split : Nat) (data : Data α) :
     FP.Structural.evalOp (machine M P) none guard (preguard M P h batch split data).val=
       some (fun _ => decide (data.indices batch ≠ -1)) := by
-  apply Control.integer_guard
-  rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
-  cases storage <;> rfl
+  have hr : (preguard M P h batch split data).val.regs .int [] "lora_index" =
+      some (fun _ => data.indices batch) := by
+    rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
+    cases storage <;> rfl
+  by_cases hi : data.indices batch=-1 <;>
+    simp [FPProgram.guard,evalOp_unfold,hr,numericEq,bop,Broadcast.leftIndex,Broadcast.rightIndex,hi]
+
 
 /-- Complete typed source execution, including sentinel and all range steps.
 Every active source atomic event has the explicit local FP payload. No source

@@ -3,7 +3,7 @@ import bench.tritonbench_g.rms_rbe_matmul.Proofs.KernelRotation
 namespace VeriTile.Bench.Repairs.RmsRbeMatmul.KernelSource
 open VeriTile.Triton FP.Structural
 noncomputable section
-set_option maxHeartbeats 16000000
+set_option maxHeartbeats 2000000
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
@@ -26,6 +26,17 @@ theorem store_run (a : Operations α) (fp8 : Bool) (p : Parameters)
     (s t : State α) (values : TileIndex [16,64] → α) (h : TailReady p s t values) :
     ∃ u, run (engine a) (stores fp8 p) t=some u ∧
       u.mem=(scatter a fp8 p s s values).mem := by
+  have address (i : TileIndex [16,64]) :
+      Int.toNat ((s.pids 0:Int)*(p.M*p.N)+
+        ((pidM p s:Int)*16+i.1.val)*p.N+((pidN p s:Int)*64+i.2.1.val))=
+        outputOffset p s i := by rfl
+  have mask (i : TileIndex [16,64]) :
+      ((pidM p s:Int)*16+i.1.val<(p.M:Int) ∧
+        (pidN p s:Int)*64+i.2.1.val<(p.N:Int)) ↔
+      (row p s i.1<p.M ∧ col p s i.2.1<p.N) := by
+    change (((pidM p s*16+i.1.val:Nat):Int)<(p.M:Int) ∧
+      ((pidN p s*64+i.2.1.val:Nat):Int)<(p.N:Int)) ↔ _
+    simp only [Int.ofNat_lt,row,col]
   cases fp8
   all_goals
     simp [stores,kernel,TypedSource.kernel,TypedSource.source,arguments,
@@ -34,6 +45,7 @@ theorem store_run (a : Operations α) (fp8 : Bool) (p : Parameters)
       Region.cast,ofFloat,toFloat,State.setReg,store,
       engine,Algebra.withDefaultPrecision,resolvePrecision,
       h.product,h.batch,h.tileM,h.tileN]
+  all_goals simp only [address,mask]
   all_goals simp [scatter,active,outputOffset,outputCell,outputDType,
     ofFloat,decide_eq_true_eq,Bool.and_eq_true,row,col]
   all_goals apply fold_memory_congr

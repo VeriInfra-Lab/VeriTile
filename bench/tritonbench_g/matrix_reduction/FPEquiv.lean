@@ -20,6 +20,7 @@ specification matrix_reduction_pair {α : Type} [Inhabited α] (A : Algebra α)
   ProgramIO.Implementation.of_equivalent (matrixReductionCandidate A storage M N)
     (ProgramPair.equivalent A storage M N hN)
 
+#print_fp_assumptions matrix_reduction_pair
 #axiomsClean matrix_reduction_pair
 #guard_msgs (drop info) in
 #auditModuleAxioms

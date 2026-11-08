@@ -25,7 +25,7 @@ def kernel (split : Bool) (c : Layout) (scale : ℝ) :=
     (c.T*c.K) c.K scale c.T c.K c.BT c.BC c.BK
 
 def branch (split : Bool) (c : Layout) (scale : ℝ) : Source.Conditional :=
-  (Source.conditional? (kernel split c scale).surfaceBody (fun _ => Bool.true)).getD
+  (Source.conditional? (kernel split c scale).surfaceBody (fun yes => (Source.dynamicRange? yes "j").isSome)).getD
     ⟨[],.constBool Bool.false,[],[],[]⟩
 def parts (split : Bool) (c : Layout) (scale : ℝ) : Source.DynamicRange :=
   (Source.dynamicRange? (branch split c scale).yes "j").getD
@@ -53,7 +53,7 @@ def queryLoad (M : Algebra α) (split : Bool) (c : Layout) (s : State α) (r : R
     (s.mem r (s.pids 2*(c.T*c.K)+row split c s i.1.val*c.K+feature split c s i.2.1.val)).read .real else zero M)
 def keyLoad (M : Algebra α) (split : Bool) (c : Layout) (s : State α) (r : RegionName) (j e : Nat) : α :=
   M.cast (some .fp32) .real .real
-    (if feature split c s e<c.K then (s.mem r (keyAddress split c s j e)).read .real else zero M)
+    (M.fp32Load (if feature split c s e<c.K then (s.mem r (keyAddress split c s j e)).read .real else zero M))
 def product (M : Algebra α) (split : Bool) (c : Layout) (s : State α) (j : Nat) (i : TileIndex [c.BC,c.BK]) : α :=
   M.binary (some .fp32) .real .mul
     (M.binary (some .fp32) .real .mul (queryLoad M split c s "q" i) (keyLoad M split c s "k" j i.2.1.val))
@@ -84,8 +84,8 @@ def entryExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s
   | «false» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
-      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,intraOriginalKernel,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,splitOriginalKernel,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -94,8 +94,8 @@ def entryExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s
   | «true» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
-      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,intraOriginalKernel,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,splitOriginalKernel,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -121,8 +121,8 @@ def bodyExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ)
   | «false» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
-      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,intraOriginalKernel,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,splitOriginalKernel,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -133,8 +133,8 @@ def bodyExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ)
   | «true» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
-      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,intraOriginalKernel,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,splitOriginalKernel,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

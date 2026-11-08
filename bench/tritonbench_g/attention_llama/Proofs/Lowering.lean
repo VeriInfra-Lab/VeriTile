@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_llama.Proofs.Source
-import bench.tritonbench_g.attention_llama.Target
+import bench.tritonbench_g.attention_llama.Proofs.Support.Target
 
 namespace VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked.Native
 open VeriTile Triton Source

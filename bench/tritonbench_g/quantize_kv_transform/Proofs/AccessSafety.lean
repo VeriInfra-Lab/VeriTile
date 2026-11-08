@@ -16,8 +16,8 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (convert : α �
       inputOffset p (s.pids 0) h c < bounds "input")
     (codes : ∀ h c, h < p.heads → c < p.columns → codeOffset p dst h c < bounds "output")
     (scales : ∀ h, h < p.heads → scaleOffset p dst h < bounds "scale") :
-    FP.Structural.TraceSafe (backend M convert equal) bounds (kernel p) s := by
-  simp [FP.Structural.TraceSafe, kernel, ComputeKernel.surfaceBody,
+    FP.Structural.TraceSafe (backend M convert equal) bounds (sourceKernel p) s := by
+  simp [FP.Structural.TraceSafe, sourceKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

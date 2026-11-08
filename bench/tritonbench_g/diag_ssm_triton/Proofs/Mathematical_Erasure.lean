@@ -1,4 +1,4 @@
-import bench.tritonbench_g.diag_ssm_triton.Sources.Mathematical_Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.Erasure
@@ -6,8 +6,9 @@ open VeriTile.Triton TypedSource
 set_option maxHeartbeats 6000000
 set_option maxRecDepth 20000
 
-/-- Real projections of the shared repaired sources. No complete mathematical
-kernel is copied into the proof layer. -/
+/-- Real projections of the sole pasted repaired sources. The independent
+recurrence executors are proof models; their connection to these actual signed
+programs is proved by the transport and result modules. -/
 def forward (swapped : Bool) : forwardSource :=
   fun s x lam y length batch dim B =>
     (TypedSource.forward .fp32 swapped s x lam y length batch dim B).eraseDType
@@ -29,7 +30,14 @@ theorem forward_body (storage : Storage) (swapped : Bool) (s_ptr x_ptr lambda_pt
       (forward swapped s_ptr x_ptr lambda_ptr y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases storage <;> cases swapped
   all_goals simp only [TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardIndexCommuted,forward,
-    Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    Bool.false_eq_true,↓reduceIte,VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.forwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardCandidateKernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -44,7 +52,14 @@ theorem backward_body (storage : Storage) (swapped : Bool) (s_ptr lambda_ptr y_p
       (backward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases storage <;> cases swapped
   all_goals simp only [TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,backward,
-    Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    Bool.false_eq_true,↓reduceIte,VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.forwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardCandidateKernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -59,7 +74,14 @@ theorem complexForward_body (swapped : Bool) (s_ptr x_ptr y_ptr lambda_ptr : Reg
       (complexForward swapped s_ptr x_ptr y_ptr lambda_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases swapped
   all_goals simp only [TypedSource.complexForward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexForwardIndexCommuted,complexForward,
-    Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    Bool.false_eq_true,↓reduceIte,VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.forwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardCandidateKernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -74,7 +96,14 @@ theorem complexBackward_body (swapped : Bool) (s_ptr lambda_ptr y_ptr grad_s_ptr
       (complexBackward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body := by
   cases swapped
   all_goals simp only [TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,complexBackward,
-    Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    Bool.false_eq_true,↓reduceIte,VeriTile.Bench.Repairs.DiagSsmTriton.forwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.forwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.backwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexForwardCandidateKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,
+    VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardCandidateKernel,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,

@@ -17,17 +17,18 @@ structure CallInputs (p : Parameters) (B H : Nat) (counts : Fin B → Nat)
     (v : Inputs A p B H counts) (s : State A) (b : Fin B) (h : Fin H) : Prop where
   pid0 : s.pids 0=b.val
   pid1 : s.pids 1=h.val
+  valid : ValidMetadata p s
   length : count p s=counts b
   start : startIndex p s=start v b
   request : requestIndex p s=request v b
   tokens : ∀ n (hn : n<counts b), p.block≠0 →
-    (s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .nat=
+    ((s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int).toNat=
       token v b ⟨n,lt_of_lt_of_le hn (count_le_capacity counts b)⟩
   probability : ∀ n, n<counts b → p.block≠0 →
     (s.mem p.prob (probOffset p s n)).read .fp32=probAt v b h n
   value : ∀ n, n<counts b → p.block≠0 → ∀ d : Fin p.width,
     (s.mem p.value (valueOffset p s d.val+
-      (s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .nat*p.valueBatchStride)).read .fp32=
+      ((s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int).toNat*p.valueBatchStride)).read .fp32=
       valAt v b h n d
 
 theorem call_inputs (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
@@ -40,18 +41,38 @@ theorem call_inputs (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
   have hl := hin ⟨0,by simp [programIO,memory,inputs]⟩ (b,PUnit.unit) live
   have hs := hin ⟨1,by simp [programIO,memory,inputs]⟩ (b,PUnit.unit) live
   have hr := hin ⟨2,by simp [programIO,memory,inputs]⟩ (b,PUnit.unit) live
-  have hl' : count p s=length v b := by simpa only [count,h0] using hl
-  have hs' : startIndex p s=start v b := by simpa only [startIndex,h0] using hs
-  have hr' : requestIndex p s=request v b := by simpa only [requestIndex,h0] using hr
-  have ht : ∀ n (hn : n<counts b), p.block≠0 →
-      (s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .nat=
-        token v b ⟨n,lt_of_lt_of_le hn (count_le_capacity counts b)⟩ := by
+  change (s.mem (Region.cast p.length) (b.val*p.lengthStride)).read .int=lengthWord v b at hl
+  change (s.mem (Region.cast p.start) (b.val*p.startStride)).read .int=startWord v b at hs
+  change (s.mem (Region.cast p.request) (b.val*p.requestStride)).read .int=requestWord v b at hr
+  have hl' : count p s=length v b := by simpa only [count,h0,length] using congrArg Int.toNat hl
+  have hs' : startIndex p s=start v b := by simpa only [startIndex,h0,start] using congrArg Int.toNat hs
+  have hr' : requestIndex p s=request v b := by simpa only [requestIndex,h0,request] using congrArg Int.toNat hr
+  have hcount : count p s=counts b := by
+    rw [hl',length,domain.1 b live,Int.toNat_natCast]
+  have hw : ∀ n (hn : n<counts b), p.block≠0 →
+      (s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int=
+        tokenWord v b ⟨n,lt_of_lt_of_le hn (count_le_capacity counts b)⟩ := by
     intro n hn nonzero
     have t := hin ⟨3,by simp [programIO,memory,inputs]⟩
       (b,⟨n,lt_of_lt_of_le hn (count_le_capacity counts b)⟩,PUnit.unit) ⟨live,nonzero,hn⟩
     simpa only [gatherOffset,hr'] using t
-  refine ⟨h0,h1,?_,hs',hr',ht,?_,?_⟩
-  · exact hl'.trans (domain b live)
+  have ht : ∀ n (hn : n<counts b), p.block≠0 →
+      ((s.mem (Region.cast p.tokens) (gatherOffset p s n)).read .int).toNat=
+        token v b ⟨n,lt_of_lt_of_le hn (count_le_capacity counts b)⟩ := by
+    intro n hn nonzero
+    exact congrArg Int.toNat (hw n hn nonzero)
+  have hv : ValidMetadata p s := by
+    refine ⟨?_,?_,?_,?_⟩
+    · rw [h0,hl,domain.1 b live]
+      change (0 : Int)≤(counts b : Int)
+      omega
+    · rw [h0,hs]; exact domain.2.1 b live
+    · rw [h0,hr]; exact domain.2.2.1 b live
+    · intro n hn nonzero
+      have hi : n<counts b := by simpa only [hcount] using hn
+      rw [hw n hi nonzero]
+      exact domain.2.2.2 b _ live nonzero hi
+  refine ⟨h0,h1,hv,hcount,hs',hr',ht,?_,?_⟩
   · intro n hn nonzero
     have cap := lt_of_lt_of_le hn (count_le_capacity counts b)
     have x := hin ⟨4,by simp [programIO,memory,inputs]⟩ (b,h,⟨n,cap⟩,PUnit.unit) ⟨nonzero,hn⟩
@@ -60,6 +81,7 @@ theorem call_inputs (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     have cap := lt_of_lt_of_le hn (count_le_capacity counts b)
     have x := hin ⟨5,by simp [programIO,memory,inputs]⟩ (b,h,⟨n,cap⟩,d,PUnit.unit) ⟨nonzero,hn⟩
     simpa only [valueOffset,h1,ht n hn nonzero,valAt,dif_pos cap] using x
+
 
 theorem call_bounds (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
     (B H : Nat) (counts : Fin B → Nat) (jobs : List Grid.PID)

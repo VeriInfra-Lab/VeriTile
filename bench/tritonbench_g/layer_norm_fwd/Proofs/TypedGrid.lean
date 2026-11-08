@@ -29,8 +29,8 @@ def RowValues {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     t.mem r.y1 (row*stride.y1+j.1.val)=Cell.mk .real
       (affineValue A f.b1 (normalizedValues A f.rms N eps v j)
         (raw A s r.weight1 0 N j.1.val) (raw A s r.bias1 0 N j.1.val))) ∧
-  t.mem r.rstd row=Cell.mk .real (cast A (rstdValue A f.rms N eps v)) ∧
-  (f.rms=Bool.false → t.mem r.mean row=Cell.mk .real (cast A (meanValue A N v)))
+  t.mem r.rstd row=Cell.mk .real (rstdValue A f.rms N eps v) ∧
+  (f.rms=Bool.false → t.mem r.mean row=Cell.mk .real (meanValue A N v))
 
 structure GridRun {α : Type} [Inhabited α] (A : Algebra α) (f : Flags) (r : Regions)
     (stride : Strides) (M N : Nat) (eps p : ℝ) (block : Nat)

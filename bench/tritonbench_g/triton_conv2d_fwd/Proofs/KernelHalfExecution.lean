@@ -16,8 +16,8 @@ structure Context {α : Type} (p : Parameters) (initial current : State α) : Pr
   fe : current.regs .nat [OF p] "output_feat_offset" = some (fun i => feat p initial i.1)
   he : current.regs .nat [BHW p] "output_height_offset" = some (fun i => oh p initial i.1)
   wi : current.regs .nat [BHW p] "output_width_offset" = some (fun i => ow p initial i.1)
-  ip : current.regs .ptr [BHW p,1] "Input" = some (fun i => (p.Input,inputBase p initial i.1))
-  wp : current.regs .ptr [1,OF p] "Weight" = some (fun i => (p.Weight,weightBase p initial i.2.1))
+  ip : current.regs .ptr [BHW p,1] "input_pointer" = some (fun i => (p.Input,inputBase p initial i.1))
+  wp : current.regs .ptr [1,OF p] "weight_pointer" = some (fun i => (p.Weight,weightBase p initial i.2.1))
 
 def HasAcc {α : Type} (p : Parameters) (a : CIndex p → α) (s : State α) : Prop :=
   s.regs .real [BHW p,OF p] "accum" = some a
@@ -27,7 +27,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     {t : State α // run (backend M D) (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, source, typed, ComputeKernel.surfaceBody,
+  simp [prelude, source, typed,Pasted.originalKernel,Pasted.candidateKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, numericLe, numericLt, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -56,7 +56,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   simp only [HasAcc] at ha
   refine ⟨?_, ?_⟩
   swap
-  simp [cBody, wBody, hBody, source, typed, ComputeKernel.surfaceBody,
+  simp [cBody, wBody, hBody, source, typed,Pasted.originalKernel,Pasted.candidateKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, numericLe, numericLt, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

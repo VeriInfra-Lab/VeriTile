@@ -31,7 +31,7 @@ def update {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive α)
       if start-c.i_c*c.BTL+i.2.1.val ≤ i.1.val then
         M.unary (some .fp32) .exp2 (M.binary (some .fp32) .real .mul
           (M.fromInt (some .fp32) ((i.1.val : Int) - (start-c.i_c*c.BTL+i.2.1.val : Nat))) b)
-      else M.literal (some .fp32) .real 0.0
+      else M.literal (some .fp32) .real 0
     else rowDecay M b (c.BTS-i.2.1.val)
   let score := fun i =>
     let weighted := M.binary (some .fp32) .real .mul (raw i) (decay i)

@@ -10,6 +10,14 @@ set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
+@[simp] private theorem signed_product_address (a b : Nat) :
+    ((a : Int)*(b : Int)).toNat=a*b := by
+  simp only [← Int.natCast_mul,Int.toNat_natCast]
+
+@[simp] private theorem signed_sum_address (a b : Nat) :
+    ((a : Int)+(b : Int)).toNat=a+b := by
+  simp only [← Int.natCast_add,Int.toNat_natCast]
+
 def rms_layernorm_forward (Y X W r : RegionName) (YR XR WR RR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
   (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource Y X W r YR XR WR RR N B eps).eraseDType
 
@@ -17,10 +25,10 @@ def gemma_rms_layernorm_forward (Y X W r : RegionName) (YR XR RR N : Nat) (eps :
   (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource Y X W r YR XR 0 RR N B eps).eraseDType
 
 def rms_layernorm_backward (Y X W r dW : RegionName) (YR XR WR RR DWR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
-  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource Y X W r dW YR XR WR RR DWR N B eps Bool.false).eraseDType
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel Y X W r dW YR XR WR RR DWR N B eps Bool.false).eraseDType
 
 def gemma_rms_layernorm_backward (Y X W r dW : RegionName) (YR XR WR RR DWR N : Nat) (eps : ℝ) (B : Nat) : ComputeKernel :=
-  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource Y X W r dW YR XR WR RR DWR N B eps Bool.true).eraseDType
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel Y X W r dW YR XR WR RR DWR N B eps Bool.true).eraseDType
 
 /-- Element `j` of **this program's row** of a row-major matrix region `R`
 (row = `pid`, row stride `row_stride`): `R[pid·row_stride + j]`. The `X` and
@@ -189,8 +197,8 @@ theorem rms_layernorm_forward_y_correct
   intro i
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -199,7 +207,7 @@ theorem rms_layernorm_forward_y_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -235,8 +243,8 @@ theorem gemma_rms_layernorm_forward_y_correct
   intro i
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -245,7 +253,7 @@ theorem gemma_rms_layernorm_forward_y_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -281,9 +289,9 @@ theorem rms_layernorm_backward_dy_correct
         else s.readMem dY (dyOutOffset s dY_row_stride i) := by
   intro i
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, rms_layernorm_backward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, rms_layernorm_backward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -326,9 +334,9 @@ theorem gemma_rms_layernorm_backward_dy_correct
         else s.readMem dY (dyOutOffset s dY_row_stride i) := by
   intro i
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, gemma_rms_layernorm_backward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  · simp [exec, gemma_rms_layernorm_backward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -337,7 +345,7 @@ theorem gemma_rms_layernorm_backward_dy_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.sub, NumericDType.div, ComparableDType.lt,
           FloatDType.cast, FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -367,8 +375,8 @@ theorem rms_layernorm_forward_inv_var_correct
       rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps := by
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -377,7 +385,7 @@ theorem rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -390,8 +398,8 @@ theorem rms_layernorm_forward_inv_var_correct
           WithBot.realRsqrt, NumericDType.mul]
     rfl
   · simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -400,7 +408,7 @@ theorem rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -426,8 +434,8 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
       rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps := by
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -436,7 +444,7 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -449,8 +457,8 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
           WithBot.realRsqrt, NumericDType.mul]
     rfl
   · simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -459,7 +467,7 @@ theorem gemma_rms_layernorm_forward_inv_var_correct
     IntegralDType.eraseDType,ComputeDType.eraseDType,Bool.false_eq_true,Except.bind,bind, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
           NumericDType.div, ComparableDType.lt, FloatDType.cast,
           FloatDType.ofWithBot, FloatDType.toWithBot,
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -605,8 +613,8 @@ theorem rms_layernorm_forward_exec_isSome
         W_row_stride r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s
       = some s1 := by
   simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -616,7 +624,7 @@ theorem rms_layernorm_forward_exec_isSome
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
@@ -629,8 +637,8 @@ theorem gemma_rms_layernorm_forward_exec_isSome
     ∃ s1, exec ((gemma_rms_layernorm_forward Y X W r Y_row_stride X_row_stride
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s = some s1 := by
   simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -640,7 +648,7 @@ theorem gemma_rms_layernorm_forward_exec_isSome
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
@@ -683,8 +691,8 @@ theorem rms_layernorm_forward_frame
     (hmissR : ¬(r = ρ ∧ s.pid * r_row_stride = o)) :
     s1.mem ρ o = s.mem ρ o := by
   simp [exec, rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -694,7 +702,7 @@ theorem rms_layernorm_forward_frame
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -719,8 +727,8 @@ theorem gemma_rms_layernorm_forward_frame
     (hmissR : ¬(r = ρ ∧ s.pid * r_row_stride = o)) :
     s1.mem ρ o = s.mem ρ o := by
   simp [exec, gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -730,7 +738,7 @@ theorem gemma_rms_layernorm_forward_frame
         stepStmt, evalOp, evalOp.eq_def,
         Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
         Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
-        TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+        TileShape.insertAxisIndex, signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul,
         NumericDType.div, ComparableDType.lt, FloatDType.cast,
         FloatDType.ofWithBot, FloatDType.toWithBot,
         ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
@@ -752,8 +760,8 @@ theorem rms_layernorm_forward_flattenOk
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -772,8 +780,8 @@ theorem gemma_rms_layernorm_forward_flattenOk
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
   simp [gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -803,8 +811,8 @@ theorem rms_layernorm_forward_traceSafe
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s := by
   unfold Kernel.TraceSafe
   simp [rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -818,7 +826,7 @@ theorem rms_layernorm_forward_traceSafe
     MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
     BlockState.setReg,
     Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.div,
+    signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul, NumericDType.div,
     ComparableDType.lt, FloatDType.cast, FloatDType.ofWithBot,
     FloatDType.toWithBot,
     Tile.reduceSum, Tile.reduceSumDrop,
@@ -842,8 +850,8 @@ theorem gemma_rms_layernorm_forward_traceSafe
         r_row_stride n_cols eps BLOCK_SIZE).toAlgKernel) s := by
   unfold Kernel.TraceSafe
   simp [gemma_rms_layernorm_forward,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -857,7 +865,7 @@ theorem gemma_rms_layernorm_forward_traceSafe
     MaskOpt.Active, Op.PointerAddressesSafeOn, Op.MemorySafe,
     BlockState.setReg,
     Tile.bop, Tile.cop, Tile.uop, Tile.ptrAdd,
-    NumericDType.add, NumericDType.mul, NumericDType.div,
+    signed_product_address,signed_sum_address,NumericDType.add, NumericDType.mul, NumericDType.div,
     ComparableDType.lt, FloatDType.cast, FloatDType.ofWithBot,
     FloatDType.toWithBot,
     Tile.reduceSum, Tile.reduceSumDrop,

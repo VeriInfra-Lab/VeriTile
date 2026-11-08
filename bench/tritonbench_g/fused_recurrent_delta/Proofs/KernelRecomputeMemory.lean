@@ -22,7 +22,7 @@ theorem memory (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv t :
     simp only [KernelRecomputeValues.dq,KernelRecomputeValues.dk,KernelRecomputeValues.next,
       KernelBackwardReference.dq,KernelBackwardReference.correction,KernelBackwardReference.input,
       KernelBackwardReference.valueSum,KernelReference.add,KernelReference.sub,KernelReference.mul,
-      KernelReference.read,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
+      KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
       KernelReference.stored,KernelBackwardMemory.keyStore,keyPtr,valPtr,betaPtr,keyMask,valMask,
       FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,
       Nat.add_zero,Bool.false_eq_true,ite_false,ite_true,KernelRecomputeValues.eta,

@@ -8,7 +8,7 @@ noncomputable section
 
 def logicalFormula (p : Parameters) (work : List Grid.PID) (xs : LogicalInputs p work)
     (r : Fin work.length) (c : Fin p.width) : ℝ :=
-  Real.exp (xs.values r c) / ∑ j : Fin (xs.lengths r),Real.exp (xs.segment p work r j)
+  Real.exp (xs.values r c) / ∑ j : Fin (xs.lengths r).toNat,Real.exp (xs.segment p work r j)
 
 theorem lift_eq (p : Parameters) (work : List Grid.PID) (xs : (realIO p work).Inputs)
     (domain : realDomain p work xs) :

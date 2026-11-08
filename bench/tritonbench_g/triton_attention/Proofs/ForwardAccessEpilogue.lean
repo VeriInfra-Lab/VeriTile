@@ -18,7 +18,7 @@ theorem forward_epilogue_safe (rest : Algebra α) (P : Primitives α)
     (maximum : ∀ i : FRow p,forwardRowOffset p initial i<bounds p.maximum)
     (output : ∀ i : FQuery p,forwardOffset p initial i<bounds p.output) :
     Safety.traceSafeList (backend rest P) bounds (forwardEpilogue p) current := by
-  simp [forwardEpilogue,forwardSource,forwardTyped,ComputeKernel.surfaceBody,
+  simp [forwardEpilogue,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

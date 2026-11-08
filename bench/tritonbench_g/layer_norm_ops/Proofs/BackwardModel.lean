@@ -7,13 +7,13 @@ open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)
 noncomputable section
 
-def prelude (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 15
+def prelude (p : BackwardParameters) := (backwardKernel p).surfaceBody.take 16
 def body (p : BackwardParameters) : List ComputeStmt :=
   let code : List ComputeStmt := (backwardKernel p).surfaceBody
-  match code[15]? with
+  match code[16]? with
   | some (ComputeStmt.forRangeDyn _ _ _ _ code) => code
   | _ => []
-def postlude (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 16
+def postlude (p : BackwardParameters) := (backwardKernel p).surfaceBody.drop 17
 
 theorem source_split (p : BackwardParameters) : (backwardKernel p).surfaceBody = prelude p ++
     [.forRangeDyn "row" (Op.ref .nat [] "row_start") (Op.ref .nat [] "row_end")
@@ -56,7 +56,7 @@ def dy {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
 def wdy {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters)
     (a : Acc α p) (row : Nat) (i : TileIndex [p.block]) := binary M .mul (a.weight i) (dy M p a row i)
 def average {α : Type} (M : Algebra α) (p : BackwardParameters) (f : TileIndex [p.block] → α) :=
-  binary M .div (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false f PUnit.unit) (literal M (p.columns : ℝ))
+  binary M .div (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false f PUnit.unit) (M.fromNat (some .fp32) p.columns)
 def c1 {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters) (a : Acc α p) (row : Nat) :=
   average M p (fun i => binary M .mul (xhat M p a row i) (wdy M p a row i))
 def c2 {α : Type} [Inhabited α] (M : Algebra α) (p : BackwardParameters) (a : Acc α p) (row : Nat) :=

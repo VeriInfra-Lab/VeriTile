@@ -21,32 +21,40 @@ def operation : {dtype : TileDType} → {shape : TileShape} → Op dtype shape �
 theorem loadZero_eval {dtype : TileDType} {shape : TileShape} (x : Op dtype shape)
     (s : BlockState) (hu : s.undef = fun _ _ => 0) :
     evalOp (loadZero x) s = evalOp x s := by
-  cases x <;> try rfl
+  cases x
   case load padding mem mask =>
-    cases mem <;> try rfl
-    simp only [loadZero]
-    exact (evalOp_load_padding_of_undef_zero _ _ _ _ s hu).symm
+    cases mem
+    case blockPtr p axes =>
+      simp only [loadZero]
+      exact (evalOp_load_padding_of_undef_zero _ _ _ _ s hu).symm
+    all_goals rfl
+  all_goals rfl
 
 theorem operation_eval {dtype : TileDType} {shape : TileShape} (x : Op dtype shape)
     (s : BlockState) (hu : s.undef = fun _ _ => 0) :
     evalOp (operation x) s = evalOp x s := by
-  cases x <;> simp only [operation] <;> try exact loadZero_eval _ s hu
+  cases x
   case add d x y b =>
-    simp only [operation, evalOp, loadZero_eval x s hu, loadZero_eval y s hu]
+    simp only [operation,evalOp_add,loadZero_eval x s hu,loadZero_eval y s hu]
+  all_goals simpa only [operation] using loadZero_eval _ s hu
 
 mutual
 def statement : Stmt → Stmt
   | .assign d sh name x => .assign d sh name (operation x)
+  | .forRange name first last stride body =>
+      .forRange name first last stride (statements body)
   | .forRangeDyn name first last stride body =>
       .forRangeDyn name first last stride (statements body)
   | .ifThen c body => .ifThen c (statements body)
   | .ifThenElse c yes no => .ifThenElse c (statements yes) (statements no)
   | x => x
 termination_by x => sizeOf x
+decreasing_by all_goals (simp_wf <;> omega)
 def statements : List Stmt → List Stmt
   | [] => []
   | x :: xs => statement x :: statements xs
 termination_by xs => sizeOf xs
+decreasing_by all_goals (simp_wf <;> omega)
 end
 
 mutual
@@ -56,6 +64,9 @@ theorem statement_eq (st : Stmt) (s : BlockState)
   cases hst : st <;> simp only [hst] at hok <;> simp only [statement]
   case assign d sh name x =>
     simp only [statement, stepStmt, operation_eval x s hu]
+  case forRange name first last stride body =>
+    rw [stepForRangeAux.forRange_unfold,stepForRangeAux.forRange_unfold]
+    exact range_eq name first last stride body s hok hu
   case forRangeDyn name first last stride body =>
     simp only [statement, stepStmt]
     congr 1
@@ -80,7 +91,7 @@ theorem statement_eq (st : Stmt) (s : BlockState)
     · exact statements_eq yes s hok.2.1 hu
     · exact statements_eq no s hok.2.2 hu
 termination_by (sizeOf st, 0)
-decreasing_by all_goals (simp_wf; simp_all; omega)
+decreasing_by all_goals (subst_vars <;> simp_wf <;> omega)
 
 theorem statements_eq (sts : List Stmt) (s : BlockState)
     (hok : StmtList.FlattenOk sts) (hu : s.undef = fun _ _ => 0) :
@@ -96,7 +107,7 @@ theorem statements_eq (sts : List Stmt) (s : BlockState)
     | some t =>
       exact statements_eq rest t hok.2 ((stepStmt_undef st s t hok.1 he).trans hu)
 termination_by (sizeOf sts, 0)
-decreasing_by all_goals (simp_wf; simp_all; omega)
+decreasing_by all_goals (subst_vars <;> simp_wf <;> omega)
 
 theorem range_eq (name : RegName) (first last stride : Nat) (body : List Stmt)
     (s : BlockState) (hok : StmtList.FlattenOk body) (hu : s.undef = fun _ _ => 0) :
@@ -117,7 +128,7 @@ theorem range_eq (name : RegName) (first last stride : Nat) (body : List Stmt)
           ((stepStmts_undef body _ t hok he).trans hs)
     · simp only [hl, if_false]
 termination_by (sizeOf body, last - first + 1)
-decreasing_by all_goals (simp_wf; simp_all; omega)
+decreasing_by all_goals (subst_vars <;> simp_wf <;> omega)
 end
 
 end

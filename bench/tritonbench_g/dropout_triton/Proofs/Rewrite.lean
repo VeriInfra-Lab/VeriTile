@@ -1,5 +1,5 @@
 import bench.tritonbench_g.dropout_triton.Proofs.Source
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.Repairs.DropoutTriton.Rewrite
 open VeriTile.Triton FP.Structural FP.Guarded
@@ -16,7 +16,8 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (engine M) (kernel n p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [kernel, sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [kernel, sourceKernel,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     numericLt, numericEq, natLt, bop, store, Region.cast,
     numeric, ofFloat, toFloat, ComputeDType.eraseDType]

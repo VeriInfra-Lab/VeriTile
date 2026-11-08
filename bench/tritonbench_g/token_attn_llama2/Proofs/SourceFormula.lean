@@ -25,9 +25,9 @@ def products {α β : Type} [Inhabited α] (M : Algebra β)
   let k := if t < m.len b.val then
       encode "K" (keyAddress c (m.page b.val t) (h.val/(c.heads/c.kvHeads)) j.2.1.val)
         (keyAt c xs (m.page b.val t) (h.val/(c.heads/c.kvHeads)) j.2.1)
-    else M.cast (some .fp32) .real .fp32 (M.literal (some .fp32) .real 0)
+    else M.literal (some .fp32) .real 0
   M.binary (some .fp32) .real .mul
-    (M.cast (some .fp32) .fp32 .real q) (M.cast (some .fp32) .fp32 .real k)
+    (M.fp32Load q) (M.fp32Load k)
 
 /-- Reduce the logical dot tile, multiply the exact selected scalar and cast
 to FP32 storage. For native graphs the reduction plan sees shapes, not words. -/
@@ -36,8 +36,7 @@ def score {α β : Type} [Inhabited α] (M : Program → Algebra β)
     (xs : Interface.Inputs α c) (b : Fin c.batches) (h : Fin c.heads)
     (t : Fin c.maxLength) : β :=
   let A := M (b.val,h.val,t.val/32)
-  A.cast none .real .fp32
-    (A.binary (some .fp32) .real .mul
+  (A.binary (some .fp32) .real .mul
       (A.reduceSum (some .fp32) ⟨1,by simp⟩ Bool.false
         (products A encode c m xs b h (t.val/32))
         (⟨t.val%32,Nat.mod_lt _ (by decide)⟩,PUnit.unit))

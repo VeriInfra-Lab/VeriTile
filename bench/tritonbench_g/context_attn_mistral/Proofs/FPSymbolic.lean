@@ -1,4 +1,5 @@
 import bench.tritonbench_g.context_attn_fwd.Proofs.FPSuccess
+import VeriTile.Triton.Float.Integer
 import bench.tritonbench_g.context_attn_mistral.Proofs.FPBackend
 import bench.tritonbench_g.context_attn_fwd.Proofs.Mathematical_HostFPComposition
 
@@ -10,6 +11,7 @@ noncomputable section
 set_option maxHeartbeats 8000000
 set_option maxRecDepth 20000
 set_option linter.unusedSimpArgs false
+attribute [local simp 2000] FP.Structural.eval_truncDiv
 
 abbrev program (p : Layout) (r : Program.Regions) (storage : Storage) (scale : ℝ) :=
   VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel p r storage Bool.false scale
@@ -34,13 +36,13 @@ def Has {α : Type} (s : State α) (d : TileDType) (sh : TileShape) (name : RegN
   (s.regs d sh name).isSome
 
 def Ready {α : Type} (p : Layout) (storage : Storage) (s : State α) : Prop :=
-  Has s .nat [] "cur_head" ∧ Has s .nat [] "start_m" ∧
+  Has s .int [] "cur_head" ∧ Has s .int [] "start_m" ∧
   Has s .int [] "cur_batch_in_all_start_index" ∧ Has s .int [] "cur_batch_seq_len" ∧
-  Has s .nat [p.BM] "offs_m" ∧ Has s .nat [p.BN] "offs_n" ∧ Has s .nat [p.D] "offs_d" ∧
+  Has s .int [p.BM] "offs_m" ∧ Has s .int [p.BN] "offs_n" ∧ Has s .int [p.D] "offs_d" ∧
   Has s (storageType storage) [p.BM,p.D] "q" ∧
   Has s .ptr [p.D,p.BN] "k_ptrs" ∧ Has s .ptr [p.BN,p.D] "v_ptrs" ∧
   Has s .real [p.BM] "m_i" ∧ Has s .real [p.BM] "l_i" ∧
-  Has s .real [p.BM,p.D] "acc" ∧ Has s .nat [] "block_mask"
+  Has s .real [p.BM,p.D] "acc" ∧ Has s .int [] "block_mask"
 
 /-- Every prelude register is constructed for arbitrary typed memory and
 opaque floating values. There is no successful-execution premise. -/
@@ -51,7 +53,7 @@ theorem prelude {α : Type} [Inhabited α] (o : FPBackend.Ops α)
   cases storage
   all_goals
     simp (config := {maxSteps := 300000}) [parts,program,VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,Source.intRange?,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,Source.intRange?,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,FPBackend.Ops.algebra,
       ComputeDType.eraseDType,numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,
@@ -86,7 +88,7 @@ theorem body {α : Type} [Inhabited α] (o : FPBackend.Ops α)
   all_goals
     simp (config := {maxSteps := 300000}) [parts,program,
       VeriTile.Bench.TritonBenchG.ContextAttnMistral.Program.kernel,
-      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,Source.intRange?,ComputeKernel.surfaceBody,
+      VeriTile.Bench.TritonBenchG.ContextAttnMistral.original,VeriTile.Bench.Repairs.ContextAttnMistralKernel.kernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,VeriTile.Bench.Repairs.ContextAttnMistralKernel.storageProfile,VeriTile.Bench.Repairs.ContextAttnMistralKernel.originalKernel,Source.intRange?,ComputeKernel.surfaceBody,
       run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
       engine,Algebra.withDefaultPrecision,resolvePrecision,FPBackend.Ops.algebra,
       ComputeDType.eraseDType,numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,

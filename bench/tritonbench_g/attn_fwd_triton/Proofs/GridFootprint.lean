@@ -58,7 +58,7 @@ theorem lane_active (A : FlatAlloc) (s : BlockState) (p : Parameters) (BD : Nat)
     Output.active (cfg A s p (index p i)) 128 BD (lane p BD hD i) = Bool.true := by
   have hm := lane_row A s p BD hD i
   simp only [Output.active,Output.outputConfig,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue.active]
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.active]
   change decide ((cfg A s p (index p i)).startM*128+(lane p BD hD i).1.val < p.context ∧ i.2.2.2.val < p.headDim)=Bool.true
   simp [hm,i.2.2.1.isLt,i.2.2.2.isLt]
 

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_mistral.Kernels
+import bench.tritonbench_g.context_attn_mistral.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.context_attn_mistral.Proofs.Mathematical_Program
 import bench.tritonbench_g.context_attn_mistral.Proofs.Mathematical_HostReadback
 import VeriTile.Triton.Memory.AlgorithmProgramIO

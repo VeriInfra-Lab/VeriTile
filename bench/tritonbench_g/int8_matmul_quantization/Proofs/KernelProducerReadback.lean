@@ -19,14 +19,14 @@ store, and the exterior memory frame. The stride/separation facts describe
 the ordinary contiguous output allocation, not new input restrictions. -/
 theorem source_correct {α : Type} [Inhabited α] (M : Algebra α) (integer8 : α → BitVec 8)
     (p : Parameters) (s : State α) (width : 0 < p.width)
-    (stride : p.outputColumnStride = 1) (regions : p.output ≠ p.scales) :
+    (stride : p.outputColumnStride = 1) (regions : p.output ≠ p.scales) (covers : p.columns≤p.width) :
     ∃ final, FP.Structural.exec (backend M integer8) (KernelSource.quantize (parameters p)) s = some final ∧
       (∀ i : Index p, i.2.1.val < p.columns →
         final.mem p.output (outputOffset p s i) = .mk .int (integer8 (quotient M p s i)).toInt) ∧
       final.mem p.scales (s.pids 0*p.scaleStride) = .mk .fp16 (M.cast none .real .fp16 (scale M p s)) ∧
       (∀ r o, Outside p s r o → final.mem r o = s.mem r o) := by
   let finish := execution M integer8 p s width
-  have hm := execution_memory M integer8 p s width
+  have hm := execution_memory M integer8 p s width covers
   refine ⟨finish.val, finish.property, ?_, ?_, ?_⟩
   · intro i hi
     rw [hm]

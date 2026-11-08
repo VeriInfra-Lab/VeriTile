@@ -11,15 +11,15 @@ variable {α : Type} [Inhabited α]
 
 def kernel (stage : Stage) (p : Parameters) : ComputeKernel :=
   match stage with
-  | .forward => forwardCandidate p
-  | .intra => intraCandidate p
-  | .inter => interCandidate p
+  | .forward => forwardCandidateKernel p
+  | .intra => intraCandidateKernel p
+  | .inter => interCandidateKernel p
 
 def original (stage : Stage) (p : Parameters) : ComputeKernel :=
   match stage with
-  | .forward => forward p
-  | .intra => intra p
-  | .inter => inter p
+  | .forward => forwardKernel p
+  | .intra => intraKernel p
+  | .inter => interKernel p
 
 def prefixLength : Stage → Nat
   | .forward | .intra => 6
@@ -40,7 +40,7 @@ theorem prefix_eq (M : Algebra α) (stage : Stage) (p : Parameters) (s : State �
     run M (candidatePrefix stage p) s = run M (prelude stage p) s := by
   cases stage <;>
     simp [candidatePrefix,prelude,prefixLength,kernel,original,
-      forwardCandidate,intraCandidate,interCandidate,forward,intra,inter,
+      forwardCandidateKernel,intraCandidateKernel,interCandidateKernel,forwardKernel,intraKernel,interKernel,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       numeric,bop,Region.cast,ComputeDType.eraseDType,Option.bind]
 
@@ -55,7 +55,7 @@ theorem prefix_safe (M : Algebra α) (stage : Stage) (p : Parameters) (s : State
       Safety.traceSafeList M bounds (candidatePrefix stage p) s := by
   cases stage <;>
     simp [candidatePrefix,prelude,prefixLength,kernel,original,
-      forwardCandidate,intraCandidate,interCandidate,forward,intra,inter,
+      forwardCandidateKernel,intraCandidateKernel,interCandidateKernel,forwardKernel,intraKernel,interKernel,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,

@@ -94,7 +94,7 @@ def io {α : Type} (m : Model α) (M N BM BN pid : Nat)
     | ⟨n+2,h⟩ => False.elim (by simp [outputs] at h)
   scratchWrite := fun k => k.elim0
   scratchMask := fun k => k.elim0
-  schedule := fun _ => [job m (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid]
+  schedule := fun _ => [job m (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid]
   encode := id
   observe := fun port => match port with
     | ⟨0,_⟩ => fun lane => observe "FINAL_DW" (pid*BN+lane.1.val)
@@ -169,7 +169,7 @@ def layout {α : Type} (m : Model α) (stride M N G B group : Nat)
   scratchWrite := fun k => k.elim0
   scratchMask := fun k => k.elim0
   schedule := fun _ => [job m
-    (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group]
+    (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group]
   encode := id
   observe := fun port => match port with
     | ⟨0,_⟩ => fun lane => observe "DX" (lane.1.val*stride+lane.2.1.val)

@@ -2,7 +2,7 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.BackwardKernels
 import bench.tritonbench_g.token_attn_reduceV.Proofs.Mathematical_FPContract
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)
 noncomputable section
 
@@ -11,37 +11,37 @@ structure Acc (α : Type) (p : Parameters) where
   (dw db : TileIndex [p.block] → α)
 
 def zero {α} (M : Algebra α) := M.literal (some .fp32) .real 0
-def padding {α} (M : Algebra α) := M.cast none .real .fp32 (M.literal none .real 0)
-def cast {α} (M : Algebra α) (v : α) := M.cast (some .fp32) .fp32 .real v
-def stored {α} (M : Algebra α) (v : α) : Cell α := .mk .fp32 (M.cast none .real .fp32 v)
+def padding {α} (M : Algebra α) := M.literal (some .fp32) .real 0
+def cast {α} (M : Algebra α) (v : α) := v
+def stored {α} (M : Algebra α) (v : α) : Cell α := .mk .real (M.cast (some .fp32) .real .real v)
 def binary {α} (M : Algebra α) (op : Binary) (x y : α) := M.binary (some .fp32) .real op x y
 def denom {α} (M : Algebra α) (p : Parameters) :=
-  M.cast (some .fp32) .real .real (M.literal (some .fp32) .real (p.columns : ℝ))
+  M.fromInt (some .fp32) (p.columns : Int)
 def load {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
     (r : RegionName) (offset : Nat) (i : TileIndex [p.block]) :=
-  if i.1.val < p.columns then (a.state.mem r (offset+i.1.val)).read .fp32 else padding M
+  M.fp32Load (if i.1.val < p.columns then (a.state.mem r (offset+i.1.val)).read .real else padding M)
 def mean {α} [Inhabited α] (p : Parameters) (a : Acc α p) (row : Nat) :=
-  (a.state.mem p.mean row).read .fp32
+  (a.state.mem p.mean row).read .real
 def rstd {α} [Inhabited α] (p : Parameters) (a : Acc α p) (row : Nat) :=
-  (a.state.mem p.rstd row).read .fp32
+  (a.state.mem p.rstd row).read .real
 def xhat {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
     (row : Nat) (i : TileIndex [p.block]) :=
-  if i.1.val < p.columns then cast M (M.binary (some .fp32) .fp32 .mul
-    (M.binary (some .fp32) .fp32 .sub (load M p a p.x (row*p.xStride) i) (mean p a row))
-    (rstd p a row)) else M.literal none .real 0
+  if i.1.val < p.columns then cast M (M.binary (some .fp32) .real .mul
+    (M.binary (some .fp32) .real .sub (load M p a p.x (row*p.xStride) i) (M.fp32Load (mean p a row)))
+    (M.fp32Load (rstd p a row))) else M.literal (some .fp32) .real 0
 def wdy {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p)
     (row : Nat) (i : TileIndex [p.block]) :=
-  M.binary none .fp32 .mul (load M p a p.weight 0 i) (load M p a p.dy (row*p.dyStride) i)
-def c1 {α} [Inhabited α] (M : Algebra α) (p : Parameters) (a : Acc α p) (row : Nat) :=
-  binary M .div (M.reduceSum (some .fp32) ⟨0, by simp⟩ Bool.false
+  M.binary (some .fp32) .real .mul (load M p a p.weight 0 i) (load M p a p.dy (row*p.dyStride) i)
+def c1 {α} [Inhabited α] (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (a : Acc α p) (row : Nat) :=
+  binary M .div (R.apply (some .fp32) ⟨0, by simp⟩ Bool.false
     (fun i => binary M .mul (xhat M p a row i) (cast M (wdy M p a row i))) PUnit.unit) (denom M p)
 def c2 {α} [Inhabited α] (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (a : Acc α p) (row : Nat) :=
   binary M .div (cast M (R.apply (some .fp32) ⟨0, by simp⟩ Bool.false (wdy M p a row) PUnit.unit)) (denom M p)
 def dxValue {α} [Inhabited α] (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (a : Acc α p) (row : Nat) (i : TileIndex [p.block]) :=
   binary M .mul (binary M .sub (cast M (wdy M p a row i))
-    (binary M .add (binary M .mul (xhat M p a row i) (c1 M p a row)) (c2 M R p a row)))
-    (cast M (rstd p a row))
+    (binary M .add (binary M .mul (xhat M p a row i) (c1 M R p a row)) (c2 M R p a row)))
+    (cast M (M.fp32Load (rstd p a row)))
 def update {α} [Inhabited α] (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (row : Nat) (a : Acc α p) : Acc α p where
   state := (TileShape.allIndices [p.block]).foldl (fun s i =>

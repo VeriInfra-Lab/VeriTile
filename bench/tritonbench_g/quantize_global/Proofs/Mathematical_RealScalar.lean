@@ -1,6 +1,6 @@
 import Mathlib
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.quantize_global.Sources.Mathematical_Kernels
+import bench.tritonbench_g.quantize_global.Proofs.Sources.Mathematical_Kernels
 
 local macro "true" : term => `(Bool.true)
 local macro "false" : term => `(Bool.false)

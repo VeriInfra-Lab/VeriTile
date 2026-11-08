@@ -12,10 +12,11 @@ structure Request where
   laws : TensorLaws x
   block : Nat
   query : Bool
-  factor : ℝ
+  compiled : ConstexprFloat.Model
   contract : InputContract x.metadata block
 
-def p (c : Request) := parameters c.x.metadata c.block c.query c.factor
+def p (c : Request) := parameters c.x.metadata c.block c.query c.compiled
+def Request.factor (c : Request) : ℝ := (p c).factor
 def view (c : Request) := VeriTile.Torch.FP32.dataView c.x c.laws c.contract.contiguous
 def count (c : Request) := scaleCount c.x.metadata c.block
 

@@ -10,8 +10,8 @@ variable {α : Type} [Inhabited α]
 
 theorem intra (M : Algebra α) (hm : MaskArithmetic M) (D : DotPrimitive α) (p : Parameters)
     (bounds : RegionName → Nat) (s : State α) (backed : HeadBounds p (s.pids 0) bounds) :
-    TraceSafe (engine (withDot M D)) bounds (KernelOnly.intra p) s := by
-  simp [TraceSafe,KernelOnly.intra,ComputeKernel.surfaceBody,
+    TraceSafe (engine (withDot M D)) bounds (KernelOnly.intraKernel p) s := by
+  simp [TraceSafe,KernelOnly.intraKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,

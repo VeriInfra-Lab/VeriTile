@@ -1,5 +1,5 @@
 import bench.tritonbench_g.sin_kernel.Proofs.Mathematical_Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.TritonBenchG.SinKernel.FPProof
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

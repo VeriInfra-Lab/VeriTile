@@ -8,10 +8,10 @@ set_option maxHeartbeats 5000000
 
 /-- Proof-only decomposition of the single changed address assignment. -/
 def xStep (candidate : Bool) (stride : Nat) : ComputeStmt :=
-  let a : Op .nat [] := .ref .nat [] "row_idx"
-  let b : Op .nat [] := .constNat stride
+  let a : Op .int [] := .ref .int [] "row_idx"
+  let b : Op .int [] := .castNatToInt (.constNat stride)
   .assign .ptr [] "X" (.alg (.ptrAdd .nil (.ptrBase (⟨"x"⟩ : Region .real))
-    (if candidate then .mul .nat .nil b a else .mul .nat .nil a b)))
+    (.castIntToNat (if candidate then .mul .int .nil b a else .mul .int .nil a b))))
 
 def original (h : Call) (backward : Bool) : ComputeKernel :=
   if backward then Kernels.backward h else Kernels.forwardRuntime h
@@ -30,19 +30,9 @@ theorem source_split (candidate : Bool) (h : Call) (backward : Bool) :
 
 theorem x_step {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (stride : Nat) :
     step M (xStep Bool.false stride) s = step M (xStep Bool.true stride) s := by
-  have product : evalOp M none
-      (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s =
-    evalOp M none (.mul .nat .nil (.constNat stride) (.ref .nat [] "row_idx")) s := by
-    simp only [FP.Structural.evalOp_unfold]
-    cases hr : s.regs .nat [] "row_idx" <;> simp_all [numeric]
-    funext i
-    exact Nat.mul_comm _ _
-  simp only [xStep,Bool.false_eq_true,↓reduceIte,step,evalExpr]
-  change ((evalOp M none (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s).bind
-    (fun offsets => some (bop (fun (p : RegionName × Nat) n => (p.1,p.2+n))
-      .nil (fun _ => ("x",0)) offsets))).bind _ = _
-  rw [product]
-  rfl
+  cases hr : s.regs .int [] "row_idx" <;>
+    simp [xStep,step,evalExpr,FP.Structural.evalOp_unfold,numeric,FP.Structural.bop,hr,Int.mul_comm]
+
 
 theorem x_run {α : Type} [Inhabited α] (M : Algebra α) (stride : Nat) :
     run M [xStep Bool.false stride] = run M [xStep Bool.true stride] := by

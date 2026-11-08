@@ -97,7 +97,7 @@ theorem step_remainder (M : Algebra A) (out dividend : RegName) (width : Nat) :
 safety. The numerical backend is arbitrary and unchanged. -/
 theorem source_pair (M : Algebra A) (p : Parameters) :
     CodeEq M (Source.kernel p).surfaceBody (kernel p).surfaceBody := by
-  unfold Source.kernel kernel TypedSource.repaired TypedSource.quotientRemainder ComputeKernel.surfaceBody
+  unfold Source.kernel kernel TypedSource.repairedKernel TypedSource.quotientRemainderKernel ComputeKernel.surfaceBody
   repeat' first
     | exact code_refl M _
     | exact step_refl M _

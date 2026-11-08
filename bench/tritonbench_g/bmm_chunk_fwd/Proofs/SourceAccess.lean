@@ -9,6 +9,17 @@ set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
+private theorem signed_sub_mask (i K used : Nat) :
+    (i : Int)<(K : Int)-(used : Int) ↔ i<K-used := by omega
+private theorem signed_limit_mask (h : Host.Call) (d : Coordinates) (i : Nat) :
+    (i : Int)<signedLimit h d ↔ i<limit h d := by
+  simp only [signedLimit,limit,lt_min_iff,← Int.natCast_mul,Int.ofNat_lt,signed_sub_mask]
+
+private theorem raw_limit_mask (i chunk seqlen used : Nat) :
+    (i : Int)<min (chunk : Int) ((seqlen : Int)-(used : Int)) ↔
+      i<min chunk (seqlen-used) := by
+  simp only [lt_min_iff,Int.ofNat_lt,signed_sub_mask]
+
 def aMask (h : Host.Call) (c : Host.Config) (d : Coordinates) (q i e : Nat) : Bool :=
   decide (row c d i<limit h d) && decide (e<h.shape.K-q*c.K)
 def bMask (h : Host.Call) (c : Host.Config) (d : Coordinates) (q e j : Nat) : Bool :=
@@ -17,13 +28,13 @@ def bMask (h : Host.Call) (c : Host.Config) (d : Coordinates) (q e j : Nat) : Bo
 def aValue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config) (d : Coordinates)
     (q : Nat) (s : State α) (i e : Nat) : α :=
   o.scalar.cast (some .fp32) .real .real
-    (if aMask h c d q i e then (s.mem h.A (aOffset h c d q i e)).read .real
-      else o.scalar.literal (some .fp32) .real 0)
+    (o.scalar.fp32Load (if aMask h c d q i e then (s.mem h.A (aOffset h c d q i e)).read .real
+      else o.scalar.literal (some .fp32) .real 0))
 def bValue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config) (d : Coordinates)
     (q : Nat) (s : State α) (e j : Nat) : α :=
   o.scalar.cast (some .fp32) .real .real
-    (if bMask h c d q e j then (s.mem h.B (bOffset h c d q e j)).read .real
-      else o.scalar.literal (some .fp32) .real 0)
+    (o.scalar.fp32Load (if bMask h c d q e j then (s.mem h.B (bOffset h c d q e j)).read .real
+      else o.scalar.literal (some .fp32) .real 0))
 
 /-- Exact loaded tile registers of the actual full K body, retaining its casts.
 The conditional is outside the memory read, so masked lanes do not dereference
@@ -32,19 +43,20 @@ theorem loads {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
     (d : Coordinates) (q : Nat) (s : State α) (hs : StateAt h c d q s)
     (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
     ∃ t, run (engine o.algebra) (parts h c).body
-      (s.setReg "k" .nat [] (fun _ => q))=some t ∧
+      (s.setReg "k" .int [] (fun _ => q))=some t ∧
       t.regs .real [c.M,c.K] "a"=some (fun i => aValue o h c d q s i.1 i.2.1) ∧
       t.regs .real [c.K,c.N] "b"=some (fun i => bValue o h c d q s i.1 i.2.1) := by
   rcases hs with ⟨⟨h0,h1,h2,h3,h4⟩,h5,h6,h7,h8,h9,h10,h11,hseq⟩
   obtain ⟨acc,h11⟩ := Option.isSome_iff_exists.mp h11
-  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-    ha,hb,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+    ha,hb,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
     numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
     Region.cast,State.setReg,integralFloorDiv,integralMod,
     h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,aValue,bValue,aMask,bMask]
   constructor <;> funext i <;> norm_num
+  all_goals simp only [signed_limit_mask,← Int.natCast_mul,signed_sub_mask]
 
 def seqValue {α : Type} [Inhabited α] (h : Host.Call) (d : Coordinates) (s : State α)
     (lane : Nat) (fallback : Int) : Int :=
@@ -76,8 +88,8 @@ theorem epilogue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
   obtain ⟨acc,h11⟩ := Option.isSome_iff_exists.mp h11
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -85,12 +97,18 @@ theorem epilogue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
       h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,hseq,FP.Structural.store,store_regs,
       seqValue,seqOffset,seqBase,outOffset,SourcePointers.row,col,limit,minimum]
   all_goals
-    repeat' constructor
+    repeat' apply And.intro
     all_goals
       funext i
-      simp [bop,minimum,Nat.add_mul,Nat.mul_add,Nat.mul_assoc,Nat.add_assoc,
-        Nat.add_comm,Nat.add_left_comm]
-      all_goals omega
+      simp only [FP.Structural.bop,FP.Structural.numericLt,decide_eq_true_eq,
+        ← min_def_lt,← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast,raw_limit_mask]
+      all_goals
+        cases grouped : h.shape.grouped <;>
+          try simp only [grouped,Bool.false_eq_true,↓reduceIte,
+            ← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast]
+        all_goals simp [Nat.add_mul,Nat.mul_add,Nat.mul_assoc,
+          Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
+        all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
 
 /-- Exact active store-address image in the source epilogue. -/
 def Writes (h : Host.Call) (c : Host.Config) (d : Coordinates) (rg : RegionName) (off : Nat) : Prop :=
@@ -105,8 +123,8 @@ theorem epilogue_frame {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (
   obtain ⟨acc,h11⟩ := Option.isSome_iff_exists.mp h11
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -120,8 +138,13 @@ theorem epilogue_frame {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (
       intro i _ hi ho
       apply miss
       refine ⟨i,?_,hr,?_⟩
-      · simpa [outMask,SourcePointers.row,col] using hi
-      · simpa [outOffset,SourcePointers.row,col,mul_ite] using ho
+      · simp only [← Int.natCast_mul,← Int.natCast_add,Int.ofNat_lt] at hi
+        simpa [outMask,SourcePointers.row,col] using hi
+      · cases grouped : h.shape.grouped <;>
+          simp only [grouped,Bool.false_eq_true,↓reduceIte] at ho ⊢
+        all_goals
+          simp only [← Int.natCast_mul,← Int.natCast_add,Int.toNat_natCast] at ho
+          simpa [outOffset,SourcePointers.row,col,mul_ite,grouped] using ho
     · exact Or.inl hr
 
 #axiomsClean epilogue_frame

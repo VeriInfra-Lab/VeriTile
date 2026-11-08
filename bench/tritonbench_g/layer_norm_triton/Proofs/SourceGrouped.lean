@@ -18,72 +18,76 @@ set_option linter.unusedSimpArgs false
     split <;> exact ih _
 
 def code (stride M N G B : Nat) : List ComputeStmt :=
-  (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B).surfaceBody
-def prelude (stride M N G B : Nat) := (code stride M N G B).take 7
+  (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B).surfaceBody
+def prelude (stride M N G B : Nat) := (code stride M N G B).take 11
 def body (stride M N G B : Nat) : List ComputeStmt :=
-  match (code stride M N G B).drop 7 with
-  | (.forRangeDyn _ _ _ _ body)::_ => body
+  match (code stride M N G B).drop 11 with
+  | (.forRangeInt _ _ _ _ body)::_ => body
   | _ => []
-def suffix (stride M N G B : Nat) := (code stride M N G B).drop 8
+def suffix (stride M N G B : Nat) := (code stride M N G B).drop 12
 
 theorem code_split (stride M N G B : Nat) : code stride M N G B=
     prelude stride M N G B ++
-      [.forRangeDyn "row" (.ref .nat [] "group") (.constNat M) (.constNat G) (body stride M N G B)] ++
+      [.forRangeInt "row" (.ref .int [] "row") (.castNatToInt (.constNat M)) (.constNat G) (body stride M N G B)] ++
       suffix stride M N G B := by rfl
 
 def Ready (B : Nat) (s : State α) : Prop :=
-  (∃ v,s.regs .nat [] "group"=some v) ∧
-  (∃ v,s.regs .nat [B] "cols"=some v) ∧
+  (∃ v,s.regs .int [] "group"=some v) ∧
+  (∃ v,s.regs .int [B] "cols"=some v) ∧
   (∃ v,s.regs .bool [B] "mask"=some v) ∧
   (∃ v,s.regs .ptr [B] "DW"=some v) ∧
   (∃ v,s.regs .ptr [B] "DB"=some v) ∧
   (∃ v,s.regs .real [B] "dw_acc"=some v) ∧
-  (∃ v,s.regs .real [B] "db_acc"=some v)
+  (∃ v,s.regs .real [B] "db_acc"=some v) ∧
+  (∃ v,s.regs .int [] "row"=some v)
 
 theorem prelude_success [Inhabited α] (m : Model α) (stride M N G B : Nat) (s : State α) :
     ∃ t,run (engine m) (prelude stride M N G B) s=some t ∧ Ready B t := by
-  simp [prelude,code,TypedSource.groupedBackward,ComputeKernel.surfaceBody,
+  simp [prelude,code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Ready,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     Region.cast,Option.bind,ofFloat,toFloat]
 
-theorem body_success [Inhabited α] (m : Model α) (stride M N G B i : Nat)
+theorem body_success [Inhabited α] (m : Model α) (stride M N G B : Nat) (i : Int)
     (s : State α) (h : Ready B s) :
-    ∃ t,run (engine m) (body stride M N G B) (s.setReg "row" .nat [] (fun _ => i))=some t ∧ Ready B t := by
-  obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,⟨dw,hdw⟩,⟨db,hdb⟩⟩ := h
+    ∃ t,run (engine m) (body stride M N G B) (s.setReg "row" .int [] (fun _ => i))=some t ∧ Ready B t := by
+  obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,⟨dw,hdw⟩,⟨db,hdb⟩,⟨row,hrow⟩⟩ := h
   by_cases hi : i=group PUnit.unit <;>
-    simp [body,code,TypedSource.groupedBackward,ComputeKernel.surfaceBody,
+    simp [body,code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Ready,
       engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
       State.setReg,FP.Structural.store,ComputeDType.eraseDType,
       TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-      Region.cast,Option.bind,ofFloat,toFloat,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb,hi]
+      Region.cast,Option.bind,ofFloat,toFloat,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb,hrow,hi]
 
 theorem suffix_success [Inhabited α] (m : Model α) (stride M N G B : Nat)
     (s : State α) (h : Ready B s) :
     ∃ t,run (engine m) (suffix stride M N G B) s=some t := by
-  obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,⟨dw,hdw⟩,⟨db,hdb⟩⟩ := h
-  simp [suffix,code,TypedSource.groupedBackward,ComputeKernel.surfaceBody,
+  obtain ⟨⟨group,hgroup⟩,⟨cols,hcols⟩,⟨mask,hmask⟩,⟨dwp,hdwp⟩,⟨dbp,hdbp⟩,⟨dw,hdw⟩,⟨db,hdb⟩,⟨row,hrow⟩⟩ := h
+  simp [suffix,code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
-    Region.cast,Option.bind,ofFloat,toFloat,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb]
+    Region.cast,Option.bind,ofFloat,toFloat,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb,hrow]
 
 theorem source_executes [Inhabited α] (m : Model α) (stride M N G B : Nat) (s : State α) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t := by
+      (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t := by
   obtain ⟨a,ha,hready⟩ := prelude_success m stride M N G B s
-  obtain ⟨group,hgroup⟩ := hready.1
-  obtain ⟨b,hb,hbready⟩ := SourceFinal.range_success (engine m) "row" (group PUnit.unit) M G
+  obtain ⟨row,hrow⟩ := hready.2.2.2.2.2.2.2
+  obtain ⟨b,hb,hbready⟩ := SourceFinal.range_success (engine m) "row" (row PUnit.unit) M G
     (body stride M N G B) (Ready B) (body_success m stride M N G B) a hready
   obtain ⟨t,ht⟩ := suffix_success m stride M N G B b hbready
   refine ⟨t,?_⟩
   change run (engine m) (code stride M N G B) s=some t
   rw [code_split,run_append,run_append,ha]
-  simpa only [bind,Option.bind,run,step,evalOp_unfold,hgroup,hb] using ht
+  simp only [bind,Option.bind,run,step,evalOp_unfold,hrow]
+  change rangeInt (engine m) "row" (row PUnit.unit) (Int.ofNat M) G (body stride M N G B) a=some b at hb
+  rw [hb]
+  exact ht
 
 #axiomsClean source_executes
 #guard_msgs (drop info) in

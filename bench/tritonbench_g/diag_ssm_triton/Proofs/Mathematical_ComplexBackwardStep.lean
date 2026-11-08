@@ -11,7 +11,7 @@ set_option linter.unusedSimpArgs false
 convention. The two stores conjugate them back to observable gradients. -/
 structure Registers {B : Nat} (u : BlockState) (col : TileIndex [B] → Nat)
     (mask : TileIndex [B] → Bool) (carry acc transition : TileIndex [B] → ℂ) : Prop where
-  columns : u.regs .nat [B] "col_offsets" = some ⟨col⟩
+  columns : u.regs .int [B] "col_offsets" = some ⟨fun j=>(col j : Int)⟩
   active : u.regs .bool [B] "mask" = some ⟨mask⟩
   carryReal : u.regs .real [B] "grad_s_real" = some (realTile carry)
   carryImag : u.regs .real [B] "grad_s_imag" = some (imagTile carry)
@@ -38,10 +38,11 @@ def result {B : Nat} (u : BlockState) (s y gx gy : RegionName) (batch dim t : Na
   let grad := gradient u gy off mask carry
   let newAcc := fun j => acc j+grad j*prev j
   let newCarry := fun j => grad j*transition j
-  let timeSet := u.setReg "t" .nat [] (Tile.scalar t)
-  let indexed := timeSet.setReg "offsets" .nat [B] ⟨fun j => off j*2⟩
+  let timeSet := u.setReg "t" .int [] (Tile.scalar (t : Int))
+  let indexed := timeSet.setReg "offsets" .int [B] ⟨fun j => ((off j*2 : Nat) : Int)⟩
   let gyr := indexed.setReg "grad_y_real" .real [B] (realTile outputGradient)
-  let gyi := gyr.setReg "grad_y_imag" .real [B] (imagTile outputGradient)
+  let captured := gyr.setReg "__veritile_load_0" .real [B] (imagTile (input u gy off mask))
+  let gyi := captured.setReg "grad_y_imag" .real [B] (imagTile outputGradient)
   let sr := gyi.setReg "s_real" .real [B] (realTile prev)
   let si := sr.setReg "s_imag" .real [B] (imagTile prev)
   let gr := si.setReg "grad_s_real" .real [B] (realTile grad)
@@ -82,7 +83,7 @@ theorem previous_address_zero (batch dim t c : Nat) (ht : 0<t) :
 theorem Registers.setCounter {B : Nat} {u : BlockState} {col : TileIndex [B] → Nat}
     {mask : TileIndex [B] → Bool} {carry acc transition : TileIndex [B] → ℂ}
     (h : Registers u col mask carry acc transition) (k : Nat) :
-    Registers (u.setReg "i" .nat [] (Tile.scalar k)) col mask carry acc transition := by
+    Registers (u.setReg "i" .int [] (Tile.scalar (k : Int))) col mask carry acc transition := by
   rcases h with ⟨hc,hm,hcr,hci,har,hai,hlr,hli⟩
   constructor
   all_goals simpa using (by assumption)

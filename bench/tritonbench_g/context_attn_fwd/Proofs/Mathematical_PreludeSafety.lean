@@ -9,10 +9,10 @@ set_option linter.unusedSimpArgs false
 theorem launch_safe (p : Layout) (u : BlockState) (bounds : RegionBounds) :
     Stmt.TraceSafeList bounds (launchCode p) u := by
   apply TraceProofs.all_safe
-  simp [launchCode,n,Stmt.TraceSafe,Op.SafeAt.eq_def]
+  simp [launchCode,n,z,Stmt.TraceSafe,Op.SafeAt.eq_def]
 
 theorem metadata_safe (r : Regions) (batch : Nat) (u : BlockState) (bounds : RegionBounds)
-    (hr : u.regs .nat [] "cur_batch" = some (Tile.scalar batch))
+    (hr : u.regs .int [] "cur_batch" = some (Tile.scalar batch))
     (h1 : batch < bounds r.start) (h2 : batch < bounds r.prompt)
     (h3 : batch < bounds r.sequence) :
     Stmt.TraceSafeList bounds (metadataCode r) u := by
@@ -34,7 +34,7 @@ theorem offsets_safe (p : Layout) (u : BlockState) (bounds : RegionBounds) :
 
 theorem query_safe (p : Layout) (r : Regions) (rows : Fin p.BM → Nat) (seq : Int)
     (offsets : Fin p.BM → Fin p.D → Int) (u : BlockState) (bounds : RegionBounds)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
     (hs : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq))
     (ho : u.regs .int [p.BM,p.D] "off_q" = some (Tile.mat offsets))
     (hb : ∀ i d, (rows i : Int) < seq → (offsets i d).toNat < bounds r.query) :

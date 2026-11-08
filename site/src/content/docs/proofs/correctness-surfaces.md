@@ -75,7 +75,7 @@ provide flat-pointer relocation, allocation separation or byte-level transport.
 explicit predicate on logical input values to the regional judgment. It keeps
 the same source-safety, execution, output and frame conclusions; the domain
 cannot supply an execution-state predicate or replace those proof obligations.
-The signed-length [copy interface](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/var_len_copy/Correct.lean)
+The signed-length [copy interface](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/var_len_copy/RealCorrect.lean)
 uses this to constrain starts only when the input length is positive.
 
 [ProgramEquivalence](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Triton/Float/ProgramEquivalence.lean) compares two
@@ -85,7 +85,7 @@ decoded-result windows separate from writable windows; untouched result cells
 remain in the raw frame. [InputBindingIO](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Triton/Float/InputBindingIO.lean)
 provides explicit exact-cell input bindings when that is the originally proved
 domain. These choices preserve existing input/observation scope; they do not
-introduce numerical assumptions. See [Lion](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/adam_update_triton/Correct.lean)
+introduce numerical assumptions. See [Lion](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/adam_update_triton/RealCorrect.lean)
 for runtime scalars and two in-place outputs.
 
 [AddressedInputsIO](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Triton/Float/AddressedInputsIO.lean) retains source
@@ -189,7 +189,7 @@ source and linearization proof. Tests are in `FPPerAddressProgramIO.lean`.
 
 The existing TritonBench [vector addition correctness theorem](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/tritonbench_g/vector_addition/Proofs/Mathematical_Correct.lean)
 uses the real `addIO … ⊨ fun xs ys i => xs i + ys i` surface. The separate
-[correctness example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/TritonBenchVectorAddition/Correct.lean)
+[correctness example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
 defines its fp32 kernel and real-valued IO specification:
 
 ```lean
@@ -333,7 +333,7 @@ surface that the bench corpus actually states its headlines on is the **KernelIO
 `⊨` triple**, defined in
 [`VeriTile/Triton/Memory/KernelSpec.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Triton/Memory/KernelSpec.lean). The signature variants cover different input/output arities, masks,
 indices, and streaming windows. Consult the
-[final contract review](https://github.com/VeriInfra-Lab/VeriTile/blob/main/validation/contracts.json) for
+[historical contract review](https://github.com/VeriInfra-Lab/VeriTile/blob/main/validation/archive/contracts.json) for
 per-port coverage.
 
 ### What a `KernelIO` is

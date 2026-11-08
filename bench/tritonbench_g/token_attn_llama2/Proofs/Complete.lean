@@ -24,11 +24,11 @@ theorem complete {α} [Inhabited α] (A : Program → Algebra α) (c : Call) (sc
     obtain ⟨hmem,hindex⟩ := grid_covers c m v b h t hb hh ht
     have hl := length_bound c m v b hb
     have ha : active (c.parameters scale) (start c.grid (b,h,t/32) (initial c m x s)) (lane c scale t) := by
-      rw [initial_active]
+      rw [initial_active _ _ _ _ _ _ _ v hb]
       change c.maxLength-m.len b+(t/32*32+t%32)<c.maxLength
       omega
     have out := hv (b,h,t/32) (legal.mem_iff.mp hmem) (lane c scale t) ha
-    rw [initial_offset] at out
+    rw [initial_offset _ _ _ _ _ _ _ v hb] at out
     simpa only [lane,Prod.fst,Prod.snd,hindex] using out
   · intro r o hu
     apply hf
@@ -38,8 +38,8 @@ theorem complete {α} [Inhabited α] (A : Program → Algebra α) (c : Call) (sc
       intro a ha i hi
       obtain ⟨hb,hh,_⟩ := (mem_programs c.grid a.1 a.2.1 a.2.2).mp (legal.mem_iff.mpr ha)
       have hl := length_bound c m v a.1 hb
-      rw [initial_active] at hi
-      rw [initial_offset]
+      rw [initial_active _ _ _ _ _ _ _ v hb] at hi
+      rw [initial_offset _ _ _ _ _ _ _ v hb]
       exact hu a.1 hb a.2.1 hh _ (by omega)
 
 #axiomsClean complete

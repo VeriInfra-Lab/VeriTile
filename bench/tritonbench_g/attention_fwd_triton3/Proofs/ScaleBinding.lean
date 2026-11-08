@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton3.Kernels
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Support.KernelEntryAdapters
 import VeriTile.Meta.StatementAudit
 import Mathlib.Tactic
 
@@ -17,9 +17,9 @@ from this one assignment. Native interpretation binds that parameter slot to
 the supplied 32-bit word, preserving negative zero and NaN payloads. -/
 theorem only_scale_slot (c : Call) :
     (Kernels.source c).surfaceBody=
-      (Kernels.source (template c)).surfaceBody.take 17 ++
-      [.assign .real [] "qk_scale" (.alg (.const c.scale))] ++
-      (Kernels.source (template c)).surfaceBody.drop 18 := rfl
+      (Kernels.source (template c)).surfaceBody.take 0 ++
+      [(ScalarArgument.fp32 "sm_scale" c.scale).statement] ++
+      (Kernels.source (template c)).surfaceBody.drop 1 := rfl
 
 theorem marker_distinct : marker≠0 ∧ marker≠1 ∧ marker≠1.4426950408889634 := by
   refine ⟨by norm_num [marker],by norm_num [marker],?_⟩

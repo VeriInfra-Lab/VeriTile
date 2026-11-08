@@ -1,5 +1,5 @@
 import bench.tritonbench_g.quantize_kv_transform.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.QuantizeKvTransform.KernelExecution
 open VeriTile.Triton FP.Structural KernelSource
@@ -24,10 +24,10 @@ The selected native conversion supplies those results; no input restriction
 or success premise is used. -/
 def execution {α : Type} [Inhabited α] (rest : Algebra α) (convert : α → Int)
     (equal : α → α → Bool) (p : Parameters) (s : State α) (hw : 0<p.width) :
-    {t : State α // exec (backend rest convert equal) (kernel p) s=some t} := by
+    {t : State α // exec (backend rest convert equal) (sourceKernel p) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [kernel,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [sourceKernel,FP.Structural.exec,ComputeKernel.surfaceBody,
     FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,FP.Structural.store,
     FP.Structural.numeric,FP.Structural.numericLt,FP.Structural.numericEq,

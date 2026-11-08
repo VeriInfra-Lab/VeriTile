@@ -37,6 +37,8 @@ def algebra (rest : Algebra ℝ) : Algebra ℝ :=
   { rest with
     literal := fun _ _ x => x
     cast := fun _ _ _ x => x
+    fp32Load := id
+    fromInt := fun _ n => (n : ℝ)
     binary := fun _ _ op x y => match op with
       | .add => x+y | .sub => x-y | .mul => x*y | .div => x/y
       | .max => max x y | .pow => Real.rpow x y

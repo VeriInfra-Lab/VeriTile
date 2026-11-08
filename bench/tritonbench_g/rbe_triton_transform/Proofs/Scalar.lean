@@ -35,7 +35,7 @@ def Operations.backend (ops : Operations α) : Algebra α where
 
 def scalarAngle (ops : Operations α) (r : Request) (m n : Nat) : α :=
   ops.div (ops.integer (r.position+(m : Int)))
-    (ops.pow (ops.literal 10000) (ops.div (ops.natural (n%128)) (ops.literal 128)))
+    (ops.pow (ops.literal 10000) (ops.div (ops.integer ((n%128 : Nat) : Int)) (ops.natural 128)))
 
 def scalarPair (ops : Operations α) (r : Request) (x : Nat → α) (b m n : Nat) (imag : Bool) : α :=
   let u := x (r.offset b m n)
@@ -51,11 +51,16 @@ def ideal : Operations ℝ :=
   ⟨id,fun n => n,fun n => n,(·+·),(·-·),(·*·),(·/·),Real.rpow,Real.sin,Real.cos⟩
 
 theorem ideal_angle (r : Request) (m n : Nat) : scalarAngle ideal r m n = Spec.angle r m n := by
-  simp [scalarAngle,ideal,Spec.angle]
+  simp only [scalarAngle,ideal,Spec.angle,Int.cast_add,Int.cast_natCast]
+  rfl
+
 
 theorem ideal_result (r : Request) (x : Nat → ℝ) (b m c : Nat) :
     scalarResult ideal r x b m c = Spec.result r x b m c := by
-  simp [scalarResult,scalarPair,Spec.result,Spec.pair,scalarAngle,Spec.angle,ideal]
+  simp only [scalarResult,scalarPair,Spec.result,Spec.pair,scalarAngle,Spec.angle,ideal,
+    Int.cast_add,Int.cast_natCast]
+  rfl
+
 
 #axiomsClean ideal_result
 #specNonCircular scalarResult avoiding [FP.Structural.exec]

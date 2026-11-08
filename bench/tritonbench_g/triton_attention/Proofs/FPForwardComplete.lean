@@ -63,7 +63,7 @@ theorem forwardEpilogueExecution (rest : Algebra α) (P : Primitives α) (p : Fo
     (h : ForwardInvariant P p initial (forwardBlocks p initial)
       (forwardRounds P p initial (forwardBlocks p initial)) current) :
     run (backend rest P) (forwardEpilogue p) current=some (forwardEpilogueResult P p initial current) := by
-  simp [forwardEpilogue,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [forwardEpilogue,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,store,backend,h.start,h.pids,h.hz,h.numerator,h.denominator,h.maximum,h.outputPtr,
     forwardEpilogueResult,forwardEpilogueRegisters,forwardLCell,forwardMCell,forwardOutput,
     forwardRowOffset,forwardQueryRow,forwardOutPointer,forwardQPointer,

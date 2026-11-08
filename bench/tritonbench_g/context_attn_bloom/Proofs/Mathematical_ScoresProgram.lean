@@ -14,10 +14,10 @@ def scores (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : List Stmt
 def causalMask (p : Layout) : Op .bool [p.BM,p.BN] :=
   .ge .int Broadcast.nil.consL.consR
     (.add .int .scalarR
-      (Op.expandDim ⟨1,by simp⟩ (Op.ref .nat [p.BM] "offs_m")).castNatToInt
+      (Op.expandDim ⟨1,by simp⟩ (Op.ref .int [p.BM] "offs_m"))
       (z "prompt_cache_len"))
     (.add .int .scalarL (z "start_n")
-      (Op.expandDim ⟨0,by simp⟩ (Op.ref .nat [p.BN] "offs_n")).castNatToInt)
+      (Op.expandDim ⟨0,by simp⟩ (Op.ref .int [p.BN] "offs_n")))
 
 def scaling (p : Layout) (swapped : Bool) (scale : ℝ) : Op .real [p.BM,p.BN] :=
   if swapped then .mul .real .scalarL (.const scale) (.ref .real [p.BM,p.BN] "qk")
@@ -35,7 +35,7 @@ def code (p : Layout) (swapped : Bool) (scale : ℝ) : List Stmt :=
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     scores p r swapped scale = code p swapped scale := by
   cases swapped
-  all_goals simp only [scores,scorePrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
+  all_goals simp only [scores,scorePrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirstKernel,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     List.drop_succ_cons,List.drop_zero,

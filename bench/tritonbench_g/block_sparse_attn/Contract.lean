@@ -1,4 +1,4 @@
-import bench.tritonbench_g.block_sparse_attn.PhysicalAdapter
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.PhysicalAdapter
 
 namespace VeriTile.Bench.Repairs.BlockSparseAttn.KernelOnly
 open VeriTile.Triton FP.Structural

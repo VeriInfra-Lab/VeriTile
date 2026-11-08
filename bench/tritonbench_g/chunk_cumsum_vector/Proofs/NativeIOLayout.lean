@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_cumsum_vector.NativeIO
+import bench.tritonbench_g.chunk_cumsum_vector.Proofs.Support.NativeIO
 import bench.tritonbench_g.chunk_cumsum_vector.Proofs.Rewrite
 import VeriTile.Triton.Float.ProgramEquivalence
 

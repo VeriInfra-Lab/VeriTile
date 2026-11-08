@@ -109,6 +109,10 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.bop h.div bc va vb)
+  | .divRN bc a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.bop NumericDType.real.div bc va vb)
   | .floorDiv h bc a b, s => do
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
@@ -134,6 +138,7 @@ noncomputable def evalOpR (R : RoundingModel) :
   | .sigmoid a, s => return Tile.uop WithBot.realSigmoid (← evalOpR R a s)
   | .sqrt a, s => return Tile.uop WithBot.realSqrt (← evalOpR R a s)
   | .rsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOpR R a s)
+  | .libdeviceRsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOpR R a s)
   | .tanh a, s => return Tile.uop WithBot.realTanh (← evalOpR R a s)
   | .sin a, s => return Tile.uop WithBot.realSin (← evalOpR R a s)
   | .cos a, s => return Tile.uop WithBot.realCos (← evalOpR R a s)
@@ -402,6 +407,8 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .div _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .divRN _ a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .floorDiv _ _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .mod _ _ a b, s => by
@@ -437,6 +444,7 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .sigmoid a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sqrt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .rsqrt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .libdeviceRsqrt a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .tanh a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .sin a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .cos a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]

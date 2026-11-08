@@ -456,6 +456,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
   | _, _, .rsqrt a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .libdeviceRsqrt a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .tanh a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
@@ -531,6 +534,10 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
   | _, _, .pow bc a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .divRN bc a b, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]

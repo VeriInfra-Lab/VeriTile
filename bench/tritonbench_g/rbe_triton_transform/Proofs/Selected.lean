@@ -17,6 +17,11 @@ theorem complete {α : Type} [Inhabited α] (ops : Operations α) (p : Source.Pa
     VeriTile.Bench.TritonBenchG.KcacheCopyTriton.TypedCopy.masked_scatter_regs,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Region.cast,
     integralFloorDiv,integralMod,and_assoc,and_left_comm,and_comm,Operations.backend]
+  simp only [← Int.natCast_ediv,← Int.natCast_emod,← Int.natCast_mul,← Int.natCast_add,
+    SignedIndex.twice_nat,SignedIndex.one_add_nat,SignedIndex.mod128_nat,
+    SignedIndex.mod128_nat_pulled,SignedIndex.emod128_nat,
+    Int.toNat_natCast,SignedIndex.nat_not_negative,↓reduceIte,
+    SignedIndex.mod_nat,SignedIndex.mod_nat_pulled,SignedIndex.lt_nat]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

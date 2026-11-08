@@ -2,7 +2,6 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.GridHost
 import bench.tritonbench_g.layer_norm_liger.Proofs.HostResults
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Returned
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (withSum)
 open Logical
 noncomputable section
 set_option maxHeartbeats 5000000
@@ -42,7 +41,7 @@ theorem dw_cell (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (hwd : p.dw≠p.db) (hwx : p.dw≠p.dx) (hs : p.columns≤p.dwStride)
     (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Grid.reference (Backward.reference (algebra rest) sumPrimitive p) s programs).mem
-      p.dw (pid*p.dwStride+i.1.val)=.mk .fp32 (groupDW p (atPid s pid) i.1.val) := by
+      p.dw (pid*p.dwStride+i.1.val)=.mk .real (groupDW p (atPid s pid) i.1.val) := by
   rw [Grid.backward_dw _ _ p s programs pid hp hwd hwx hs i hi]
   have h := Logical.reference_dw rest p (before rest p s pid) fresh.dx hwd i hi
   unfold Backward.reference at h
@@ -55,7 +54,7 @@ theorem db_cell (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (hbw : p.db≠p.dw) (hbx : p.db≠p.dx) (hs : p.columns≤p.dbStride)
     (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Grid.reference (Backward.reference (algebra rest) sumPrimitive p) s programs).mem
-      p.db (pid*p.dbStride+i.1.val)=.mk .fp32 (groupDB p (atPid s pid) i.1.val) := by
+      p.db (pid*p.dbStride+i.1.val)=.mk .real (groupDB p (atPid s pid) i.1.val) := by
   rw [Grid.backward_db _ _ p s programs pid hp hbw hbx hs i hi]
   have h := Logical.reference_db rest p (before rest p s pid) fresh.dx i hi
   unfold Backward.reference at h
@@ -69,7 +68,7 @@ theorem dx_cell (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (hq : p.rowsPerProgram=Launch.rowsPerProgram p.rows programs)
     (row : Nat) (hr : row<p.rows) (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Grid.reference (Backward.reference (algebra rest) sumPrimitive p) s programs).mem
-      p.dx (row*p.dxStride+i.1.val)=.mk .fp32 (rowDX p s row i.1.val) := by
+      p.dx (row*p.dxStride+i.1.val)=.mk .real (rowDX p s row i.1.val) := by
   obtain ⟨pid,⟨hpid,hlo,hhi⟩,_⟩ := Logical.dx_coverage p s programs row hp hr hq
   have hlo' : Backward.start p (before rest p s pid)≤row := by
     simpa [Backward.start,before,Grid.launch,atPid] using hlo
@@ -99,7 +98,7 @@ theorem dw_return (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (i : Fin p.columns) :
     (Host.finish scalar p programs pw pb dw db shape
       (Grid.reference (Backward.reference (algebra rest) sumPrimitive p) s programs)).state.mem dw i.val=
-      .mk .fp32 (Logical.dw p.rows (fun row => bx p (saved p s) row)
+      .mk .real (Logical.dw p.rows (fun row => bx p (saved p s) row)
         (fun row => bdy p (saved p s) row) (fun row => Backward.mean p (saved p s) row)
         (fun row => Backward.rstd p (saved p s) row) i.val) := by
   rw [Host.finish_dw _ _ _ _ _ _ _ _ _ hout]
@@ -112,7 +111,7 @@ theorem dw_return (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     simp [j]
   unfold Host.sumValue
   rw [hcol]
-  change Cell.mk .fp32 (pw.tree.eval 0 (·+·) (fun pid => groupDW p (atPid s pid.val) i.val))=_
+  change Cell.mk .real (pw.tree.eval 0 (·+·) (fun pid => groupDW p (atPid s pid.val) i.val))=_
   rw [tree_range programs pw (fun pid => groupDW p (atPid s pid) i.val),
     Logical.host_dw p s programs hp hr hq i.val]
 
@@ -124,7 +123,7 @@ theorem db_return (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (i : Fin p.columns) :
     (Host.finish scalar p programs pw pb dw db shape
       (Grid.reference (Backward.reference (algebra rest) sumPrimitive p) s programs)).state.mem db i.val=
-      .mk .fp32 (Logical.db p.rows (fun row => bdy p (saved p s) row) i.val) := by
+      .mk .real (Logical.db p.rows (fun row => bdy p (saved p s) row) i.val) := by
   rw [Host.finish_db _ _ _ _ _ _ _ _ _ hout]
   let j : TileIndex [p.block] := (⟨i.val,Nat.lt_of_lt_of_le i.isLt hb⟩,PUnit.unit)
   have hcol : Host.column (Grid.reference (Backward.reference (algebra rest) sumPrimitive p) s programs)
@@ -135,7 +134,7 @@ theorem db_return (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     simp [j]
   unfold Host.sumValue
   rw [hcol]
-  change Cell.mk .fp32 (pb.tree.eval 0 (·+·) (fun pid => groupDB p (atPid s pid.val) i.val))=_
+  change Cell.mk .real (pb.tree.eval 0 (·+·) (fun pid => groupDB p (atPid s pid.val) i.val))=_
   rw [tree_range programs pb (fun pid => groupDB p (atPid s pid) i.val),
     Logical.host_db p s programs hp hr hq i.val]
 

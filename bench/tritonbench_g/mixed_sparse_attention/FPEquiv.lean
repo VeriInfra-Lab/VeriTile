@@ -1,5 +1,5 @@
 import bench.tritonbench_g.mixed_sparse_attention.Proofs.FusedGrid
-import bench.tritonbench_g.mixed_sparse_attention.NativeIO
+import bench.tritonbench_g.mixed_sparse_attention.Proofs.Support.NativeIO
 
 namespace VeriTile.Bench.Repairs.MixedSparseAttention.FPEquiv
 open VeriTile Triton FP.Structural

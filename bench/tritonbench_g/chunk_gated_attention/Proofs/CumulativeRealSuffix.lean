@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.CumulativeRealPointers
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealCumExecution
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealCumExecution
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.CumulativeSource.Real
 open VeriTile.Triton
 open VeriTile.Bench.Repairs.ChunkGatedAttention
@@ -32,6 +32,7 @@ def suffixPrepared (p : Parameters) (s o : RegionName) (initial : BlockState) : 
   let a := initial.readMem s
   let padding := initial.undef s
   let u := (activePreludeExecution p s o initial).val
+  let u := u.setReg "__veritile_load_0" .real [p.BT,p.BS] (inputTile q localLaunch a padding 0)
   let u := u.setReg "b_s" .real [p.BT,p.BS] (inputTile q localLaunch a padding 0)
   u.setReg "b_o" .real [p.BT,p.BS] (RealCumExecution.outputTile q localLaunch a padding 0)
 
@@ -49,6 +50,13 @@ theorem suffix_computes (p : Parameters) (s o : RegionName) (initial : BlockStat
       (initial.undef s) 0 _ (by intro off; rw [active_undef])
       (by intro off; simp only [BlockState.readMem,active_memory])
       (prepared_input_pointer p s o initial)))]
+  have copied : evalOp (.ref .real [p.BT,p.BS] "__veritile_load_0")
+      ((activePreludeExecution p s o initial).val.setReg "__veritile_load_0" .real [p.BT,p.BS]
+        (inputTile q localLaunch (initial.readMem s) (initial.undef s) 0)) =
+      some (inputTile q localLaunch (initial.readMem s) (initial.undef s) 0) := by
+    simp [evalOp.eq_def,BlockState.setReg]
+    rfl
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some copied)]
   erw [stepStmts.cons_some (stepStmt_assign_eq_some (RealCumExecution.dot_eval q localLaunch
     (initial.readMem s) (initial.undef s) 0 _ (by simpa [q,tileLayout] using active_triangular p s o initial)
     (by simp [q,tileLayout])))]

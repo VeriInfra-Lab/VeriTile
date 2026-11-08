@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_delta_fwd.Sources.RealModel
+import bench.tritonbench_g.chunk_delta_fwd.Proofs.Sources.RealModel
 namespace VeriTile.Bench.Repairs.ChunkDeltaFwd.Real
 open VeriTile Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)

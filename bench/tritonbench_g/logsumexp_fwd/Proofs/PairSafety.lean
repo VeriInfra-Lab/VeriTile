@@ -18,10 +18,10 @@ theorem candidate_traceSafe [Inhabited A] (engine : Engine A) (x z : RegionName)
     (input : ∀ i : Fin B, s.pids 1 * B + i.val < D →
       Source.inputAddress (s.pids 0) (s.pids 1) D B i.val < bounds x)
     (output : Source.outputAddress (s.pids 0) (s.pids 1) D B < bounds z) :
-    FP.Structural.TraceSafe engine.algebra bounds (rowBlockCandidate x z D B hasScale) s := by
+    FP.Structural.TraceSafe engine.algebra bounds (rowBlockCandidateKernel x z D B hasScale) s := by
   have hsum : 1 ≤ D + B := by omega
   cases hasScale
-  all_goals simp (maxSteps := 1800000) [FP.Structural.TraceSafe, rowBlockCandidate, ComputeKernel.surfaceBody,
+  all_goals simp (maxSteps := 1800000) [FP.Structural.TraceSafe, rowBlockCandidateKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

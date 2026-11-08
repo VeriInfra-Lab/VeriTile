@@ -19,7 +19,7 @@ theorem range_safe (p : Scalar α) (rest : Algebra α) (cfg : Parameters)
       (cfg.divK=Bool.true ∨ inner cfg q i.1<cfg.K) ∧
         (cfg.divN=Bool.true ∨ column cfg initial i.2.1<cfg.N) →
       bOffset cfg initial q i<bounds cfg.B) :
-    Safety.rangeSafe (engine p rest) bounds "_i" k (iterations cfg) 1 (body cfg) current := by
+    Safety.rangeSafe (engine p rest) bounds "_" k (iterations cfg) 1 (body cfg) current := by
   by_cases active : k < iterations cfg
   · rw [Safety.rangeSafe_unfold,if_neg (by decide),if_pos active]
     have hs:=loopRegister (scalar p) cfg initial current k h

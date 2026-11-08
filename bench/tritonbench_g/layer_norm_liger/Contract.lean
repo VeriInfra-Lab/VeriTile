@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_liger.Kernels
+import bench.tritonbench_g.layer_norm_liger.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.layer_norm_liger.Proofs.Settings
 import VeriTile.Torch.FP32
 import VeriTile.Triton.Float.Structural
@@ -46,7 +46,7 @@ def address (pointers : RegionName → Nat) (l : Location) := pointers l.1 + 4*l
 /-- One physical heap supplies every pointer, preserving read-only aliases. -/
 def entry [Inhabited α] (pointers : RegionName → Nat) (memory : Nat → α) (pid : Nat) : State α where
   regs := fun _ _ _ => none
-  mem := fun r o => .mk .fp32 (memory (address pointers (r,o)))
+  mem := fun r o => .mk .real (memory (address pointers (r,o)))
   pids := fun _ => pid
   numPids := fun _ => 0
   undef := fun dtype _ _ => defaultValue dtype
@@ -59,7 +59,7 @@ same initial state; it is not a materialization or input copy. -/
 def logicalEntry (inputs : List Buffer) (memory : Nat → α) (s : State α) : State α :=
   { s with mem := fun r o =>
       match inputs.find? (fun b => b.region == r && o < b.size) with
-      | some b => .mk .fp32 (b.logical memory o)
+      | some b => .mk .real (b.logical memory o)
       | none => s.mem r o }
 
 /-- Physical realization of precisely the actual source writes. Address
@@ -68,7 +68,7 @@ def commit [Inhabited α] (pointers : RegionName → Nat) (writes : Location →
     (initial : Nat → α) (final : State α) (a : Nat) : α := by
   classical
   exact if h : ∃ l, writes l ∧ address pointers l = a
-    then (final.mem h.choose.1 h.choose.2).read .fp32 else initial a
+    then (final.mem h.choose.1 h.choose.2).read .real else initial a
 
 structure ForwardCall where
   (x weight bias y mean rstd : Buffer)

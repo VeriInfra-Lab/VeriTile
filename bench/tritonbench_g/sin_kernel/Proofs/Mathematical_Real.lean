@@ -6,7 +6,7 @@ namespace VeriTile.Bench.TritonBenchG.SinKernel
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₁
 
-attribute [local simp] VeriTile.Bench.Repairs.SinKernel.kernel Except.bind bind ComputeDType.eraseDType ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+attribute [local simp] VeriTile.Bench.Repairs.SinKernel.sourceKernel Except.bind bind ComputeDType.eraseDType ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
 
 /-- Algorithm-layer correctness for `kernel_function`.
 
@@ -122,7 +122,7 @@ theorem kernel_function_traceSafe
       ((kernel_function x_ptr output_ptr n_elements BLOCK_SIZE
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafe
-  try simp only [kernel_function, VeriTile.Bench.Repairs.SinKernel.kernel, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Region.cast]
+  try simp only [kernel_function, VeriTile.Bench.Repairs.SinKernel.sourceKernel, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Region.cast]
   -- Computational unroll: walks all seven statements, discharging every
   -- load-free `SafeAt` and reducing the two memory accesses' lane-wise
   -- address obligations to the bounds hypotheses below.

@@ -1,6 +1,7 @@
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.KernelCoverage
 import VeriTile.Triton.Float.ProgramIO
 import Mathlib.Tactic.FinCases
+import bench.tritonbench_g.rbe_triton_transform.IO
 
 import bench.tritonbench_g.rms_rbe_matmul.Proofs.ProgramPairSource
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
@@ -193,3 +194,33 @@ def realFormula (d8 : Float8E5Bits → ℝ) (fp8 : Bool) (B : Nat) (p : KernelSo
 
 end
 end VeriTile.Bench.Repairs.RmsRbeMatmulLaunchGuard
+
+namespace VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryIO
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.Repairs.RbeTritonTransform
+noncomputable section
+
+/-- The separate pasted rotary entry, using the existing dense 2-by-1024 launch. -/
+def source (r : Request) (X Y : RegionName) : ComputeKernel :=
+  let p := parameters r X Y
+  TypedSource.rbeKernel .fp32 p.input p.output p.rows p.columns p.inputBatchStride p.inputRowStride
+    p.inputColumnStride p.outputBatchStride p.outputRowStride p.outputColumnStride
+    p.startToken p.theta p.blockRows p.blockColumns
+
+/-- The same input/output binding and fresh-register launch as the shared rotary interface. -/
+def invocation (r : Request) (X Y : RegionName) (q : Nat × Nat) : Invocation ℝ :=
+  { RbeTritonTransformCheckedLaunch.invocation ideal r X Y q with kernel := source r X Y }
+
+/-- Reuse the complete dense IO descriptor; only the actual source invocation changes. -/
+def io (r : Request) (X Y : RegionName) (qs : List Runtime.Program) : ProgramIO ℝ ℝ :=
+  { RbeTritonTransformCheckedLaunch.rotationIO ideal r X Y qs id id with
+    schedule := fun _ => qs.map (invocation r X Y) }
+
+def logical (r : Request) (X Y : RegionName) (qs : List Runtime.Program) :
+    LogicalProgramIO ℝ ℝ (RbeTritonTransformCheckedLaunch.LogicalView.Tensor r)
+      (RbeTritonTransformCheckedLaunch.LogicalView.Tensor r) where
+  core := io r X Y qs
+  inputs := RbeTritonTransformCheckedLaunch.LogicalView.tensorEquiv r X
+  outputs := RbeTritonTransformCheckedLaunch.LogicalView.tensorEquiv r Y
+end
+end VeriTile.Bench.Repairs.RmsRbeMatmul.RotaryIO

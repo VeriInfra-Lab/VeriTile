@@ -20,8 +20,9 @@ def attentionLoad (M : Algebra α) (c : OutputGrid.Shape) (s : State α)
     (i : TileIndex [c.BT,c.BT]) : α :=
   M.cast (some .fp32) .real .real
     (if i.2.1.val ≤ i.1.val then
-      M.fp32Load (if row c s i.1.val<c.T then
-        (s.mem "attention" (s.pids 2*c.T*c.BT+row c s i.1.val*c.BT+i.2.1.val)).read .real else zero M)
+      M.cast (some .fp32) .fp32 .real (if row c s i.1.val<c.T then
+        (s.mem "attention" (s.pids 2*c.T*c.BT+row c s i.1.val*c.BT+i.2.1.val)).read .fp32
+        else M.literal (some .fp32) .fp32 0)
     else zero M)
 def valueLoad (M : Algebra α) (c : OutputGrid.Shape) (s : State α) (i : Index c) : α :=
   M.fp32Load (if active c s i then (s.mem "v" (outputAddress c s i)).read .real else zero M)
@@ -49,7 +50,7 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Shape
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,OutputGrid.layout,OutputGrid.regions,
+  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,outputOriginalKernel,OutputGrid.layout,OutputGrid.regions,
     ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -73,7 +74,7 @@ theorem finishMemory (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Shap
   all_goals rfl
 
 theorem source_parts (c : OutputGrid.Shape) (scale : ℝ) : (kernel c scale).surfaceBody = (parts c scale).before ++
-    [.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop (parts c scale).stride (parts c scale).body] ++
+    [.forRange "i_k" 0 (Geometry.ceilDiv c.K c.BK) 1 (parts c scale).body] ++
     (parts c scale).after := rfl
 
 theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Shape) (scale : ℝ) (s : State α) :
@@ -84,14 +85,9 @@ theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Sha
     (entryContext M D c scale s).1 (entryContext M D c scale s).2
   let finish := finishExecution M D c scale s mid hc ha
   refine ⟨finish.val,?_,finishMemory M D c scale s mid hc ha⟩
-  have hl : step (engine (withDot M D)) (.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop
-      (parts c scale).stride (parts c scale).body) start.val=some mid := by
-    have h0 : (parts c scale).start = .constNat 0 := rfl
-    have hn : (parts c scale).stop = .div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat c.K) (.constNat c.BK)) (.constNat 1)) (.constNat c.BK) := rfl
-    have h1 : (parts c scale).stride = .constNat 1 := rfl
-    simp only [step,h0,hn,h1,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
-    exact hm
+  have hl : step (engine (withDot M D)) (.forRange "i_k" 0
+      (Geometry.ceilDiv c.K c.BK) 1 (parts c scale).body) start.val=some mid := by
+    simpa only [step] using hm
   change run (engine (withDot M D)) (kernel c scale).surfaceBody s=some finish.val
   rw [source_parts,List.append_assoc,run_append,start.property]
   simp only [Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

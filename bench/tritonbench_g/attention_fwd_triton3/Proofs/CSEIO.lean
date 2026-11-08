@@ -16,9 +16,9 @@ set_option maxHeartbeats 3000000
 interpretation retain the original complete-quotation binding. -/
 theorem only_scale_slot (c : Call) :
     (Kernels.keyMaskCSE c).surfaceBody=
-      (Kernels.keyMaskCSE (ScaleBinding.template c)).surfaceBody.take 17 ++
-      [.assign .real [] "qk_scale" (.alg (.const c.scale))] ++
-      (Kernels.keyMaskCSE (ScaleBinding.template c)).surfaceBody.drop 18 := rfl
+      (Kernels.keyMaskCSE (ScaleBinding.template c)).surfaceBody.take 0 ++
+      [(ScalarArgument.fp32 "sm_scale" c.scale).statement] ++
+      (Kernels.keyMaskCSE (ScaleBinding.template c)).surfaceBody.drop 1 := rfl
 
 theorem job_initial (c : Call) (idx : GridIndex c.grid) (s : State Native.Expr) :
     (job c idx).initial s=Reference.Composition.prepare c.grid idx s := rfl

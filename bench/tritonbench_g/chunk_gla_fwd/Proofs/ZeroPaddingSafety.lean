@@ -35,6 +35,8 @@ theorem statement_safe (st : Stmt) (bounds : RegionBounds) (s : BlockState)
     (statement st).TraceSafe bounds s ↔ st.TraceSafe bounds s := by
   cases hst : st <;> simp only [hst] at hok <;> simp only [statement]
   case assign d sh name x => simpa only [Stmt.TraceSafe] using operation_safe x bounds s
+  case forRange name first last stride body =>
+    simpa only [Stmt.TraceSafe] using range_safe name first last stride body bounds s hok hu
   case forRangeDyn name first last stride body =>
     simp only [Stmt.TraceSafe]
     cases evalOp first s <;> cases evalOp last s <;> cases evalOp stride s <;>
@@ -56,7 +58,7 @@ theorem statement_safe (st : Stmt) (bounds : RegionBounds) (s : BlockState)
       · simp only [hv,↓reduceIte,statements_safe yes bounds s hok.2.1 hu]
       · simp only [hv,Bool.false_eq_true,↓reduceIte,statements_safe no bounds s hok.2.2 hu]
 termination_by (sizeOf st,0)
-decreasing_by all_goals (simp_wf; subst_vars; simp_wf; omega)
+decreasing_by all_goals (subst_vars <;> simp_wf <;> omega)
 
 theorem statements_safe (sts : List Stmt) (bounds : RegionBounds) (s : BlockState)
     (hok : StmtList.FlattenOk sts) (hu : s.undef=fun _ _=>0) :
@@ -73,7 +75,7 @@ theorem statements_safe (sts : List Stmt) (bounds : RegionBounds) (s : BlockStat
       dsimp only
       rw [statements_safe rest bounds t hok.2 ((stepStmt_undef st s t hok.1 he).trans hu)]
 termination_by (sizeOf sts,0)
-decreasing_by all_goals (simp_wf; subst_vars; simp_wf; omega)
+decreasing_by all_goals (subst_vars <;> simp_wf <;> omega)
 
 theorem range_safe (name : RegName) (first last stride : Nat) (body : List Stmt)
     (bounds : RegionBounds) (s : BlockState)
@@ -96,7 +98,7 @@ theorem range_safe (name : RegName) (first last stride : Nat) (body : List Stmt)
           ((stepStmts_undef body _ t hok he).trans hs)]
     · simp only [hl,↓reduceIte]
 termination_by (sizeOf body,last-first+1)
-decreasing_by all_goals (simp_wf; subst_vars; simp_wf; omega)
+decreasing_by all_goals (subst_vars <;> simp_wf <;> omega)
 end
 
 #axiomsClean statements_safe

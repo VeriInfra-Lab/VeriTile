@@ -11,7 +11,7 @@ noncomputable section
 /-- Existing Algorithm/flat-memory mathematical stage-one interface, now
 listing the selected shared source and all active input/output fields. -/
 def stage1Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
-  kernel := (stage1 inp out N B).eraseDType
+  kernel := (stage1Kernel inp out N B).eraseDType
   projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage1_supported Bool.false inp out N B
   inp := inp
   out := out
@@ -22,7 +22,7 @@ def stage1Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
   writeMask := fun _ j => j.1.val=0
 
 def stage2Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
-  kernel := (stage2 inp out N B).eraseDType
+  kernel := (stage2Kernel inp out N B).eraseDType
   projection := VeriTile.Bench.TritonBenchG.MaxReduction.stage2_supported Bool.false inp out N B
   inp := inp
   out := out
@@ -33,8 +33,8 @@ def stage2Real (inp out : RegionName) (N B : Nat) : MaskedTileKernelIO₁ where
   writeMask := fun _ j => j.1.val=0
 
 def stageSource (second candidate : Bool) (inp out : RegionName) (N B : Nat) : ComputeKernel :=
-  if second then (if candidate then stage2Complement inp out N B else stage2 inp out N B)
-  else (if candidate then stage1Commuted inp out N B else stage1 inp out N B)
+  if second then (if candidate then stage2ComplementKernel inp out N B else stage2Kernel inp out N B)
+  else (if candidate then stage1CommutedKernel inp out N B else stage1Kernel inp out N B)
 def stageStart (second : Bool) (B pid : Nat) : Nat := if second then 0 else pid*B
 def stageOutput (second : Bool) (pid : Nat) : Nat := if second then 0 else pid
 
@@ -70,7 +70,7 @@ def stageCandidate {α : Type} (e : Source.Engine α) (second : Bool)
 
 def dimensionLaunch {α : Type} (e : Source.Engine α) (candidate : Bool)
     (inp ov oi : RegionName) (M N K BM BN p k : Nat) : Invocation α where
-  kernel := if candidate then dimensionCommuted inp ov oi M N K BM BN else dimension inp ov oi M N K BM BN
+  kernel := if candidate then dimensionCommutedKernel inp ov oi M N K BM BN else dimensionKernel inp ov oi M N K BM BN
   backend := e.algebra
   pids := fun ax => if ax=0 then p else if ax=1 then k else 0
 

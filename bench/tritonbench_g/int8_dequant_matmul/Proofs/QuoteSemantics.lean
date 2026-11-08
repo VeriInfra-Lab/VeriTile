@@ -27,7 +27,7 @@ def dotAdd (q : IntegerModel I F H) (rows cols : Nat) {α : Type}
   fun i=>
     let pm:=((s.regs .int [] "pid_m").getD (fun _=>0) PUnit.unit).toNat
     let pn:=((s.regs .int [] "pid_n").getD (fun _=>0) PUnit.unit).toNat
-    let t:=(s.regs .nat [] "k").getD (fun _=>0) PUnit.unit
+    let t:=((s.regs .int [] "k").getD (fun _=>0) PUnit.unit).toNat
     q.decode ((q.plans k ((pm*m+i.1.val)%rows) ((pn*n+i.2.1.val)%cols) (s.pids 1) t).eval q.ops
       (fun l=>BitVec.ofInt 8 (a (i.1,l,PUnit.unit)))
       (fun l=>BitVec.ofInt 8 (b (l,i.2.1,PUnit.unit))) (q.encode (old i)))
@@ -64,6 +64,11 @@ mutual
 def step {α : Type} [Inhabited α] (M : Algebra α)
     (q : IntegerModel I F H) (rows cols : Nat) : ComputeStmt → State α → Option (State α)
   | .forRange name start stop stride body,s=>range M q rows cols name start stop stride body s
+  | .forRangeInt name start stop stride body,s=>do
+      let a←evalOp M none start s
+      let b←evalOp M none stop s
+      let d←evalOp M none stride s
+      rangeInt M q rows cols name (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
   | .ifThenElse cond yes no,s=>do
       let value←evalOp M none cond s
       if value PUnit.unit then run M q rows cols yes s else run M q rows cols no s
@@ -93,6 +98,16 @@ def range {α : Type} [Inhabited α] (M : Algebra α)
       range M q rows cols name (start+stride) stop stride body t
     else some s
 termination_by _ => (sizeOf body+1,stop-start)
+decreasing_by all_goals omega
+
+def rangeInt {α : Type} [Inhabited α] (M : Algebra α)
+    (q : IntegerModel I F H) (rows cols : Nat)
+    (name : RegName) (start stop : Int) (stride : Nat) (body : List ComputeStmt) : State α → Option (State α)
+  | s=>if 0<stride ∧ start<stop then do
+      let t←run M q rows cols body (s.setReg name .int [] (fun _=>start))
+      rangeInt M q rows cols name (start+stride) stop stride body t
+    else some s
+termination_by _ => (sizeOf body+1,(stop-start).toNat)
 decreasing_by all_goals omega
 end
 

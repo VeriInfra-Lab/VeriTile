@@ -140,9 +140,9 @@ theorem sequence_state (y : RegionName) (start N : Nat) (values : Nat → MemCel
 /-- Exact source scalar store used for both Mean and Rstd. -/
 theorem scalar_store (region : RegionName) (name : RegName) (row : Nat) (value : ℝ)
     (s : BlockState)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hvalue : s.regs .real [] name = some (Tile.scalar (some value))) :
-    stepStmt (.store .real [] (.region region (.ref .nat [] "row"))
+    stepStmt (.store .real [] (.region region (Op.ref .int [] "row").castIntToNat)
       (.ref .real [] name) .none) s =
       some (writeCell s region row (MemCell.real value)) := by
   simp [stepStmt, evalOp.eq_def, hrow, hvalue, TileShape.allIndices,

@@ -2,6 +2,16 @@ import Lean
 namespace VeriTile.Triton.DSL.RawSourceText
 open Lean Parser
 
+private partial def scanTriple (delimiter : Char) (escaped : Bool) : ParserFn := fun context state =>
+  if context.atEnd state.pos then state.mkUnexpectedError "unterminated Python triple-quoted string"
+  else
+    let ch := context.get state.pos
+    let next := context.next state.pos
+    let after := context.next next
+    if !escaped && ch==delimiter && context.get next==delimiter && context.get after==delimiter then
+      state.setPos (context.next after)
+    else scanTriple delimiter (!escaped && ch=='\\') context (state.setPos next)
+
 private partial def scan (depth : Nat) (quote : Option Char) (escaped lineComment : Bool)
     (blockComment : Nat) : ParserFn := fun context state => Id.run do
   let pos := state.pos
@@ -23,7 +33,13 @@ private partial def scan (depth : Nat) (quote : Option Char) (escaped lineCommen
     return scan depth (if ch==delimiter then none else quote) false false 0 context advance
   if ch=='#' || (ch=='-' && next=='-') then return scan depth none false true 0 context advance
   if ch=='/' && next=='-' then return scan depth none false false 1 context (state.setPos (context.next nextPos))
-  if ch=='"' || ch=='\'' then return scan depth (some ch) false false 0 context advance
+  if ch=='"' || ch=='\'' then
+    let third := context.next nextPos
+    if next==ch && context.get third==ch then
+      let after := scanTriple ch false context (state.setPos (context.next third))
+      if after.hasError then return after
+      return scan depth none false false 0 context after
+    return scan depth (some ch) false false 0 context advance
   if ch=='{' then return scan (depth+1) none false false 0 context advance
   if ch=='}' then
     if depth==1 then return advance
@@ -44,6 +60,12 @@ structure Line where
   indent : Nat
   text : String
   deriving Inhabited
+
+/-- These valid Python names are reserved tokens in Lean. Escaping changes
+only parser spelling; the resulting identifier still has its original name. -/
+private def cleanWord (word : String) : String :=
+  if word == "True" then "true" else if word == "False" then "false"
+  else if word == "_" || word == "do" then "«" ++ word ++ "»" else word
 
 /-- Token spelling only: Python comments and booleans, single-quoted strings,
 and trailing decimal points. No arithmetic or instruction is simplified. -/
@@ -75,7 +97,7 @@ private def cleanLine (line : String) : Except String (String × Int) := do
       word:=word.push ch
       i:=i+1
     else
-      let token := if word=="True" then "true" else if word=="False" then "false" else word
+      let token := cleanWord word
       out:=out++token
       let numeric := !word.isEmpty && word.toList.all Char.isDigit
       word:=""
@@ -91,30 +113,100 @@ private def cleanLine (line : String) : Except String (String × Int) := do
         if [')',']','}'].contains ch then nesting:=nesting-1
       i:=i+1
   if quote.isSome then throw "multiline strings are unsupported in Triton bodies"
-  let token := if word=="True" then "true" else if word=="False" then "false" else word
+  let token := cleanWord word
   return (out++token,nesting)
 
+private partial def quoted (q : Char) (triple : Bool) (input : List Char)
+    (raw value : List Char := []) : Except String (List Char × List Char × String) := do
+  match input with
+  | [] => throw "unterminated Python string"
+  | a :: b :: c :: tail =>
+      if triple && a == q && b == q && c == q then
+        return ((c :: b :: a :: raw).reverse, tail, String.ofList value.reverse)
+      else consume a (b :: c :: tail) raw value
+  | a :: tail =>
+      if !triple && a == q then return ((a :: raw).reverse, tail, String.ofList value.reverse)
+      else consume a tail raw value
+where
+  consume (a : Char) (tail raw value : List Char) : Except String (List Char × List Char × String) := do
+    if !triple && a == q then return ((a :: raw).reverse, tail, String.ofList value.reverse)
+    if a == '\\' then
+      match tail with
+      | [] => throw "unterminated Python escape"
+      | b :: rest =>
+          if b == '\n' then return ← quoted q triple rest (b :: a :: raw) value
+          let decoded ← match b with
+            | 'n' => pure '\n' | 'r' => pure '\r' | 't' => pure '\t'
+            | '\\' => pure '\\' | '\'' => pure '\'' | '"' => pure '"'
+            | _ => throw "unsupported Python string escape"
+          quoted q triple rest (b :: a :: raw) (decoded :: value)
+    else quoted q triple tail (a :: raw) (a :: value)
+
+private def stringToken (q : Char) (tail : List Char) : Except String (List Char × List Char × String) :=
+  match tail with
+  | a :: b :: rest =>
+      if a == q && b == q then quoted q Bool.true rest [q,q,q] []
+      else quoted q Bool.false tail [q] []
+  | _ => quoted q Bool.false tail [q] []
+
+private def emit (lines : Array Line) (indent : Nat) (text : String) : Array Line :=
+  let text := text.trimAscii.toString
+  if text.isEmpty then lines else lines.push ⟨indent,text⟩
+
+private partial def pythonLogicalLines (input : List Char) (lines : Array Line := #[])
+    (indent : Nat := 0) (text : String := "") (delimiters : List (Char × Bool) := [])
+    (atStart : Bool := Bool.true) : Except String (Array Line) := do
+  match input with
+  | [] =>
+      unless delimiters.isEmpty do throw "unclosed delimiter in Python body"
+      return emit lines indent text
+  | c :: tail =>
+      if c == '\t' && atStart then throw "tabs in Python indentation are unsupported"
+      if atStart && c == ' ' then pythonLogicalLines tail lines (indent+1) text delimiters Bool.true
+      else if c == '#' then
+        pythonLogicalLines (tail.dropWhile (· != '\n')) lines indent text delimiters Bool.false
+      else if c == '"' || c == '\'' then
+        let (_, rest, value) ← stringToken c tail
+        pythonLogicalLines rest lines indent (text ++ (Json.str value).compress) delimiters Bool.false
+      else if c == '\n' || c == '\r' then
+        if delimiters.isEmpty then pythonLogicalLines tail (emit lines indent text)
+        else pythonLogicalLines tail lines indent (text ++ " ") delimiters Bool.false
+      else if c == '\\' then
+        match tail with
+        | '\n' :: rest => pythonLogicalLines rest lines indent (text ++ " ") delimiters Bool.false
+        | _ => throw "unsupported backslash outside Python string"
+      else if c == '-' && tail.head? == some '-' then
+        -- Prevent Lean's line-comment lexer from swallowing Python x--y.
+        pythonLogicalLines tail.tail! lines indent (text ++ "- -") delimiters Bool.false
+      else if ['(','[','{'].contains c then
+        let preceding := text.trimAscii.toString
+        let call := c == '(' && preceding.back?.any (fun ch => ch.isAlphanum || ['_',')',']'].contains ch)
+        pythonLogicalLines tail lines indent (text.push c) ((c,call) :: delimiters) Bool.false
+      else if [')',']','}'].contains c then
+        let expected := if c == ')' then '(' else if c == ']' then '[' else '{'
+        unless delimiters.head?.map Prod.fst == some expected do throw "unbalanced Python delimiter"
+        let preceding := text.trimAscii.toString
+        let text := if c == ')' && delimiters.head!.2 && preceding.endsWith "," then
+            String.ofList preceding.toList.dropLast
+          else text
+        pythonLogicalLines tail lines indent (text.push c) delimiters.tail! Bool.false
+      else if c == ';' && delimiters.isEmpty then
+        pythonLogicalLines tail (emit lines indent text) indent "" [] Bool.false
+      else pythonLogicalLines tail lines indent (text.push c) delimiters Bool.false
+
+private def docstring (text : String) : Bool :=
+  match Json.parse text with
+  | .ok (.str _) => Bool.true
+  | _ => Bool.false
+
 private def logicalLines (source : String) : Except String (Array Line) := do
-  let mut lines := #[]
-  let mut pending := ""
-  let mut nesting : Int := 0
-  let mut indent := 0
-  for line in source.splitOn "\n" do
-    if line.contains '\t' then throw "use spaces for Triton body indentation"
-    let (text,change) ← cleanLine line
-    let text := text.trimAscii.toString
-    if text.isEmpty then continue
-    if pending.isEmpty then indent:=(line.toList.takeWhile (·==' ')).length
-    let continuation := text.endsWith "\\"
-    let text := if continuation then (text.dropEnd 1).toString else text
-    pending:=if pending.isEmpty then text else pending++" "++text
-    nesting:=nesting+change
-    if nesting<0 then throw "unbalanced Triton expression delimiters"
-    if nesting==0 && !continuation then
-      lines:=lines.push ⟨indent,pending⟩
-      pending:=""
-  if !pending.isEmpty || nesting != 0 then throw "unfinished Triton expression"
-  return lines
+  let lines ← pythonLogicalLines source.toList
+  let mut normalized := #[]
+  for line in lines do
+    if docstring line.text then continue
+    let (text,_) ← cleanLine line.text
+    normalized := normalized.push {line with text := text}
+  return normalized
 
 mutual
   private partial def suite (lines : Array Line) (start indent : Nat) : Except String (String × Nat) := do

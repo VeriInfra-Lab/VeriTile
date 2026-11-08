@@ -7,22 +7,29 @@ def Outside {α : Type} [Inhabited α] (p : Parameters) (s : State α)
     (r : RegionName) (o : Nat) : Prop :=
   r ≠ p.output ∨ ∀ i : TileIndex [p.width], i.1.val  <  count p s → o ≠ outputOffset p s i
 
+/-- Nonnegative segment starts were implicit in the former Nat metadata
+carrier. The actual signed port states that condition here; complete-grid
+proofs instead use their existing exact event-uniqueness condition. -/
 theorem offset_injective {α : Type} [Inhabited α] (p : Parameters) (s : State α)
-    (hstride : p.outputTokenStride ≠ 0) : Function.Injective (outputOffset p s) := by
+    (hstride : p.outputTokenStride ≠ 0) (hstart : 0 ≤ startIndex p s) : Function.Injective (outputOffset p s) := by
   intro i j h
-  simp only [outputOffset, Nat.add_left_cancel_iff] at h
-  have hm := Nat.eq_of_mul_eq_mul_right (Nat.pos_of_ne_zero hstride) h
-  have hv := Nat.add_left_cancel hm
-  have hf : i.1 = j.1 := Fin.ext hv
-  cases i; cases j
-  simp_all
+  have hi : 0 ≤ ((s.pids 1 : Int)*p.outputHeadStride +
+      (startIndex p s + i.1.val)*p.outputTokenStride) := by positivity
+  have hj : 0 ≤ ((s.pids 1 : Int)*p.outputHeadStride +
+      (startIndex p s + j.1.val)*p.outputTokenStride) := by positivity
+  unfold outputOffset at h
+  have he : ((s.pids 1 : Int)*p.outputHeadStride + (startIndex p s + i.1.val)*p.outputTokenStride) =
+      ((s.pids 1 : Int)*p.outputHeadStride + (startIndex p s + j.1.val)*p.outputTokenStride) := by omega
+  have hp : (0 : Int) < p.outputTokenStride := by exact_mod_cast Nat.pos_of_ne_zero hstride
+  have hv : i.1.val = j.1.val := by nlinarith
+  exact Prod.ext (Fin.ext hv) (Subsingleton.elim _ _)
 
 theorem reference_readback {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
-    (p : Parameters) (s : State α) (hstride : p.outputTokenStride ≠ 0)
+    (p : Parameters) (s : State α) (hstride : p.outputTokenStride ≠ 0) (hstart : 0 ≤ startIndex p s)
     (i : TileIndex [p.width]) (hi : i.1.val  <  count p s) :
     (reference M d p s).mem p.output (outputOffset p s i) =
       .mk d.toTileDType (ofFloat d (outputValues M d p s i)) := by
-  exact State.masked_scatter_readback _ _ _ _ _ i hi (offset_injective p s hstride)
+  exact State.masked_scatter_readback _ _ _ _ _ i hi (offset_injective p s hstride hstart)
 
 theorem reference_frame {α : Type} [Inhabited α] (M : Algebra α) (d : FloatDType)
     (p : Parameters) (s : State α) (r : RegionName) (o : Nat) (h : Outside p s r o) :

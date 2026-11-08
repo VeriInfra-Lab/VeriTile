@@ -15,8 +15,8 @@ set_option maxRecDepth 20000
 
 def indexOp (swapped : Bool) (B : Nat) : Op .nat [B] :=
   .add .nat .scalarL (if swapped then
-    .mul .nat .nil (.ref .nat [] "BLOCK_arg") (.programId 0) else
-    .mul .nat .nil (.programId 0) (.ref .nat [] "BLOCK_arg")) (.arange B)
+    .mul .nat .nil (.ref .nat [] "BLOCK") (.programId 0) else
+    .mul .nat .nil (.programId 0) (.ref .nat [] "BLOCK")) (.arange B)
 
 end
 end VeriTile.Bench.TritonBenchG.UniformSampling.Algorithm

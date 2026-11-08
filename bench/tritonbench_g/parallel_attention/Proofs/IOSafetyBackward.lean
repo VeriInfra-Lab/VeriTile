@@ -29,13 +29,13 @@ theorem backward_prefix (M : Algebra α) (D : DotPrimitive α) (c : BackwardConf
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,evalOffsets,Option.bind,
-    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,State.setReg,
+    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,
     TileShape.indexToList,BlockPtr.address_2d_offsets,BlockPtr.inBounds_2d_offsets,ofFloat,toFloat]
   exact ⟨fun i j hr hc=>hb.key _ _ hr hc,fun i j hr hc=>hb.value _ _ hr hc⟩
 
 private theorem first_tail (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfig)
     (bounds : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList (withDot M D) bounds ((backwardFirstBody c).drop 7) s := by
+    Safety.traceSafeList (withDot M D) bounds ((backwardFirstBody c).drop 8) s := by
   apply pure_list
   intro st hs t
   simp [backwardFirstBody,backwardKernel,backwardSource,ComputeKernel.surfaceBody] at hs
@@ -47,7 +47,7 @@ private theorem first_tail (M : Algebra α) (D : DotPrimitive α) (c : BackwardC
 
 private theorem second_tail (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfig)
     (bounds : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList (withDot M D) bounds ((backwardSecondBody c).drop 6) s := by
+    Safety.traceSafeList (withDot M D) bounds ((backwardSecondBody c).drop 7) s := by
   apply pure_list
   intro st hs t
   simp [backwardSecondBody,backwardKernel,backwardSource,ComputeKernel.surfaceBody] at hs
@@ -58,19 +58,19 @@ private theorem second_tail (M : Algebra α) (D : DotPrimitive α) (c : Backward
   all_goals split <;> trivial
 
 theorem backward_first_body (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfig)
-    (bounds : RegionName → Nat) (t : State α) (j : Nat)
-    (hj : t.regs .nat [] "j"=some (fun _=>j)) (hb : BackwardBounds c bounds) :
+    (bounds : RegionName → Nat) (t : State α) (start : Nat)
+    (hj : t.regs .int [] "__rev_i"=some (fun _=>-(start : Int))) (hb : BackwardBounds c bounds) :
     Safety.traceSafeList (withDot M D) bounds (backwardFirstBody c) t := by
-  rw [←List.take_append_drop 7 (backwardFirstBody c),Safety.traceSafeList_append]
+  rw [←List.take_append_drop 8 (backwardFirstBody c),Safety.traceSafeList_append]
   refine ⟨?_,fun u _=>first_tail M D c bounds u⟩
   simp [backwardFirstBody,backwardKernel,backwardSource,ComputeKernel.surfaceBody]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,evalOffsets,Option.bind,
-    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,State.setReg,hj,
+    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,hj,
     TileShape.indexToList,BlockPtr.address_2d_offsets,BlockPtr.inBounds_2d_offsets,
-    ofFloat,toFloat,natLt,numericLt]
+    ofFloat,toFloat,natLt,numericLt,signed_lane_lt,signed_lane_address]
   exact ⟨fun i k hr hc=>hb.query _ _ hr hc,fun i k hr hc=>hb.outGrad _ _ hr hc,
     fun i ht=>by simpa only [Nat.add_assoc] using hb.normGrad _ ht⟩
 
@@ -78,16 +78,16 @@ theorem backward_second_body (M : Algebra α) (D : DotPrimitive α) (c : Backwar
     (bounds : RegionName → Nat) (t : State α) (start : Nat)
     (hi : t.regs .nat [] "i"=some (fun _=>start)) (hb : BackwardBounds c bounds) :
     Safety.traceSafeList (withDot M D) bounds (backwardSecondBody c) t := by
-  rw [←List.take_append_drop 6 (backwardSecondBody c),Safety.traceSafeList_append]
+  rw [←List.take_append_drop 7 (backwardSecondBody c),Safety.traceSafeList_append]
   refine ⟨?_,fun u _=>second_tail M D c bounds u⟩
   simp [backwardSecondBody,backwardKernel,backwardSource,ComputeKernel.surfaceBody]
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,evalOffsets,Option.bind,
-    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,State.setReg,hi,
+    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,hi,
     TileShape.indexToList,BlockPtr.address_2d_offsets,BlockPtr.inBounds_2d_offsets,
-    ofFloat,toFloat,natLt,numericLt]
+    ofFloat,toFloat,natLt,numericLt,signed_lane_lt,signed_lane_address]
   exact ⟨fun i k hr hc=>hb.query _ _ hr hc,fun i k hr hc=>hb.outGrad _ _ hr hc,
     fun i ht=>by simpa only [Nat.add_assoc] using hb.normGrad _ ht⟩
 
@@ -97,7 +97,7 @@ theorem backward_middle (M : Algebra α) (D : DotPrimitive α) (c : BackwardConf
   apply pure_list
   intro st hs t
   simp [backwardMiddle,backwardKernel,backwardSource,ComputeKernel.surfaceBody] at hs
-  rcases hs with rfl|rfl|rfl
+  rcases hs with rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
 theorem backward_suffix (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfig)
@@ -110,7 +110,7 @@ theorem backward_suffix (M : Algebra α) (D : DotPrimitive α) (c : BackwardConf
   simp only [safeBlockPtr2]
   simp [Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,
-    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,State.setReg,store,
+    ComputeDType.eraseDType,numeric,bop,Region.cast,withDot,store,
     h.keyGrad,h.valueGrad,ofFloat,toFloat,
     TileShape.indexToList,BlockPtr.address_2d_offsets,BlockPtr.inBounds_2d_offsets]
   exact ⟨fun i j hr hc=>hb.keyGrad i j hr hc,fun i j hr hc=>hb.valueGrad i j hr hc⟩

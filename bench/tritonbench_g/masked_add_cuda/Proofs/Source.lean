@@ -1,6 +1,6 @@
 import bench.tritonbench_g.masked_add_cuda.Kernels
 import bench.tritonbench_g.masked_add_cuda.Proofs.Mathematical_Source
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 
 namespace VeriTile.Bench.Repairs.MaskedAddCuda
 open VeriTile.Triton
@@ -10,11 +10,11 @@ def parameters (grad data mask : RegionName) (n : Nat) : Parameters :=
   ⟨data, mask, grad, n, blockSize⟩
 
 abbrev candidateKernel (storage : MaskStorage) (p : Parameters) (alpha : ℝ) :=
-  kernel storage p.output p.x p.y p.n alpha p.block
+  sourceKernel storage p.output p.x p.y p.n alpha p.block
 
 theorem kernel_eq_original (storage : MaskStorage) (g p m : RegionName)
     (n : Nat) (a : ℝ) (B : Nat) :
-    kernel storage g p m n a B =
+    sourceKernel storage g p m n a B =
       VeriTile.Bench.TritonBenchG.MaskedAddCuda.integer_kernel storage Bool.false g p m n a B := by
   cases storage <;> rfl
 

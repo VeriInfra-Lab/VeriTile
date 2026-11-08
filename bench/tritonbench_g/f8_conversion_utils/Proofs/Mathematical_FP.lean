@@ -1,4 +1,4 @@
-import bench.tritonbench_g.f8_conversion_utils.Sources.Mathematical_Kernels
+import bench.tritonbench_g.f8_conversion_utils.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.destindex_copy.Proofs.Mathematical_IndexRewrite
 namespace VeriTile.Bench.TritonBenchG.F8ConversionUtils.FPProof
 open VeriTile Triton FP.ProfiledRewrite TypedSource

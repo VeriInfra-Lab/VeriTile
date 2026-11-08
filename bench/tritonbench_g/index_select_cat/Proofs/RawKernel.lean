@@ -10,7 +10,7 @@ execution and full frame, under raw output-address injectivity. -/
 theorem complete {α : Type} [Inhabited α] (rest : Algebra α) (p : Layout) (s : State α)
     (unique : ∀ a b,TypedGather.active p s a → TypedGather.active p s b →
       TypedGather.outputOffset p s a=TypedGather.outputOffset p s b → a=b) :
-    ∃ t,FP.Structural.exec (copyBackend rest) (kernel p) s=some t ∧
+    ∃ t,FP.Structural.exec (copyBackend rest) (sourceKernel p) s=some t ∧
       (∀ i,TypedGather.active p s i → t.mem p.output (TypedGather.outputOffset p s i)=TypedGather.loaded p s i) ∧
       (∀ region off,region≠p.output ∨ (∀ i,TypedGather.active p s i → off≠TypedGather.outputOffset p s i) →
         t.mem region off=s.mem region off) := by
@@ -23,6 +23,6 @@ theorem complete {α : Type} [Inhabited α] (rest : Algebra α) (p : Layout) (s 
     exact TypedGather.frame rest p s region off outside
 
 #axiomsClean complete
-#specNonCircular TypedGather.loaded avoiding [kernel,indexCommutedKernel,FP.Structural.exec]
+#specNonCircular TypedGather.loaded avoiding [sourceKernel,indexCommutedKernel,FP.Structural.exec]
 end
 end VeriTile.Bench.Repairs.IndexSelectCat.RawKernel

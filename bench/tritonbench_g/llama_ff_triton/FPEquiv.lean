@@ -1,4 +1,4 @@
-import bench.tritonbench_g.llama_ff_triton.PairIO
+import bench.tritonbench_g.llama_ff_triton.Proofs.Support.PairIO
 
 /-! The existing index-commuted candidate now uses the selected repaired
 int64/four-mask source in both storage branches and the complete source grid.

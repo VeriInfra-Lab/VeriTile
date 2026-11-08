@@ -1,5 +1,5 @@
 import bench.tritonbench_g.streamk_matmul.Proofs.Contract_9d4fd4b7
-import bench.tritonbench_g.streamk_matmul.Sources.SourceDefinitions
+import bench.tritonbench_g.streamk_matmul.Proofs.Sources.SourceDefinitions
 
 namespace VeriTile.Bench.Repairs.StreamK.Checked.TensorBinding
 open VeriTile.Triton FP.Structural VeriTile.Torch

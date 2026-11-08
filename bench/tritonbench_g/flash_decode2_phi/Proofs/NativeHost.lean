@@ -23,7 +23,7 @@ def bindings {α : Type} [Inhabited α] {q : Host.Request} (call : Host.Preparat
 /-- INT32 words decode in the integer channel; the signed int32 load is decoded before transport to the natural loop channel. FP32 input words
 remain opaque leaves and include all bit patterns, NaNs, infinities and zeros. -/
 def entry (b : Bindings) (memory : RegionName → Nat → Word) : State Term where
-  mem := fun r o => if r="L" then .mk .nat (memory b.lengths o).toInt.toNat
+  mem := fun r o => if r="L" then .mk .int (memory b.lengths o).toInt
     else .mk .real (.leaf r o (memory (b.at r) o))
   regs := fun _ _ _ => none
   pids := fun _ => 0

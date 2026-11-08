@@ -11,7 +11,7 @@ The selected forward FMA backend, original casts and arbitrary Tagged payloads
 are retained. No floating rewrite law or finite-value restriction is required. -/
 specification source_candidate_equivalence (cfg : FP.Config) (r : Request) :
     PairIO.original (nativeAlgebra cfg) (id : Tagged → Tagged) id r ≡[[]]
-    PairIO.indexShared (nativeAlgebra cfg) (id : Tagged → Tagged) id r := by
+    PairIO.indexSharedKernel (nativeAlgebra cfg) (id : Tagged → Tagged) id r := by
   exact ProgramIO.Implementation.of_equivalent (PairIO.candidate _ _ _ r)
     (PairIO.equivalent _ _ _ r)
 

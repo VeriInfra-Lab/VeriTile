@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_bwd.Sources.Mathematical_Kernels
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.Erasure
 
 /-! Precision erasure of the complete source, with the in-body chunk limit,
@@ -35,7 +35,9 @@ theorem storage_erasure :
       seqlen chunk K groups sab sas sah sak sdb sdc sdh sdm sdn sob sos soh sok srb srs srh srk BM BN BCS hasResidual).eraseDType := by
   cases aStorage <;> cases doutStorage <;> cases swapped
   all_goals
-    simp only [source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.quotedOriginal, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+    simp only [source, TypedSource.specialize, VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.family,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceKernel,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.dotDType, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
       ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,

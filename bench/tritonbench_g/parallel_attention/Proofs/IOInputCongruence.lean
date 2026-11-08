@@ -31,7 +31,7 @@ theorem raw_matrix_congr (M : Algebra α) {a b : InputValues α}
   funext i
   dsimp only [rawMatrixRead]
   split
-  next active => exact h _ _ active.1 active.2
+  next active => rw [h _ _ active.1 active.2]
   next => rfl
 
 structure ForwardEq (c : ForwardConfig) (pid : Nat → Nat) (a b : InputValues α) : Prop where
@@ -75,8 +75,8 @@ theorem backward_congr (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfi
     funext i
     simp only [backwardValue,matrix_congr M h.value]
   have hn (start : Nat) (i : Fin c.BTS) :
-      (if start+i.val<c.T then a c.dz (c.i_bh*c.T+start+i.val) else M.literal (some .fp32) .real 0.0)=
-      (if start+i.val<c.T then b c.dz (c.i_bh*c.T+start+i.val) else M.literal (some .fp32) .real 0.0) := by
+      (if start+i.val<c.T then a c.dz (c.i_bh*c.T+start+i.val) else M.literal (some .fp32) .real 0)=
+      (if start+i.val<c.T then b c.dz (c.i_bh*c.T+start+i.val) else M.literal (some .fp32) .real 0) := by
     split
     next active => simpa only [Nat.add_assoc] using h.normGrad _ active
     next => rfl

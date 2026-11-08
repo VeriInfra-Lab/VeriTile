@@ -1,5 +1,5 @@
 import bench.tritonbench_g.spinning_lock_reduction.Proofs.IOImplements
-import bench.tritonbench_g.spinning_lock_reduction.ProgramView
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Support.ProgramView
 import Mathlib.Tactic.IntervalCases
 
 namespace VeriTile.Bench.Repairs.SpinningLock.AreaEquivalence

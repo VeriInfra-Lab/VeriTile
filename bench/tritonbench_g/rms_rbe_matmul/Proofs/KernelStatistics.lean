@@ -13,9 +13,9 @@ structure TailReady (p : Parameters) (s t : State α) (values : TileIndex [16,64
   mem : t.mem=s.mem
   pids : t.pids=s.pids
   undef : t.undef=s.undef
-  batch : t.regs .nat [] "pid_batch"=some (fun _ => s.pids 0)
-  tileM : t.regs .nat [] "pid_m"=some (fun _ => pidM p s)
-  tileN : t.regs .nat [] "pid_n"=some (fun _ => pidN p s)
+  batch : t.regs .int [] "pid_batch"=some (fun _ => (s.pids 0:Int))
+  tileM : t.regs .int [] "pid_m"=some (fun _ => (pidM p s:Int))
+  tileN : t.regs .int [] "pid_n"=some (fun _ => (pidN p s:Int))
   product : t.regs .real [16,64] "accumulator"=some values
 
 theorem statistics_run (a : Operations α) (fp8 : Bool) (p : Parameters)

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.softmax_flaggems.Proofs.PairIO
-import bench.tritonbench_g.softmax_flaggems.Proofs.Mathematical_FP
+import bench.tritonbench_g.softmax_flaggems.Proofs.SourceFP
 
 namespace VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.SourcePair
 open VeriTile Triton FP.ProfiledRewrite

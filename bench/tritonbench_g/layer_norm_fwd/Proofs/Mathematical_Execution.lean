@@ -19,24 +19,24 @@ def source (f : Flags) (r : Regions) (stride : Strides)
 
 def baseStmt (r : RegionName) (name : RegName) (stride : Nat) : Stmt :=
   .assign .ptr [] name (.ptrAdd .nil (.ptrBase r)
-    (.mul .nat .nil (.ref .nat [] "row") (.constNat stride)))
+    (Op.mul .int .nil (.ref .int [] "row") (Op.constNat stride).castNatToInt).castIntToNat)
 
 /-- Exact original prefix through the initial masked load, including the
 optional source pointer bindings. It retains arbitrary initial registers. -/
 def loadPrefix (f : Flags) (r : Regions) (stride : Strides) (N block : Nat) : List Stmt :=
-  [.assign .nat [] "row" (.programId 0),
+  [.assign .int [] "row" (.castNatToInt (.programId 0)),
    baseStmt r.x "X" stride.x,
    baseStmt r.y "Y" stride.y,
    .ifThen (.constBool f.residual) [baseStmt r.residual "RESIDUAL" stride.residual],
    .ifThen (.constBool f.residualOut) [baseStmt r.residualOut "RESIDUAL_OUT" stride.residualOut],
    .ifThen (.constBool f.x1) [baseStmt r.x1 "X1" stride.x1],
    .ifThen (.constBool f.w1) [baseStmt r.y1 "Y1" stride.y1],
-   .assign .nat [] "BLOCK_N_arg" (.constNat block),
    .assign .nat [block] "cols" (.arange block),
-   .assign .real [block] "x" (.load .real
+   .assign .real [block] "__veritile_load_0" (.load .real
      (.ptr (.ptrAdd .scalarL (.ref .ptr [] "X") (.ref .nat [block] "cols")))
      (.maskOther (.lt .nat .scalarR (.ref .nat [block] "cols") (.constNat N))
-       (.broadcast (.const 0.0) [block])))]
+       (.broadcast (.const 0.0) [block]))),
+   .assign .real [block] "x" (.ref .real [block] "__veritile_load_0")]
 
 theorem source_loadPrefix (f : Flags) (r : Regions) (stride : Strides)
     (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block) :
@@ -44,7 +44,7 @@ theorem source_loadPrefix (f : Flags) (r : Regions) (stride : Strides)
   have hproj : (original f r stride M N eps p block hBlock).toAlgorithm? =
       .ok (original f r stride M N eps p block hBlock).toAlgKernel := rfl
   simp only [source, ComputeKernel.eraseDType, hproj, ComputeKernel.toAlgKernel_fromKernelBody]
-  simp only [original, loadPrefix, baseStmt, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  simp only [original, loadPrefix, baseStmt, ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
@@ -59,7 +59,7 @@ theorem source_loadPrefix (f : Flags) (r : Regions) (stride : Strides)
 
 def ptrState (f : Flags) (r : Regions) (stride : Strides) (block : Nat)
     (u : BlockState) : BlockState :=
-  let s := u.setReg "row" .nat [] (Tile.scalar u.pid)
+  let s := u.setReg "row" .int [] (Tile.scalar u.pid)
   let s := s.setReg "X" .ptr [] (Tile.scalar (r.x, u.pid * stride.x))
   let s := s.setReg "Y" .ptr [] (Tile.scalar (r.y, u.pid * stride.y))
   let s := if f.residual then s.setReg "RESIDUAL" .ptr []
@@ -70,7 +70,6 @@ def ptrState (f : Flags) (r : Regions) (stride : Strides) (block : Nat)
     (Tile.scalar (r.x1, u.pid * stride.x1)) else s
   let s := if f.w1 then s.setReg "Y1" .ptr []
     (Tile.scalar (r.y1, u.pid * stride.y1)) else s
-  let s := s.setReg "BLOCK_N_arg" .nat [] (Tile.scalar block)
   s.setReg "cols" .nat [block] (Tile.vec (fun j => j.val))
 
 def loaded (r : RegionName) (stride N block : Nat) (u : BlockState) : Tile .real [block] :=
@@ -78,7 +77,7 @@ def loaded (r : RegionName) (stride N block : Nat) (u : BlockState) : Tile .real
 
 def loadState (f : Flags) (r : Regions) (stride : Strides) (N block : Nat)
     (u : BlockState) : BlockState :=
-  (ptrState f r stride block u).setReg "x" .real [block] (loaded r.x stride.x N block u)
+  ((ptrState f r stride block u).setReg "__veritile_load_0" .real [block] (loaded r.x stride.x N block u)).setReg "x" .real [block] (loaded r.x stride.x N block u)
 
 theorem loadPrefix_exec (f : Flags) (r : Regions) (stride : Strides) (N block : Nat)
     (u : BlockState) :
@@ -88,6 +87,7 @@ theorem loadPrefix_exec (f : Flags) (r : Regions) (stride : Strides) (N block : 
   all_goals simp [loadPrefix, baseStmt, loadState, ptrState, loaded,
     stepStmts, stepStmt, evalOp.eq_def, Tile.bop, Tile.cop, Tile.ptrAdd,
     NumericDType.mul, ComparableDType.lt]
+  all_goals simp only [← Nat.cast_mul,Int.toNat_natCast]
 
 theorem source_initial_load (f : Flags) (r : Regions) (stride : Strides)
     (M N : Nat) (eps p : ℝ) (block : Nat) (hBlock : Random.ArangeSizeDomain block)
@@ -104,7 +104,7 @@ theorem loadState_mem (f : Flags) (r : Regions) (stride : Strides) (N block : Na
 
 theorem loadState_row (f : Flags) (r : Regions) (stride : Strides) (N block : Nat)
     (u : BlockState) :
-    (loadState f r stride N block u).regs .nat [] "row" = some (Tile.scalar u.pid) := by
+    (loadState f r stride N block u).regs .int [] "row" = some (Tile.scalar u.pid) := by
   rcases f with ⟨rms, residual, residualOut, bias, dropout, dropoutMask, rowscale, x1, w1, b1⟩
   cases residual <;> cases residualOut <;> cases x1 <;> cases w1
   all_goals simp [loadState, ptrState]

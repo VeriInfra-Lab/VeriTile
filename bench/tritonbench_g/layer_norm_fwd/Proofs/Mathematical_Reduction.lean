@@ -60,13 +60,13 @@ theorem mean_op (f : Flags) (a : Inputs) (M N block : Nat)
     (p : ℝ) (row : Nat) (hN : N ≤ block) (s : BlockState)
     (hx : s.regs .real [block] "x" = some (combinedTile f a M N block p row)) :
     evalOp (.div .real .nil
-      (.reduceSum ⟨0, by simp⟩ Bool.false (.ref .real [block] "x")) (.const (N : ℝ))) s =
+      (.reduceSum ⟨0, by simp⟩ Bool.false (.ref .real [block] "x")) (Op.constNat N).natToReal) s =
       some (Tile.scalar (some (Formula.mean f a M N p row))) := by
   simp only [evalOp.eq_def, hx, bind, Option.bind, pure]
   congr 1
   ext j
   cases j
-  simp only [Tile.bop, Broadcast.leftIndex, Broadcast.rightIndex, Tile.scalar, NumericDType.div, WithBot.realDiv,
+  simp only [Tile.bop, Broadcast.leftIndex, Broadcast.rightIndex, Tile.scalar,Tile.natToReal, NumericDType.div, WithBot.realDiv,
     combined_sum f a M N block p row hN, Option.map₂_some_some, Formula.mean]
 
 theorem variance_op (f : Flags) (a : Inputs) (M N block : Nat)
@@ -75,7 +75,7 @@ theorem variance_op (f : Flags) (a : Inputs) (M N block : Nat)
     evalOp (.div .real .nil
       (.reduceSum ⟨0, by simp⟩ Bool.false
         (.mul .real (.consSame .nil) (.ref .real [block] "xbar") (.ref .real [block] "xbar")))
-      (.const (N : ℝ))) s =
+      (Op.constNat N).natToReal) s =
       some (Tile.scalar (some (Formula.variance f a M N p row))) := by
   simp only [evalOp.eq_def, hx, bind, Option.bind, pure]
   congr 1
@@ -83,7 +83,7 @@ theorem variance_op (f : Flags) (a : Inputs) (M N block : Nat)
   cases j
   have hsum := centered_square_sum f a M N block p row hN
   simp only [Tile.bop, Broadcast.leftIndex, Broadcast.rightIndex] at hsum
-  simp only [Tile.bop, Broadcast.leftIndex, Broadcast.rightIndex, Tile.scalar, NumericDType.div,
+  simp only [Tile.bop, Broadcast.leftIndex, Broadcast.rightIndex, Tile.scalar,Tile.natToReal, NumericDType.div,
     WithBot.realDiv, hsum, Option.map₂_some_some, Formula.variance]
 
 theorem centered_op (f : Flags) (a : Inputs) (M N block : Nat)

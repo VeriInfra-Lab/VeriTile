@@ -47,7 +47,7 @@ theorem loop_safe (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
   have hm := live.2.2.2.2.2.2.2.2.2.2.2.2.2.2
   change Safety.stepSafe ((withDot M dots).withDefaultPrecision .fp32) bounds
     (.forRangeInt "start_n" (.constInt 0)
-      (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask")) (.ref .int [] "block_end_loc"))
+      (.mul .int .nil (.ref .int [] "block_mask") (.ref .int [] "block_end_loc"))
       (.constNat p.BN) (parts p r scale).body) s
   simp only [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,hm,he,Option.bind,numeric,true_and]
   exact range_safe p r scale M dots hBN initialState s _ live memory 0 (by omega)

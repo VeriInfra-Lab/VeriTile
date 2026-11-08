@@ -30,7 +30,7 @@ theorem iteration (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     ∃ v, run (engine M) (forwardBody h) u=some v ∧ Holds M h p prog initial (n+1) v := by
   let acc := carry M h p prog initial n
   let value := FPStep.fwdValue M h (off h p prog n) acc u
-  let pre := (u.setReg "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" (off h p prog n) u i))).setReg
+  let pre := ((u.setReg "__veritile_load_0" .real [h.BK] (fun i => M.fp32Load (raw h.BK "g" (off h p prog n) u i))).setReg "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" (off h p prog n) u i))).setReg
     "cum_decay" .real [h.BK] value
   let v := FPStep.forwardResult M h (off h p prog n) acc u
   have values : value=carry M h p prog initial (n+1) := by
@@ -57,7 +57,7 @@ theorem iteration (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
       exact inv.output t (by omega) j
   · intro r o outside
     change (scatter M h.BK "go" (off h p prog n) value pre).mem r o=initial.mem r o
-    exact (FPMemory.frame M h p prog ⟨n,hn⟩ "go" ["go"] (by simp) value pre r o outside).trans
+    exact (FPMemory.frame M h p prog ⟨n,hn⟩ "go" ["go"] (by simp) value pre Bool.true r o outside).trans
       (inv.frame r o outside)
 
 theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (u : State α) :
@@ -77,24 +77,29 @@ theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h 
 
 theorem bind_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog initial n u) :
-    Holds M h p prog initial n (u.setReg "i" .nat [] (fun _ => n)) := by
+    Holds M h p prog initial n (u.setReg "i" .int [] (fun _ => Int.ofNat n)) := by
   refine ⟨inv.bound,?_,?_,?_,?_,inv.reads,inv.output,inv.frame⟩
   all_goals simp [inv.sourcePtr,inv.targetPtr,inv.mask,inv.acc]
 
 theorem loop_executes (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog initial n u) :
-    ∃ v, FP.Structural.range (engine M) "i" n p.span 1 (forwardBody h) u=some v ∧
+    ∃ v, FP.Structural.rangeInt (engine M) "i" (Int.ofNat n) (Int.ofNat p.span) 1 (forwardBody h) u=some v ∧
       Holds M h p prog initial p.span v := by
   by_cases hn : n<p.span
   · obtain ⟨v,he,hv⟩ := iteration M h p prog initial n
-      (u.setReg "i" .nat [] (fun _ => n)) hn (bind_holds M h p prog initial n u inv)
+      (u.setReg "i" .int [] (fun _ => Int.ofNat n)) hn (bind_holds M h p prog initial n u inv)
     obtain ⟨w,hw,hf⟩ := loop_executes M h p prog initial (n+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simpa [hn,he] using hw
+    rw [FP.Structural.rangeInt]
+    have lt : Int.ofNat n<Int.ofNat p.span := by simp only [Int.ofNat_eq_natCast]; omega
+    have inc : Int.ofNat n+1=Int.ofNat (n+1) := by simp only [Int.ofNat_eq_natCast]; omega
+    simpa only [Nat.one_ne_zero,if_false,lt,if_true,he,bind,Option.bind_some,Nat.cast_one,inc] using hw
   · have bound := inv.bound
     have eq : n=p.span := by omega
-    refine ⟨u,FP.Structural.range_done _ _ _ _ _ _ _ (by omega),by simpa [eq] using inv⟩
+    refine ⟨u,?_,by simpa [eq] using inv⟩
+    rw [FP.Structural.rangeInt]
+    have done : ¬Int.ofNat n<Int.ofNat p.span := by simp only [Int.ofNat_eq_natCast]; omega
+    simp only [Nat.one_ne_zero,if_false,done]
 termination_by p.span-n
 
 theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
@@ -109,7 +114,7 @@ theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (prog : Program h
   refine ⟨v,?_,fun t j => inv.output t.val t.isLt j,inv.frame⟩
   change run (engine M) (Kernels.source .forward h p scale).surfaceBody u=some v
   rw [FPProgram.source_body,run_append,FPPrefix.source_init]
-  rw [FPPrefix.executes M .forward h p prog u hf hc hr]
+  rw [FPPrefix.executes M .forward h p prog u hf hc hr (Or.inl rfl)]
   simpa [FPProgram.loopCode,FPOps.forward_body,run,step,FP.Structural.evalOp] using he
 
 #axiomsClean source_correct

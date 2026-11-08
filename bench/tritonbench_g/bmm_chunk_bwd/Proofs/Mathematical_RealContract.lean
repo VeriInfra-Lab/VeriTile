@@ -21,7 +21,7 @@ theorem bounds_of_views (swapped : Bool) (s : BlockState) (BM BN BCS : Nat) (p :
   · exact hb.residual
   · exact hb.output
 
-/-- Both full sources implement the independent contraction-plus-residual
+/-- The complete canonical source implements the independent contraction-plus-residual
 formula. The live output stride map must be injective; no divisibility of the
 contraction length or final output tile is required. -/
 theorem implements (swapped : Bool) (BM BN BCS : Nat) (p : RealProgram.Parameters)

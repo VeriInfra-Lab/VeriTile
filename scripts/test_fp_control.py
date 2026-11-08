@@ -14,7 +14,7 @@ class FPControlTests(unittest.TestCase):
             ['lake', 'build', 'VeriTile.Triton.Float.Control',
              'bench.examples.Welford.Proofs.FP',
              'bench.examples.OnlineSoftmax.Proofs.FP',
-             'bench.examples.Welford.Correct', 'bench.examples.OnlineSoftmax.Correct'],
+             'bench.examples.Welford.RealCorrect', 'bench.examples.OnlineSoftmax.RealCorrect'],
             cwd=ROOT, text=True, capture_output=True, timeout=300)
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
@@ -38,8 +38,8 @@ class FPControlTests(unittest.TestCase):
         self.lean('''
 import bench.examples.Welford.Proofs.FP
 import bench.examples.OnlineSoftmax.Proofs.FP
-import bench.examples.Welford.Correct
-import bench.examples.OnlineSoftmax.Correct
+import bench.examples.Welford.RealCorrect
+import bench.examples.OnlineSoftmax.RealCorrect
 open VeriTile Triton VeriTile.Bench.Examples
 example (N stride : Nat) :
     (WelfordCorrect.onlineIO N stride).kernel =

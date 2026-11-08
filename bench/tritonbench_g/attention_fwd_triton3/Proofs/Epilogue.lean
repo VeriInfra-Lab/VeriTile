@@ -68,20 +68,22 @@ theorem epilogue (c : Call) (o : Ops α) (a : Inputs α) (old : Carry c α) (s :
     (live : Matches c o a old s) :
     ∃ t,run (engine o.algebra) (parts c).after s=some t ∧
       t.mem=(scatter c o a old s).mem := by
-  rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12⟩
+  rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16⟩
   by_cases hf : c.finish=0
   all_goals
     simp (config := {maxSteps := 500000}) [parts,Kernels.source,Quoted.kernel,
+      DSL.CallValue.natural,DSL.CallValue.integer,DSL.CallValue.fp32,
+      sourceKernel,kernelCSEKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.fp32,
       ComputeKernel.surfaceBody,Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType,State.setReg,engine,Algebra.withDefaultPrecision,
       FPBackend.Ops.algebra,resolvePrecision,numeric,numericLt,numericLe,numericEq,
       natLt,natLe,integralFloorDiv,integralMod,ofFloat,toFloat,Region.cast,
-      h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,hf,
+      h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14,h15,h16,hf,
       store,scatter,writeRows,writeOutput,finalCenter,finalOutput,bop,
       Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals apply fold_write_mem_congr
   all_goals apply fold_write_mem_congr
-  all_goals rfl
+  all_goals first | (apply fold_write_mem_congr; rfl) | rfl
 
 #specNonCircular scatter avoiding [FP.Structural.exec,FP.Structural.run,Kernels.source,parts]
 #axiomsClean epilogue

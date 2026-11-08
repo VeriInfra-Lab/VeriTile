@@ -13,10 +13,11 @@ theorem output_entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (engine (withDot M D)) bounds (outputParts p scale).before s := by
   apply pure_trace
-  simp [outputParts,forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   all_goals
     simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-    simp [Safety.safeOp_unfold]
+    simp [Safety.safeOp_unfold,evalOp_unfold,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
+      Safety.safeExpr_unfold,step,run,evalExpr,Option.bind]
 
 theorem output_body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (scale : ℝ)
     (bounds : RegionName → Nat) (pid : PID) (input : Memory α) (s : State α)
@@ -32,14 +33,15 @@ theorem output_body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   swap
   · intro t _
     apply pure_trace
-    simp [outputParts,forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+    simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
     all_goals
       simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-      simp [Safety.safeOp_unfold]
-  simp [outputParts,forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+      simp [Safety.safeOp_unfold,evalOp_unfold,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
+        Safety.safeExpr_unfold,step,run,evalExpr,Option.bind]
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-  simp [outputParts,forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
     Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -63,10 +65,10 @@ theorem output_finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameter
     Safety.traceSafeList (engine (withDot M D)) bounds (outputParts p scale).after s := by
   have ho := ha.1
   have hs := ha.2
-  simp [outputParts,forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
-  simp [outputParts,forwardO,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [outputParts,forwardO,forwardOKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
     Safety.addressSafe_unfold,Safety.maskActive_unfold,

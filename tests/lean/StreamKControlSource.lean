@@ -14,7 +14,7 @@ def changedMappingBinding : Program := source_program triton {
 /-- Arity alone cannot establish the helper connection: swapping dimensions
 must be rejected before it reaches the existing typed mapping interpreter. -/
 theorem changed_mapping_binding_rejected :
-    rejected (SourceAdapter.decode changedMappingBinding) = Bool.true := rfl
+    rejected (SourceAdapter.decode {mac_loopSource with body:=changedMappingBinding}) = Bool.true := rfl
 
 def changedMacBinding : Program := source_program triton {
   mac_loop(A, B, C, M, N, K, partials, pid, stride_am, stride_ak,
@@ -22,21 +22,21 @@ def changedMacBinding : Program := source_program triton {
     BLOCK_M, BLOCK_N, BLOCK_K, ACC_TYPE, GROUP_M)
 }
 theorem changed_mac_binding_rejected :
-    rejected (SourceAdapter.decode changedMacBinding) = Bool.true := rfl
+    rejected (SourceAdapter.decode {first_waveSource with body:=changedMacBinding}) = Bool.true := rfl
 
 def orderedPrecision : Program := source_program triton {
   acc += tl.dot(a, b)
   acc = tl.cast(acc, tl.float16)
 }
 /-- Preserve separate dot-add and output conversion in source order. -/
-theorem ordered_dot_and_half : SourceAdapter.decode orderedPrecision = .ok [
+theorem ordered_dot_and_half : SourceAdapter.decode {full_tilesSource with body:=orderedPrecision} = .ok [
     .dotAdd "acc" "a" "b", .half "acc"] := rfl
 
 def changedPrecision : Program := source_program triton {
   acc = tl.cast(acc, tl.bfloat16)
 }
 theorem changed_precision_rejected :
-    rejected (SourceAdapter.decode changedPrecision) = Bool.true := rfl
+    rejected (SourceAdapter.decode {full_tilesSource with body:=changedPrecision}) = Bool.true := rfl
 
 #axiomsClean changed_mapping_binding_rejected
 #axiomsClean changed_mac_binding_rejected

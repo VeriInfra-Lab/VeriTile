@@ -12,16 +12,16 @@ set_option linter.unusedSimpArgs false
 def forwardReference [Inhabited (FP.Value .fp32)] (cfg : FP.Config)
     (literal : ℝ → FP.Value .fp32) (rsqrt32 : FP.Value .fp32 → FP.Value .fp32)
     (p : Forward.Parameters) (s : State (FP.Value .fp32)) : State (FP.Value .fp32) :=
-  let t := (s.write p.mean (Forward.meanOffset p s) (.mk .fp32 (Forward.bitMean cfg literal p s))).write
-    p.rstd (Forward.rstdOffset p s) (.mk .fp32 (Forward.bitRstd cfg literal rsqrt32 p s))
+  let t := (s.write p.mean (Forward.meanOffset p s) (.mk .real (Forward.bitMean cfg literal p s))).write
+    p.rstd (Forward.rstdOffset p s) (.mk .real (Forward.bitRstd cfg literal rsqrt32 p s))
   (TileShape.allIndices [p.block]).foldl (fun t i => if i.1.val<p.columns then
-    t.write p.y (Forward.outputOffset p s i) (.mk .fp32 (Forward.bitY cfg literal rsqrt32 p s i)) else t) t
+    t.write p.y (Forward.outputOffset p s i) (.mk .real (Forward.bitY cfg literal rsqrt32 p s i)) else t) t
 
 def finish (p : Backward.Parameters) (pid : Nat) (a : Backward.Acc (FP.Value .fp32) p) : State (FP.Value .fp32) :=
   let t := (TileShape.allIndices [p.block]).foldl (fun t i => if i.1.val<p.columns then
-    t.write p.dw (pid*p.dwStride+i.1.val) (.mk .fp32 (a.dw i)) else t) a.state
+    t.write p.dw (pid*p.dwStride+i.1.val) (.mk .real (a.dw i)) else t) a.state
   (TileShape.allIndices [p.block]).foldl (fun t i => if i.1.val<p.columns then
-    t.write p.db (pid*p.dbStride+i.1.val) (.mk .fp32 (a.db i)) else t) t
+    t.write p.db (pid*p.dbStride+i.1.val) (.mk .real (a.db i)) else t) t
 
 def backwardReference [Inhabited (FP.Value .fp32)] (cfg : FP.Config)
     (literal : ℝ → FP.Value .fp32) (p : Backward.Parameters) (s : State (FP.Value .fp32)) :=

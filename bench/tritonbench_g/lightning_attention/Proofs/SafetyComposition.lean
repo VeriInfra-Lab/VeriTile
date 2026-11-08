@@ -19,11 +19,11 @@ theorem single_range (M : Algebra α) (bounds : RegionName → Nat) (idx : RegNa
     (stop : Nat) (body : List ComputeStmt) (s : State α)
     (safe : Safety.rangeSafe M bounds idx 0 stop 1 body s) :
     Safety.traceSafeList M bounds
-      [.forRangeDyn idx (.constNat 0) (.constNat stop) (.constNat 1) body] s := by
+      [.forRange idx 0 stop 1 body] s := by
   simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeOp_unfold,
     evalOp_unfold,true_and]
   refine ⟨safe,?_⟩
-  cases step M (.forRangeDyn idx (.constNat 0) (.constNat stop) (.constNat 1) body) s <;> trivial
+  cases step M (.forRange idx 0 stop 1 body) s <;> trivial
 
 theorem single_reverse (M : Algebra α) (bounds : RegionName → Nat) (idx : RegName)
     (count : Nat) (body : List ComputeStmt) (s : State α)

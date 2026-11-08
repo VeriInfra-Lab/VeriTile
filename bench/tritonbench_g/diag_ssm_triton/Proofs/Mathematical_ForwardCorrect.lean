@@ -1,4 +1,4 @@
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ForwardProjection
+import bench.tritonbench_g.diag_ssm_triton.Proofs.FlatForwardTransport
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Erasure
 import VeriTile.Triton.Semantics.ProgramRewrite
 import VeriTile.Triton.Memory.FlattenTolerant
@@ -74,9 +74,21 @@ theorem original_correct (storage : Storage) (s x l y : RegionName)
     (RealReference.diagSsmForwardKernelIO s x l y length batch dim block) rfl
     (fun _ _ ss ls xs t j => RealReference.diagSsmStreamState (ss t j) (ls t j) (fun u => xs u j) (t.val+1))
     (RealReference.diag_ssm_forward_io_correctness .triv s x l y length batch dim block hLength hne)
-  simpa only [Spec.Real,StreamEmitMasked2DKernelIO₃.Implements,originalIO,
-    RealReference.diagSsmForwardKernelIO,ForwardProjection.typed_source_flat_exec,
-    stream_reference,scan] using h
+  change StreamEmitMasked2DKernelIO₃.Implements _ _
+  intro A hd hregions hcoverage pid0 pid1 ss ls xs u hp0 hp1 hu hsbound hlbound hxbound hybound hs hl hx
+  obtain ⟨v,he,ho,hf⟩ := h A hd hregions hcoverage pid0 pid1 ss ls xs u hp0 hp1 hu
+    hsbound hlbound hxbound hybound hs hl hx
+  let p : ForwardLayout := ⟨s,x,y,l,batch,dim,block⟩
+  obtain ⟨a,b,ha,hb,obs⟩ := FlatForwardTransport.runs_related A p length (A.flattenState u)
+  have bv : b=v := Option.some.inj (hb.symm.trans he)
+  subst b
+  refine ⟨a,?_,?_,?_⟩
+  · simpa only [exec,originalIO,FlatForwardTransport.source,FlatAlloc.flattenKernel,
+      Erasure.forward_body] using ha
+  · intro t j active
+    exact (obs.readMem_eq _ _).trans (by simpa only [stream_reference,scan] using ho t j active)
+  · intro r o outside
+    exact (congrFun (congrFun obs.mem r) o).trans (hf r o outside)
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

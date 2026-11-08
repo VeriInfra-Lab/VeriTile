@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int4_matmul.Spec
+import bench.tritonbench_g.int4_matmul.Proofs.Support.Spec
 import bench.tritonbench_g.int4_matmul.Proofs.Geometry
 namespace VeriTile.Bench.Repairs.Int4Matmul
 set_option maxHeartbeats 4000000

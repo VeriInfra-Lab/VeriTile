@@ -27,11 +27,11 @@ def ReadFootprint (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) :
 The equalities expose their initial-memory cells and exact logical offsets. -/
 theorem actual_body_input_loads (rest : Algebra Word) (plans : PlanSelector) (p : Parameters) (initial current : State Word)
     (c : Nat) (h : Invariant plans p initial c current) :
-    (bodyExecution rest plans p initial current c h).val.regs .real [p.BM,p.BK] "a" =
-      some (fun i => (initial.mem p.A (aOffset p initial i.1.val c i.2.1.val)).read .real) ∧
-    (bodyExecution rest plans p initial current c h).val.regs .real [p.BN,p.BM,p.BK] "b" =
+    (bodyExecution rest plans p initial current c h).val.regs .fp32 [p.BM,p.BK] "a" =
+      some (fun i => (initial.mem p.A (aOffset p initial i.1.val c i.2.1.val)).read .fp32) ∧
+    (bodyExecution rest plans p initial current c h).val.regs .fp32 [p.BN,p.BM,p.BK] "b" =
       some (fun i => (initial.mem p.B
-        (bOffset p initial i.2.1.val i.1.val c i.2.2.1.val)).read .real) := by
+        (bOffset p initial i.2.1.val i.1.val c i.2.2.1.val)).read .fp32) := by
   constructor
   all_goals simp [bodyExecution, h.mi, h.ni, h.offsets, h.carry, h.blocks, h.memory,
     aOffset, bOffset, row, col, bop, Broadcast.leftIndex, Broadcast.rightIndex,

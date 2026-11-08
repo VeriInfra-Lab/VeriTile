@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelGradientReadback
-import bench.tritonbench_g.chunk_retention_ops.Sources.Geometry
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelGradientReadback
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.Geometry
 
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelGradient
 open VeriTile Triton FP.Structural

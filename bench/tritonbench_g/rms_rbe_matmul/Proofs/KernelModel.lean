@@ -1,5 +1,5 @@
 import bench.tritonbench_g.rms_rbe_matmul.Kernels
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 import VeriTile.Triton.Float.ExecutionProfile
 
 namespace VeriTile.Bench.Repairs.RmsRbeMatmul.KernelSource
@@ -18,14 +18,14 @@ def arguments (p : Parameters) : TypedSource.Arguments :=
   ⟨"X", "W", "RMS", "OUT", p.M, p.N, p.K, p.M*p.K, p.K, 1, 1, p.K, 1,
     p.M*p.N, p.N, 1, 16, 64, 64, p.headDim, p.start, p.rotary, 10000, 1/1000000⟩
 def kernel (fp8 : Bool) (p : Parameters) : ComputeKernel := TypedSource.kernel fp8 (arguments p)
-def prelude (fp8 : Bool) (p : Parameters) := (kernel fp8 p).surfaceBody.take 12
+def prelude (fp8 : Bool) (p : Parameters) := (kernel fp8 p).surfaceBody.take 24
 def loop (fp8 : Bool) (p : Parameters) : List ComputeStmt :=
-  match (kernel fp8 p).surfaceBody[12]? with
-  | some (ComputeStmt.forRangeDyn _ _ _ _ body) => body
+  match (kernel fp8 p).surfaceBody[24]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ body) => body
   | _ => []
-def statistics (fp8 : Bool) (p : Parameters) := ((kernel fp8 p).surfaceBody.drop 13).take 3
-def rotation (fp8 : Bool) (p : Parameters) := ((kernel fp8 p).surfaceBody.drop 16).take 1
-def stores (fp8 : Bool) (p : Parameters) := (kernel fp8 p).surfaceBody.drop 17
+def statistics (fp8 : Bool) (p : Parameters) := ((kernel fp8 p).surfaceBody.drop 25).take 3
+def rotation (fp8 : Bool) (p : Parameters) := ((kernel fp8 p).surfaceBody.drop 28).take 1
+def stores (fp8 : Bool) (p : Parameters) := (kernel fp8 p).surfaceBody.drop 29
 def steps (p : Parameters) := (p.K+63)/64
 
 /-- Generic proof infrastructure only. The public mathematical and native

@@ -11,8 +11,8 @@ def backwardStoreRegisters (P : Primitives α) (p : BackwardParameters) (initial
   let key := backwardRead p initial outerMem p.k c
   let value := backwardRead p initial outerMem p.v c
   let t := current.setReg "dk" .real [p.blockM,p.head] (backwardInnerAdvance P p initial key value c j st).dk
-  let t := t.setReg "dq" .real [p.blockM,p.head] (fun i =>
-    P.cast (some .fp32) .fp32 .real ((st.mem p.dq (backwardOffset p initial j i)).read .fp32))
+  let t := t.setReg "dq" .fp32 [p.blockM,p.head] (fun i =>
+    (st.mem p.dq (backwardOffset p initial j i)).read .fp32)
   t.setReg "dq" .real [p.blockM,p.head] (backwardQueryValue P p initial st.mem key value c j)
 def backwardStoreResult (P : Primitives α) (p : BackwardParameters) (initial current : State α)
     (c j : Nat) (outerMem : Memory α) (st : BackwardInner α p) : State α :=
@@ -31,9 +31,9 @@ theorem backwardStoreExecution (rest : Algebra α) (P : Primitives α) (p : Back
       (backwardDS P p initial st.mem (backwardRead p initial outerMem p.k c) (backwardRead p initial outerMem p.v c) c j)) :
     run (backend rest P) (((backwardInnerBody p).drop 12).take 4) current=
       some (backwardStoreResult P p initial current c j outerMem st) := by
-  simp only [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,List.drop,List.take]
+  simp only [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,List.drop,List.take]
   try simp only [eq_mp_eq_cast,eq_mpr_eq_cast,cast_eq,id_eq]
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,numeric,store,backend,backwardStoreResult,backwardStoreRegisters,
     hm,hptr,hk,hq,hdk,hds,backwardPointer,backwardOffset,
     TileShape.indexToList,Region.cast,Nat.add_assoc,
@@ -58,9 +58,9 @@ theorem backwardAdvanceExecution (rest : Algebra α) (P : Primitives α) (p : Ba
     (hdo : current.regs .blockPtr [p.blockM,p.head] "do_tile_ptr"=some (fun _ => backwardPointer p initial p.gradient j))
     (hdq : current.regs .blockPtr [p.blockM,p.head] "dq_tile_ptr"=some (fun _ => backwardPointer p initial p.dq j)) :
     run (backend rest P) ((backwardInnerBody p).drop 16) current=some (backwardAdvancePointers p initial current j) := by
-  simp only [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,List.drop,List.take]
+  simp only [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,List.drop,List.take]
   try simp only [eq_mp_eq_cast,eq_mpr_eq_cast,cast_eq,id_eq]
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,numeric,backend,backwardAdvancePointers,
     hdp,hq,hdo,hdq,backwardPointer,Nat.add_mul,Nat.add_assoc,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind]

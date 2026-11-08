@@ -14,7 +14,7 @@ theorem forward_safe (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p
     (hg : ∀ j : Fin h.BK, off h p prog n j<bounds "g")
     (ho : ∀ j : Fin h.BK, off h p prog n j<bounds "go") :
     Safety.traceSafeList (engine M) bounds (forwardBody h) u := by
-  simp (config := { maxSteps := 600000 }) [forwardBody,assign32,gateOp,loadOp,pointerOp,maskOp,
+  simp (config := { maxSteps := 600000 }) [forwardBody,assign32,gateLoadCode,dataLoadCode,loadOp,pointerOp,maskOp,
     fwdOp,refOp,storeCode,advanceCode,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -34,7 +34,7 @@ theorem forward_safe (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p
     (hqo : ∀ j : Fin h.BK, off h p prog n j<bounds "qg")
     (hko : ∀ j : Fin h.BK, off h p prog n j<bounds "kg") :
     Safety.traceSafeList (engine M) bounds (prepareBody h scale) u := by
-  simp (config := { maxSteps := 800000 }) [prepareBody,dataLoadCode,assign32,gateOp,loadOp,pointerOp,maskOp,
+  simp (config := { maxSteps := 800000 }) [prepareBody,assign32,gateLoadCode,dataLoadCode,loadOp,pointerOp,maskOp,
     prepareQOp,differenceGatedOp,refOp,storeCode,advanceCode,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

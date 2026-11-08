@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_triton.Geometry
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Support.Geometry
 import bench.tritonbench_g.rmsnorm_triton.Proofs.Mathematical_Source
 import bench.tritonbench_g.rmsnorm_triton.Proofs.Mathematical_WholeHost
 import VeriTile.Triton.Memory.LogicalScheduledKernelIO

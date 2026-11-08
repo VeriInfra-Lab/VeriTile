@@ -1,4 +1,5 @@
 import bench.examples.FusedLayerNorm.Kernels
+import bench.examples.FusedLayerNorm.Proofs.Real
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Algebra.BigOperators.Field
@@ -11,63 +12,43 @@ import VeriTile.Examples.Common
 import VeriTile.Meta.StatementAudit
 
 /-!
-This file uses real intermediate arithmetic (with the stated cast semantics).
+Auxiliary equivalence of the current two complete LayerNorm sources under
+real intermediate arithmetic and the common BF16 output rounding `execR R`.
 The two-gates FP specification is in ../FPEquiv.lean.
 
-# LayerNorm: two-pass vs fused single-pass — kernel equivalence `≡[R]`
-
-Sources are in Kernels.lean. The proof below derives the real relation,
-checks termination and memory framing, and states the public specification.
-
-`twoPassLayerNormKernel` computes mean/variance with two `tl.sum` passes then the
-affine `(x − μ)/√(var+ε)·γ + β`; `fusedLayerNormKernel` computes mean/variance in
-a single Welford `for` loop then the same affine tail. Like a real Triton
-layernorm, both kernels take a **`rowStride` argument** (stage 1 of the
-address-layout roadmap): the input/output rows live at
-`pid * rowStride + [0, N)` of an `M × rowStride` buffer, while the per-feature
-`γ`/`β` vectors stay contiguous at `[0, N)`, **shared** by every program. Both
-**store the output row rounded to bf16** (`(y).to(tl.bfloat16)`); the
-mean/variance reductions and the affine arithmetic run in ℝ (no intermediate
-rounding). Both compute the same per-lane ℝ output (Welford's running (M,S) =
-two-pass (μ,S) via `welford_eq_two_pass`), so from the same state they produce
-the same ℝ output row, and the only rounding is the shared bf16 output store,
-which quantizes equal values identically — for **every** rounding model `R`.
-
-## The public result (bottom of file)
-
-The single public headline is **`layernorm_equiv`** — kernel equivalence on
-the shared three-input IO signature:
-
-    layerNormTwoPassIO N rowStride ε ≡[R] layerNormFusedIO N rowStride ε
-
-`≡[R]` is the audit-once kernel-equivalence combinator (`KernelIO₃.Equiv`,
-`VeriTile.Triton.Memory.KernelSpec`), the `⊨`-grade form of the refinement
-surface. Spelled out, the headline says: for **every** disjoint flat placement
-of the interface buffers `x`/`γ`/`β`/`y` (∀ base pointers, ∀ buffer sizes;
-neither kernel has scratch), **every** program id whose row window
-`[pid·rowStride, pid·rowStride + N)` fits in `x` and `y` and whose shared
-feature window `[0, N)` fits in `γ` and `β`, and **every** launch state — **no
-input hypotheses at all**, not even loaded inputs: "equal inputs" is simply
-"the same `s₀`" — both translated pointer kernels terminate under `execR R`,
-their `y` row windows hold equal values, and each kernel leaves every cell
-outside its `y` row window untouched. There is no `0 < N` hypothesis either:
-at `N = 0` every window is empty, so the row-agreement leg (∀ `j : Fin N`) is
-vacuous and the frames say the kernels write nothing.
-
-The statement mentions only the two IO signatures and the library equivalence
-surface — **no spec** (the `#stmtSurfaceSubset` gate below enforces this).
-Everything else — the Welford loop invariant, the per-execution safety walks,
-and the region-level refinement `layernorm_kernels_refinement_view`
-(`ComputeRefine.Refines R`, empty scratch list) whose writes-equality the
-`hrun` obligation repackages — is scaffolding. There are **no spec
-definitions**: the expected per-lane output never appears as a named function,
-so a self-referential spec is impossible by construction (and there is no
-`#specNonCircular` gate to run). The masked-IO pilot of this conversion is
-`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`.
+The proof covers the full output row, termination, address safety and memory
+outside the output row. Its statement requires `N < 2^64`, preserving the
+value of the explicit source `uint64` count before conversion; the empty row
+is included. Actual FP32 loads, the count assignment and the BF16 store remain
+in the authoritative source. Full native algorithm equalities below connect
+proof-only decompositions to that source. This auxiliary interpretation does
+not assert unconditional IEEE equivalence of intermediate computations.
 -/
 
 namespace VeriTile.Bench.Examples.LayerNorm
 open VeriTile.Bench.Examples.FusedLayerNorm.Kernels
+
+open VeriTile.Bench.Examples.FusedLayerNormCorrect
+open VeriTile.Triton VeriTile.Examples
+
+private def nativeStore (y : RegionName) (N : Nat) : Stmt :=
+  .store .bf16 [N] (.region y (.ref .nat [N] "offs"))
+    (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [N] "y"))) .none
+
+private def nativeTwoStatements (x g b y : RegionName) (N stride : Nat) (eps : ℝ) : List Stmt :=
+  (twoPassStatements x g b y N stride eps).take 13 ++ [nativeStore y N]
+
+private def nativeFusedStatements (x g b y : RegionName) (N stride : Nat) (eps : ℝ) : List Stmt :=
+  (fusedStatements x g b y N stride eps).take 13 ++ [nativeStore y N]
+
+@[simp] private theorem native_two_algorithm (x g b y : RegionName) (N stride : Nat) (eps : ℝ) :
+    (twoPassLayerNormKernel x g b y N stride eps).toAlgKernel =
+      {inputs := [x,g,b], outputs := [y], body := nativeTwoStatements x g b y N stride eps} := by rfl
+
+@[simp] private theorem native_fused_algorithm (x g b y : RegionName) (N stride : Nat) (eps : ℝ) :
+    (fusedLayerNormKernel x g b y N stride eps).toAlgKernel =
+      {inputs := [x,g,b], outputs := [y], body := nativeFusedStatements x g b y N stride eps} := by rfl
+
 open VeriTile.Triton VeriTile.Examples
 open VeriTile.Triton.TiledReduction.WelfordRec
 open scoped VeriTile.Triton.KernelIO₃
@@ -259,13 +240,14 @@ set_option maxHeartbeats 1600000 in
 two-pass vs fused. `layernorm_kernels_refinement_view` repackages it on the
 `TensorView.ViewsLoaded` bundle; that is the form `layernorm_equiv`'s
 region-model obligation consumes. -/
-private theorem layernorm_refines_core (R : RoundingModel)
+private theorem layernorm_refines_core (R : RoundingModel) (hWord : N < 2^64)
     (h_x : InputRowLoadedAt s xReg rowStride N xs)
     (h_γ : InputFeatureLoadedAt s γReg N γs)
     (h_β : InputFeatureLoadedAt s βReg N βs) :
     ComputeRefine.Refines R
       (twoPassLayerNormKernel xReg γReg βReg yReg N rowStride ε)
       (fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε) s [] := by
+  have hmod : N % 18446744073709551616 = N := Nat.mod_eq_of_lt hWord
   obtain ⟨hMeanEq, hSEq⟩ := welford_eq_two_pass hN xs
   have h_inj : Function.Injective
       (fun idx : TileIndex [N] => s.pid * rowStride + idx.1.val) :=
@@ -302,23 +284,24 @@ private theorem layernorm_refines_core (R : RoundingModel)
   unfold InputRowLoadedAt at hXl
   unfold InputFeatureLoadedAt at hγl hβl
   -- reduce the two-pass execution to one bf16 scatter
-  simp [execR, twoPassLayerNormKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
-        Tile.bop, Tile.uop, Tile.natToReal,
+  simp [execR, native_two_algorithm, nativeTwoStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
+        Tile.bop, Tile.uop, Tile.natToReal, IntegralDType.mod, hmod,
         NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
         ComputeExpr.toAlgorithm?, Tile.reduceSum, Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
         WithBot.realMul] at hL
   -- reduce the fused execution: expose the loop, fold state, collapse to sLoop,
   -- then reduce the affine tail to one bf16 scatter
-  simp [execR, fusedLayerNormKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
-        Tile.bop, Tile.uop, Tile.natToReal,
+  simp [execR, native_fused_algorithm, nativeFusedStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
+        Tile.bop, Tile.uop, Tile.natToReal, IntegralDType.mod, hmod,
         NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
         ComputeExpr.toAlgorithm?] at hR
+  have hzero : (0.0 : ℝ) = 0 := by norm_num
+  simp only [hzero] at hR
   rw [show
       (((s.setReg "pid" .nat [] (Tile.scalar (s.pids 0))).setReg
         "M" .real [] (Tile.scalar (some 0))).setReg
         "S" .real [] (Tile.scalar (some 0))) = s0 from rfl] at hR
-  simp only [onlineWelfordLoopBody] at hLoopR
   rw [hLoopR] at hR
   simp [hM, hS, hpidReg, hγl, hβl] at hR
   subst hL
@@ -352,7 +335,7 @@ memory agreement read at the output row window. From the obligation's bare
 `s₀` the views bundle holds by `rfl` once the arrays are instantiated with
 the values `s₀` holds at the views' own address maps. -/
 theorem layernorm_kernels_refinement_view
-    (R : RoundingModel)
+    (R : RoundingModel) (hWord : N < 2^64)
     (hin : TensorView.ViewsLoaded s
       [TensorView.slot (rowTileView s xReg rowStride N) xs,
        TensorView.slot (featureView γReg N) γs,
@@ -361,7 +344,7 @@ theorem layernorm_kernels_refinement_view
       (twoPassLayerNormKernel xReg γReg βReg yReg N rowStride ε)
       (fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε) s [] := by
   obtain ⟨h_x', h_γ', h_β', -⟩ := hin
-  exact layernorm_refines_core xReg γReg βReg yReg N rowStride hN ε s xs γs βs R
+  exact layernorm_refines_core xReg γReg βReg yReg N rowStride hN ε s xs γs βs R hWord
     (inputRowLoadedAt_of_rowTileView_loaded h_x')
     (inputFeatureLoadedAt_of_featureView_loaded h_γ')
     (inputFeatureLoadedAt_of_featureView_loaded h_β')
@@ -440,6 +423,8 @@ private theorem twoPass_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
       ((twoPassLayerNormKernel xReg γReg βReg yReg N rowStride ε).toAlgKernel)
       s := by
   unfold Kernel.TraceSafeR
+  rw [native_two_algorithm]
+  simp only [nativeTwoStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, List.take, List.drop, List.cons_append, List.nil_append]
   -- pid := program_id(0)
   refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
   intro s1 hs1
@@ -466,6 +451,10 @@ private theorem twoPass_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
         (by simp [BlockState.setReg]) xReg hxb⟩
   intro s3 hs3
   obtain ⟨v3, hv3, rfl⟩ := stepStmtR_assign_inv hs3
+  -- count := uint64(N).to(float32)
+  refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) ?_
+  intro sc hsc
+  obtain ⟨vc, hvc, rfl⟩ := stepStmtR_assign_inv hsc
   -- s_x := sum(x)
   refine Stmt.TraceSafeListR.cons_intro
     (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) ?_
@@ -521,7 +510,7 @@ private theorem twoPass_flattenOk :
     ((twoPassLayerNormKernel xReg γReg βReg yReg N rowStride ε
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [twoPassLayerNormKernel, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
+  simp [native_two_algorithm, nativeTwoStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, StmtList.FlattenOk,
     Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 /-! ### The fused kernel: walking the Welford loop -/
@@ -675,6 +664,8 @@ private theorem fused_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
       ((fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε).toAlgKernel)
       s := by
   unfold Kernel.TraceSafeR
+  rw [native_fused_algorithm]
+  simp only [nativeFusedStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, List.take, List.drop, List.cons_append, List.nil_append]
   -- pid := program_id(0)
   refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
   intro s1 hs1
@@ -704,6 +695,10 @@ private theorem fused_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
   refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
   intro s5 hs5
   obtain ⟨v5, hv5, rfl⟩ := stepStmtR_assign_inv hs5
+  -- count := uint64(N).to(float32)
+  refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) ?_
+  intro sc hsc
+  obtain ⟨vc, hvc, rfl⟩ := stepStmtR_assign_inv hsc
   -- v := S / N
   refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
   intro s6 hs6
@@ -719,7 +714,7 @@ private theorem fused_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
   rw [show evalOpR R (Op.add .nat .scalarL
       (Op.mul .nat .nil (Op.ref .nat [] "pid") (Op.constNat rowStride))
       (Op.arange N))
-      (((s4.setReg "μ" .real [] v5).setReg "v" .real [] v6).setReg
+      ((((s4.setReg "μ" .real [] v5).setReg "count" .real [] vc).setReg "v" .real [] v6).setReg
         "σ_inv" .real [] v7)
       = some ⟨fun i => s.pids 0 * rowStride + i.1.val⟩ from by
     simp [evalOpR.eq_def, Tile.bop, NumericDType.nat_add, NumericDType.nat_mul,
@@ -762,7 +757,7 @@ private theorem fused_flattenOk :
     ((fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [fusedLayerNormKernel, ComputeKernel.toAlgKernel, StmtList.FlattenOk,
+  simp [native_fused_algorithm, nativeFusedStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, onlineWelfordLoopBody, StmtList.FlattenOk,
     Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end LayerNorm.bridge
@@ -791,7 +786,7 @@ private theorem twoPass_execR_run (R : RoundingModel) (s : BlockState) :
   obtain ⟨s', hexec⟩ : ∃ s', execR R
       ((twoPassLayerNormKernel xReg γReg βReg yReg N rowStride ε
         ).toAlgKernel) s = some s' := by
-    simp [execR, twoPassLayerNormKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+    simp [execR, native_two_algorithm, nativeTwoStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
           Tile.bop, Tile.uop, Tile.natToReal,
           NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
           ComputeExpr.toAlgorithm?, Tile.reduceSum, Tile.reduceSumDrop,
@@ -799,7 +794,7 @@ private theorem twoPass_execR_run (R : RoundingModel) (s : BlockState) :
           WithBot.realMul]
   refine ⟨s', hexec, ?_⟩
   intro r o hmiss
-  simp [execR, twoPassLayerNormKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, native_two_algorithm, nativeTwoStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, Tile.natToReal,
         NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
         ComputeExpr.toAlgorithm?, Tile.reduceSum, Tile.reduceSumDrop,
@@ -849,14 +844,15 @@ private theorem fused_execR_run (R : RoundingModel) (s : BlockState) :
     rw [stepForLoopAux.forLoop_unfold] at h
     exact h
   unfold InputFeatureLoadedAt at hγl hβl
-  simp only [onlineWelfordLoopBody] at hLoopR
   obtain ⟨s', hexec⟩ : ∃ s', execR R
       ((fusedLayerNormKernel xReg γReg βReg yReg N rowStride ε
         ).toAlgKernel) s = some s' := by
-    simp [execR, fusedLayerNormKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+    simp [execR, native_fused_algorithm, nativeFusedStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
           Tile.bop, Tile.uop, Tile.natToReal,
           NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
           ComputeExpr.toAlgorithm?]
+    have hzero : (0.0 : ℝ) = 0 := by norm_num
+    simp only [hzero]
     rw [show
         (((s.setReg "pid" .nat [] (Tile.scalar (s.pids 0))).setReg
           "M" .real [] (Tile.scalar (some 0))).setReg
@@ -865,10 +861,12 @@ private theorem fused_execR_run (R : RoundingModel) (s : BlockState) :
     simp [hM, hS, hpidReg, hγl, hβl]
   refine ⟨s', hexec, ?_⟩
   intro r o hmiss
-  simp [execR, fusedLayerNormKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, native_fused_algorithm, nativeFusedStatements, nativeStore, twoPassStatements, fusedStatements, affineTail, WelfordCorrect.twoPassStatements, WelfordCorrect.onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, Tile.natToReal,
         NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
         ComputeExpr.toAlgorithm?] at hexec
+  have hzero : (0.0 : ℝ) = 0 := by norm_num
+  simp only [hzero] at hexec
   rw [show
       (((s.setReg "pid" .nat [] (Tile.scalar (s.pids 0))).setReg
         "M" .real [] (Tile.scalar (some 0))).setReg
@@ -922,7 +920,7 @@ is `layernorm_kernels_refinement_view`'s memory agreement, unpacked by the
 library `ComputeRefine.Refines.out` (Welford's identity + the shared bf16
 store; the `N = 0` degenerate window is vacuous) — with the flat-memory
 bridge side conditions (`FlattenOk` + `TraceSafeR` per kernel). -/
-specification layernorm_equiv (R : RoundingModel) (N rowStride : Nat) (ε : ℝ) :
+specification layernorm_equiv (R : RoundingModel) (N rowStride : Nat) (hWord : N < 2^64) (ε : ℝ) :
     layerNormTwoPassIO N rowStride ε ≡[R] layerNormFusedIO N rowStride ε := by
   refine KernelIO₃.Equiv.intro _ _ ?_ ?_ ?_ ?_ ?_
   · -- FlattenOk, two-pass
@@ -964,7 +962,7 @@ specification layernorm_equiv (R : RoundingModel) (N rowStride : Nat) (ε : ℝ)
                 ((featureView ⟨"γ"⟩ N).offset (j, PUnit.unit)))
               (fun j => s₀.readMem ⟨"β"⟩
                 ((featureView ⟨"β"⟩ N).offset (j, PUnit.unit)))
-              R ⟨fun _ => rfl, fun _ => rfl, fun _ => rfl, trivial⟩).out
+              R hWord ⟨fun _ => rfl, fun _ => rfl, fun _ => rfl, trivial⟩).out
             rfl rfl hexec1 hexec2
         have hmem := hmem12 ⟨"y"⟩ (by simp) (s₀.pid * rowStride + j.val)
         unfold BlockState.readMem

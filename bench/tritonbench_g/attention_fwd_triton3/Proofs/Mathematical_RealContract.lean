@@ -3,9 +3,7 @@ import bench.tritonbench_g.attention_fwd_triton3.Proofs.Mathematical_RealInputFo
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Mathematical_RealOutputLayout
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Mathematical_RealSource
 
-/-! Full real IO composition for the complete original and reciprocal source.
-The windows retain independent strides, grouped heads, checked Q tails,
-continuation carry reads and unmasked M/Out stores. -/
+/-! Six-port geometry and mathematical readback helpers. Its source facade uses the actual repaired quotation. Public correctness is proved directly through the Structural Real model in RealModelImplementation.lean and Correct.lean. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealContract
 open VeriTile.Triton RealPrologue
 noncomputable section
@@ -77,26 +75,6 @@ theorem readback (BM BN BD Z finish : Nat) (p : Parameters) (reciprocal : Bool)
   · intro r a hm hl ho
     apply h.frame r a hm hl
     simpa only [io, RealAddressBounds.output_address, RealHeader.bases, RealHeader.coordinates] using ho
-
-/-- Both complete sources implement the same independent six-input formula.
-Bounds and input pinning live in the IO contract. The remaining static premises
-are positive BLOCK_N, valid unchecked KV blocks and nonoverlapping output views. -/
-theorem implements (BM BN BD Z finish : Nat) (p : Parameters) (reciprocal : Bool)
-    (hN : 0 < BN) (hflag : p.evenN ≠ 0 → p.layout.kvContext % BN = 0)
-    (hd : 0 < p.layout.oDim) (hr : BD * p.layout.oDim ≤ p.layout.oRow)
-    (hm : p.layout.M ≠ p.layout.Out) (hlm : p.layout.L ≠ p.layout.M) (hlo : p.layout.L ≠ p.layout.Out) :
-    (io BM BN BD Z finish p reciprocal).Implements (fun start _ xs => expected BM BN BD finish start p xs) := by
-  apply RealIO.IO.Implements.intro
-  · exact RealSource.flatten_ok BM BN BD Z finish p reciprocal
-  · intro bounds s _ _ hb
-    exact RealSource.safe BM BN BD Z finish p reciprocal s bounds hN hflag
-      (RealAddressBounds.trace_bounds BM BN BD finish p s bounds hN hflag
-        (address_bounds BM BN BD Z finish p reciprocal s bounds hb))
-  · intro s xs _ hp
-    obtain ⟨t, he, hy⟩ := RealSource.executes BM BN BD Z finish p reciprocal s hN hflag
-      (RealOutputLayout.output_layout BM BD p s hd hr hm hlm hlo)
-    exact ⟨t, he, readback BM BN BD Z finish p reciprocal s t xs
-      (input_pins BM BN BD Z finish p reciprocal s xs hp) hy⟩
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

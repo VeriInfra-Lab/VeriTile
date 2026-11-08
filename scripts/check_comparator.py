@@ -166,6 +166,7 @@ def check(workspace, source=None, trust=False, library=False):
                                 stdout=output, stderr=subprocess.STDOUT)
     report = {**state, 'source': label, 'mode': 'source-replay',
               'theorem_count': len(inventory['theorems']),
+              'theorems': inventory['theorems'], 'evidence_dir': str(job_logs),
               'comparator_exit': result.returncode, 'accepted': result.returncode == 0}
     (job_logs / 'result.json').write_text(json.dumps(report, indent=2) + '\n')
     if result.returncode:
@@ -177,6 +178,7 @@ def check(workspace, source=None, trust=False, library=False):
                 if marker in line:
                     print(line[line.index(marker):])
     print(f'Comparator: {label}: {len(inventory["theorems"])} theorem(s) accepted; logs: {job_logs}')
+    return report
 
 
 def main():

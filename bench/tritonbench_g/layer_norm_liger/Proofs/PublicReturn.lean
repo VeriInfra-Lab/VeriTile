@@ -2,7 +2,6 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.Returned
 import bench.tritonbench_g.layer_norm_liger.Proofs.ForwardSaved
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Public
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (withSum)
 open Logical
 noncomputable section
 set_option maxHeartbeats 5000000
@@ -36,11 +35,11 @@ def Correct (p : Backward.Parameters) (s : State ℝ) (programs : Nat)
     (dw db : RegionName) (shape : List Nat) (out : Host.Return ℝ) : Prop :=
   out.dx=⟨p.dx,shape,.fp32⟩ ∧ out.dw=⟨dw,[p.columns],.fp32⟩ ∧ out.db=⟨db,[p.columns],.fp32⟩ ∧
   (∀ row, row<p.rows → ∀ i : TileIndex [p.block], i.1.val<p.columns →
-    out.state.mem p.dx (row*p.dxStride+i.1.val)=.mk .fp32 (rowDX p s row i.1.val)) ∧
-  (∀ i : Fin p.columns, out.state.mem dw i.val=.mk .fp32
+    out.state.mem p.dx (row*p.dxStride+i.1.val)=.mk .real (rowDX p s row i.1.val)) ∧
+  (∀ i : Fin p.columns, out.state.mem dw i.val=.mk .real
     (Logical.dw p.rows (fun row => bx p (saved p s) row) (fun row => bdy p (saved p s) row)
       (fun row => Backward.mean p (saved p s) row) (fun row => Backward.rstd p (saved p s) row) i.val)) ∧
-  (∀ i : Fin p.columns, out.state.mem db i.val=.mk .fp32
+  (∀ i : Fin p.columns, out.state.mem db i.val=.mk .real
     (Logical.db p.rows (fun row => bdy p (saved p s) row) i.val)) ∧
   (∀ r o, r≠dw → r≠db → (∀ pid, pid<programs → Backward.Outside p (atPid s pid) r o) →
     out.state.mem r o=s.mem r o)
@@ -99,7 +98,7 @@ theorem roundtrip (rest : Algebra ℝ) (fp : Forward.Parameters) (bp : Backward.
         Backward.mean bp (saved bp f) row=mean fp.columns (rowX fp (atPid s row)) ∧
         Backward.rstd bp (saved bp f) row=rstd fp.columns fp.epsilon (rowX fp (atPid s row))) ∧
       (∀ row, row<rows → ∀ i : TileIndex [fp.block], i.1.val<fp.columns →
-        f.mem fp.y (row*fp.yStride+i.1.val)=.mk .fp32
+        f.mem fp.y (row*fp.yStride+i.1.val)=.mk .real
           (y fp.columns fp.epsilon (rowX fp (atPid s row)) (weight fp s) (bias fp s) i.1.val)) := by
   let f := Grid.reference (Forward.reference (algebra rest) sumPrimitive fp) s rows
   obtain ⟨out,hex,hcorrect⟩ := backward rest bp f programs pw pb dw db shape h

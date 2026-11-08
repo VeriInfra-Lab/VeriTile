@@ -3,7 +3,7 @@ import VeriTile.Triton.Memory.PreparedAlgorithmProgramIO
 import VeriTile.Triton.Float.ObservedProgramIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 import VeriTile.Triton.Memory.LogicalIO
-import bench.tritonbench_g.chunk_bwd_dqkg.Spec
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.Support.Spec
 
 /-! Whole dense logical channels. The flattened lane counts retain the exact
 source order: q/k/dq/dk [B*H,T,K], v/do [B*H,T,V], h/dh [B*H,ceil(T/64),K,V],
@@ -25,7 +25,7 @@ abbrev Outputs (α : Type) (c : Config) := (o : Fin 3) → Fin (outputSize c o) 
 def realJob (c : Config) (a : CTA c) : PreparedAlgorithmInvocation where
   source := ⟨(kernel c).eraseDType,by
     have hp : (kernel c).toAlgorithm? = .ok (kernel c).toAlgKernel :=
-      RealSource.projects .fp32 .fp32 .fp32 .fp32 Bool.false
+      RealSource.projects .fp32 .fp32 .fp32 .fp32
         "q" "k" "v" "h" "g" "do" "dh" "dq" "dk" "dg"
         c.layout.s_k_h c.layout.s_k_t c.layout.s_v_h c.layout.s_v_t
         c.layout.s_h_h c.layout.s_h_t c.scale c.T c.K c.V 64 c.BK c.BV c.NT

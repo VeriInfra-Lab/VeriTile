@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.Sources.Mathematical_HostConfig
+import bench.tritonbench_g.context_attn_nopad.Proofs.Sources.Mathematical_HostConfig
 import bench.tritonbench_g.context_attn_nopad.Proofs.Mathematical_RealIO
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnNopad.Host

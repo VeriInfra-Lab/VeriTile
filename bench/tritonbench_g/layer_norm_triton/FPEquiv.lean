@@ -1,6 +1,7 @@
-import bench.tritonbench_g.layer_norm_triton.ForwardPairIO
+import bench.tritonbench_g.layer_norm_triton.Proofs.SourceWhileTrace
+import bench.tritonbench_g.layer_norm_triton.Proofs.Support.ForwardPairIO
 
-import bench.tritonbench_g.layer_norm_triton.BackwardPairIO
+import bench.tritonbench_g.layer_norm_triton.Proofs.Support.BackwardPairIO
 
 /-! Actual two-program equivalence for every retained source-stage scope.
 The existing forward loop expansion and two backward lifetime schedules retain
@@ -22,7 +23,7 @@ specification forward_equiv {α : Type} [Inhabited α] (m : Model α)
 /-- Grouped backward retains the complete row loop, every DX result read and
 both partial sums; all-word scalar meanings remain arbitrary. -/
 specification grouped_equiv {α : Type} [Inhabited α] (m : Model α)
-    (stride M N G B group : Nat) :
+    (stride M N G B group : Nat) (groups : 0<G) :
     BackwardPairIO.Grouped.original m stride M N G B group ≡[[]]
       BackwardPairIO.Grouped.candidate m stride M N G B group :=
   ReadProgramIO.Implementation.of_equivalent
@@ -41,6 +42,8 @@ specification final_equiv {α : Type} [Inhabited α] (m : Model α)
 #axiomsClean grouped_equiv
 #axiomsClean final_equiv
 
+#print_fp_assumptions grouped_equiv
+#print_fp_assumptions final_equiv
 #print_fp_assumptions forward_equiv
 #stmtSurfaceSubset forward_equiv ⊆
   [RegionName,Model,original,candidate,Spec.Equiv,ProgramIO.Implementation,Interface.Forward.io,

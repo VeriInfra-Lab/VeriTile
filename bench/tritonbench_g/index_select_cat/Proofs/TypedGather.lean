@@ -1,5 +1,5 @@
 import bench.tritonbench_g.index_select_cat.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.IndexSelectCat.TypedGather
 open VeriTile.Triton FP.Structural
@@ -44,14 +44,15 @@ def copied {α : Type} [Inhabited α] (p : Layout) (s : State α) : State α :=
 carrier, arbitrary initial registers, and arbitrary unused numeric callbacks. -/
 @[irreducible] def execution {α : Type} [Inhabited α] (rest : Algebra α)
     (p : Layout) (s : State α) :
-    {t : State α // FP.Structural.exec (copyBackend rest) (kernel p) s = some t} := by
+    {t : State α // FP.Structural.exec (copyBackend rest) (sourceKernel p) s = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [kernel,
+  simp [sourceKernel,
     ComputeKernel.surfaceBody,FP.Structural.exec,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
-    Option.bind,copyBackend,natLt,ComputeDType.eraseDType,numeric,bop,
-    ofFloat,toFloat,Region.cast,FP.Structural.store,TileShape.dropInsertedIndex]
+    Option.bind,copyBackend,natLt,numericLt,ComputeDType.eraseDType,numeric,bop,
+    ofFloat,toFloat,Region.cast,FP.Structural.store,TileShape.dropInsertedIndex,
+    -Nat.cast_mul, -Nat.cast_add, ←Int.natCast_mul, ←Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt]
   rfl
 
 theorem execution_memory {α : Type} [Inhabited α] (rest : Algebra α)

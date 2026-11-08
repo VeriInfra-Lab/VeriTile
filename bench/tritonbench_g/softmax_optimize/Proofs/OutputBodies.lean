@@ -38,7 +38,6 @@ def tailResult (s : BlockState) (Y X : RegionName) (N B start row : Nat)
 theorem full_run (s : BlockState) (Y X : RegionName) (N B start row : Nat)
     (shift denominator : WithBot ℝ)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [] "m" = some (Tile.scalar shift))
     (hz : s.regs .real [] "z" = some (Tile.scalar denominator)) :
     stepStmts (Source.outputFull Y X N B)
@@ -46,7 +45,7 @@ theorem full_run (s : BlockState) (Y X : RegionName) (N B start row : Nat)
       some (fullResult s Y X N B start row shift denominator) := by
   unfold Source.outputFull
   simp only [List.append_assoc]
-  rw [ProgramRewrite.append, prefix_run X N B start row s hpid hcols]
+  rw [ProgramRewrite.append, prefix_run X N B start row s hpid]
   simp only [Option.bind_some, loopApass2body, List.drop, List.take,
     List.cons_append, List.nil_append]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := fullLoad s X N B start row) (by
@@ -89,7 +88,6 @@ theorem full_run (s : BlockState) (Y X : RegionName) (N B start row : Nat)
 theorem tail_run (s : BlockState) (Y X : RegionName) (N B start row : Nat)
     (shift denominator : WithBot ℝ)
     (hpid : s.regs .int [] "pid_m" = some (Tile.scalar (row : Int)))
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int)))
     (hm : s.regs .real [] "m" = some (Tile.scalar shift))
     (hz : s.regs .real [] "z" = some (Tile.scalar denominator)) :
     stepStmts (Source.outputTail Y X N B)
@@ -97,10 +95,10 @@ theorem tail_run (s : BlockState) (Y X : RegionName) (N B start row : Nat)
       some (tailResult s Y X N B start row shift denominator) := by
   unfold Source.outputTail
   simp only [List.append_assoc]
-  rw [ProgramRewrite.append, prefix_run X N B start row s hpid hcols]
+  rw [ProgramRewrite.append, prefix_run X N B start row s hpid]
   simp only [Option.bind_some, List.singleton_append, loopBpass2body, List.drop, List.take,
     List.cons_append, List.nil_append]
-  rw [stepStmts.cons_some (mask_run s X N B start row hcols)]
+  rw [stepStmts.cons_some (mask_run s X N B start row)]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := tailLoad s X N B start row) (by
     rw [evalOp_load_ptrRef_maskOther "input_ptrs" _ _ _ (pointers X N B start row)
       (tailMask N B start) (⟨fun _ => (⊥ : WithBot ℝ)⟩ : Tile .real [B])

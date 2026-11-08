@@ -28,7 +28,7 @@ def Destinations {α : Type} (p : Parameters) (count : Nat) (vals : Inputs α p 
   (∀ x y, x < count → y < count → destination vals x = destination vals y → x = y)
 
 def launch {α : Type} (A : Algebra α) (p : Parameters) (token : Nat) : Invocation α where
-  kernel := kernel p
+  kernel := sourceKernel p
   backend := A
   pids := fun _ => token
   setPids := fun ax => decide (ax = 0)

@@ -19,7 +19,7 @@ theorem active_bounds (c : Config) (BM BD : Nat) (i : TileIndex [BM,BD])
     (hi : Output.active c BM BD i = Bool.true) :
     c.startM*BM+i.1.val < c.p.context ∧ i.2.1.val < c.p.headDim := by
   simpa [Output.active,Output.outputConfig,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue.active] using hi
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.active] using hi
 
 def coordinate (c : Config) (BM BD : Nat) (hp : ViewBounds.Program c)
     (i : TileIndex [BM,BD]) (hi : Output.active c BM BD i = Bool.true) : Coordinate c.p :=
@@ -30,7 +30,7 @@ theorem address_coordinate (c : Config) (BM BD : Nat) (hp : ViewBounds.Program c
     (i : TileIndex [BM,BD]) (hi : Output.active c BM BD i = Bool.true) :
     Output.address c BM BD i = address c.p (coordinate c BM BD hp i hi)+c.offsets.output := by
   simp [Output.address,Output.outputConfig,
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue.address,
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.address,
     address,coordinate,RealProofs.address,obase,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
 
 theorem active_injective (c : Config) (BM BD : Nat) (hp : ViewBounds.Program c)

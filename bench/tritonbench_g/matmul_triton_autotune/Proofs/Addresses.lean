@@ -13,7 +13,7 @@ theorem safeCoordinate_lt (limit coordinate : Nat) (positive : 0<limit) :
 theorem safeCoordinate_active (limit coordinate : Nat) (active : coordinate<limit) :
     safeCoordinate limit coordinate=coordinate := by simp [safeCoordinate,active]
 
-/-- The changed pointer code yields exactly the old observable masked loads.
+/-- Clamped pointer expressions agree with the independent masked-load formula.
 No arithmetic primitive is equated with another primitive. -/
 theorem maskedA_normalization {α : Type} (r : Request) (memory : Nat → α)
     (row k : Nat) (zero : α) :

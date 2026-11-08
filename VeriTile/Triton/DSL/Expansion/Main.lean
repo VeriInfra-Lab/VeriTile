@@ -123,9 +123,12 @@ def parseMaxReturnIndicesKwargs (dims : List (TSyntax `term))
         if n.getNat ≥ dims.length then
           Macro.throwError "tl.max return_indices: axis out of bounds"
         axisIdx := n.getNat
-    | `(tritonReduceKwarg| return_indices=True) =>
+    | `(tritonReduceKwarg| return_indices=True)
+    | `(tritonReduceKwarg| return_indices=true) =>
+        if seenReturn then Macro.throwError "tl.max return_indices: duplicate return_indices"
         seenReturn := Bool.true
-    | `(tritonReduceKwarg| return_indices=False) =>
+    | `(tritonReduceKwarg| return_indices=False)
+    | `(tritonReduceKwarg| return_indices=false) =>
         Macro.throwError "tl.max tuple binding requires `return_indices=True`"
     | `(tritonReduceKwarg| keep_dims = false) =>
         Macro.throwError "tl.max return_indices: `keep_dims` is not supported"
@@ -135,7 +138,7 @@ def parseMaxReturnIndicesKwargs (dims : List (TSyntax `term))
         let nm := name.getId.toString
         if nm == "return_indices_tie_break_left" then
           match value with
-          | `(tritonExpr| True) => pure ()
+          | `(tritonExpr| True) | `(tritonExpr| true) => pure ()
           | _ => Macro.throwError "tl.max return_indices: only literal True leftmost tie breaking is supported"
         else
           Macro.throwError
@@ -324,6 +327,8 @@ bound; no assigned register is available for the ordinary signed-name scan. -/
 private partial def signedRangeBound (pins : List String) (value : TSyntax `tritonExpr) : Bool :=
   match value with
   | `(tritonExpr| ($inner:tritonExpr)) => signedRangeBound pins inner
+  | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) =>
+      signedRangeBound pins a || signedRangeBound pins b
   | `(tritonExpr| tl.cast($_:tritonExpr, $dtype:tritonDType)) =>
       (signedCastWidth? dtype).isSome
   | _ => Inference.isSignedExpr pins value ||
@@ -392,7 +397,7 @@ partial def expandNatExpectedExpr (env : Env) (stx : TSyntax `tritonExpr) :
           else if env.any (fun entry => entry.1 == userName) then userName
           else erasedName
         let (dtype, shape) ← lookupEnv env name
-        ensureDType .nat dtype "nat expression"
+        ensureDType .nat dtype ("nat expression identifier `" ++ name ++ "`")
         let s : TSyntax `term := Syntax.mkStrLit name
         let sh ← shape.term
         pure ⟨← `(Op.ref TileDType.nat $sh $s), .nat, shape, none, none⟩
@@ -1119,6 +1124,20 @@ partial def natBlockPtrOffsets (env : Env) (ctx : String)
   pure (← natListTerm staticOffsets.toList, ← opListTerm offsetOps.toList, hasDynamic)
 
 partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := do
+  if let `(tritonExpr| tl.implicit_store_cast($value:tritonExpr, $dtype:tritonDType)) := stx then
+    let value' ← expandExpr env value
+    let dst ← expandDType dtype
+    let floating := match dst with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+      | _ => Bool.false
+    let same := if dst == .fp32 then
+        value'.dtype == .real && value'.computeDType? == some .fp32
+      else if dst == .real then
+        value'.dtype == .real && value'.computeDType? == some .real
+      else dst == value'.dtype
+    if floating && same then
+      return value'
+    return ← expandExpr env (← `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)))
   -- The source's explicit output-pointer cast can be Bool -> Bool. Preserve
   -- its actual operand instead of treating the register as a numeric load.
   if let some (e, dt) := methodCast? stx then
@@ -1285,6 +1304,10 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         else if env.any (fun entry => entry.1 == userName) then userName
         else erasedName
       expandIdentRefByName env name
+  | `(tritonExpr| $((VeriTile.Triton.DSL.CallValue.fp32 $value:term : ℝ))) => do
+      let some out ← suppliedFP32Literal? stx
+        | Macro.throwError "invalid internal FP32 call literal"
+      return out
   | `(tritonExpr| $(($t:term : ℝ))) =>
       pure ⟨← `(Op.const $t), .real, SInfo.scalar, none, none⟩
   | `(tritonExpr| $(($t:term : Real))) =>
@@ -1365,6 +1388,27 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
   | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, $_:tritonExpr))
   | `(tritonExpr| tl.rand($_:tritonExpr, $_:tritonExpr, n_rounds=$_:tritonExpr)) =>
       Macro.throwError "tl.rand requires source-profile preprocessing in a triton block"
+  | `(tritonExpr| tl.div_rn($a:tritonExpr, $b:tritonExpr)) => do
+      let a' ← expandExpr env a
+      let b' ← expandExpr env b
+      for operand in [a',b'] do
+        if operand.computeDType? == some .real ||
+            [.fp16,.bf16,.f8e4,.f8e5].contains operand.dtype then
+          Macro.throwError "tl.div_rn requires FP32 operands"
+      let (a',b') ← coerceRealArithOperands "tl.div_rn" a' b'
+      ensureComputeArithComposable "tl.div_rn" a'
+      ensureComputeArithComposable "tl.div_rn" b'
+      let av ← realMathTerm "tl.div_rn numerator" a'
+      let bv ← realMathTerm "tl.div_rn denominator" b'
+      let (bc,shape) ← broadcastTerm a'.shape b'.shape "tl.div_rn"
+      let term ← `(Op.divRN $bc $av $bv)
+      -- Keep operand-local precision/conversion scopes before installing the
+      -- intrinsic's fixed FP32 arithmetic context.
+      let avScoped ← realMathTerm "tl.div_rn numerator" { a' with term := ← a'.scopedFloatingTerm }
+      let bvScoped ← realMathTerm "tl.div_rn denominator" { b' with term := ← b'.scopedFloatingTerm }
+      let fp ← `(Op.divRN $bc $avScoped $bvScoped)
+      let compute ← fp32ComputeExpr fp
+      pure ⟨term,.real,shape,some compute,some .fp32⟩
   | `(tritonExpr| tl.exp($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.exp" e'
@@ -1470,6 +1514,13 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let eTerm ← realMathTerm "tl.rsqrt" e'
       let term ← `(Op.rsqrt $eTerm)
       let (ct, cp) ← floatingComputeArith? "tl.rsqrt" term e' e'
+      pure ⟨term, .real, e'.shape, ct, cp⟩
+  | `(tritonExpr| libdevice.rsqrt($e:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.rsqrt($e:tritonExpr)) => do
+      let e' ← expandExpr env e
+      let eTerm ← realMathTerm "libdevice.rsqrt" e'
+      let term ← `(Op.libdeviceRsqrt $eTerm)
+      let (ct, cp) ← floatingComputeArith? "libdevice.rsqrt" term e' e'
       pure ⟨term, .real, e'.shape, ct, cp⟩
   | `(tritonExpr| tl.tanh($e:tritonExpr)) => do
       let e' ← expandExpr env e
@@ -1729,16 +1780,28 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       unless n.getNat == 0 do
         Macro.throwError "float(integer): only the exact builtin literal float(0) is supported"
       expandExpr env (← `(tritonExpr| 0.0))
-  | `(tritonExpr| - float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "inf" do
-        Macro.throwError "float(...): only `float(\"inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
-  | `(tritonExpr| float ($arg:term)) =>
-      let argString := toString arg.raw
-      unless argString.contains "-inf" do
-        Macro.throwError "float(...): only `float(\"-inf\")` is supported in Triton DSL expressions"
-      pure ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+  | `(tritonExpr| - float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "-inf" then
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
+  | `(tritonExpr| float ($arg:term)) => do
+      let `(term| $value:str) := arg
+        | Macro.throwError "float(...): expected a literal infinity string"
+      if value.getString == "-inf" then
+        return ⟨← `(Op.negInf), .real, SInfo.scalar, none, none⟩
+      if value.getString == "inf" then
+        -- Infinity has an exact binary32 encoding. Use the existing literal
+        -- backend, with no finite Real proxy or numerical identity assumption.
+        let dtype := mkIdent `dtype
+        return ← expandExpr env (← `(tritonExpr|
+          tl.bitcast(tl.full([], 2139095040, $dtype:ident=tl.uint32), tl.float32)))
+      Macro.throwError "float(...): only literal inf and -inf are supported"
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr)) => do
       expandDot expandExpr env a b
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
@@ -2374,6 +2437,7 @@ pointer-element cast interpretation. -/
 structure FPSourceContext where
   regions : Inference.RegionDTypes
   legacyPointerCasts : Bool
+  callSignature : Bool := Bool.false
 
 
 /-- Normalize only the syntax inspected for floating provenance. A mathematical
@@ -2544,10 +2608,10 @@ private def fpProvenanceAfterStmt (regions : Inference.RegionDTypes)
 /-- Explicit wide storage provenance supplies load compute precision, independently
 of the mathematical real carrier used by unannotated source kernels. -/
 partial def annotateWideFloatingLoadStorage (regions : Inference.RegionDTypes)
-    (pointers : FPPtrProvenance) (raw : Syntax) : MacroM Syntax := do
+    (pointers : FPPtrProvenance) (raw : Syntax) (allStorage : Bool := Bool.false) : MacroM Syntax := do
   let raw ← match raw with
     | .node info kind args => do
-        let args ← args.mapM (annotateWideFloatingLoadStorage regions pointers)
+        let args ← args.mapM (fun arg => annotateWideFloatingLoadStorage regions pointers arg allStorage)
         pure (.node info kind args)
     | other => pure other
   let keyword? (p : TSyntax `tritonExpr) (kwargs : TSyntaxArray `tritonMemKwarg) :
@@ -2561,6 +2625,22 @@ partial def annotateWideFloatingLoadStorage (regions : Inference.RegionDTypes)
     let dtype ← match ← fpPointerDType? regions pointers p with
       | some .real => `(tritonDType| tl.float64)
       | some .fp32 => `(tritonDType| tl.float32)
+      | some dtype =>
+          unless allStorage do return none
+          match dtype with
+          | .fp16 => `(tritonDType| tl.float16)
+          | .bf16 => `(tritonDType| tl.bfloat16)
+          | .f8e4 => `(tritonDType| tl.float8e4nv)
+          | .f8e5 => `(tritonDType| tl.float8e5)
+          | .int32 => `(tritonDType| tl.int32)
+          | .int8 => `(tritonDType| tl.int8)
+          | .int => `(tritonDType| tl.int64)
+          | .nat => `(tritonDType| tl.uint64)
+          | .bool => `(tritonDType| tl.int1)
+          | .floatVar name =>
+              let name := mkIdent (Name.mkSimple name)
+              `(tritonDType| storage_dtype($name:ident))
+          | _ => return none
       | _ => return none
     let kwName : Ident := mkIdent `dtype
     return some (← `(tritonMemKwarg| $kwName:ident = $dtype:tritonDType))
@@ -2603,6 +2683,18 @@ private partial def annotateMachineLoadCasts (regions : Inference.RegionDTypes)
       return ← annotateFloatingLoadStorage regions pointers raw
   return raw
 
+/-- Signed-use propagation must not turn arithmetic on an already typed
+floating register into integer arithmetic merely because its other operand
+is an invocation integer. -/
+private partial def hasFloatingRegister (env : Env) (raw : Syntax) : Bool :=
+  if raw.isIdent then
+    env.any (fun entry =>
+      (entry.1 == raw.getId.toString || entry.1 == raw.getId.eraseMacroScopes.toString) &&
+      match entry.2.1 with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => Bool.true
+      | _ => Bool.false)
+  else raw.getArgs.any (hasFloatingRegister env)
+
 mutual
 
 partial def expandStmt (env : Env) (pinned intPinned : List String)
@@ -2612,6 +2704,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
   let annotate (e : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
     let raw ← annotatePointerElementCasts fpSource.regions fpSource.legacyPointerCasts fpPtrElems e.raw
+    let raw ← if fpSource.callSignature then
+        annotateWideFloatingLoadStorage fpSource.regions fpPtrElems raw Bool.true
+      else pure raw
     return ⟨← annotateMachineLoadCasts regionDTypes ptrElems raw⟩
   let expandExpr (env : Env) (e : TSyntax `tritonExpr) : MacroM EOut := do
     expandExpr env (← annotate e)
@@ -2917,6 +3012,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
       | _ => pure ()
     if intPinned.contains dest.getId.toString then
+      if hasFloatingRegister env e.raw then
+        let inferred ← expandExpr env e
+        match inferred.dtype with
+        | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => return inferred
+        | _ => pure ()
       -- A packed signed word keeps its machine width through shifts and bit
       -- operations. Address inference must not turn it into an unbounded Int
       -- before the next bitwise operation or bitcast.
@@ -2939,7 +3039,10 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
     -- Propagate a signed register learned from a typed load, even when a
     -- later address use caused the preliminary scan to request Nat. Pointer
     -- expressions retain their ordinary pointer expansion.
-    if Inference.isSignedExpr signedNames e then
+    -- Per-call propagation may replace a signed argument by its explicit cast.
+    -- Recognize that cast inside cdiv as well as a signed register reference;
+    -- address-use pins must not turn the resulting quotient into Nat.
+    if signedRangeBound signedNames e then
       let inferred ← expandExpr env e
       if inferred.forgetStorageWidth.dtype == DInfo.int then return inferred
     if pinned.contains dest.getId.toString then return ← expandNatExpectedExpr env e
@@ -2985,17 +3088,9 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       MacroM (TSyntax `term × TSyntax `term × Env × Bool) := do
     if dest.getId.getString! != old.getId.getString! then
       let sumExpr : TSyntax `tritonExpr ← `(tritonExpr| $old:ident + $rhs:tritonExpr)
-      let e' ←
-        if intPinned.contains dest.getId.toString then
-          if (Inference.pointerElementDType? regionDTypes ptrElems sumExpr).isSome then
-            let inferred ← expandExpr env sumExpr
-            if inferred.dtype == DInfo.ptr then pure inferred
-            else expandIntExpectedExpr env sumExpr
-          else expandIntExpectedExpr env sumExpr
-        else if pinned.contains dest.getId.toString then
-          expandNatExpectedExpr env sumExpr
-        else
-          expandExpr env sumExpr
+      -- This is an ordinary assignment, so use its full type inference.
+      -- Address pins must not override an already signed induction variable.
+      let e' ← expandAssignment dest sumExpr
       emitAssign dest e'
     else
       let rawName := old.getId.toString
@@ -3006,7 +3101,14 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
             entry.1 == rawName || entry.1 == userName || entry.1 == erasedName)
         | do
             let nameLit ← identAsStr dest
-            let rhs' ← expandNatExpectedExpr env rhs
+            -- The first source self-add binds an external pointer just as a
+            -- later self-add updates a pointer register. Keep signed source
+            -- arithmetic through the complete displacement in either case.
+            let rhs0 := (← expandExpr env rhs).forgetStorageWidth
+            let rhs' ← match rhs0.dtype with
+              | .nat => pure rhs0
+              | .int => pointerOffsetIntAsNat rhs0
+              | _ => expandNatExpectedExpr env rhs
             ensureAlgorithmOnly "pointer rebind assignment" rhs'
             let region : TSyntax `term := ⟨old.raw⟩
             let lhsTerm ← `(Op.ptrBase $region)
@@ -4153,7 +4255,7 @@ partial def expandStmts (env : Env) (pinned intPinned : List String)
   match stmts with
   | [] => pure (#[], #[], env, Bool.false)
   | st :: rest => do
-      if Inference.isRegionDirective st then
+      if Inference.isRegionDirective st || st.raw.getKind == ``tritonCallSignature then
         return ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
       if let `(tritonStmt| tl.param $name:ident : $dt:tritonDType (carrier=$carrier:tritonDType)) := st then
         let key := name.getId.toString
@@ -4386,6 +4488,7 @@ elab_rules : term
           localRegionDTypes.filter (fun entry => entry.2 != DInfo.real)
         let fpSource : FPSourceContext := {
           regions := fpRegions
+          callSignature := stmtList.any (fun st => st.raw.getKind == ``tritonCallSignature)
           legacyPointerCasts := fpRegions.isEmpty &&
             !(sourceBody.any (fun st => Inference.hasConcreteRegionStorage st.raw ||
               st.raw.getKind == ``tritonSourceFiniteAlias ||

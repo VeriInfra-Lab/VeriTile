@@ -34,7 +34,7 @@ theorem prelude_safe (M : Algebra α) (D : Dot α) (c : Config) (s : State α)
   cases hs : c.storage
   all_goals
     simp (config := {maxSteps := 1200000}) [prelude,activeBody,parsedActiveBody,parsedKernel,hs,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -57,7 +57,7 @@ theorem body_safe (M : Algebra α) (D : Dot α) (c : Config) (s t : State α)
     have hq:=h.query
     simp only [TypedSource.Storage.tile,TypedSource.Storage.float,FloatDType.toTileDType,ofFloat] at hq
     simp (config := {maxSteps := 2000000}) [loopBody,indexName,columnBody,blockBody,activeBody,
-      parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,
+      parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,
       TypedSource.Storage.tile,TypedSource.Storage.float,maximumAssignment,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -87,8 +87,8 @@ theorem between_safe (M : Algebra α) (D : Dot α) (c : Config) (s : State α)
     (capacity : RegionName → Nat) :
     Safety.traceSafeList (backend M D) capacity (between c) s := by
   cases hs : c.storage <;>
-    simp [between,activeBody,parsedActiveBody,parsedKernel,hs,TypedSource.FP16.source,
-      TypedSource.BF16.source,ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,
+    simp [between,activeBody,parsedActiveBody,parsedKernel,hs,TypedSource.FP16.sourceKernel,
+      TypedSource.BF16.sourceKernel,ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
   all_goals split <;> trivial
 
@@ -99,7 +99,7 @@ theorem suffix_safe (M : Algebra α) (D : Dot α) (c : Config) (s t : State α)
   cases hs : c.storage
   all_goals
     simp (config := {maxSteps := 900000}) [suffix,activeBody,parsedActiveBody,parsedKernel,hs,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

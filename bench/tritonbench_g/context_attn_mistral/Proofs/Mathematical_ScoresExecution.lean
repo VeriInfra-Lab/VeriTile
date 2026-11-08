@@ -11,8 +11,8 @@ def mask (p : Layout) (rows : Fin p.BM → Nat) (sn : Int) : Tile .bool [p.BM,p.
   Tile.mat (fun i j => decide (sn+j.val ≤ (rows i : Int)))
 
 theorem mask_eval (p : Layout) (rows : Fin p.BM → Nat) (sn : Int) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn)) :
     evalOp (causalMask p) u = some (mask p rows sn) := by
   simp [causalMask,mask,n,z,rowView,PreludeProgram.rows,keyView,lanes,evalOp.eq_def,hr,hn,hs,
@@ -26,13 +26,17 @@ def window (p : Layout) (rows : Fin p.BM → Nat) (sn : Int) : Tile .bool [p.BM,
   Tile.mat (fun i j => decide ((rows i : Int)-p.window < sn+j.val))
 
 theorem window_eval (p : Layout) (rows : Fin p.BM → Nat) (sn : Int) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn)) :
     evalOp (windowMask p) u = some (window p rows sn) := by
   simp [windowMask,window,n,z,rowView,PreludeProgram.rows,keyView,lanes,evalOp.eq_def,hr,hn,hs,
     tile_elementwise,Tile.scalar,Tile.vec,Tile.mat,Broadcast.leftIndex,Broadcast.rightIndex,
     Option.bind_eq_bind,Option.bind,-Tile.scalar_eta]
+  funext i
+  simp only [decide_eq_decide]
+  simp only [sub_lt_iff_lt_add]
+  rw [add_comm p.window]
 
 def zero (p : Layout) : Tile .real [p.BM,p.BN] := Tile.mat (fun _ _ => some 0)
 def added (p : Layout) (q : Tile .real [p.BM,p.D]) (k : Tile .real [p.D,p.BN]) :=
@@ -59,7 +63,7 @@ theorem scale_eval (p : Layout) (swapped : Bool) (scale : ℝ) (v : Tile .real [
   cases swapped <;> simp [scaling,scaled,evalOp_mul,hv]
 
 theorem sentinel_eval (p : Layout) (u : BlockState) :
-    evalOp (Op.broadcast (.const (-1e9 : ℝ)) [p.BM,p.BN]) u =
+    evalOp (Op.broadcast (.const (-1000000000.0 : ℝ)) [p.BM,p.BN]) u =
       some (Tile.mat (dtype := .real) (fun _ _ => some (-1000000000 : ℝ))) := by
   norm_num [evalOp.eq_def,Tile.bop,Tile.scalar,Tile.mat,NumericDType.sub,WithBot.realSub,
     Broadcast.leftIndex,Broadcast.rightIndex,Option.bind_eq_bind,Option.bind,-Tile.scalar_eta]
@@ -67,8 +71,8 @@ theorem sentinel_eval (p : Layout) (u : BlockState) :
 theorem executes (p : Layout) (swapped : Bool) (scale : ℝ)
     (rows : Fin p.BM → Nat) (sn : Int)
     (q : Tile .real [p.BM,p.D]) (k : Tile .real [p.D,p.BN]) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hq : u.regs .real [p.BM,p.D] "q" = some q)
     (hk : u.regs .real [p.D,p.BN] "k" = some k) :

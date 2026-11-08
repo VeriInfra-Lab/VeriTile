@@ -9,6 +9,8 @@ abbrev Word := FP.Value .fp32
 /-- All source constexpr coefficients, encoded once in their declared fp32
 profile. Each decimal-to-word result is checked below by the bit rounder. -/
 def coefficient (x : ℝ) : Option Word :=
+  if x = (41.6233107765348 : ℝ) then some (FP.Value.ofBits .fp32 0x42267e45) else
+  if x = (8.49632273398321 : ℝ) then some (FP.Value.ofBits .fp32 0x4107f0f0) else
   if x = (1.73430461568895 : ℝ) then some (FP.Value.ofBits .fp32 0x3fddfdb2) else
   if x = (2.32681380862329 : ℝ) then some (FP.Value.ofBits .fp32 0x4014ea84) else
   if x = (1.60565407233314 : ℝ) then some (FP.Value.ofBits .fp32 0x3fcd8613) else
@@ -122,6 +124,8 @@ theorem channels_software (rest : Algebra Word) (cfg : FP.Config) (x y z : Word)
 /-- These rational constants round to the listed binary32 encodings, with no
 empirical or real-to-machine equality assumption. -/
 theorem coefficient_words :
+    (FP.round .fp32 .ieeeValue (41.6233107765348 : Rat)).bits = BitVec.ofNat 32 0x42267e45 ∧
+    (FP.round .fp32 .ieeeValue (8.49632273398321 : Rat)).bits = BitVec.ofNat 32 0x4107f0f0 ∧
     (FP.round .fp32 .ieeeValue (1.73430461568895 : Rat)).bits = BitVec.ofNat 32 0x3fddfdb2 ∧
     (FP.round .fp32 .ieeeValue (2.32681380862329 : Rat)).bits = BitVec.ofNat 32 0x4014ea84 ∧
     (FP.round .fp32 .ieeeValue (1.60565407233314 : Rat)).bits = BitVec.ofNat 32 0x3fcd8613 ∧

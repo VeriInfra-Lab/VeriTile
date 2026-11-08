@@ -29,6 +29,10 @@ structure Context where
   splitAxis : Nat
   plans : (k row col split iteration : Nat) → Plan k
   mode : Mode := .scalarCast
+  /-- Dtype of the source iteration register; other stale typed slots are ignored. -/
+  signedIteration : Bool := Bool.false
+  /-- Strict accumulator coordinates and loop counter use signed source slots. -/
+  signedAccumulator : Bool := Bool.false
 
 def dotAdd (arithmetic : Arithmetic) (context : Context) {α : Type}
     (s : State α) {m k n : Nat}
@@ -37,7 +41,9 @@ def dotAdd (arithmetic : Arithmetic) (context : Context) {α : Type}
   fun i=>
     let pm:=((s.regs .int [] context.rowRegister).getD (fun _=>0) PUnit.unit).toNat
     let pn:=((s.regs .int [] context.columnRegister).getD (fun _=>0) PUnit.unit).toNat
-    let t:=(s.regs .nat [] context.iterationRegister).getD (fun _=>0) PUnit.unit
+    let t:=if context.signedIteration then
+      ((s.regs .int [] context.iterationRegister).getD (fun _=>0) PUnit.unit).toNat
+      else (s.regs .nat [] context.iterationRegister).getD (fun _=>0) PUnit.unit
     (context.plans k ((pm*m+i.1.val)%context.rows) ((pn*n+i.2.1.val)%context.cols) (s.pids context.splitAxis) t).evalInt arithmetic
       (fun l=>BitVec.ofInt 8 (a (i.1,l,PUnit.unit)))
       (fun l=>BitVec.ofInt 8 (b (l,i.2.1,PUnit.unit))) (old i)
@@ -71,9 +77,15 @@ def accumulateNat {α : Type} [Inhabited α] (M : Algebra α)
   let xs←evalOp M none left s
   let ys←evalOp M none right s
   let previous←evalOp M none old s
-  let pm←s.regs .nat [] context.rowRegister
-  let pn←s.regs .nat [] context.columnRegister
-  let iteration←s.regs .nat [] context.iterationRegister
+  let pm←if context.signedAccumulator then
+    (s.regs .int [] context.rowRegister).map (fun v i=>(v i).toNat)
+    else s.regs .nat [] context.rowRegister
+  let pn←if context.signedAccumulator then
+    (s.regs .int [] context.columnRegister).map (fun v i=>(v i).toNat)
+    else s.regs .nat [] context.columnRegister
+  let iteration←if context.signedAccumulator then
+    (s.regs .int [] context.iterationRegister).map (fun v i=>(v i).toNat)
+    else s.regs .nat [] context.iterationRegister
   return fun i=>(context.plans k (pm PUnit.unit*m+i.1.val) (pn PUnit.unit*n+i.2.1.val)
     (s.pids context.splitAxis) (iteration PUnit.unit)).evalInt arithmetic
       (fun j=>BitVec.ofInt 8 (xs (i.1,j,PUnit.unit)))
@@ -119,6 +131,11 @@ mutual
 def step {α : Type} [Inhabited α] (M : Algebra α)
     (arithmetic : Arithmetic) (context : Context) : ComputeStmt → State α → Option (State α)
   | .forRange name start stop stride body,s=>range M arithmetic context name start stop stride body s
+  | .forRangeInt name start stop stride body,s=>do
+      let a←evalOp M none start s
+      let b←evalOp M none stop s
+      let d←evalOp M none stride s
+      rangeInt M arithmetic context name (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
   | .ifThenElse cond yes no,s=>do
       let value←evalOp M none cond s
       if value PUnit.unit then run M arithmetic context yes s else run M arithmetic context no s
@@ -152,6 +169,18 @@ def range {α : Type} [Inhabited α] (M : Algebra α)
     else some s
 termination_by _ => (sizeOf body+1,stop-start)
 decreasing_by all_goals omega
+
+/-- Signed source indices execute the same contextual dot model, including
+negative indices; the index register is never silently replaced by a Nat slot. -/
+def rangeInt {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context)
+    (name : RegName) (start stop : Int) (stride : Nat) (body : List ComputeStmt) : State α → Option (State α)
+  | s=>if 0<stride ∧ start<stop then do
+      let t←run M arithmetic context body (s.setReg name .int [] (fun _=>start))
+      rangeInt M arithmetic context name (start+stride) stop stride body t
+    else some s
+termination_by _ => (sizeOf body+1,(stop-start).toNat)
+decreasing_by all_goals omega
 end
 
 def exec {α : Type} [Inhabited α] (M : Algebra α) (arithmetic : Arithmetic)
@@ -172,5 +201,6 @@ theorem run_append {α : Type} [Inhabited α] (M : Algebra α) (arithmetic : Ari
 abbrev step_unfold := @step.eq_def
 abbrev run_unfold := @run.eq_def
 abbrev range_unfold := @range.eq_def
+abbrev rangeInt_unfold := @rangeInt.eq_def
 end
 end VeriTile.Triton.FP.Structural.IntegerDot

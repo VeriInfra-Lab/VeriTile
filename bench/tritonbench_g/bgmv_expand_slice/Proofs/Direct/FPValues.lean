@@ -65,8 +65,7 @@ def old (M : Algebra α) (h : Call) (batch row : Nat) (data : Data α) (n : Fin 
 def result (M : Algebra α) (reduction : Reduction α) (h : Call)
     (batch slot row : Nat) (data : Data α) (n : Fin 256) : α :=
   let total := M.cast (some .fp32) .fp16 .real (sums M reduction h batch slot row data (n,PUnit.unit))
-  if h.add then M.cast (some .fp32) .real .real
-    (M.binary (some .fp32) .real .add total (old M h batch row data n)) else total
+  if h.add then M.binary (some .fp32) .real .add total (old M h batch row data n) else total
 
 end
 end VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.Direct.FPValues

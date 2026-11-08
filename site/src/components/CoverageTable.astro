@@ -6,7 +6,7 @@ const counts = Object.entries(coverageLabels).map(([key, label]) => ({
 ---
 
 <section class="coverage-browser" aria-label="Browse proof coverage" data-coverage>
-  <p>Reviewed {coverage.rows.length} statements across {new Set(coverage.rows.map((row) => row.port)).size} ports on {coverage.reviewed_on}.</p>
+  <p>{coverage.rows.length} selected public statements across {new Set(coverage.rows.map((row) => row.port)).size} ports.</p>
   {corpusCheck ? <p>Latest recorded completed corpus check: <a href={corpusCheck.url}><code>{corpusCheck.commit.slice(0, 8)}</code></a>, {corpusCheck.completed_at}.
     This historical result applies to that commit. Source review and website builds do not certify later commits; <a href="https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml">check newer runs</a>.</p>
     : <p>No completed corpus audit has been recorded in this public repository yet.
@@ -35,7 +35,7 @@ const counts = Object.entries(coverageLabels).map(([key, label]) => ({
     <table id="coverage-results">
       <caption>Each row describes one theorem. Expand its statement for all explicit hypotheses, then inspect the linked IO definition for its bounds, masks, and memory assumptions.</caption>
       <colgroup><col style="width: 25%" /><col style="width: 40%" /><col style="width: 35%" /></colgroup>
-      <thead><tr><th scope="col">Kernel and theorem</th><th scope="col">Reviewed scope</th><th scope="col">Contract and source evidence</th></tr></thead>
+      <thead><tr><th scope="col">Kernel and theorem</th><th scope="col">Task proof scope</th><th scope="col">Contract and source evidence</th></tr></thead>
       <tbody>
         {coverage.rows.map((row) => (
           <tr id={row.id} data-coverage-row data-scope={row.coverage_level} data-numeric={row.numeric_model}>

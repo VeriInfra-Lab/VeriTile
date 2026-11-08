@@ -22,7 +22,8 @@ theorem forward_tail (M : Algebra α) (p : Parameters) (initial : State α)
   all_goals
     have condition := hit
     simp only [owns,lt_min_iff] at condition
-    simp [tailCode,forwardSyntax,hs,sp,ComputeKernel.surfaceBody,
+    simp [tailCode,forwardSyntax,forwardKernel,ComputeKernel.withScalarArguments,
+      ScalarArgument.statement,ScalarArgument.integer,hs,sp,ComputeKernel.surfaceBody,
       Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
       Safety.addressSafe,Safety.maskActive,

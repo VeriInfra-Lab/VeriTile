@@ -193,7 +193,6 @@ theorem backward_raw (W X : Algebra α) (h : Call) (zero : Cell α) (initial : F
     rw [value,if_neg empty]
     unfold FPGridWeight.expected weightReference FPWeightReference.output
     congr 1
-    apply congrArg (FPReference.cast W)
     apply carry_congr
     · intro i hi
       simp only [FPWeightStep.raw,entry]

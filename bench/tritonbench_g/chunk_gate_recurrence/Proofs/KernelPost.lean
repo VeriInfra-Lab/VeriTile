@@ -25,19 +25,17 @@ def result (M : Algebra α) (c : Shape) (p : Program c) (carry : Lane → α) (u
 theorem executes (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool) (p : Program c)
     (carry : Lane → α) (u : State α) (fixed : KernelReversePointers.Fixed c p u)
     (hx : u.regs .ptr [64,16] "DS"=some (ptr "DS" (fun e j => address c p 0 e.val j.val)))
-    (hd : u.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)))
+    (hd : u.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gateAddress c p 0)))
     (ha : u.regs .real [64,16] "Dacc"=some carry) :
     run (engine M) (after .backward c s seed) u=some (result M c p carry u) := by
   simp only [after,parts,source,Kernels.backward,
-    TritonBenchG.ChunkGateRecurrence.TypedSource.backward,
-    TritonBenchG.ChunkGateRecurrence.TypedSource.specializeBackward,
     TritonBenchG.ChunkGateRecurrence.TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
+    Kernels.forwardKernel,Kernels.backwardKernel,Kernels.forwardBodySumLeftKernel,Kernels.backwardBodySumLeftKernel,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardFamily,VeriTile.Bench.Repairs.ChunkGateRecurrence.Kernels.backwardSumLeftFamily,VeriTile.Triton.Source.dynamicRange?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte]
   simp (config := {maxSteps:=200000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,Algebra.withDefaultPrecision,resolvePrecision,numeric,bop,ofFloat,toFloat,Option.bind,
     ComputeDType.eraseDType,
-    State.setReg,FP.Structural.store,hx,hd,ha,fixed.head,fixed.key,fixed.value,fixed.offsK,fixed.offsV,
+    State.setReg,FP.Structural.store,hx,hd,ha,fixed.head,fixed.key,fixed.value,
     ptr,raw,scatter,result,pre,KernelReverseStep.value,loadedMatrix,loadedScalar,next,
     Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,dseedAddress]
   all_goals try simp only [FP.Structural.bop,next,loadedMatrix,loadedScalar,KernelProgram.raw,

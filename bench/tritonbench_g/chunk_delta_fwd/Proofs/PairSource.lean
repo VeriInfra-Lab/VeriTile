@@ -30,14 +30,15 @@ private theorem safe_ptr (M : Algebra α) (p : Option ComputeDType) (bounds : Re
 /-- Complete source execution and trace safety are unchanged, including the
 optional state branches and every history pointer in the outer range loop. -/
 theorem complete (M : Algebra α) (p : Parameters) :
-    CodeAgree M (kernel p).surfaceBody (addressFold p).surfaceBody := by
-  unfold kernel ChunkDeltaFwd.kernel addressFold ComputeKernel.surfaceBody
+    CodeAgree M (kernel p).surfaceBody (addressFoldKernel p).surfaceBody := by
+  unfold kernel ChunkDeltaFwd.sourceKernel addressFoldKernel ComputeKernel.surfaceBody
   repeat' first
     | apply code_refl
     | apply cons
     | apply stmt_refl
     | apply branch
     | apply range_stmt
+    | apply loop_stmt
   all_goals
     constructor
     · intro s

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.batched_vecmat_mult.Sources.Mathematical_Kernels
+import bench.tritonbench_g.batched_vecmat_mult.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.ScalarOps
 import VeriTile.Triton.Float.TermModel
 import VeriTile.Meta.StatementAudit
@@ -34,8 +34,16 @@ def engine (rest : Algebra Word) (cfg : FP.Config) (plans : ∀ n, ReductionPlan
       | .real, .add | .fp32, .add => FP.add cfg x y
       | .real, .mul | .fp32, .mul => FP.mul cfg x y
       | _, _ => rest.binary pr d op x y
+    /- Both channels represent already rounded FP32 words in this source view.
+       Other format conversions remain supplied by the caller's algebra. -/
+    cast := fun pr src dst x => match src,dst with
+      | .real,.real | .real,.fp32 | .fp32,.real | .fp32,.fp32 => x
+      | _,_ => rest.cast pr src dst x
     fp32Load := id
-    reduceSum := fun _ => sumValues cfg plans }
+    reduceSum := fun _ => sumValues cfg plans
+    reduceSumTyped := fun pr dtype {shape} => match dtype with
+      | .fp32 => fun ax keep xs => some (sumValues cfg plans ax keep xs)
+      | dtype => rest.reduceSumTyped pr dtype (shape := shape) }
 
 def row (p : Parameters) (s : State Word) (i : Nat) := s.pids 0 * p.BM + i
 def col (p : Parameters) (s : State Word) (j : Nat) := s.pids 1 * p.BN + j
@@ -49,8 +57,8 @@ def bOffset (p : Parameters) (s : State Word) (i j c k : Nat) :=
 def blockSum (cfg : FP.Config) (plans : ∀ n, ReductionPlan n) (p : Parameters)
     (s : State Word) (c : Nat) (i : TileIndex [p.BM,p.BN]) : Word :=
   treeValue cfg (fun k : Fin p.BK => FP.mul cfg
-    ((s.mem p.A (aOffset p s i.1.val c k.val)).read .real)
-    ((s.mem p.B (bOffset p s i.1.val i.2.1.val c k.val)).read .real)) (plans p.BK).tree
+    ((s.mem p.A (aOffset p s i.1.val c k.val)).read .fp32)
+    ((s.mem p.B (bOffset p s i.1.val i.2.1.val c k.val)).read .fp32)) (plans p.BK).tree
 
 /-- Ordered block accumulation, retaining the initial fp32 +0 and every
 rounded add. No commutativity, zero identity or exact-real sum is assumed. -/
@@ -63,18 +71,18 @@ def expectedMemory (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     (p : Parameters) (s : State Word) : Memory :=
   (TileShape.allIndices [p.BM,p.BN]).foldl (fun mem i =>
     fun r o => if r = p.output ∧ o = outputOffset p s i then
-      .mk .real (accumulated cfg plans p s (p.K / p.BK) i) else mem r o) s.mem
+      .mk .fp32 (accumulated cfg plans p s (p.K / p.BK) i) else mem r o) s.mem
 
 def Outside (p : Parameters) (s : State Word) (r : RegionName) (o : Nat) : Prop :=
   r ≠ p.output ∨ ∀ i : TileIndex [p.BM,p.BN], o ≠ outputOffset p s i
 
 structure Invariant (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     (p : Parameters) (initial : State Word) (c : Nat) (current : State Word) : Prop where
-  mi : current.regs .nat [] "m_index" = some (fun _ => initial.pids 0)
-  ni : current.regs .nat [] "n_index" = some (fun _ => initial.pids 1)
-  offsets : current.regs .nat [p.BM,p.BN] "output_tile" = some (outputOffset p initial)
+  mi : current.regs .int [] "m_index" = some (fun _ => (initial.pids 0:Int))
+  ni : current.regs .int [] "n_index" = some (fun _ => (initial.pids 1:Int))
+  offsets : current.regs .int [p.BM,p.BN] "output_tile" = some (fun i => (outputOffset p initial i:Int))
   carry : current.regs .real [p.BM,p.BN] "vecmat" = some (accumulated cfg plans p initial c)
-  blocks : current.regs .nat [] "k_blocks" = some (fun _ => p.K / p.BK)
+  blocks : current.regs .int [] "k_blocks" = some (fun _ => ((p.K / p.BK:Nat):Int))
   memory : current.mem = initial.mem
 
 theorem expectedMemory_frame (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
@@ -82,7 +90,7 @@ theorem expectedMemory_frame (cfg : FP.Config) (plans : ∀ n, ReductionPlan n)
     expectedMemory cfg plans p s r o = s.mem r o := by
   have aux : ∀ (xs : List (TileIndex [p.BM,p.BN])) (acc : Memory),
       xs.foldl (fun mem i => fun r o => if r = p.output ∧ o = outputOffset p s i then
-        .mk .real (accumulated cfg plans p s (p.K / p.BK) i) else mem r o) acc r o = acc r o := by
+        .mk .fp32 (accumulated cfg plans p s (p.K / p.BK) i) else mem r o) acc r o = acc r o := by
     intro xs
     induction xs with
     | nil => intro acc; rfl

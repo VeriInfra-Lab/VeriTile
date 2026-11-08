@@ -12,10 +12,10 @@ set_option maxRecDepth 24000
 theorem forward_logical (rest : Algebra ℝ) (p : Forward.Parameters) (s : State ℝ)
     (hb : p.columns≤p.block) (hmy : p.mean≠p.y) (hmr : p.mean≠p.rstd) (hry : p.rstd≠p.y) :
     ∃ t, FP.Structural.exec (withSum (algebra rest) sumPrimitive) (Forward.kernel p) s=some t ∧
-      t.mem p.mean (Forward.meanOffset p s)=.mk .fp32 (mean p.columns (rowX p s)) ∧
-      t.mem p.rstd (Forward.rstdOffset p s)=.mk .fp32 (rstd p.columns p.epsilon (rowX p s)) ∧
+      t.mem p.mean (Forward.meanOffset p s)=.mk .real (mean p.columns (rowX p s)) ∧
+      t.mem p.rstd (Forward.rstdOffset p s)=.mk .real (rstd p.columns p.epsilon (rowX p s)) ∧
       (∀ i : TileIndex [p.block], i.1.val<p.columns →
-        t.mem p.y (Forward.outputOffset p s i)=.mk .fp32
+        t.mem p.y (Forward.outputOffset p s i)=.mk .real
           (y p.columns p.epsilon (rowX p s) (weight p s) (bias p s) i.1.val)) ∧
       (∀ r o, Forward.Outside p s r o → t.mem r o=s.mem r o) := Logical.forward_all_exec rest p s hb hmy hmr hry
 
@@ -24,11 +24,11 @@ theorem backward_logical (rest : Algebra ℝ) (p : Backward.Parameters) (s : Sta
     (hb : p.columns≤p.block) (hs : p.columns≤p.dxStride) :
     ∃ t, FP.Structural.exec (withSum (algebra rest) sumPrimitive) (Backward.kernel p) s = some t ∧
       (∀ i : TileIndex [p.block], i.1.val<p.columns →
-        t.mem p.dw (s.pids 0*p.dwStride+i.1.val)=.mk .fp32 (groupDW p s i.1.val) ∧
-        t.mem p.db (s.pids 0*p.dbStride+i.1.val)=.mk .fp32 (groupDB p s i.1.val)) ∧
+        t.mem p.dw (s.pids 0*p.dwStride+i.1.val)=.mk .real (groupDW p s i.1.val) ∧
+        t.mem p.db (s.pids 0*p.dbStride+i.1.val)=.mk .real (groupDB p s i.1.val)) ∧
       (∀ row, Backward.start p s≤row → row<Backward.stop p s →
         ∀ i : TileIndex [p.block], i.1.val<p.columns →
-          t.mem p.dx (row*p.dxStride+i.1.val)=.mk .fp32 (rowDX p s row i.1.val)) := Logical.backward_exec rest p s fresh hwd hxd hxb hb hs
+          t.mem p.dx (row*p.dxStride+i.1.val)=.mk .real (rowDX p s row i.1.val)) := Logical.backward_exec rest p s fresh hwd hxd hxb hb hs
 
 theorem host_dw (p : Backward.Parameters) (s : State ℝ) (programs : Nat)
     (hp : 0<programs) (hr : 0<p.rows)

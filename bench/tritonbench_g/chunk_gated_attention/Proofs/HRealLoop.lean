@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.HRealStep
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHLoop
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealHLoop
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.HSource.Real.Loop
 open VeriTile.Triton
 open VeriTile.Bench.TritonBenchG.ChunkGatedAttention

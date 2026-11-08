@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lora_expand_gemv.Sources.Kernels
+import bench.tritonbench_g.lora_expand_gemv.Proofs.Sources.Kernels
 namespace VeriTile.Bench.Repairs.LoraExpandGemv
 open VeriTile.Triton FP.Structural FPValue
 noncomputable section

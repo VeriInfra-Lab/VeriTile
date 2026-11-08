@@ -1,4 +1,4 @@
-import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
+import bench.tritonbench_g.mean_reduction.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Meta.StatementAudit
 
@@ -15,7 +15,7 @@ theorem tile_equal {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionN
     (M N : Nat) (s : State α) :
     exec A (typedKernel Bool.false X Mean M N 8 8) s =
       exec A (typedKernel Bool.true X Mean M N 8 8) s := by
-  simp only [typedKernel, Bool.false_eq_true, ↓reduceIte, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource, ComputeKernel.surfaceBody, FP.Structural.exec]
+  simp only [typedKernel, Bool.false_eq_true, ↓reduceIte, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel, ComputeKernel.surfaceBody, FP.Structural.exec]
   rw [run,run]
   congr 1
   simp [step,evalExpr,FP.Structural.evalOp_unfold,numeric,Option.bind]

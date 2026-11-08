@@ -30,6 +30,7 @@ specification block_first_strict (cfg : FP.Config) (rest : Algebra Expr)
   exact ProgramIO.Implementation.of_equivalent (PairIO.candidate cfg rest profile p)
     (PairIO.equivalent cfg rest profile p separate)
 
+#print_fp_assumptions block_first_strict
 #axiomsClean block_first_strict
 end
 end VeriTile.Bench.Repairs.BatchedVecmatMult.Equivalence

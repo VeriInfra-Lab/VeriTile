@@ -27,9 +27,9 @@ theorem inner_registers (count : Nat) (u : Unique) (s : State α)
     (a c : OffsetTile) (v1 v2 : Payload) (delta : Nat)
     (h1 : s.regs .int [2,2] "a1" = some v1)
     (h2 : s.regs .int [2,2] "a2" = some v2) :
-    (innerState count u s a c v1 v2 delta).regs .nat [2,2] "a_offsets" = some (bump a delta) ∧
-    (innerState count u s a c v1 v2 delta).regs .nat [2,2] "c_offsets" =
-      some (bump (bump (bump c delta) delta) delta) ∧
+    (innerState count u s a c v1 v2 delta).regs .int [2,2] "a_offsets" = some (signedOffsets (bump a delta)) ∧
+    (innerState count u s a c v1 v2 delta).regs .int [2,2] "c_offsets" =
+      some (signedOffsets (bump (bump (bump c delta) delta) delta)) ∧
     (innerState count u s a c v1 v2 delta).regs .int [2,2] "a1" = some v1 ∧
     (innerState count u s a c v1 v2 delta).regs .int [2,2] "a2" = some v2 := by
   simp [innerState, scatter_regs, h1, h2]
@@ -42,8 +42,8 @@ def innerLoopState (count : Nat) (u : Unique) (s : State α)
 
 theorem inner_loop (M : Algebra α) (count : Nat) (u : Unique) (cols : Nat)
     (s : State α) (a c : OffsetTile) (v1 v2 : Payload)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a)
-    (hc : s.regs .nat [2,2] "c_offsets" = some c)
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a))
+    (hc : s.regs .int [2,2] "c_offsets" = some (signedOffsets c))
     (h1 : s.regs .int [2,2] "a1" = some v1)
     (h2 : s.regs .int [2,2] "a2" = some v2)
     (hu : s.regs .bool [2,2] "unique" = some u) :

@@ -3,88 +3,105 @@ import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 namespace VeriTile.Bench.Repairs.FastLayernorm.SourcePair
 open VeriTile Triton FP.Structural
 noncomputable section
-/-- Proof-only decomposition of the single changed address assignment. -/
-def xStep (candidate : Bool) (stride : Nat) : ComputeStmt :=
-  let a : Op .nat [] := .ref .nat [] "row_idx"
-  let b : Op .nat [] := .constNat stride
-  .assign .ptr [] "X" (.alg (.ptrAdd .nil (.ptrBase (⟨"x"⟩ : Region .real))
-    (if candidate then .mul .nat .nil b a else .mul .nat .nil a b)))
+set_option maxHeartbeats 5000000
+set_option maxRecDepth 20000
+set_option linter.unusedSimpArgs false
 
-theorem x_step {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (stride : Nat) :
-    step M (xStep Bool.false stride) s = step M (xStep Bool.true stride) s := by
-  have product : evalOp M none
-      (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s =
-    evalOp M none (.mul .nat .nil (.constNat stride) (.ref .nat [] "row_idx")) s := by
-    simp only [FP.Structural.evalOp]
-    cases hr : s.regs .nat [] "row_idx" <;> simp_all [numeric]
-    funext i
-    exact Nat.mul_comm _ _
-  simp only [xStep,Bool.false_eq_true,↓reduceIte,step,evalExpr]
-  change ((evalOp M none (.mul .nat .nil (.ref .nat [] "row_idx") (.constNat stride)) s).bind
-    (fun offsets => some (bop (fun (p : RegionName × Nat) n => (p.1,p.2+n))
-      .nil (fun _ => ("x",0)) offsets))).bind _ = _
-  rw [product]
-  rfl
-
-theorem x_run {α : Type} [Inhabited α] (M : Algebra α) (stride : Nat) :
-    run M [xStep Bool.false stride] = run M [xStep Bool.true stride] := by
-  funext s
-  simp only [run,x_step]
-
-theorem x_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionName → Nat)
-    (candidate : Bool) (stride : Nat) (s : State α) :
-    Safety.traceSafeList M bounds [xStep candidate stride] s := by
-  rw [Safety.traceSafeList]
-  constructor
-  · cases candidate <;> simp [xStep,Safety.stepSafe,Safety.safeExpr,Safety.safeOp]
-  · cases step M (xStep candidate stride) s <;> simp
-
-
-def forward (candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :=
-  if candidate then forwardIndexCommuted "y" "x" "w" "b" "r" "mu" N B eps bias
+/-- Select the complete quoted source, including its actual caller bindings. -/
+def source (backward candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :=
+  if backward then
+    if candidate then backwardIndexCommuted "dx" "dy" "x" "w" "r" "mu" N B
+    else backwardKernel "dx" "dy" "x" "w" "r" "mu" N B
+  else if candidate then forwardIndexCommuted "y" "x" "w" "b" "r" "mu" N B eps bias
   else forwardKernel "y" "x" "w" "b" "r" "mu" N B eps bias
+private def position (backward : Bool) : Nat := if backward then 10 else 9
+private def indexCode (backward candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :=
+  ((source backward candidate N B eps bias).surfaceBody.drop (position backward)).take 1
 
-def backward (candidate : Bool) (N B : Nat) :=
-  if candidate then backwardIndexCommuted "dx" "dy" "x" "w" "r" "mu" N B
-  else backwardKernel "dx" "dy" "x" "w" "r" "mu" N B
+private theorem index_run {A : Type} [Inhabited A] (M : Algebra A)
+    (backward : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) (s : State A) :
+    run M (indexCode backward Bool.false N B eps bias) s=
+      run M (indexCode backward Bool.true N B eps bias) s := by
+  cases backward <;> cases hr : s.regs .int [] "row_idx" <;>
+    cases hs : s.regs .int [] "X_row_stride"
+  all_goals simp (maxSteps := 1000000) [indexCode,position,source,
+    forwardKernel,backwardKernel,forwardIndexCommuted,backwardIndexCommuted,
+    forwardBodyPastedKernel,backwardBodyPastedKernel,forwardCandidateKernel,backwardCandidateKernel,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,
+    ComputeKernel.surfaceBody,List.drop,List.take,run,step,evalExpr,evalOp_unfold,
+    numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,hr,hs,Option.bind,Int.mul_comm]
+  all_goals try (congr 1; funext i; simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm])
 
-theorem forward_split (candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :
-    (forward candidate N B eps bias).surfaceBody =
-      (forwardKernel "y" "x" "w" "b" "r" "mu" N B eps bias).surfaceBody.take 4 ++
-      [xStep candidate N] ++
-      (forwardKernel "y" "x" "w" "b" "r" "mu" N B eps bias).surfaceBody.drop 5 := by
-  cases candidate <;> cases bias <;> rfl
+private theorem index_safe {A : Type} [Inhabited A] (M : Algebra A) (bounds : RegionName → Nat)
+    (backward candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) (s : State A) :
+    Safety.traceSafeList M bounds (indexCode backward candidate N B eps bias) s := by
+  cases backward <;> cases candidate
+  all_goals simp [indexCode,position,source,
+    forwardKernel,backwardKernel,forwardIndexCommuted,backwardIndexCommuted,
+    forwardBodyPastedKernel,backwardBodyPastedKernel,forwardCandidateKernel,backwardCandidateKernel,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ScalarArgument.fp32,
+    ComputeKernel.surfaceBody,List.drop,List.take,Safety.traceSafeList,Safety.stepSafe,
+    Safety.safeExpr,Safety.safeAlg,Safety.safeOp,Safety.safeOp_unfold]
+  all_goals split <;> trivial
 
-theorem backward_split (candidate : Bool) (N B : Nat) :
-    (backward candidate N B).surfaceBody =
-      (backwardKernel "dx" "dy" "x" "w" "r" "mu" N B).surfaceBody.take 5 ++
-      [xStep candidate N] ++
-      (backwardKernel "dx" "dy" "x" "w" "r" "mu" N B).surfaceBody.drop 6 := by
-  cases candidate <;> rfl
+private theorem split_source (backward candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :
+    (source backward candidate N B eps bias).surfaceBody=
+      (source backward candidate N B eps bias).surfaceBody.take (position backward) ++
+        (indexCode backward candidate N B eps bias ++
+          (source backward candidate N B eps bias).surfaceBody.drop (position backward+1)) := by
+  cases backward <;> cases candidate <;> rfl
+private theorem prefix_eq (backward : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :
+    (source backward Bool.false N B eps bias).surfaceBody.take (position backward)=
+      (source backward Bool.true N B eps bias).surfaceBody.take (position backward) := by
+  cases backward <;> rfl
+private theorem suffix_eq (backward : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) :
+    (source backward Bool.false N B eps bias).surfaceBody.drop (position backward+1)=
+      (source backward Bool.true N B eps bias).surfaceBody.drop (position backward+1) := by
+  cases backward <;> rfl
 
-theorem forward_exec {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
+private theorem same_run {A : Type} [Inhabited A] (M : Algebra A) (backward : Bool)
+    (N B : Nat) (eps : ℝ) (bias : Bool) (s : State A) :
+    exec M (source backward Bool.false N B eps bias) s=
+      exec M (source backward Bool.true N B eps bias) s := by
+  change run M (source backward Bool.false N B eps bias).surfaceBody s=
+    run M (source backward Bool.true N B eps bias).surfaceBody s
+  conv_lhs => rw [split_source]
+  conv_rhs => rw [split_source]
+  simp only [run_append,prefix_eq,index_run,suffix_eq]
+private theorem same_safe {A : Type} [Inhabited A] (M : Algebra A) (bounds : RegionName → Nat)
+    (backward : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) (s : State A) :
+    TraceSafe M bounds (source backward Bool.false N B eps bias) s ↔
+      TraceSafe M bounds (source backward Bool.true N B eps bias) s := by
+  unfold TraceSafe
+  conv_lhs => rw [split_source]
+  conv_rhs => rw [split_source]
+  simp only [Safety.traceSafeList_append,prefix_eq,index_safe,index_run,suffix_eq,true_and]
+
+def forward (candidate : Bool) (N B : Nat) (eps : ℝ) (bias : Bool) := source Bool.false candidate N B eps bias
+def backward (candidate : Bool) (N B : Nat) := source Bool.true candidate N B 0 Bool.false
+
+theorem forward_exec {A : Type} [Inhabited A] (M : Algebra A) (s : State A)
     (N B : Nat) (eps : ℝ) (bias : Bool) :
-    exec M (forward Bool.false N B eps bias) s = exec M (forward Bool.true N B eps bias) s := by
-  change run M (forward Bool.false N B eps bias).surfaceBody s = run M (forward Bool.true N B eps bias).surfaceBody s
-  simp only [forward_split,run_append,x_run]
+    exec M (forward Bool.false N B eps bias) s=exec M (forward Bool.true N B eps bias) s :=
+  same_run M Bool.false N B eps bias s
 
-theorem backward_exec {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (N B : Nat) :
-    exec M (backward Bool.false N B) s = exec M (backward Bool.true N B) s := by
-  change run M (backward Bool.false N B).surfaceBody s = run M (backward Bool.true N B).surfaceBody s
-  simp only [backward_split,run_append,x_run]
+theorem backward_exec {A : Type} [Inhabited A] (M : Algebra A) (s : State A) (N B : Nat) :
+    exec M (backward Bool.false N B) s=exec M (backward Bool.true N B) s :=
+  same_run M Bool.true N B 0 Bool.false s
 
-theorem forward_safe {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
+theorem forward_safe {A : Type} [Inhabited A] (M : Algebra A) (s : State A)
     (bounds : RegionName → Nat) (N B : Nat) (eps : ℝ) (bias : Bool) :
-    TraceSafe M bounds (forward Bool.false N B eps bias) s ↔ TraceSafe M bounds (forward Bool.true N B eps bias) s := by
-  change Safety.traceSafeList M bounds (forward Bool.false N B eps bias).surfaceBody s ↔
-    Safety.traceSafeList M bounds (forward Bool.true N B eps bias).surfaceBody s
-  simp only [forward_split,Safety.traceSafeList_append,run_append,x_run,x_safe]
+    TraceSafe M bounds (forward Bool.false N B eps bias) s ↔
+      TraceSafe M bounds (forward Bool.true N B eps bias) s := same_safe M bounds Bool.false N B eps bias s
 
-theorem backward_safe {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
+theorem backward_safe {A : Type} [Inhabited A] (M : Algebra A) (s : State A)
     (bounds : RegionName → Nat) (N B : Nat) :
-    TraceSafe M bounds (backward Bool.false N B) s ↔ TraceSafe M bounds (backward Bool.true N B) s := by
-  change Safety.traceSafeList M bounds (backward Bool.false N B).surfaceBody s ↔
-    Safety.traceSafeList M bounds (backward Bool.true N B).surfaceBody s
-  simp only [backward_split,Safety.traceSafeList_append,run_append,x_run,x_safe]
+    TraceSafe M bounds (backward Bool.false N B) s ↔
+      TraceSafe M bounds (backward Bool.true N B) s := same_safe M bounds Bool.true N B 0 Bool.false s
+
+#axiomsClean forward_exec
+#axiomsClean backward_exec
+#axiomsClean forward_safe
+#axiomsClean backward_safe
 end
 end VeriTile.Bench.Repairs.FastLayernorm.SourcePair

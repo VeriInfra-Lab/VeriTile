@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fifth_order_sph_harmonics.PairIO
+import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.Support.PairIO
 import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.SourcePair
 import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.IOCorrect
 

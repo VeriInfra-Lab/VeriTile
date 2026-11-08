@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_reducev.AddressIO
+import bench.tritonbench_g.softmax_reducev.Proofs.Support.AddressIO
 import bench.tritonbench_g.softmax_reducev.Proofs.AddressSchedule
 import bench.tritonbench_g.softmax_reducev.Proofs.IOGrid
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax

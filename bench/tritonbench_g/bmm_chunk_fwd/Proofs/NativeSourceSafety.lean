@@ -15,13 +15,15 @@ theorem iterations {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : 
     (d : Coordinates) (cur : Nat) (bounds : RegionName → Nat) (s : State α)
     (hs : StateAt h c d cur s) (hbounds : Bounds h c d bounds)
     (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
-    Safety.rangeSafe (engine o.algebra) bounds "k" cur (Host.cdiv h.shape.K c.K) 1 (parts h c).body s := by
+    Safety.rangeIntSafe (engine o.algebra) bounds "k" cur (Host.cdiv h.shape.K c.K) 1 (parts h c).body s := by
   by_cases less : cur<Host.cdiv h.shape.K c.K
   · obtain ⟨mid,hm,hr,hmem⟩ := SourcePointers.body o h c d cur s hs ha hb
-    rw [Safety.rangeSafe,if_neg (by decide),if_pos less,hm]
-    exact ⟨body o h c d cur bounds s hs (hbounds.a cur less) (hbounds.b cur less) ha hb,
-      iterations o h c d (cur+1) bounds mid hr hbounds ha hb⟩
-  · rw [Safety.rangeSafe,if_neg (by decide),if_neg less]
+    rw [Safety.rangeIntSafe_unfold,if_neg (by decide),if_pos (by exact_mod_cast less),hm]
+    refine ⟨body o h c d cur bounds s hs (hbounds.a cur less) (hbounds.b cur less) ha hb,
+      ?_⟩
+    simpa only [Int.natCast_add,Int.natCast_one] using
+      iterations o h c d (cur+1) bounds mid hr hbounds ha hb
+  · rw [Safety.rangeIntSafe_unfold,if_neg (by decide),if_neg (by exact_mod_cast less)]
     trivial
 termination_by Host.cdiv h.shape.K c.K-cur
 
@@ -46,8 +48,8 @@ theorem program {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Hos
   · rw [Safety.stepSafe]
     constructor
     · cases causal : h.causal <;>
-        simp [branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,causal,
-          Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,Safety.safeOp.eq_def]
+        simp [branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,causal,
+          Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,Safety.safeOp.eq_def]
     · rw [hactive]
       cases act : FPSuccess.active h c s
       · trivial
@@ -55,14 +57,24 @@ theorem program {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Hos
         obtain ⟨prepared,hsetup,hstate,hm0⟩ := SourcePointers.setup o h c d entry controls ha hb
         obtain ⟨terminal,hrange,hterminal,hm1⟩ := SourcePointers.iterations o h c d
           0 (Host.cdiv h.shape.K c.K) (Nat.zero_le _) prepared hstate ha hb
-        have hs : evalOp (engine o.algebra) none (parts h c).start prepared=some (fun _=>(0 : Nat)) := by
+        have hs : evalOp (engine o.algebra) none (parts h c).start prepared=some (fun _=>(0 : Int)) := by
           simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
-        have he : evalOp (engine o.algebra) none (parts h c).stop prepared=some (fun _=>Host.cdiv h.shape.K c.K) := by
-          simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
+        have he : evalOp (engine o.algebra) none (parts h c).stop prepared=some (fun _=>(Host.cdiv h.shape.K c.K : Int)) := by
+          have bound_source : (parts h c).stop =
+              Op.truncDiv .nil (.add .int .nil (.castNatToInt (.constNat h.shape.K))
+                (.sub .int .nil (.constInt (Int.ofNat c.K)) (.constInt 1)))
+                (.constInt (Int.ofNat c.K)) := by
+            cases ha : h.aStorage <;> cases hb : h.bStorage <;>
+              simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+          rw [bound_source,FP.Structural.eval_truncDiv]
+          simp [FP.Structural.evalOp_unfold,FP.Structural.numeric,FP.Structural.bop,
+            Option.bind,ControlArithmetic.cdiv_signed_int,Host.cdiv]
+          funext i
+          exact ControlArithmetic.cdiv_signed_int h.shape.K c.K
         have hd : evalOp (engine o.algebra) none (parts h c).stride prepared=some (fun _=>(1 : Nat)) := by
           simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
         have hloop : step (engine o.algebra)
-            (.forRangeDyn "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body)
+            (.forRangeInt "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body)
             prepared=some terminal := by
           simpa only [step,hs,he,hd,Option.bind_some] using hrange
         change Safety.traceSafeList (engine o.algebra) bounds (branch h c).yes entry
@@ -76,8 +88,8 @@ theorem program {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Hos
           refine ⟨?_,?_,?_,iterations o h c d 0 bounds prepared hstate bounded ha hb⟩
           all_goals
             cases causal : h.causal <;>
-              simp [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,causal,
-                Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,Safety.safeOp.eq_def]
+              simp [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,causal,
+                Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,Safety.safeOp.eq_def]
         · exact epilogue o h c d _ bounds terminal hterminal bounded.rowSeq bounded.colSeq bounded.out ha hb
   · intro final _
     exact Safety.traceSafeList_nil _ _ final

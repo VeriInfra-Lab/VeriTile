@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.NativeIO
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.NativeIO
 import bench.tritonbench_g.context_attn_llama.Proofs.NativeWindows
 import bench.tritonbench_g.context_attn_llama.Proofs.NativeWholeSafety
 

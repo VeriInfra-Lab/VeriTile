@@ -45,8 +45,8 @@ theorem output (bounds : RegionBounds) (c : Config) (BD : Nat) (hv : Windows bou
     OutputBound bounds c 128 BD := by
   intro i hi
   have hh : c.startM*128+i.1.val < c.p.context ∧ i.2.1.val < c.p.headDim := by
-    simpa [Output.active,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue.active] using hi
-  simpa only [Output.address,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealEpilogue.address,
+    simpa [Output.active,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.active] using hi
+  simpa only [Output.address,Output.outputConfig,VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealEpilogue.address,
     RealProofs.address,obase,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm] using
     hv.output c.z hp.batch c.h hp.head _ hh.1 _ hh.2
 
@@ -84,7 +84,7 @@ theorem loop_bounds (bounds : RegionBounds) (c : Config) (BD lower upper : Nat)
   refine ⟨fun _ _ => key bounds c BD _ hv hp,?_,fun _ _ => value bounds c BD _ hv hp⟩
   intro i hi
   apply key_scale bounds c _ hv hp
-  exact Nat.lt_of_lt_of_le ((VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealLoop.cursor_lt lower upper 64 i (by omega)).mpr hi) hupper
+  exact Nat.lt_of_lt_of_le ((VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealLoop.cursor_lt lower upper 64 i (by omega)).mpr hi) hupper
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

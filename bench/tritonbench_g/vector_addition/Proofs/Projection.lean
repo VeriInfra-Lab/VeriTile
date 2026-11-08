@@ -1,5 +1,5 @@
 import bench.tritonbench_g.vector_addition.Kernels
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Kernels
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.VectorAddition.Contiguous.Projection

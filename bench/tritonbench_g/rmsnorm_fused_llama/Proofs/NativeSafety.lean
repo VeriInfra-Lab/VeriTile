@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_fused_llama.NativeIO
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Support.NativeIO
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.RuntimeGrid
 
 namespace VeriTile.Bench.Repairs.RmsnormFusedLlama.NativeSafety
@@ -15,12 +15,12 @@ theorem row (A : Algebra α) (candidate : Bool) (X Y W : RegionName) (N B : Nat)
     (hw : ∀ k, k<N → k<bounds W)
     (hy : ∀ k, k<N → s.pids 0*N+k<bounds Y) :
     TraceSafe A bounds (NativeIO.source candidate X Y W N B)
-      (s.setReg "eps_arg" .real [] (fun _ => eps)) := by
+      (s.setReg "eps" .real [] (fun _ => eps)) := by
   have hB : B≠0 := by omega
   have hz : (0.0 : ℝ)=0 := by norm_num
   cases candidate
   all_goals
-    simp (config := {maxSteps:=500000}) [NativeIO.source,runtimeCandidate,
+    simp (config := {maxSteps:=500000}) [NativeIO.source,runtimeCandidateKernel,
       runtimeKernel,
       TraceSafe,traceSafeList_unfold,stepSafe_unfold,rangeSafe_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,safeAddress_unfold,safeMask_unfold,

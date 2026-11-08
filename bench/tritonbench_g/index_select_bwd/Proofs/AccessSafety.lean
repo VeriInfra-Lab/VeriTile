@@ -16,8 +16,8 @@ theorem source_traceSafe {A : Type} [Inhabited A] (rest : Algebra A)
     (destination : ∀ i : Fin p.block, i.val < p.count →
       i.val * p.stride < bounds p.destination)
     (incoming : ∀ i : Fin p.block, i.val < p.count → i.val < bounds p.incoming) :
-    FP.Structural.TraceSafe (Source.backend (arithmetic rest add)) bounds (kernel p) s := by
-  simp (maxSteps := 1400000) [FP.Structural.TraceSafe, kernel, ComputeKernel.surfaceBody,
+    FP.Structural.TraceSafe (Source.backend (arithmetic rest add)) bounds (sourceKernel p) s := by
+  simp (maxSteps := 1400000) [FP.Structural.TraceSafe, sourceKernel, ComputeKernel.surfaceBody,
     Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
     Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
     Safety.maskActive, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,

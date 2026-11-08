@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.Sources.Kernels
+import bench.tritonbench_g.attention_llama.Proofs.Sources.Kernels
 import bench.tritonbench_g.attention_llama.Proofs.NativeLocal
 import bench.tritonbench_g.attention_llama.Proofs.HostGrid
 import bench.tritonbench_g.attention_llama.Proofs.FPSourceEquiv

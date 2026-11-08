@@ -29,16 +29,16 @@ theorem source_safe_with_algebra {α : Type} [Inhabited α]
   have init := preludeContext M q s c hasBias initial
   rw [List.singleton_append,IntegerDot.traceSafeList_cons]
   constructor
-  · rw [IntegerDot.stepSafe_unfold]
+  · rw [loop_safe_iff]
     exact range_safe M q s c hasBias _ bounds
       (a_bound M q s c hasBias initial valid hz bounds hb)
       (b_bound M q s c hasBias initial valid hz bounds hb)
       0 _ (fun _=>0) init.1 init.2
   · intro current executed
-    simp only [IntegerDot.step_unfold] at executed
-    rw [SharedInteger.range_eq] at executed
+    rw [SharedInteger.step_eq,step_loop] at executed
     obtain ⟨final,ran,ctx,_⟩ := rangeExecution M q s c hasBias _ _ 0 (steps s c)
       (Nat.zero_le _) (fun _=>0) init.1 init.2
+    simp only [Nat.cast_zero] at ran
     rw [ran] at executed
     cases Option.some.inj executed
     exact epilogue_safe M q s c hasBias _ _ bounds ctx

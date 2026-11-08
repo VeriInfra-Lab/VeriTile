@@ -61,14 +61,14 @@ theorem payload_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
 #axiomsClean payload_safe
 
 theorem continuation_tail_code (s : Shape) :
-    (continuation s).drop 4 =
+    (continuation s).drop (TypedExecution.indicesCount s) =
       [.ifThenElse (.boolNot (.constBool s.interleaved))
-        (splitBody s) (interleavedBody s)] := by
-  rfl
+        (splitBody s) (interleavedBody s)] :=
+  TypedExecution.continuation_tail_code s
 
 theorem continuation_tail_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (u : State α) (hp : Safety.traceSafeList M bounds (payload s) u) :
-    Safety.traceSafeList M bounds ((continuation s).drop 4) u := by
+    Safety.traceSafeList M bounds ((continuation s).drop (TypedExecution.indicesCount s)) u := by
   have selected : if s.interleaved then
       Safety.traceSafeList M bounds (interleavedBody s) u else
       Safety.traceSafeList M bounds (splitBody s) u := by
@@ -94,16 +94,21 @@ theorem continuation_safe (M : Algebra α) (s : Shape) (bounds : RegionName → 
   have joined := append_safe (indices_safe M s bounds initial offset)
     (indices M s initial).property branch
   exact Eq.mp (congrArg (fun code => Safety.traceSafeList M bounds code (setup M s Bool.true Bool.true initial).val)
-    (List.take_append_drop 4 (continuation s))) joined
+    (List.take_append_drop (TypedExecution.indicesCount s) (continuation s))) joined
 
 #axiomsClean continuation_safe
 
 theorem guard_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat) (u : State α) :
     Safety.safeOp M none bounds u (guard s) := by
-  change Safety.safeOp M none bounds u
-    (.boolNot (.ge .int .nil
-      (.castNatToInt (.mul .nat .nil (.ref .nat [] "pid_m") (.constNat s.blockM)))
-      (.ref .int [] "seqlen")))
+  have code : guard s=
+      (.boolNot (.ge .int .nil
+        (.castNatToInt (.mul .nat .nil (.ref .nat [] "pid_m") (.constNat s.blockM)))
+        (.ref .int [] "seqlen"))) := by
+    cases ht : s.offsetTensor <;>
+      simp only [TypedExecution.guard,TypedExecution.guardOf,kernel,KernelSource.source,KernelSource.source64_64,
+        ht,Bool.false_eq_true,if_false,if_true]
+    all_goals rfl
+  rw [code]
   simp only [Safety.safeOp_unfold,true_and]
 
 theorem source_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)

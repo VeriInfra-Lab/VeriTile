@@ -16,7 +16,7 @@ theorem actual_program_expected_readback (plans : PlanSelector) (p : Parameters)
     (mem : Memory) (k : Nat) (hk : k < gridCount p) (i : TileIndex [p.BM,p.BN]) :
     expectedMemory plans p (programState p initial mem k) p.output
       (outputOffset p (programState p initial mem k) i) =
-      Cell.mk .real (accumulated plans p (programState p initial mem k) (p.K / p.BK) i) := by
+      Cell.mk .fp32 (accumulated plans p (programState p initial mem k) (p.K / p.BK) i) := by
   unfold expectedMemory
   rw [← fold_write_memory p (programState p initial mem k)
     (programState p initial mem k)

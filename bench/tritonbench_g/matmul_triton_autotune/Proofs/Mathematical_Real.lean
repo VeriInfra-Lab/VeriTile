@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton_autotune.Sources.Mathematical_WholeTask
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Sources.Mathematical_WholeTask
 import bench.tritonbench_g.matmul_leakyrelu.Proofs.Mathematical_RealAlgebra
 
 /-! Exact mathematical projection of the complete original host/grid.

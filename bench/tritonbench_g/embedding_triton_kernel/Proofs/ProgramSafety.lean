@@ -36,7 +36,7 @@ termination_by 64-k
 private theorem prefix_safe (rest : Algebra α) (zero : α) (p : Parameters)
     (bounds : RegionBounds) (s : State α) :
     Safety.traceSafeList (backend rest zero) bounds (prefixCode .int32 p) s := by
-  simp [prefixCode,source,ComputeKernel.surfaceBody,
+  simp [prefixCode,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,numeric,bop,
@@ -47,7 +47,7 @@ follows all 64 loop iterations through their actual execution states. -/
 theorem source_safe_of_access (rest : Algebra α) (zero : α) (p : Parameters)
     (bounds : RegionBounds) (s : State α)
     (h : AccessContract p (s.pids 0) (fun r => (s.mem p.ids r).read .int) bounds) :
-    FP.Structural.TraceSafe (backend rest zero) bounds (source .int32 p) s := by
+    FP.Structural.TraceSafe (backend rest zero) bounds (sourceKernel .int32 p) s := by
   obtain ⟨context,pids,mem⟩ := prefix_properties rest zero .int32 p s
   have base : Invariant zero p s 0 (prefixRun rest zero .int32 p s).val := by
     refine ⟨context,pids,by omega,?_,?_⟩
@@ -69,7 +69,7 @@ theorem source_safe_of_access (rest : Algebra α) (zero : α) (p : Parameters)
 theorem source_safe (rest : Algebra α) (zero : α) (p : Parameters)
     (bounds : RegionBounds) (s : State α)
     (h : KernelContract p (s.pids 0) (fun r => (s.mem p.ids r).read .int) bounds) :
-    FP.Structural.TraceSafe (backend rest zero) bounds (source .int32 p) s :=
+    FP.Structural.TraceSafe (backend rest zero) bounds (sourceKernel .int32 p) s :=
   source_safe_of_access rest zero p bounds s (AccessContract.ofKernel h)
 
 /-- The retained candidate differs only in a pure prefix multiplication.
@@ -77,24 +77,24 @@ Its actual access trace begins from the same prefix state. -/
 theorem candidate_safe_of_access (rest : Algebra α) (zero : α) (p : Parameters)
     (bounds : RegionBounds) (s : State α)
     (h : AccessContract p (s.pids 0) (fun r => (s.mem p.ids r).read .int) bounds) :
-    FP.Structural.TraceSafe (backend rest zero) bounds (indexCommutedSource .int32 p) s := by
+    FP.Structural.TraceSafe (backend rest zero) bounds (indexCommutedKernel .int32 p) s := by
   let M := backend rest zero
-  have first : run M ((source .int32 p).surfaceBody.take 1) s =
-      run M ((indexCommutedSource .int32 p).surfaceBody.take 1) s := by
-    simp [source,indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,
+  have first : run M ((sourceKernel .int32 p).surfaceBody.take 1) s =
+      run M ((indexCommutedKernel .int32 p).surfaceBody.take 1) s := by
+    simp [sourceKernel,indexCommutedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
       evalOp_unfold,numeric,ComputeDType.eraseDType,Option.bind]
     congr 1
     funext i
-    exact Nat.mul_comm _ _
+    exact Int.mul_comm _ _
   have safe := source_safe_of_access rest zero p bounds s h
-  change Safety.traceSafeList M bounds (source .int32 p).surfaceBody s at safe
-  rw [←List.take_append_drop 1 (source .int32 p).surfaceBody] at safe
+  change Safety.traceSafeList M bounds (sourceKernel .int32 p).surfaceBody s at safe
+  rw [←List.take_append_drop 1 (sourceKernel .int32 p).surfaceBody] at safe
   have sourceParts := (Safety.traceSafeList_append ..).mp safe
-  change Safety.traceSafeList M bounds (indexCommutedSource .int32 p).surfaceBody s
-  rw [←List.take_append_drop 1 (indexCommutedSource .int32 p).surfaceBody]
+  change Safety.traceSafeList M bounds (indexCommutedKernel .int32 p).surfaceBody s
+  rw [←List.take_append_drop 1 (indexCommutedKernel .int32 p).surfaceBody]
   apply (Safety.traceSafeList_append ..).mpr
   constructor
-  · simp [source,indexCommutedSource,ComputeKernel.surfaceBody,
+  · simp [sourceKernel,indexCommutedKernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,step,evalExpr,evalComputeOp,
       evalOp_unfold,numeric,ComputeDType.eraseDType,Option.bind]

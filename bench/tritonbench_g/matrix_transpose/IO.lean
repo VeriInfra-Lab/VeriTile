@@ -11,7 +11,7 @@ noncomputable section
 /-- The canonical typed source, projected only for mathematical semantics.
 The transpose is explicit in the source and output windows. -/
 def transposeIO (m d : Nat) : Masked2DKernelIO₁ where
-  kernel := (source "matrix" "out" m d).eraseDType
+  kernel := (sourceKernel "matrix" "out" m d).eraseDType
   projection := typed_supported Bool.false "matrix" "out" (max d 1) 1 (max m 1) 1 m d
   inp := "matrix"
   out := "out"

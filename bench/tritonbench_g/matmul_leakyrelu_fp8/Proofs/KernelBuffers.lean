@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu_fp8.SourceComputation
+import bench.tritonbench_g.matmul_leakyrelu_fp8.Proofs.Support.SourceComputation
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast.KernelBuffers
 open VeriTile.Triton FP.Structural

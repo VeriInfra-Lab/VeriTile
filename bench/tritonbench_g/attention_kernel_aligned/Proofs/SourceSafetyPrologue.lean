@@ -13,7 +13,7 @@ theorem middle_safe (A : Algebra α) (P : Primitives α) (p : Parameters)
     traceSafeList (backend A P) bounds (biasPrefix p) s := by
   apply pure_safe
   intro stmt member current
-  simp only [biasPrefix,prologue,source,typedSurface,ComputeKernel.surfaceBody,
+  simp only [biasPrefix,prologue,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,
     List.take,List.drop,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl <;>
     simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
@@ -22,7 +22,7 @@ theorem middle_run (A : Algebra α) (P : Primitives α) (p : Parameters) (s : St
     run (backend A P) (biasPrefix p)
       ((prefixResult P p s).setReg "q" .fp16 [p.blockM,p.head] (qValue P p s))=
     some (middleResult P p s ((prefixResult P p s).setReg "q" .fp16 [p.blockM,p.head] (qValue P p s))) := by
-  simp [biasPrefix,prologue,source,typedSurface,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [biasPrefix,prologue,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,numeric,backend,prefixResult,middleResult,qScaled,scaleValue,biasBase,
     integralMod,ofFloat,toFloat,ComputeDType.eraseDType,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind]
   rfl
@@ -33,7 +33,7 @@ theorem bias_safe (A : Algebra α) (P : Primitives α) (p : Parameters)
     traceSafeList (backend A P) bounds (biasLoad p)
       (middleResult P p s ((prefixResult P p s).setReg "q" .fp16 [p.blockM,p.head] (qValue P p s))) := by
   rw [show biasLoad p=[((prologue p)[22]'(by change 22<23;decide))] from rfl,singleton_safe]
-  simpa [prologue,source,typedSurface,ComputeKernel.surfaceBody,stepSafe_unfold,safeExpr_unfold,
+  simpa [prologue,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,stepSafe_unfold,safeExpr_unfold,
     safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
     evalOp_unfold,numeric,backend,prefixResult,middleResult,Region.cast,
     b1Offset,row,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind,natLt,Nat.add_assoc]

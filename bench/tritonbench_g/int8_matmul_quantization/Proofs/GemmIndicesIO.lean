@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.GemmPairIO
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.Support.GemmPairIO
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.GemmIndices
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.ResetPairIO
 

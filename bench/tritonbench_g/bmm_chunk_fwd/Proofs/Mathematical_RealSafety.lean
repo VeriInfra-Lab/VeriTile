@@ -8,8 +8,8 @@ retains its actual source mask; skipped tiles require no data addresses. -/
 namespace VeriTile.Bench.TritonBenchG.BmmChunkFwd.RealSafety
 open VeriTile.Triton
 noncomputable section
-set_option maxHeartbeats 4000000
-set_option maxRecDepth 18000
+set_option maxHeartbeats 100000
+set_option maxRecDepth 2000
 set_option linter.unusedSimpArgs false
 
 structure Bounds (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters) (bounds : RegionBounds) : Prop where
@@ -27,24 +27,24 @@ theorem active_safe (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : Real
     (hactive : RealSetup.active s BM BN p = Bool.true) :
     Stmt.TraceSafeList bounds (RealExecution.activeCode swapped BM BN BK p) (RealSetup.prologueResult s BM BN p) := by
   obtain ⟨t, hp, h⟩ := RealLoop.prefix_executes swapped s BM BN BK p
-  have hb : t.regs .nat [] "pid_b" = some (Tile.scalar (s.pids 1)) := by
-    have hv := h.fixed .nat [] "pid_b" (by decide)
+  have hb : t.regs .int [] "pid_b" = some (Tile.scalar ((s.pids 1) : Int)) := by
+    have hv := h.fixed .int [] "pid_b" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hc : t.regs .nat [] "pid_c" = some (Tile.scalar (RealSetup.chunk s p)) := by
-    have hv := h.fixed .nat [] "pid_c" (by decide)
+  have hc : t.regs .int [] "pid_c" = some (Tile.scalar ((RealSetup.chunk s p) : Int)) := by
+    have hv := h.fixed .int [] "pid_c" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hh : t.regs .nat [] "pid_h" = some (Tile.scalar (RealSetup.head s p)) := by
-    have hv := h.fixed .nat [] "pid_h" (by decide)
+  have hh : t.regs .int [] "pid_h" = some (Tile.scalar ((RealSetup.head s p) : Int)) := by
+    have hv := h.fixed .int [] "pid_h" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hm : t.regs .nat [] "pid_m" = some (Tile.scalar (RealSetup.tileM s BN p)) := by
-    have hv := h.fixed .nat [] "pid_m" (by decide)
+  have hm : t.regs .int [] "pid_m" = some (Tile.scalar ((RealSetup.tileM s BN p) : Int)) := by
+    have hv := h.fixed .int [] "pid_m" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
-  have hn : t.regs .nat [] "pid_n" = some (Tile.scalar (RealSetup.tileN s BN p)) := by
-    have hv := h.fixed .nat [] "pid_n" (by decide)
+  have hn : t.regs .int [] "pid_n" = some (Tile.scalar ((RealSetup.tileN s BN p) : Int)) := by
+    have hv := h.fixed .int [] "pid_n" (by decide)
     cases hs : p.hasSeq <;> cases hc : p.causal <;>
       simpa [RealSetup.result, RealSetup.prologueResult, hs, hc] using hv
   have hseq : p.hasSeq = Bool.true → t.regs .ptr [] "seq_idx_ptr" =
@@ -53,7 +53,7 @@ theorem active_safe (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : Real
     simpa [RealSetup.result, hs] using h.fixed .ptr [] "seq_idx_ptr" (by decide)
   have hs : Stmt.TraceSafeList bounds
       (RealProgram.realPart (RealProgram.parts swapped BM BN BK p).before ++
-        [.forRangeDyn "k" (.constNat 0) (RealProgram.loopBound p.K BK) (.constNat 1)
+        [.forRangeInt "k" (.castNatToInt (.constNat 0)) (RealProgram.loopBound p.K BK) (.constNat 1)
           (RealProgram.realPart (RealProgram.parts swapped BM BN BK p).body)]) (RealSetup.prologueResult s BM BN p) := by
     rw [RealSetup.original_candidate_setup, RealLoads.matches_source]
     apply TraceProofs.append_safe _ _ (RealPureSafety.setup_safe BM BN BK p bounds _)
@@ -75,6 +75,15 @@ theorem active_safe (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : Real
     (fun hs => hbounds.rowIDs hs hactive) (fun hs => hbounds.columnIDs hs hactive)
     (fun i j hi hj => hbounds.output (i,j,PUnit.unit) ⟨hactive, hi, hj⟩)
 
+theorem condition_safe (BM BN BK : Nat) (p : RealProgram.Parameters) (bounds : RegionBounds) (s : BlockState) :
+    (RealProgram.condition BM BN BK p).SafeAt bounds s := by
+  simp [RealProgram.condition,RealProgram.branch,RealProgram.source,TypedSource.specialize,
+    VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
+    VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+    Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
+    Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType,ComparableDType.eraseDType,Op.SafeAt.eq_def]
+
 theorem safe (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters)
     (bounds : RegionBounds) (hbounds : Bounds s BM BN p bounds) :
     (RealProgram.kernel swapped BM BN BK p).toAlgKernel.TraceSafe bounds s := by
@@ -86,7 +95,9 @@ theorem safe (swapped : Bool) (s : BlockState) (BM BN BK : Nat) (p : RealProgram
   cases he
   apply Stmt.TraceSafeList.cons_intro
   · rw [Stmt.TraceSafe]
-    simp only [Op.SafeAt.eq_def, RealExecution.prologue_active, Tile.scalar, true_and]
+    refine ⟨condition_safe BM BN BK p bounds _,?_⟩
+    rw [RealExecution.prologue_active]
+    simp only [Tile.scalar]
     cases hactive : RealSetup.active s BM BN p
     · trivial
     · exact active_safe swapped s BM BN BK p bounds hbounds hactive
@@ -99,7 +110,8 @@ theorem flatten_ok (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters
     (RealProgram.kernel swapped BM BN BK p).toAlgKernel.FlattenOk := by
   cases swapped
   all_goals
-    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
+    simp [RealProgram.kernel, RealProgram.source, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      VeriTile.Bench.Repairs.BmmChunkFwd.dotFirstKernel,
       ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,

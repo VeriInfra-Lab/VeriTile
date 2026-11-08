@@ -27,9 +27,9 @@ theorem tail_frame {α : Type} [Inhabited α] (A : Algebra α)
     · exact Or.inr (fun i _ hi he => hnot ⟨hr,i,hi,he⟩)
     · exact Or.inl hr
   cases r <;> cases hd : decide (p.stage=2)
-  all_goals simp only [tail,code,source,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
-    TypedSource.repaired,ComputeKernel.surfaceBody,ControlView.compute,hd,List.drop_succ_cons,List.drop_zero] at ht
-  all_goals simp [run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
+  all_goals simp only [tail,parts,code,source,workName,Source.intRange?,Option.map_some,Option.getD_some,beq_self_eq_true,Bool.false_eq_true,Bool.true_eq,↓reduceIte,
+    TypedSource.repaired,originalKernel,ComputeKernel.surfaceBody,ControlView.compute,hd,List.drop_succ_cons,List.drop_zero] at ht
+  all_goals simp [Source.intRange?,run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,natLt,numericLt,
     Cell.read,ofFloat,toFloat,Region.cast,State.setReg,hn,ho,hp,hli,hacc] at ht
   all_goals subst t
@@ -54,7 +54,8 @@ theorem executes_framed {α : Type} [Inhabited α] (A : Algebra α)
   have hf := tail_frame A p BD (s.pids 0) (s.pids 1) r u t hr ha ht
   refine ⟨t,?_,?_⟩
   · change run (engine A) (source p BD r).surfaceBody s=some t
-    rw [←code_run A p BD r s,←List.take_append_drop 41 (code p BD),run_append,hu]
+    rw [←code_run A p BD r s,←List.take_append_drop (prefixLength p BD) (code p BD),run_append,hu,
+      ←tail_eq_drop]
     exact ht
   · intro region offset hnot
     exact (hf region offset hnot).trans (congrFun (congrFun hm region) offset)

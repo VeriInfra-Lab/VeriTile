@@ -9,9 +9,9 @@ def keyPrefix (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : List C
   Source.prefixBefore (parts p r swapped scale).body "qk"
 def keys (p : Layout) (r : Regions) : List Stmt := lower (keyPrefix p r Bool.false 0)
 
-def lanes (p : Layout) : Op .nat [p.BN] := .ref .nat [p.BN] "offs_n"
+def lanes (p : Layout) : Op .int [p.BN] := .ref .int [p.BN] "offs_n"
 def tokenIndices (p : Layout) : Op .int [p.BN] :=
-  .add .int .scalarL (z "start_n") (lanes p).castNatToInt
+  .add .int .scalarL (z "start_n") (lanes p)
 
 def gather (p : Layout) (r : Regions) : Op .int [p.BN] :=
   .load .int (.region r.tokens
@@ -22,19 +22,19 @@ def gather (p : Layout) (r : Regions) : Op .int [p.BN] :=
       (.broadcast (.constInt 0) [p.BN]))
 
 def tokenView (p : Layout) := Op.expandDim ⟨0,by simp⟩ (Op.ref .int [p.BN] "kv_loc")
-def channelView (p : Layout) := Op.expandDim ⟨1,by simp⟩ (Op.ref .nat [p.D] "offs_d")
+def channelView (p : Layout) := Op.expandDim ⟨1,by simp⟩ (Op.ref .int [p.D] "offs_d")
 def keyOffsets (p : Layout) : Op .int [p.D,p.BN] :=
   .add .int Broadcast.nil.consR.consL
-    (.add .int .scalarR (.mul .int .scalarR (tokenView p) (Op.constNat p.kRow).castNatToInt)
-      (Op.mul .nat .nil (n "cur_kv_head") (.constNat p.kHead)).castNatToInt)
-    (Op.mul .nat .scalarR (channelView p) (.constNat p.kDim)).castNatToInt
+    (.add .int .scalarR (.mul .int .scalarR (tokenView p) (Op.constInt p.kRow))
+      (Op.mul .int .nil (z "cur_kv_head") (.constInt p.kHead)))
+    (Op.mul .int .scalarR (channelView p) (.constInt p.kDim))
 
 def keyMask (p : Layout) : Op .bool [p.D,p.BN] :=
   .boolAnd Broadcast.nil.consR.consL
     (.lt .int .scalarR
-      (.add .int .scalarL (z "start_n") (Op.expandDim ⟨0,by simp⟩ (lanes p)).castNatToInt)
+      (.add .int .scalarL (z "start_n") (Op.expandDim ⟨0,by simp⟩ (lanes p)))
       (z "block_end_loc"))
-    (.lt .nat .scalarR (channelView p) (.constNat p.headDim))
+    (.lt .int .scalarR (channelView p) (.castNatToInt (.constNat p.headDim)))
 
 def code (p : Layout) (r : Regions) : List Stmt :=
   [.assign .int [] "start_n" (z "start_n"),
@@ -49,7 +49,7 @@ theorem shared (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
   cases swapped <;> rfl
 
 theorem source (p : Layout) (r : Regions) : keys p r = code p r := by
-  simp only [keys,keyPrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
+  simp only [keys,keyPrefix,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirstKernel,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

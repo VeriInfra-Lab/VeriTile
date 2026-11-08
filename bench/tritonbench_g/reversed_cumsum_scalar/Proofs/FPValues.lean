@@ -8,12 +8,26 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+@[simp] private theorem of_to_float (d : FloatDType) (v : FP.Structural.Value α d.toTileDType) :
+    ofFloat d (toFloat d v) = v := by cases d <;> rfl
+
+@[simp] private theorem to_of_float (d : FloatDType) (v : α) :
+    toFloat d (ofFloat d v) = v := by cases d <;> rfl
+
+@[simp] private theorem of_real_float (v : α) : ofFloat .real v = v := rfl
+
 /-- A total opaque scan backend, retaining precision, operation, axis and direction. -/
 abbrev ScanBackend (α : Type) := Option ComputeDType → {shape : TileShape} → ScanOp →
   Fin shape.length → ScanDirection → Values α .real shape → Values α .real shape
 
 def machine (M : Algebra α) (scan : ScanBackend α) : Algebra α :=
   ({M with scan := fun p {shape} scanOp scanAxis scanDirection values => some (scan p scanOp scanAxis scanDirection values)}).withDefaultPrecision .fp32
+
+def rawLoaded (M : Algebra α) (h : Call) (c : Config) (input : Nat → α) (q : Nat) :
+    Values α h.inputDType.toTileDType [c.BT] :=
+  fun i => ofFloat h.inputDType
+    (if q*c.BT+i.1.val<h.T then input (q*c.BT+i.1.val)
+     else M.cast (some .fp32) .real h.inputDType (M.literal (some .fp32) .real 0))
 
 def loaded (M : Algebra α) (h : Call) (c : Config) (input : Nat → α) (q : Nat) : Values α .real [c.BT] :=
   fun i => M.cast (some .fp32) h.inputDType .real
@@ -29,7 +43,7 @@ def output (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (inp
     (M.binary (some .fp32) .real .sub (loaded M h c input q i)
       (scan (some .fp32) .sum ⟨0,by simp⟩ .forward (loaded M h c input q) i)) acc
 
-def lanes (c : Config) : Values α .nat [c.BT] := fun i => i.1.val
+def lanes (c : Config) : Values α .int [c.BT] := fun i => (i.1.val:Int)
 def mask (h : Call) (c : Config) (q : Nat) : Values α .bool [c.BT] := fun i => decide (Geometry.active h c q i.1)
 def times (h : Call) (c : Config) (q : Nat) : Values α .int [c.BT] := fun i => (Geometry.time h c q i.1:Int)
 def pointer (h : Call) (c : Config) (row q : Nat) (r : RegionName) (strides : Strides) : Values α .ptr [c.BT] :=
@@ -55,7 +69,7 @@ theorem start_eval (M : Algebra α) (c : Config) (q : Nat) (u : State α)
 theorem active_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : State α)
     (hq : q*c.BT<h.T)
     (hs : u.regs .int [] "start_t"=some (fun _ => (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c)) :
+    (hl : u.regs .int [c.BT] "lanes"=some (lanes c)) :
     FP.Structural.evalOp M none (activeOp h c) u=some (mask h c q) := by
   simp only [activeOp,FP.Structural.evalOp,hs,hl,numericLt]
   apply congrArg some
@@ -67,7 +81,7 @@ theorem active_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : Stat
 
 theorem time_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : State α)
     (hs : u.regs .int [] "start_t"=some (fun _ => (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lanes"=some (lanes c))
+    (hl : u.regs .int [c.BT] "lanes"=some (lanes c))
     (hm : u.regs .bool [c.BT] "active"=some (mask h c q)) :
     FP.Structural.evalOp M none (timeOp c) u=some (times h c q) := by
   simp only [timeOp,FP.Structural.evalOp,hs,hl,hm]
@@ -77,36 +91,53 @@ theorem time_eval (M : Algebra α) (h : Call) (c : Config) (q : Nat) (u : State 
 
 theorem pointer_eval (M : Algebra α) (h : Call) (c : Config) (row q : Nat)
     (r : RegionName) (strides : Strides) (u : State α)
-    (hr : u.regs .nat [] "i_bh"=some (fun _ => row))
+    (hr : u.regs .int [] "i_bh"=some (fun _ => (row:Int)))
     (ht : u.regs .int [c.BT] "times"=some (times h c q)) :
     FP.Structural.evalOp M none (pointerOp h c r strides) u=some (pointer h c row q r strides) := by
-  simp only [pointerOp,baseOp,Op.tritonDiv,Op.tritonMod,FP.Structural.evalOp,hr,ht]
+  simp only [pointerOp,baseOp,Op.tritonDiv,Op.tritonMod,Op.truncDiv,Op.truncMod,evalOp_unfold,hr,ht]
   apply congrArg some
   funext i
   simp [pointer,times,Strides.address,Strides.base,bop,numeric,integralFloorDiv,integralMod,
     Broadcast.leftIndex,Broadcast.rightIndex]
-  rw [←Int.natCast_ediv,←Int.natCast_emod,←Int.natCast_mul,←Int.natCast_mul,
-    ←Int.natCast_add,←Int.natCast_mul,←Int.natCast_add]
+  have nonnegative : ¬ (row : Int) < 0 := by omega
+  simp only [nonnegative,if_false]
+  have remainder : (row : Int) - (h.H : Int) * ((row / h.H : Nat) : Int) = ((row % h.H : Nat) : Int) := by
+    have eq := congrArg (fun n : Nat => (n : Int)) (Nat.mod_add_div row h.H)
+    simp only [Int.natCast_add,Int.natCast_mul] at eq
+    omega
+  simp only [NumericDType.sub,←Int.natCast_ediv]
+  rw [remainder,←Int.natCast_mul,←Int.natCast_mul,←Int.natCast_add,
+    ←Int.natCast_mul,←Int.natCast_add]
   rfl
 
-theorem load_eval (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (row q : Nat)
+theorem input_load_eval (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config) (row q : Nat)
     (input : Nat → α) (u : State α) (start : q*c.BT<h.T)
     (hp : u.regs .ptr [c.BT] "p_s"=some (pointer h c row q h.input h.inputStrides))
     (hm : u.regs .bool [c.BT] "active"=some (mask h c q))
     (read : ∀ t, t<h.T → toFloat h.inputDType
       ((u.mem h.input (h.inputStrides.address h.H row t)).read h.inputDType.toTileDType)=input t) :
-    FP.Structural.evalOp (machine M scan) (some .fp32) (loadOp h c) u=some (loaded M h c input q) := by
-  simp only [loadOp,FP.Structural.evalOp,hp,hm]
+    FP.Structural.evalOp (machine M scan) none (inputLoadOp h c) u=some (rawLoaded M h c input q) := by
+  simp only [inputLoadOp,FP.Structural.evalOp,hp,hm]
   apply congrArg some
   funext i
   by_cases ha : Geometry.active h c q i.1
   · have ht := (Geometry.active_iff h c q i.1 start).mp ha
-    simp [pointer,mask,ha,Geometry.active_time h c q i.1 ha,read _ ht,loaded,ht,
+    simp [pointer,mask,ha,Geometry.active_time h c q i.1 ha,read _ ht,rawLoaded,ht,
       machine,Algebra.withDefaultPrecision,resolvePrecision]
-    rfl
+    have eq := congrArg (ofFloat h.inputDType) (read _ ht)
+    simpa using eq
   · have ht := (Geometry.active_iff h c q i.1 start).not.mp ha
-    simp [pointer,mask,ha,loaded,ht,machine,Algebra.withDefaultPrecision,resolvePrecision]
+    simp [pointer,mask,ha,rawLoaded,ht,machine,Algebra.withDefaultPrecision,resolvePrecision]
     cases h.inputDType <;> rfl
+
+theorem load_eval (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config)
+    (input : Nat → α) (q : Nat) (u : State α)
+    (read : u.regs h.inputDType.toTileDType [c.BT] "__veritile_load_0"=some (rawLoaded M h c input q)) :
+    FP.Structural.evalOp (machine M scan) (some .fp32) (loadOp h c) u=some (loaded M h c input q) := by
+  simp only [loadOp,FP.Structural.evalOp,read]
+  apply congrArg some
+  funext i
+  simp [rawLoaded,loaded,machine,Algebra.withDefaultPrecision,resolvePrecision]
 
 theorem sum_eval (M : Algebra α) (scan : ScanBackend α) (h : Call) (c : Config)
     (input : Nat → α) (q : Nat) (u : State α)

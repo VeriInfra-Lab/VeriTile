@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_matmul_rbe.PairIO
+import bench.tritonbench_g.rms_matmul_rbe.IO
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOResults
 import VeriTile.Triton.Float.ArrayProgramEquivalenceSyntax
 
@@ -13,29 +13,30 @@ private def candidate (fp8 outputFP8 : Bool) (p : Arguments) : ComputeKernel :=
   TypedSource.indexCommuted fp8 outputFP8 {p with BM:=16,BN:=64,BK:=64}
 
 private def row (commuted : Bool) : ComputeStmt :=
-  .assign .nat [16] "offs_m" (.alg (.add .nat .scalarL
-    (if commuted then .mul .nat .nil (.constNat 16) (.ref .nat [] "pid_m")
-      else .mul .nat .nil (.ref .nat [] "pid_m") (.constNat 16)) (.arange 16)))
+  .assign .int [16] "offs_m" (.alg (.add .int .scalarL
+    (if commuted then .mul .int .nil (.castNatToInt (.constNat 16)) (.ref .int [] "pid_m")
+      else .mul .int .nil (.ref .int [] "pid_m") (.castNatToInt (.constNat 16)))
+      (.castNatToInt (.arange 16))))
 
 private theorem split_source (fp8 outputFP8 : Bool) (p : Arguments) :
     (source fp8 outputFP8 p).surfaceBody =
-      (source fp8 outputFP8 p).surfaceBody.take 17 ++
-        row Bool.false :: (source fp8 outputFP8 p).surfaceBody.drop 18 := by
+      (source fp8 outputFP8 p).surfaceBody.take 29 ++
+        row Bool.false :: (source fp8 outputFP8 p).surfaceBody.drop 30 := by
   cases fp8 <;> cases outputFP8 <;> rfl
 
 private theorem split_candidate (fp8 outputFP8 : Bool) (p : Arguments) :
     (candidate fp8 outputFP8 p).surfaceBody =
-      (source fp8 outputFP8 p).surfaceBody.take 17 ++
-        row Bool.true :: (source fp8 outputFP8 p).surfaceBody.drop 18 := by
+      (source fp8 outputFP8 p).surfaceBody.take 29 ++
+        row Bool.true :: (source fp8 outputFP8 p).surfaceBody.drop 30 := by
   cases fp8 <;> cases outputFP8 <;> rfl
 
 private theorem row_step {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
     step M (row Bool.true) s = step M (row Bool.false) s := by
-  cases h : s.regs .nat [] "pid_m" <;>
-    simp [row,step,evalExpr,evalComputeOp,evalOp_unfold,h,bop,numeric,Option.bind,Nat.mul_comm]
+  cases h : s.regs .int [] "pid_m" <;>
+    simp [row,step,evalExpr,evalComputeOp,evalOp_unfold,h,FP.Structural.bop,numeric,Option.bind,Int.mul_comm]
   congr 1
   funext i
-  simp [bop,Nat.mul_comm]
+  simp [FP.Structural.bop,Int.mul_comm]
 
 private theorem row_safe {α : Type} [Inhabited α] (M : Algebra α)
     (bounds : RegionName → Nat) (s : State α) :
@@ -44,7 +45,7 @@ private theorem row_safe {α : Type} [Inhabited α] (M : Algebra α)
   simp [row,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeOp_unfold]
 
 /-- Complete callee equality, including failure and every register/memory cell.
-Only a natural-number multiplication is commuted; no floating rule is used. -/
+Only a signed-integer multiplication is commuted; no floating rule is used. -/
 theorem callee_run {α : Type} [Inhabited α] (M : Algebra α)
     (fp8 outputFP8 : Bool) (p : Arguments) (s : State α) :
     run M (candidate fp8 outputFP8 p).surfaceBody s =

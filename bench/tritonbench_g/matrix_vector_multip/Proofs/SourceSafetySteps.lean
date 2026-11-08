@@ -25,7 +25,7 @@ private theorem pureList_safe (A : Algebra β) [Inhabited β] (bounds : RegionNa
 theorem prelude_safe (A : Algebra α) (p : Parameters) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList A bounds (prelude p) s := by
   apply pureList_safe
-  simp [prelude,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.body,
+  simp [prelude,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.bodyKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask]
@@ -43,7 +43,7 @@ theorem body_safe (A : Algebra α) (p : Parameters) (bounds : RegionName → Nat
   have hAM := h.metadata "stride_am" p.strideColumn (by simp [scalarParameters])
   have hBM := h.metadata "stride_bm" p.strideVector (by simp [scalarParameters])
   have counter := AffineWhile.normalized_read current "m" off h.counter
-  simp [loopBody,loopStatement,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.body,
+  simp [loopBody,loopStatement,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.bodyKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
@@ -65,7 +65,7 @@ theorem epilogue_safe (A : Algebra α) (p : Parameters) (bounds : RegionName →
     Safety.traceSafeList A bounds (epilogue p) current := by
   rcases h.context with ⟨hoffn,hoffm,hnMask,haptr,hbptr,hacc,hmem⟩
   have hstride := h.metadata "stride_cn" p.strideOut (by simp [scalarParameters])
-  simp [epilogue,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.body,
+  simp [epilogue,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.bodyKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp.eq_def,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

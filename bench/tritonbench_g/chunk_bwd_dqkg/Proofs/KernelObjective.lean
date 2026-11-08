@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.KernelMath
-import bench.tritonbench_g.chunk_bwd_dqkg.Spec
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.Support.Spec
 
 /-! The mathematical objective is the local VJP of the gated chunk primal.
 H and dH are actual entry-memory inputs. Rows and keys outside the logical

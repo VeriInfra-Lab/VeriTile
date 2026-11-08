@@ -1,4 +1,4 @@
-import bench.tritonbench_g.sgmv_expand_slice.Sources.Kernels
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Sources.Kernels
 import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
 

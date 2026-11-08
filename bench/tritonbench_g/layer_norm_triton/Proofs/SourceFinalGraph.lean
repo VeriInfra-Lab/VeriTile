@@ -20,8 +20,8 @@ def zero (m : Model α) (BM BN : Nat) : Carries α BM BN :=
 
 def loadTile [Inhabited α] (m : Model α) (s : State α) (r : RegionName)
     (M N BM BN cur : Nat) : Tile α BM BN := fun i =>
-  if cur+i.1.val<M ∧ s.pids 0*BN+i.2.1.val<N then
-    (s.mem r ((cur+i.1.val)*N+(s.pids 0*BN+i.2.1.val))).read .real else lit m 0
+  m.scalar.fp32Load (if cur+i.1.val<M ∧ s.pids 0*BN+i.2.1.val<N then
+    (s.mem r ((cur+i.1.val)*N+(s.pids 0*BN+i.2.1.val))).read .real else lit m 0)
 
 def next [Inhabited α] (m : Model α) (s : State α) (M N BM BN cur : Nat)
     (a : Carries α BM BN) : Carries α BM BN :=
@@ -35,12 +35,12 @@ termination_by M-cur
 decreasing_by omega
 
 def Invariant (s : State α) (BM BN : Nat) (a : Carries α BM BN) (t : State α) : Prop :=
-  t.mem=s.mem ∧ t.regs .nat [BN] "cols"=some (columns s BN) ∧
+  t.mem=s.mem ∧ t.regs .int [BN] "cols"=some (fun i => (columns s BN i : Int)) ∧
   t.regs .real [BM,BN] "dw"=some a.1 ∧ t.regs .real [BM,BN] "db"=some a.2
 
 theorem prelude_refines [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) :
     ∃ t,run (engine m) (SourceFinal.prelude M N BM BN) s=some t ∧ Invariant s BM BN (zero m BM BN) t := by
-  simp [SourceFinal.prelude,SourceFinal.code,TypedSource.finalBackward,ComputeKernel.surfaceBody,
+  simp [SourceFinal.prelude,SourceFinal.code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,columns,zero,lit,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -50,23 +50,25 @@ theorem prelude_refines [Inhabited α] (m : Model α) (s : State α) (M N BM BN 
 
 theorem body_refines [Inhabited α] (m : Model α) (s t : State α) (M N BM BN cur : Nat)
     (a : Carries α BM BN) (h : Invariant s BM BN a t) :
-    ∃ u,run (engine m) (SourceFinal.body M N BM BN) (t.setReg "i" .nat [] (fun _ => cur))=some u ∧
+    ∃ u,run (engine m) (SourceFinal.body M N BM BN) (t.setReg "i" .int [] (fun _ => cur))=some u ∧
       Invariant s BM BN (next m s M N BM BN cur a) u := by
   obtain ⟨hm,hcols,hdw,hdb⟩ := h
-  simp [SourceFinal.body,SourceFinal.code,TypedSource.finalBackward,ComputeKernel.surfaceBody,
+  simp [SourceFinal.body,SourceFinal.code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,columns,next,loadTile,lit,bin,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
     TileShape.axisDim,TileShape.eraseAxis,TileShape.insertAxisIndex,
     Region.cast,Option.bind,ofFloat,toFloat,hcols,hdw,hdb,hm,
     show (0.0 : ℝ)=0 by norm_num]
-  constructor <;> rfl
+  constructor <;> funext i <;> dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  all_goals simp only [← Nat.cast_add,← Nat.cast_mul,Int.ofNat_lt,Int.toNat_natCast]
+  all_goals rfl
 
 theorem range_refines [Inhabited α] (m : Model α) (s t : State α) (M N BM BN cur : Nat)
     (a : Carries α BM BN) (h : Invariant s BM BN a t) :
-    ∃ u,FP.Structural.range (engine m) "i" cur M BM (SourceFinal.body M N BM BN) t=some u ∧
+    ∃ u,FP.Structural.rangeInt (engine m) "i" (cur : Int) (M : Int) BM (SourceFinal.body M N BM BN) t=some u ∧
       Invariant s BM BN (fold m s M N BM BN cur a) u := by
-  rw [FP.Structural.range,fold]
+  rw [signed_range_nat_step,fold]
   split
   · exact ⟨t,rfl,h⟩
   · split
@@ -83,17 +85,17 @@ def reduced (m : Model α) (BM BN : Nat) (tile : Tile α BM BN) : Values α .rea
 def stores (m : Model α) (s : State α) (N BM BN : Nat) (a : Carries α BM BN) : State α :=
   let w := (TileShape.allIndices [BN]).foldl (fun t i =>
     if columns s BN i<N then t.write "FINAL_DW" (columns s BN i)
-      (.mk .real (cast m (reduced m BM BN a.1 i))) else t) s
+      (.mk .real (reduced m BM BN a.1 i)) else t) s
   (TileShape.allIndices [BN]).foldl (fun t i =>
     if columns s BN i<N then t.write "FINAL_DB" (columns s BN i)
-      (.mk .real (cast m (reduced m BM BN a.2 i))) else t) w
+      (.mk .real (reduced m BM BN a.2 i)) else t) w
 
 theorem suffix_refines [Inhabited α] (m : Model α) (s t : State α) (M N BM BN : Nat)
     (a : Carries α BM BN) (h : Invariant s BM BN a t) :
     ∃ u,run (engine m) (SourceFinal.suffix M N BM BN) t=some u ∧
       u.mem=(stores m s N BM BN a).mem := by
   obtain ⟨hm,hcols,hdw,hdb⟩ := h
-  simp [SourceFinal.suffix,SourceFinal.code,TypedSource.finalBackward,ComputeKernel.surfaceBody,
+  simp [SourceFinal.suffix,SourceFinal.code,TypedSource.finalBackwardKernel,finalBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,FP.Structural.store,ComputeDType.eraseDType,
@@ -113,7 +115,7 @@ def final [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) : State
 
 theorem source_refines [Inhabited α] (m : Model α) (s : State α) (M N BM BN : Nat) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t ∧
+      (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) s=some t ∧
       t.mem=(final m s M N BM BN).mem := by
   obtain ⟨a,ha,hready⟩ := prelude_refines m s M N BM BN
   obtain ⟨b,hb,hbready⟩ := range_refines m s a M N BM BN 0 (zero m BM BN) hready
@@ -121,7 +123,10 @@ theorem source_refines [Inhabited α] (m : Model α) (s : State α) (M N BM BN :
   refine ⟨t,?_,hmem⟩
   change run (engine m) (SourceFinal.code M N BM BN) s=some t
   rw [SourceFinal.code_split,run_append,run_append,ha]
-  simpa only [bind,Option.bind,run,step,hb] using ht
+  simp only [bind,Option.bind,run,step,evalOp_unfold]
+  change rangeInt (engine m) "i" 0 (Int.ofNat M) BM (SourceFinal.body M N BM BN) a=some b at hb
+  rw [hb]
+  exact ht
 
 #axiomsClean range_refines
 #axiomsClean source_refines

@@ -18,7 +18,7 @@ theorem kernel_forward (X Y : RegionName) (separate : X≠Y)
       ∀ r o,t.mem r o=if r=Y ∧ o<d.M*d.N*d.K then
         .mk .real (Target.flatForward (FPReference.read s X) d.N d.K o : WithBot ℝ)
         else s.mem r o) := by
-  obtain ⟨t,run,memory⟩ := FPGrid.forward_whole Ideal.algebra X Y d c hB s s rfl
+  obtain ⟨t,run,memory⟩ := FPGrid.forward_whole Ideal.algebra X Y d c hN hB s s rfl
   have target := (RealForward.whole_graph X Y (FPReference.read s X) separate
     d c defined hN hK hB hC hone s (fun _ => rfl)).2
   refine ⟨t,run,?_⟩

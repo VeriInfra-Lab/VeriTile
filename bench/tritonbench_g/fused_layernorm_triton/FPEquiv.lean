@@ -5,7 +5,7 @@ open VeriTile Triton
 open scoped VeriTile.Spec
 noncomputable section
 
-/-- Hoist the invariant row scalar projections out of the second loop.
+/-- Hoist row scalar views and flatten the second loop’s unit row axis.
 Both complete grids safely succeed, agree on all typed Mean/Rstd/Y word
 observations and preserve both exterior frames over the full accepted domain.
 This is an exact structural transformation with no experimental FP rules. -/

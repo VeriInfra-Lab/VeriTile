@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.Mathematical
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Support.Mathematical
 import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.CanonicalTrace
 import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Real
 

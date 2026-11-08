@@ -14,9 +14,9 @@ theorem forward_range_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (p
     (hBK : 0<s.BK) (covered : plans.output.Covers s.BK)
     (h : ForwardInvariant a s b initial seed pid 0 entry)
     (bounds : RegionName → Nat) (hb : ForwardBounds s b pid seed final bounds) :
-    Safety.rangeSafe (Staged.algebra a plans) bounds "_t" 0 s.T 1
+    Safety.rangeSafe (Staged.algebra a plans) bounds "_" 0 s.T 1
       (Program.forwardParts (layout s b) forwardRegions seed final).body entry := by
-  apply Safety.rangeSafe_of_invariant (Staged.algebra a plans) bounds "_t" s.T 1 _
+  apply Safety.rangeSafe_of_invariant (Staged.algebra a plans) bounds "_" s.T 1 _
     (fun t u => ForwardInvariant a s b initial seed pid t u)
   · intro t ht u inv
     exact forward_body_safe a s b plans seed final initial u pid t inv ht bounds hb
@@ -71,9 +71,9 @@ theorem second_range_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (pl
     (hBK : 0<s.BK) (hBV : 0<s.BV) (coveredK : plans.dk.Covers s.BV) (coveredV : plans.dv.Covers s.BK)
     (h : BackwardSecondInvariant a s b initial final pid 0 entry)
     (bounds : RegionName → Nat) (hb : BackwardBounds s b pid seed final bounds) :
-    Safety.rangeSafe (Staged.algebra a plans) bounds "_t" 0 s.T 1
+    Safety.rangeSafe (Staged.algebra a plans) bounds "_" 0 s.T 1
       (Program.backwardSecond (layout s b) backwardRegions seed final).body entry := by
-  apply Safety.rangeSafe_of_invariant (Staged.algebra a plans) bounds "_t" s.T 1 _
+  apply Safety.rangeSafe_of_invariant (Staged.algebra a plans) bounds "_" s.T 1 _
     (fun t u => BackwardSecondInvariant a s b initial final pid t u)
   · intro t ht u inv
     exact backward_second_safe a s b plans seed final initial u pid t inv ht bounds hb
@@ -107,7 +107,7 @@ theorem backward_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (p : Pl
   · simpa only [step] using ran
   · apply (Safety.traceSafeList_append (Staged.algebra a p.plans) bounds
       (Program.backwardSecond (layout s b) backwardRegions seed final).before
-      [.forRange "_t" 0 (layout s b).T 1 (Program.backwardSecond (layout s b) backwardRegions seed final).body]
+      [.forLoop "_" (layout s b).T (Program.backwardSecond (layout s b) backwardRegions seed final).body]
       (backwardFirstTail a s b p.plans initial seed (launch initial) 0 entry)).mpr
     refine ⟨backward_middle_safe a s b p.plans seed final initial _ (launch initial) lastInv bounds hb,?_⟩
     intro v hv
@@ -115,6 +115,8 @@ theorem backward_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (p : Pl
     cases Option.some.inj hv
     apply Safety.traceSafeList_cons_intro
     · rw [Safety.stepSafe_unfold]
+      dsimp only
+      rw [VeriTile.Bench.Repairs.Conv2d.UnitRanges.loop_safe_unit_range]
       exact second_range_safe a s b p.plans seed final initial middle (launch initial)
         (block_positive s shape).1 (block_positive s shape).2 p.dk.covers p.dv.covers secondInv bounds hb
     · intro t _

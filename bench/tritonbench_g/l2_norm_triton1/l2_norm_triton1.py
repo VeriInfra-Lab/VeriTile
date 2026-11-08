@@ -53,3 +53,20 @@ def _l2_norm_fwd_repaired(x, eps=1e-6):
                 x, y, N, eps, BLOCK_N, num_warps=4, num_ctas=1,
             )
     return y.view(x_shape_og)
+
+
+
+
+@triton.jit
+def _l2_norm_fwd_1pass_kernel_index_commuted(X, Y, N, eps, BLOCK_N: tl.constexpr):
+    row = tl.program_id(0).to(tl.int64)
+    X += N * row
+    Y += N * row
+    cols = tl.arange(0, BLOCK_N).to(tl.int64)
+    x = tl.load(X + cols, mask=cols < N, other=0.0).to(tl.float32)
+    xbar = tl.where(cols < N, x, 0.0)
+    var = tl.sum(xbar * xbar, axis=0)
+    rstd = 1 / tl.sqrt(var + eps)
+    mask = cols < N
+    y = x * rstd
+    tl.store(Y + cols, y, mask=mask)

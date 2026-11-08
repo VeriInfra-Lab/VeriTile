@@ -17,9 +17,9 @@ def fold (m : Model α) (M N BM BN pid cur : Nat)
   if BM=0 then a else if cur<M then
     fold m M N BM BN pid (cur+BM) dw db
       (fun i => SourceForwardGraph.bin m .add (a.1 i)
-        (if cur+i.1.val<M ∧ pid*BN+i.2.1.val<N then dw (cur+i.1.val) i.2.1 else SourceForwardGraph.lit m 0),
+        (m.scalar.fp32Load (if cur+i.1.val<M ∧ pid*BN+i.2.1.val<N then dw (cur+i.1.val) i.2.1 else SourceForwardGraph.lit m 0)),
        fun i => SourceForwardGraph.bin m .add (a.2 i)
-        (if cur+i.1.val<M ∧ pid*BN+i.2.1.val<N then db (cur+i.1.val) i.2.1 else SourceForwardGraph.lit m 0))
+        (m.scalar.fp32Load (if cur+i.1.val<M ∧ pid*BN+i.2.1.val<N then db (cur+i.1.val) i.2.1 else SourceForwardGraph.lit m 0)))
   else a
 termination_by M-cur
 decreasing_by omega
@@ -30,9 +30,9 @@ def expected (m : Model α) (M N BM BN pid : Nat)
     (SourceFinalGraph.zero m BM BN)
   Final.result
     (fun j => observe "FINAL_DW" (pid*BN+j.val)
-      (SourceForwardGraph.cast m (SourceFinalGraph.reduced m BM BN sums.1 (j,()))))
+      (SourceFinalGraph.reduced m BM BN sums.1 (j,())))
     (fun j => observe "FINAL_DB" (pid*BN+j.val)
-      (SourceForwardGraph.cast m (SourceFinalGraph.reduced m BM BN sums.2 (j,()))))
+      (SourceFinalGraph.reduced m BM BN sums.2 (j,())))
 
 theorem fold_eq (m : Model α) (s : State α) (M N BM BN cur : Nat)
     (dw db : Nat → Fin BN → α) (a : SourceFinalGraph.Carries α BM BN)
@@ -67,7 +67,7 @@ theorem implements (m : Model α) (M N BM BN pid : Nat)
     (Final.io m M N BM BN pid observe).Implements (expected m M N BM BN pid observe) := by
   apply ProgramIO.Implements.intro
   · intro vals bounds boundsOK initial _
-    change ScheduleSafe bounds [job m (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid] initial
+    change ScheduleSafe bounds [job m (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid] initial
     rw [scheduleSafe_singleton]
     apply SourceSafety.Final.source_safe m
     · intro row hr j hj
@@ -79,7 +79,7 @@ theorem implements (m : Model α) (M N BM BN pid : Nat)
     · intro j hj
       exact boundsOK.2.2.1 (1 : Fin 2) (j,()) hj
   · intro vals initial binding
-    let start := (job m (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid).initial initial
+    let start := (job m (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N BM BN) pid).initial initial
     have hw : ∀ row,row<M → ∀ j : Fin BN,pid*BN+j.val<N →
         (start.mem "DW" (row*N+(pid*BN+j.val))).read .real=Final.value vals 0 row j := by
       intro row hr j hj

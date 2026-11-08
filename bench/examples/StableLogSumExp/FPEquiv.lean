@@ -1,3 +1,5 @@
+import bench.examples.StableLogSumExp.IO
+import bench.examples.StableLogSumExp.Contract
 import bench.examples.StableLogSumExp.Kernels
 import bench.examples.StableLogSumExp.Proofs.FP
 import VeriTile.Triton.Float.Kernel
@@ -28,28 +30,6 @@ open StableLogSumExpFPExecution
 open SoftmaxStableFPContract (rowExpressions center rowPlan)
 open _root_.VeriTile.Triton.FP.Equational (Schedules)
 open FP.GuardExpression
-
-def directIO (x y : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := directLSEKernel x y B
-  inp := x
-  out := y
-  Bin := B
-  Bout := 1
-  read := fun pid => pid * B
-  write := fun pid => pid
-
-def optimizedIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  (directIO x y B).withKernel (optimizedLSEKernel x y B)
-
-/-- Finite inputs, row maximum, exponentials and sum-tree intermediates;
-exp(max) is positive and nonzero, its reciprocal is finite, and the shifted
-sum is finite and positive with a finite logarithm. Checks also cover the
-zero intermediates used by the scalar derivation. `plans` chooses the shared
-addition tree; input values themselves need not be positive. -/
-def requirements (x : RegionName) (B : Nat) (plans : Schedules) : Condition :=
-  let M := FP.GuardExpression.algebra MemoryInput
-  let xs := rowExpressions x B
-  FP.LogSumExpShift.checks M xs (center M xs) (rowPlan plans B).tree
 
 /-- Reference kernel under the common FP contract. Both programs use these
 numerical-domain checks and comparison requirements; only the optimized

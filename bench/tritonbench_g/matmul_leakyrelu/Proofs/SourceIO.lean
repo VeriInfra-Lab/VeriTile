@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu.PairIO
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Support.PairIO
 import VeriTile.Spec
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly.SourcePair

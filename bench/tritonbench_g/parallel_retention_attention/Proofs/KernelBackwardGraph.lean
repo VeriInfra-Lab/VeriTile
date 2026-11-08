@@ -1,7 +1,7 @@
 /- Reuses the historical complete retention execution proof, adapted only
 to this repair's explicit zero-padded source and task-local namespace. -/
 import bench.tritonbench_g.parallel_retention_attention.Proofs.KernelForwardGraph
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPBackwardGraph
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPBackwardGraph
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel.FPStages
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (DotPrimitive withDot BackwardConfig BackwardAccumulator matrixTranspose descendingCount descendingStart foldRange backwardOutputMemory)
@@ -40,7 +40,7 @@ def backwardUpdate {α : Type} [Inhabited α] (M : Algebra α) (D : DotPrimitive
       M.unary (some .fp32) .exp2 (M.binary (some .fp32) .real .mul
         (M.fromInt (some .fp32) (-(i.1.val : Int) + (start-c.i_c*c.BTL+i.2.1.val : Nat)))
         (M.cast (some .fp32) .real .real b))
-      else M.literal (some .fp32) .real 0.0
+      else M.literal (some .fp32) .real 0
     M.binary (some .fp32) .real .mul masked (M.literal (some .fp32) .real c.scale)
   let score := fun i => if diagonal then M.binary (some .fp32) .real .mul (scoreRaw i) (decay i) else scoreRaw i
   let ds := fun i => if diagonal then M.binary (some .fp32) .real .mul (dsRaw i) (decay i) else dsRaw i

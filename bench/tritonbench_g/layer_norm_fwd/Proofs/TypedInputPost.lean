@@ -15,7 +15,7 @@ def InputPost {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     (p : ℝ) (block row : Nat) (s t : State α) : Prop :=
   (f.residualOut=Bool.true → ∀ j : TileIndex [block], j.1.val<N →
     t.mem r.residualOut (row*stride.residualOut+j.1.val)=Cell.mk .real
-      (cast A (combinedValues A cmp f s r stride M N p row block j))) ∧
+      (combinedValues A cmp f s r stride M N p row block j)) ∧
   (f.dropout=Bool.true → f.dropoutMask=Bool.true → ∀ j : TileIndex [block], j.1.val<N →
     t.mem r.dropoutMask (row*N+j.1.val)=Cell.mk .bool
       (keepValue A cmp ((s.mem r.seeds row).read .int) p j.1.val)) ∧
@@ -57,9 +57,9 @@ theorem input_prefix_post {α : Type} [Inhabited α] (A : Algebra α) (cmp : Com
     have hv₄ := residual_value A f r stride M N eps p block hb (s.pids 0) s₃ s₄ hr₃ v₃ hv₃ h₄
     have heq := Option.some.inj (hv₄.symm.trans hvu)
     have hh := residual_readback A f r stride M N eps p block hb (s.pids 0) s₃ s₄ hr₃ v₃ hv₃ hout h₄ j hj
-    change s₄.mem r.residualOut _=Cell.mk .real (cast A ((fun k =>
+    change s₄.mem r.residualOut _=Cell.mk .real ((fun k =>
       if f.residual then op A .add (v₃ k) (raw A s₃ r.residual ((s.pids 0)*stride.residual) N k.1.val)
-      else v₃ k) j)) at hh
+      else v₃ k) j) at hh
     rw [heq] at hh
     exact hh
   · intro hd hm j hj

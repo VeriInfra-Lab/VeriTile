@@ -4,7 +4,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.AttnFwdTriton_Verified_Iterati
 symbolic; the closed carry comes from the independent online formula library. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Loop
 open VeriTile.Triton Memory Preparation Iteration
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealLoopFormula (Carry closed closed_zero closed_succ)
 noncomputable section

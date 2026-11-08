@@ -20,7 +20,7 @@ attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
   VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
   IntegralDType.eraseDType ComputeDType.eraseDType
 attribute [local simp] naiveSoftmaxKernel stableSoftmaxKernel
-  OnlineSoftmax.Kernels.batchSoftmaxKernel OnlineSoftmax.Kernels.stableSoftmaxKernel
+  OnlineSoftmax.RealSource.batchSoftmaxKernel OnlineSoftmax.Kernels.stableSoftmaxKernel OnlineSoftmax.RealSource.stableSoftmaxKernel
 
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
@@ -45,7 +45,7 @@ theorem naive_projection (xReg yReg : RegionName) (B : Nat) :
 
 theorem stable_projection (xReg yReg : RegionName) (B : Nat) :
     (stableSoftmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
-      Except.ok (OnlineSoftmax.Kernels.batchSoftmaxKernel xReg yReg B).toAlgKernel := by
+      Except.ok (OnlineSoftmax.RealSource.batchSoftmaxKernel xReg yReg B).toAlgKernel := by
   simp [naiveMathKernel]
 
 /-- Value, termination, and untouched-memory obligations for the naive kernel. -/

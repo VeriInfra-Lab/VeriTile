@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gate_recurrence.PairIO
+import bench.tritonbench_g.chunk_gate_recurrence.Proofs.Support.PairIO
 import bench.tritonbench_g.chunk_gate_recurrence.Proofs.PairSourceSafety
 
 namespace VeriTile.Bench.Repairs.ChunkGateRecurrence.ProgramPair

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.cache_transform_triton.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.CacheTransform
 open Lean VeriTile.Triton FP.Structural
@@ -33,7 +33,7 @@ def inputOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α)
 def copied {α : Type} [Inhabited α] (p : Parameters) (s : State α) : State α :=
   (TileShape.allIndices [p.block]).foldl (fun t i =>
     if (index p s i < p.count) then t.write p.output (safe p s i)
-      (.mk .nat ((s.mem p.cache (inputOffset p s i)).read .nat)) else t) s
+      (.mk .nat (((s.mem p.cache (inputOffset p s i)).read .nat) % 256)) else t) s
 
 /-- Every actual source statement executes for any structural backend.
 There are no floating callbacks, no numerical laws and no output premise. -/
@@ -41,7 +41,7 @@ private def rawExecution {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
     {t : State α // FP.Structural.exec M (source p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [source, FP.Structural.exec, ComputeKernel.surfaceBody,
+  simp [source,VeriTile.Bench.Repairs.CacheTransform.bodyKernel, FP.Structural.exec, ComputeKernel.surfaceBody,
     FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
     FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets, FP.Structural.store, FP.Structural.numeric,
@@ -93,10 +93,10 @@ theorem readback {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s : State α) (i : TileIndex [p.block]) (hi : (index p s i < p.count))
     (hblock : p.block ≤ 18446744073709551616) :
     (execution M p s).val.mem p.output (index p s i) =
-      .mk .nat ((s.mem p.cache (inputOffset p s i)).read .nat) := by
+      .mk .nat (((s.mem p.cache (inputOffset p s i)).read .nat) % 256) := by
   rw [execution_memory]
   have h := masked_readback_active p.output (safe p s)
-    (fun j => Cell.mk .nat ((s.mem p.cache (inputOffset p s j)).read .nat))
+    (fun j => Cell.mk .nat (((s.mem p.cache (inputOffset p s j)).read .nat) % 256))
     (fun i => index p s i < p.count) s i hi (output_injective p s hblock)
   simpa [copied, safe, hi] using h
 
@@ -119,7 +119,7 @@ theorem readback_at {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s : State α) (i : TileIndex [p.block]) (o : Nat) (value : Cell α)
     (hindex : index p s i = o) (ho : o < p.count)
     (hblock : p.block ≤ 18446744073709551616)
-    (hvalue : Cell.mk .nat ((s.mem p.cache (inputOffset p s i)).read .nat) = value) :
+    (hvalue : Cell.mk .nat (((s.mem p.cache (inputOffset p s i)).read .nat) % 256) = value) :
     (execution M p s).val.mem p.output o = value := by
   have hi : (index p s i < p.count) := by
     rw [hindex]

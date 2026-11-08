@@ -13,8 +13,8 @@ def advances : Nat → OffsetTile → Nat → OffsetTile
 
 theorem middleLoop_registers (count : Nat) (u : Unique) (s : State α)
     (a c : OffsetTile) (v1 : Payload) (delta : Nat) :
-    (middleLoopState count u s a c v1 delta).regs .nat [2,2] "a_offsets" = some (advances 6 a delta) ∧
-    (middleLoopState count u s a c v1 delta).regs .nat [2,2] "c_offsets" = some (advances 12 c delta) := by
+    (middleLoopState count u s a c v1 delta).regs .int [2,2] "a_offsets" = some (signedOffsets (advances 6 a delta)) ∧
+    (middleLoopState count u s a c v1 delta).regs .int [2,2] "c_offsets" = some (signedOffsets (advances 12 c delta)) := by
   simp [middleLoopState, middleState, middlePrefixState, innerLoopState, innerState,
     scatter_regs, advances]
 
@@ -28,7 +28,7 @@ def outerState (count : Nat) (u : Unique) (s : State α)
     (a c : OffsetTile) (delta : Nat) : State α :=
   let t := s.setReg "a1" .int [2,2] (loaded count s a)
   let t := middleLoopState count u t a c (loaded count s a) delta
-  t.setReg "a_offsets" .nat [2,2] (advances 7 a delta)
+  t.setReg "a_offsets" .int [2,2] (signedOffsets (advances 7 a delta))
 
 theorem outer_decomposition (count : Nat) (cols : Nat) :
     outer count cols = outerPrefix count cols ++
@@ -38,32 +38,38 @@ theorem outer_decomposition (count : Nat) (cols : Nat) :
 
 theorem outer_prefix_step (M : Algebra α) (count : Nat) (u : Unique)
     (cols : Nat) (s : State α) (a : OffsetTile)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a) :
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a)) :
     run M (outerPrefix count cols) s =
       some (s.setReg "a1" .int [2,2] (loaded count s a)) := by
-  all_goals simp [ComputeDType.eraseDType, Option.bind, outerPrefix, outer, source, kernel, ComputeKernel.surfaceBody,
-    run, step, evalExpr, evalComputeOp, evalOp_unfold, natLt, natLe,
+  all_goals simp [ComputeDType.eraseDType, Option.bind, outerPrefix, outer, source, kernel, originalKernel, quotedOriginalKernel, ComputeKernel.surfaceBody,
+    run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, natLt, natLe, numericLt,
     ha, loaded, ← min_def_lt]
   all_goals unfold FP.Structural.bop
   all_goals simp [ComputeDType.eraseDType, Option.bind, Broadcast.leftIndex,
     Broadcast.rightIndex, ha, loaded, ← min_def_lt]
-  all_goals rfl
+  all_goals
+    have add_two (x : Nat) : (x : Int) + 2 = ((x+2 : Nat) : Int) := by omega
+    simp only [signedOffsets, bump, loaded, add_two, Int.ofNat_lt, signed_clamp]
+    rfl
 
 theorem outer_suffix_step (M : Algebra α) (count : Nat) (u : Unique)
     (cols : Nat) (s : State α) (a : OffsetTile)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a) :
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a)) :
     run M (outerSuffix count cols) s =
-      some (s.setReg "a_offsets" .nat [2,2] (bump a 2)) := by
-  all_goals simp [ComputeDType.eraseDType, Option.bind, outerSuffix, outer, source, kernel, ComputeKernel.surfaceBody,
-    run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, natLt, natLe, ha, bump]
+      some (s.setReg "a_offsets" .int [2,2] (signedOffsets (bump a 2))) := by
+  all_goals simp [ComputeDType.eraseDType, Option.bind, outerSuffix, outer, source, kernel, originalKernel, quotedOriginalKernel, ComputeKernel.surfaceBody,
+    run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, natLt, natLe, numericLt, ha, bump, signedOffsets]
   all_goals unfold FP.Structural.bop
-  all_goals simp [ComputeDType.eraseDType, Option.bind, Broadcast.leftIndex, Broadcast.rightIndex, ha, bump]
-  all_goals rfl
+  all_goals simp [ComputeDType.eraseDType, Option.bind, Broadcast.leftIndex, Broadcast.rightIndex, ha, bump, signedOffsets]
+  all_goals
+    have add_two (x : Nat) : (x : Int) + 2 = ((x+2 : Nat) : Int) := by omega
+    simp only [signedOffsets, bump, loaded, add_two, Int.ofNat_lt, signed_clamp]
+    rfl
 
 theorem outer_step (M : Algebra α) (count : Nat) (u : Unique)
     (cols : Nat) (s : State α) (a c : OffsetTile)
-    (ha : s.regs .nat [2,2] "a_offsets" = some a)
-    (hc : s.regs .nat [2,2] "c_offsets" = some c)
+    (ha : s.regs .int [2,2] "a_offsets" = some (signedOffsets a))
+    (hc : s.regs .int [2,2] "c_offsets" = some (signedOffsets c))
     (hu : s.regs .bool [2,2] "unique" = some u) :
     run M (outer count cols) s =
       some (outerState count u s a c 2) := by

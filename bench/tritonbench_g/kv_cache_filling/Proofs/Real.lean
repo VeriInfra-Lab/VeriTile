@@ -1,3 +1,6 @@
+import Mathlib.Data.Real.Archimedean
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Linarith
 import bench.tritonbench_g.kv_cache_filling.Proofs.Store
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling

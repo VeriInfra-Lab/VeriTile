@@ -13,6 +13,25 @@ variable {I F H : Type} [Inhabited F]
 def atProgram (initial : State F) (pid split : Nat) : State F :=
   { initial with pids := fun ax => if ax = 0 then pid else if ax = 1 then split else initial.pids ax }
 
+/-- The existing finite grouped launch proves signed subtraction nonnegative. -/
+theorem group_valid (s : Shape) (c : Config) (columnMajor : Bool) (initial : State F)
+    (pid split : Nat) (valid : pid<IntScaledMatmul.Revision001.Geometry.count (geometry s c)) :
+    KernelGemm.firstRow (Gemm.parameters s c columnMajor) (atProgram initial pid split) ≤
+      KernelGemm.blocksM (Gemm.parameters s c columnMajor) := by
+  have columns : 0<IntScaledMatmul.Revision001.Geometry.gridColumns (geometry s c) := by
+    by_contra empty
+    have zero : IntScaledMatmul.Revision001.Geometry.gridColumns (geometry s c)=0 := by omega
+    simp only [IntScaledMatmul.Revision001.Geometry.count,zero,Nat.mul_zero] at valid
+    omega
+  have first := (IntScaledMatmul.Revision001.GroupedGrid.facts
+    (IntScaledMatmul.Revision001.Geometry.gridRows (geometry s c))
+    (IntScaledMatmul.Revision001.Geometry.gridColumns (geometry s c)) c.group pid
+    columns c.groupPositive valid).1
+  change pid/(c.group*((s.N+c.BN-1)/c.BN))*c.group ≤ (s.M+c.BM-1)/c.BM
+  simpa only [IntScaledMatmul.Revision001.GroupedGrid.first,
+    IntScaledMatmul.Revision001.Geometry.gridRows,IntScaledMatmul.Revision001.Geometry.gridColumns,
+    geometry] using first.le
+
 theorem reads_program (s : Shape) (c : Config) (columnMajor : Bool) (rowScale : Precision)
     (input : Gemm.Input F) (initial : State F)
     (reads : Gemm.Reads (Gemm.parameters s c columnMajor) rowScale input initial) (pid split : Nat) :
@@ -72,6 +91,7 @@ theorem source_event (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8Deq
   obtain ⟨final, he, hv, _⟩ := Gemm.program_complete M carrier ops plans atomicHalf atomicSingle half single
     rowScale output (Gemm.parameters s c columnMajor) input (atProgram initial physical.pid physical.split)
     (reads_program s c columnMajor rowScale input initial reads _ _) (max_eq_left positive) rfl
+    (group_valid s c columnMajor initial _ _ physical.pid.isLt)
   refine ⟨physical, final, logical, he, ?_⟩
   have value := hv physical.lane (physical_active s c columnMajor initial physical)
   rw [physical_offset, logical] at value

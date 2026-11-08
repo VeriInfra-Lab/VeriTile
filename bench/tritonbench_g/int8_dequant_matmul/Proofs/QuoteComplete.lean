@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.QuoteLoop
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.Quote
 open VeriTile.Triton FP.Structural
@@ -13,7 +13,7 @@ theorem rangeExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerM
     (s : Shape) (c : Config) (bias : Bool) (base current : State α)
     (t stop : Nat) (bound : t ≤ stop) (old : TileIndex [c.BM,c.BN] → Int)
     (ctx : Context s c base t current) (acc : HasAcc c old current) :
-    ∃ final, range M q s.M s.N "k" t stop 1 (body s c bias) current=some final ∧
+    ∃ final, rangeInt M q s.M s.N "k" (t:Int) (stop:Int) 1 (body s c bias) current=some final ∧
       Context s c base stop final ∧
       HasAcc c (foldRange (update q s c base) t stop 1 old) final := by
   by_cases active : t<stop
@@ -22,15 +22,15 @@ theorem rangeExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerM
     obtain ⟨final,runFinal,contextFinal,accFinal⟩:=rangeExecution M q s c bias base next.val
       (t+1) stop (by omega) (update q s c base t old) nextContext.1 nextContext.2
     refine ⟨final,?_,contextFinal,?_⟩
-    · rw [range]
-      simp only [show 0<1 ∧ t<stop from ⟨by decide,active⟩,↓reduceIte,next.property,Option.bind_some]
-      exact runFinal
+    · rw [rangeInt]
+      simp only [Int.ofNat_lt,show 0<1 ∧ t<stop from ⟨by decide,active⟩,↓reduceIte,next.property,Option.bind_some]
+      simpa only [Nat.cast_add,Nat.cast_one] using runFinal
     · rw [foldRange]
       simpa only [show (1:Nat)≠0 by decide,active,if_false,if_true] using accFinal
   · have same : t=stop := by omega
     subst stop
     refine ⟨current,?_,ctx,?_⟩
-    · simp only [range,lt_self_iff_false,and_false,↓reduceIte]
+    · simp only [rangeInt,lt_self_iff_false,and_false,↓reduceIte]
     · rw [foldRange]
       simpa only [show (1:Nat)≠0 by decide,lt_self_iff_false,if_false] using acc
 termination_by stop-t
@@ -53,7 +53,7 @@ instance {α : Type} [Inhabited α] (s : Shape) (c : Config) (base : State α) :
 
 def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerModel I F H)
     (s : Shape) (c : Config) (bias : Bool) (base current : State α)
-    (divisor : α) (hasDivisor : base.regs .fp32 [] "divfactor"=some (fun _=>divisor))
+    (divisor : α) (hasDivisor : base.regs .real [] "divfactor"=some (fun _=>divisor))
     (atomic : α→α→α) (hasAtomic : M.atomicAdd .fp16=some atomic)
     (ctx : Context s c base (steps s c) current)
     (acc : HasAcc c (accumulation q s c base) current) :
@@ -67,7 +67,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (q : IntegerMo
       all_goals
         refine ⟨?_,?_⟩
         swap
-        simp [epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
+        simp [epilogue,source,TypedSource.kernel,TypedSource.sourceKernel,ComputeKernel.surfaceBody,run,step,arithmeticStep,addExpression,
           FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
           numeric,bop,natLt,numericLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
           FloatDType.numericDType,FloatDType.toTileDType,VeriTile.Triton.Region.cast,

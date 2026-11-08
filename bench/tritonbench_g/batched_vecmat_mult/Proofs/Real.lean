@@ -12,8 +12,8 @@ local instance : Inhabited SourceGraph.Expr := ⟨SourceGraph.Expr.zero⟩
 def tensorExpected (decode : ValueProofs.Word → ℝ) (p : Parameters)
     (mem : SourceGraph.Memory) (m n : Nat) : ℝ :=
   ∑ k : Fin p.K,
-    SourceGraph.realValue decode ((mem p.A (m*p.K+k.val)).read .real) *
-    SourceGraph.realValue decode ((mem p.B (m*p.N*p.K+n*p.K+k.val)).read .real)
+    SourceGraph.realValue decode ((mem p.A (m*p.K+k.val)).read .fp32) *
+    SourceGraph.realValue decode ((mem p.B (m*p.N*p.K+n*p.K+k.val)).read .fp32)
 
 theorem blocked_sum_eq_sum (K BK : Nat) (hK : BK ∣ K) (f : Nat → ℝ) :
     (∑ c : Fin (K/BK), ∑ e : Fin BK, f (c.val*BK+e.val)) = ∑ k : Fin K, f k.val := by
@@ -27,8 +27,8 @@ theorem blocked_expected_eq_full (decode : ValueProofs.Word → ℝ) (p : Parame
     (mem : SourceGraph.Memory) (m n : Nat) (hK : p.BK ∣ p.K) :
     SourceGraph.realTensorExpected decode p mem m n (p.K/p.BK) = tensorExpected decode p mem m n := by
   exact blocked_sum_eq_sum p.K p.BK hK (fun k =>
-    SourceGraph.realValue decode ((mem p.A (m*p.K+k)).read .real) *
-    SourceGraph.realValue decode ((mem p.B (m*p.N*p.K+n*p.K+k)).read .real))
+    SourceGraph.realValue decode ((mem p.A (m*p.K+k)).read .fp32) *
+    SourceGraph.realValue decode ((mem p.B (m*p.N*p.K+n*p.K+k)).read .fp32))
 
 /-- Full source grid, actual stored output, independent mathematical block sum,
 and complete memory frame. Whole-block K covers exactly 0..K-1 by the reused
@@ -42,7 +42,7 @@ theorem grid_real_correct (decode : ValueProofs.Word → ℝ)
     ∃ final, SourceGraph.runGrid rest plans p initial = some final ∧
       (∀ m : Fin p.M, ∀ n : Fin p.N,
         SourceGraph.realValue decode (SourceGraph.contract
-          ((final.mem p.output (m.val*p.N+n.val)).read .real)) =
+          ((final.mem p.output (m.val*p.N+n.val)).read .fp32)) =
           tensorExpected decode p initial.mem m.val n.val) ∧
       (∀ r o, SourceGraph.GridOutside p r o → final.mem r o = initial.mem r o) := by
   obtain ⟨final,he,hm,hf⟩ := SourceGraph.grid_correct rest plans p initial
@@ -53,7 +53,7 @@ theorem grid_real_correct (decode : ValueProofs.Word → ℝ)
   exact (SourceGraph.selected_graph_real_correct decode plans p initial.mem m.val n.val
     (p.K/p.BK)).trans (blocked_expected_eq_full decode p initial.mem m.val n.val hK)
 
-#specNonCircular tensorExpected avoiding [kernel, FP.Structural.exec]
+#specNonCircular tensorExpected avoiding [sourceKernel, FP.Structural.exec]
 #axiomsClean blocked_sum_eq_sum
 #axiomsClean grid_real_correct
 end

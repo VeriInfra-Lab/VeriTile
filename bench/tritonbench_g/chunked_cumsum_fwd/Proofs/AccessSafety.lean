@@ -32,7 +32,7 @@ theorem source_traceSafe {α : Type} [Inhabited α]
   have hcol (j : Fin c.BC) : j.val % 18446744073709551616 = j.val := column_mod c sizes j
   cases hasBias <;> cases useSoftplus
   all_goals
-    simp (maxSteps := 1500000) [FP.Structural.TraceSafe, kernel, source,
+    simp (maxSteps := 1500000) [FP.Structural.TraceSafe, kernel, sourceKernel,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
       Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
       Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,

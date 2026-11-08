@@ -1,5 +1,5 @@
-import bench.tritonbench_g.context_attn_nopad.Sources.Mathematical_Kernels
-import bench.tritonbench_g.context_attn_nopad.Sources.Mathematical_HostConfig
+import bench.tritonbench_g.context_attn_nopad.Proofs.Sources.Mathematical_Kernels
+import bench.tritonbench_g.context_attn_nopad.Proofs.Sources.Mathematical_HostConfig
 
 /-! Separate candidate bound in source-binding.json. Float operations are the
 unchanged original recurrence: fp32 storage/work, source default dot precision,

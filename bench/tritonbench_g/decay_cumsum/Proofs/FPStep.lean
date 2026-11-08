@@ -18,7 +18,8 @@ def fwdValue (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
 def forwardResult (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
     (acc : Values α .real [h.BK]) (u : State α) : State α :=
   let value := fwdValue M h off acc u
-  let v := u.setReg "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" off u i))
+  let v := u.setReg "__veritile_load_0" .real [h.BK] (fun i => M.fp32Load (raw h.BK "g" off u i))
+  let v := v.setReg "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" off u i))
   let v := v.setReg "cum_decay" .real [h.BK] value
   let v := scatter M h.BK "go" off value v
   let v := v.setReg "p_g" .ptr [h.BK] (ptr h.BK "g" (fun i => off i+h.width))
@@ -32,7 +33,8 @@ theorem forward (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
     (ha : u.regs .real [h.BK] "cum_decay"=some acc) :
     run (engine M) (forwardBody h) u=some (forwardResult M h off acc u) := by
   unfold forwardBody assign32
-  rw [assign_compute _ _ _ _ _ _ _ (gate_load M h.BK "g" off "p_g" u hg hm)]
+  rw [run_append,gate_load M h.BK "g" off "_g" "p_g" u hg hm]
+  simp only [bind,Option.bind_some]
   rw [assign_compute _ _ _ _ _ _ _ (forward_update M h.BK acc (fun i => FPReference.gate M (raw h.BK "g" off u i)) _ (by simp [ha]) (by simp))]
   rw [run,store_eval M h.BK "go" off "p_go" "cum_decay" (fwdValue M h off acc u) _ (by simp [ho]) (by simp [hm]) (by simp [fwdValue]; rfl)]
   try simp only [bind, Option.bind_some]
@@ -56,6 +58,7 @@ def prepareResult (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
   let kv := prepareKValue M h off last u
   let v := u.setReg "_q" .real [h.BK] (fun i => M.fp32Load (raw h.BK "q" off u i))
   let v := v.setReg "_k" .real [h.BK] (fun i => M.fp32Load (raw h.BK "k" off u i))
+  let v := v.setReg "__veritile_load_0" .real [h.BK] (fun i => M.fp32Load (raw h.BK "g" off u i))
   let v := v.setReg "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" off u i))
   let v := v.setReg "_q" .real [h.BK] qv
   let v := v.setReg "_k" .real [h.BK] kv
@@ -78,11 +81,13 @@ theorem prepare (M : Algebra α) (h : Call) (off : Fin h.BK → Nat)
     (hl : u.regs .real [h.BK] "last_decay"=some last) :
     run (engine M) (prepareBody h scale) u=some (prepareResult M h off scale last u) := by
   unfold prepareBody assign32
+  simp only [List.append_assoc,List.cons_append,List.nil_append]
   rw [run,data_load M h.BK "q" off "_q" "p_q" _ hq hm]
   try simp only [bind, Option.bind_some]
   rw [run,data_load M h.BK "k" off "_k" "p_k" _ (by simp [hk]) (by simp [hm])]
   try simp only [bind, Option.bind_some]
-  rw [assign_compute _ _ _ _ _ _ _ (gate_load M h.BK "g" off "p_g" _ (by simp [hg]) (by simp [hm]))]
+  rw [run_append,gate_load M h.BK "g" off "_g" "p_g" _ (by simp [hg]) (by simp [hm])]
+  simp only [bind,Option.bind_some]
   rw [assign_compute _ _ _ _ _ _ _ (prepare_q M h.BK scale (fun i => M.fp32Load (raw h.BK "q" off u i)) (fun i => FPReference.gate M (raw h.BK "g" off u i)) _ (by simp [raw]) (by simp [raw]))]
   rw [assign_compute _ _ _ _ _ _ _ (difference_gated M h.BK "_k" "last_decay" "_g" (fun i => M.fp32Load (raw h.BK "k" off u i)) last (fun i => FPReference.gate M (raw h.BK "g" off u i)) _ (by simp [raw]) (by simp [hl]) (by simp [raw]))]
   rw [run,store_eval M h.BK "kg" off "p_kg" "_k" (prepareKValue M h off last u) _ (by simp [hko]) (by simp [hm]) (by simp [prepareKValue,raw]; rfl)]

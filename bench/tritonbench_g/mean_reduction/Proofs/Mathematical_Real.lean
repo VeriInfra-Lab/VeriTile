@@ -1,5 +1,5 @@
 import VeriTile.Triton
-import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
+import bench.tritonbench_g.mean_reduction.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.mean_reduction.Proofs.Mathematical_Candidate
 import VeriTile.Examples.Common
 
@@ -472,7 +472,7 @@ def meanLoopBody (N BLOCK_M BLOCK_N : Nat) : List Stmt :=
       (.boolAnd Broadcast.nil.consL.consR
         (.ref .bool [BLOCK_M, 1] "row_mask")
         (.ref .bool [1, BLOCK_N] "col_mask"))
-  , .assign .real [BLOCK_M, BLOCK_N] "a"
+  , .assign .real [BLOCK_M, BLOCK_N] "__veritile_load_0"
       (.load .real
         (.ptr
           (.ptrAdd Broadcast.nil.consL.consR
@@ -481,6 +481,7 @@ def meanLoopBody (N BLOCK_M BLOCK_N : Nat) : List Stmt :=
         (.maskOther
           (.ref .bool [BLOCK_M, BLOCK_N] "mask")
           ((Op.const 0.0).broadcast [BLOCK_M, BLOCK_N])))
+  , .assign .real [BLOCK_M, BLOCK_N] "a" (.ref .real [BLOCK_M, BLOCK_N] "__veritile_load_0")
   , .assign .real [BLOCK_M, BLOCK_N] "_mean"
       (.add NumericDType.real Broadcast.nil.consSame.consSame
         (.ref .real [BLOCK_M, BLOCK_N] "_mean")
@@ -707,7 +708,7 @@ def meanPostLoop (N BLOCK_M BLOCK_N : Nat) : List Stmt :=
       (.div NumericDType.real Broadcast.scalarR
         (.reduceSum (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false
           (.ref .real [BLOCK_M, BLOCK_N] "_mean"))
-        (.const (N : ℝ)))
+        (.natToReal (.constNat N)))
   , .assign .real [BLOCK_M, 1] "mean"
       (.expandDim (⟨1, by simp⟩ : Fin ([BLOCK_M].length + 1))
         (.ref .real [BLOCK_M] "mean"))
@@ -809,7 +810,7 @@ theorem mean_dim_kernel_toAlg_body
     (X Mean : RegionName) (M N BLOCK_M BLOCK_N : Nat) :
     (mean_dim_kernel X Mean M N BLOCK_M BLOCK_N).toAlgKernel.body =
       meanProjectedBody X Mean M N BLOCK_M BLOCK_N := by
-  simp [mean_dim_kernel,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,meanProjectedBody,meanPreLoop,meanLoopBody,meanPostLoop, TileShape.eraseAxis, TileShape.axisDim, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType]
+  simp [mean_dim_kernel,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel,meanProjectedBody,meanPreLoop,meanLoopBody,meanPostLoop, TileShape.eraseAxis, TileShape.axisDim, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType]
 
 theorem mean_dim_kernel_alg_post_of_exec
     (X Mean : RegionName)

@@ -1,5 +1,6 @@
 import bench.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_BackwardProjection
+import bench.tritonbench_g.diag_ssm_triton.Proofs.ForwardResults
+import bench.tritonbench_g.diag_ssm_triton.Proofs.BackwardResults
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexForwardLoop
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ComplexBackwardRun
 
@@ -83,43 +84,16 @@ def ComplexBackward (kernel : ComputeKernel) (p : BackwardLayout) (length : Nat)
           (fun q => ComplexBackwardLoop.gradOutput p u q j) length) ∧
     (∀ r o, ComplexBackwardRun.Outside p u length r o → v.mem r o = u.mem r o)
 
-theorem backward_source_exec (p : BackwardLayout) (length : Nat) (u : BlockState) :
-    exec (Erasure.backward Bool.false p.s p.l p.y p.gs p.gx p.gl p.gy
-      length p.batch p.dim p.B).toAlgKernel u =
-    exec (RealReference.diag_ssm_backward_kernel p.s p.l p.y p.gs p.gx p.gl p.gy
-      length p.batch p.dim p.B).toAlgKernel u := by
-  unfold exec
-  rw [BackwardProjection.real_source_body, RealReference.diag_ssm_backward_kernel_toAlg_body]
-  simp only [RealReference.diagSsmBackwardProjectedBody, ProgramRewrite.append,
-    BackwardProjection.prelude_steps]
-  congr 1
-  congr 1
-  funext v
-  simp only [stepStmts, stepForLoopAux.forLoop_unfold, stepForRangeAux.forRange_unfold]
-  rw [BackwardProjection.loop_range "i" 0 length _ _
-    (BackwardProjection.loop_steps p.s p.y p.gx p.gy length p.batch p.dim p.B)]
-
 theorem forward (p : ForwardLayout) (length : Nat) :
     Forward (Kernels.forwardTyped p.s p.x p.l p.y length p.batch p.dim p.B).eraseDType p length := by
-  intro sep u
-  obtain ⟨v, he, ho, hf⟩ := RealReference.dssm_runR .triv p.s p.x p.l p.y
-    length p.batch p.dim p.B sep u
-  refine ⟨v, ?_, ho, hf⟩
-  have hb := ForwardProjection.real_source_exec p.s p.x p.l p.y length p.batch p.dim p.B u
-  have he' := (execR_triv _ _).symm.trans he
-  simpa only [exec, Kernels.ReadableSource.forward_preserved, Erasure.forward_body] using hb.trans he'
+  exact ForwardResults.correct p length
 
 theorem backward (p : BackwardLayout) (length : Nat) :
     Backward (Kernels.backwardTyped p.s p.l p.y p.gs p.gx p.gl p.gy
       length p.batch p.dim p.B).eraseDType p length := by
-  intro sep u
-  obtain ⟨v, he, hx, hs, hl, hf⟩ := RealReference.dssmb_runR .triv p.s p.l p.y p.gs p.gx p.gl p.gy
-    length p.batch p.dim p.B sep.initial sep.output sep.gradient sep.transition
-    sep.initialGradient sep.transitionGradient sep.terminal u
-  refine ⟨v, ?_, hx, hs, hl, hf⟩
-  have hb := backward_source_exec p length u
-  have he' := (execR_triv _ _).symm.trans he
-  simpa only [exec, Kernels.ReadableSource.backward_preserved, Erasure.backward_body] using hb.trans he'
+  intro sep
+  exact BackwardResults.correct p length
+    ⟨sep.initial,sep.output,sep.gradient,sep.transition,sep.initialGradient,sep.transitionGradient,sep.terminal⟩
 
 theorem complex_forward (p : ForwardLayout) (length : Nat) :
     ComplexForward (Kernels.complexForwardTyped p.s p.x p.y p.l

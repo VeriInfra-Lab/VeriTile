@@ -31,9 +31,9 @@ theorem maskedWrite_pids {α ι : Type} (region : ι → RegionName) (offset : �
 theorem storing_header {α : Type} [Inhabited α] (a : Arithmetic α)
     (outputFP8 : Bool) (p : Arguments) (s : State α) (pb pm pn : Nat)
     (accumulator : Values α .real [16,64])
-    (hb : s.regs .nat [] "pid_batch"=some (fun _ => pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _ => (pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     HeaderPreserved s
       (storingExecution a outputFP8 p s pb pm pn accumulator hb hm hn ha).val := by
@@ -45,9 +45,9 @@ theorem storing_header {α : Type} [Inhabited α] (a : Arithmetic α)
 theorem storing_pids {α : Type} [Inhabited α] (a : Arithmetic α)
     (outputFP8 : Bool) (p : Arguments) (s : State α) (pb pm pn : Nat)
     (accumulator : Values α .real [16,64])
-    (hb : s.regs .nat [] "pid_batch"=some (fun _ => pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _ => (pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     (storingExecution a outputFP8 p s pb pm pn accumulator hb hm hn ha).val.pids=s.pids := by
   cases outputFP8 <;> simp [storingExecution,maskedWrite_pids]

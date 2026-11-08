@@ -36,6 +36,30 @@ theorem range_model (M : Algebra α) (idx : RegName) (body : List ComputeStmt)
   · exact ⟨s,by simp [range,hz,hc],by simpa [walk,hz,hc] using hs⟩
 termination_by stop-cur
 
+theorem range_model_int (M : Algebra α) (idx : RegName) (body : List ComputeStmt)
+    (f : Nat → β → β) (Inv : Nat → β → State α → Prop)
+    (stop stride : Nat)
+    (body_step : ∀ cur value s, cur<stop → Inv cur value s →
+      ∃ t, run M body (s.setReg idx .int [] (fun _ => (cur : Int)))=some t ∧
+        Inv (cur+stride) (f cur value) t)
+    (cur : Nat) (value : β) (s : State α) (hs : Inv cur value s) :
+    ∃ t, rangeInt M idx (cur : Int) (stop : Int) stride body s=some t ∧
+      Inv (walk f stop stride cur value).1 (walk f stop stride cur value).2 t := by
+  by_cases hz : stride=0
+  · exact ⟨s,by simp [rangeInt,hz],by simpa [walk,hz] using hs⟩
+  by_cases hc : cur<stop
+  · obtain ⟨mid,he,hi⟩ := body_step cur value s hc hs
+    obtain ⟨t,ht,hI⟩ := range_model_int M idx body f Inv stop stride body_step
+      (cur+stride) (f cur value) mid hi
+    refine ⟨t,?_,?_⟩
+    · rw [rangeInt]
+      simpa only [hz, show (cur : Int)<stop by exact_mod_cast hc,
+        if_false, if_true, he, Option.bind_some, ←Int.natCast_add] using ht
+    · rw [walk, if_neg hz, if_pos hc]
+      exact hI
+  · exact ⟨s,by simp [rangeInt,hz,hc],by simpa [walk,hz,hc] using hs⟩
+termination_by stop-cur
+
 def branch (kernel : ComputeKernel) (index : Nat) : List ComputeStmt :=
   match kernel.surfaceBody[index]? with
   | some (.ifThenElse _ _ no) => no
@@ -43,7 +67,8 @@ def branch (kernel : ComputeKernel) (index : Nat) : List ComputeStmt :=
 
 def rangeBody (body : List ComputeStmt) (index : Nat) : List ComputeStmt :=
   match body[index]? with
-  | some (.forRange _ _ _ _ code) | some (.forRangeDyn _ _ _ _ code) => code
+  | some (.forRange _ _ _ _ code) | some (.forRangeDyn _ _ _ _ code) |
+    some (.forRangeInt _ _ _ _ code) => code
   | _ => []
 
 @[simp] theorem masked_regs {ι : Type} (r : RegionName) (off : ι → Nat)

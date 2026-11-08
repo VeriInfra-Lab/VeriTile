@@ -29,18 +29,6 @@ def graph {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
   | [],m => m
   | pid::rest,m => graph M R p rest (reference M R p (state m pid)).mem
 
-theorem launch_complete {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
-    (p : Parameters) (pid : PID) (m : Memory α) :
-    launch M R p pid m=some (reference M R p (state m pid)).mem := by
-  obtain ⟨t,run,mem⟩ := complete_run M R p (state m pid)
-  simp [launch,run,mem]
-
-theorem complete {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
-    (p : Parameters) (work : List PID) (m : Memory α) :
-    run M R p work m=some (graph M R p work m) := by
-  induction work generalizing m with
-  | nil => rfl
-  | cons pid rest ih => simp only [run,launch_complete,Option.bind_some,ih,graph]
 
 def Reads (p : Parameters) (r : RegionName) :=
   r=p.prob ∨ r=p.value ∨ r=Region.cast p.tokens ∨ r=Region.cast p.request ∨
@@ -79,6 +67,38 @@ theorem block_agrees {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimiti
   intro r hr
   funext o
   exact reference_frame M R p (state m pid) r o (Or.inl (separate r hr))
+/-- Signed input-domain facts are stable under changes outside source reads. -/
+theorem metadata_agree {α : Type} [Inhabited α] (p : Parameters)
+    (a b : Memory α) (pid : PID) (h : Agree p a b) :
+    ValidMetadata p (state a pid) ↔ ValidMetadata p (state b pid) := by
+  have ht := h (Region.cast p.tokens) (by simp [Reads])
+  have hr := h (Region.cast p.request) (by simp [Reads])
+  have hs := h (Region.cast p.start) (by simp [Reads])
+  have hl := h (Region.cast p.length) (by simp [Reads])
+  have ha := h (Region.cast p.attentionLength) (by simp [Reads])
+  constructor <;> intro v <;> rcases v with ⟨vl,vs,vr,va,vt⟩ <;> constructor
+  all_goals simp only [count,sequenceLength,windowStart,startIndex,requestIndex,gatherOffset,state,ht,hr,hs,hl,ha] at *
+  all_goals assumption
+
+theorem launch_complete {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
+    (p : Parameters) (pid : PID) (m : Memory α) (valid : ValidMetadata p (state m pid)) :
+    launch M R p pid m=some (reference M R p (state m pid)).mem := by
+  obtain ⟨t,run,mem⟩ := complete_run M R p (state m pid) valid
+  simp [launch,run,mem]
+
+theorem complete {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
+    (p : Parameters) (work : List PID) (m : Memory α) (separate : Separate p)
+    (valid : ∀ pid∈work, ValidMetadata p (state m pid)) :
+    run M R p work m=some (graph M R p work m) := by
+  induction work generalizing m with
+  | nil => rfl
+  | cons pid rest ih =>
+    have next : ∀ q∈rest, ValidMetadata p (state (reference M R p (state m pid)).mem q) := by
+      intro q hq
+      exact (metadata_agree p _ m q (block_agrees M R p pid m separate)).mpr
+        (valid q (List.mem_cons_of_mem pid hq))
+    simp only [run,launch_complete M R p pid m (valid pid (by simp)),Option.bind_some,graph]
+    exact ih _ next
 
 def offset (p : Parameters) (pid : PID) (i : TileIndex [p.width]) :=
   pid.1*p.outputBatchStride+pid.2*p.outputHeadStride+i.1.val*p.outputDimStride

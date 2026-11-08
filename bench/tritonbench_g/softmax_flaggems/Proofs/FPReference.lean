@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_flaggems.Sources.Kernels
+import bench.tritonbench_g.softmax_flaggems.Proofs.Sources.Kernels
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
@@ -41,7 +41,7 @@ def backwardInnerScale (M : Algebra α) (s : State α) (P G : RegionName)
 
 def backwardInnerValue (M : Algebra α) (s : State α) (P G : RegionName)
     (row rows N B C : Nat) (i : TileIndex [C,B]) : α :=
-  cast M (mul M (backwardInnerLoad M s P row rows N B C i)
+  (mul M (backwardInnerLoad M s P row rows N B C i)
     (sub M (backwardInnerLoad M s G row rows N B C i)
       (backwardInnerScale M s P G row rows N B C ⟨i.1, PUnit.unit⟩)))
 
@@ -64,7 +64,7 @@ def backwardNoninnerScale (M : Algebra α) (s : State α) (P G : RegionName)
 
 def backwardNoninnerValue (M : Algebra α) (s : State α) (P G : RegionName)
     (row col N K B C : Nat) (i : TileIndex [B,C]) : α :=
-  cast M (mul M (backwardNoninnerLoad M s P row col N K B C i)
+  (mul M (backwardNoninnerLoad M s P row col N K B C i)
     (sub M (backwardNoninnerLoad M s G row col N K B C i)
       (backwardNoninnerScale M s P G row col N K B C i.2)))
 
@@ -74,7 +74,7 @@ def innerActive {B : Nat} (N : Nat) (i : TileIndex [B]) := decide (i.1.val<N)
 
 def forwardInnerLoad (M : Algebra α) (s : State α) (X : RegionName)
     (row N B : Nat) (i : TileIndex [B]) : α :=
-  cast M (if innerActive N i then read s X (innerOffset row N i) else M.negInf)
+  cast M (M.fp32Load (if innerActive N i then read s X (innerOffset row N i) else M.negInf))
 
 def forwardInnerExp (M : Algebra α) (s : State α) (X : RegionName)
     (row N B : Nat) (i : TileIndex [B]) : α :=
@@ -84,7 +84,7 @@ def forwardInnerExp (M : Algebra α) (s : State α) (X : RegionName)
 
 def forwardInnerValue (M : Algebra α) (s : State α) (X : RegionName)
     (row N B : Nat) (i : TileIndex [B]) : α :=
-  cast M (div M (forwardInnerExp M s X row N B i)
+  (div M (forwardInnerExp M s X row N B i)
     (M.reduceSum (some .fp32) (shape:=[B]) ⟨0,by simp⟩ Bool.false
       (forwardInnerExp M s X row N B) PUnit.unit))
 
@@ -101,7 +101,7 @@ def forwardNoninnerExp (M : Algebra α) (s : State α) (X : RegionName)
 
 def forwardNoninnerValue (M : Algebra α) (s : State α) (X : RegionName)
     (row col N K B C : Nat) (i : TileIndex [B,C]) : α :=
-  cast M (div M (forwardNoninnerExp M s X row col N K B C i)
+  (div M (forwardNoninnerExp M s X row col N K B C i)
     (M.reduceSum (some .fp32) (shape:=[B,C]) ⟨0,by simp⟩ Bool.false
       (forwardNoninnerExp M s X row col N K B C) ⟨i.2.1,PUnit.unit⟩))
 

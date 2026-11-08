@@ -22,7 +22,7 @@ structure Bounds (p : Parameters) (initial : State α) (bounds : RegionName → 
 theorem prelude_safe (M : Algebra α) (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
     traceSafeList M bounds (prelude p) s := by
   rw [prelude_half]
-  simp [prelude,source,Source.kernel,Source.half,ComputeKernel.surfaceBody,
+  simp [prelude,source,Source.kernel,Source.half, halfKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
   all_goals repeat' first | exact True.intro | constructor | split
 
@@ -40,7 +40,7 @@ theorem body_safe (a : Arithmetic α) (native : Bool) (p : Parameters)
   cases native <;> cases hp : p.byte
   all_goals
     simp [loopBody,compiledBody,dot1Index,dot3Index,carryNode,directWeightNode,
-      body,source,Source.kernel,Source.half,Source.byte,hp,ComputeKernel.surfaceBody,
+      body,source,Source.kernel,Source.half, halfKernel,Source.byte, byteKernel,hp,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
@@ -61,7 +61,7 @@ theorem body_safe (a : Arithmetic α) (native : Bool) (p : Parameters)
 theorem norm_safe (a : Arithmetic α) (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
     traceSafeList a.model bounds ((epilogue p).take 2) s := by
   cases hp : p.byte <;>
-    simp [epilogue,source,Source.kernel,Source.half,Source.byte,hp,ComputeKernel.surfaceBody,
+    simp [epilogue,source,Source.kernel,Source.half, halfKernel,Source.byte, byteKernel,hp,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
   all_goals repeat' first | exact True.intro | constructor | split
 
@@ -73,7 +73,7 @@ theorem store_safe (a : Arithmetic α) (p : Parameters) (initial current : State
   have hep : (epilogue p).drop 5=(epilogue {p with byte:=Bool.false}).drop 5 := by
     rcases p with ⟨M,N,K,b,e⟩; cases b <;> rfl
   rw [hep]
-  simp [epilogue,source,Source.kernel,Source.half,ComputeKernel.surfaceBody,
+  simp [epilogue,source,Source.kernel,Source.half, halfKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
@@ -98,7 +98,7 @@ theorem epilogue_safe (a : Arithmetic α) (p : Parameters) (initial current : St
   have hep : epilogue p=epilogue {p with byte:=Bool.false} := by
     rcases p with ⟨M,N,K,b,e⟩; cases b <;> rfl
   rw [hep]
-  simp [epilogue,source,Source.kernel,Source.half,ComputeKernel.surfaceBody,
+  simp [epilogue,source,Source.kernel,Source.half, halfKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,

@@ -1,5 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.SourceSafetySteps
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Host
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.CastBounds
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.SourceSafety
 open VeriTile Triton FP.Structural Safety FP.ProfiledRewrite
@@ -19,16 +20,12 @@ structure Windows (c : Call) (a : Inputs α) (bounds : RegionName → Nat)
     batch c a*c.v.batch+kvhead c a*c.v.head+k.val*c.v.row+d.val*c.v.dim<bounds "V"
 
 def keyAt (c : Call) (a : Inputs α) (cur : Nat) : BlockPtr :=
-  { kptr c a with offsets := [0,cur] }
+  { kptr c a with offsets := [0,physicalKey c a cur] }
 def valueAt (c : Call) (a : Inputs α) (cur : Nat) : BlockPtr :=
-  { vptr c a with offsets := [cur,0] }
+  { vptr c a with offsets := [physicalKey c a cur,0] }
 
 def PointerAt (c : Call) (a : Inputs α) (old : Carry c α) (cur : Nat) : Prop :=
-  old.keyPointer=keyAt c a cur ∧ old.valuePointer=valueAt c a cur
-
-theorem lower_nonnegative (c : Call) (a : Inputs α) : 0≤lower c a := by
-  unfold lower
-  split_ifs <;> omega
+  old.keyPointer=keyAt c a cur ∧ old.valuePointer=valueAt c a cur ∧ (lower c a).toNat≤cur
 
 theorem lower_nat (c : Call) (a : Inputs α) :
     (lower c a).toNat=RealKeys.lower a.tile c.BM c.BN c.window c.complement c.offset c.size := by
@@ -51,14 +48,15 @@ theorem initial_pointer (c : Call) (o : Ops α) (a : Inputs α) :
     PointerAt c a (initial c o a) (lower c a).toNat := by
   unfold PointerAt initial
   by_cases hw : c.window≠0 ∧ c.complement=0
-  · simp [hw,keyAt,valueAt,kptr,vptr,BlockPtr.advance_2d_offsets_int]
-  · simp [hw,lower,keyAt,valueAt,kptr,vptr]
+  · simp [hw,keyAt,valueAt,kptr,vptr,physicalKey,BlockPtr.advance_2d_offsets_int]
+  · simp [hw,lower,keyAt,valueAt,kptr,vptr,physicalKey]
 
 theorem advance_pointer (c : Call) (o : Ops α) (a : Inputs α)
     (old : Carry c α) (cur : Nat) (pointers : PointerAt c a old cur) :
     PointerAt c a (advance c o a cur old) (cur+c.BN) := by
-  rcases pointers with ⟨hk,hv⟩
-  simp [PointerAt,advance,hk,hv,keyAt,valueAt,kptr,vptr]
+  rcases pointers with ⟨hk,hv,started⟩
+  have next : (lower c a).toNat≤cur+c.BN := by omega
+  simp [PointerAt,advance,hk,hv,keyAt,valueAt,kptr,vptr,physical_advance c a cur started,next]
 
 theorem full_block (c : Call) (cur : Nat) (aligned : c.BN∣cur)
     (active : cur<c.NK) (even : c.params.evenN≠0) : cur+c.BN≤c.NK := by
@@ -69,37 +67,39 @@ theorem full_block (c : Call) (cur : Nat) (aligned : c.BN∣cur)
 
 theorem key_bounds (c : Call) (a : Inputs α) (bounds : RegionName → Nat)
     (windows : Windows c a bounds) (cur : Nat) (aligned : c.BN∣cur)
-    (active : (cur : Int)<upper c a) :
+    (active : (cur : Int)<upper c a) (started : (lower c a).toNat≤cur) :
     BlockBounds bounds (keyAt c a cur) [c.D,c.BN]
       (if c.params.evenN≠0 then [] else [0,1]) := by
   intro i checked
   have nk : cur<c.NK := by have := upper_bound c a; omega
-  have bound : cur+i.2.1.val<c.NK := by
+  have physical := physical_le c a cur started
+  have bound : physicalKey c a cur+i.2.1.val<c.NK := by
     by_cases he : c.params.evenN≠0
     · have whole := full_block c cur aligned nk he
       have := i.2.1.isLt
       omega
-    · have h : i.1.val<c.D ∧ cur+i.2.1.val<c.NK := by
+    · have h : i.1.val<c.D ∧ physicalKey c a cur+i.2.1.val<c.NK := by
         simpa [keyAt,kptr,he] using checked
       exact h.2
-  simpa [keyAt,kptr] using windows.keys ⟨cur+i.2.1.val,bound⟩ i.1
+  simpa [keyAt,kptr] using windows.keys ⟨physicalKey c a cur+i.2.1.val,bound⟩ i.1
 
 theorem value_bounds (c : Call) (a : Inputs α) (bounds : RegionName → Nat)
     (windows : Windows c a bounds) (cur : Nat) (aligned : c.BN∣cur)
-    (active : (cur : Int)<upper c a) :
+    (active : (cur : Int)<upper c a) (started : (lower c a).toNat≤cur) :
     BlockBounds bounds (valueAt c a cur) [c.BN,c.D]
       (if c.params.evenN≠0 then [] else [0,1]) := by
   intro i checked
   have nk : cur<c.NK := by have := upper_bound c a; omega
-  have bound : cur+i.1.val<c.NK := by
+  have physical := physical_le c a cur started
+  have bound : physicalKey c a cur+i.1.val<c.NK := by
     by_cases he : c.params.evenN≠0
     · have whole := full_block c cur aligned nk he
       have := i.1.isLt
       omega
-    · have h : cur+i.1.val<c.NK ∧ i.2.1.val<c.D := by
+    · have h : physicalKey c a cur+i.1.val<c.NK ∧ i.2.1.val<c.D := by
         simpa [valueAt,vptr,he] using checked
       exact h.1
-  simpa [valueAt,vptr] using windows.values ⟨cur+i.1.val,bound⟩ i.2.1
+  simpa [valueAt,vptr] using windows.values ⟨physicalKey c a cur+i.1.val,bound⟩ i.2.1
 
 #axiomsClean key_bounds
 #axiomsClean value_bounds

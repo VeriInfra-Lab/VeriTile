@@ -1,4 +1,5 @@
 import bench.tritonbench_g.chunk_gla_simple.Proofs.FPExecution
+import bench.tritonbench_g.chunk_gla_simple.Proofs.FPRange
 
 namespace VeriTile.Bench.Repairs.ChunkGlaSimpleMinDotTile.FPValue
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -13,10 +14,10 @@ set_option linter.unusedSimpArgs false
 theorem loopExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
     (d : Typed.Dots M c) (initial current : State α) (ctx : Context c initial current)
     (ha : HasAcc c (fun _ => zero M,fun _ => zero M) current) :
-    ∃ t, FP.Structural.range (engine M) "i_k" 0 ((c.K+c.BK-1)/c.BK) 1 (Typed.parts c scale).body current=some t ∧
+    ∃ t, FP.Structural.rangeInt (engine M) "i_k" 0 (((c.K+c.BK-1)/c.BK : Nat) : Int) 1 (Typed.parts c scale).body current=some t ∧
       Context c initial t ∧ HasAcc c (accumulated M c d initial) t := by
   let I := fun (_ : Nat) (a : Acc α c) (s : State α) => Context c initial s ∧ HasAcc c a s
-  exact range_values (engine M) "i_k" (Typed.parts c scale).body (update M c d initial)
+  exact rangeInt_values (engine M) "i_k" (Typed.parts c scale).body (update M c d initial)
     I (fun a s => Context c initial s ∧ HasAcc c a s) 0 ((c.K+c.BK-1)/c.BK) 1 _ current
     (by
       intro k a s h hk
@@ -32,11 +33,11 @@ def finishExecution {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (sca
   have hs := ha.2
   refine ⟨?_,?_⟩
   swap
-  simp [Typed.parts,kernel,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [Typed.parts,kernel,fp32Original,originalKernel,ComputeKernel.surfaceBody,Source.intRange?,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
-    ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.mask,ctx.memory,ho,hs,d.sv_eq,FP.Structural.store]
+    ctx.bh,ctx.it,ctx.rows,ctx.cols,ctx.skh,ctx.skt,ctx.svh,ctx.svt,ctx.shh,ctx.sht,ctx.mask,ctx.memory,ho,hs,d.sv_eq,FP.Structural.store]
   rfl
 
 def written {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ)
@@ -83,11 +84,11 @@ theorem source_memory {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (s
     (entryContext M c scale initial).1 (entryContext M c scale initial).2
   let finish := finishExecution M c scale d initial mid hc ha
   refine ⟨finish.val,?_,finishMemory M c scale d initial mid hc ha⟩
-  have hl : step (engine M) (.forRangeDyn "i_k" (Typed.parts c scale).start (Typed.parts c scale).stop
+  have hl : step (engine M) (.forRangeInt "i_k" (Typed.parts c scale).start (Typed.parts c scale).stop
       (Typed.parts c scale).stride (Typed.parts c scale).body) start.val = some mid := by
-    have ha : (Typed.parts c scale).start = .constNat 0 := rfl
-    have hb : (Typed.parts c scale).stop = .div .nat .nil
-        (.sub .nat .nil (.add .nat .nil (.constNat c.K) (.constNat c.BK)) (.constNat 1)) (.constNat c.BK) := rfl
+    have ha : (Typed.parts c scale).start = .constInt 0 := rfl
+    have hb : (Typed.parts c scale).stop = .castNatToInt (.div .nat .nil
+        (.sub .nat .nil (.add .nat .nil (.constNat c.K) (.constNat c.BK)) (.constNat 1)) (.constNat c.BK)) := rfl
     have hd : (Typed.parts c scale).stride = .constNat 1 := rfl
     simp only [step,ha,hb,hd,evalOp_unfold,numeric,bop,Option.bind,Option.bind_some]
     exact hm

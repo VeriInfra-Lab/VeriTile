@@ -24,7 +24,7 @@ structure Bounds (cfg : Parameters) (s : RegisterState (Node α)) (bounds : Regi
 theorem prelude_safe (o : Ops α) (rest : Algebra α) (cfg : Parameters)
     (s : RegisterState (Node α)) (bounds : RegionName → Nat) :
     traceSafeList (engine o rest) bounds (prelude cfg) s := by
-  simp (config:={maxSteps:=500000}) [prelude,kernel,ComputeKernel.surfaceBody,
+  simp (config:={maxSteps:=500000}) [prelude,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -37,7 +37,7 @@ theorem body_safe (o : Ops α) (rest : Algebra α) (cfg : Parameters)
     (bounds : RegionName → Nat) (inside : Bounds cfg initial bounds) (live : k<steps cfg) :
     traceSafeList (engine o rest) bounds (body cfg)
       (current.setReg "k" .nat [] (fun _=>k)) := by
-  simp (config:={maxSteps:=500000}) [body,kernel,ComputeKernel.surfaceBody,
+  simp (config:={maxSteps:=500000}) [body,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -79,7 +79,7 @@ theorem epilogue_safe (o : Ops α) (rest : Algebra α) (cfg : Parameters)
     traceSafeList (engine o rest) bounds (epilogue cfg) current := by
   by_cases split : cfg.splits=1
   all_goals
-    simp (config:={maxSteps:=500000}) [epilogue,kernel,ComputeKernel.surfaceBody,
+    simp (config:={maxSteps:=500000}) [epilogue,kernel,KernelSource.sourceKernel,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,
@@ -106,11 +106,17 @@ theorem complete (o : Ops α) (rest : Algebra α) (cfg : Parameters)
   subst current
   have inv := preludeInvariant (ops o) (base o rest) cfg initial
   apply traceSafeList_cons_intro
-  · simpa only [stepSafe_unfold] using loop_safe o rest cfg initial _ 0 inv bounds inside
+  · rw [loop_shape,stepSafe_unfold]
+    simp only [safe_loopBound,loop_bound_value]
+    simp only [evalOp_unfold,Safety.safeOp_unfold,bind,pure,Option.bind,
+      true_and,forall_const]
+    exact loop_safe o rest cfg initial _ 0 inv bounds inside
   · intro final ran
     obtain ⟨next,executed,invFinal⟩ := loopExecution (ops o) (base o rest) cfg initial _ 0 (by omega) inv
     rw [range_equal] at executed
-    simp only [FP.Structural.step] at ran
+    rw [loop_shape,FP.Structural.step] at ran
+    simp only [loop_bound_value] at ran
+    simp only [evalOp_unfold,bind,pure,Option.bind] at ran
     rw [executed] at ran
     injection ran with eq
     subst final

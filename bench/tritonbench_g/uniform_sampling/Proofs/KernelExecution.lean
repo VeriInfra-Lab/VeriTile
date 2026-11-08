@@ -33,7 +33,7 @@ def values {α : Type} (M : Algebra α) (fused : α → α → α → α)
 def result {α : Type} (M : Algebra α) (fused : α → α → α → α) (y : RegionName)
     (N : Nat) (seed offset : Int) (lower upper : Float32Bits) (B : Nat) (s : State α) : State α :=
   KernelStores.result y N (s.pids 0) B
-    (fun f i => M.cast (some .fp32) .real .real (values M fused seed offset lower upper B s f i))
+    (fun f i => values M fused seed offset lower upper B s f i)
     (offsetState M fused seed offset lower upper B s)
 
 theorem affine_exec {α : Type} [Inhabited α] (M : Algebra α) (fused : α → α → α → α)
@@ -100,7 +100,7 @@ theorem readback {α : Type} (M : Algebra α) (fused : α → α → α → α)
     (B : Nat) (hB : 0<B) (s : State α) (f : Fin 4) (i : Fin B)
     (active : KernelOffsets.output (s.pids 0) B f.val i.val < N) :
     (result M fused y N seed offset lower upper B s).mem y (KernelOffsets.output (s.pids 0) B f.val i.val) =
-      .mk .real (M.cast (some .fp32) .real .real (values M fused seed offset lower upper B s f (i,PUnit.unit))) :=
+      .mk .real (values M fused seed offset lower upper B s f (i,PUnit.unit)) :=
   KernelStores.readback y N (s.pids 0) B hB _ _ f i active
 
 theorem frame {α : Type} (M : Algebra α) (fused : α → α → α → α)

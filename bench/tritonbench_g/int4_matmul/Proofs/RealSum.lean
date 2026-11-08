@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int4_matmul.Spec
+import bench.tritonbench_g.int4_matmul.Proofs.Support.Spec
 namespace VeriTile.Bench.Repairs.Int4Matmul.RealSum
 set_option maxHeartbeats 4000000
 theorem sum_congr (f g : Nat → ℝ) (n : Nat) (h : ∀ k, k<n → f k=g k) :

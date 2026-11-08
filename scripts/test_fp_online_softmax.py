@@ -12,7 +12,7 @@ class OnlineSoftmaxFPTests(unittest.TestCase):
     def setUpClass(cls):
         result = subprocess.run(
             ['lake', 'build', 'bench.examples.OnlineSoftmax.FPEquiv',
-             'bench.examples.OnlineSoftmax.Correct', 'VeriTile.Meta.StatementAudit'],
+             'bench.examples.OnlineSoftmax.RealCorrect', 'VeriTile.Meta.StatementAudit'],
             cwd=ROOT, text=True, capture_output=True, timeout=300)
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
@@ -30,7 +30,7 @@ class OnlineSoftmaxFPTests(unittest.TestCase):
     def test_original_source_and_real_spec_independence(self):
         output = self.check_lean('''
 import bench.examples.OnlineSoftmax.Proofs.FP
-import bench.examples.OnlineSoftmax.Correct
+import bench.examples.OnlineSoftmax.RealCorrect
 open VeriTile Triton VeriTile.Bench.Examples
 example (x y : RegionName) (N : Nat) :
     (OnlineSoftmax.Kernels.onlineNormalizerKernel x y N).surfaceBody =

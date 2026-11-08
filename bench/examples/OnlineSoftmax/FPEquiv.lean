@@ -1,3 +1,5 @@
+import bench.examples.OnlineSoftmax.IO
+import bench.examples.OnlineSoftmax.Contract
 import bench.examples.OnlineSoftmax.Kernels
 /- Complete two-pass online softmax versus the batch output, using the shared
 strict scalar theory and admitted numerical relaxations. Both use libdevice.exp:
@@ -16,29 +18,9 @@ open FP.GuardExpression
 open SoftmaxStableFPContract (rowPlan center)
 open OnlineSoftmaxFPComparison (rowExpressions)
 
-/-- Check every online update and both normalization paths, including finite
-sum intermediates and nonzero divisors. Also check the intermediate operands
-needed to relate the sequential sum to the batch reduction tree. -/
-def requirements (x : RegionName) (N : Nat) (plans : Schedules) : Condition :=
-  let M := FP.GuardExpression.algebra MemoryInput
-  let xs := rowExpressions x N
-  let row := fun i : Fin N => xs i.val
-  .all [FP.OnlineSoftmaxConditions.iterations M xs N,
-    FP.SoftmaxShift.checks M row (FP.OnlineSoftmax.state M xs N).1 (prefixPlan N).tree,
-    .guard .finite (FP.OnlineSoftmax.state M xs N).2,
-    FP.SoftmaxShift.checks M row (center M row) (rowPlan plans N).tree,
-    FP.WelfordConditions.schedule M (FP.SoftmaxShift.exponentials M row) (prefixPlan N) (rowPlan plans N)]
-
 /-- Both public programs now write the same output row. -/
 def batch (x y : RegionName) (N : Nat) : FP.Kernel₁ where
-  io := {
-    kernel := stableSoftmaxKernel x y N
-    inp := x
-    out := y
-    Bin := N
-    Bout := N
-    read := fun pid => pid * N
-    write := fun pid => pid * N }
+  io := batchIO x y N
   profile := FP.fp32
   domain := requirements x N
   comparisons := []

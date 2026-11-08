@@ -1,3 +1,5 @@
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.SplitIfs
 import bench.tritonbench_g.kv_cache_filling.Proofs.QuantProfile
 import bench.tritonbench_g.kv_cache_filling.Proofs.CopyExecution
 
@@ -71,31 +73,82 @@ def loaded8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
   let z := z.setReg "v" .real [p.bv] (fun i => vp i.1)
   z
 
+/-- Pure mathematical register state for one expanded helper invocation.
+It contains no execution callback, output assumption or numerical rule. -/
+def helperReg (n : Nat) : RegName :=
+  match n with
+  | 0 => "__veritile_statement_jit_0"
+  | 1 => "__veritile_statement_jit_1"
+  | 2 => "__veritile_statement_jit_2"
+  | 3 => "__veritile_statement_jit_3"
+  | 4 => "__veritile_statement_jit_4"
+  | 5 => "__veritile_statement_jit_5"
+  | 6 => "__veritile_statement_jit_6"
+  | 7 => "__veritile_statement_jit_7"
+  | 8 => "__veritile_statement_jit_8"
+  | 9 => "__veritile_statement_jit_9"
+  | 10 => "__veritile_statement_jit_10"
+  | 11 => "__veritile_statement_jit_11"
+  | 12 => "__veritile_statement_jit_12"
+  | 13 => "__veritile_statement_jit_13"
+  | 14 => "__veritile_statement_jit_14"
+  | 15 => "__veritile_statement_jit_15"
+  | 16 => "__veritile_statement_jit_16"
+  | 17 => "__veritile_statement_jit_17"
+  | 18 => "__veritile_statement_jit_18"
+  | 19 => "__veritile_statement_jit_19"
+  | 20 => "__veritile_statement_jit_20"
+  | 21 => "__veritile_statement_jit_21"
+  | 22 => "__veritile_statement_jit_22"
+  | 23 => "__veritile_statement_jit_23"
+  | 24 => "__veritile_statement_jit_24"
+  | 25 => "__veritile_statement_jit_25"
+  | 26 => "__veritile_statement_jit_26"
+  | 27 => "__veritile_statement_jit_27"
+  | 28 => "__veritile_statement_jit_28"
+  | 29 => "__veritile_statement_jit_29"
+  | 30 => "__veritile_statement_jit_30"
+  | 31 => "__veritile_statement_jit_31"
+  | 32 => "__veritile_statement_jit_32"
+  | 33 => "__veritile_statement_jit_33"
+  | 34 => "__veritile_statement_jit_34"
+  | 35 => "__veritile_statement_jit_35"
+  | 36 => "__veritile_statement_jit_36"
+  | 37 => "__veritile_statement_jit_37"
+  | 38 => "__veritile_statement_jit_38"
+  | 39 => "__veritile_statement_jit_39"
+  | n => "__veritile_statement_jit_" ++ toString n
+
+def quantState {α : Type} [Inhabited α] (a : Ops α) (n base levels : Nat)
+    (x : Fin n → α) (lo hi : α) (q scaleName zeroName : RegName) (s : State α) : State α :=
+  let sc := scale a levels lo hi
+  let ze := zero a levels lo hi
+  let codes := fun (i : TileIndex [n]) => (code a levels lo hi (x i.1)).toNat
+  let z := s.setReg (helperReg base) .real [n] (fun i => x i.1)
+  let z := z.setReg (helperReg (base+1)) .real [] (fun _ => lo)
+  let z := z.setReg (helperReg (base+2)) .real [] (fun _ => hi)
+  let z := z.setReg (helperReg (base+3)) .real [] (fun _ => a.divide (a.sub hi lo) (a.literal levels))
+  let z := z.setReg (helperReg (base+4)) .real [] (fun _ => sc)
+  let z := z.setReg (helperReg (base+5)) .real [] (fun _ => ze)
+  let z := z.setReg (helperReg (base+6)) .nat [n] codes
+  let z := z.setReg (helperReg (base+7)) .nat [n] codes
+  let z := z.setReg (helperReg (base+8)) .real [] (fun _ => sc)
+  let z := z.setReg (helperReg (base+9)) .real [] (fun _ => ze)
+  let z := z.setReg q .nat [n] codes
+  let z := z.setReg scaleName .real [] (fun _ => sc)
+  z.setReg zeroName .real [] (fun _ => ze)
+
 def key8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
   let kp := pad p.ck p.bk (inputRow p s src Bool.true)
-  let kr := row8Data a p s src Bool.true
-  let z := loaded8 a p s src dst
-  let z := z.setReg "klo" .real [] (fun _ => a.low p.bk kp)
-  let z := z.setReg "khi" .real [] (fun _ => a.high p.bk kp)
-  let z := z.setReg "kraw_scale" .real [] (fun _ => a.divide (a.sub (a.high p.bk kp) (a.low p.bk kp)) (a.literal 255))
-  let z := z.setReg "sk" .real [] (fun _ => kr.scale)
-  let z := z.setReg "zk" .real [] (fun _ => kr.zero)
-  let z := z.setReg "qk" .nat [p.bk] (fun i => (code a 255 (a.low p.bk kp) (a.high p.bk kp) (kp i.1)).toNat)
-  z
+  quantState a p.bk 0 255 kp (a.low p.bk kp) (a.high p.bk kp)
+    "qk" "sk" "zk" (loaded8 a p s src dst)
 
 def prepared8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
   let vp := pad p.cv p.bv (inputRow p s src Bool.false)
-  let vr := row8Data a p s src Bool.false
-  let z := key8 a p s src dst
-  let z := z.setReg "vlo" .real [] (fun _ => a.low p.bv vp)
-  let z := z.setReg "vhi" .real [] (fun _ => a.high p.bv vp)
-  let z := z.setReg "vraw_scale" .real [] (fun _ => a.divide (a.sub (a.high p.bv vp) (a.low p.bv vp)) (a.literal 255))
-  let z := z.setReg "sv" .real [] (fun _ => vr.scale)
-  let z := z.setReg "zv" .real [] (fun _ => vr.zero)
-  let z := z.setReg "qv" .nat [p.bv] (fun i => (code a 255 (a.low p.bv vp) (a.high p.bv vp) (vp i.1)).toNat)
-  z
+  quantState a p.bv 10 255 vp (a.low p.bv vp) (a.high p.bv vp)
+    "qv" "sv" "zv" (key8 a p s src dst)
 
 def result8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) : State α :=
@@ -119,11 +172,11 @@ theorem inputs_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       some (preparedInputs p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel, ComputeKernel.surfaceBody, List.take]
+    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody, List.take]
   all_goals
-    simp (maxSteps := 200000) [QuantSource.kernel8, QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel, loaded8, preparedInputs, pad, inputRow,
+    simp (maxSteps := 200000) [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, loaded8, preparedInputs, pad, inputRow,
       hs, hd, sk, sv, Int.mul_comm, Nat.mul_comm,
       ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, store, numeric, numericLt, numericEq, bop,
@@ -141,8 +194,8 @@ theorem scalarLoads8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parame
       (preparedInputs p s src dst) = some (scalarLoaded8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel, ComputeKernel.surfaceBody, List.drop, List.take]
+    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody, List.drop, List.take]
   all_goals
     simp (maxSteps := 200000) [scalarLoaded8, preparedInputs, pad, inputRow, sk, sv, Int.mul_comm, Nat.mul_comm,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, numericLt, bop,
@@ -165,8 +218,8 @@ theorem load8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
       some (loaded8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel, ComputeKernel.surfaceBody, List.take]
+    dsimp only [QuantSource.kernel8, QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel, ComputeKernel.surfaceBody, List.take]
   all_goals
     simp (maxSteps := 200000) [loaded8,raw8,scalarLoaded8,preparedInputs,pad,inputRow,
       hs,hd,sk,sv,Int.mul_comm,Nat.mul_comm,
@@ -180,14 +233,14 @@ theorem load8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
 
 theorem key8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (hb : 0 < p.bk) (version : Bool) :
-    run (algebra a) (((QuantSource.kernel8 version p).surfaceBody.drop 13).take 6)
+    run (algebra a) (((QuantSource.kernel8 version p).surfaceBody.drop 13).take 13)
       (loaded8 a p s src dst) = some (key8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
-    simp [key8,row8Data,row8,loaded8,raw8,scalarLoaded8,preparedInputs,
+    simp [quantState,helperReg,key8,row8Data,row8,loaded8,raw8,scalarLoaded8,preparedInputs,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericEq,bop,
       ComputeDType.eraseDType,Option.bind,algebra,reduceAxis,scale,zero,code,
       ofFloat,toFloat,lanes,capacity,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -197,14 +250,14 @@ theorem key8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
   all_goals rfl
 theorem value8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (hb : 0 < p.bv) (version : Bool) :
-    run (algebra a) (((QuantSource.kernel8 version p).surfaceBody.drop 19).take 6)
+    run (algebra a) (((QuantSource.kernel8 version p).surfaceBody.drop 26).take 13)
       (key8 a p s src dst) = some (prepared8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
+    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel,ComputeKernel.surfaceBody,List.drop,List.take]
   all_goals
-    simp [prepared8,key8,row8Data,row8,loaded8,raw8,scalarLoaded8,preparedInputs,
+    simp [quantState,helperReg,prepared8,key8,row8Data,row8,loaded8,raw8,scalarLoaded8,preparedInputs,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericEq,bop,
       ComputeDType.eraseDType,Option.bind,algebra,reduceAxis,scale,zero,code,
       ofFloat,toFloat,lanes,capacity,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -245,23 +298,26 @@ theorem half_index_toNat (a b c w i : Nat) :
   funext t i
   by_cases h : i.1.val < w <;> simp [safe,pad,h]
 
+@[simp] theorem byte_mod (x : BitVec 8) : x.toNat % 256 = x.toNat :=
+  Nat.mod_eq_of_lt x.isLt
+
 theorem stores8_execute {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     (s : State α) (src dst : Nat) (version : Bool) :
-    run (algebra a) ((QuantSource.kernel8 version p).surfaceBody.drop 25)
+    run (algebra a) ((QuantSource.kernel8 version p).surfaceBody.drop 39)
       (prepared8 a p s src dst) = some (result8 a p s src dst) := by
   cases version
   all_goals
-    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,
-      QuantSource.commuted8Kernel,ComputeKernel.surfaceBody,List.drop]
+    dsimp only [QuantSource.kernel8,QuantSource.original8Kernel,original8Kernel,
+      QuantSource.commuted8Kernel,candidate8Kernel,ComputeKernel.surfaceBody,List.drop]
   all_goals
-    simp [result8,writeMetadata,QuantExecution.scatter,prepared8,key8,row8Data,row8,
+    simp [quantState,helperReg,result8,writeMetadata,QuantExecution.scatter,prepared8,key8,row8Data,row8,
       loaded8,raw8,scalarLoaded8,preparedInputs,
       run,step,store,evalExpr,evalComputeOp,evalOp_unfold,numeric,numericLt,bop,
       ComputeDType.eraseDType,Region.cast,Option.bind,algebra,
       ofFloat,toFloat,lanes,capacity,output,Broadcast.leftIndex,Broadcast.rightIndex,
       index_toNat,mul_index_toNat,add_index_toNat,
       show TileShape.allIndices [] = [PUnit.unit] from rfl,List.foldl_cons,List.foldl_nil]
-  all_goals simp +contextual [safe,pad,meta0_index_toNat,meta1_index_toNat]
+  all_goals simp +contextual [safe,pad,meta0_index_toNat,meta1_index_toNat,integralMod]
   all_goals rfl
 
 /-- Complete successful INT8 execution, including both caches and metadata. -/
@@ -273,9 +329,9 @@ theorem execute8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     exec (algebra a) (QuantSource.kernel8 version p) s = some (result8 a p s src dst) := by
   have decomp : (QuantSource.kernel8 version p).surfaceBody =
       (QuantSource.kernel8 version p).surfaceBody.take 13 ++
-      (((QuantSource.kernel8 version p).surfaceBody.drop 13).take 6 ++
-      (((QuantSource.kernel8 version p).surfaceBody.drop 19).take 6 ++
-      (QuantSource.kernel8 version p).surfaceBody.drop 25)) := by cases version <;> rfl
+      (((QuantSource.kernel8 version p).surfaceBody.drop 13).take 13 ++
+      (((QuantSource.kernel8 version p).surfaceBody.drop 26).take 13 ++
+      (QuantSource.kernel8 version p).surfaceBody.drop 39)) := by cases version <;> rfl
   change run (algebra a) (QuantSource.kernel8 version p).surfaceBody s = _
   rw [decomp,run_append,load8_execute a p s src dst hs hd sk sv version]
   simp only [Option.bind_some]

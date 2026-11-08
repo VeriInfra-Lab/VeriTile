@@ -15,10 +15,10 @@ set_option linter.unusedSimpArgs false
 
 def loadState (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (N block : Nat) (s : BlockState) : BlockState :=
-  let t := s.setReg weightName .real [block]
-    (Execution.realTile (fun j => coefficients weightRegion N s j.val))
-  if bias then t.setReg biasName .real [block]
-    (Execution.realTile (fun j => coefficients biasRegion N s j.val)) else t
+  let w := Execution.realTile (fun j : Fin block => coefficients weightRegion N s j.val)
+  let b := Execution.realTile (fun j : Fin block => coefficients biasRegion N s j.val)
+  let t := (s.setReg (privateWeight weightName) .real [block] w).setReg weightName .real [block] w
+  if bias then (t.setReg (privateBias biasName) .real [block] b).setReg biasName .real [block] b else t
 
 theorem loadPhase_exec (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (N block : Nat) (s : BlockState)
@@ -27,27 +27,44 @@ theorem loadPhase_exec (bias : Bool) (weightRegion biasRegion : RegionName)
     (hmask : s.regs .bool [block] "mask" = some (maskTile N block)) :
     stepStmts (loadPhase bias weightRegion biasRegion weightName biasName block) s =
       some (loadState bias weightRegion biasRegion weightName biasName N block s) := by
-  have hw := stepStmt_assign_eq_some (name := weightName)
-    (coefficientOp_eval weightRegion N block s hcols hmask)
-  rw [loadPhase, stepStmts.cons_some hw, InputSuffix.exec_single, InputSuffix.step_if_const]
+  let w := Execution.realTile (fun j : Fin block => coefficients weightRegion N s j.val)
+  let b := Execution.realTile (fun j : Fin block => coefficients biasRegion N s j.val)
+  let loadedW := s.setReg (privateWeight weightName) .real [block] w
+  let copiedW := loadedW.setReg weightName .real [block] w
+  let loadedB := copiedW.setReg (privateBias biasName) .real [block] b
+  let copiedB := loadedB.setReg biasName .real [block] b
+  have hw : stepStmt (.assign .real [block] (privateWeight weightName)
+      (coefficientOp weightRegion block)) s=some loadedW :=
+    stepStmt_assign_eq_some (coefficientOp_eval weightRegion N block s hcols hmask)
+  have hcw : stepStmt (.assign .real [block] weightName
+      (.ref .real [block] (privateWeight weightName))) loadedW=some copiedW := by
+    simp [loadedW,copiedW,stepStmt,evalOp.eq_def]
+  have hb : stepStmt (.assign .real [block] (privateBias biasName)
+      (coefficientOp biasRegion block)) copiedW=some loadedB := by
+    simpa [loadedB,b,copiedW,loadedW] using
+      stepStmt_assign_eq_some (name := privateBias biasName)
+        (coefficientOp_eval biasRegion N block copiedW
+          (by by_cases h : weightName="w" <;> simpa [copiedW,loadedW,privateWeight,hwc,h] using hcols)
+          (by by_cases h : weightName="w" <;> simpa [copiedW,loadedW,privateWeight,hwm,h] using hmask))
+  have hcb : stepStmt (.assign .real [block] biasName
+      (.ref .real [block] (privateBias biasName))) loadedB=some copiedB := by
+    simp [loadedB,copiedB,stepStmt,evalOp.eq_def]
+  rw [loadPhase,stepStmts.cons_some hw,stepStmts.cons_some hcw,
+    InputSuffix.exec_single,InputSuffix.step_if_const]
   cases bias
   · rfl
   · simp only [↓reduceIte]
-    rw [InputSuffix.exec_single]
-    have hb := stepStmt_assign_eq_some (name := biasName)
-      (coefficientOp_eval biasRegion N block
-        (s.setReg weightName .real [block]
-          (Execution.realTile (fun j => coefficients weightRegion N s j.val)))
-        (by simpa [hwc] using hcols) (by simpa [hwm] using hmask))
-    simpa only [coefficients_setReg] using hb
+    rw [stepStmts.cons_some hb,stepStmts.cons_some hcb,stepStmts.nil]
+    rfl
 
 theorem loadState_weight (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (N block : Nat) (s : BlockState)
-    (hwb : weightName ≠ biasName) :
+    (hwb : weightName ≠ biasName)
+    (hwp : weightName ≠ privateBias biasName := by first | assumption | decide) :
     (loadState bias weightRegion biasRegion weightName biasName N block s).regs
       .real [block] weightName =
       some (Execution.realTile (fun j => coefficients weightRegion N s j.val)) := by
-  cases bias <;> simp [loadState, hwb]
+  cases bias <;> simp [loadState, hwb,hwp]
 
 theorem loadState_bias (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (N block : Nat) (s : BlockState) (hb : bias = Bool.true) :
@@ -59,10 +76,12 @@ theorem loadState_bias (bias : Bool) (weightRegion biasRegion : RegionName)
 theorem loadState_regs (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (N block : Nat) (s : BlockState)
     (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hw : name ≠ weightName) (hb : name ≠ biasName) :
+    (hw : name ≠ weightName) (hb : name ≠ biasName)
+    (hpw : name ≠ privateWeight weightName := by first | assumption | decide)
+    (hpb : name ≠ privateBias biasName := by first | assumption | decide) :
     (loadState bias weightRegion biasRegion weightName biasName N block s).regs dtype shape name =
       s.regs dtype shape name := by
-  cases bias <;> simp [loadState, hw, hb]
+  cases bias <;> simp [loadState, hw, hb,hpw,hpb]
 
 theorem loadState_mem (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (N block : Nat) (s : BlockState) :

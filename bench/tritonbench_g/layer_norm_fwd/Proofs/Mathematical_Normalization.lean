@@ -13,10 +13,10 @@ set_option linter.unusedSimpArgs false
 
 def meanStmt (N block : Nat) : Stmt :=
   .assign .real [] "mean" (.div .real .nil
-    (.reduceSum ⟨0, by simp⟩ Bool.false (.ref .real [block] "x")) (.const (N : ℝ)))
+    (.reduceSum ⟨0, by simp⟩ Bool.false (.ref .real [block] "x")) (Op.constNat N).natToReal)
 
 def scalarStore (region : RegionName) (name : RegName) : Stmt :=
-  .store .real [] (.region region (.ref .nat [] "row")) (.ref .real [] name) .none
+  .store .real [] (.region region (Op.ref .int [] "row").castIntToNat) (.ref .real [] name) .none
 
 def centerStmt (rms : Bool) (N block : Nat) : Stmt :=
   .assign .real [block] "xbar"
@@ -29,7 +29,7 @@ def varianceStmt (N block : Nat) : Stmt :=
   .assign .real [] "var" (.div .real .nil
     (.reduceSum ⟨0, by simp⟩ Bool.false
       (.mul .real (.consSame .nil) (.ref .real [block] "xbar") (.ref .real [block] "xbar")))
-    (.const (N : ℝ)))
+    (Op.constNat N).natToReal)
 
 def centerVariancePhase (rms : Bool) (N block : Nat) : List Stmt :=
   [centerStmt rms N block, varianceStmt N block]
@@ -59,7 +59,7 @@ theorem source_phase (f : Flags) (r : Regions) (stride : Strides)
     ComputeKernel.toAlgKernel_fromKernelBody]
   simp only [original, phase, statisticsStmt, meanPhase, meanStmt, scalarStore,
     centerVariancePhase, centerStmt, varianceStmt, rstdStmt,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,
@@ -104,7 +104,7 @@ def meanState (f : Flags) (a : Inputs) (mean : RegionName) (M N : Nat)
 theorem mean_exec (f : Flags) (a : Inputs) (mean : RegionName) (M N block : Nat)
     (p : ℝ) (row : Nat) (hN : N ≤ block) (s : BlockState)
     (hx : s.regs .real [block] "x" = some (Reduction.combinedTile f a M N block p row))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row)) :
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row)) :
     stepStmts (meanPhase mean N block) s = some (meanState f a mean M N p row s) := by
   have hm := stepStmt_assign_eq_some (name := "mean")
     (Reduction.mean_op f a M N block p row hN s hx)

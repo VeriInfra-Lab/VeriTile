@@ -95,7 +95,7 @@ theorem offset_sign_extend (N pid lane : Nat) (domain : IndexDomain N)
   exact BitVec.toInt_ofInt_eq_self (w := 64) (n := (offset pid lane : Nat))
     (by decide) (by omega) (by unfold indexLimit at bound; norm_num; omega)
 
-#specNonCircular mask32 avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runGrid,FP.Structural.exec]
+#specNonCircular mask32 avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.sourceKernel,runGrid,FP.Structural.exec]
 #axiomsClean padded_extent_le
 #axiomsClean lane_bound
 #axiomsClean pid_bound

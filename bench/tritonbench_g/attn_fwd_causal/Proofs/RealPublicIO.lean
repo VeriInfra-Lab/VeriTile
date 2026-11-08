@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_causal.RealIO
+import bench.tritonbench_g.attn_fwd_causal.Proofs.Support.RealIO
 import bench.tritonbench_g.attn_fwd_causal.Proofs.IOBinding
 import bench.tritonbench_g.attn_fwd_causal.Proofs.KernelInterface
 

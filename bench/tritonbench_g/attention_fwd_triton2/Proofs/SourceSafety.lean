@@ -36,8 +36,8 @@ private theorem source_offset (ph heads batch head pm i row d dim : Nat) :
 theorem entry_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (s : State α) (hb : Bounds p s bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).before s := by
-  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
+  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,originalKernel,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
@@ -54,9 +54,9 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Reg
     (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) (inside : row<p.length) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).body
-      (current.setReg "start_n" .nat [] (fun _=>row)) := by
-  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
+      (current.setReg counter .nat [] (fun _=>row)) := by
+  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,originalKernel,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
@@ -64,22 +64,22 @@ theorem body_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : Reg
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
     ctx.memory,ctx.rows,ctx.cols,ctx.query,ctx.scale,ctx.keyPointer,ctx.valuePointer,
-    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value]
+    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument]
   exact ⟨hb.key row inside,hb.keyScale row inside,hb.value row inside⟩
 
 theorem post_safe (M : Algebra α) (dot : Dot α) (p : Parameters) (bounds : RegionName → Nat)
     (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) (hb : Bounds p initial bounds) :
     Safety.traceSafeList (engine (withDot M dot)) bounds (parts p).after current := by
-  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
+  simp (config := {maxSteps := 200000}) [parts,kernel,TypedSource.repaired,originalKernel,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeOp,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
-    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value]
+    ctx.memory,ctx.rows,ctx.outputPointer,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument]
   refine ⟨?_,by split <;> trivial⟩
   intro i d hr hd
   have hrow : ((initial.pids 0*128+i.val:Nat):Int)<(p.length:Int) := hr

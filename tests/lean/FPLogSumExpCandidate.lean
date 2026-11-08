@@ -1,5 +1,5 @@
 import bench.examples.StableLogSumExp.FPEquiv
-import bench.examples.StableLogSumExp.Correct
+import bench.examples.StableLogSumExp.RealCorrect
 import VeriTile.Meta.StatementAudit
 import Mathlib.Tactic.NormNum
 

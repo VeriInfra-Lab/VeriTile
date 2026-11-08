@@ -30,7 +30,7 @@ structure Call where
 
 def Call.source (c : Call) : ComputeKernel :=
   let r:=c.geometry
-  Kernels.source .fp32 .fp32 "Q" "K" "C" "S"
+  Kernels.sourceKernel .fp32 .fp32 "Q" "K" "C" "S"
     (r.qHeads*r.dimension) (r.kHeads*r.dimension) r.cosRowStride r.sinRowStride
     r.cosColStride r.sinColStride r.sequence r.batches r.qHeads r.kHeads r.dimension
     (r.paddedHeads Bool.false) (r.paddedHeads Bool.true) r.paddedDim

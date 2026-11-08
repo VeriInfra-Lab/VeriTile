@@ -15,7 +15,7 @@ abbrev Carries (α : Type) (B : Nat) := Tile α B × Tile α B
 def zero (m : Model α) (B : Nat) : Carries α B := (fun _ => lit m 0,fun _ => lit m 0)
 
 def loaded [Inhabited α] (m : Model α) (s : State α) (r : RegionName) (base N j : Nat) : α :=
-  cast m (if j<N then (s.mem r (base+j)).read .real else lit m 0)
+  cast m (m.scalar.fp32Load (if j<N then (s.mem r (base+j)).read .real else lit m 0))
 
 def inverse [Inhabited α] (m : Model α) (s : State α) (r : Nat) : α :=
   m.scalar.fp32Load ((s.mem "Rstd" r).read .real)
@@ -27,19 +27,19 @@ def xhat [Inhabited α] (m : Model α) (s : State α) (stride N r j : Nat) : α 
 
 def wdy [Inhabited α] (m : Model α) (s : State α) (stride N r j : Nat) : α :=
   if j<N then bin m .mul
-    (cast m (if j<N then (s.mem "W" j).read .real else s.undef .real "W" j))
+    (cast m (m.scalar.fp32Load (if j<N then (s.mem "W" j).read .real else s.undef .real "W" j)))
     (loaded m s "DY" (r*stride) N j) else lit m 0
 
 def first [Inhabited α] (m : Model α) (s : State α) (stride N B r : Nat) : α :=
-  bin m .div (sum m B (fun j => bin m .mul (xhat m s stride N r j.val) (wdy m s stride N r j.val))) (lit m N)
+  bin m .div (sum m B (fun j => bin m .mul (xhat m s stride N r j.val) (wdy m s stride N r j.val))) (m.scalar.fromInt (some .fp32) (N : Int))
 
 def second [Inhabited α] (m : Model α) (s : State α) (stride N B r : Nat) : α :=
-  bin m .div (sum m B (fun j => wdy m s stride N r j.val)) (lit m N)
+  bin m .div (sum m B (fun j => wdy m s stride N r j.val)) (m.scalar.fromInt (some .fp32) (N : Int))
 
 def dx [Inhabited α] (m : Model α) (s : State α) (stride N B r j : Nat) : α :=
-  cast m (bin m .mul (bin m .sub (wdy m s stride N r j)
+  bin m .mul (bin m .sub (wdy m s stride N r j)
     (bin m .add (bin m .mul (xhat m s stride N r j) (first m s stride N B r))
-      (second m s stride N B r))) (inverse m s r))
+      (second m s stride N B r))) (inverse m s r)
 
 def nextCarries [Inhabited α] (m : Model α) (s : State α) (stride N B group r : Nat)
     (a : Carries α B) : Carries α B :=
@@ -54,8 +54,8 @@ def storeDX [Inhabited α] (m : Model α) (s : State α) (stride N B r : Nat) : 
 
 def Invariant (s : State α) (N B group : Nat) (a : Carries α B) (t : State α) : Prop :=
   t.mem=s.mem ∧ t.undef=s.undef ∧
-  t.regs .nat [] "group"=some (fun _ => group) ∧
-  t.regs .nat [B] "cols"=some (fun i => i.1.val) ∧
+  t.regs .int [] "group"=some (fun _ => (group : Int)) ∧
+  t.regs .int [B] "cols"=some (fun i => (i.1.val : Int)) ∧
   t.regs .bool [B] "mask"=some (fun i => decide (i.1.val<N)) ∧
   t.regs .ptr [B] "DW"=some (fun i : TileIndex [B] => (("DW" : RegionName),group*N+i.1.val)) ∧
   t.regs .ptr [B] "DB"=some (fun i : TileIndex [B] => (("DB" : RegionName),group*N+i.1.val)) ∧
@@ -71,8 +71,9 @@ def Invariant (s : State α) (N B group : Nat) (a : Carries α B) (t : State α)
 
 theorem prelude_refines [Inhabited α] (m : Model α) (s : State α) (stride M N G B : Nat) :
     ∃ t,run (engine m) (SourceGrouped.prelude stride M N G B) s=some t ∧
-      Invariant s N B (s.pids 0) (zero m B) t := by
-  simp [SourceGrouped.prelude,SourceGrouped.code,TypedSource.groupedBackward,ComputeKernel.surfaceBody,
+      Invariant s N B (s.pids 0) (zero m B) t ∧
+      t.regs .int [] "row"=some (fun _ => (s.pids 0 : Int)) := by
+  simp [SourceGrouped.prelude,SourceGrouped.code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,zero,lit,
     engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
     State.setReg,ComputeDType.eraseDType,
@@ -82,11 +83,11 @@ theorem prelude_refines [Inhabited α] (m : Model α) (s : State α) (stride M N
 
 theorem body_refines [Inhabited α] (m : Model α) (s t : State α) (stride M N G B group r : Nat)
     (a : Carries α B) (h : Invariant s N B group a t) :
-    ∃ u,run (engine m) (SourceGrouped.body stride M N G B) (t.setReg "row" .nat [] (fun _ => r))=some u ∧
+    ∃ u,run (engine m) (SourceGrouped.body stride M N G B) (t.setReg "row" .int [] (fun _ => (r : Int)))=some u ∧
       Invariant (storeDX m s stride N B r) N B group (nextCarries m s stride N B group r a) u := by
   obtain ⟨hm,hu,hgroup,hcols,hmask,hdwp,hdbp,hdw,hdb⟩ := h
   by_cases hr : r=group <;>
-    simp [SourceGrouped.body,SourceGrouped.code,TypedSource.groupedBackward,ComputeKernel.surfaceBody,
+    simp [SourceGrouped.body,SourceGrouped.code,TypedSource.groupedBackwardKernel,groupedBackwardKernel,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Invariant,
       engine,numeric,natLt,numericLt,numericLe,numericEq,bop,
       State.setReg,FP.Structural.store,ComputeDType.eraseDType,

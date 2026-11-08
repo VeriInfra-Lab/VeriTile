@@ -372,6 +372,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .sub _ _ a b => a.check ctx *> b.check ctx
   | .mul _ _ a b => a.check ctx *> b.check ctx
   | .div _ _ a b => a.check ctx *> b.check ctx
+  | .divRN _ a b => a.check ctx *> b.check ctx
   | .floorDiv _ _ a b => a.check ctx *> b.check ctx
   | .mod _ _ a b => a.check ctx *> b.check ctx
   | .bitAnd _ a b => a.check ctx *> b.check ctx
@@ -391,6 +392,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .sigmoid a => a.check ctx
   | .sqrt a => a.check ctx
   | .rsqrt a => a.check ctx
+  | .libdeviceRsqrt a => a.check ctx
   | .tanh a => a.check ctx
   | .sin a => a.check ctx
   | .cos a => a.check ctx

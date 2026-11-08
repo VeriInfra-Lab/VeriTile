@@ -9,7 +9,7 @@ set_option linter.unusedSimpArgs false
 
 theorem body {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config)
     (s : State α) (ready : Ready h c s) (index : Nat) :
-    ∃ t, run (engine o.algebra) (parts h c).body (s.setReg "k" .nat [] (fun _ => index))=some t ∧
+    ∃ t, run (engine o.algebra) (parts h c).body (s.setReg "k" .int [] (fun _ => index))=some t ∧
       Ready h c t ∧ t.mem=s.mem ∧ Fixed s t := by
   rcases ready with ⟨⟨h0,h1,h2,h3,h4⟩,h5,h6,h7,h8,h9,h10,h11,hseq⟩
   obtain ⟨v0,h0⟩ := Option.isSome_iff_exists.mp h0
@@ -26,8 +26,8 @@ theorem body {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.C
   obtain ⟨v11,h11⟩ := Option.isSome_iff_exists.mp h11
   cases ha : h.aStorage <;> cases hb : h.bStorage
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,

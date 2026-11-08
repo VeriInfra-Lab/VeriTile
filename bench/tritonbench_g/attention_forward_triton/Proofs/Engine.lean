@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_forward_triton.Kernels
+import bench.tritonbench_g.attention_forward_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Triton.Source
 
@@ -18,7 +18,7 @@ def kernel (p : Parameters) : ComputeKernel :=
   TypedSource.repaired p.Q p.K p.V p.QS p.KS p.Out
     p.q.batch p.q.head p.q.row p.q.dim p.k.batch p.k.head p.k.row p.k.dim
     p.v.batch p.v.head p.v.row p.v.dim p.o.batch p.o.head p.o.row p.o.dim
-    p.batches p.heads p.length 96 128 64 128 96 1
+    p.batches p.heads p.length 96 128 64 1
 
 /-- Private total typed adapter for execution lemmas. Public endpoints must
 instantiate both products using explicit fixed-instruction chains. -/
@@ -35,8 +35,11 @@ def withDot {α : Type} (M : Algebra α) (D : Dot α) : Algebra α :=
     dotWithOptions := fun p options {_} {_} {_} {_} a b => some (D.apply p .real .real .real options a b)
     dotTyped := fun p l r o options {_} {_} {_} {_} a b => some (D.apply p l r o options a b)}
 
+/-- Hygienic counter in the actual helper expansion; checked by source decomposition. -/
+abbrev counter : RegName := "__veritile_statement_jit_17"
+
 def parts (p : Parameters) : VeriTile.Triton.Source.DynamicRange :=
-  (VeriTile.Triton.Source.dynamicRange? (kernel p).surfaceBody "start_n").getD
+  (VeriTile.Triton.Source.dynamicRange? (kernel p).surfaceBody counter).getD
     ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 
 #guard_msgs (drop info) in

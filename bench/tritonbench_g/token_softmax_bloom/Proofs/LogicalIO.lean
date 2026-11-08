@@ -10,7 +10,7 @@ noncomputable section
 theorem lift_eq (p : Parameters) (work : List Grid.PID) (raw : (realIO p work).Inputs)
     (admitted : realDomain p work raw) :
     (io p work).lift (fun xs job i => Real.exp (xs.values job i) /
-      ∑ j : Fin (xs.length job), Real.exp (xs.at job j.val)) raw =
+      ∑ j : Fin (xs.length job).toNat, Real.exp (xs.at job j.val)) raw =
     target Real.algebra (fun x : ℝ => some x) p (fun _ => WithBot.unbotD 0) work realRow raw := by
   funext port
   fin_cases port
@@ -29,7 +29,7 @@ theorem lift_eq (p : Parameters) (work : List Grid.PID) (raw : (realIO p work).I
 theorem judgment_iff (p : Parameters) (work : List Grid.PID) :
     (io p work).ImplementsOn (domain p work)
       (fun xs job i => Real.exp (xs.values job i) /
-        ∑ j : Fin (xs.length job), Real.exp (xs.at job j.val)) ↔
+        ∑ j : Fin (xs.length job).toNat, Real.exp (xs.at job j.val)) ↔
     (realIO p work).ImplementsOn (realDomain p work)
       (target Real.algebra (fun x : ℝ => some x) p (fun _ => WithBot.unbotD 0) work realRow) := by
   have dom : (fun raw => domain p work ((io p work).inputs raw)) = realDomain p work := by
@@ -69,7 +69,7 @@ canonical realRow bridge above is also the source-correctness connection. -/
 theorem previous_judgment_iff (p : Parameters) (work : List Grid.PID) :
     (io p work).ImplementsOn (domain p work)
       (fun xs job i => Real.exp (xs.values job i) /
-        ∑ j : Fin (xs.length job), Real.exp (xs.at job j.val)) ↔
+        ∑ j : Fin (xs.length job).toNat, Real.exp (xs.at job j.val)) ↔
     (realIO p work).ImplementsOn (realDomain p work)
       (target Real.algebra (fun x : ℝ => some x) p (fun _ => WithBot.unbotD 0) work previousSegment) := by
   apply (judgment_iff p work).trans

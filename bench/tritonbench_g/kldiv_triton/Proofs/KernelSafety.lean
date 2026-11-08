@@ -21,7 +21,7 @@ theorem backward_block {α : Type} [Inhabited α] (c : Tile.Invocation α)
   simp only [traceSafeList_unfold,block0 c ready,block1 c ready,block2 c ready,
     block3 c ready,block4 c ready,and_true]
   refine ⟨?_,?_,?_,?_,?_⟩
-  all_goals simp only [bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
     List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -45,7 +45,7 @@ theorem backward_prefix {α : Type} [Inhabited α] (c : Tile.Invocation α)
     [command c 0,command c 1,command c 2,command c 3,command c 4] (a0 c)
   simp only [traceSafeList_unfold,initialize0,initialize1,initialize2,initialize3,
     initialize4,and_true]
-  simp only [command,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  simp only [command,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
     List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,and_true]
 
@@ -109,7 +109,7 @@ theorem backward_source {α : Type} [Inhabited α] (m : Tile.Model α)
   have loop := backward_range m so st N B (s.pids 0*st) (s.pids 0*so) flag positive
     bounds target output (VeriTile.Bench.TritonBenchG.KldivTriton.FullMath.rounds N B)
     0 start (by omega) header
-  simp only [backwardSource,backwardTemplate,ComputeKernel.surfaceBody,List.drop]
+  simp only [backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,List.drop]
   apply traceSafeList_cons_intro
   · simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,Option.bind_eq_bind,
       Option.pure_def,Option.bind,true_and]
@@ -134,7 +134,7 @@ theorem forward_block {α : Type} [Inhabited α] (c : Invocation α)
   simp only [traceSafeList_unfold,block0 c ready,block1 c ready,block2 c ready,
     block3 c ready,block4 c ready,block5 c ready,block6 c ready,and_true]
   refine ⟨?_,?_,?_,?_,?_,?_,?_⟩
-  all_goals simp only [bodyCommand,forwardBody,forwardSource,forwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [bodyCommand,forwardBody,forwardSource,forwardTemplateKernel,ComputeKernel.surfaceBody,
     List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
@@ -179,7 +179,7 @@ theorem forward_prefix {α : Type} [Inhabited α] (c : Invocation α)
     [command c 0,command c 1,command c 2,command c 3,command c 4] (a0 c)
   simp only [traceSafeList_unfold,initialize0,initialize1,initialize2,initialize3,
     initialize4,and_true]
-  simp only [command,forwardSource,forwardTemplate,ComputeKernel.surfaceBody,
+  simp only [command,forwardSource,forwardTemplateKernel,ComputeKernel.surfaceBody,
     List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,and_true]
 
@@ -250,7 +250,7 @@ theorem forward_source {α : Type} [Inhabited α] (m : Model α)
     simpa [start,outputBase] using initial_header s sy st so B
   have loop := forward_range m sy st so (s.pids 0*sy) (s.pids 0*st) (s.pids 0*so)
     N B flag reduction positive bounds prediction target output (rounds N B) 0 start (by omega) header
-  simp only [forwardSource,forwardTemplate,ComputeKernel.surfaceBody,List.drop]
+  simp only [forwardSource,forwardTemplateKernel,ComputeKernel.surfaceBody,List.drop]
   apply traceSafeList_cons_intro
   · simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,Option.bind_eq_bind,
       Option.pure_def,Option.bind,true_and]

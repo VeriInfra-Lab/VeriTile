@@ -54,8 +54,9 @@ def reduction (combine : BinaryOp) (_ : Option ComputeDType)
     if h : j<TileShape.axisDim shape ax then
       lower (reductionInputs ax keep xs i ⟨j,h⟩ (physicalOwner j)) else zero))
 
-/-- Constant conversion uses the actual source literals. All other casts are
-explicit scalar graph nodes. FP32 dot→ FP32 compute is only a carrier identity. -/
+/-- Constant conversion uses the actual source literals. Half/BF16 widening
+is explicit for both FP32 carriers. Other casts retain scalar graph nodes;
+the FP32 dot/result carriers share the same scalar instruction value. -/
 def convert (src dst : FloatDType) (a : Stage) : Stage :=
   match a with
   | .zero=>.zero
@@ -64,11 +65,11 @@ def convert (src dst : FloatDType) (a : Stage) : Stage :=
     | .real,.fp16=>match a with
       | .literal x=>if x=1.44269504 then .ready (.bits 0x3dc5) else .ready (.unary .narrowHalf (lower a))
       | _=>.ready (.unary .narrowHalf (lower a))
-    | .fp16,.real=>.ready (.unary .widenHalf (lower a))
+    | .fp16,.real | .fp16,.fp32=>.ready (.unary .widenHalf (lower a))
     | .real,.bf16=>match a with
       | .literal x=>if x=1.44269504 then .ready (.bits 0x3fb9) else .ready (.unary .narrowBF16 (lower a))
       | _=>.ready (.unary .narrowBF16 (lower a))
-    | .bf16,.real=>.ready (.unary .widenBF16 (lower a))
+    | .bf16,.real | .bf16,.fp32=>.ready (.unary .widenBF16 (lower a))
     | _,_=>a
 
 def binary (dtype : FloatDType) (op : Binary) (a b : Stage) : Stage :=
@@ -85,7 +86,7 @@ def binary (dtype : FloatDType) (op : Binary) (a b : Stage) : Stage :=
   | _,_=>.zero
 
 def algebra : Algebra Expr where
-  literal:=fun _ _ x _=>literal x
+  literal:=fun _ dtype x _=>convert .real dtype (literal x)
   negInf:=fun _=>.negInf
   binary:=fun _ dtype op a b u=>binary dtype op (a u) (b u)
   unary:=fun _ op a u=>match op with

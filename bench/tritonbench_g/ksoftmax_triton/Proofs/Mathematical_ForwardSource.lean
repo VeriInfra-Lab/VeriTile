@@ -1,4 +1,4 @@
-import bench.tritonbench_g.ksoftmax_triton.Sources.Kernels
+import bench.tritonbench_g.ksoftmax_triton.Proofs.Sources.Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.KsoftmaxTriton.Forward.Typed
@@ -12,12 +12,12 @@ abbrev Source := RegionName → RegionName → RegionName →
 existing forward interface. Its body is the shared source quotation. -/
 def fp32Original : Source := fun Y X M ym yn xm xn sm K D log mode causal fp16 =>
   ComputeKernel.mk [X,M] [Y]
-    (VeriTile.Bench.Repairs.Ksoftmax.forward Y X M ym yn xm xn sm K D log mode causal fp16).surfaceBody
+    (VeriTile.Bench.Repairs.Ksoftmax.forwardKernel Y X M ym yn xm xn sm K D log mode causal fp16).surfaceBody
 
 theorem source_body (Y X M : RegionName) (ym yn xm xn sm K D : Nat)
     (log causal fp16 : Bool) (mode : Option String) :
     (fp32Original Y X M ym yn xm xn sm K D log mode causal fp16).surfaceBody =
-      (VeriTile.Bench.Repairs.Ksoftmax.forward Y X M ym yn xm xn sm K D log mode causal fp16).surfaceBody := rfl
+      (VeriTile.Bench.Repairs.Ksoftmax.forwardKernel Y X M ym yn xm xn sm K D log mode causal fp16).surfaceBody := rfl
 
 theorem fp32_projects (Y X M : RegionName) (ym yn xm xn sm K D : Nat)
     (log causal fp16 : Bool) (mode : Option String) :

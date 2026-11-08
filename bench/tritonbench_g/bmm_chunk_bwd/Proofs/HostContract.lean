@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_bwd.Source
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Support.Source
 import bench.tritonbench_g.bmm_chunk_bwd.Proofs.HostGrid
 
 /-! Concrete source wiring and finite-grid return contract. The public direct

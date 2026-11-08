@@ -1,48 +1,49 @@
-import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 
-/-!
-Welford: source programs shared by the real and FP proof files.
-The definitions retain their original operation order, precision, casts, masks
-and memory effects. Correct.lean interprets the mathematical projection;
-FPEquiv.lean establishes equivalence under the indicated atomic assumptions.
--/
-
+/-! Native sources authored from the independent population mean/variance
+specifications. No historical Python origin is claimed; see native_kernels.py.
+FP32 input and BF16 scalar output storage are explicit in the external ABI.
+Both output addresses are zero: these are per-program row contracts.
+Separate multiply/add semantics use enable_fp_fusion=False. -/
 namespace VeriTile.Bench.Examples.Welford.Kernels
 open VeriTile Triton
 
-/-- Two-pass mean/variance kernel: mean with one `tl.sum`, then population
-variance with a second `tl.sum` over squared deviations. -/
-def twopassWelfordKernel (xReg meanReg varReg : RegionName)
-    (blockSize rowStride : Nat) : ComputeKernel := triton {
-  pid    := tl.program_id(0)
-  offs   := pid * $(rowStride) + tl.arange($(blockSize))
-  x      := tl.load($(xReg) + offs)
-  s_x    := tl.sum(x)
-  μ      := s_x / tl.toReal($(blockSize))
-  d      := x - μ
-  s_d2   := tl.sum(d * d)
-  v      := s_d2 / tl.toReal($(blockSize))
-  tl.store($(meanReg), (μ).to(tl.bfloat16))
-  tl.store($(varReg), (v).to(tl.bfloat16))
-}
+def callSignature : CallSignature where
+  pointers := [("xReg",.fp32),("meanReg",.bf16),("varReg",.bf16)]
+  scalars := [("rowStride",.integer)]
+  constexpr := ["blockSize"]
 
-/-- Online Welford mean/variance kernel: the same population mean/variance via
-Welford's one-pass recurrence inside a `for` loop (running mean `M`, running
-sum-of-squared-deviations `S`). -/
-def onlineWelfordKernel (xReg meanReg varReg : RegionName)
-    (blockSize rowStride : Nat) : ComputeKernel := triton {
-  pid := tl.program_id(0)
-  M   := 0
-  S   := 0
-  tl.for i in $(blockSize) {
-    xi     := tl.load($(xReg) + (pid * $(rowStride) + i))
-    delta  := xi - M
-    M      := M + delta / (tl.toReal(i) + 1)
-    delta2 := xi - M
-    S      := S + delta * delta2
+def twopassWelfordKernel (xReg meanReg varReg : RegionName) (blockSize rowStride : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [rowStride := rowStride] in
+  triton {
+    pid = tl.program_id(0)
+    offs = pid * rowStride + tl.arange(0, blockSize)
+    x = tl.load(xReg + offs)
+    count = tl.full((), blockSize, tl.uint64).to(tl.float32)
+    s_x = tl.sum(x, axis=0)
+    μ = s_x / count
+    d = x - μ
+    s_d2 = tl.sum(d * d, axis=0)
+    v = s_d2 / count
+    tl.store(meanReg, μ.to(tl.bfloat16))
+    tl.store(varReg, v.to(tl.bfloat16))
   }
-  tl.store($(meanReg), (M).to(tl.bfloat16))
-  tl.store($(varReg), (S / tl.toReal($(blockSize))).to(tl.bfloat16))
-}
+
+def onlineWelfordKernel (xReg meanReg varReg : RegionName) (blockSize rowStride : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [rowStride := rowStride] in
+  triton {
+    pid = tl.program_id(0)
+    M = 0.0
+    S = 0.0
+    for i in range(blockSize):
+        xi = tl.load(xReg + (pid * rowStride + i))
+        delta = xi - M
+        M = M + delta / (i.to(tl.float32) + 1)
+        delta2 = xi - M
+        S = S + delta * delta2
+    count = tl.full((), blockSize, tl.uint64).to(tl.float32)
+    tl.store(meanReg, M.to(tl.bfloat16))
+    tl.store(varReg, (S / count).to(tl.bfloat16))
+  }
 
 end VeriTile.Bench.Examples.Welford.Kernels

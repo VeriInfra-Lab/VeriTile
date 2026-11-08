@@ -10,7 +10,7 @@ theorem execution {α : Type} [Inhabited α] (algebra : Algebra α)
     (h : Host.Call) (c : Host.Config) (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32)
     (s : State α) :
     FP.Structural.exec (engine algebra) (Kernels.source h c) s=
-      FP.Structural.exec (engine algebra) (Kernels.indexCommuted h c) s := by
+      FP.Structural.exec (engine algebra) (Kernels.indexCommutedKernel h c) s := by
   rw [←Kernels.fp32Source_eq h c ha hb]
   exact KernelRewrite.execution algebra h c s
 
@@ -25,7 +25,7 @@ def schedule {α : Type} [Inhabited α] (o : FPSuccess.Ops α) (h : Host.Call) (
     List (GridIndex (h.grid c)) → State α → Option (State α)
   | [],s => some s
   | idx::rest,s => do
-    let next ← FP.Structural.exec (engine o.algebra) (Kernels.indexCommuted h c) (FPGrid.atIndex s idx)
+    let next ← FP.Structural.exec (engine o.algebra) (Kernels.indexCommutedKernel h c) (FPGrid.atIndex s idx)
     schedule o h c rest next
 
 theorem schedule_eq {α : Type} [Inhabited α] (o : FPSuccess.Ops α) (h : Host.Call)

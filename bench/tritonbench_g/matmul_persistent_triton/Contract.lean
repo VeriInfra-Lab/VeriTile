@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_persistent_triton.Tensor
-import bench.tritonbench_g.matmul_persistent_triton.Values
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Support.Tensor
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Support.Values
 
 namespace VeriTile.Bench.Repairs.MatmulPersistentTritonScalarCast
 open VeriTile.Triton FP.Structural

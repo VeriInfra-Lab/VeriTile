@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_flaggems.Proofs.SafetyBase
+import bench.tritonbench_g.softmax_flaggems.Proofs.SafetyAligned
 
 namespace VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.SourceSafety.ForwardInner
 open VeriTile Triton FP.Structural Safety
@@ -36,15 +36,16 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
     (hs : Ready base X Y row N B v s) (hrow : row<rows) (bounds : RegionName → Nat)
     (hx : ∀ k,k<rows*N → k<bounds X)
     (activeBound : ∀ i : Fin B, active masked N cur (i,PUnit.unit) → cur+i.val<N) :
-    traceSafeList A bounds (rangeBody (code Y X rows N B) (if masked then 6 else 5))
-      (s.setReg "start_n" .nat [] (fun _ => cur)) := by
+    traceSafeList A bounds (rangeBody (code Y X rows N B) (if masked then 9 else 8))
+      (s.setReg "start_n" .int [] (fun _ => (cur : Int))) := by
   rcases hs with ⟨hxp,hyp,hprev,hm,hz,hmem⟩
   cases masked <;>
-    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
       ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
       TileShape.axisDim,State.setReg,and_assoc,hxp,hyp,hprev,hm,hz,hmem]
+  all_goals try simp only [←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   · intro i
     exact hx _ (HostGrid.inner_bound hrow (activeBound i (by simp [active])))
   · intro i hi
@@ -52,18 +53,23 @@ theorem accumulate_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
 
 theorem emit_safe (A : Algebra α) (base s : State α) (X Y : RegionName)
     (masked : Bool) (row rows N B cur : Nat) (mx z : α)
+    (hcur : cur≤previous N B)
     (hs : WriteReady base X Y row N B mx z s) (hrow : row<rows) (bounds : RegionName → Nat)
     (hx : ∀ k,k<rows*N → k<bounds X) (hy : ∀ k,k<rows*N → k<bounds Y)
     (activeBound : ∀ i : Fin B, active masked N (previous N B-cur) (i,PUnit.unit) → previous N B-cur+i.val<N) :
-    traceSafeList A bounds (rangeBody (code Y X rows N B) (if masked then 11 else 12))
-      (s.setReg "start_n" .nat [] (fun _ => cur)) := by
+    traceSafeList A bounds (rangeBody (code Y X rows N B) (if masked then 17 else 18))
+      (if masked then s.setReg "start_n" .nat [] (fun _ => cur)
+        else s.setReg "start_n" .int [] (fun _ => (cur : Int))) := by
+  have subCast : (previous N B : Int)-(cur : Int) = ((previous N B-cur : Nat) : Int) :=
+    (Int.ofNat_sub hcur).symm
   rcases hs with ⟨hxp,hyp,hprev,hm,hz,hmem⟩
   cases masked <;>
-    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
+    simp [rangeBody,code,branch,Source.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner,VeriTile.Bench.Repairs.SoftmaxFlaggemsFiniteSeedV2.forward_inner_kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
       safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
       ComputeDType.eraseDType,numeric,numericLt,natLt,bop,Region.cast,ofFloat,toFloat,
       TileShape.axisDim,State.setReg,and_assoc,hxp,hyp,hprev,hm,hz,hmem]
+  all_goals try simp only [subCast,←Int.natCast_add,←Int.natCast_mul,Int.toNat_natCast,Int.ofNat_lt]
   · constructor
     · intro i
       exact hx _ (HostGrid.inner_bound hrow (activeBound i (by simp [active])))

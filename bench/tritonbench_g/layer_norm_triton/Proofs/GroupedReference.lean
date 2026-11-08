@@ -10,21 +10,21 @@ noncomputable section
 variable {α : Type} [Inhabited α]
 
 def loaded (m : Model α) (N : Nat) (x : Fin B → α) (j : Fin B) : α :=
-  cast m (if j.val<N then x j else lit m 0)
+  cast m (m.scalar.fp32Load (if j.val<N then x j else lit m 0))
 def xhat (m : Model α) (N : Nat) (x : Fin B → α) (mean inverse : α) (j : Fin B) : α :=
   if j.val<N then bin m .mul (bin m .sub (loaded m N x j) (m.scalar.fp32Load mean))
     (m.scalar.fp32Load inverse) else lit m 0
 
 def wdy (m : Model α) (N : Nat) (dy w : Fin B → α) (j : Fin B) : α :=
-  if j.val<N then bin m .mul (cast m (w j)) (loaded m N dy j) else lit m 0
+  if j.val<N then bin m .mul (cast m (m.scalar.fp32Load (w j))) (loaded m N dy j) else lit m 0
 
 def dx (m : Model α) (N B : Nat) (x dy w : Fin B → α) (mean inverse : α) (j : Fin B) : α :=
   let normalized := xhat m N x mean inverse
   let weighted := wdy m N dy w
-  let first := bin m .div (sum m B (fun k => bin m .mul (normalized k) (weighted k))) (lit m N)
-  let second := bin m .div (sum m B weighted) (lit m N)
-  cast m (bin m .mul (bin m .sub (weighted j)
-    (bin m .add (bin m .mul (normalized j) first) second)) (m.scalar.fp32Load inverse))
+  let first := bin m .div (sum m B (fun k => bin m .mul (normalized k) (weighted k))) (m.scalar.fromInt (some .fp32) (N : Int))
+  let second := bin m .div (sum m B weighted) (m.scalar.fromInt (some .fp32) (N : Int))
+  bin m .mul (bin m .sub (weighted j)
+    (bin m .add (bin m .mul (normalized j) first) second)) (m.scalar.fp32Load inverse)
 
 def partials (m : Model α) (N : Nat) (x dy : Fin B → α) (mean inverse : α)
     (same : Bool) (a : (Fin B → α)×(Fin B → α)) : (Fin B → α)×(Fin B → α) :=

@@ -1,5 +1,5 @@
 import VeriTile.Triton.Memory.LogicalIO
-import VeriTile.Triton.Memory.KernelSpec.Scatter
+import VeriTile.Triton.Memory.SignedScatterIO
 import bench.tritonbench_g.apply_penalty.Kernels
 import bench.tritonbench_g.apply_penalty.Proofs.Rewrite
 import VeriTile.Triton.Float.ProgramEquivalence
@@ -9,20 +9,19 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 
 /-- Three FP32 scalar penalties, two cumsum scalar slots, active IDs/counts,
-and the gathered FP32 input logits. Integer cells retain the selected source's
-nonnegative signed-int32 projection. -/
+and the gathered FP32 input logits. Integer inputs are actual signed cells; no natural-valued load is substituted. -/
 @[reducible] def inputs (B : Nat) : List IOChannel :=
   [⟨.real,[],"presence"⟩,⟨.real,[],"frequency"⟩,⟨.real,[],"repetition"⟩,
-   ⟨.nat,[],"cumsum"⟩,⟨.nat,[],"cumsum"⟩,
-   ⟨.nat,[B],"ids"⟩,⟨.nat,[B],"counts"⟩,⟨.real,[B],"logits"⟩]
+   ⟨.int,[],"cumsum"⟩,⟨.int,[],"cumsum"⟩,
+   ⟨.int,[B],"ids"⟩,⟨.int,[B],"counts"⟩,⟨.real,[B],"logits"⟩]
 
 abbrev Inputs (α : Type) (B : Nat) := ChannelValues α (inputs B)
 
 def active {α : Type} {B : Nat} (xs : Inputs α B) (j : TileIndex [B]) : Prop :=
-  Nat.lt (Nat.add (xs 3 PUnit.unit) j.1.val) (xs 4 PUnit.unit)
+  Int.lt (Int.add (xs 3 PUnit.unit) (j.1.val : Int)) (xs 4 PUnit.unit)
 
 def address {α : Type} {B : Nat} (stride pid : Nat) (xs : Inputs α B)
-    (j : TileIndex [B]) : Nat := Nat.add (pid*stride) (xs 5 j)
+    (j : TileIndex [B]) : Nat := (Int.add (pid*stride : Int) (xs 5 j)).toNat
 
 def launch {α : Type} (M : Algebra α) (candidate : Bool) (stride B pid : Nat) :
     Invocation α where
@@ -45,9 +44,9 @@ retain precisely the same store order even when token IDs repeat. -/
     | ⟨2,_⟩ => fun _ => pid
     | ⟨3,_⟩ => fun _ => pid
     | ⟨4,_⟩ => fun _ => pid+1
-    | ⟨5,_⟩ => fun j => Nat.add (xs 3 PUnit.unit) j.1.val
-    | ⟨6,_⟩ => fun j => Nat.add (xs 3 PUnit.unit) j.1.val
-    | ⟨7,_⟩ => fun j => address stride pid xs j
+    | ⟨5,_⟩ => fun j => (Int.add (xs 3 PUnit.unit) (j.1.val : Int)).toNat
+    | ⟨6,_⟩ => fun j => (Int.add (xs 3 PUnit.unit) (j.1.val : Int)).toNat
+    | ⟨7,_⟩ => fun j => pid*stride + (xs 5 j).toNat
   inputMask := fun i xs => match i with
     | ⟨0,_⟩ => fun _ => True
     | ⟨1,_⟩ => fun _ => True
@@ -96,8 +95,8 @@ def applyPenaltyIO
     (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
     (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
     (stride_logit_b stride_logit_s BLOCK_P : Nat) :
-    MetaScatterMasked2DKernelIO₁ where
-  kernel := kernel Logits presence_penalty freqency_penalty
+    SignedScatterIO where
+  kernel := sourceKernel Logits presence_penalty freqency_penalty
     repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
     stride_logit_b stride_logit_s BLOCK_P
   projection := by rfl
@@ -124,7 +123,7 @@ def applyPenaltyIO
 /-- Identical metadata slots, masks, in-place gather/scatter and active-index requirement. -/
 def reciprocalIO (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
     (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
-    (stride_logit_b stride_logit_s BLOCK_P : Nat) : MetaScatterMasked2DKernelIO₁ :=
+    (stride_logit_b stride_logit_s BLOCK_P : Nat) : SignedScatterIO :=
   { applyPenaltyIO Logits presence_penalty freqency_penalty
       repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
       stride_logit_b stride_logit_s BLOCK_P with
@@ -155,7 +154,7 @@ structure Inputs (B : Nat) where
   logits : Fin B → ℝ
 
 /-- Only curry the formula arguments; keep the full existing scatter judgment. -/
-def judgment (core : MetaScatterMasked2DKernelIO₁)
+def judgment (core : SignedScatterIO)
     (f : Inputs core.B → Fin core.B → ℝ) : Prop :=
   core.Implements (fun p q presence frequency repetition start stop ids counts logits =>
     f ⟨p,q,presence,frequency,repetition,start,stop,ids,counts,logits⟩)

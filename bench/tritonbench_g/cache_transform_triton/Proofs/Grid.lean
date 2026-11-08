@@ -73,6 +73,8 @@ structure GatherInput {α : Type} [Inhabited α] (p : Parameters) (s : State α)
   rowBound : ∀ q, q < n → rows q < capacity
   capacityBound : capacity ≤ 9223372036854775807
   payload : ∀ o, o < capacity * p.rowBytes → s.mem p.cache o = .mk .nat (cache o)
+  /-- Values of the actual uint8 input cells, rather than arbitrary Nat words. -/
+  payloadBound : ∀ o, o < capacity * p.rowBytes → cache o < 256
 
 def byteTarget (p : Parameters) (rows cache : Nat → Nat) (o : Nat) : Nat :=
   cache (rows (o / p.rowBytes) * p.rowBytes + o % p.rowBytes)
@@ -103,8 +105,8 @@ theorem tile_readback {α : Type} [Inhabited α] (M : Algebra α) (p : Parameter
       (input.shape ▸ ho) input.rowBound).2.2
   apply readback_at M (tileParameters p k) (tileState s k) i o _ hidx ho
     (by change 256 ≤ 18446744073709551616; decide)
-  change Cell.mk .nat ((s.mem p.cache (inputOffset (tileParameters p k) (tileState s k) i)).read .nat) = _
-  rw [hoff, input.payload _ hb, Cell.read_same]
+  change Cell.mk .nat (((s.mem p.cache (inputOffset (tileParameters p k) (tileState s k) i)).read .nat) % 256) = _
+  rw [hoff, input.payload _ hb, Cell.read_same, Nat.mod_eq_of_lt (input.payloadBound _ hb)]
   rfl
 
 def runTiles {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)

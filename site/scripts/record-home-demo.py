@@ -14,16 +14,17 @@ import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'bench/examples/VectorAdd/Correct.lean'
+SOURCE = ROOT / 'bench/examples/VectorAdd/RealCorrect.lean'
 KERNELS = ROOT / 'bench/examples/VectorAdd/Kernels.lean'
+IO = ROOT / 'bench/examples/VectorAdd/IO.lean'
 REAL_PROOFS = ROOT / 'bench/examples/VectorAdd/Proofs/Real.lean'
 OUTPUT = ROOT / 'site/src/lib/vector-add-record.json'
 
 
 def fingerprint():
     paths = [ROOT / p for p in ('lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
-                               'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/Correct.lean',
-                               'bench/examples/VectorAdd/Kernels.lean',
+                               'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/RealCorrect.lean',
+                               'bench/examples/VectorAdd/Kernels.lean', 'bench/examples/VectorAdd/IO.lean',
                                'bench/examples/VectorAdd/Proofs/Real.lean')]
     paths += list((ROOT / 'VeriTile').rglob('*.lean'))
     digest = hashlib.sha256()
@@ -50,7 +51,7 @@ def main():
     # existing helpers while shadowing only addKernel would keep their proofs
     # attached to the unmodified kernel, invalidating the mutation check.
     imports, bodies = [], []
-    for path in (KERNELS, REAL_PROOFS, SOURCE):
+    for path in (KERNELS, REAL_PROOFS, IO, SOURCE):
         body = []
         for line in path.read_text().splitlines():
             if line.startswith('import '):
@@ -60,9 +61,9 @@ def main():
                 body.append(line)
         bodies.append('\n'.join(body))
     text = '\n'.join(imports + bodies) + '\n'
-    original_line = '  out  := x + y'
+    original_line = '    output = x + y'
     assert text.count(original_line) == 1
-    kernel = re.search(r'def addKernel [^\n]* := (triton \{[\s\S]*?\n\})', text)[1]
+    kernel = re.search(r'def addKernel [\s\S]*?\b(triton \{[\s\S]*?\n  \})', text)[1]
     x, y = [1, 2, 3, 4], [4, 5, 6, 7]
     records = []
 
@@ -80,7 +81,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='veritile-home-demo-') as directory:
         directory = Path(directory)
         for variant, operator in [('add', '+'), ('subtract', '-')]:
-            changed = text.replace(original_line, f'  out  := x {operator} y')
+            changed = text.replace(original_line, f'    output = x {operator} y')
             output = run(directory, f'VectorAdd-{variant}.lean', changed, 0 if variant == 'add' else 1)
             if variant == 'subtract' and 'unsolved goals' not in output:
                 raise SystemExit('The changed kernel must fail with a proof obligation, not an unrelated compiler error.')
@@ -114,12 +115,12 @@ end VeriTile.Bench.Examples.VectorAdd
             sample_output = run(directory, f'Sample-{variant}.lean', sample, 0)
             records.append({'id': variant, 'operator': operator, 'actual': actual,
                             'exitCode': 0 if variant == 'add' else 1,
-                            'kernel': kernel.replace(original_line, f'  out  := x {operator} y'),
+                            'kernel': kernel.replace(original_line, f'    output = x {operator} y'),
                             'diagnostics': output.strip(), 'sampleDiagnostics': sample_output.strip()})
 
     version = subprocess.check_output([lake, 'env', lean, '--version'], cwd=ROOT, text=True).strip()
     OUTPUT.write_text(json.dumps({'fingerprint': stamp, 'leanVersion': version,
-                                 'source': 'bench/examples/VectorAdd/Correct.lean',
+                                 'source': 'bench/examples/VectorAdd/RealCorrect.lean',
                                  'x': x, 'y': y, 'expected': [a + b for a, b in zip(x, y)],
                                  'variants': records}, indent=2, ensure_ascii=False) + '\n')
     print(f'Recorded both proof checks and both sample-value proofs in {OUTPUT.relative_to(ROOT)}.')

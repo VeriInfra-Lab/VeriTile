@@ -1,6 +1,6 @@
 import bench.tritonbench_g.relu_strided_buffer.Proofs.Mathematical_CappedGrid
 import bench.tritonbench_g.relu_strided_buffer.Proofs.Mathematical_SignedView
-import bench.tritonbench_g.lora_expand_gemv.Sources.Mathematical_HostMetadata
+import bench.tritonbench_g.lora_expand_gemv.Proofs.Sources.Mathematical_HostMetadata
 import VeriTile.Meta.StatementAudit
 
 /-!

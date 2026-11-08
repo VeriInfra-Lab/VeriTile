@@ -53,5 +53,57 @@ def expected (cfg : FP.Config) (p : Parameters) (s : State Word) (i : CIndex p) 
   (toSigned 32 (scaled cfg p s i)).getD 0
 def InputDefined (cfg : FP.Config) (p : Parameters) (s : State Word) : Prop :=
   ∀ i, active p s i → (toSigned 32 (scaled cfg p s i)).isSome
+@[simp] theorem wrap_accumulation (p : Parameters) (s : State Word) (k : Nat) (i : CIndex p) :
+    wrap 32 (accumulation p s k i)=accumulation p s k i := by
+  cases k <;> simp [accumulation,wrap,BitVec.ofInt_toInt]
+
+/-- The source stops at K, even when the historical proof parameter admits
+extra masked iterations. Those iterations carry only zero products. -/
+theorem stopped_accumulation (p : Parameters) (s : State Word)
+    (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (k : Nat) (hk : k≤p.steps) (stopped : p.inner≤k*p.blockInner) (i : CIndex p) :
+    accumulation p s p.steps i=accumulation p s k i := by
+  by_cases zero : p.blockInner=0
+  · have empty : List.finRange p.blockInner=[] := by
+      apply List.eq_nil_of_length_eq_zero
+      simpa using zero
+    have allzero (n : Nat) : accumulation p s n i=0 := by
+      induction n with
+      | zero=>rfl
+      | succ n ih=>simp [accumulation,ih,FP.IntegerDot.wordDot,empty,wrap]
+    rw [allzero,allzero]
+  by_cases even : p.even=Bool.true
+  · have same : k=p.steps := by
+      have hx:=heven even
+      have positive : 0<p.blockInner := by omega
+      nlinarith
+    rw [same]
+  have false_flag : p.even=Bool.false := by cases h:p.even <;> simp_all
+  have zero_dot (n : Nat) (hn : k≤n) :
+      (FP.IntegerDot.wordDot [] (aValue p s n) (bValue p s n) i).toInt=0 := by
+    have bound : p.inner≤n*p.blockInner := stopped.trans (Nat.mul_le_mul_right _ hn)
+    have az : aValue p s n=(fun _=>0) := by
+      funext j
+      simp [aValue,false_flag,Nat.sub_eq_zero_of_le bound,wrap]
+    have bz : bValue p s n=(fun _=>0) := by
+      funext j
+      simp [bValue,false_flag,Nat.sub_eq_zero_of_le bound,wrap]
+    rw [az,bz,Word32.dot_zero]
+  have stable (n : Nat) : k≤n → accumulation p s n i=accumulation p s k i := by
+    induction n with
+    | zero=>
+      intro h
+      have same : k=0 := by omega
+      subst k
+      rfl
+    | succ n ih=>
+      intro hn
+      by_cases eq : k=n+1
+      · rw [eq]
+      have less : k≤n := by omega
+      simp only [accumulation]
+      rw [zero_dot n less,Int.add_zero,wrap_accumulation,ih less]
+  exact stable p.steps hk
+
 end
 end VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.ScaledWord

@@ -4,7 +4,7 @@ import VeriTile.Triton.Float.LogicalProgramIO
 import bench.tritonbench_g.token_softmax_llama.Proofs.KernelSource
 
 /-! Llama uses the same quoted strided source and public logical channels as
-Bloom: two natural metadata channels and FP32 values for every selected PID,
+Bloom: two signed integer metadata channels and FP32 values for every selected PID,
 with the actual head/token strides, masks and complete schedule. The shared
 layout is defined in Bloom/IO.lean; source_is_shared proves source identity. -/
 namespace VeriTile.Bench.Repairs.TokenSoftmaxLlama.PublicIO
@@ -19,8 +19,8 @@ def nativeIO (I : Native.Instructions) (V : Nat) (p : Parameters) (work : List G
 
 /-- Metadata and values of every selected segment/head event, in schedule order. -/
 structure LogicalInputs (p : Parameters) (work : List Grid.PID) where
-  starts : Fin work.length → Nat
-  lengths : Fin work.length → Nat
+  starts : Fin work.length → Int
+  lengths : Fin work.length → Int
   values : Fin work.length → Fin p.width → ℝ
 
 def logicalInputs (p : Parameters) (work : List Grid.PID) :
@@ -57,7 +57,7 @@ def logicalDomain (p : Parameters) (work : List Grid.PID) (xs : LogicalInputs p 
 /-- The finite active-segment accessor. The coverage domain excludes its zero
 branch on every denominator coordinate. Padding remains in `values`. -/
 def LogicalInputs.segment (p : Parameters) (work : List Grid.PID) (xs : LogicalInputs p work)
-    (r : Fin work.length) (j : Fin (xs.lengths r)) : ℝ :=
+    (r : Fin work.length) (j : Fin (xs.lengths r).toNat) : ℝ :=
   if h : j.val < p.width then xs.values r ⟨j.val,h⟩ else 0
 
 end

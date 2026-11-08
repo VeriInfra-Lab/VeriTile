@@ -1,4 +1,4 @@
-import bench.tritonbench_g.mean_reduction.Sources.Mathematical_Kernels
+import bench.tritonbench_g.mean_reduction.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 
@@ -36,8 +36,8 @@ theorem typed_projection (v : Bool) (X Mean : RegionName)
       mathKernel v X Mean M N BM BN := by
   simp only [ComputeKernel.eraseDType, typed_projects, ComputeKernel.toAlgKernel_fromKernelBody]
   cases v
-  all_goals simp only [typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource, mathKernel, indexStmt, Bool.false_eq_true, ↓reduceIte,
-    mean_dim_kernel, typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+  all_goals simp only [typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel, mathKernel, indexStmt, Bool.false_eq_true, ↓reduceIte,
+    mean_dim_kernel, typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind, ComputeDType.eraseDType, ComputeKernel.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, ComputeKernel.surfaceBody, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, Except.bind, bind, Kernel.eraseDType,
     Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType,
@@ -50,7 +50,7 @@ theorem typed_projection (v : Bool) (X Mean : RegionName)
 
 theorem mathKernel_false (X Mean : RegionName) (M N BM BN : Nat) :
     mathKernel Bool.false X Mean M N BM BN = (mean_dim_kernel X Mean M N BM BN).toAlgKernel := by
-    simp [mathKernel,indexStmt,mean_dim_kernel,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.eraseDType,
+    simp [mathKernel,indexStmt,mean_dim_kernel,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel,ComputeKernel.eraseDType,
       ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
       ComputeKernel.surfaceBody,Except.bind,bind,ComputeDType.eraseDType,Kernel.eraseDType,
@@ -76,7 +76,7 @@ def loadAddress (dtype : TileDType) (BM BN : Nat) : MemAccess dtype [BM, BN] :=
 /-- The full loop accumulates the converted tile in fp32 without reassociation. -/
 theorem accumulator_precision (v : Bool) (X Mean : RegionName)
     (M N BM BN : Nat) :
-    loopAssignment (typedKernel v X Mean M N BM BN) 4 =
+    loopAssignment (typedKernel v X Mean M N BM BN) 5 =
       some (.assign .real [BM, BN] "_mean" (.compute (.alg .fp32
         (.add .real Broadcast.nil.consSame.consSame
           (.ref .real [BM, BN] "_mean") (.ref .real [BM, BN] "a"))))) := by
@@ -89,7 +89,7 @@ theorem reduction_precision (v : Bool) (X Mean : RegionName)
       some (.assign .real [BM] "mean" (.compute (.alg .fp32
         (.div .real .scalarR
           (.reduceSum ⟨1, by simp⟩ Bool.false (.ref .real [BM, BN] "_mean"))
-          (.const (N : ℝ)))))) := by
+          (.natToReal (.constNat N)))))) := by
   cases v <;> rfl
 
 #guard_msgs (drop info) in

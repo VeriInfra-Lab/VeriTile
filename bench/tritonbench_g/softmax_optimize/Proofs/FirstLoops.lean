@@ -35,7 +35,7 @@ def fullStatement (X : RegionName) (N B : Nat) : Stmt :=
     (Source.inputFull X N B)
 
 def tailStatement (X : RegionName) (N B : Nat) : Stmt :=
-  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.ref .int [] "cols") (.constNat B)
+  .forRangeInt "start_n" (.ref .int [] "prev_multiple") (.constInt N) (.constNat B)
     (Source.inputTail X N B)
 
 theorem full_run (X : RegionName) (N B : Nat) (hN : 0 < N) (hB : 0 < B)
@@ -52,7 +52,7 @@ theorem tail_run (X : RegionName) (N B : Nat) (hN : 0 < N) (hB : 0 < B)
     (initial state : BlockState) (h : Invariant X N B initial (Config.fullTiles N B) state) :
     ∃ finalState, stepStmt (tailStatement X N B) state = some finalState ∧
       Invariant X N B initial (Config.fullTiles N B + 1) finalState := by
-  simp only [tailStatement, stepStmt, evalOp.eq_def, h.previousReg, h.colsReg,
+  simp only [tailStatement, stepStmt, evalOp.eq_def, h.previousReg,
     Option.bind_eq_bind, Option.bind_some, Tile.scalar_data]
   rw [Config.previous_eq_full_tiles hN hB]
   have hlt : ((Config.fullTiles N B * B : Nat) : Int) < (N : Int) := by

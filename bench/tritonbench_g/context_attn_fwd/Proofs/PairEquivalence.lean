@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.PairIO
+import bench.tritonbench_g.context_attn_fwd.Proofs.Support.PairIO
 import bench.tritonbench_g.context_attn_fwd.Proofs.SourcePair
 import bench.tritonbench_g.context_attn_fwd.Proofs.NativeIOComplete
 

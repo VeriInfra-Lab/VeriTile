@@ -23,13 +23,19 @@ theorem prefix_safe (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
     (s : State α) (bounds : RegionName → Nat)
     (input : ∀ i, Model.active p s i → Model.offset p s i < bounds xRegion) :
     traceSafeList (Model.backend M ops) bounds (segment p 0 8) s := by
-  simp [segment,source,ComputeKernel.surfaceBody,
+  simp [segment,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Model.backend,Option.bind,
     numericLt,numericLe,numericEq,natLt,natLe,bop,numeric,ofFloat,toFloat,
     Region.cast,ComputeDType.eraseDType,integralMod,integralFloorDiv]
   intro i first second
+  simp only [Broadcast.leftIndex,Broadcast.rightIndex,add_zero,zero_add,
+    ←Int.natCast_add,←Int.natCast_mul,signed_nonnegative,↓reduceIte,
+    ←Int.natCast_ediv,←Int.natCast_emod,signed_mod,signed_mod_pulled] at first second ⊢
+  simp only [←Int.natCast_add,←Int.natCast_mul,signed_mod_pulled,signed_mod,
+    signed_lt,signed_toNat] at first second ⊢
+  try simp only [←Int.natCast_add,←Int.natCast_mul,signed_lt,signed_toNat] at second ⊢
   exact input (i,PUnit.unit) ⟨first,second⟩
 
 /-- The complete scalar/reduction middle has no memory effects. This proof
@@ -39,7 +45,7 @@ theorem arithmetic_safe (M : Algebra α) (ops : Model.Primitives α) (p : Parame
     traceSafeList (Model.backend M ops) bounds (segment p 8 13) s := by
   apply trace_from_steps
   intro st member t
-  simp only [segment,source,ComputeKernel.surfaceBody,List.drop,List.take,
+  simp only [segment,sourceKernel,ComputeKernel.surfaceBody,List.drop,List.take,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals
@@ -53,7 +59,7 @@ theorem stores_safe (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
     (output : ∀ i, Model.active p s i → Model.offset p s i < bounds outRegion)
     (scale : Model.group p s < bounds scaleRegion) :
     traceSafeList (Model.backend M ops) bounds (segment p 21 2) (registers M ops p positive s) := by
-  simp [segment,source,ComputeKernel.surfaceBody,
+  simp [segment,sourceKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Model.backend,Option.bind,numericEq,bop,numeric,
@@ -66,8 +72,8 @@ theorem source_safe (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
     (input : ∀ i, Model.active p s i → Model.offset p s i < bounds xRegion)
     (output : ∀ i, Model.active p s i → Model.offset p s i < bounds outRegion)
     (scale : Model.group p s < bounds scaleRegion) :
-    TraceSafe (Model.backend M ops) bounds (source p) s := by
-  have split : (source p).surfaceBody = segment p 0 8 ++ segment p 8 13 ++ segment p 21 2 := rfl
+    TraceSafe (Model.backend M ops) bounds (sourceKernel p) s := by
+  have split : (sourceKernel p).surfaceBody = segment p 0 8 ++ segment p 8 13 ++ segment p 21 2 := rfl
   have middle : run (Model.backend M ops) (segment p 8 13) (addressed M p s) =
       some (registers M ops p positive s) := by
     have parts : segment p 8 13 = segment p 8 1 ++ segment p 9 3 ++ segment p 12 4 ++ segment p 16 5 := rfl

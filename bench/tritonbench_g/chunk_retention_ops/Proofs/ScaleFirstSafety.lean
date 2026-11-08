@@ -18,7 +18,7 @@ set_option maxRecDepth 30000
 four stages, through all actual loop predecessor states. No PID admissibility
 or numerical equality is assumed by this safety theorem. -/
 def outputCandidate (c : Shape) (scale : ℝ) : ComputeKernel :=
-  Source.forwardOScaleFirst "q" "k" "v" "h" "o"
+  Source.forwardOScaleFirstKernel "q" "k" "v" "h" "o"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV
 

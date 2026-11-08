@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Contract
-import bench.tritonbench_g.attention_fwd_triton3.Kernels
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Support.KernelEntryAdapters
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Contract
 open VeriTile Triton

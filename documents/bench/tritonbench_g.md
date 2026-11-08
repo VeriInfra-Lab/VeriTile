@@ -8,6 +8,6 @@ implementations and version directories are retained in Git history.
 
 The [selection ledger](../../validation/task_progress.json) identifies every
 current entry. Use the [corpus workflow](current_source_acceptance.md) for
-builds and checks; [contract review](../../validation/contracts.json) records
-scope and numerical conditions. Source correspondence and pending work remain
+builds and checks. The [archived review](../../validation/archive/contracts.json) preserves
+the earlier scope and numerical conditions. Source correspondence and pending work remain
 separate from Lean compilation.
