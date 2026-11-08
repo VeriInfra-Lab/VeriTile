@@ -40,6 +40,9 @@ def snapshot_project(root, destination, libraries=("ComparatorChallenge", "Compa
     with lakefile.open('a') as output:
         for library in libraries:
             output.write(f'\n[[lean_lib]]\nname = "{library}"\n')
+            # Replayed sources include the same deeply recursive proofs as
+            # TritonBenchGFinal, whose compiler workers use a 64 MiB stack.
+            output.write('weakLeanArgs = ["--tstack=65536"]\n')
             if submodules:
                 output.write(f'globs = ["{library}.+"]\n')
     return hashes
