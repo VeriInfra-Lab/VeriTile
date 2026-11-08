@@ -84,8 +84,15 @@ def require_tools():
         ('systemd AF_UNIX restriction',
          ['systemd-run', '--user', '--pipe', '--wait', '--collect',
           '--property=RestrictAddressFamilies=~AF_UNIX', 'true']),
-        ('Landlock sandbox',
-         ['landrun', '--rox', '/', shutil.which('true') or '/usr/bin/true']),
+        # Comparator itself uses --best-effort: ABI v4 has its filesystem and
+        # TCP controls, while device-ioctl mediation arrives with ABI v5.
+        ('Landlock filesystem sandbox',
+         ['landrun', '--best-effort', '--rox', '/', shutil.which('true') or '/usr/bin/true']),
+        # Require TCP mediation strictly. A best-effort probe alone could also
+        # succeed on an older kernel without enforcing network restrictions.
+        ('Landlock TCP sandbox',
+         ['landrun', '--unrestricted-filesystem', '--rox', '/',
+          shutil.which('true') or '/usr/bin/true']),
     ]
     failures = []
     for label, command in probes:
