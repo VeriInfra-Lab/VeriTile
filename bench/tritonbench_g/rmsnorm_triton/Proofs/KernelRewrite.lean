@@ -19,7 +19,7 @@ Only natural-number row-address products commute. -/
 theorem equivalent (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ) :
     originalProgram X W O sxb sxm sxk sw sob som sok N B eps ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       candidateProgram X W O sxb sxm sxk sw sob som sok N B eps := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 #axiomsClean equivalent
 end KernelRewrite

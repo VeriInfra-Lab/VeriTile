@@ -137,7 +137,7 @@ empirical `add_assoc`/`add_zero`, including normalization's zero steps. Padding 
 explicit in the original schedules, and row length/stride remain symbolic.
 The generic tactics remain available for syntax derivations and their existing
 IO adapter; see [the tactic guide](../../documents/EquivalenceTactics.md).
-Both scalar and matrix local rewrites use `equiv_decompose` and `fp_prove`.
+Both scalar and matrix local rewrites use `split_equiv` and `solve_fp`.
 The `GuardedRewrite` and `ProfiledRewrite` adapters retain each actual execution
 prefix and compose checked contextual lemmas. Domains locate assignments with
 `Source.prefixBefore`, using a zero-based occurrence for repeated writes to the

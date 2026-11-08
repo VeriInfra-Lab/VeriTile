@@ -29,7 +29,7 @@ theorem index_assignment {α : Type} [Inhabited α] (M : Algebra α)
         (.mul .nat .nil (.programId 0) (.constNat B)) (.arange B))))
       (.assign .nat [B] "idx" (.alg (.add .nat .scalarL
         (.mul .nat .nil (.constNat B) (.programId 0)) (.arange B)))) := by
-  fp_prove
+  solve_fp
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

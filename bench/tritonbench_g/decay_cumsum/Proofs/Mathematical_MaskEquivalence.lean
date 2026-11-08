@@ -38,7 +38,7 @@ def forwardProgram (swapped : Bool) : Program where
 theorem forward_equiv :
     forwardProgram storage g g_o s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]
     forwardProgram storage g g_o s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true := by
-  cases storage <;> equiv_decompose <;> fp_prove
+  cases storage <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions forward_equiv
 
@@ -51,7 +51,7 @@ def prepareProgram (swapped : Bool) : Program where
 theorem prepare_equiv :
     prepareProgram source gate q k g qg kg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]
     prepareProgram source gate q k g qg kg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true := by
-  cases source <;> cases gate <;> equiv_decompose <;> fp_prove
+  cases source <;> cases gate <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions prepare_equiv
 
@@ -64,7 +64,7 @@ def backwardProgram (swapped : Bool) : Program where
 theorem backward_equiv :
     backwardProgram source gate dq_inner dq_inter dk_inner dk_inter q k g dg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]
     backwardProgram source gate dq_inner dq_inter dk_inner dk_inter q k g dg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true := by
-  cases source <;> cases gate <;> equiv_decompose <;> fp_prove
+  cases source <;> cases gate <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions backward_equiv
 

@@ -53,7 +53,7 @@ def candidateKernel (p : Parameters) := indexCommutedSource .fp32 p.input p.star
 theorem equivalent (p : Parameters) :
     program (kernel .fp32 p) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       program (candidateKernel p) := by
-  equiv_decompose; fp_prove
+  split_equiv; solve_fp
 
 theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     (p : Parameters) (s : FP.Structural.State A) :
@@ -65,7 +65,7 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
       (.castIntToNat (.mul .int .nil (.ref .int [] "cur_batch") (.castNatToInt (.constNat p.lengthStride))))) .none)))
     (.assign .int [] "cur_batch_seq_len" (.alg (.load .int (.region p.length
       (.castIntToNat (.mul .int .nil (.castNatToInt (.constNat p.lengthStride)) (.ref .int [] "cur_batch")))) .none)))
-  fp_prove
+  solve_fp
 
 def candidateLaunch {α} [Inhabited α] (M : FP.Structural.Algebra α) (p : Parameters)
     (pid : Grid.PID) (m : Grid.Memory α) : Option (Grid.Memory α) :=

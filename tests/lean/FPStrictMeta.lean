@@ -23,12 +23,12 @@ private theorem commutationCertificate (a b : Nat) :
 
 theorem strict_decomposition (a b : Nat) :
     Derivation [] [10, a + b, 20] [10, b + a, 20] := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 theorem strict_search (a b : Nat) :
     Derivation [] [10, a + b, 20] [10, b + a, 20] := by
-  fp_prove
+  solve_fp
 
 private def experimentalEntry : RuleEntry Nat where
   rule := {
@@ -47,8 +47,8 @@ private def experimentalEntry : RuleEntry Nat where
 -- The synthetic atom is usable only with the explicit admission premise.
 theorem mixed (a b : Nat) (accepted : AcceptedAtom experimentalEntry) :
     Derivation [experimentalEntry] [a + b, 7] [b + a, 8] := by
-  equiv_decompose
-  · fp_prove
+  split_equiv
+  · solve_fp
   · exact .atom experimentalEntry (by simp) accepted
 
 private theorem replay {R : Assumptions Nat} {lhs rhs : List Nat}
@@ -91,7 +91,7 @@ set_option linter.unusedVariables false in
 example (a b : Nat) : True := by
   fail_if_success
     have : @Derivation Nat (StatementTheory.empty Nat) [] [a + b] [b + a] := by
-      fp_prove
+      solve_fp
   trivial
 
 /-- info: FP assumptions used by strict_decomposition:

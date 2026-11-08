@@ -3,7 +3,7 @@ import VeriTile.Triton.Float.ProfiledRewrite
 /-! Composing admitted rewrites inside profiled expressions. Each relation is
 checked after the actual common source prefix. Congruence preserves operand
 order, dtype, eager branch evaluation and failure; it supplies no floating law.
-Import this module with RewriteTactics to use these lemmas through fp_prove. -/
+Import this module with RewriteTactics to use these lemmas through solve_fp. -/
 namespace VeriTile.Triton.FP.ProfiledRewrite
 open Structural Guarded
 
