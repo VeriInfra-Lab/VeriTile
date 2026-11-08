@@ -1,6 +1,6 @@
 import VeriTile.Triton.DSL.CallSignature
 import bench.tritonbench_g.matmul_triton1.Proofs.SourceParts
-import bench.tritonbench_g.matmul_triton1.Sources.DotProfile
+import bench.tritonbench_g.matmul_triton1.Proofs.Sources.DotProfile
 import VeriTile.Meta.StatementAudit
 
 /-! Pasted Python tuple shapes and zero-start ranges preserve the complete

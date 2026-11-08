@@ -1,5 +1,5 @@
-import bench.tritonbench_g.matmul_leakyrelu.Tensor
-import bench.tritonbench_g.matmul_leakyrelu.Sources.Mathematical_ContractedWhole
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Support.Tensor
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Sources.Mathematical_ContractedWhole
 
 namespace VeriTile.Bench.Repairs.MatmulLeakyrelu.KernelOnly
 open VeriTile.Triton FP.Structural

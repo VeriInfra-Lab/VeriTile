@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rowwise_quantization_triton.Candidate
+import bench.tritonbench_g.rowwise_quantization_triton.Proofs.Support.Candidate
 import bench.tritonbench_g.rowwise_quantization_triton.Proofs.IOImplements
 import VeriTile.Triton.Float.IntegerProgramEquivalenceSyntax
 
@@ -58,8 +58,8 @@ theorem execution_eq (M : Algebra α) (round : α → BitVec 64)
     QuantizeIntegerStage.exec (KernelExecution.backend M equal) (some round)
       ⟨Candidate.source "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s =
     QuantizeIntegerStage.exec (KernelExecution.backend M equal) (some round)
-      ⟨source "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s := by
-  simp (maxSteps := 1500000) [Candidate.source,source,ComputeKernel.surfaceBody,
+      ⟨sourceKernel "x" "q" "m" columns width,fun _ => none,QuantizeIntegerStage.outputRegister⟩ s := by
+  simp (maxSteps := 1500000) [Candidate.source,earlyMaximumKernel,sourceKernel,ComputeKernel.surfaceBody,
     QuantizeIntegerStage.exec,QuantizeIntegerStage.run,QuantizeIntegerStage.step,
     QuantizeIntegerStage.evalExpr,QuantizeIntegerStage.store,QuantizeIntegerStage.storedInteger,
     QuantizeIntegerStage.outputRegister,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,

@@ -22,7 +22,7 @@ theorem source_single (xs : Inputs A c counts) (s : State B)
     (invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).Safe bounds s ∧
     ∃ t, (invocation (M ⟨b.val,h.val⟩) c ⟨b.val,h.val⟩).run s=some t ∧
       (∀ d : Fin c.dimensions, t.mem "Out" (Host.address c ⟨b.val,h.val⟩ d.val)=
-        .mk .fp32 (rawRow M encode c counts xs b h d)) ∧
+        .mk .real (rawRow M encode c counts xs b h d)) ∧
       (∀ (r : RegionName) a, (r≠"Out" ∨ ∀ d : Fin c.dimensions, a≠Host.address c ⟨b.val,h.val⟩ d.val) →
         t.mem r a=s.mem r a) := by
   constructor
@@ -52,7 +52,7 @@ theorem grid (xs : Inputs A c counts) (hm : LengthsMatch xs)
     ∃ t, runSchedule (jobs.map (fun j => invocation (M j) c j)) s=some t ∧
       (∀ b h, (⟨b.val,h.val⟩ : Host.Job)∈jobs → ∀ d : Fin c.dimensions,
         t.mem "Out" (Host.address c ⟨b.val,h.val⟩ d.val)=
-          .mk .fp32 (rawRow M encode c counts xs b h d)) ∧
+          .mk .real (rawRow M encode c counts xs b h d)) ∧
       (∀ r a, WorkOutside c jobs r a → t.mem r a=s.mem r a) := by
   induction jobs generalizing s with
   | nil => exact ⟨trivial,s,rfl,by simp,fun _ _ _ => rfl⟩
@@ -110,7 +110,7 @@ theorem ordered_implements (complete : work.Perm (Host.workset c)) :
     have value := values i.1 i.2.1 member i.2.2.1
     change mapCell (observe i.1 i.2.1 i.2.2.1)
       (t.mem "Out" (Host.address c ⟨i.1.val,i.2.1.val⟩ i.2.2.1.val))=
-      .mk .fp32 (orderedTarget M encode c observe counts xs (0 : Fin 1) i)
+      .mk .real (orderedTarget M encode c observe counts xs (0 : Fin 1) i)
     rw [value]
     rfl
   · intro r a outside

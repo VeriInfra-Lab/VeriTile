@@ -33,7 +33,7 @@ theorem step0 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 0) (f0 s start)=some (f1 p s start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
@@ -52,7 +52,7 @@ theorem step1 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 1) (f1 p s start)=some (f2 p s start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
@@ -79,7 +79,7 @@ theorem step2 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 2) (f2 p s start)=some (f3 M p s row start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
@@ -98,7 +98,7 @@ theorem step3 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 3) (f3 M p s row start)=some (f4 M p s row start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
@@ -117,7 +117,7 @@ theorem step4 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     (eps carry : α) (s : State α) (h : Tile.Registers p red row eps carry s) :
     step (engine M) (command p flag red 4) (f4 M p s row start)=some (f5 M p flag eps s row start) := by
   cases flag
-  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,KernelDSL.forwardLog,epsilonLoss,
+  all_goals simp only [command,forwardBody,forwardTemplateBody,forwardTemplate,KernelDSL.forward,KernelDSL.forwardDefault,forwardKernel,forwardCandidateKernel,KernelDSL.forwardLog,epsilonLoss,
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
     List.take,List.drop,List.nil_append,List.cons_append,
     Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
@@ -130,6 +130,7 @@ theorem step4 (M : Algebra α) (p : Parameters) (flag : Bool) (red row start : N
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,
     Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals norm_num only
+  all_goals simp [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,State.setReg,numeric,ofFloat,toFloat,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,h.epsilon]
   all_goals rfl
 
 end

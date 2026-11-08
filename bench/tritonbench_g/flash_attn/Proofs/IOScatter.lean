@@ -1,5 +1,5 @@
 import bench.tritonbench_g.flash_attn.Proofs.IOGrid
-import bench.tritonbench_g.flash_attn.Formulas
+import bench.tritonbench_g.flash_attn.Proofs.Support.Formulas
 
 namespace VeriTile.Bench.Repairs.FlashAttnScalarABIChecked.PublicIO
 open VeriTile Triton FP.Structural FlashAttn FlashAttn.ActualSource

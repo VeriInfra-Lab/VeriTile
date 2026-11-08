@@ -15,7 +15,7 @@ private theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α) (c : Who
     (input : ∀ j : Fin c.B,pid*c.B+j.val<c.n → pid*c.B+j.val<bounds c.X) :
     Safety.traceSafeList M bounds ((c.source kind p seed).surfaceBody.take 7) (tileState pid s) := by
   cases kind
-  all_goals simp [Whole.Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,
+  all_goals simp [Whole.Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -31,11 +31,11 @@ private theorem suffix_safe {α : Type} [Inhabited α] (M : Algebra α) (lt : α
     (hs : kind.inRange (TypedSource.seedInt kind seed)=Bool.true)
     (output : ∀ j : Fin c.B,pid*c.B+j.val<c.n → pid*c.B+j.val<bounds c.OUT) :
     Safety.traceSafeList M bounds ((c.source kind p seed).surfaceBody.drop 7)
-      (prefixState M c kind seed pid s) := by
-  have random := prefix_rand M c kind seed pid s hn hp hs
+      (prefixState M p c kind seed pid s) := by
+  have random := prefix_rand M p c kind seed pid s hn hp hs
   cases kind
   all_goals
-    simp only [Whole.Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,
+    simp only [Whole.Layout.source,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,
       List.drop_succ_cons,List.drop_zero,Random.i32ArangeSize,
       TypedExecution.seedOp,RandomDomain.profile] at random ⊢
     simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
@@ -44,7 +44,7 @@ private theorem suffix_safe {α : Type} [Inhabited α] (M : Algebra α) (lt : α
     simp [Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
       Safety.maskActive_unfold,Safety.safeOp_unfold,evalOp_unfold,store,
       Option.bind,ComputeDType.eraseDType,numeric,numericLt,ofFloat,toFloat,
-      Region.cast,prefixState,State.setReg,comparison]
+      Region.cast,prefixState,seedState,tileState,State.setReg,comparison]
   all_goals exact output
 
 /-- Actual source access safety, using the previously proved random-prefix
@@ -78,7 +78,7 @@ private theorem candidate_prefix_safe {α : Type} [Inhabited α] (M : Algebra α
     (input : ∀ j : Fin c.B,pid*c.B+j.val<c.n → pid*c.B+j.val<bounds c.X) :
     Safety.traceSafeList M bounds ((candidate c kind p seed).surfaceBody.take 7) (tileState pid s) := by
   cases kind
-  all_goals simp [candidate,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,
+  all_goals simp [candidate,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -90,14 +90,14 @@ private theorem candidate_prefix_executes {α : Type} [Inhabited α] (M : Algebr
     (c : Whole.Layout) (kind : Random.IntegerType) (p : ℝ)
     (seed : TypedSource.SeedCarrier kind) (pid : Nat) (s : State α) :
     run M ((candidate c kind p seed).surfaceBody.take 7) (tileState pid s) =
-      some (prefixState M c kind seed pid s) := by
+      some (prefixState M p c kind seed pid s) := by
   have commuted : bop (fun x y : Nat => x*y) Broadcast.nil
       (fun _ : TileIndex [] => c.B) (fun _ => pid) =
       (fun _ : TileIndex [] => pid*c.B) := by
     funext i
     exact Nat.mul_comm c.B pid
   cases kind
-  all_goals simp [candidate,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily,ComputeKernel.surfaceBody,run,step,evalExpr,
+  all_goals simp [candidate,TypedSource.source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,natLt,numericLt,bop,
     Region.cast,Random.i32ArangeSize,prefixState,seedState,tileState,Nat.mul_comm]
   all_goals simp only [commuted]

@@ -19,13 +19,19 @@ def bodyOf : ComputeStmt → List ComputeStmt
   | _ => []
 
 def varBody (sxk n B : Nat) : List ComputeStmt :=
-  bodyOf ((kernel "x" "weights" "out" 0 0 sxk 1 1 1 1 n B 0).surfaceBody[5]'(by simp [kernel,ComputeKernel.surfaceBody]))
+  bodyOf ((kernel "x" "weights" "out" 0 0 sxk 1 1 1 1 n B 0).surfaceBody[5]'(by simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    kernel,ComputeKernel.surfaceBody]))
 
 def post (n B : Nat) (eps : ℝ) : List ComputeStmt :=
   ((kernel "x" "weights" "out" 0 0 1 1 1 1 1 n B eps).surfaceBody.drop 6).take 2
 
 def outBody (sxk sw sob som sok n B : Nat) : List ComputeStmt :=
-  bodyOf ((kernel "x" "weights" "out" 0 0 sxk sw sob som sok n B 0).surfaceBody[8]'(by simp [kernel,ComputeKernel.surfaceBody]))
+  bodyOf ((kernel "x" "weights" "out" 0 0 sxk sw sob som sok n B 0).surfaceBody[8]'(by simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    kernel,ComputeKernel.surfaceBody]))
 
 def Fixed (B : Nat) (s : State α) : Prop :=
   (∃ v,s.regs .nat [] "pid_batch"=some v) ∧
@@ -40,7 +46,10 @@ theorem prelude_success (M : Algebra α) (sxb sxm B : Nat) (s : State α) :
     ∃ t,run M (prelude sxb sxm B) s=some t ∧ VarInvariant B t := by
   refine ⟨?_,?_,?_⟩
   rotate_left
-  · simp [prelude,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    prelude,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,ComputeDType.eraseDType,ofFloat,toFloat,Option.bind,State.setReg,numeric,bop]
     rfl
   · simp [VarInvariant,Fixed,State.setReg]
@@ -52,7 +61,10 @@ theorem var_success (M : Algebra α) (sxk n B off : Nat) (s : State α)
   rcases inv with ⟨⟨⟨pb,hpb⟩,⟨pm,hpm⟩,⟨offset,ho⟩,⟨lanes,hl⟩⟩,⟨acc,ha⟩⟩
   refine ⟨?_,?_,?_⟩
   rotate_left
-  · simp [varBody,bodyOf,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    varBody,bodyOf,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,ComputeDType.eraseDType,ofFloat,toFloat,Option.bind,State.setReg,numeric,bop,natLt,ho,hl,ha]
     rfl
   · simp [VarInvariant,Fixed,State.setReg,hpb,hpm,ho,hl]
@@ -63,7 +75,10 @@ theorem post_success (M : Algebra α) (n B : Nat) (eps : ℝ) (s : State α)
   rcases inv with ⟨⟨⟨pb,hpb⟩,⟨pm,hpm⟩,⟨offset,ho⟩,⟨lanes,hl⟩⟩,⟨acc,ha⟩⟩
   refine ⟨?_,?_,?_⟩
   rotate_left
-  · simp [post,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    post,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,ComputeDType.eraseDType,ofFloat,toFloat,Option.bind,State.setReg,numeric,bop,ha]
     rfl
   · simp [OutInvariant,Fixed,State.setReg,hpb,hpm,ho,hl]
@@ -84,7 +99,10 @@ theorem out_success (M : Algebra α) (sxk sw sob som sok n B off : Nat) (s : Sta
   rcases inv with ⟨⟨⟨pb,hpb⟩,⟨pm,hpm⟩,⟨offset,ho⟩,⟨lanes,hl⟩⟩,⟨std,hs⟩⟩
   refine ⟨?_,?_,?_⟩
   rotate_left
-  · simp [outBody,bodyOf,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  · simp [VeriTile.Bench.Repairs.RmsnormImplementation.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormImplementation.family,
+    outBody,bodyOf,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,evalDeltas,ComputeDType.eraseDType,ofFloat,toFloat,Option.bind,State.setReg,numeric,bop,natLt,
       ho,hl,hpb,hpm,hs,store,Region.cast]
     rfl

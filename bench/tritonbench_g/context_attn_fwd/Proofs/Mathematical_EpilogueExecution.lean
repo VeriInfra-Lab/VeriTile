@@ -37,11 +37,11 @@ def prepared (p : Layout) (r : Regions) (head : Nat) (start seq : Int)
 
 theorem executes (p : Layout) (r : Regions) (head : Nat) (start seq : Int)
     (rows : Fin p.BM → Nat) (v : Fin p.BM → Fin p.D → ℝ) (den : Fin p.BM → ℝ) (u : BlockState)
-    (hh : u.regs .nat [] "cur_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "cur_batch_in_all_start_index" = some (Tile.scalar start))
     (hl : u.regs .int [] "cur_batch_seq_len" = some (Tile.scalar seq))
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hden : u.regs .real [p.BM] "l_i" = some (Tile.vec (fun i => some (den i))))
     (hv : u.regs .real [p.BM,p.D] "acc" = some (Tile.mat (fun i d => some (v i d)))) :
     stepStmts (EpilogueProgram.post p r) u = some (prepared p r head start seq rows v den u) := by

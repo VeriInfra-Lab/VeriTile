@@ -29,7 +29,7 @@ theorem scores_eq (p : Parameters) (s : State ℝ) (i : Row p) (ha : active p s 
     (b : Nat) (j : Fin p.blockTokens) :
     scores P .fp32 p s b (i.1,j,PUnit.unit) = weights p s i (b+j.val) := by
   have hi : (i.1, PUnit.unit) = i := by cases i; rfl
-  simp [scores, P, Real.primitives, weights, scoreOffset, hi, ha, readScore, padding]
+  simp [scores,loadedScores,storageLoad, P, Real.primitives, weights, scoreOffset, hi, ha, readScore, padding]
 
 theorem scanned_eq (p : Parameters) (s : State ℝ) (i : Row p) (ha : active p s i)
     (b : Nat) (j : Fin p.blockTokens) :

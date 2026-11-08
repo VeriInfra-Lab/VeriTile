@@ -335,6 +335,8 @@ partial def expandIntegralArith (expandExpr : ExprExpander) (env : Env) (ctx : S
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let b' ← literalInIntegerContext a'.dtype b b'
+  let a' ← literalInIntegerContext b'.dtype a a'
   let (a', b') ← coerceNatIntOperands ctx a' b'
   ensureAlgorithmOnly ctx a'
   ensureAlgorithmOnly ctx b'
@@ -454,6 +456,10 @@ partial def expandNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx : Stri
           (Op.intToUnsigned $widthLit $a'.term) (Op.intToUnsigned $widthLit $b'.term))),
           (if width == 32 then .int32 else .int8), outShape, none, none⟩
     | _ => Macro.throwError (ctx ++ ": unsupported signed bitwise operation")
+  -- Bare Python integer literals inherit the natural bitwise channel; they
+  -- are not floating values. Fixed-width signed operands were handled above.
+  let a' ← literalInIntegerContext .nat a a'
+  let b' ← literalInIntegerContext .nat b b'
   ensureDType .nat a'.dtype ctx
   ensureDType .nat b'.dtype ctx
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
@@ -475,6 +481,9 @@ partial def expandBoolOrNatBitwise (expandExpr : ExprExpander) (env : Env) (ctx 
     return ⟨← `(Op.unsignedToInt $widthLit ($natOp $bc
       (Op.intToUnsigned $widthLit $a'.term) (Op.intToUnsigned $widthLit $b'.term))),
       (if width == 32 then .int32 else .int8), outShape, none, none⟩
+  let (a',b') ← if a'.dtype == .nat || b'.dtype == .nat then do
+      pure (← literalInIntegerContext .nat a a',← literalInIntegerContext .nat b b')
+    else pure (a',b')
   unless a'.dtype == b'.dtype do
     Macro.throwError (ctx ++ ": dtype mismatch")
   let (bc, outShape) ← broadcastTerm a'.shape b'.shape ctx
@@ -1465,7 +1474,13 @@ partial def expandReshapeLike (expandExpr : ExprExpander) (env : Env) (ctx : Str
         Macro.throwError (ctx ++ ": literal element-count mismatch (" ++ toString inProduct ++
            " input elements vs " ++ toString outProduct ++ " output elements)")
   | _, _ => pure ()
-  pure ⟨← `(Op.reshape $outShape $e'.term), e'.dtype, .dims outDims, none, none⟩
+  -- Reshaping only changes coordinates. Keep the operand's arithmetic
+  -- precision so later operations still use its FP32/FP64 backend.
+  let operand ← if e'.dtype == .real && e'.computeDType?.isSome then
+      e'.scopedFloatingTerm else pure e'.term
+  let term ← `(Op.reshape $outShape $operand)
+  let (computeTerm?, computeDType?) ← floatingComputeArith? ctx term e' e'
+  pure ⟨term, e'.dtype, .dims outDims, computeTerm?, computeDType?⟩
 
 partial def expandRavel (expandExpr : ExprExpander) (env : Env)
     (e : TSyntax `tritonExpr) : MacroM EOut := do

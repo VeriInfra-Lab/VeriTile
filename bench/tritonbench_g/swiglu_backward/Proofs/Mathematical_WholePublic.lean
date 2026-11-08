@@ -23,7 +23,7 @@ abbrev realAlgebra := SwigluFwd.Whole.realAlgebra
 theorem scalar_real (ch : Channel) (x y d : ℝ) :
     scalar realAlgebra ch x y d = formula ch x y d := by
   cases ch <;> simp only [scalar,formula,realAlgebra,SwigluFwd.Whole.realAlgebra,
-    Math.dx,Math.dy,Math.forward,Math.sigmoid_eq] <;> ring
+    Math.dx,Math.dy,Math.forward,Math.sigmoid_eq,id_eq] <;> ring
 
 /-- Every source operation, in order; branch-dependent allocations, asserts
 and both return alternatives are kept. Runtime-internal steps are abstract. -/

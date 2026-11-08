@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_kernel.Target
+import bench.tritonbench_g.attention_kernel.Proofs.Support.Target
 import bench.tritonbench_g.attention_kernel.Proofs.Binding
 
 /-! Only finite input windows enter the source recurrence. No condition is

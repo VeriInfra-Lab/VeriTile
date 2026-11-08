@@ -1,5 +1,5 @@
 import bench.tritonbench_g.cosine_compute.Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.CosineCompute.Rewrite
@@ -11,7 +11,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α) (n : Nat) (s :
     {t : State α // FP.Structural.exec (engine M) (originalKernel n) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [originalKernel,kernel,FP.Structural.exec,run,step,evalExpr,
+  simp [originalKernel,sourceKernel,FP.Structural.exec,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,numeric,numericLt,natLt,bop,store,Region.cast]
   rfl
 

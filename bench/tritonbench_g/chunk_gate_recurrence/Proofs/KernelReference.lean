@@ -21,7 +21,7 @@ def update (M : Algebra α) (carry gate incoming : α) : α :=
   M.binary (some .fp32) .real .add
     (M.binary (some .fp32) .real .mul carry (M.fp32Load gate)) (M.fp32Load incoming)
 def initial (M : Algebra α) (a : Inputs α) (seed : Bool) : Lane → α := fun i =>
-  if seed then M.cast (some .fp32) .real .real (a.seed i) else zero M
+  if seed then M.cast (some .fp32) .real .real (M.fp32Load (a.seed i)) else zero M
 def forward (M : Algebra α) (a : Inputs α) (seed : Bool) : Nat → Lane → α
   | 0 => initial M a seed
   | t+1 => fun i => update M (forward M a seed t i) (a.gate t) (a.source t i)

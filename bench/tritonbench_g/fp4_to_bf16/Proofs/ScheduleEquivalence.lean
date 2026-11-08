@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.ScheduleIO
+import bench.tritonbench_g.fp4_to_bf16.Proofs.Support.ScheduleIO
 import bench.tritonbench_g.fp4_to_bf16.Proofs.PublicIO
 
 namespace VeriTile.Bench.Repairs.Fp4ToBf16.ScheduleIO

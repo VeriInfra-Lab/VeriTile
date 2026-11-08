@@ -1,6 +1,6 @@
 import bench.tritonbench_g.fused_rotary_embedding.Kernels
 import bench.tritonbench_g.fused_rotary_embedding.Proofs.Kernels
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.Source
 open VeriTile.Triton FP.Structural FusedRotaryEmbedding
@@ -21,7 +21,7 @@ def algebra {α : Type} (rest : Algebra α) (p : Ops α) : Algebra α :=
 the actual Q stores before the conditional K/V loads and cache writes. -/
 def execution {α : Type} [Inhabited α] (rest : Algebra α) (ops : Ops α)
     (p : Parameters) (s : State α) :
-    {final : State α // FP.Structural.exec (algebra rest ops) (kernel p) s=some final} := by
+    {final : State α // FP.Structural.exec (algebra rest ops) (sourceKernel p) s=some final} := by
   have headNonneg : ¬(s.pids 0 : Int)<0 := by omega
   have signedLeader :
       ((s.pids 0 : Int)-(p.KV_GROUP_NUM : Int)*((s.pids 0 : Int)/(p.KV_GROUP_NUM : Int))=0) ↔
@@ -31,7 +31,7 @@ def execution {α : Type} [Inhabited α] (rest : Algebra α) (ops : Ops α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp (maxSteps := 1000000) [kernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    simp (maxSteps := 1000000) [sourceKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,Option.bind,
       algebra,numericLt,natLt,numericEq,bop,numeric,store,VeriTile.Triton.Region.cast,
       ComputeDType.eraseDType,ofFloat,toFloat,integralFloorDiv,integralMod,

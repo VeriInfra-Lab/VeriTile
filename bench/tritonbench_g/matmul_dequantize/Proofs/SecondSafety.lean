@@ -24,7 +24,7 @@ private theorem min_form (a b : Nat) : min a b = if a<b then a else b := by
 
 theorem prelude_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s : State A)
     (bounds : RegionName → Nat) : Safety.traceSafeList (backend M D) bounds (prelude p) s := by
-  simp [prelude,source,FPTyped.matmulTyped,ComputeKernel.surfaceBody,
+  simp [prelude,source,FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -36,7 +36,7 @@ theorem body_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s t : State A)
     (k : Nat) (hk : k<p.steps) (h : Invariant M D p s k t)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (backend M D) bounds (body p) (t.setReg "k" .nat [] (fun _ => k)) := by
-  simp [body,source,FPTyped.matmulTyped,ComputeKernel.surfaceBody,
+  simp [body,source,FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -52,7 +52,7 @@ theorem body_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s t : State A)
 theorem epilogue_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s t : State A)
     (h : Invariant M D p s (p.steps) t) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList (backend M D) bounds (epilogue p) t := by
-  simp [epilogue,source,FPTyped.matmulTyped,ComputeKernel.surfaceBody,
+  simp [epilogue,source,FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.safeCompute_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -75,22 +75,28 @@ theorem source_safe (M : Algebra A) (D : Dot A) (p : Parameters) (s : State A)
   have initial := preludeInvariant M D p s
   rw [List.singleton_append,Safety.traceSafeList_cons]
   constructor
-  · simp only [Safety.stepSafe_unfold]
-    apply Safety.rangeSafe_of_invariant (backend M D) bounds "k" (p.steps) 1 (body p)
-      (Invariant M D p s)
-    · intro k hk t h
-      exact body_safe M D p s t k hk h bounds hb
-    · intro k hk t h u hu
-      have eq := Option.some.inj ((bodyExecution M D p s t k h).property.symm.trans hu)
-      subst u
-      exact bodyInvariant M D p s t k h
-    · exact initial
+  · have hsafe : Safety.rangeSafe (backend M D) bounds "k" 0 p.steps 1 (body p)
+        (preludeExecution M D p s).val := by
+      apply Safety.rangeSafe_of_invariant (backend M D) bounds "k" (p.steps) 1 (body p)
+        (Invariant M D p s)
+      · intro k hk t h
+        exact body_safe M D p s t k hk h bounds hb
+      · intro k hk t h u hu
+        have eq := Option.some.inj ((bodyExecution M D p s t k h).property.symm.trans hu)
+        subst u
+        exact bodyInvariant M D p s t k h
+      · exact initial
+    simpa [loopStatement,source,FPTyped.matmulTyped,
+      VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel,
+      body,ComputeKernel.surfaceBody,Parameters.steps,Safety.stepSafe_unfold,
+      Safety.safeOp_unfold,evalOp_unfold,evalOffsets,numeric,bop,natLt,integralFloorDiv]
+      using hsafe
   · intro u hu
     obtain ⟨v,hv,hi⟩ := loopExecution M D p s (preludeExecution M D p s).val 0 (by omega) initial
     have runeq : step (backend M D)
-        (.forRange "k" 0 p.steps 1 (body p))
+        (loopStatement p)
         (preludeExecution M D p s).val=some v := by
-      simpa [step] using hv
+      exact (loop_step M D p _).trans hv
     have eq := Option.some.inj (runeq.symm.trans hu)
     subst u
     exact epilogue_safe M D p s v hi bounds hb

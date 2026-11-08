@@ -82,8 +82,8 @@ jobs:
       - name: Replay matmul source scopes
         run: |
           for task in matmul_triton1 matmul_triton2; do
-            lake build "bench.tritonbench_g.$task.Correct" "bench.tritonbench_g.$task.FPEquiv"
-            for entry in Correct FPEquiv; do
+            lake build "bench.tritonbench_g.$task.RealCorrect" "bench.tritonbench_g.$task.FPEquiv"
+            for entry in RealCorrect FPEquiv; do
               python3 scripts/check_comparator.py \
                 --file "bench/tritonbench_g/$task/$entry.lean" --trust \
                 --workspace "$RUNNER_TEMP/matmul-source-replay"
@@ -91,9 +91,9 @@ jobs:
           done
       - name: Replay rotary source-entry connections
         run: |
-          lake build bench.tritonbench_g.rotary_transform_ops.Correct \
+          lake build bench.tritonbench_g.rotary_transform_ops.RealCorrect \
             bench.tritonbench_g.rotary_transform_ops.FPEquiv
-          for entry in Proofs/SourceEntry Correct FPEquiv; do
+          for entry in Proofs/SourceEntry RealCorrect FPEquiv; do
             python3 scripts/check_comparator.py \
               --file "bench/tritonbench_g/rotary_transform_ops/$entry.lean" --trust \
               --workspace "$RUNNER_TEMP/rotary-source-replay"
@@ -102,8 +102,8 @@ jobs:
         run: |
           lake build tests.lean.ControlSource tests.lean.StreamKControlSource
           for task in spinning_lock_reduction streamk_matmul; do
-            lake build "bench.tritonbench_g.$task.Correct" "bench.tritonbench_g.$task.FPEquiv"
-            for entry in Correct FPEquiv; do
+            lake build "bench.tritonbench_g.$task.RealCorrect" "bench.tritonbench_g.$task.FPEquiv"
+            for entry in RealCorrect FPEquiv; do
               python3 scripts/check_comparator.py \
                 --file "bench/tritonbench_g/$task/$entry.lean" --trust \
                 --workspace "$RUNNER_TEMP/control-source-replay"
@@ -183,11 +183,16 @@ jobs:
           exit 1
       - name: Build every selected module and its complete dependencies
         run: |
+          snapshot="$RUNNER_TEMP/final-inventory.json"
+          python3 scripts/bench/final_inventory.py --write "$snapshot"
+          inventory_targets=--ci-targets
           if [ "$AUDIT_MODE" = --final-inventory ]; then
-            python3 scripts/bench/final_inventory.py --targets > "$RUNNER_TEMP/all-targets.txt"
-          else
-            python3 scripts/bench/final_inventory.py --ci-targets > "$RUNNER_TEMP/all-targets.txt"
+            inventory_targets=--targets
           fi
+          python3 scripts/bench/final_inventory.py "$inventory_targets" --snapshot "$snapshot" > "$RUNNER_TEMP/all-targets.txt"
+          snapshot_sha256=$(sha256sum -- "$snapshot")
+          printf 'AUDIT_TRUST_SNAPSHOT=%s\nAUDIT_TRUST_SNAPSHOT_SHA256=%s\n' \
+            "$snapshot" "${snapshot_sha256%% *}" >> "$GITHUB_ENV"
           python3 scripts/bench/select_audit_shard.py "$AUDIT_TRUST_SHARD_COUNT" "$AUDIT_TRUST_SHARD_INDEX" \
             < "$RUNNER_TEMP/all-targets.txt" > "$RUNNER_TEMP/shard-targets.txt"
           test -s "$RUNNER_TEMP/shard-targets.txt"

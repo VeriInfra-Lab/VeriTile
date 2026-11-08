@@ -48,8 +48,8 @@ abbrev recurrentIO (p : Ops α) (observe : α → α) (BH T D BDF BDB : Nat)
   scratchWrite := fun k => k.elim0
   scratchMask := fun k => k.elim0
   schedule := fun _ =>
-    (programs BH D BDF).map (invocation p (forward T D BDF U S)) ++
-    (programs BH D BDB).map (invocation p (backward T D BDB U V))
+    (programs BH D BDF).map (invocation p (forwardKernel T D BDF U S)) ++
+    (programs BH D BDB).map (invocation p (backwardKernel T D BDB U V))
   encode := id
   observe := fun _ _ => observe
 

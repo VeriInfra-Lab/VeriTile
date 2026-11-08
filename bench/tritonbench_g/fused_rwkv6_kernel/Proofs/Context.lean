@@ -87,26 +87,23 @@ structure Context (M : Algebra α) (c : Shape) (initial : State α) (scale : α)
 theorem entry_context (M : Algebra α) (c : Shape) (s : State α) (scale : α)
     (hs : s.regs .real [] "scale"=some (fun _ => scale)) :
     Context M c s scale 0 (entry M c s).val := by
-  by_cases hi : c.initial=Bool.true
+  by_cases hr : c.reverse=Bool.true <;> by_cases hi : c.initial=Bool.true
   all_goals constructor
-  all_goals simp [entry,hi,carry,scalarState,scalarSeed,ops,memory,regionName,
+  all_goals simp [entry,hi,hr,carry,scalarState,scalarSeed,ops,memory,regionName,
     inputs,stateAddress,biasAddress,loopMemory,bias,keyMask,valueMask,
-    pointer,keyBase,valueBase,outputBase,hs,
+    pointer,hr,keyBase,valueBase,outputBase,hs,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
     Nat.add_assoc,Nat.add_comm,Nat.add_left_comm,show (0.0 : ℝ)=0 by norm_num]
   all_goals try funext i
   all_goals try simp [Source.carry,scalarState,scalarSeed,ops,memory,regionName,
     inputs,stateAddress,biasAddress,Source.bias,keyMask,valueMask,hi,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Function.comp_def,
-    Nat.add_mul,Nat.mul_add,Nat.mul_assoc,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm,
+    Nat.add_mul,Nat.mul_add,Nat.mul_assoc,Nat.mul_comm,Nat.mul_left_comm,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm,
     and_comm,add_ite,ite_add]
   all_goals try rfl
-  case pos.po.h => split_ifs <;> omega
-  case neg.po.h => split_ifs <;> omega
-  case pos.state.h =>
-    congr 1
-    congr 1
-    split_ifs <;> congr 2 <;> omega
+  all_goals try (split_ifs <;> omega)
+  all_goals ring_nf
+  all_goals try rfl
 
 #specNonCircular terms avoiding [run,FP.Structural.exec,entry,loopMemory]
 end

@@ -1,6 +1,7 @@
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.KernelExecution
+import VeriTile.Triton.Float.SignedCast
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.Mathematical_GroupedGrid
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.QuantTransposeKernel.KernelResult
 open VeriTile.Triton FP.Structural KernelSource KernelExecution
@@ -9,6 +10,12 @@ noncomputable section
 set_option maxHeartbeats 4000000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
+
+private theorem signed8 (value : Int) :
+    (if 2 * ((value % 256).toNat % 256) < 256
+     then max (value % 256) 0 % 256 else max (value % 256) 0 % 256 - 256) =
+      value.bmod 256 := by
+  simpa [IntegerExpr.signedBits, BitVec.toInt_ofInt] using signedBits_int_mod 8 value
 
 abbrev Lane := TileIndex [128, 128]
 def flat (i : Lane) : Nat := i.1.val * 128 + i.2.1.val
@@ -65,7 +72,7 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α)
     QuantTransposeFinite.gridM, QuantTransposeFinite.gridN,
     QuantTransposeFinite.groupId, QuantTransposeFinite.groupSize,
     QuantTransposeFinite.groupWidth, hm, hn, hc, masked_scatter_memory,
-    min_def_lt, Nat.mul_comm,
+    min_def_lt, Nat.mul_comm, signed8,
     Broadcast.leftIndex, Broadcast.rightIndex]
 
 theorem flat_bound (i : Lane) : flat i < 128 * 128 := by

@@ -1,8 +1,8 @@
 import VeriTile.Triton.DSL
 import VeriTile.Triton.DSL.ControlSource
-import bench.tritonbench_g.spinning_lock_reduction.SourceAdapter
-import bench.tritonbench_g.spinning_lock_reduction.SourceSyntax
-import bench.tritonbench_g.streamk_matmul.SourceSyntax
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Support.SourceAdapter
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Support.SourceSyntax
+import bench.tritonbench_g.streamk_matmul.Proofs.Support.SourceSyntax
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Tests.ControlSource

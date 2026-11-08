@@ -45,10 +45,16 @@ def backwardFirstBeforeStore [Inhabited α] (a : Arithmetic α) (s : Shape) (b :
     (plans : Plans) (initial u : State (Staged.Node α)) (seed : Bool) (pid : ProgramId) (t : Nat) :
     State (Staged.Node α) :=
   let x := inputs (layout s b) initial
+  let u := u.setReg "__veritile_load_0" .real [s.BK] (fun i =>
+    Staged.atom (keyLoad a s x.k pid.head t (pid.key s i.1.val)))
   let u := u.setReg "_k" .real [s.BK] (fun i =>
     Staged.atom (keyLoad a s x.k pid.head t (pid.key s i.1.val)))
+  let u := u.setReg "__veritile_load_1" .real [s.BV] (fun i =>
+    Staged.atom (valueLoad a s x.v pid.head t (pid.value s i.1.val)))
   let u := u.setReg "_v" .real [s.BV] (fun i =>
     Staged.atom (valueLoad a s x.v pid.head t (pid.value s i.1.val)))
+  let u := u.setReg "__veritile_load_2" .real [s.BV] (fun i =>
+    Staged.atom (valueLoad a s x.do_ pid.head t (pid.value s i.1.val)))
   let u := u.setReg "_do" .real [s.BV] (fun i =>
     Staged.atom (valueLoad a s x.do_ pid.head t (pid.value s i.1.val)))
   let u := u.setReg "h" .real [s.BK,s.BV] (fun i =>

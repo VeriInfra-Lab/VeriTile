@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int_scaled_matmul.Proofs.ScaledWordContract
-import bench.tritonbench_g.int_scaled_matmul.Sources.LogicalSum
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.LogicalSum
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.ScaledWord
 open VeriTile.Triton FP.Structural FP.IntegerConversion
 noncomputable section

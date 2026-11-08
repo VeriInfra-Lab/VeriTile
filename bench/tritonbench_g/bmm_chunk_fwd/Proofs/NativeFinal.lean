@@ -41,7 +41,7 @@ theorem scatter_materialized {ι : Type} (s : State Expr) (hm : Memory s)
 theorem iterations_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
     (cur stop : Nat) (s : State Expr) (ready : Ready h c s) (hm : Memory s)
     (acc : Accumulator c s) (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
-    ∃ t, range (engine (backend rest c).algebra) "k" cur stop 1 (parts h c).body s=some t ∧
+    ∃ t, rangeInt (engine (backend rest c).algebra) "k" cur stop 1 (parts h c).body s=some t ∧
       Ready h c t ∧ t.mem=s.mem ∧ Fixed s t ∧ Accumulator c t := by
   by_cases less : cur<stop
   · obtain ⟨mid,hmid,hr,hmem,hfixed,hacc⟩ := body_materialized rest h c s ready hm acc cur ha hb
@@ -49,24 +49,34 @@ theorem iterations_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.
     obtain ⟨t,ht,htr,htm,htfixed,htacc⟩ :=
       iterations_materialized rest h c (cur+1) stop mid hr hmidmem hacc ha hb
     refine ⟨t,?_,htr,htm.trans hmem,hfixed.trans htfixed,htacc⟩
-    rw [range,if_neg (by decide),if_pos less,hmid]
+    rw [rangeInt_nat_step,if_neg (by decide),if_pos less,hmid]
     exact ht
-  · exact ⟨s,by rw [range,if_neg (by decide),if_neg less],ready,rfl,Fixed.refl s,acc⟩
+  · exact ⟨s,by rw [rangeInt_nat_step,if_neg (by decide),if_neg less],ready,rfl,Fixed.refl s,acc⟩
 termination_by stop-cur
 
 theorem loop_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
     (s : State Expr) (ready : Ready h c s) (hm : Memory s) (acc : Accumulator c s)
     (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
     ∃ t, step (engine (backend rest c).algebra)
-      (.forRangeDyn "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body) s=some t ∧
+      (.forRangeInt "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body) s=some t ∧
       Ready h c t ∧ t.mem=s.mem ∧ Fixed s t ∧ Accumulator c t := by
   obtain ⟨t,ht,hr,hm,hfixed,hacc⟩ :=
     iterations_materialized rest h c 0 (Host.cdiv h.shape.K c.K) s ready hm acc ha hb
   refine ⟨t,?_,hr,hm,hfixed,hacc⟩
-  have hs : FP.Structural.evalOp (engine (backend rest c).algebra) none (parts h c).start s=some (fun _ => (0 : Nat)) := by
+  have hs : FP.Structural.evalOp (engine (backend rest c).algebra) none (parts h c).start s=some (fun _ => (0 : Int)) := by
     simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
-  have he : FP.Structural.evalOp (engine (backend rest c).algebra) none (parts h c).stop s=some (fun _ => Host.cdiv h.shape.K c.K) := by
-    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
+  have he : FP.Structural.evalOp (engine (backend rest c).algebra) none (parts h c).stop s=some (fun _ => (Host.cdiv h.shape.K c.K : Int)) := by
+    have bound_source : (parts h c).stop =
+        Op.truncDiv .nil (.add .int .nil (.castNatToInt (.constNat h.shape.K))
+          (.sub .int .nil (.constInt (Int.ofNat c.K)) (.constInt 1)))
+          (.constInt (Int.ofNat c.K)) := by
+      cases ha : h.aStorage <;> cases hb : h.bStorage <;>
+        simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+    rw [bound_source,FP.Structural.eval_truncDiv]
+    simp [FP.Structural.evalOp_unfold,FP.Structural.numeric,FP.Structural.bop,
+      Option.bind,ControlArithmetic.cdiv_signed_int,Host.cdiv]
+    funext i
+    exact ControlArithmetic.cdiv_signed_int h.shape.K c.K
   have hd : FP.Structural.evalOp (engine (backend rest c).algebra) none (parts h c).stride s=some (fun _ => (1 : Nat)) := by
     simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
   simpa only [step,hs,he,hd,Option.bind_some] using ht
@@ -79,8 +89,8 @@ theorem epilogue_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Co
   rcases controls with ⟨h0,h1,h2,h3,h4⟩
   obtain ⟨v11,h11,hv11⟩ := acc
   cases seq : h.hasSeq
-  · simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+  · simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -92,8 +102,8 @@ theorem epilogue_materialized (rest : Algebra Expr) (h : Host.Call) (c : Host.Co
       apply cell_materialized
       exact hv11 i
   · obtain ⟨vs,hs⟩ := Option.isSome_iff_exists.mp (hseq seq)
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,TileShape.axisDim,

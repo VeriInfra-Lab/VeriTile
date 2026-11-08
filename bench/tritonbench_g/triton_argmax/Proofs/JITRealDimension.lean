@@ -21,7 +21,7 @@ def rangeBody (code : List ComputeStmt) : List ComputeStmt :=
   | _ => []
 
 def body (X : RegionName) (O : Region .int) (BM BN : Nat) (index64 : Bool) :=
-  rangeBody (JITSource.dimension X O BM BN index64).surfaceBody
+  rangeBody (JITSource.dimensionKernel X O BM BN index64).surfaceBody
 
 def Ready (M N K BM row inner : Nat) (current : Fin BM → Value × Nat) (s : State Value) : Prop :=
   s.regs .int [] "M"=some (fun _ => (M : Int)) ∧
@@ -39,7 +39,7 @@ theorem body_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : 
       (s.setReg "start_n" .int [] (fun _ => (cur : Int)))=some t ∧
       t.mem=s.mem ∧ Ready M N K BM row inner (next s X M N K BM BN row inner cur positive current) t := by
   obtain ⟨hM,hN,hK,hk,hm,hv,hi⟩ := ready
-  simp [body,rangeBody,JITSource.dimension,ComputeKernel.surfaceBody,run,step,
+  simp [body,rangeBody,JITSource.dimensionKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,ComputeDType.eraseDType,backend,hM,hN,hK,hk,hm,hv,hi,indexed,
     TileShape.axisDim,positive,Nat.ne_of_gt positive,TileShape.insertAxisIndex,TileShape.eraseAxis,
     ofFloat,toFloat,bop,numeric,numericLt,numericEq,natLt,TileShape.discreteMaximum,
@@ -51,13 +51,13 @@ theorem body_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : 
 
 theorem prefix_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : Region .int)
     (M N K BM BN base : Nat) (index64 : Bool) :
-    ∃ t, run (backend rest) ((JITSource.dimension X O BM BN index64).surfaceBody.take 7) (arguments s M N K base)=some t ∧
+    ∃ t, run (backend rest) ((JITSource.dimensionKernel X O BM BN index64).surfaceBody.take 7) (arguments s M N K base)=some t ∧
       t.mem=s.mem ∧ Ready M N K BM (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K)
         (fun _ => (⊥,0)) t := by
   have nonnegative : ¬ ((s.pids 0 + base : Nat) : Int) < 0 := by omega
   have remainder := Nat.mod_add_div (s.pids 0 + base) K
   cases index64 <;>
-    simp [JITSource.dimension,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    simp [JITSource.dimensionKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       backend,arguments,Ready,ofFloat,toFloat,bop,numeric,numericLt,natLt,IntegerExpr.sameShape,integralFloorDiv,integralMod,ComputeDType.eraseDType,Option.bind, -Nat.cast_add, -Nat.cast_mul, ← Int.natCast_add, ← Int.natCast_mul, -Int.natCast_mod, ← Int.natCast_ediv, ← Int.natCast_emod]
   all_goals constructor <;> funext i
   all_goals simp [bop, Broadcast.leftIndex, Broadcast.rightIndex,
@@ -97,10 +97,10 @@ decreasing_by omega
 theorem tail_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : Region .int)
     (M N K BM BN base row inner : Nat) (index64 : Bool) (current : Fin BM → Value × Nat)
     (ready : Ready M N K BM row inner current s) :
-    ∃ t, run (backend rest) ((JITSource.dimension X O BM BN index64).surfaceBody.drop 8) s=some t ∧
+    ∃ t, run (backend rest) ((JITSource.dimensionKernel X O BM BN index64).surfaceBody.drop 8) s=some t ∧
       t.mem=(written s O M K BM row inner current).mem := by
   obtain ⟨hM,hN,hK,hk,hm,hv,hi⟩ := ready
-  simp [JITSource.dimension,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [JITSource.dimensionKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     backend,hM,hN,hK,hk,hm,hv,hi,ofFloat,toFloat,bop,numeric,numericLt,natLt,ComputeDType.eraseDType,
     Option.bind,store,Region.cast,written,-Nat.cast_add,-Nat.cast_mul,← Int.natCast_add,← Int.natCast_mul]
   all_goals simp only [Typed.fold_memory]
@@ -111,7 +111,7 @@ theorem tail_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : 
 /-- Execute the complete quotation with its runtime scalar ABI. -/
 theorem source_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O : Region .int)
     (M N K BM BN base : Nat) (index64 : Bool) (positive : 0<BN) :
-    ∃ t, FP.Structural.exec (backend rest) (JITSource.dimension X O BM BN index64)
+    ∃ t, FP.Structural.exec (backend rest) (JITSource.dimensionKernel X O BM BN index64)
       (arguments s M N K base)=some t ∧
       t.mem=(written s O M K BM (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K)
         (vectorLoop s X M N K BM BN (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K) positive 0
@@ -122,7 +122,7 @@ theorem source_run (rest : Algebra Value) (s : State Value) (X : RegionName) (O 
   obtain ⟨t,ht,mt⟩ := tail_run rest b X O M N K BM BN base
     (((s.pids 0+base)/K)*BM) ((s.pids 0+base)%K) index64 _ rb
   refine ⟨t,?_,mt.trans (written_memory b s mb _ _ _ _ _ _ _)⟩
-  let code := (JITSource.dimension X O BM BN index64).surfaceBody
+  let code := (JITSource.dimensionKernel X O BM BN index64).surfaceBody
   change run (backend rest) code (arguments s M N K base)=some t
   rw [←List.take_append_drop 7 code,run_append,ha,Option.bind_some]
   have splitCode : code.drop 7 =
@@ -144,7 +144,7 @@ theorem source_reference (rest : Algebra Value) (s : State Value) (X : RegionNam
     (input : Nat → Nat → Nat → ℝ)
     (reads : ∀ row col inner,row<M → col<N → inner<K →
       (s.mem X (row*N*K+col*K+inner)).read .real=(input row inner col : Value)) :
-    ∃ t, FP.Structural.exec (backend rest) (JITSource.dimension X O BM BN index64) (arguments s M N K base)=some t ∧
+    ∃ t, FP.Structural.exec (backend rest) (JITSource.dimensionKernel X O BM BN index64) (arguments s M N K base)=some t ∧
       (∀ i : Fin BM,((s.pids 0+base)/K)*BM+i.val<M →
         t.mem (Region.cast O) ((((s.pids 0+base)/K)*BM+i.val)*K+(s.pids 0+base)%K)=
           .mk .int (Int.ofNat ((Math.argmax N nonempty (fun j : Fin N =>

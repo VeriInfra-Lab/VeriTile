@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_vector_multip.Sources.Parameters
+import bench.tritonbench_g.matrix_vector_multip.Proofs.Sources.Parameters
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels
 open VeriTile.Triton
@@ -9,7 +9,7 @@ def callSignature : CallSignature where
     ("stride_am",.integer),("stride_bm",.integer),("stride_cn",.integer)]
   constexpr := ["BLOCK_N","BLOCK_M"]
 
-def body (A B C : RegionName) (BLOCK_N BLOCK_M : Nat) : ComputeKernel :=
+def bodyKernel (A B C : RegionName) (BLOCK_N BLOCK_M : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     N = tl.cast(N, tl.uint64)
     M = tl.cast(M, tl.uint64)
@@ -39,7 +39,7 @@ def body (A B C : RegionName) (BLOCK_N BLOCK_M : Nat) : ComputeKernel :=
     tl.store(C_ptrs, acc[:, None], mask=n_mask)
   }
 
-def fmaBody (A B C : RegionName) (BLOCK_N BLOCK_M : Nat) : ComputeKernel :=
+def fmaKernel (A B C : RegionName) (BLOCK_N BLOCK_M : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     N = tl.cast(N, tl.uint64)
     M = tl.cast(M, tl.uint64)
@@ -75,9 +75,9 @@ noncomputable def arguments (p : VeriTile.Bench.TritonBenchG.MatrixVectorMultip.
     ScalarArgument.integer "stride_bm" p.strideVector,ScalarArgument.integer "stride_cn" p.strideOut]
 
 noncomputable def fromParameters (p : VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.Parameters) : ComputeKernel :=
-  (body p.a p.b p.out p.blockRows p.blockColumns).withScalarArguments (arguments p)
+  (bodyKernel p.a p.b p.out p.blockRows p.blockColumns).withScalarArguments (arguments p)
 noncomputable def fmaFromParameters (p : VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.Parameters) : ComputeKernel :=
-  (fmaBody p.a p.b p.out p.blockRows p.blockColumns).withScalarArguments (arguments p)
+  (fmaKernel p.a p.b p.out p.blockRows p.blockColumns).withScalarArguments (arguments p)
 def parameters (N M BN BM : Nat) : VeriTile.Bench.TritonBenchG.MatrixVectorMultip.Typed.Parameters :=
   ⟨"A","B","C",N,M,M,1,1,1,BN,BM⟩
 noncomputable def source (N M BN BM : Nat) : ComputeKernel := fromParameters (parameters N M BN BM)

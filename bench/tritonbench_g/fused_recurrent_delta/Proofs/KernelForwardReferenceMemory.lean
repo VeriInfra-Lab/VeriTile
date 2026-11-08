@@ -42,21 +42,21 @@ theorem key_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh i
     (KernelReference.forwardInput M s f bh iv u).key t=
       (KernelReference.forwardInput M s f bh iv initial).key t := by
   funext i
-  simp only [KernelReference.forwardInput,KernelReference.read,same,
+  simp only [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,same,
     readonly M s f scale bh iv initial n "k" _ (by decide) (by decide)]
 theorem query_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial u : State α) (n t : Nat) (same : u.mem=(memory M s f scale bh iv initial n).mem) :
     (KernelReference.forwardInput M s f bh iv u).query t=
       (KernelReference.forwardInput M s f bh iv initial).query t := by
   funext i
-  simp only [KernelReference.forwardInput,KernelReference.read,same,
+  simp only [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,same,
     readonly M s f scale bh iv initial n "q" _ (by decide) (by decide)]
 theorem beta_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial u : State α) (n t : Nat) (same : u.mem=(memory M s f scale bh iv initial n).mem) :
     (KernelReference.forwardInput M s f bh iv u).beta t=
       (KernelReference.forwardInput M s f bh iv initial).beta t := by
   funext j
-  simp only [KernelReference.forwardInput,KernelReference.read,same,
+  simp only [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,same,
     readonly M s f scale bh iv initial n "beta" _ (by decide) (by decide)]
 theorem value_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial u : State α) (n t : Nat) (futureTime : n≤t)
@@ -64,7 +64,7 @@ theorem value_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh
     (KernelReference.forwardInput M s f bh iv u).value t=
       (KernelReference.forwardInput M s f bh iv initial).value t := by
   funext j
-  simp only [KernelReference.forwardInput,KernelReference.read,same]
+  simp only [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,same]
   by_cases active : iv*s.FBV+j.val<s.V
   · rw [future M s f scale bh iv initial n t futureTime j active]
   · simp [active]

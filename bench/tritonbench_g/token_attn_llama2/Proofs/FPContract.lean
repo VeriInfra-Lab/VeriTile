@@ -16,15 +16,16 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
   by_cases hb : blockActive p s
   all_goals simp +contextual [execution, written, hb, bodyExecution, preExecution,
     masked_scatter_memory, score, products, queryValue, keyValue, queryOffset,
-    keyOffset, keyLocation, outputOffset, active, windowIndex, token, length,
+    keyOffset, keyLocation, outputOffset, active, windowIndex, token, length, lengthWord,Int.natCast_add,Int.natCast_mul,
     bop, Broadcast.leftIndex, Broadcast.rightIndex, Region.cast, integralFloorDiv, integralMod]
   all_goals try delta products bop
   all_goals simp +contextual [queryValue, keyValue, queryOffset, keyOffset, keyLocation,
-    active, windowIndex, token, length, Broadcast.leftIndex, Broadcast.rightIndex, Region.cast]
+    active, windowIndex, token, length, lengthWord,Int.natCast_add,Int.natCast_mul, Broadcast.leftIndex, Broadcast.rightIndex, Region.cast]
+  all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
 
 theorem written_readback {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α)
     (hw : WritesApart p s) (i : Index p) (hb : blockActive p s) (hi : active p s i) :
-    (written M p s).mem p.output (outputOffset p s i) = .mk .fp32 (score M p s i) := by
+    (written M p s).mem p.output (outputOffset p s i) = .mk .real (score M p s i) := by
   simp only [written, if_pos hb]
   exact masked_readback_active _ _ _ _ _ i hi hw
 

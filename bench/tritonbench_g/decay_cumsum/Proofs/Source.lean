@@ -1,4 +1,4 @@
-import bench.tritonbench_g.decay_cumsum.Kernels
+import bench.tritonbench_g.decay_cumsum.Proofs.Support.KernelEntryAdapters
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.DecayCumsum.Kernels
 theorem source_projects (kind : Kind) (h : Call) (p : Phase) (scale : ℝ) :

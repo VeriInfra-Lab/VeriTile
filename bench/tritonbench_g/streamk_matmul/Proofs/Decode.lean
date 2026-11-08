@@ -1,4 +1,4 @@
-import bench.tritonbench_g.streamk_matmul.Execution
+import bench.tritonbench_g.streamk_matmul.Proofs.Support.Execution
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked.Reader

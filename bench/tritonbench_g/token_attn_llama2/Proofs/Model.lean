@@ -79,12 +79,12 @@ structure Buffers (α : Type) (c : Call) where
 def initial {α : Type} [Inhabited α] (c : Call) (m : Metadata c) (x : Buffers α c)
     (rest : State α) : State α :=
   {rest with mem := fun r o =>
-    if r = "Q" then .mk .fp32 (finiteRead x.q o)
-    else if r = "K" then .mk .fp32 (finiteRead x.k o)
-    else if r = "Out" then .mk .fp32 (finiteRead x.out o)
-    else if r = "Length" then .mk .nat (m.len o)
-    else if r = "Start" then .mk .nat (m.begin o)
-    else if r = "Loc" then .mk .nat ((finiteRead m.locations o).toNat)
+    if r = "Q" then .mk .real (finiteRead x.q o)
+    else if r = "K" then .mk .real (finiteRead x.k o)
+    else if r = "Out" then .mk .real (finiteRead x.out o)
+    else if r = "Length" then .mk .int (finiteRead m.lengths o)
+    else if r = "Start" then .mk .int (finiteRead m.starts o)
+    else if r = "Loc" then .mk .int (finiteRead m.locations o)
     else rest.mem r o}
 
 /-- Necessary admitted domain. Output addresses are unique across the whole
@@ -131,19 +131,7 @@ variable {α : Type} [Inhabited α]
 @[simp] theorem initial_length (c : Call) (m : Metadata c) (x : Buffers α c)
     (s : State α) (scale : ℝ) (a : Program) :
     length (c.parameters scale) (start c.grid a (initial c m x s)) = m.len a.1 := by
-  simp [length,Call.parameters,start,ids,initial,Region.cast]
-
-@[simp] theorem initial_active (c : Call) (m : Metadata c) (x : Buffers α c)
-    (s : State α) (scale : ℝ) (a : Program) (i : Index (c.parameters scale)) :
-    active (c.parameters scale) (start c.grid a (initial c m x s)) i ↔
-      c.maxLength-m.len a.1+(a.2.2*32+i.1.val) < c.maxLength := by
-  simp [active,windowIndex,token,start,ids,Call.parameters,initial,length,Region.cast]
-
-@[simp] theorem initial_offset (c : Call) (m : Metadata c) (x : Buffers α c)
-    (s : State α) (scale : ℝ) (a : Program) (i : Index (c.parameters scale)) :
-    outputOffset (c.parameters scale) (start c.grid a (initial c m x s)) i =
-      a.2.1*c.outHead+(m.begin a.1+(a.2.2*32+i.1.val))*c.outSeq := by
-  simp [outputOffset,token,start,ids,Call.parameters,initial,Region.cast]
+  simp [length,lengthWord,Call.parameters,start,ids,initial,Region.cast,Metadata.len]
 
 theorem length_bound (c : Call) (m : Metadata c) (v : Valid c m)
     (b : Nat) (hb : b < c.batches) : m.len b ≤ c.maxLength := by
@@ -164,6 +152,52 @@ theorem signed_length (c : Call) (m : Metadata c) (v : Valid c m)
   · rw [Int.natCast_sub hl]
     simp [Metadata.len,Int.toNat_of_nonneg hn]
 
+@[simp] theorem initial_active (c : Call) (m : Metadata c) (x : Buffers α c)
+    (s : State α) (scale : ℝ) (a : Program) (i : Index (c.parameters scale))
+    (v : Valid c m) (hb : a.1<c.batches) :
+    active (c.parameters scale) (start c.grid a (initial c m x s)) i ↔
+      c.maxLength-m.len a.1+(a.2.2*32+i.1.val) < c.maxLength := by
+  have word := (signed_length c m v ⟨a.1,hb⟩).1
+  have sub := (signed_length c m v ⟨a.1,hb⟩).2
+  simp only [active,windowIndex,token,start,ids,Call.parameters,initial,Region.cast,
+    Cell.read_same,↓reduceIte,reduceCtorEq,finiteRead_lt]
+  change (c.maxLength : Int)-finiteRead m.lengths a.1+(a.2.2*32+i.1.val : Nat)<(c.maxLength : Int) ↔ _
+  rw [show finiteRead m.lengths a.1=m.lengths ⟨a.1,hb⟩ by simp [finiteRead,hb],←sub]
+  exact_mod_cast (Iff.rfl : c.maxLength-m.len a.1+(a.2.2*32+i.1.val)<c.maxLength ↔ _)
+
+theorem initial_window (c : Call) (m : Metadata c) (x : Buffers α c)
+    (s : State α) (scale : ℝ) (a : Program) (i : Index (c.parameters scale))
+    (v : Valid c m) (hb : a.1<c.batches) :
+    windowIndex (c.parameters scale) (start c.grid a (initial c m x s)) i=
+      (c.maxLength-m.len a.1+(a.2.2*32+i.1.val) : Nat) := by
+  have sub := (signed_length c m v ⟨a.1,hb⟩).2
+  simp [windowIndex,lengthWord,token,start,ids,Call.parameters,initial,Region.cast,finiteRead,hb]
+  rw [←sub]
+
+theorem initial_page (c : Call) (m : Metadata c) (x : Buffers α c)
+    (s : State α) (scale : ℝ) (a : Program) (i : Index (c.parameters scale))
+    (v : Valid c m) (hb : a.1<c.batches)
+    (hi : active (c.parameters scale) (start c.grid a (initial c m x s)) i) :
+    keyLocation (c.parameters scale) (start c.grid a (initial c m x s)) i=
+      (m.page a.1 (a.2.2*32+i.1.val) : Int) := by
+  have active := (initial_active c m x s scale a i v hb).mp hi
+  have hl := length_bound c m v a.1 hb
+  have hn : a.2.2*32+i.1.val<m.len a.1 := by omega
+  rw [keyLocation,if_pos hi,initial_window c m x s scale a i v hb]
+  simp only [Call.parameters,start,ids,←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
+  simp [initial,Region.cast,Metadata.page,Int.toNat_of_nonneg (v.pages ⟨a.1,hb⟩ _ hn).1]
+
+@[simp] theorem initial_offset (c : Call) (m : Metadata c) (x : Buffers α c)
+    (s : State α) (scale : ℝ) (a : Program) (i : Index (c.parameters scale))
+    (v : Valid c m) (hb : a.1<c.batches) :
+    outputOffset (c.parameters scale) (start c.grid a (initial c m x s)) i =
+      a.2.1*c.outHead+(m.begin a.1+(a.2.2*32+i.1.val))*c.outSeq := by
+  have word : (m.begin a.1 : Int)=finiteRead m.starts a.1 := by
+    simp [Metadata.begin,finiteRead,hb,Int.toNat_of_nonneg (v.starts ⟨a.1,hb⟩).1]
+  simp [outputOffset,token,start,ids,Call.parameters,initial,Region.cast]
+  rw [←word]
+  norm_cast
+
 theorem grid_unique (c : Call) (m : Metadata c) (x : Buffers α c)
     (s : State α) (scale : ℝ) (v : Valid c m) :
     Unique (c.parameters scale) c.grid (programs c.grid) (initial c m x s) := by
@@ -174,8 +208,10 @@ theorem grid_unique (c : Call) (m : Metadata c) (x : Buffers α c)
   have hbGrid := (mem_programs c.grid bb hb nb).mp hbMem
   have hla := length_bound c m v ba haGrid.1
   have hlb := length_bound c m v bb hbGrid.1
-  rw [initial_active] at hi hj
-  simp only [initial_offset] at he
+  rw [initial_active _ _ _ _ _ _ _ v haGrid.1] at hi
+  rw [initial_active _ _ _ _ _ _ _ v hbGrid.1] at hj
+  rw [initial_offset _ _ _ _ _ _ _ v haGrid.1,initial_offset _ _ _ _ _ _ _ v hbGrid.1] at he
+  dsimp only at he
   have hta : na*32+i.1.val < m.len ba := by dsimp at hi; omega
   have htb : nb*32+j.1.val < m.len bb := by dsimp at hj; omega
   have hsa := (v.starts ⟨ba,haGrid.1⟩).2

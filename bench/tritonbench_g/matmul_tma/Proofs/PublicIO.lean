@@ -11,8 +11,8 @@ set_option linter.unusedSimpArgs false
 theorem implements {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (p : Parameters) (half : Bool) (injective : Function.Injective (cOffset p))
     (f : (AIndex p → α) → (BIndex p → α) → CIndex p → α)
-    (lower : ∀ a b i, M.cast none .fp32 (outputDType half)
-      (D.apply (some .fp32) {} (batch := []) a b i) = f a b i) :
+    (lower : ∀ a b i, outputValue M half
+      (D.apply none {} (batch := []) a b i) = f a b i) :
     (io M D p half).Implements (formula p half f) := by
   apply ProgramIO.Implements.intro
   · intro vals bounds bounded s _

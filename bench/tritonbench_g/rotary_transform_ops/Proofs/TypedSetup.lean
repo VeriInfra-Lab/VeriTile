@@ -24,6 +24,9 @@ def kernel (s : Shape) (cumulative64 offsets64 : Bool) : ComputeKernel :=
     (if s.varlen then 0 else s.maximum*s.heads*s.width) (s.heads*s.width) s.width 1
     s.blockK s.blockM s.offsetTensor s.varlen s.interleaved s.conjugate
 
+/-- Nested tensor-offset loads add their own real temporary assignment. -/
+def indicesCount (s : Shape) : Nat := if s.offsetTensor then 5 else 4
+
 /-- The six-statement source prefix evaluates program IDs, original signed
 metadata and scalar input/output pointers. Its state is derived by execution
 of the quotation, without supplied register or output values. -/
@@ -31,14 +34,21 @@ def setup {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (cumulative64 offsets64 : Bool) (initial : State α)
     :
     { final // FP.Structural.run M ((kernel s cumulative64 offsets64).surfaceBody.take 6) initial = some final } := by
-  by_cases hv : s.varlen = Bool.true
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
     refine ⟨?_, ?_⟩
     swap
     unfold kernel
     rw [KernelSource.signed_carrier]
-    simp (config := { maxSteps := 10000 }) [KernelSource.source64_64, hv,
-      FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
+    simp (config := { maxSteps := 10000 }) [KernelSource.source64_64, hv,ht,
+      FP.Structural.exec, VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,
       State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,
@@ -59,18 +69,25 @@ def ifBody : ComputeStmt → List ComputeStmt
 def continuation (s : Shape) : List ComputeStmt :=
   ((kernel s Bool.true Bool.true).surfaceBody.drop 6).flatMap ifBody
 
-/-- The next four assignments are extracted from the actual early-return body. -/
+/-- The complete index prefix is extracted from the actual early-return body. -/
 def indices {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (initial : State α) :
-    { final // run M ((continuation s).take 4)
+    { final // run M ((continuation s).take (indicesCount s))
         (setup M s Bool.true Bool.true initial).val = some final } := by
   by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (config := { maxSteps := 20000 }) [continuation,ifBody,setup,kernel,
-      KernelSource.source,KernelSource.source64_64, hv,ht,
-      FP.Structural.exec, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
+    simp (config := { maxSteps := 20000 }) [indicesCount,continuation,ifBody,setup,kernel,
+      KernelSource.source,KernelSource.source64_64, hv,ht,ht,
+      FP.Structural.exec, VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
       evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
       numeric, natLt, numericLt, numericLe, numericEq, bop, Region.cast,
       State.setReg_same,State.setReg_ne_name,State.setReg_mem,State.setReg_pids,

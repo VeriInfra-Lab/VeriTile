@@ -19,7 +19,7 @@ def div (M : Algebra α) := M.binary (some .fp32) .real .div
 def padded (M : Algebra α) (h : Call) (x : Fin h.block → α) (j : Fin h.block) : α :=
   if j.val<h.cols then x j else literal M 0
 
-def input (M : Algebra α) (h : Call) (x : Fin h.block → α) (j : Fin h.block) := cast M (padded M h x j)
+def input (M : Algebra α) (h : Call) (x : Fin h.block → α) (j : Fin h.block) := cast M (M.fp32Load (padded M h x j))
 
 def reduce (M : Algebra α) (B : Nat) (x : Fin B → α) : α :=
   M.reduceSum (some .fp32) (shape:=[B]) ⟨0,by simp⟩ Bool.false (fun i => x i.1) PUnit.unit
@@ -27,16 +27,16 @@ def reduce (M : Algebra α) (B : Nat) (x : Fin B → α) : α :=
 def inv (M : Algebra α) (h : Call) (x : Fin h.block → α) : α :=
   M.unary (some .fp32) .rsqrt
     (add M (div M (reduce M h.block (fun j => mul M (input M h x j) (input M h x j)))
-      (literal M (h.cols:ℝ))) (literal M h.eps))
+      (M.fromNat (some .fp32) h.cols)) (literal M h.eps))
 
 def normalized (M : Algebra α) (h : Call) (x : Fin h.block → α) (j : Fin h.block) :=
   mul M (input M h x j) (inv M h x)
 
 def output (M : Algebra α) (h : Call) (x w : Fin h.block → α) (j : Fin h.block) : Cell α :=
-  .mk .real (cast M (if h.gemma then
+  .mk .real (if h.gemma then
     mul M (normalized M h x j) (add M (input M h w j) (literal M 1))
-  else mul M (cast M (normalized M h x j)) (M.fp32Load (padded M h w j))))
+  else mul M (cast M (normalized M h x j)) (M.fp32Load (padded M h w j)))
 
-def savedInv (M : Algebra α) (h : Call) (x : Fin h.block → α) : Cell α := .mk .real (cast M (inv M h x))
+def savedInv (M : Algebra α) (h : Call) (x : Fin h.block → α) : Cell α := .mk .real (inv M h x)
 end
 end VeriTile.Bench.Repairs.FastRmsLayernorm.FPReference

@@ -20,12 +20,12 @@ structure Geometry where
 
 abbrev channels (g : Geometry) : List IOChannel :=
   [⟨.real,[g.B*g.H,g.capacity],"E"⟩,
-   ⟨.real,[g.B*g.H,g.capacity,g.D],"M"⟩,⟨.nat,[g.B],"L"⟩]
+   ⟨.real,[g.B*g.H,g.capacity,g.D],"M"⟩,⟨.int,[g.B],"L"⟩]
 abbrev outputs (g : Geometry) : List IOChannel := [⟨.real,[g.B*g.H,g.D],"O"⟩]
 abbrev Inputs (α : Type) (g : Geometry) := ChannelValues α (channels g)
 
 def lengths {α : Type} {g : Geometry} (xs : Inputs α g) (b : Nat) : Nat :=
-  if h : b<g.B then xs 2 (⟨b,h⟩,PUnit.unit) else 0
+  if h : b<g.B then (xs 2 (⟨b,h⟩,PUnit.unit)).toNat else 0
 
 /-- Exact integer source count, including zero length and zero divisor. -/
 def iterations (Q length : Nat) : Nat := (if length≤0 then 0 else length+Q-1)/Q
@@ -45,7 +45,7 @@ def mids {α : Type} [Inhabited α] {g : Geometry} (xs : Inputs α g) (row j d :
     xs 1 (⟨row,h.1⟩,⟨j,h.2.1⟩,⟨d,h.2.2⟩,PUnit.unit) else default
 
 def launch {β : Type} (A : Algebra β) (g : Geometry) (row : Nat) : Invocation β where
-  kernel := phi g.H g.S g.D g.Q g.BD
+  kernel := phiKernel g.H g.S g.D g.Q g.BD
   backend := A
   clearRegisters := Bool.true
   pids := fun a => if a=0 then row/g.H else if a=1 then row%g.H else 0
@@ -55,7 +55,7 @@ def schedule {β : Type} (A : Algebra β) (g : Geometry) (order : List Nat) :=
 
 /-- Actual masked source, complete permuted B×H grid and source FP32
 interpretation. E/M use their actual S strides; only dynamically used summary
-windows are bound. L is natural metadata, O covers every active output, and
+windows are bound. L retains signed Int32 metadata, O covers every active output, and
 there is no writable scratch or input/output alias. -/
 abbrev decodeIO {α β : Type} (A : Algebra β) (g : Geometry) (order : List Nat)
     (encode : α→β) (observe : β→α) : ProgramIO α β where
@@ -105,7 +105,7 @@ noncomputable section
 structure Inputs (g : PhiIO.Geometry) where
   logs : Fin (g.B*g.H) → Fin g.capacity → ℝ
   mids : Fin (g.B*g.H) → Fin g.capacity → Fin g.D → ℝ
-  lengths : Fin g.B → Nat
+  lengths : Fin g.B → Int
 
 def inputEquiv (g : PhiIO.Geometry) : PhiIO.Inputs ℝ g ≃ Inputs g where
   toFun xs := ⟨fun row j => xs (0 : Fin 3) (row,j,()),fun row j d => xs (1 : Fin 3) (row,j,d,()),fun b => xs (2 : Fin 3) (b,())⟩
@@ -129,7 +129,7 @@ def Inputs.mid {g : PhiIO.Geometry} (xs : Inputs g) (row : Fin (g.B*g.H)) (j : N
   if h : j<g.capacity then xs.mids row ⟨j,h⟩ d else default
 
 def Inputs.length {g : PhiIO.Geometry} (xs : Inputs g) (row : Fin (g.B*g.H)) : Nat :=
-  if h : row.val/g.H<g.B then xs.lengths ⟨row.val/g.H,h⟩ else 0
+  if h : row.val/g.H<g.B then (xs.lengths ⟨row.val/g.H,h⟩).toNat else 0
 
 
 def view (g : PhiIO.Geometry) (order : List Nat) (observe : Option ℝ → ℝ) :

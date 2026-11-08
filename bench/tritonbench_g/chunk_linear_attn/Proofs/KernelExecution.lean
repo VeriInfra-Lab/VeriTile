@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_linear_attn.Proofs.ReferenceOutput
-import bench.tritonbench_g.chunk_linear_attn.BoundMeaningGrid
-import bench.tritonbench_g.chunk_linear_attn.NativeFP
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.BoundMeaningGrid
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.NativeFP
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.KernelExecution
 open VeriTile Triton FP.Structural

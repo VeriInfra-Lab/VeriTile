@@ -1,3 +1,5 @@
+import bench.examples.LogExp.IO
+import bench.examples.LogExp.Contract
 import VeriTile.Triton.Source
 import bench.examples.LogExp.Kernels
 import bench.examples.LogExp.Proofs.FP
@@ -17,20 +19,9 @@ open scoped VeriTile.Spec
 
 set_option maxHeartbeats 1600000
 
-/-- The candidate prefix reads `a` and evaluates the branch selector. Successful
-execution requires comparison support, for either branch outcome. The only
-numerical input restriction is that each loaded `a` is finite. -/
-def domain (xReg : RegionName) (B : Nat) : Precondition where
-  code := Source.prefixBefore (optimizedKernel xReg "y" B).surfaceBody "fallback_a"
-  guards := [⟨"a", [B], .finite⟩]
-
 /-- The original kernel's input/output windows, domain and fp32 profile. -/
 def originalIO (xReg yReg : RegionName) (B : Nat) : FP.PrefixKernel₁ where
-  io := {
-    kernel := originalKernel xReg yReg B
-    inp := xReg, out := yReg, Bin := B, Bout := B
-    read := fun pid => pid * B
-    write := fun pid => pid * B }
+  io := typedIO xReg yReg B
   domain := domain xReg B
   defaultPrecision := some .fp32
 

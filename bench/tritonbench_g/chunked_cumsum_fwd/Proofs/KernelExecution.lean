@@ -68,7 +68,7 @@ def sourceRun {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp (maxSteps := 1200000) [FP.Structural.exec,kernel,source,
+    simp (maxSteps := 1200000) [FP.Structural.exec,kernel,sourceKernel,
       ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,store,
       Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,bop,natLt,natLe,numericLt,numericLe,tileState,bindBounds,ofFloat,toFloat,

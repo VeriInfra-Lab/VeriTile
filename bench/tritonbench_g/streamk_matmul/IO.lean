@@ -1,7 +1,7 @@
 import bench.tritonbench_g.streamk_matmul.Proofs.Native
 import bench.tritonbench_g.streamk_matmul.Proofs.ByteExecution
 import VeriTile.Triton.Concurrent.EventProgramIO
-import bench.tritonbench_g.streamk_matmul.SourceReads
+import bench.tritonbench_g.streamk_matmul.Proofs.Support.SourceReads
 import VeriTile.Triton.Float.LogicalProgramIO
 import Mathlib.Logic.Equiv.Fin.Basic
 import Mathlib.Tactic.FinCases

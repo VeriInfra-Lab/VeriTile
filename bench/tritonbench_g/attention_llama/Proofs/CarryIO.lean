@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.CarryIO
+import bench.tritonbench_g.attention_llama.Proofs.Support.CarryIO
 import bench.tritonbench_g.attention_llama.Proofs.GridGeometry
 
 namespace VeriTile.Bench.Repairs.AttentionLlamaScalarABIChecked.CarryIO

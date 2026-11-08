@@ -1,38 +1,15 @@
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.RealSafety
-import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.RealCandidate
 
-/-! Both complete sources execute in one flat address space, write the
+/-! The complete repaired source executes in one flat address space, write the
 independent whole-V real formulas and preserve every other tagged cell.
 Active address bounds, allocation disjointness and omitted-padding values
-are explicit premises. Candidate transfer is ordinary real arithmetic. -/
+are explicit premises. The unused real-only comparison implementation is removed. -/
 namespace VeriTile.Bench.Repairs.ChunkBwdDqkg.RealFlat
 open VeriTile.Triton RealMath RealFrame
 noncomputable section
 set_option maxHeartbeats 1000000
 set_option maxRecDepth 14000
 set_option linter.unusedSimpArgs false
-
-private theorem flatten_append (A : FlatAlloc) (xs ys : List Stmt) :
-    A.flattenStmts (xs ++ ys) = A.flattenStmts xs ++ A.flattenStmts ys := by
-  induction xs with
-  | nil => rfl
-  | cons x xs ih => simp only [List.cons_append, FlatAlloc.flattenStmts, ih]
-
-theorem candidate_executes_like (A : FlatAlloc) (s t : BlockState) (p : Layout)
-    (qk valueStorage hist dhist : TypedSource.Storage)
-    (q k v h g dout dh dqOut dkOut dgOut : RegionName)
-    (he : exec (A.flattenKernel
-      (RealSource.source qk valueStorage hist dhist Bool.false q k v h g dout dh dqOut dkOut dgOut
-        p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
-        p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel) s = some t) :
-    exec (A.flattenKernel
-      (RealSource.source qk valueStorage hist dhist Bool.true q k v h g dout dh dqOut dkOut dgOut
-        p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
-        p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel) s = some t := by
-  rw [exec, FlatAlloc.flattenKernel, RealCandidate.original_split, flatten_append] at he
-  rw [exec, FlatAlloc.flattenKernel, RealCandidate.candidate_split, flatten_append]
-  simp only [FlatAlloc.flattenStmts, FlatAlloc.flattenStmt, FlatAlloc.flattenOp] at he ⊢
-  exact MatrixRewrite.add_commute _ _ _ _ _ s t he
 
 def flatFootprint (A : FlatAlloc) (p : Layout) (l : Launch) (dq dk dg : RegionName) : WriteFootprint :=
   fun addr => addr.1 = A.flat ∧
@@ -68,7 +45,7 @@ theorem flatten_frame (A : FlatAlloc) (s t : BlockState) (p : Layout) (l : Launc
 
 theorem source_executes (A : FlatAlloc) (hd : A.Disjoint)
     (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)
-    (s : BlockState) (p : Layout) (swapped : Bool)
+    (s : BlockState) (p : Layout)
     (qk valueStorage hist dhist : TypedSource.Storage)
     (q k v h g dout dh dqOut dkOut dgOut : RegionName)
     (hu : s.undef = (fun _ _ => 0)) (hBV : 0 < p.BV)
@@ -77,7 +54,7 @@ theorem source_executes (A : FlatAlloc) (hd : A.Disjoint)
       qkAddress p (RealLoop.launch s) i = qkAddress p (RealLoop.launch s) j → i = j)
     (hb : RealSafety.Bounds s p q k v h g dout dh dqOut dkOut dgOut A.extent) :
     ∃ sf, exec (A.flattenKernel
-      (RealSource.source qk valueStorage hist dhist swapped q k v h g dout dh dqOut dkOut dgOut
+      (RealSource.source qk valueStorage hist dhist q k v h g dout dh dqOut dkOut dgOut
         p.s_k_h p.s_k_t p.s_v_h p.s_v_t p.s_h_h p.s_h_t p.scale
         p.T p.K p.V p.BT p.BK p.BV p.NT).eraseDType.toAlgKernel) (A.flattenState s) = some sf ∧
       (∀ i, qkActive p (RealLoop.launch s) i →
@@ -114,10 +91,7 @@ theorem source_executes (A : FlatAlloc) (hd : A.Disjoint)
       exact Nat.not_lt_zero _ ho
     exact A.flattenState_readMem hd t hr ho
   refine ⟨A.flattenState t, ?_, ?_, ?_, ?_, hframe⟩
-  · cases swapped
-    · exact hflat
-    · exact candidate_executes_like A _ _ p qk valueStorage hist dhist
-        q k v h g dout dh dqOut dkOut dgOut hflat
+  · exact hflat
   · intro i hi
     rw [hmem _ _ (hb.post.dq i hi)]
     simpa only [qkAddress, RealLoop.launch, cbdQkAddr, Nat.mul_one, Nat.add_assoc] using hq i hi

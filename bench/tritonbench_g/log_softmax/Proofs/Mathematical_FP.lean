@@ -1,5 +1,5 @@
 import bench.tritonbench_g.log_softmax.Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.TritonBenchG.LogSoftmax.FPProof
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

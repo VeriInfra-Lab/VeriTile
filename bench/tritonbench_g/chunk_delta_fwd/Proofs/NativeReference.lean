@@ -28,8 +28,8 @@ def loaded (active : Prop) [Decidable active] (word : BitVec 32) : Expr :=
 abbrev State (p : Parameters) := Fin p.BK → Fin p.BV → Expr
 
 def seed (p : Parameters) (xs : Inputs) (head tile : Nat) : State p := fun e j =>
-  if p.useSeed then cast32 (if e.val<p.K ∧ tile*p.BV+j.val<p.V then
-    .bits (xs.seed head e.val (tile*p.BV+j.val)) else zero) else zero
+  if p.useSeed then cast32 (loaded (e.val<p.K ∧ tile*p.BV+j.val<p.V)
+    (xs.seed head e.val (tile*p.BV+j.val))) else zero
 
 def key (p : Parameters) (xs : Inputs) (head c b : Nat) (e : Fin p.BK) (q : Fin p.BC) : Expr :=
   loaded (e.val<p.K ∧ c*p.BT+b*p.BC+q.val<p.T)

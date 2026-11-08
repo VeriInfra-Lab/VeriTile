@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_fwd.Sources.Mathematical_RealIntraFlat
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.Sources.Mathematical_RealIntraFlat
 
 /-! Complete intra-subblock executions with three columns, both causal arms,
 a masked row, a feature tail, nonzero launch and timeStride != K. Arbitrary

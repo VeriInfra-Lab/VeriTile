@@ -1,4 +1,4 @@
-import bench.tritonbench_g.block_sparse_attn.Spec
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.Spec
 import bench.tritonbench_g.block_sparse_attn.Proofs.PublicCorrectness
 import bench.tritonbench_g.block_sparse_attn.IO
 

@@ -27,7 +27,7 @@ theorem fold_values (m : Model ℝ) (laws : Laws m) (s : State ℝ) (M N BM BN c
   · rename_i hc
     have ht := fold_values m laws s M N BM BN (cur+BM) (next m s M N BM BN cur a) hb i
     rw [ht.1,ht.2]
-    simp only [next,loadTile,laws.add,laws.literal,List.map_cons,List.sum_cons,contribution]
+    simp only [next,loadTile,laws.add,laws.literal,laws.integer,laws.load,List.map_cons,List.sum_cons,contribution]
     constructor <;> ring
   · rename_i hc
     simp [hc]
@@ -41,7 +41,7 @@ theorem lane_values (m : Model ℝ) (laws : Laws m) (s : State ℝ) (M N BN : Na
     (fold m s M N 32 BN 0 (zero m 32 BN)).2 i=
       ((groupRows M 32 0).map (fun start => contribution s "DB" M N BN start i.1.val i.2.1.val)).sum := by
   have h := fold_values m laws s M N 32 BN 0 (zero m 32 BN) (by decide) i
-  simpa [zero,laws.literal,SourceRows.rows_eq M 32 0 (by decide)] using h
+  simpa [zero,laws.literal,laws.integer,laws.load,SourceRows.rows_eq M 32 0 (by decide)] using h
 
 theorem range'_map (n : Nat) : List.range' 0 n 32=(List.range n).map (fun k => k*32) := by
   induction n with
@@ -72,9 +72,9 @@ theorem sum_contributions (s : State ℝ) (region : RegionName) (M N BN : Nat)
 
 theorem reduced_values (m : Model ℝ) (laws : Laws m) (s : State ℝ) (M N BN : Nat)
     (i : TileIndex [BN]) (hi : columns s BN i<N) :
-    SourceForwardGraph.cast m (reduced m 32 BN (fold m s M N 32 BN 0 (zero m 32 BN)).1 i)=
+    reduced m 32 BN (fold m s M N 32 BN 0 (zero m 32 BN)).1 i=
       ∑ row ∈ Finset.range M,(s.mem "DW" (row*N+columns s BN i)).read .real ∧
-    SourceForwardGraph.cast m (reduced m 32 BN (fold m s M N 32 BN 0 (zero m 32 BN)).2 i)=
+    reduced m 32 BN (fold m s M N 32 BN 0 (zero m 32 BN)).2 i=
       ∑ row ∈ Finset.range M,(s.mem "DB" (row*N+columns s BN i)).read .real := by
   simp only [laws.cast,laws.sumTile]
   constructor

@@ -44,7 +44,7 @@ theorem input_cells {α : Type} [Inhabited α] (rest : Algebra α) (p : Paramete
       pins (1 : Fin 3) (⟨i, hi⟩, PUnit.unit) trivial
   · intro i hi
     have h := pins (2 : Fin 3) (⟨i, hi⟩, PUnit.unit) trivial
-    change s.mem p.prefixSum.cast i = Cell.mk .nat (vals 2 (⟨i, hi⟩, PUnit.unit)) at h
+    change s.mem p.prefixSum.cast i = Cell.mk .int (vals 2 (⟨i, hi⟩, PUnit.unit)) at h
     rw [prefixes ⟨i, hi⟩] at h
     exact h
 

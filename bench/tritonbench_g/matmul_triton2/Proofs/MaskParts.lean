@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_triton2.Kernels
-import bench.tritonbench_g.matmul_triton1.Sources.DotProfile
+import bench.tritonbench_g.matmul_triton1.Proofs.Sources.DotProfile
 import bench.tritonbench_g.matmul_triton1.Proofs.FiniteIndex
 import bench.tritonbench_g.matmul_triton2.Proofs.FPReference
 import VeriTile.Meta.StatementAudit

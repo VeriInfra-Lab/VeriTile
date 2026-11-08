@@ -1,6 +1,6 @@
 import bench.tritonbench_g.rotary_transform_ops.Proofs.TypedGrid
 import bench.tritonbench_g.rotary_transform_ops.Proofs.KernelIndex
-import bench.tritonbench_g.rotary_transform_ops.Spec
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.RotaryTransformOps.KernelEndpoints
 open VeriTile.Triton FP.Structural

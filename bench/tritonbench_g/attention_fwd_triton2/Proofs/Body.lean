@@ -13,17 +13,17 @@ def bodyExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     (initial current : State α) (row : Nat) (a : Acc α)
     (ctx : Context M p initial row a current) :
     {t : State α // run (engine (withDot M dot)) (parts p).body
-      (current.setReg "start_n" .nat [] (fun _ => row))=some t} := by
+      (current.setReg counter .nat [] (fun _ => row))=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.repaired,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
+  simp [parts,kernel,TypedSource.repaired,originalKernel,
+    ComputeKernel.surfaceBody,counter,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,
     ctx.memory,ctx.rows,ctx.cols,ctx.query,ctx.scale,ctx.keyPointer,ctx.valuePointer,
-    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value]
+    ctx.scalePointer,ctx.outputPointer,ctx.maximum,ctx.normalizer,ctx.value,ctx.lengthArgument,ctx.keyStrideArgument,ctx.valueStrideArgument]
   rfl
 
 #guard_msgs (drop info) in

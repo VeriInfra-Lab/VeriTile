@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Source
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.Source
 import VeriTile.Triton.Memory.AlgorithmProgramIO
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_RealSurface
 import VeriTile.Triton.Memory.LogicalIO

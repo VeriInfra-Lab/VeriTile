@@ -14,6 +14,7 @@ private theorem fragment (p : Layout) (r : Regions) (scale : ℝ) :
   simp [VeriTile.Bench.Repairs.ChunkGlaSimple.Program.setup,
     VeriTile.Bench.Repairs.ChunkGlaSimple.Program.addresses,
     VeriTile.Bench.Repairs.ChunkGlaSimple.Program.indices,
+    VeriTile.Bench.Repairs.ChunkGlaSimple.Program.programIndices,
     VeriTile.Bench.Repairs.ChunkGlaSimple.Program.times,
     VeriTile.Bench.Repairs.ChunkGlaSimple.Program.loop,
     VeriTile.Bench.Repairs.ChunkGlaSimple.Program.iteration,

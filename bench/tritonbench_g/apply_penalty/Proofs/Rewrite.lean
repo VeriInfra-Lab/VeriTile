@@ -1,5 +1,5 @@
 import bench.tritonbench_g.apply_penalty.Kernels
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 import VeriTile.Triton.Float.ProfiledMemory
 import VeriTile.Meta.StatementAudit
 
@@ -11,7 +11,7 @@ set_option maxRecDepth 24000
 set_option maxHeartbeats 4000000
 
 def originalSource (stride B : Nat) : ComputeKernel :=
-  kernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum" stride 1 B
+  sourceKernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum" stride 1 B
 
 def reciprocalSource (stride B : Nat) : ComputeKernel :=
   reciprocalKernel "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum" stride 1 B
@@ -27,7 +27,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (engine M) (originalSource stride B) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [originalSource, kernel, FP.Structural.exec, run, step, evalExpr,
+  simp [originalSource, sourceKernel, callSignature, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, Option.bind, numeric, numericLt, natLt, bop,
     store, Region.cast, engine, Algebra.withDefaultPrecision, resolvePrecision, hlt]
   rfl
@@ -38,30 +38,31 @@ def reciprocalExecution {α : Type} [Inhabited α] (M : Algebra α)
     {t : State α // FP.Structural.exec (engine M) (reciprocalSource stride B) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [reciprocalSource, reciprocalKernel, FP.Structural.exec, run, step, evalExpr,
+  simp [reciprocalSource, reciprocalKernel, callSignature, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, Option.bind, numeric, numericLt, natLt, bop,
     store, Region.cast, engine, Algebra.withDefaultPrecision, resolvePrecision, hlt]
   rfl
 
 
-def start {α : Type} [Inhabited α] (s : State α) : Nat :=
-  (s.mem "cumsum" (s.pids 0)).read .nat
+def start {α : Type} [Inhabited α] (s : State α) : Int :=
+  (s.mem "cumsum" (s.pids 0)).read .int
 
-def stop {α : Type} [Inhabited α] (s : State α) : Nat :=
-  (s.mem "cumsum" (s.pids 0 + 1)).read .nat
+def stop {α : Type} [Inhabited α] (s : State α) : Int :=
+  (s.mem "cumsum" (s.pids 0 + 1)).read .int
 
 def active {α : Type} [Inhabited α] (s : State α) (i : TileIndex [B]) : Prop :=
-  start s + i.1.val < stop s
+  start s + (i.1.val : Int) < stop s
 
 instance {α : Type} [Inhabited α] (s : State α) (i : TileIndex [B]) :
-    Decidable (active s i) := inferInstanceAs (Decidable (start s + i.1.val < stop s))
+    Decidable (active s i) := inferInstanceAs (Decidable (start s + (i.1.val : Int) < stop s))
 
 def address {α : Type} [Inhabited α] (stride : Nat) (s : State α) (i : TileIndex [B]) : Nat :=
-  s.pids 0 * stride + if active s i then (s.mem "ids" (start s + i.1.val)).read .nat else 0
+  ((s.pids 0 * stride : Int) + (if active s i then (s.mem "ids" (start s + (i.1.val : Int)).toNat).read .int else 0) : Int).toNat
 
 def loadedLogit {α : Type} [Inhabited α] (M : Algebra α)
     (stride : Nat) (s : State α) (i : TileIndex [B]) : α :=
-  M.fp32Load (if active s i then (s.mem "logits" (address stride s i)).read .real
+  M.fp32Load (if active s i then (s.mem "logits"
+    ((s.pids 0 * stride : Int).toNat + ((s.mem "ids" (start s + (i.1.val : Int)).toNat).read .int).toNat)).read .real
     else M.literal (some .fp32) .real 0.0)
 
 def loadedRepetition {α : Type} [Inhabited α] (M : Algebra α) (s : State α) : α :=

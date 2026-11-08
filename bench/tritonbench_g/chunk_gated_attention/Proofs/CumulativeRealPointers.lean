@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.CumulativeRealPrefix
-import bench.tritonbench_g.chunk_cumsum_vector.Sources.Mathematical_RealInit
+import bench.tritonbench_g.chunk_cumsum_vector.Proofs.Sources.Mathematical_RealInit
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.CumulativeSource.Real
 open VeriTile.Triton
 open VeriTile.Bench.Repairs.ChunkGatedAttention

@@ -12,7 +12,7 @@ theorem normalization_safe (M : Algebra α) (p : Arguments) (capacity : RegionNa
     traceSafeList M capacity (normalization p) s := by
   apply pure_trace
   intro st member t
-  simp only [normalization,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
+  simp only [normalization,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,
     List.take,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl
   all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
@@ -21,7 +21,7 @@ theorem rotation_safe (M : Algebra α) (p : Arguments) (capacity : RegionName �
     traceSafeList M capacity (rotation p) s := by
   apply pure_trace
   intro st member t
-  simp only [rotation,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
+  simp only [rotation,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,
     List.take,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
@@ -31,7 +31,7 @@ theorem native_rotation_safe (M : Algebra α) (plan : RotaryPlan) (p : Arguments
     traceSafeList M capacity (nativeRotation plan p) s := by
   apply pure_trace
   intro st member t
-  simp only [nativeRotation,selectedRotary,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
+  simp only [nativeRotation,selectedRotary,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,
     List.take,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,List.cons_append,List.nil_append,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [nativeRealNode,nativeImagNode,fp,pairRef,pairMul,
@@ -42,9 +42,9 @@ theorem source_epilogue_safe (a : Arithmetic α)
     (pb pm pn : Nat) (moments accumulator : Values α .real [16,64])
     (he : s.regs .real [] "EPS"=some (fun _ => epsilon))
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hb : s.regs .nat [] "pid_batch"=some (fun _ => pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _ => (pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (hmom : s.regs .real [16,64] "x_sum"=some moments)
     (ha : s.regs .real [16,64] "accumulator"=some accumulator)
     (capacity : RegionName → Nat)
@@ -58,9 +58,9 @@ theorem source_epilogue_safe (a : Arithmetic α)
   have np : norm.val.pids=s.pids := rfl
   have nt : norm.val.regs .real [] "THETA"=some (fun _ => theta) :=
     (nh _ _ _ (by simp [headerNames])).trans ht
-  have nm : norm.val.regs .nat [] "pid_m"=some (fun _ => pm) :=
+  have nm : norm.val.regs .int [] "pid_m"=some (fun _ => (pm:Int)) :=
     (nh _ _ _ (by simp [headerNames])).trans hm
-  have nn : norm.val.regs .nat [] "pid_n"=some (fun _ => pn) :=
+  have nn : norm.val.regs .int [] "pid_n"=some (fun _ => (pn:Int)) :=
     (nh _ _ _ (by simp [headerNames])).trans hn
   have choice : ∃ next,
       FP.Structural.step a.model (.ifThen (.constBool p.rotary) (rotation p)) norm.val=some next ∧
@@ -83,11 +83,11 @@ theorem source_epilogue_safe (a : Arithmetic α)
           rotation_value a p norm.val theta pm pn _ nt nm nn nv
       · exact (rotation_frame a p norm.val theta pm pn _ nt nm nn nv).trans nf
   obtain ⟨next,hchoice,hv,hf,hh,hp⟩ := choice
-  have nb : next.regs .nat [] "pid_batch"=some (fun _ => pb) :=
+  have nb : next.regs .int [] "pid_batch"=some (fun _ => (pb:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hb
-  have nm : next.regs .nat [] "pid_m"=some (fun _ => pm) :=
+  have nm : next.regs .int [] "pid_m"=some (fun _ => (pm:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hm
-  have nn : next.regs .nat [] "pid_n"=some (fun _ => pn) :=
+  have nn : next.regs .int [] "pid_n"=some (fun _ => (pn:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hn
   have rotationSafe : stepSafe a.model capacity (.ifThen (.constBool p.rotary) (rotation p)) norm.val := by
     simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,true_and]
@@ -109,9 +109,9 @@ theorem native_epilogue_safe (a : Arithmetic α)
     (pb pm pn : Nat) (moments accumulator : Values α .real [16,64])
     (he : s.regs .real [] "EPS"=some (fun _ => epsilon))
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hb : s.regs .nat [] "pid_batch"=some (fun _ => pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _ => (pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (hmom : s.regs .real [16,64] "x_sum"=some moments)
     (ha : s.regs .real [16,64] "accumulator"=some accumulator)
     (capacity : RegionName → Nat)
@@ -125,9 +125,9 @@ theorem native_epilogue_safe (a : Arithmetic α)
   have np : norm.val.pids=s.pids := rfl
   have nt : norm.val.regs .real [] "THETA"=some (fun _ => theta) :=
     (nh _ _ _ (by simp [headerNames])).trans ht
-  have nm : norm.val.regs .nat [] "pid_m"=some (fun _ => pm) :=
+  have nm : norm.val.regs .int [] "pid_m"=some (fun _ => (pm:Int)) :=
     (nh _ _ _ (by simp [headerNames])).trans hm
-  have nn : norm.val.regs .nat [] "pid_n"=some (fun _ => pn) :=
+  have nn : norm.val.regs .int [] "pid_n"=some (fun _ => (pn:Int)) :=
     (nh _ _ _ (by simp [headerNames])).trans hn
   have choice : ∃ next,
       FP.Structural.step a.model (.ifThen (.constBool p.rotary) (nativeRotation plan p)) norm.val=some next ∧
@@ -150,11 +150,11 @@ theorem native_epilogue_safe (a : Arithmetic α)
           native_rotation_value a plan p norm.val theta pm pn _ nt nm nn nv
       · exact (native_rotation_frame a plan p norm.val theta pm pn _ nt nm nn nv).trans nf
   obtain ⟨next,hchoice,hv,hf,hh,hp⟩ := choice
-  have nb : next.regs .nat [] "pid_batch"=some (fun _ => pb) :=
+  have nb : next.regs .int [] "pid_batch"=some (fun _ => (pb:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hb
-  have nm : next.regs .nat [] "pid_m"=some (fun _ => pm) :=
+  have nm : next.regs .int [] "pid_m"=some (fun _ => (pm:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hm
-  have nn : next.regs .nat [] "pid_n"=some (fun _ => pn) :=
+  have nn : next.regs .int [] "pid_n"=some (fun _ => (pn:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans hn
   have rotationSafe : stepSafe a.model capacity (.ifThen (.constBool p.rotary) (nativeRotation plan p)) norm.val := by
     simp only [stepSafe_unfold,safeOp_unfold,evalOp_unfold,true_and]
@@ -176,9 +176,9 @@ theorem epilogue_safe (a : Arithmetic α) (native : Bool) (plan : RotaryPlan)
     (pb pm pn : Nat) (moments accumulator : Values α .real [16,64])
     (he : s.regs .real [] "EPS"=some (fun _=>epsilon))
     (ht : s.regs .real [] "THETA"=some (fun _=>theta))
-    (hb : s.regs .nat [] "pid_batch"=some (fun _=>pb))
-    (hm : s.regs .nat [] "pid_m"=some (fun _=>pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _=>pn))
+    (hb : s.regs .int [] "pid_batch"=some (fun _=>(pb:Int)))
+    (hm : s.regs .int [] "pid_m"=some (fun _=>(pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _=>(pn:Int)))
     (hmom : s.regs .real [16,64] "x_sum"=some moments)
     (ha : s.regs .real [16,64] "accumulator"=some accumulator)
     (capacity : RegionName → Nat)

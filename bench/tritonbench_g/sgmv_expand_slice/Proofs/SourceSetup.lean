@@ -34,7 +34,7 @@ theorem run_setup {α : Type} [Inhabited α] (M : Algebra α)
   rw [SourcePrelude.active_common]
   simp [SourceParts.activePrelude,SourceParts.active,SourceParts.afterTile,
     SourceParts.afterLength,SourceParts.thenBody,SourceParts.outer,
-    kernel,primaryHalf,sourceFace,sourceHalfSingle323232,ComputeKernel.surfaceBody,
+    kernel,primaryHalf,sourceFace,sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,
     ScalarFormat.dtype,LowFormat.scalar,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,numericLe,numericEq,
     integralFloorDiv,integralMod,Region.cast,State.setReg,hstart,hbatch,hm,hn,hrow,hcol,

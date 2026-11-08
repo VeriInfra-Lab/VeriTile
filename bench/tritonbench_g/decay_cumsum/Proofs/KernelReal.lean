@@ -75,7 +75,8 @@ theorem evaluate_value (rest : Algebra ℝ) (kind : Kind) (span : Nat) (scale : 
     · split
       · simp [FPReference.backwardK,FPReference.stored,FPReference.add,FPReference.mul,FPReference.sub,
           FPReference.exp2,FPReference.gate,algebra,backwardK]
-      · rw [backward_value rest span read]; rfl
+      · rw [backward_value rest span read]
+        simp [FPReference.stored,algebra]
 
 def Outputs (kind : Kind) (h : Call) (p : Phase) (prog : Program h p) (scale : ℝ)
     (u v : State ℝ) : Prop := ∀ r∈FPTile.outputs kind, ∀ (t : Fin p.span) (j : Fin h.BK),

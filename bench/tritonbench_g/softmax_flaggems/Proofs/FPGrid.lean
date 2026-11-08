@@ -41,14 +41,14 @@ def backwardBlock (M : Algebra α) (P G Y : RegionName) (d : Dimensions) (c : La
     else FPBackwardInner.graph M s P G Y row d.M d.N c.B c.C
 
 theorem forward_complete (M : Algebra α) (X Y : RegionName) (d : Dimensions) (c : LaunchConfig)
-    (hB : 0<c.B) (s : State α) :
+    (hN : 0<d.N) (hB : 0<c.B) (s : State α) :
     ∃ t, exec M (forwardKernel X Y d c) s=some t ∧
       t.mem=(forwardBlock M X Y d c (s.pids 0) (s.pids 1) s).mem := by
   unfold forwardKernel forwardBlock
   split <;> cases hc : c.one
-  · simpa using FPForwardNoninner.complete M s X Y d.M d.N d.K c.B c.C hB
+  · simpa using FPForwardNoninner.complete M s X Y d.M d.N d.K c.B c.C hN hB
   · simpa using FPOneTile.forward_noninner M s X Y d.M d.N d.K c.B c.C hB
-  · simpa using FPForwardInner.complete M s X Y d.M d.N c.B hB
+  · simpa using FPForwardInner.complete M s X Y d.M d.N c.B hN hB
   · simpa using FPOneTile.forward_inner M s X Y d.M d.N c.B hB
 
 theorem backward_complete (M : Algebra α) (P G Y : RegionName) (d : Dimensions) (c : LaunchConfig)
@@ -139,10 +139,10 @@ def backwardGraph (M : Algebra α) (P G Y : RegionName) (d : Dimensions) (c : La
   graphRun (backwardBlock M P G Y d c) (grid g.1 g.2) s
 
 theorem forward_whole (M : Algebra α) (X Y : RegionName) (d : Dimensions) (c : LaunchConfig)
-    (hB : 0<c.B) (s ref : State α) (h : s.mem=ref.mem) :
+    (hN : 0<d.N) (hB : 0<c.B) (s ref : State α) (h : s.mem=ref.mem) :
     ∃ t, forwardRun M X Y d c s=some t ∧ t.mem=(forwardGraph M X Y d c ref).mem :=
   run_model M (forwardKernel X Y d c) (forwardBlock M X Y d c)
-    (forward_complete M X Y d c hB) (forward_congr M X Y d c)
+    (forward_complete M X Y d c hN hB) (forward_congr M X Y d c)
     _ _ _ s ref h
 
 theorem backward_whole (M : Algebra α) (P G Y : RegionName) (d : Dimensions) (c : LaunchConfig)

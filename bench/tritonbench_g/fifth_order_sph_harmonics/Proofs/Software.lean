@@ -15,6 +15,9 @@ abbrev forwardBackend := VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.Type
 /-- Only literals actually present in corrected backward. Each exact rational
 rounding is kernel-checked below. Unused literals delegate to the base algebra. -/
 def coefficient (x : ℝ) : Option Word :=
+  if x = (83.2466215530696 : ℝ) then some (FP.Value.ofBits .fp32 0x42a67e45) else
+  if x = (88.2963759165687 : ℝ) then some (FP.Value.ofBits .fp32 0x42b097bf) else
+  if x = (33.9852909359328 : ℝ) then some (FP.Value.ofBits .fp32 0x4207f0f0) else
   if x=(1.60565407233314 : ℝ) then some (FP.Value.ofBits .fp32 0x3fcd8613) else
   if x=(3.00000000000000 : ℝ) then some (FP.Value.ofBits .fp32 0x40400000) else
   if x=(3.21130814466628 : ℝ) then some (FP.Value.ofBits .fp32 0x404d8613) else
@@ -203,8 +206,12 @@ theorem backward_software (rest : Algebra Word) (cfg : FP.Config) (x y z : Word)
     Reference.backwardValues (backend rest cfg) x y z g initial=backward cfg x y z g initial := by
   norm_num [Reference.backwardValues,backward,backend,coefficient,
     FP.Software.scalarFP32,FP.Software.fp32Context]
+  exact ⟨rfl, rfl⟩
 
 theorem coefficient_words :
+    (FP.round .fp32 .ieeeValue (83.2466215530696 : Rat)).bits = BitVec.ofNat 32 0x42a67e45 ∧
+    (FP.round .fp32 .ieeeValue (88.2963759165687 : Rat)).bits = BitVec.ofNat 32 0x42b097bf ∧
+    (FP.round .fp32 .ieeeValue (33.9852909359328 : Rat)).bits = BitVec.ofNat 32 0x4207f0f0 ∧
     (FP.round .fp32 .ieeeValue (1.60565407233314 : Rat)).bits=BitVec.ofNat 32 0x3fcd8613 ∧
     (FP.round .fp32 .ieeeValue (3.00000000000000 : Rat)).bits=BitVec.ofNat 32 0x40400000 ∧
     (FP.round .fp32 .ieeeValue (3.21130814466628 : Rat)).bits=BitVec.ofNat 32 0x404d8613 ∧

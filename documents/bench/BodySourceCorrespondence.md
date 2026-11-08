@@ -6,36 +6,27 @@ proof results. An old proof, a successful build, or an unchanged inventory
 does not establish correspondence with a Python JIT body.
 
 The current machine-readable inventory is
-[`validation/source-correspondence.json`](../../validation/source-correspondence.json). It covers all 517 current tasks and 19 worked-example groups: 183 TritonBench
-repairs, 65 bug-detection tasks, 269 pretrain tasks and 19 examples. Each entry
-lists its selected Python reference, every discovered JIT function, registered
-pairs and source hashes. The 334 imported tasks and all 19 examples still lack
-independent registered Python references. Indirectly loaded selected functions
-remain unresolved until explicitly anchored, including cross_entropy_ops and
-fast_ce_loss.
+[`validation/source-correspondence.json`](../../validation/source-correspondence.json).
+It covers 517 tasks and 19 worked-example groups: 183 TritonBench tasks,
+65 bug-detection tasks and 269 pretrain tasks. Each entry records every
+retained Python JIT, registered pairs, source provenance and source hashes.
+The 334 imported bug-detection/pretrain tasks remain outside this migration's
+explicit 177-task plus 19-example scope.
 
-The 183 TritonBench tasks contain 328 selected Python JIT functions. Six tasks
-have complete checked body-copy manifests: dequantize_rowwise,
-matrix_vector_multip, matmul_triton1, matmul_triton2, chunk_gated_attention and
-triton_matmul. Their bodies preserve standalone dot/add operations and integer
-casts, and their public proofs use those actual bodies. Together with the
-three argmax stages checked in legacy AST mode, 11 selected JIT functions have
-checked pairs; 317 remain uncovered. Argmax also checks its separately supplied
-candidates. Across every referenced Python file, 14 of 412 inventoried functions
-have checked pairs and 398 remain uncovered. These counts describe mechanical
-source coverage rather than incorrect algorithms or invalid Lean theorems.
+The active scope and separate validation stages are recorded in
+[`validation/body-migration-progress.json`](../../validation/body-migration-progress.json).
+All 19 examples now have registered Python bodies. Thirty-four of the 177 target
+TritonBench tasks have complete body-copy manifests; six previously aligned
+TritonBench cases are retained as regressions. The remaining 143 target tasks
+still require body migration. Indirectly loaded functions remain unresolved
+until explicitly anchored, including cross_entropy_ops and fast_ce_loss;
+triton_argmax remains in legacy AST mode.
 
-The TritonBench primary-file screen finds type directives in 130 files and
-antiquotes in 150. In 40 primary files, explicit Python int64 casts are not
-visible in a direct Lean quotation. This is a warning screen: imported sources,
-specialization and semantic refinements require separate review. Unflagged
-files are not certified. The inventory records per-collection findings without
-converting missing references or unregistered bodies into passes.
-
-The newly checked recurrent, cumulative, while and grouped-matmul bodies are
-connected to their public proofs through checked source views and actual
-execution lemmas. Their previous complete Lean quotations are removed. This
-source cleanup does not turn other uncovered functions into body-copy passes.
+Body correspondence, public Real/FP proofs, retained-module builds and official
+proof replay are separate checks. A successful historical replay certifies only
+its immutable source commit and recorded dependency closure. Later changes to
+the shared frontend or semantics require fresh replay before affected cases can
+be marked complete. The progress record preserves that distinction.
 
 ## Checking and completion
 
@@ -72,11 +63,11 @@ promotion correctness, or hardware behavior.
    assignments, casts, calls, branches, masks and operation order. Supply
    pointer storage, runtime scalar types and constexpr names outside the body
    with `with_triton_signature`. Bind runtime argument values at the call.
-3. Add a `jit-correspondence.json` pair for every selected JIT function and
-   separately declared Python candidate. Body mode requires
-   `signature_definition` and a reviewed `expected_signature`. It permits no
-   metadata directives or Lean antiquotes inside the body. Tuple/list and
-   positional/keyword expression changes are not normalized in body mode.
+3. Run `python3 -m scripts.bench.generate_jit_correspondence <task-dir>`.
+   It discovers every JIT and candidate from the case's Python source and
+   `Kernels.lean`. Review the call signature and use the corpus gate to check
+   every pair. Body mode permits no metadata directives or Lean antiquotes
+   inside the body and keeps tuple/list and positional/keyword distinctions.
 4. Connect the public Real and FP theorems to the migrated actual program.
    Prove complete program equality or an explicit execution connection;
    rewriting a proof to refer to a detached old helper is insufficient.
@@ -91,25 +82,24 @@ Any broken registered pair is a hard error even when that task is pending.
 
 ## Worked examples
 
-All 19 worked-example groups currently have Lean-authored sources and no
-independent Python reference registered for this scope. Their existing proof
-results remain scoped to those sources. None is marked Python body-copy
-complete. Several also use Lean-specific `:=`, `tl.for`, `tl.toReal`,
-`dtype=` load extensions or `.round_to`; these must be reviewed as language
-and semantic differences, not removed by a blind text substitution.
+All 19 worked-example groups have registered Python references and complete
+pasted-body manifests. Sources reconstructed from independent mathematical
+specifications are clearly identified in
+[`bench/examples/SOURCE_PROVENANCE.md`](../../bench/examples/SOURCE_PROVENANCE.md);
+they are not described as recovered historical Python originals.
+The original and candidate bodies preserve casts, masks, branches, shapes and
+operation order. Parameter/storage metadata remains outside each quotation.
 
-When a real source is identified, register the path in the optional
-`bench/examples/source-references.json` mapping, for example
-`{"ExampleName": "path/to/actual_source.py"}`, and add the example's pair
-manifest. A source newly authored for an example should disclose its
-provenance; it must not be presented as an independent historical original.
-Unknown example names and missing source files fail the gate.
+The example references are registered in
+[`bench/examples/source-references.json`](../../bench/examples/source-references.json).
+Unknown example names and missing source files fail the gate. The separate
+local record includes 94 successful offline Triton compilations across these
+19 groups; it does not claim GPU execution or proof acceptance. Public proofs
+and all retained helper modules must be revalidated after shared semantic changes.
 
-The current frontend supports the demonstrated straight-line body. Unsupported
-Python control flow and unresolved store aliases must be implemented in the
-shared frontend and checked against its semantics before those kernels are
-marked migrated. Retaining a pending entry is preferable to omitting a cast,
-changing a branch, or claiming Python syntax support that is not implemented.
+Unsupported Python syntax and unresolved bindings fail closed. Such cases
+remain pending until the shared frontend and the complete source-to-proof
+connection are implemented and verified.
 
 ## Shared control-flow sources
 

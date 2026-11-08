@@ -19,6 +19,7 @@ specification kernel_equivalent (rest : Algebra NativeSource.Payload) (p : Nativ
   apply ProgramIO.Implementation.of_equivalentOn
   exact IOPair.equivalent rest p c valid
 
+#print_fp_assumptions kernel_equivalent
 #axiomsClean kernel_equivalent
 end
 end VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.FPEquiv

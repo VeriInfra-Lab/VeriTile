@@ -19,27 +19,41 @@ theorem setup_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (cu : s.varlen = Bool.true → initial.pids 1+1 < bounds "cu") :
     Safety.traceSafeList M bounds
       ((kernel s Bool.true Bool.true).surfaceBody.take 6) initial := by
-  by_cases hv : s.varlen = Bool.true
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
-    simp [kernel,KernelSource.source,KernelSource.source64_64,hv,
-      ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
+    simp [kernel,KernelSource.source,KernelSource.source64_64,hv,ht,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,
       integralFloorDiv,integralMod,ofFloat,toFloat,FloatDType.numericDType,
       FloatDType.toTileDType,ComputeDType.eraseDType,Option.bind]
-  exact ⟨Nat.lt_trans (Nat.lt_succ_self _) (cu hv),cu hv⟩
+  all_goals exact ⟨Nat.lt_trans (Nat.lt_succ_self _) (cu hv),cu hv⟩
 
 theorem indices_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
     (initial : State α)
     (offset : s.offsetTensor = Bool.true → initial.pids 1 < bounds "offsets") :
-    Safety.traceSafeList M bounds ((continuation s).take 4)
+    Safety.traceSafeList M bounds ((continuation s).take (TypedExecution.indicesCount s))
       (setup M s Bool.true Bool.true initial).val := by
   by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
     simp [continuation,ifBody,setup,kernel,KernelSource.source,KernelSource.source64_64,hv,ht,
-      ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -76,7 +90,14 @@ theorem loads_safe (M : Algebra α) (s : Shape) (bounds : RegionName → Nat)
   all_goals
     simp (config := { maxSteps := 80000 }) [payload,loadsCount,branchBody,continuation,ifBody,
       indices,setup,kernel,KernelSource.source,KernelSource.source64_64,hv,ht,hi,
-      ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,
       Safety.safeExpr,Safety.safeCompute,Safety.safeOp,Safety.safeOp_unfold,
       Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,

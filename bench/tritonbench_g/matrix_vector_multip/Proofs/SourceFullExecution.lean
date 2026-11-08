@@ -35,7 +35,7 @@ def epilogueExecution (A : Algebra α) (p : Parameters)
   refine ⟨epilogueResult A p initial current acc,?_⟩
   rcases h.context with ⟨hoffn,hoffm,hnMask,haptr,hbptr,hacc,hmem⟩
   have hstride := h.metadata "stride_cn" p.strideOut (by simp [scalarParameters])
-  simp [epilogue,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.body,
+  simp [epilogue,source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.bodyKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,
     numeric,FP.Structural.bop,natLt,numericEq,ComputeDType.eraseDType,

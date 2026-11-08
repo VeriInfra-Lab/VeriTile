@@ -23,40 +23,50 @@ theorem forward_source [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s : State A) (hc : 0<C) (candidate : Bool) (bounds : RegionName → Nat)
     (input : ∀ i, i<M*N*K → i<bounds X)
     (output : ∀ i, i<M*N*K → i<bounds O) :
-    TraceSafe algebra bounds (if candidate then Source.forwardCommuted O X M N K BM C
-      else Source.forward O X M N K BM C) s := by
+    TraceSafe algebra bounds (if candidate then Source.forwardCommutedKernel O X M N K BM C
+      else Source.forwardKernel O X M N K BM C) s := by
   cases candidate <;>
-  simp [TraceSafe,Source.forward,Source.forwardCommuted,ComputeKernel.surfaceBody,
+  simp [TraceSafe,Source.forwardKernel,Source.forwardCommutedKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,
-    TileShape.axisDim,hc,Nat.ne_of_gt hc,State.setReg,and_assoc,Nat.mul_comm BM]
+    TileShape.axisDim,hc,Nat.ne_of_gt hc,State.setReg,and_assoc,Nat.mul_comm BM,Int.mul_comm (BM : Int),
+    -Nat.cast_mul,-Nat.cast_add,←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt,Int.toNat_natCast]
   all_goals constructor
   all_goals
     intro i j hm hn hk
     first | apply input | apply output
-    simpa only [ite_mul] using active_bound M N K BM C s (i,j,PUnit.unit) ⟨hm,hn,hk⟩
+    simp only [Int.natCast_mul, Int.natCast_add, ←ite_mul, Kernel.clamp_expression]
+    change (Kernel.signedClamp (s.pids 0*BM+i.val) M * (N : Int) * K +
+      Kernel.signedClamp j.val N * K + Kernel.signedClamp (s.pids 1) K).toNat < M*N*K
+    rw [Kernel.signedAddress_eq M N K _ _ _ (by omega) (by omega) (by omega)]
+    exact Address.masked_offset_bound (by omega) (by omega) (by omega) _ _ _
 
 theorem backward_source [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (M N K BM C : Nat) (s : State A) (candidate : Bool) (bounds : RegionName → Nat)
     (saved : ∀ i, i<M*N*K → i<bounds Y)
     (gradient : ∀ i, i<M*N*K → i<bounds G)
     (output : ∀ i, i<M*N*K → i<bounds O) :
-    TraceSafe algebra bounds (if candidate then Source.backwardCommuted Y G O M N K BM C
-      else Source.backward Y G O M N K BM C) s := by
+    TraceSafe algebra bounds (if candidate then Source.backwardCommutedKernel Y G O M N K BM C
+      else Source.backwardKernel Y G O M N K BM C) s := by
   cases candidate <;>
-  simp [TraceSafe,Source.backward,Source.backwardCommuted,ComputeKernel.surfaceBody,
+  simp [TraceSafe,Source.backwardKernel,Source.backwardCommutedKernel,ComputeKernel.surfaceBody,
     traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,
     safeOp_unfold,safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,
     ComputeDType.eraseDType,numeric,bop,natLt,numericLt,Region.cast,
-    TileShape.axisDim,State.setReg,and_assoc,Nat.mul_comm BM]
+    TileShape.axisDim,State.setReg,and_assoc,Nat.mul_comm BM,Int.mul_comm (BM : Int),
+    -Nat.cast_mul,-Nat.cast_add,←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt,Int.toNat_natCast]
   all_goals refine ⟨?_,?_,?_⟩
   all_goals
     intro i j hm hn hk
     first | apply saved | apply gradient | apply output
-    simpa only [ite_mul] using active_bound M N K BM C s (i,j,PUnit.unit) ⟨hm,hn,hk⟩
+    simp only [Int.natCast_mul, Int.natCast_add, ←ite_mul, Kernel.clamp_expression]
+    change (Kernel.signedClamp (s.pids 0*BM+i.val) M * (N : Int) * K +
+      Kernel.signedClamp j.val N * K + Kernel.signedClamp (s.pids 1) K).toNat < M*N*K
+    rw [Kernel.signedAddress_eq M N K _ _ _ (by omega) (by omega) (by omega)]
+    exact Address.masked_offset_bound (by omega) (by omega) (by omega) _ _ _
 
 end
 end VeriTile.Bench.Repairs.LogSoftmax.KernelSafety

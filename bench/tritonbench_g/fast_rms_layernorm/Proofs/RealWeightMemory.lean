@@ -13,7 +13,7 @@ def scatter (h : Call) (K pid : Nat) (acc : Fin K → ℝ) (u : BlockState) : Bl
     if pid*K+i.1.val<h.cols then v.writeMem "dw" (pid*K+i.1.val) (acc i.1) else v) u
 
 theorem tail_executes (h : Call) (K pid : Nat) (u : BlockState) (acc : Fin K → ℝ)
-    (hcol : u.regs .nat [K] "col"=some (columns K pid))
+    (hcol : u.regs .int [K] "col"=some (columns K pid))
     (hmask : u.regs .bool [K] "mask"=some (masks h K pid))
     (hacc : u.regs .real [K] "acc"=some (Tile.vec fun j => some (acc j))) :
     stepStmts (tailCode h K) u=some (scatter h K pid acc u) := by
@@ -35,9 +35,12 @@ theorem complete (h : Call) (K : Nat) (u : BlockState) :
   refine ⟨result,?_,?_,?_⟩
   · change stepStmts (source h K).body u=some result
     rw [source_body,List.append_assoc,stepStmts.append_some (prefix_executes h K u)]
-    change stepStmts (.forRangeDyn _ _ _ _ _ :: tailCode h K) _=_
+    change stepStmts (.forRangeInt _ _ _ _ _ :: tailCode h K) _=_
     rw [stepStmts]
-    simp only [stepStmt,evalOp_constNat,Option.bind_eq_bind,Option.bind_some,Tile.scalar_data,he]
+    simp only [stepStmt,evalOp.eq_def,Option.bind,bind,pure,Tile.scalar_data]
+    have he' : stepForRangeIntAux "row" (0 : Int) (Int.ofNat h.rows) 1
+        (loopBody h K) (RealWeightStep.initial h K u)=some v := he
+    rw [he']
     exact tail_executes h K (u.pids 0) v _ inv.col inv.mask inv.acc
   · intro j hj
     have injective : Function.Injective (fun i : TileIndex [K] => u.pids 0*K+i.1.val) := by

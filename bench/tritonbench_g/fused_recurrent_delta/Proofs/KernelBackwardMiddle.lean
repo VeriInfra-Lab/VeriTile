@@ -74,7 +74,7 @@ theorem registers (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv 
     constructor
     all_goals
       simp [execute,KernelBackwardReference.input,KernelReference.add,KernelReference.zero,
-        KernelReference.read,KernelReference.cast,keyPtr,valPtr,betaPtr,plane,keyMask,valMask,
+        KernelReference.read,KernelReference.loaded,KernelReference.cast,keyPtr,valPtr,betaPtr,plane,keyMask,valMask,
         keyAddress,valAddress,betaAddress,stateAddress,State.setReg,FP.Structural.bop,
         Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,Nat.add_assoc,
         KernelRecomputeValues.scatter_other]

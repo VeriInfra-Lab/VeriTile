@@ -1,11 +1,12 @@
+import bench.tritonbench_g.parallel_retention_attention.Proofs.Support.CandidateSyntax
 import bench.tritonbench_g.parallel_retention_attention.Proofs.FusedContext
 
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Fused
 open VeriTile Triton FP.Structural Kernel
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (ForwardConfig BackwardConfig DotPrimitive withDot)
 noncomputable section
-set_option maxHeartbeats 16000000
-set_option maxRecDepth 35000
+set_option maxHeartbeats 700000
+set_option maxRecDepth 6000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
@@ -18,6 +19,7 @@ def query (c : BackwardConfig) (dq : RegionName) : ComputeKernel := FPQuery.fuse
 def loopBody (k : ComputeKernel) (n : Nat) : List ComputeStmt :=
   let code : List ComputeStmt := k.surfaceBody
   match code[n]? with
+  | some (ComputeStmt.forRangeInt _ _ _ _ b)=>b
   | some (ComputeStmt.forRangeDyn _ _ _ _ b)=>b
   | some (ComputeStmt.forRange _ _ _ _ b)=>b
   | _=>[]
@@ -30,8 +32,8 @@ theorem overwrite (s : State α) (n : RegName) (d : TileDType) (sh : TileShape)
   split <;> simp_all
 
 theorem forward_local_run (M : Algebra α) (D : DotPrimitive α) (c : ForwardConfig) (s : State α) :
-    run (withDot M D) (((loopBody (FPStages.forwardKernel c) 16).drop 3).take 2) s=
-      run (withDot M D) (((loopBody (forward c) 16).drop 3).take 1) s := by
+    run (withDot M D) (((loopBody (FPStages.forwardKernel c) 32).drop 3).take 2) s=
+      run (withDot M D) (((loopBody (forward c) 32).drop 3).take 1) s := by
   simp [FPStages.forwardKernel,forward,FPStages.forwardSource,FPStages.fusedForwardSource,
     FPQuery.source,query,FPQuery.fusedSource,
     loopBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -44,8 +46,8 @@ theorem forward_local_run (M : Algebra α) (D : DotPrimitive α) (c : ForwardCon
   all_goals funext d sh n; split <;> simp_all
 
 theorem forward_local_safe (M : Algebra α) (D : DotPrimitive α) (c : ForwardConfig) (cap : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList (withDot M D) cap (((loopBody (FPStages.forwardKernel c) 16).drop 3).take 2) s ↔
-      Safety.traceSafeList (withDot M D) cap (((loopBody (forward c) 16).drop 3).take 1) s := by
+    Safety.traceSafeList (withDot M D) cap (((loopBody (FPStages.forwardKernel c) 32).drop 3).take 2) s ↔
+      Safety.traceSafeList (withDot M D) cap (((loopBody (forward c) 32).drop 3).take 1) s := by
   simp [FPStages.forwardKernel,forward,FPStages.forwardSource,FPStages.fusedForwardSource,
     FPQuery.source,query,FPQuery.fusedSource,
     loopBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -58,8 +60,8 @@ theorem forward_local_safe (M : Algebra α) (D : DotPrimitive α) (c : ForwardCo
     simp [ha,hr0,hr1,hr2,Option.bind,State.setReg,overwrite]
 
 theorem query_local_run (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfig) (dq : RegionName) (s : State α) :
-    run (withDot M D) (((loopBody (FPQuery.source c dq) 8).drop 3).take 2) s=
-      run (withDot M D) (((loopBody (query c dq) 8).drop 3).take 1) s := by
+    run (withDot M D) (((loopBody (FPQuery.source c dq) 36).drop 3).take 2) s=
+      run (withDot M D) (((loopBody (query c dq) 36).drop 3).take 1) s := by
   simp [FPStages.forwardKernel,forward,FPStages.forwardSource,FPStages.fusedForwardSource,
     FPQuery.source,query,FPQuery.fusedSource,
     loopBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
@@ -72,8 +74,8 @@ theorem query_local_run (M : Algebra α) (D : DotPrimitive α) (c : BackwardConf
   all_goals funext d sh n; split <;> simp_all
 
 theorem query_local_safe (M : Algebra α) (D : DotPrimitive α) (c : BackwardConfig) (dq : RegionName) (cap : RegionName → Nat) (s : State α) :
-    Safety.traceSafeList (withDot M D) cap (((loopBody (FPQuery.source c dq) 8).drop 3).take 2) s ↔
-      Safety.traceSafeList (withDot M D) cap (((loopBody (query c dq) 8).drop 3).take 1) s := by
+    Safety.traceSafeList (withDot M D) cap (((loopBody (FPQuery.source c dq) 36).drop 3).take 2) s ↔
+      Safety.traceSafeList (withDot M D) cap (((loopBody (query c dq) 36).drop 3).take 1) s := by
   simp [FPStages.forwardKernel,forward,FPStages.forwardSource,FPStages.fusedForwardSource,
     FPQuery.source,query,FPQuery.fusedSource,
     loopBody,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,

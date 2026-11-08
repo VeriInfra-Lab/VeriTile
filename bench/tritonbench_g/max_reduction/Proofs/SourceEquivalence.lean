@@ -29,14 +29,14 @@ instance [Inhabited A] (e : Source.Engine A) : Spec.ProgramSyntax (Program e) wh
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
 def stage1Program (e : Source.Engine A) (v : Bool) (inp out : RegionName) (N B : Nat) : Program e where
-  kernel := if v then stage1Commuted inp out N B else stage1 inp out N B
+  kernel := if v then stage1CommutedKernel inp out N B else stage1Kernel inp out N B
 
 def stage2Program (e : Source.Engine A) (v : Bool) (inp out : RegionName) (N B : Nat) : Program e where
-  kernel := if v then stage2Complement inp out N B else stage2 inp out N B
+  kernel := if v then stage2ComplementKernel inp out N B else stage2Kernel inp out N B
 
 def dimensionProgram (e : Source.Engine A) (v : Bool) (inp ov oi : RegionName)
     (M N K BM BN : Nat) : Program e where
-  kernel := if v then dimensionCommuted inp ov oi M N K BM BN else dimension inp ov oi M N K BM BN
+  kernel := if v then dimensionCommutedKernel inp ov oi M N K BM BN else dimensionKernel inp ov oi M N K BM BN
 
 /-- The retained first-stage variant commutes only the integer index product.
 Both complete sources succeed and agree on every typed memory cell. -/
@@ -83,8 +83,8 @@ The reduction engine may use any backend tree and all FP32 words. -/
 theorem stage1_success [Inhabited A] (e : Source.Engine A) (inp out : RegionName)
     (N B : Nat) (hB : 0 < B) (s : State A) :
     ∃ final,
-      FP.Structural.exec e.algebra (stage1 inp out N B) s = some final ∧
-      FP.Structural.exec e.algebra (stage1Commuted inp out N B) s = some final ∧
+      FP.Structural.exec e.algebra (stage1Kernel inp out N B) s = some final ∧
+      FP.Structural.exec e.algebra (stage1CommutedKernel inp out N B) s = some final ∧
       final.mem = (s.write out (s.pids 0) (.mk .real
         (Source.scalarValue e (fun i => (s.mem inp i).read .real) N B (s.pids 0 * B)))).mem := by
   obtain ⟨final,he,hm⟩ := Source.stage1_exec e inp out N B s hB
@@ -93,8 +93,8 @@ theorem stage1_success [Inhabited A] (e : Source.Engine A) (inp out : RegionName
 theorem stage2_success [Inhabited A] (e : Source.Engine A) (inp out : RegionName)
     (N B : Nat) (hB : 0 < B) (s : State A) :
     ∃ original candidate,
-      FP.Structural.exec e.algebra (stage2 inp out N B) s = some original ∧
-      FP.Structural.exec e.algebra (stage2Complement inp out N B) s = some candidate ∧
+      FP.Structural.exec e.algebra (stage2Kernel inp out N B) s = some original ∧
+      FP.Structural.exec e.algebra (stage2ComplementKernel inp out N B) s = some candidate ∧
       original.mem = candidate.mem ∧
       original.mem = (s.write out 0 (.mk .real
         (Source.scalarValue e (fun i => (s.mem inp i).read .real) N B 0))).mem := by
@@ -108,8 +108,8 @@ reduction: unlike an elementwise rewrite, it cannot simply be discarded. -/
 theorem dimension_success [Inhabited A] (e : Source.Engine A) (inp ov oi : RegionName)
     (M N K BM BN : Nat) (hBN : 0 < BN) (s : State A) :
     ∃ final,
-      FP.Structural.exec e.algebra (dimension inp ov oi M N K BM BN) s = some final ∧
-      FP.Structural.exec e.algebra (dimensionCommuted inp ov oi M N K BM BN) s = some final ∧
+      FP.Structural.exec e.algebra (dimensionKernel inp ov oi M N K BM BN) s = some final ∧
+      FP.Structural.exec e.algebra (dimensionCommutedKernel inp ov oi M N K BM BN) s = some final ∧
       final.mem = (Source.dimensionStores e inp ov oi M N K BM BN s).mem := by
   obtain ⟨final,he,hm⟩ := Source.dimension_exec e inp ov oi M N K BM BN s hBN
   exact ⟨final,he,(Rewrite.dimension_same_run e inp ov oi M N K BM BN s).symm.trans he,hm⟩

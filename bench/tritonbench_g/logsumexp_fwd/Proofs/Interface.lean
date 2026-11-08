@@ -33,7 +33,7 @@ theorem schedule_safe [Inhabited A] (engines : Nat → Engine A) (a : RawKernel.
   | cons j jobs ih =>
     refine ⟨?_, ?_⟩
     · change FP.Structural.TraceSafe (engines j).algebra bounds
-        (rowBlock "input" "scratch" a.columns a.block a.hasScale)
+        (rowBlockKernel "input" "scratch" a.columns a.block a.hasScale)
         ((invocation (engines j) a scale j).initial s)
       rw [initial_eq]
       have hj := valid j (by simp)

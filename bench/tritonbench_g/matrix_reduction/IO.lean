@@ -15,7 +15,8 @@ interpretation only; the native source retains its original storage precision. -
 def matrixReductionIO (storage : Storage) (M N : Nat) : MaskedTileKernelIO₁ where
   kernel := (kernel storage "x" "out" N 1 1 M N).eraseDType
   projection := by
-    cases storage <;> simp [kernel, ComputeKernel.eraseDType,
+    cases storage <;> simp [kernel, originalForKernel, ComputeKernel.eraseDType, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType,
       ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       Except.bind, bind, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,

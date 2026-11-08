@@ -35,14 +35,14 @@ theorem range_equal (p : Scalar α) (rest : Algebra α) (cfg : Source.Parameters
 theorem loop_equal (p : Scalar α) (rest : Algebra α) (cfg : Source.Parameters)
     (s : State (Node α)) :
     Execution.run (scalar p) (base p rest)
-        [.forRangeDyn "_i" (.constNat 0) (.ref .nat [] "num_iters") (.constNat 1) (Source.body cfg)] s=
+        [.forRangeDyn "_" (.constNat 0) (.ref .nat [] "num_iters") (.constNat 1) (Source.body cfg)] s=
       FP.Structural.run (engine p rest)
-        [.forRangeDyn "_i" (.constNat 0) (.ref .nat [] "num_iters") (.constNat 1) (Source.body cfg)] s := by
+        [.forRangeDyn "_" (.constNat 0) (.ref .nat [] "num_iters") (.constNat 1) (Source.body cfg)] s := by
   simp only [Execution.run,FP.Structural.run,Execution.step,FP.Structural.step]
   change ((evalOp (engine p rest) none (.constNat 0) s).bind (fun a=>
       (evalOp (engine p rest) none (.ref .nat [] "num_iters") s).bind (fun b=>
         (evalOp (engine p rest) none (.constNat 1) s).bind (fun c=>
-          Execution.range (scalar p) (base p rest) "_i" (a PUnit.unit) (b PUnit.unit)
+          Execution.range (scalar p) (base p rest) "_" (a PUnit.unit) (b PUnit.unit)
             (c PUnit.unit) (Source.body cfg) s)))).bind some = _
   simp only [range_equal]
   rfl

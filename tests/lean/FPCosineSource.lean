@@ -8,7 +8,7 @@ set_option maxRecDepth 10000
 set_option maxHeartbeats 1000000
 
 def selected (swapped : Bool) (n B : Nat) :=
-  if swapped then indexCommutedKernel "a" "b" n B else kernel "a" "b" n B
+  if swapped then indexCommutedKernel "a" "b" n B else sourceKernel "a" "b" n B
 
 def assignType? (code : List ComputeStmt) (name : RegName) : Option TileDType :=
   match code with

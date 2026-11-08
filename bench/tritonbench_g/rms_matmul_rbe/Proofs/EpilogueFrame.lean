@@ -24,8 +24,8 @@ theorem rotation_header {α : Type} [Inhabited α] (a : Arithmetic α)
     (p : Arguments) (s : State α) (theta : α) (pm pn : Nat)
     (accumulator : Values α .real [16,64])
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     HeaderPreserved s (rotationExecution a p s theta pm pn accumulator ht hm hn ha).val := by
   intro d sh name hn

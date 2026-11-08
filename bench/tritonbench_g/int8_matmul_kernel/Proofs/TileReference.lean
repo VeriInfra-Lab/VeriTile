@@ -72,6 +72,26 @@ def outerValues (cast : Word32 → Byte) (p : Parameters) (s : State Word32) : N
   | 0 => fun _ => 0
   | field+1 => innerValues cast p s field (outerValues cast p s field) p.steps
 
+/-- The actual modular carry is already a signed word after every update;
+its final INT32 store conversion therefore preserves it without an overflow
+restriction on the mathematical dense sum. -/
+theorem innerValues_word (cast : Word32 → Byte) (p : Parameters) (s : State Word32)
+    (field : Nat) (initial : CIndex p → Int) (count : Nat) (i : CIndex p)
+    (seed : (BitVec.ofInt 32 (initial i)).toInt=initial i) :
+    (BitVec.ofInt 32 (innerValues cast p s field initial count i)).toInt=
+      innerValues cast p s field initial count i := by
+  cases count with
+  | zero=>exact seed
+  | succ n=>simp only [innerValues,signedAdd32,BitVec.ofInt_toInt]
+
+@[simp] theorem outerValues_word (cast : Word32 → Byte) (p : Parameters) (s : State Word32)
+    (count : Nat) (i : CIndex p) :
+    (BitVec.ofInt 32 (outerValues cast p s count i)).toInt=outerValues cast p s count i := by
+  induction count with
+  | zero=>rfl
+  | succ n ih=>exact innerValues_word cast p s n (outerValues cast p s n) p.steps i ih
+
+
 def outputOffset (p : Parameters) (s : State Word32) (i : CIndex p) : Nat :=
   p.outputRowStride*(rowBlock p s*p.blockRows+i.1.val)+
     p.outputColumnStride*(columnBlock p s*p.blockColumns+i.2.1.val)

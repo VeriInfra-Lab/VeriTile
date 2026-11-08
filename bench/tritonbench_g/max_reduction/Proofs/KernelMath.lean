@@ -67,7 +67,7 @@ theorem dimension_rows (M N K BM BN p k : Nat) (hN : 0 < N) (covers : N ≤ BN)
     (binding : ∀ j, j < M*N*K → (s.mem "input" j).read .real = (input j : WithBot ℝ)) :
     ∃ t,
       FP.Structural.exec (engine Compute.real plan.tree).algebra
-        (dimension "input" "values" "indices" M N K BM BN) (positioned s p k) = some t ∧
+        (dimensionKernel "input" "values" "indices" M N K BM BN) (positioned s p k) = some t ∧
       (∀ i : Fin BM, p*BM+i.val < M → ∃ (answer : ℝ) (index : Nat),
         t.mem "values" ((p*BM+i.val)*K+k) = .mk .real (answer : WithBot ℝ) ∧
         t.mem "indices" ((p*BM+i.val)*K+k) = .mk .int (index : Int) ∧

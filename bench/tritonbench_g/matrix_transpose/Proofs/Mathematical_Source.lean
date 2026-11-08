@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_transpose.Sources.Mathematical_Kernels
+import bench.tritonbench_g.matrix_transpose.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 

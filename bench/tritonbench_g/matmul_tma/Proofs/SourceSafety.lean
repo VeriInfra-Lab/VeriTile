@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_tma.Kernels
+import bench.tritonbench_g.matmul_tma.Contract
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.StaticCheckedV2.SourceSafety
@@ -21,7 +21,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     simp [TraceSafe, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
       Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
       Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
-      Safety.maskActive_unfold, Safety.safeAlg_unfold, source, typed,
+      Safety.maskActive_unfold, Safety.safeAlg_unfold, source, typedKernel,
       FP.Structural.exec, ComputeKernel.surfaceBody, run, step,
       evalExpr, evalComputeOp, evalOp_unfold, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, Region.cast, BlockPtr.inBounds, BlockPtr.address_2d_zero_offsets,

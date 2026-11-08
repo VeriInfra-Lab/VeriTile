@@ -1,5 +1,5 @@
-import bench.tritonbench_g.iv_dependent_matmul.Kernels
-import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_Schedules
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Support.SourceAPI
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.Mathematical_Schedules
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel
 open VeriTile.Triton FP.Structural

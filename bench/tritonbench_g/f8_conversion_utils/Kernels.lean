@@ -1,4 +1,72 @@
-import bench.tritonbench_g.f8_conversion_utils.Sources.Mathematical_Kernels
+import bench.tritonbench_g.f8_conversion_utils.Proofs.Sources.Parameters
+import VeriTile.Triton.DSL.CallSignature
+
+/-! Complete original Python conversion bodies. Caller metadata selects FP8
+format and encoder input storage; decode retains both identical stores. -/
+namespace VeriTile.Bench.Repairs.F8ConversionUtils.Body
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource
+
+def decodeSignature (format : Format) : CallSignature where
+  pointers := [("Y",.fp16),("X",match format with | .e4 => .f8e4 | .e5 => .f8e5)]
+  scalars := [("N",.integer)]
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["X"]
+  writePorts := ["Y"]
+
+def encodeSignature (input : Input) (format : Format) : CallSignature where
+  pointers := [("Y",match format with | .e4 => .f8e4 | .e5 => .f8e5),
+    ("X",match input with | .fp16 => .fp16 | .fp32 => .fp32)]
+  scalars := [("N",.integer)]
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["X"]
+  writePorts := ["Y"]
+
+def decodeOriginalKernel (format : Format) (Y X : RegionName) (N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (decodeSignature format) call_args [N := N] in triton {
+    pid = tl.program_id(0)
+    offs = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    mask = offs < N
+    x = tl.load(X + offs, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+  }
+
+def decodeCandidateKernel (format : Format) (Y X : RegionName) (N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (decodeSignature format) call_args [N := N] in triton {
+    pid = tl.program_id(0)
+    offs = BLOCK_SIZE * pid + tl.arange(0, BLOCK_SIZE)
+    mask = offs < N
+    x = tl.load(X + offs, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+  }
+
+def encodeOriginalKernel (input : Input) (format : Format) (Y X : RegionName) (N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (encodeSignature input format) call_args [N := N] in triton {
+    pid = tl.program_id(0)
+    offs = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    mask = offs < N
+    x = tl.load(X + offs, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+  }
+
+def encodeCandidateKernel (input : Input) (format : Format) (Y X : RegionName) (N BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call (encodeSignature input format) call_args [N := N] in triton {
+    pid = tl.program_id(0)
+    offs = BLOCK_SIZE * pid + tl.arange(0, BLOCK_SIZE)
+    mask = offs < N
+    x = tl.load(X + offs, mask=mask)
+    tl.store(Y + offs, x, mask=mask)
+  }
+
+/-- Profile adapters select a whole raw body; they generate no statements. -/
+def toHalf (format : Format) (swapped : Bool) : sourceType :=
+  if swapped then decodeCandidateKernel format else decodeOriginalKernel format
+
+def toFP8 (input : Input) (format : Format) (swapped : Bool) : sourceType :=
+  if swapped then encodeCandidateKernel input format else encodeOriginalKernel input format
+end VeriTile.Bench.Repairs.F8ConversionUtils.Body
 
 namespace VeriTile.Bench.Repairs.F8ConversionUtils
 open VeriTile.Triton
@@ -8,8 +76,8 @@ inductive Direction where
 def Direction.doubleStore : Direction → Bool | .decode => Bool.true | .encode => Bool.false
 namespace Source
 open VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource
-abbrev toHalf := VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toHalf
-abbrev toFP8 := VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toFP8
+abbrev toHalf := Body.toHalf
+abbrev toFP8 := Body.toFP8
 inductive Profile where
   | decodeE5 | encodeHalfE5 | encodeSingleE5 | decodeE4 | encodeHalfE4 | encodeSingleE4
   deriving DecidableEq

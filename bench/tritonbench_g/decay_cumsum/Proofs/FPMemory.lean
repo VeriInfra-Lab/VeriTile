@@ -46,11 +46,11 @@ def Frame (h : Call) (p : Phase) (prog : Program h p) (regions : List RegionName
     (u v : State α) : Prop := ∀ r o, ¬footprint h p prog regions r o → v.mem r o=u.mem r o
 
 theorem cell (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
-    (t : Nat) (r : RegionName) (value : Values α .real [h.BK]) (u : State α) (j : Fin h.BK) :
-    (scatter M h.BK r (off h p prog t) value u).mem r (off h p prog t j)=
-      FPReference.stored M (value (j,PUnit.unit)) := by
+    (t : Nat) (r : RegionName) (value : Values α .real [h.BK]) (u : State α) (j : Fin h.BK) (explicitCast : Bool := Bool.true) :
+    (scatter M h.BK r (off h p prog t) value u explicitCast).mem r (off h p prog t j)=
+      FPReference.stored M (value (j,PUnit.unit)) explicitCast := by
   apply State.scatter_readback (shape := [h.BK]) r (fun i => off h p prog t i.1)
-    (fun i => FPReference.stored M (value i)) u (j,PUnit.unit)
+    (fun i => FPReference.stored M (value i) explicitCast) u (j,PUnit.unit)
   rintro ⟨a,⟨⟩⟩ ⟨b,⟨⟩⟩ he
   have same := (off_unique h p prog t t a b he).2
   subst b
@@ -58,8 +58,8 @@ theorem cell (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
 
 theorem other_step (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (t t' : Nat) (different : t≠t') (r : RegionName) (value : Values α .real [h.BK])
-    (u : State α) (j : Fin h.BK) :
-    (scatter M h.BK r (off h p prog t) value u).mem r (off h p prog t' j)=u.mem r (off h p prog t' j) := by
+    (u : State α) (j : Fin h.BK) (explicitCast : Bool := Bool.true) :
+    (scatter M h.BK r (off h p prog t) value u explicitCast).mem r (off h p prog t' j)=u.mem r (off h p prog t' j) := by
   apply State.scatter_frame
   right
   rintro ⟨k,⟨⟩⟩ _ he
@@ -67,8 +67,8 @@ theorem other_step (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
 
 theorem frame (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p)
     (t : Fin p.span) (r : RegionName) (regions : List RegionName) (hr : r∈regions)
-    (value : Values α .real [h.BK]) (u : State α) :
-    Frame h p prog regions u (scatter M h.BK r (off h p prog t.val) value u) := by
+    (value : Values α .real [h.BK]) (u : State α) (explicitCast : Bool := Bool.true) :
+    Frame h p prog regions u (scatter M h.BK r (off h p prog t.val) value u explicitCast) := by
   intro r' o outside
   apply State.scatter_frame
   by_cases same : r'=r

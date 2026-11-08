@@ -1,5 +1,6 @@
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOSafetyLoop
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOSafetyEpilogue
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.RangeHeader
 
 namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.IOSafety
 open VeriTile.Triton FP.Structural Safety
@@ -9,9 +10,18 @@ set_option maxHeartbeats 3000000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+/-- Source loop-header expressions read no memory in any caller state. -/
+theorem range_header_safe (M : Algebra α) (p : Arguments) (s : State α)
+    (capacity : RegionName → Nat) :
+    safeOp M none capacity s (startExpr p) ∧
+    safeOp M none capacity s (countExpr p) ∧
+    safeOp M none capacity s (strideExpr p) := by
+  simp [startExpr,countExpr,strideExpr,source,TypedSource.kernel,TypedSource.halfHalf,
+    TypedSource.rmsKernel,ComputeKernel.surfaceBody,safeOp_unfold]
+
 theorem callee_partition (native : Bool) (plan : RotaryPlan) (fp8 outputFP8 : Bool) (p : Arguments) :
     calleeCode native plan fp8 outputFP8 p=prelude fp8 outputFP8 p ++
-      [.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1) (IOBytes.code native fp8 outputFP8 p)] ++
+      [.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p) (IOBytes.code native fp8 outputFP8 p)] ++
       (if native then selectedEpilogue plan fp8 outputFP8 p else epilogue fp8 outputFP8 p) := by
   cases native
   · exact partition fp8 outputFP8 p
@@ -36,24 +46,28 @@ theorem callee_safe (a : Arithmetic α) (native : Bool) (plan : RotaryPlan)
     (hh _ _ _ (by simp [headerNames])).trans (ps.1.trans he)
   have lt : last.regs .real [] "THETA"=some (fun _ => theta) :=
     (hh _ _ _ (by simp [headerNames])).trans (ps.2.trans ht)
-  have lb : last.regs .nat [] "pid_batch"=some (fun _ => s.pids 0) :=
+  have lb : last.regs .int [] "pid_batch"=some (fun _ => (s.pids 0:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.1
-  have lm : last.regs .nat [] "pid_m"=some (fun _ => programRow p s) :=
+  have lm : last.regs .int [] "pid_m"=some (fun _ => (programRow p s:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.2.1
-  have ln : last.regs .nat [] "pid_n"=some (fun _ => programCol p s) :=
+  have ln : last.regs .int [] "pid_n"=some (fun _ => (programCol p s:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.2.2
   have safeLoop:=loop_safe a native fp8 outputFP8 p s bytes capacity bound
     ((p.K+63)/64) 0 preState.val (by omega) pf pv0
   have safeStep : stepSafe a.model capacity
-      (.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1)
+      (.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p)
         (IOBytes.code native fp8 outputFP8 p)) preState.val := by
-    simpa [stepSafe_unfold,safeOp_unfold,evalOp_unfold,countExpr,
-      FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex] using safeLoop
+    simpa only [stepSafe_unfold,(range_header_safe a.model p preState.val capacity).1,
+      (range_header_safe a.model p preState.val capacity).2.1,
+      (range_header_safe a.model p preState.val capacity).2.2,
+      (range_header a.model p preState.val).1,(range_header a.model p preState.val).2.1,
+      (range_header a.model p preState.val).2.2, true_and] using safeLoop
   have hstep : FP.Structural.step a.model
-      (.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1)
+      (.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p)
         (IOBytes.code native fp8 outputFP8 p)) preState.val=some last := by
-    simpa [FP.Structural.step,evalOp_unfold,countExpr,FP.Structural.bop,
-      Broadcast.leftIndex,Broadcast.rightIndex] using hl
+    simpa only [FP.Structural.step,(range_header a.model p preState.val).1,
+      (range_header a.model p preState.val).2.1,
+      (range_header a.model p preState.val).2.2,Option.bind_some] using hl
   rw [callee_partition,List.append_assoc,traceSafeList_append]
   refine ⟨prefix_safe a.model fp8 outputFP8 p capacity s,?_⟩
   intro next ran

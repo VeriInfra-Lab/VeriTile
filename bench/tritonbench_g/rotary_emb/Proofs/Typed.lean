@@ -39,7 +39,7 @@ theorem execution_memory {A : Type} [Inhabited A] (rest : Algebra A) (ops : Ops 
   try simp (config := { maxSteps := 1000000 }) +contextual [and_assoc]
   try rfl
 
-#specNonCircular value avoiding [Kernels.kernel,sourcePair,execution]
+#specNonCircular value avoiding [Kernels.sourceKernel,sourcePair,execution]
 #axiomsClean execution
 #axiomsClean execution_memory
 end

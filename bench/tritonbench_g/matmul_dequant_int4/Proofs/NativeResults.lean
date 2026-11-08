@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_dequant_int4.Proofs.KernelInterface
-import bench.tritonbench_g.matmul_dequant_int4.Spec
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Support.Spec
 
 namespace VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.Native
 open VeriTile.Triton FP.Structural

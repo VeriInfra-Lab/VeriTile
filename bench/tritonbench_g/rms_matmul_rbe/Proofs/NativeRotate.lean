@@ -19,8 +19,8 @@ def nativeRotationExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (plan : RotaryPlan) (p : Arguments) (s : State α) (theta : α) (pm pn : Nat)
     (accumulator : Values α .real [16,64])
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     {next : State α // run a.model (nativeRotation plan p) s=some next} := by
   rcases plan with ⟨swap,fuse⟩
@@ -29,7 +29,7 @@ def nativeRotationExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     refine ⟨?_,?_⟩
     swap
     simp [nativeRotation,selectedRotary,nativeRealNode,nativeImagNode,orderedFactors,
-      fp,pairRef,pairMul,samePair,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,
+      fp,pairRef,pairMul,samePair,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,
       ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
       evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,
@@ -68,8 +68,8 @@ theorem native_rotation_frame {α : Type} [Inhabited α] (a : Arithmetic α)
     (plan : RotaryPlan) (p : Arguments) (s : State α) (theta : α) (pm pn : Nat)
     (accumulator : Values α .real [16,64])
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     (nativeRotationExecution a plan p s theta pm pn accumulator ht hm hn ha).val.mem=s.mem := by
   rcases plan with ⟨swap,fuse⟩
@@ -79,8 +79,8 @@ theorem native_rotation_header {α : Type} [Inhabited α] (a : Arithmetic α)
     (plan : RotaryPlan) (p : Arguments) (s : State α) (theta : α) (pm pn : Nat)
     (accumulator : Values α .real [16,64])
     (ht : s.regs .real [] "THETA"=some (fun _ => theta))
-    (hm : s.regs .nat [] "pid_m"=some (fun _ => pm))
-    (hn : s.regs .nat [] "pid_n"=some (fun _ => pn))
+    (hm : s.regs .int [] "pid_m"=some (fun _ => (pm:Int)))
+    (hn : s.regs .int [] "pid_n"=some (fun _ => (pn:Int)))
     (ha : s.regs .real [16,64] "accumulator"=some accumulator) :
     HeaderPreserved s
       (nativeRotationExecution a plan p s theta pm pn accumulator ht hm hn ha).val := by

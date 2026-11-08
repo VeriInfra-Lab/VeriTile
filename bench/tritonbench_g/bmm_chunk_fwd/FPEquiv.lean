@@ -18,20 +18,20 @@ def original (rest : Algebra Expr) (p : Parameters) (chosen : Host.Config) :=
 
 /-- The existing integer-index candidate, retaining the complete schedule,
 FP32 casts, K-block/MMA order, native observer and cleanup. -/
-def indexCommuted (rest : Algebra Expr) (p : Parameters) (chosen : Host.Config) :=
+def indexCommutedKernel (rest : Algebra Expr) (p : Parameters) (chosen : Host.Config) :=
   ProgramIO.Implementation.ofVariant (candidate rest p chosen) (fun _ => True)
 
 /-- Both complete actual schedules are safe and succeed, their active output
 cells agree, and their exterior frames are preserved. Only the integer
 head-index product is commuted; no floating transformation rule is used. -/
 specification bmm_chunk_fwd_execution (rest : Algebra Expr) (p : Parameters) (chosen : Host.Config) :
-    original rest p chosen ≡[[]] indexCommuted rest p chosen :=
+    original rest p chosen ≡[[]] indexCommutedKernel rest p chosen :=
   ProgramIO.Implementation.of_equivalent (candidate rest p chosen)
     (BmmIO.Native.native_equivalent rest p chosen)
 
 #print_fp_assumptions bmm_chunk_fwd_execution
 #stmtSurfaceSubset bmm_chunk_fwd_execution ⊆
-  [original,indexCommuted,Spec.Equiv,ProgramIO.Implementation,ProgramIO.Implementation.programSyntax,
+  [original,indexCommutedKernel,Spec.Equiv,ProgramIO.Implementation,ProgramIO.Implementation.programSyntax,
    FP.Structural.Algebra,Expr,instInhabitedExpr,Parameters,Host.Config,ReadProgramIO.toProgramIO,
    io,ProgramIO.Inputs,ProgramIO.InputBindingMode.decoded,Spec.RuleEntry,Spec.ProgramSyntax.Statement]
 #axiomsClean bmm_chunk_fwd_execution

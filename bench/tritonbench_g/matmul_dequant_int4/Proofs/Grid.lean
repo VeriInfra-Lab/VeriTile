@@ -1,6 +1,6 @@
 import bench.tritonbench_g.matmul_dequant_int4.Proofs.Source
-import bench.tritonbench_g.matmul_dequant_int4.Sources.Grid
-import bench.tritonbench_g.int_scaled_matmul.Sources.GridExecution
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Sources.Grid
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GridExecution
 
 namespace VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.KernelGrid
 open VeriTile.Triton FP.Structural Source

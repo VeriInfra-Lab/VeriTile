@@ -23,7 +23,7 @@ theorem body_header {α : Type} [Inhabited α] (a : Arithmetic α)
   intro d sh name hn
   simp [headerNames] at hn
   rcases hn with rfl|rfl|rfl|rfl|rfl
-  all_goals cases fp8 <;> cases outputFP8 <;> simp [bodyExecution]
+  all_goals cases fp8 <;> cases outputFP8 <;> simp [bodyExecution,bodyBaseExecution]
 
 #axiomsClean body_header
 end

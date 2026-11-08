@@ -12,7 +12,7 @@ abbrev FRow (p : ForwardParameters) := TileIndex [p.blockM]
 abbrev FQuery (p : ForwardParameters) := TileIndex [p.blockM,p.head]
 abbrev FKey (p : ForwardParameters) := TileIndex [p.blockN,p.head]
 abbrev FScore (p : ForwardParameters) := TileIndex [p.blockM,p.blockN]
-def forwardSource (p : ForwardParameters) := forwardTyped p.dtype .fp32
+def forwardSource (p : ForwardParameters) := forwardTypedKernel p.dtype .fp32
   p.q p.k p.v p.denominator p.maximum p.output p.scale
   0 p.headStride p.head 1 0 p.headStride p.head 1 0 p.headStride p.head 1
   0 p.headStride p.head 1 0 0 p.context p.rows p.blockM p.head p.blockN

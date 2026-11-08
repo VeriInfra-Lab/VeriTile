@@ -25,7 +25,7 @@ theorem forwardScoreExecution (rest : Algebra α) (P : Primitives α) (p : Forwa
     run (backend rest P) ((forwardBody p).take 5)
       (current.setReg "start_n" .nat [] (fun _ => c*p.blockN))=
       some (forwardScoreResult P p initial current c) := by
-  simp [forwardBody,forwardSource,forwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [forwardBody,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,numericLe,backend,forwardScoreResult,
     h.query,h.keyPtr,h.memory,h.undef,h.rows,h.cols,forwardKVPointer,
     forwardZero,forwardDot,forwardScore,forwardKV,forwardKVOffset,

@@ -16,7 +16,7 @@ def distanceExpr (BM BN : Nat) (offset : Int) : Op .int [BM, BN] :=
           (.castNatToInt (.expandDim ⟨1, by simp⟩ (.arange BM)))
           (.castNatToInt (.expandDim ⟨0, by simp⟩ (.arange BN))))
         (.ref .int [] "start_m"))
-      (.mul .int .nil (.ref .int [] "start_n") (.constInt BN)))
+      (.mul .int .nil (.ref .int [] "start_n") (.castNatToInt (.constNat BN))))
     (.constInt offset)
 
 def distances (BM BN startM startN : Nat) (offset : Int) : Tile .int [BM, BN] :=
@@ -62,7 +62,7 @@ theorem original_distance :
       offset size scale window complement evenM evenN hBlock).surfaceBody =
       some (distanceExpr BM BN offset) := by
   subst BM
-  simp [distance?, TypedSource.original,
+  simp [distance?, TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,
     ComputeKernel.surfaceBody, distanceExpr]
 
 theorem candidate_distance :
@@ -71,7 +71,7 @@ theorem candidate_distance :
       offset size scale window complement evenM evenN hBlock).surfaceBody =
       some (distanceExpr BM BN offset) := by
   subst BM
-  simp [distance?, TypedSource.scalarLeft,
+  simp [distance?, TypedSource.scalarLeft,TypedSource.scalarLeftKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,
     ComputeKernel.surfaceBody, distanceExpr]
 
 end

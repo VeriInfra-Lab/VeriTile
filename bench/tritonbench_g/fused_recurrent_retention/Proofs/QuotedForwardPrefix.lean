@@ -16,8 +16,8 @@ theorem forward_prefix_values {α : Type} [Inhabited α] (a : Arithmetic α)
         (Program.forwardParts (layout s b) forwardRegions seed final).before initial = some entry ∧
       ForwardInvariant a s b initial seed (launch initial) 0 entry ∧ entry.mem=initial.mem := by
   cases seed <;>
-    simp [Program.forwardParts,Program.forward,Surface.forward,
-      ComputeKernel.surfaceBody,Source.dynamicRange?,run,step,FP.Structural.evalExpr,
+    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardKernel,
+      ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
       natLt,integralMod,Region.cast,hscale,ForwardInvariant,layout,forwardRegions,
       launch,keyOffset,valueOffset,outputOffset,seedOffset,ProgramId.key,ProgramId.value,

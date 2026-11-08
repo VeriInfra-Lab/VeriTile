@@ -190,10 +190,10 @@ def sample (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p) (i :
 
 def scores (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p)
     (b : Nat) (i : Lane p) : α :=
-  P.cast (some .fp32) .real .real
+  P.cast (some .fp32) .real .real (P.load32
     (if row p pid (i.1,())<p.batches ∧ b+i.2.1.val<p.tokens then
       score p x.memory (row p pid (i.1,())) (b+i.2.1.val)
-    else P.zero (some .fp32) .real)
+    else P.zero (some .fp32) .real))
 
 def scanned (P : Primitives α) (p : Parameters) (pid : Nat) (x : Data α p) (b : Nat) : Lane p → α :=
   P.scan none .sum ⟨1,by simp⟩ .forward (scores P p pid x b)

@@ -20,7 +20,7 @@ theorem returned_logical (rest : Algebra ℝ) (fp : Forward.Parameters) (bp : Ba
         Backward.mean bp (saved bp f) row=mean fp.columns (rowX fp (atPid s row)) ∧
         Backward.rstd bp (saved bp f) row=rstd fp.columns fp.epsilon (rowX fp (atPid s row))) ∧
       (∀ row, row<rows → ∀ i : TileIndex [fp.block], i.1.val<fp.columns →
-        f.mem fp.y (row*fp.yStride+i.1.val)=.mk .fp32
+        f.mem fp.y (row*fp.yStride+i.1.val)=.mk .real
           (y fp.columns fp.epsilon (rowX fp (atPid s row)) (weight fp s) (bias fp s) i.1.val)) :=
   Public.roundtrip rest fp bp s rows programs pw pb dw db shape h link
 

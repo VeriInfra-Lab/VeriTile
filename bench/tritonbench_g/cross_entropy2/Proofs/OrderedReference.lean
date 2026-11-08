@@ -11,7 +11,7 @@ def logits (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
     (x : Nat → α) (block : Nat) : Values α .real [p.block] := fun j =>
   if block*p.block+j.1.val<p.cols then
     M.binary (some .fp32) .real .mul
-      (M.cast (some .fp32) .real .real (x (block*p.block+j.1.val))) args.logitScale
+      (M.cast (some .fp32) .real .real (M.fp32Load (x (block*p.block+j.1.val)))) args.logitScale
   else M.negInf
 
 def maximum (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
@@ -47,7 +47,7 @@ def coreLoss (M : Algebra α) (p : Parameters) (args : RuntimeArgs.Values α)
   let sub := M.binary (some .fp32) .real .sub
   let mul := M.binary (some .fp32) .real .mul
   let div := M.binary (some .fp32) .real .div
-  let gathered := mul (x (label-p.classStart).toNat) args.logitScale
+  let gathered := mul (M.fp32Load (x (label-p.classStart).toNat)) args.logitScale
   exact if owns p block label then
     if p.hasSmoothing then
       sub (sub L (div (mul s (sum M p args x block)) C))

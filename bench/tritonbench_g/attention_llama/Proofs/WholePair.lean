@@ -1,6 +1,6 @@
 import bench.tritonbench_g.attention_llama.Proofs.NativePublicIO
 import bench.tritonbench_g.attention_llama.Proofs.CarryPublicIO
-import bench.tritonbench_g.attention_llama.PairIO
+import bench.tritonbench_g.attention_llama.Proofs.Support.PairIO
 import VeriTile.Spec
 
 /-! Two actual ordinary grids on this task's fixed typed memory interface.

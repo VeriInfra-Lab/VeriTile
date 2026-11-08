@@ -40,7 +40,7 @@ def epilogueExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     {t : State α // run (backend M D) (epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [epilogue, source, typed, ComputeKernel.surfaceBody,
+  simp [epilogue, source, typed, VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

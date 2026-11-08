@@ -1,4 +1,5 @@
 import bench.tritonbench_g.layer_norm_welfold.Proofs.ReadableNormalize
+import bench.tritonbench_g.layer_norm_welfold.Proofs.Row
 namespace VeriTile.Bench.Repairs.LayerNormWelfold.Readable
 open VeriTile.Triton FP.Structural Reuse
 noncomputable section
@@ -13,7 +14,7 @@ theorem whole_row {α : Type} [Inhabited α] (M : Algebra α) (eq : α→α→Bo
   rw [mean_equality,inverse_equality] at hs
   obtain ⟨t,ht,hreg,hout,hframe⟩ := normalize_whole_row M eq u X W Bias Y S D B (s.pids 0) tree reuse
     _ _ hB (sep.inputs X (.inl rfl)).2.2 (sep.inputs W (.inr (.inl rfl))).2.2
-    (sep.inputs Bias (.inr (.inr rfl))).2.2 hs.mean hs.inverse hs.row
+    (sep.inputs Bias (.inr (.inr rfl))).2.2 hs.mean hs.inverse hs.row hs.rbase
   have hinput : ∀ q, q=X ∨ q=W ∨ q=Bias → u.mem q=s.mem q := by
     intro q hq
     funext off

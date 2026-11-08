@@ -18,7 +18,7 @@ theorem layer_norm_grouped_source_real (m : Model ℝ) (laws : SourceForwardReal
     (stride M N G B : Nat) (s : State ℝ) (groups : 0<G) (covers : N≤B)
     (rowAddresses : ∀ row,row<M → row*stride=row*N) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t ∧
+      (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) s=some t ∧
       t.mem=(SourceGroupedExecution.final m stride M N G B s).mem ∧
       (∀ row,row∈groupRows M G (s.pids 0) → ∀ j,j<N →
         t.mem "DX" (row*N+j)=.mk .real
@@ -47,7 +47,7 @@ sums, preserving every cell outside the selected output columns. -/
 theorem layer_norm_final_source_real (m : Model ℝ) (laws : SourceFinalReal.Laws m)
     (s : State ℝ) (M N BN : Nat) :
     ∃ t,FP.Structural.exec (engine m)
-      (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N 32 BN) s=some t ∧
+      (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N 32 BN) s=some t ∧
       t.mem=(SourceFinalGraph.final m s M N 32 BN).mem ∧
       (∀ i : TileIndex [BN],SourceFinalGraph.columns s BN i<N →
         t.mem "FINAL_DW" (SourceFinalGraph.columns s BN i)=.mk .real

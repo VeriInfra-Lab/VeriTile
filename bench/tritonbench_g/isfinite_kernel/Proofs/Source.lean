@@ -30,6 +30,12 @@ def stores {A : Type} [Inhabited A] (classify : A → Bool)
     if pid*B+i.1.val<n then s.write "y" (output.address (pid*B+i.1.val))
       (.mk .bool (classify ((snapshot.mem "x" (input.address (pid*B+i.1.val))).read .real))) else s) current
 
+/-- Boolean pointer storage converts through the integer byte channel. For
+an already Boolean classifier result this exact conversion is identity. -/
+@[local simp] theorem stored_bool (b : Bool) :
+    (!decide ((if b then (1 : Int) else 0)=0))=b := by
+  cases b <;> rfl
+
 /-- Whole direct JIT execution, retaining every active signed byte address,
 the originally loaded register values, and arbitrary masked-load padding. -/
 theorem executes {A : Type} [Inhabited A] (precision : Precision) (classify : A → Bool)
@@ -38,9 +44,9 @@ theorem executes {A : Type} [Inhabited A] (precision : Precision) (classify : A 
       final.mem=(stores classify input output n B (s.pids 0) s s).mem := by
   cases precision
   all_goals
-    simp +contextual [source,source32,source64,View.address,View.signedAddress,
+    simp +contextual [source,source32,source64,sourceKernel,View.address,View.signedAddress,
       FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      algebra,Precision.finite,ComputeDType.eraseDType,numeric,natLt,bop,FP.Structural.store,Region.cast,
+      algebra,Precision.finite,ComputeDType.eraseDType,numeric,numericEq,natLt,bop,FP.Structural.store,Region.cast,
       ofFloat,toFloat,stores,Option.bind,
       VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.fold_writes_mem]
 
@@ -52,9 +58,9 @@ theorem commuted_executes {A : Type} [Inhabited A] (precision : Precision) (clas
       final.mem=(stores classify input output n B (s.pids 0) s s).mem := by
   cases precision
   all_goals
-    simp +contextual [indexCommuted,candidate32,candidate64,Nat.mul_comm,View.address,View.signedAddress,
+    simp +contextual [indexCommuted,candidate32,candidate64,candidateKernel,Nat.mul_comm,View.address,View.signedAddress,
       FP.Structural.exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
-      algebra,Precision.finite,ComputeDType.eraseDType,numeric,natLt,bop,FP.Structural.store,Region.cast,
+      algebra,Precision.finite,ComputeDType.eraseDType,numeric,numericEq,natLt,bop,FP.Structural.store,Region.cast,
       ofFloat,toFloat,stores,Option.bind,
       VeriTile.Bench.TritonBenchG.IsfiniteKernel.TypedBits.fold_writes_mem]
 

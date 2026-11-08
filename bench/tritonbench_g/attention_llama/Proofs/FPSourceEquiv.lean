@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.Sources.Kernels
+import bench.tritonbench_g.attention_llama.Proofs.Sources.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 

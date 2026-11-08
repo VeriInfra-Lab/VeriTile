@@ -38,7 +38,7 @@ theorem add_kernel_masked_correct
     (h_y : ∀ j : Fin blockSize, s.pid * blockSize + j.val < nElements →
       s.readMem yReg (s.pid * blockSize + j.val) = ys j) :
     ∀ i : Fin blockSize,
-      observeAt (exec (addKernelMasked xReg yReg outReg blockSize nElements) s)
+      observeAt (exec (addMaskedKernel xReg yReg outReg blockSize nElements) s)
                 outReg blockSize s.pid i
         = some (if s.pid * blockSize + i.val < nElements then xs i + ys i
                 else s.readMem outReg (s.pid * blockSize + i.val)) := by
@@ -48,7 +48,7 @@ theorem add_kernel_masked_correct
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [observeAt, exec, addKernelMasked, stepStmts, stepStmt, evalOp,
+  simp [observeAt, exec, addMaskedKernel, stepStmts, stepStmt, evalOp,
         Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
         ComparableDType.lt]
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
@@ -84,13 +84,13 @@ store is preserved by the run — in particular every cell of every region
 other than `outReg`, and the *inactive* lanes of the output window itself. -/
 private theorem addKernelMasked_frame (xReg yReg outReg : RegionName)
     (B n : Nat) (s s1 : BlockState)
-    (hExec : exec ((addKernelMasked xReg yReg outReg B n
+    (hExec : exec ((addMaskedKernel xReg yReg outReg B n
       ).toAlgKernel) s = some s1)
     (r : RegionName) (o : Nat)
     (hmiss : ∀ i : Fin B, s.pid * B + i.val < n →
       ¬(outReg = r ∧ s.pid * B + i.val = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, addKernelMasked, ComputeKernel.toAlgKernel,
+  simp [exec, addMaskedKernel, ComputeKernel.toAlgKernel,
     stepStmts, stepStmt, evalOp, Tile.bop, Tile.cop, NumericDType.add,
     NumericDType.mul, ComparableDType.lt] at hExec
   subst hExec
@@ -108,7 +108,7 @@ theorem addKernelMasked_region_run (B n : Nat) (hB : 0 < B)
       s₀.readMem ⟨"x"⟩ (s₀.pid * B + j.val) = xs j)
     (hy : ∀ j : Fin B, s₀.pid * B + j.val < n →
       s₀.readMem ⟨"y"⟩ (s₀.pid * B + j.val) = ys j) :
-    ∃ s1, exec ((addKernelMasked ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n).toAlgKernel) s₀
+    ∃ s1, exec ((addMaskedKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n).toAlgKernel) s₀
         = some s1
       ∧ (∀ j : Fin B, s₀.pid * B + j.val < n →
           s1.readMem ⟨"out"⟩ (s₀.pid * B + j.val) = xs j + ys j)
@@ -118,10 +118,10 @@ theorem addKernelMasked_region_run (B n : Nat) (hB : 0 < B)
           s1.mem r o = s₀.mem r o) := by
   have hobs := add_kernel_masked_correct ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n hB s₀ xs ys
     hx hy
-  rw [show exec (addKernelMasked ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n) s₀
-      = exec ((addKernelMasked ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n).toAlgKernel) s₀
+  rw [show exec (addMaskedKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n) s₀
+      = exec ((addMaskedKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n).toAlgKernel) s₀
       from rfl] at hobs
-  cases hsrc : exec ((addKernelMasked ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n).toAlgKernel) s₀
+  cases hsrc : exec ((addMaskedKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B n).toAlgKernel) s₀
       with
   | none =>
       have := hobs ⟨0, hB⟩
@@ -166,7 +166,7 @@ theorem addKernelMasked_traceSafe (xReg yReg outReg : RegionName)
     (hout : ∀ j : Fin B, s.pid * B + j.val < n →
       s.pid * B + j.val < bounds outReg) :
     Kernel.TraceSafe bounds
-      ((addKernelMasked xReg yReg outReg B n).toAlgKernel)
+      ((addMaskedKernel xReg yReg outReg B n).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
   -- statement 1: pid := program_id(0)
@@ -262,10 +262,10 @@ theorem addKernelMasked_traceSafe (xReg yReg outReg : RegionName)
 /-- The register-style kernel sits inside the bridge's covered fragment. -/
 theorem addKernelMasked_flattenOk (xReg yReg outReg : RegionName)
     (B n : Nat) :
-    ((addKernelMasked xReg yReg outReg B n
+    ((addMaskedKernel xReg yReg outReg B n
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [addKernelMasked, ComputeKernel.toAlgKernel,
+  simp [addMaskedKernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
 
 section Optimized
@@ -280,8 +280,8 @@ theorem optional_add_comm (a b : Option ℝ) :
 
 theorem optimized_exec (B n : Nat) (s : BlockState) :
     exec (optimizedKernel n B).toAlgKernel s =
-      exec (addKernelMasked "x" "y" "out" B n).toAlgKernel s := by
-  simp [optimizedKernel, addKernelMasked, exec, stepStmts, stepStmt, evalOp.eq_def,
+      exec (addMaskedKernel "x" "y" "out" B n).toAlgKernel s := by
+  simp [optimizedKernel,commutedKernel, addMaskedKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,
       ComparableDType.lt, add_comm, optional_add_comm]
 

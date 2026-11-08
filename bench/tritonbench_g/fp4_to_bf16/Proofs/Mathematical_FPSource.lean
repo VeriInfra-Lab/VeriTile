@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.Sources.Mathematical_Kernels
+import bench.tritonbench_g.fp4_to_bf16.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton
 import VeriTile.Triton.Float.Structural
 import VeriTile.Triton.Float.SignedCast

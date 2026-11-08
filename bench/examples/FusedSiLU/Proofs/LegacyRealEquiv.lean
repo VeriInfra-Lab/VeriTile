@@ -68,6 +68,9 @@ that bridge requires successful projection and register-closedness of every
 stage. This file's headline is about the concatenated kernel.
 -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm? VeriTile.Triton.ComputeOp.toAlgorithm?
+  VeriTile.Triton.ComputeDType.eraseDType
+
 namespace VeriTile.Bench.Examples.FusedSiLUEquiv
 open VeriTile.Bench.Examples.FusedSiLU.Kernels
 open VeriTile.Triton VeriTile.Examples
@@ -110,16 +113,16 @@ private theorem foldl_writeMemAsR_mem_congr {α : Type} (R : RoundingModel)
 identically under `execR R` and `exec` (state universally quantified so the
 degeneration rewrites under the `Option.bind` binders of the pipeline split). -/
 private theorem execR_siluStepGate (t : BlockState) :
-    execR R (siluStepGate xReg gateReg zReg blockSize) t
-      = exec (siluStepGate xReg gateReg zReg blockSize) t := by
-  simp [execR, exec, siluStepGate, stepStmtsR, stepStmts, stepStmtR, stepStmt,
+    execR R (siluStepGateKernel xReg gateReg zReg blockSize) t
+      = exec (siluStepGateKernel xReg gateReg zReg blockSize) t := by
+  simp [execR, exec, siluStepGateKernel, stepStmtsR, stepStmts, stepStmtR, stepStmt,
         evalOpR.eq_def, Tile.bop, NumericDType.add, NumericDType.mul,
         BlockState.writeMemTypedR, ComputeExpr.toAlgorithm?]
 
 private theorem execR_siluStepSilu (t : BlockState) :
-    execR R (siluStepSilu zReg siluReg blockSize) t
-      = exec (siluStepSilu zReg siluReg blockSize) t := by
-  simp [execR, exec, siluStepSilu, stepStmtsR, stepStmts, stepStmtR, stepStmt,
+    execR R (siluStepSiluKernel zReg siluReg blockSize) t
+      = exec (siluStepSiluKernel zReg siluReg blockSize) t := by
+  simp [execR, exec, siluStepSiluKernel, stepStmtsR, stepStmts, stepStmtR, stepStmt,
         evalOpR.eq_def, evalOp, Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul,
         BlockState.writeMemTypedR, ComputeExpr.toAlgorithm?]
 
@@ -129,14 +132,14 @@ the two ℝ scratch stages degenerate to `exec` (they carry no `castFloat`), whi
 the final residual stage keeps its bf16-rounded store under `execR R`. -/
 private theorem execR_unfusedSiLU_split :
     execR R (unfusedSiLUKernel xReg gateReg residualReg zReg siluReg outReg blockSize) s =
-      (exec (siluStepGate xReg gateReg zReg blockSize) s).bind (fun s1 =>
-        (exec (siluStepSilu zReg siluReg blockSize) s1).bind (fun s2 =>
-          execR R (siluStepResidual siluReg residualReg outReg blockSize) s2)) := by
+      (exec (siluStepGateKernel xReg gateReg zReg blockSize) s).bind (fun s1 =>
+        (exec (siluStepSiluKernel zReg siluReg blockSize) s1).bind (fun s2 =>
+          execR R (siluStepResidualKernel siluReg residualReg outReg blockSize) s2)) := by
   have hsplit :
       execR R (unfusedSiLUKernel xReg gateReg residualReg zReg siluReg outReg blockSize) s =
-        (execR R (siluStepGate xReg gateReg zReg blockSize) s).bind (fun s1 =>
-          (execR R (siluStepSilu zReg siluReg blockSize) s1).bind (fun s2 =>
-            execR R (siluStepResidual siluReg residualReg outReg blockSize) s2)) := by
+        (execR R (siluStepGateKernel xReg gateReg zReg blockSize) s).bind (fun s1 =>
+          (execR R (siluStepSiluKernel zReg siluReg blockSize) s1).bind (fun s2 =>
+            execR R (siluStepResidualKernel siluReg residualReg outReg blockSize) s2)) := by
     unfold unfusedSiLUKernel
     rw [execR_toAlgKernel_seq R _ _ _ s (by
       intro k hk
@@ -153,14 +156,14 @@ private theorem silu_step_gate_correct
     (_h_x : InputLoadedAt s xReg blockSize xs)
     (_h_g : InputLoadedAt s gateReg blockSize gates) :
     ∀ i : Fin blockSize,
-      observeAt (exec (siluStepGate xReg gateReg zReg blockSize) s)
+      observeAt (exec (siluStepGateKernel xReg gateReg zReg blockSize) s)
                 zReg blockSize s.pid i
         = some (xs i * gates i) := by
   intro i
   have h_inj :
       Function.Injective (fun idx : TileIndex [blockSize] => s.pid * blockSize + idx.1.val) :=
     injective_offset_singleton (s.pid * blockSize)
-  simp [observeAt, exec, siluStepGate, stepStmts, stepStmt,
+  simp [observeAt, exec, siluStepGateKernel, stepStmts, stepStmt,
         Tile.bop, NumericDType.add, NumericDType.mul]
   unfold InputLoadedAt at _h_x _h_g
   rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
@@ -171,11 +174,11 @@ private theorem silu_step_gate_preserves
     (_h_g : InputLoadedAt s gateReg blockSize gates)
     (h_keep : keepReg ≠ zReg) :
     ∀ i : Fin blockSize,
-      observeAt (exec (siluStepGate xReg gateReg zReg blockSize) s)
+      observeAt (exec (siluStepGateKernel xReg gateReg zReg blockSize) s)
                 keepReg blockSize s.pid i
         = some (s.readMem keepReg (s.pid * blockSize + i.val)) := by
   intro i
-  simp [observeAt, exec, siluStepGate, stepStmts, stepStmt,
+  simp [observeAt, exec, siluStepGateKernel, stepStmts, stepStmt,
         Tile.bop, NumericDType.add, NumericDType.mul]
   unfold InputLoadedAt at _h_x _h_g
   simp_rw [_h_x, _h_g]
@@ -188,14 +191,14 @@ private theorem silu_step_gate_preserves
 private theorem silu_step_silu_correct (zs : Fin blockSize → ℝ)
     (_h_z : InputLoadedAt s zReg blockSize zs) :
     ∀ i : Fin blockSize,
-      observeAt (exec (siluStepSilu zReg siluReg blockSize) s)
+      observeAt (exec (siluStepSiluKernel zReg siluReg blockSize) s)
                 siluReg blockSize s.pid i
         = some (Triton.TiledActivation.silu (zs i)) := by
   intro i
   have h_inj :
       Function.Injective (fun idx : TileIndex [blockSize] => s.pid * blockSize + idx.1.val) :=
     injective_offset_singleton (s.pid * blockSize)
-  simp [observeAt, exec, siluStepSilu, stepStmts, stepStmt, evalOp,
+  simp [observeAt, exec, siluStepSiluKernel, stepStmts, stepStmt, evalOp,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul,
         Triton.TiledActivation.silu]
   unfold InputLoadedAt at _h_z
@@ -206,11 +209,11 @@ private theorem silu_step_silu_preserves (zs : Fin blockSize → ℝ)
     (_h_z : InputLoadedAt s zReg blockSize zs)
     (h_keep : keepReg ≠ siluReg) :
     ∀ i : Fin blockSize,
-      observeAt (exec (siluStepSilu zReg siluReg blockSize) s)
+      observeAt (exec (siluStepSiluKernel zReg siluReg blockSize) s)
                 keepReg blockSize s.pid i
         = some (s.readMem keepReg (s.pid * blockSize + i.val)) := by
   intro i
-  simp [observeAt, exec, siluStepSilu, stepStmts, stepStmt, evalOp,
+  simp [observeAt, exec, siluStepSiluKernel, stepStmts, stepStmt, evalOp,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul]
   unfold InputLoadedAt at _h_z
   simp_rw [_h_z]
@@ -221,19 +224,19 @@ private theorem silu_step_silu_preserves (zs : Fin blockSize → ℝ)
   simp [BlockState.pid_eq]
 
 private theorem silu_step_gate_mem_frame {s' : BlockState}
-    (h : exec (siluStepGate xReg gateReg zReg blockSize) s = some s')
+    (h : exec (siluStepGateKernel xReg gateReg zReg blockSize) s = some s')
     {r : RegionName} (hr : r ≠ zReg) (o : Nat) :
     s'.mem r o = s.mem r o := by
-  simp [exec, siluStepGate, stepStmts, stepStmt, Tile.bop,
+  simp [exec, siluStepGateKernel, stepStmts, stepStmt, Tile.bop,
         NumericDType.add, NumericDType.mul] at h
   subst h
   exact BlockState.foldl_writeMem_mem_preserve_other_region _ _ _ r hr o _
 
 private theorem silu_step_silu_mem_frame {s' : BlockState}
-    (h : exec (siluStepSilu zReg siluReg blockSize) s = some s')
+    (h : exec (siluStepSiluKernel zReg siluReg blockSize) s = some s')
     {r : RegionName} (hr : r ≠ siluReg) (o : Nat) :
     s'.mem r o = s.mem r o := by
-  simp [exec, siluStepSilu, stepStmts, stepStmt, evalOp, Tile.bop, Tile.uop,
+  simp [exec, siluStepSiluKernel, stepStmts, stepStmt, evalOp, Tile.bop, Tile.uop,
         NumericDType.add, NumericDType.mul] at h
   subst h
   exact BlockState.foldl_writeMem_mem_preserve_other_region _ _ _ r hr o _
@@ -251,10 +254,10 @@ private theorem fusedR_silu_mem_frame {s' : BlockState}
     (fun k _ hc => hr hc.1.symm) _
 
 private theorem siluR_step_residual_mem_frame {s' : BlockState}
-    (h : execR R (siluStepResidual siluReg residualReg outReg blockSize) s = some s')
+    (h : execR R (siluStepResidualKernel siluReg residualReg outReg blockSize) s = some s')
     {r : RegionName} (hr : r ≠ outReg) (o : Nat) :
     s'.mem r o = s.mem r o := by
-  simp [execR, siluStepResidual, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
+  simp [execR, siluStepResidualKernel, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
         NumericDType.add, NumericDType.mul, ComputeExpr.toAlgorithm?] at h
   subst h
   exact BlockState.foldl_writeMemAsR_preserve_cell R .bf16 _ _ r o _
@@ -296,10 +299,10 @@ private theorem foldl_writeMemTypedR_pids {α : Type} (R : RoundingModel)
 lane of the program window are untouched. -/
 private theorem silu_step_gate_unhit {s' : BlockState} (o : Nat)
     (ho : ∀ i : Fin blockSize, s.pid * blockSize + i.val ≠ o)
-    (h : exec (siluStepGate xReg gateReg zReg blockSize) s = some s') :
+    (h : exec (siluStepGateKernel xReg gateReg zReg blockSize) s = some s') :
     s'.mem zReg o = s.mem zReg o := by
   simp only [BlockState.pid_eq] at ho
-  simp [exec, siluStepGate, stepStmts, stepStmt, Tile.bop,
+  simp [exec, siluStepGateKernel, stepStmts, stepStmt, Tile.bop,
         NumericDType.add, NumericDType.mul] at h
   subst h
   exact BlockState.foldl_writeMem_mem_preserve_unhit _ _ _ o
@@ -308,10 +311,10 @@ private theorem silu_step_gate_unhit {s' : BlockState} (o : Nat)
 /-- Cell-level frame for step B's exact `silu` store. -/
 private theorem silu_step_silu_unhit {s' : BlockState} (o : Nat)
     (ho : ∀ i : Fin blockSize, s.pid * blockSize + i.val ≠ o)
-    (h : exec (siluStepSilu zReg siluReg blockSize) s = some s') :
+    (h : exec (siluStepSiluKernel zReg siluReg blockSize) s = some s') :
     s'.mem siluReg o = s.mem siluReg o := by
   simp only [BlockState.pid_eq] at ho
-  simp [exec, siluStepSilu, stepStmts, stepStmt, evalOp, Tile.bop, Tile.uop,
+  simp [exec, siluStepSiluKernel, stepStmts, stepStmt, evalOp, Tile.bop, Tile.uop,
         NumericDType.add, NumericDType.mul] at h
   subst h
   exact BlockState.foldl_writeMem_mem_preserve_unhit _ _ _ o
@@ -332,10 +335,10 @@ private theorem fusedR_silu_unhit {s' : BlockState} (o : Nat)
 /-- Cell-level frame for step C's bf16-rounded `out` store. -/
 private theorem siluR_step_residual_unhit {s' : BlockState} (o : Nat)
     (ho : ∀ i : Fin blockSize, s.pid * blockSize + i.val ≠ o)
-    (h : execR R (siluStepResidual siluReg residualReg outReg blockSize) s = some s') :
+    (h : execR R (siluStepResidualKernel siluReg residualReg outReg blockSize) s = some s') :
     s'.mem outReg o = s.mem outReg o := by
   simp only [BlockState.pid_eq] at ho
-  simp [execR, siluStepResidual, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
+  simp [execR, siluStepResidualKernel, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
         NumericDType.add, NumericDType.mul, ComputeExpr.toAlgorithm?] at h
   subst h
   exact BlockState.foldl_writeMemAsR_preserve_cell R .bf16 _ _ _ o _
@@ -358,20 +361,20 @@ private theorem fusedSiLU_execR_isSome :
 
 /-- Step A terminates under `exec` from every state. -/
 private theorem silu_step_gate_exec_isSome :
-    ∃ s', exec (siluStepGate xReg gateReg zReg blockSize) s = some s' := by
-  simp [exec, siluStepGate, stepStmts, stepStmt, Tile.bop,
+    ∃ s', exec (siluStepGateKernel xReg gateReg zReg blockSize) s = some s' := by
+  simp [exec, siluStepGateKernel, stepStmts, stepStmt, Tile.bop,
         NumericDType.add, NumericDType.mul]
 
 /-- Step B terminates under `exec` from every state. -/
 private theorem silu_step_silu_exec_isSome :
-    ∃ s', exec (siluStepSilu zReg siluReg blockSize) s = some s' := by
-  simp [exec, siluStepSilu, stepStmts, stepStmt, evalOp, Tile.bop, Tile.uop,
+    ∃ s', exec (siluStepSiluKernel zReg siluReg blockSize) s = some s' := by
+  simp [exec, siluStepSiluKernel, stepStmts, stepStmt, evalOp, Tile.bop, Tile.uop,
         NumericDType.add, NumericDType.mul]
 
 /-- Step C terminates under `execR R` from every state. -/
 private theorem siluR_step_residual_execR_isSome :
-    ∃ s', execR R (siluStepResidual siluReg residualReg outReg blockSize) s = some s' := by
-  simp [execR, siluStepResidual, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
+    ∃ s', execR R (siluStepResidualKernel siluReg residualReg outReg blockSize) s = some s' := by
+  simp [execR, siluStepResidualKernel, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
         NumericDType.add, NumericDType.mul, ComputeExpr.toAlgorithm?]
 
 end FusedSiLUEquiv.lemmas
@@ -418,11 +421,11 @@ theorem silu_kernels_refinement_view
   obtain ⟨hrz, hrsilu⟩ := hr
   have hRsplit := hR
   rw [execR_unfusedSiLU_split] at hRsplit
-  cases h1 : exec (siluStepGate xReg gateReg zReg blockSize) s with
+  cases h1 : exec (siluStepGateKernel xReg gateReg zReg blockSize) s with
   | none => simp [h1] at hRsplit
   | some s1 =>
     simp only [h1, Option.bind_some] at hRsplit
-    cases h2 : exec (siluStepSilu zReg siluReg blockSize) s1 with
+    cases h2 : exec (siluStepSiluKernel zReg siluReg blockSize) s1 with
     | none => simp [h2] at hRsplit
     | some s2 =>
       simp only [h2, Option.bind_some] at hRsplit
@@ -471,7 +474,7 @@ theorem silu_kernels_refinement_view
         -- symbolic execution of the two rounded stores
         simp [execR, fusedSiLUKernel, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop, Tile.uop,
               NumericDType.add, NumericDType.mul, ComputeExpr.toAlgorithm?] at hL
-        simp [execR, siluStepResidual, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
+        simp [execR, siluStepResidualKernel, stepStmtsR, stepStmtR, evalOpR.eq_def, Tile.bop,
               NumericDType.add, NumericDType.mul, ComputeExpr.toAlgorithm?] at hRsplit
         subst hL
         subst hRsplit
@@ -528,7 +531,7 @@ fragment (concatenation adds no new statement forms). -/
 theorem unfusedSiLU_flattenOk :
     ((unfusedSiLUKernel xReg gateReg residualReg zReg siluReg outReg blockSize).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [unfusedSiLUKernel, siluStepGate, siluStepSilu, siluStepResidual,
+  simp [unfusedSiLUKernel, siluStepGateKernel, siluStepSiluKernel, siluStepResidualKernel,
     ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
@@ -577,7 +580,7 @@ theorem unfusedSiLU_traceSafeR (bounds : RegionBounds)
       ((unfusedSiLUKernel xReg gateReg residualReg zReg siluReg outReg blockSize).toAlgKernel) s := by
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hg hres hout hz hsilu
-  simp [unfusedSiLUKernel, siluStepGate, siluStepSilu, siluStepResidual,
+  simp [unfusedSiLUKernel, siluStepGateKernel, siluStepSiluKernel, siluStepResidualKernel,
     ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,

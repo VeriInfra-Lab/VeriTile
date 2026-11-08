@@ -16,11 +16,11 @@ theorem state_entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
       (stateParts p scale rev seed final).before s := by
   cases rev <;> cases seed
   all_goals
-    simp [stateParts,stateKernel,loopName,forwardH,backwardH,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Option.map,Option.getD,
+    simp [stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
-      step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
       TileShape.axisDim,Region.cast,State.setReg,
@@ -42,14 +42,15 @@ theorem state_finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
       (stateParts p scale rev seed final).after s := by
   cases rev <;> cases final
   all_goals
-    simp [stateParts,stateKernel,loopName,forwardH,backwardH,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Option.map,Option.getD,
+    simp [stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
-      step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
       TileShape.axisDim,Region.cast,State.setReg,ctx.ik,ctx.iv,ctx.bh,
+      natural_history_address,natural_offset,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
   all_goals
     simp [Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
@@ -67,18 +68,20 @@ theorem state_store_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (head : pid.z < p.B * p.H) :
     Safety.traceSafeList (engine (withDot M D)) bounds
       (stateStorePrefix p scale rev seed final)
-      (s.setReg (loopName rev) .nat [] (fun _ => n)) := by
+      (stateIndex p rev n s) := by
   have chunkBound := Geometry.chunk_lt p rev n active
+  have clock : (p.NT : Int)-((n : Int)+1)=((p.NT-1-n : Nat) : Int) := by omega
   cases rev
   all_goals
-    simp [stateStorePrefix,stateParts,stateKernel,loopName,forwardH,backwardH,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Option.map,Option.getD,
+    simp [stateStorePrefix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
-      step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
-      TileShape.axisDim,Region.cast,State.setReg,ctx.ik,ctx.iv,ctx.bh,
+      TileShape.axisDim,Region.cast,State.setReg,ctx.ik,ctx.iv,ctx.bh,clock,
+      natural_history_address,natural_offset,
       BlockPtr.inBounds_2d_offsets,BlockPtr.address_2d_offsets,TileShape.indexToList]
   all_goals
     simp [Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
@@ -101,12 +104,12 @@ theorem state_update_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
   cases rev
   all_goals
     simp only [Bool.false_eq_true, if_false, if_true] at hl hr
-    simp [stateUpdateSuffix,stateParts,stateKernel,loopName,forwardH,backwardH,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Option.map,Option.getD,
+    simp [stateUpdateSuffix,stateParts,stateIntParts,stateIndex,stateKernel,loopName,forwardH,forwardHKernel,backwardH,backwardHKernel,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
       singleton,Safety.traceSafeList_cons,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,
       Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,
       engine,withDot,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,integralFloorDiv,integralMod,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,
       TileShape.axisDim,Region.cast,State.setReg,hl,hr,

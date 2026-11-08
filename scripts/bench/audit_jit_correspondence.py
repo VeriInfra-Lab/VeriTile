@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Inventory selected Python JITs and screen for omitted explicit int64 casts.
 
-This deliberately does NOT certify unflagged tasks. A task is correspondence-
-checked only when its explicit jit-correspondence.json passes the AST checker.
-Missing source, shared/imported source and other translation forms stay visible.
+Check automatically discovered pairs in standardized directories and explicit
+snapshots in older directories. The cast screen itself does not certify a task.
 """
 # Support both module invocation and direct script execution.
 if __package__ in (None, ""):
@@ -19,7 +18,8 @@ import json
 from pathlib import Path
 import re
 
-from scripts.bench.jit_correspondence import check_manifest
+from scripts.bench.generate_jit_correspondence import generate
+from scripts.bench.jit_correspondence import check_manifest, check_records
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -72,6 +72,9 @@ def scan(root=ROOT):
         manifest = lean.parent/'jit-correspondence.json'
         if manifest.is_file():
             row['checked_pairs'] = check_manifest(root, manifest)
+            row['status'] = 'exact_ast_correspondence'
+        elif (lean.parent / 'RealCorrect.lean').is_file():
+            row['checked_pairs'] = check_records(root, generate(root, lean.parent))
             row['status'] = 'exact_ast_correspondence'
         elif casts and row['direct_quotation'] and not explicit:
             row['status'] = 'missing_explicit_int64_cast'

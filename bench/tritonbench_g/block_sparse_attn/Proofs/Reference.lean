@@ -1,5 +1,5 @@
-import bench.tritonbench_g.block_sparse_attn.Indices
-import bench.tritonbench_g.block_sparse_attn.Lowering
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.Indices
+import bench.tritonbench_g.block_sparse_attn.Proofs.Support.Lowering
 
 namespace VeriTile.Bench.Repairs.BlockSparseAttn.KernelOnly
 open VeriTile.Triton FP.Structural

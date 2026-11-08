@@ -1,3 +1,4 @@
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.SignedRanges
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.SafetySteps
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.SafetyAccess
 
@@ -20,8 +21,8 @@ structure TileBounds (p : Core.Parameters) (bounds : RegionName → Nat) (tile :
 theorem inner_loop_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (initial current : State α) (tile : Nat) (h : InnerInvariant P p initial tile 0 current)
     (bounds : RegionName → Nat) (hb : TileBounds p bounds tile) :
-    Safety.rangeSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current := by
-  apply Safety.rangeSafe_of_invariant (backend P) bounds "ki" p.problem.kTiles 1 (Core.inner p)
+    Safety.rangeIntSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current := by
+  apply SignedRanges.safe_nat (backend P) bounds "ki" p.problem.kTiles 1 (Core.inner p)
     (fun q t => InnerInvariant P p initial tile q t)
   · intro q _ t inv
     exact inner_safe P p initial t tile q inv bounds (hb.a q) (hb.b q)
@@ -33,10 +34,10 @@ theorem inner_loop_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
 
 theorem inner_statement_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (current : State α) (pid : Nat) (h : Registers p pid current) (bounds : RegionName → Nat)
-    (safe : Safety.rangeSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current) :
+    (safe : Safety.rangeIntSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current) :
     Safety.stepSafe (backend P) bounds (innerStatement p) current := by
   cases hp : p.problem.profile <;>
-    simpa [innerStatement,Core.inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,
+    simpa [innerStatement,Core.inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,hp,ComputeKernel.surfaceBody,
       Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,h.count] using safe
 
 theorem outer_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
@@ -44,14 +45,15 @@ theorem outer_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (tileBound : p.problem.tile pid ordinal<p.problem.tiles) (bounds : RegionName → Nat)
     (hb : TileBounds p bounds (p.problem.tile pid ordinal)) :
     Safety.traceSafeList (backend P) bounds (outer p)
-      (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal)) ∧
+      (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int))) ∧
     ∃ final,run (backend P) (outer p)
-      (initial.setReg "tile_ordinal" .nat [] (fun _ => ordinal))=some final ∧ Registers p pid final := by
+      (initial.setReg "tile_ordinal" .int [] (fun _ => (ordinal : Int)))=some final ∧ Registers p pid final := by
   let setup := tilePreludeExecution P p pid ordinal initial regs
   have invariant := tile_initial P p pid ordinal initial regs tileBound
   have registers := tile_registers P p pid ordinal initial regs
   obtain ⟨last,ran,inv,reg⟩ := innerLoop P p initial setup.val pid (p.problem.tile pid ordinal) 0
     (Nat.zero_le _) invariant registers
+  simp only [Nat.cast_zero] at ran
   have stepRan : step (backend P) (innerStatement p) setup.val=some last := by
     rw [dynamicInner P p setup.val pid registers,ran]
   constructor
@@ -82,9 +84,9 @@ theorem program_safe (P : Source.Arithmetic α α) (p : Core.Parameters) (initia
       (Source.tiles_exact p.problem sms _).mp
         ((Source.tile_mem p.problem _).mpr ⟨pid,pidBound,ordinal,ho,rfl⟩)
     outer_safe P p current pid ordinal ready tileBound bounds (hb _ tileBound)
-  have outerSafe : Safety.rangeSafe (backend P) bounds "tile_ordinal" 0 (p.problem.work pid) 1
+  have outerSafe : Safety.rangeIntSafe (backend P) bounds "tile_ordinal" 0 (p.problem.work pid) 1
       (outer p) prepared.val := by
-    apply Safety.rangeSafe_of_invariant (backend P) bounds "tile_ordinal" (p.problem.work pid) 1
+    apply SignedRanges.safe_nat (backend P) bounds "tile_ordinal" (p.problem.work pid) 1
       (outer p) (fun _ t => Registers p pid t)
     · intro q hq t ready
       exact (bodySafe q hq t ready).1
@@ -102,7 +104,7 @@ theorem program_safe (P : Source.Arithmetic α α) (p : Core.Parameters) (initia
   cases Option.some.inj ht
   apply Safety.traceSafeList_cons_intro
   · cases hp : p.problem.profile <;>
-      simpa [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,
+      simpa [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,TypedSource.originalKernel,TypedSource.candidateKernel,hp,ComputeKernel.surfaceBody,
         Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,regs.work] using outerSafe
   · intro t _
     exact Safety.traceSafeList_nil _ _ _

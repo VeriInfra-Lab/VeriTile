@@ -104,6 +104,10 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       let vb ← evalOp b s
       some (Tile.bop h.div bc va vb)
+  | .divRN bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop NumericDType.real.div bc va vb)
   | .floorDiv h bc a b, s => do
       let va ← evalOp a s
       let vb ← evalOp b s
@@ -129,6 +133,7 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .sigmoid a, s => return Tile.uop WithBot.realSigmoid (← evalOp a s)
   | .sqrt a, s => return Tile.uop WithBot.realSqrt (← evalOp a s)
   | .rsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOp a s)
+  | .libdeviceRsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOp a s)
   | .tanh a, s => return Tile.uop WithBot.realTanh (← evalOp a s)
   | .sin a, s => return Tile.uop WithBot.realSin (← evalOp a s)
   | .cos a, s => return Tile.uop WithBot.realCos (← evalOp a s)

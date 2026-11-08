@@ -1,5 +1,5 @@
-import bench.tritonbench_g.parallel_attention.QueryWhole
-import bench.tritonbench_g.parallel_attention.FPBackwardWhole
+import bench.tritonbench_g.parallel_attention.Proofs.Support.QueryWhole
+import bench.tritonbench_g.parallel_attention.Proofs.Support.FPBackwardWhole
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel.IOSafety

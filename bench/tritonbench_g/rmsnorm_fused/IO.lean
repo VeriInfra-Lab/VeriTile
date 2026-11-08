@@ -43,7 +43,7 @@ def memory (α : Type) (shape : Shape) : MemoryIO α where
 registers, and its row PID. No epsilon constant specialization is introduced. -/
 def invocation {β : Type} (A : Algebra β) (shape : Shape) (epsilon : β)
     (row : Nat) : Invocation β where
-  kernel := source "X" "Y" "W" shape.width shape.block
+  kernel := sourceKernel "X" "Y" "W" shape.width shape.block
   backend := A
   arguments := [⟨"eps", .real, [], fun _ => epsilon⟩]
   clearRegisters := Bool.true

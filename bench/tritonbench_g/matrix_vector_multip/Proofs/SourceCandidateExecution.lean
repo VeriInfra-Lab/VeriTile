@@ -13,7 +13,7 @@ theorem prelude_run (native : Scalars) (p : Parameters) (g : Graph p.blockRows p
     (s : State Payload) :
     run (model native p g) (prelude p) s=run (WholeNative.algebra native g) (VeriTile.Bench.Repairs.MatrixVectorMultip.Source.prelude p) s := by
   rw [prelude_eq]
-  simp [VeriTile.Bench.Repairs.MatrixVectorMultip.Source.prelude,VeriTile.Bench.Repairs.MatrixVectorMultip.Source.source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.body,
+  simp [VeriTile.Bench.Repairs.MatrixVectorMultip.Source.prelude,VeriTile.Bench.Repairs.MatrixVectorMultip.Source.source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.bodyKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,FP.Structural.bop,natLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
@@ -24,7 +24,7 @@ theorem epilogue_run (native : Scalars) (p : Parameters) (g : Graph p.blockRows 
     (s : State Payload) :
     run (model native p g) (epilogue p) s=run (WholeNative.algebra native g) (VeriTile.Bench.Repairs.MatrixVectorMultip.Source.epilogue p) s := by
   rw [epilogue_eq]
-  simp [VeriTile.Bench.Repairs.MatrixVectorMultip.Source.epilogue,VeriTile.Bench.Repairs.MatrixVectorMultip.Source.source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.body,
+  simp [VeriTile.Bench.Repairs.MatrixVectorMultip.Source.epilogue,VeriTile.Bench.Repairs.MatrixVectorMultip.Source.source,Kernels.fromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.bodyKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,FP.Structural.bop,natLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,

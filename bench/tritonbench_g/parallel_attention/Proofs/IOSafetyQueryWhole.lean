@@ -12,8 +12,8 @@ theorem query_first_range (M : Algebra α) (D : DotPrimitive α) (c : QueryConfi
     (bounds : RegionName → Nat) (s t : State α) (start stop : Nat)
     (acc : TileIndex [c.BTL,c.BK] → α) (h : QueryReady M c s t start acc)
     (hb : QueryBounds c bounds) :
-    Safety.rangeSafe (withDot M D) bounds "_i" start stop c.BTS (queryFirstBody c) t := by
-  apply Safety.rangeSafe_of_invariant (withDot M D) bounds "_i" stop c.BTS _
+    Safety.rangeSafe (withDot M D) bounds "_" start stop c.BTS (queryFirstBody c) t := by
+  apply Safety.rangeSafe_of_invariant (withDot M D) bounds "_" stop c.BTS _
     (fun q u=>∃ a,QueryReady M c s u q a)
   · rintro q _ u ⟨a,hu⟩
     exact query_first_body M D c bounds s _ q a (queryReady_index M c s u q a hu q) hb
@@ -28,8 +28,8 @@ theorem query_second_range (M : Algebra α) (D : DotPrimitive α) (c : QueryConf
     (bounds : RegionName → Nat) (s t : State α) (start stop : Nat)
     (acc : TileIndex [c.BTL,c.BK] → α) (h : QueryDiagonalReady M c s t start acc)
     (hb : QueryBounds c bounds) :
-    Safety.rangeSafe (withDot M D) bounds "_i" start stop c.BTS (querySecondBody c) t := by
-  apply Safety.rangeSafe_of_invariant (withDot M D) bounds "_i" stop c.BTS _
+    Safety.rangeSafe (withDot M D) bounds "_" start stop c.BTS (querySecondBody c) t := by
+  apply Safety.rangeSafe_of_invariant (withDot M D) bounds "_" stop c.BTS _
     (fun q u=>∃ a,QueryDiagonalReady M c s u q a)
   · rintro q _ u ⟨a,hu⟩
     exact query_second_body M D c bounds s _ q a (queryDiagonalReady_index M c s u q a hu q) hb

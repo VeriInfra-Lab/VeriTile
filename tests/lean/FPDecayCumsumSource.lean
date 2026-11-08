@@ -1,4 +1,4 @@
-import bench.tritonbench_g.decay_cumsum.Sources.Mathematical_Kernels
+import bench.tritonbench_g.decay_cumsum.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.SourceTypes
 open VeriTile.Triton TypedSource

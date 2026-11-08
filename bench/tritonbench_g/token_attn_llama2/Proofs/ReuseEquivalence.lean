@@ -15,7 +15,7 @@ def newPair (p : Parameters) := (reuseSource p).surfaceBody.drop 10 |>.take 2
 
 theorem pairs_equal (M : Algebra α) (p : Parameters) (s : State α) :
     run M (oldPair p) s = run M (newPair p) s := by
-  simp only [oldPair,newPair,source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,reuseSource,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typed,reuseTyped,ComputeKernel.surfaceBody,
+  simp only [oldPair,newPair,source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,reuseSource,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typedKernel,reuseTypedKernel,ComputeKernel.surfaceBody,
     List.drop,List.take,run,step,evalExpr,FP.Structural.evalOp_unfold]
   cases h : s.regs .nat [] "start_n" with
   | none => simp [h,bind]
@@ -42,7 +42,7 @@ theorem execution (M : Algebra α) (p : Parameters) (s : State α) :
 theorem pair_safety (M : Algebra α) (p : Parameters) (bounds : RegionName → Nat) (s : State α) :
     traceSafeList M bounds (oldPair p) s ∧ traceSafeList M bounds (newPair p) s := by
   cases h : s.regs .nat [] "start_n" <;>
-    simp [oldPair,newPair,source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,reuseSource,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typed,reuseTyped,ComputeKernel.surfaceBody,
+    simp [oldPair,newPair,source,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.source,reuseSource,typed,VeriTile.Bench.Repairs.TokenAttnLlama2.FPValue.typedKernel,reuseTypedKernel,ComputeKernel.surfaceBody,
     h,bind,FP.Structural.numeric,FP.Structural.bop,traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeOp_unfold,run,step,evalExpr,
     FP.Structural.evalOp_unfold,State.setReg]
 

@@ -1,9 +1,12 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Cleanup
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.ControlArithmetic
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.Cleanup
 import VeriTile.Triton.Float.ProfiledRewrite
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.CleanupSource
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.BmmChunkFwd
+open ControlArithmetic
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
 noncomputable section
 open Classical
 set_option maxHeartbeats 4000000
@@ -43,19 +46,88 @@ coordinate, with the exact source's masked store list and complete memory. -/
 theorem program {α : Type} [Inhabited α] (rest : Algebra α) (zero : α)
     (h : Host.Call) (p : Cleanup.PID h) (s : State α) :
     ∃ t, FP.Structural.exec (engine (algebra rest zero))
-      (Kernels.clearUpper h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)=some t ∧
+      (Kernels.clearUpperKernel h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)=some t ∧
       t.mem=(addresses h p).foldl (store h.Out zero) s.mem := by
-  simp (config := {maxSteps := 300000}) [FP.Structural.exec,Kernels.clearUpper,
+  simp (config := {maxSteps := 300000}) [FP.Structural.exec,Kernels.clearUpperKernel,VeriTile.Bench.Repairs.BmmChunkFwd.clearUpperKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
-    State.setReg,integralFloorDiv,integralMod,atIndex,algebra,FP.Structural.store,
+    integralFloorDiv,integralMod,atIndex,algebra,FP.Structural.store,
     GridIndex.toPids,Host.Call.grid,Cleanup.config,Grid.rank]
   have ceiling : h.shape.chunk+64-1=h.shape.chunk+63 := by omega
   simp only [addresses,Cleanup.active,Cleanup.row,Cleanup.column,
     Cleanup.offset,Cleanup.pid0,Cleanup.pid1,Cleanup.pid2,Host.cdiv,
     Nat.mul_add,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,and_assoc,ceiling]
-  exact fold_memory _ _ _ _ _ _
+  have hcdiv : Int.tdiv ((h.shape.chunk : Int)+63) 64 =
+      (Host.cdiv h.shape.chunk 64 : Int) := by
+    simpa only [Host.cdiv,ceiling,show (64 : Int)-1=63 by decide] using
+      (ControlArithmetic.cdiv_signed_int h.shape.chunk 64)
+  have row_cast (i : Fin 32) :
+      (Cleanup.pid0 p : Int)/(Host.cdiv h.shape.chunk 64 : Int)*32+(i.val : Int) =
+        (Cleanup.row h p i : Int) := by
+    simp [Cleanup.row,Cleanup.pid0]
+  have col_cast (j : Fin 64) :
+      (Cleanup.pid0 p : Int).tmod (Host.cdiv h.shape.chunk 64 : Int)*64+(j.val : Int) =
+        (Cleanup.column h p j : Int) := by
+    simp [Cleanup.column,Cleanup.pid0,Int.tmod_eq_emod_of_nonneg (Int.natCast_nonneg _)]
+  have offset_cast (i : Fin 32) (j : Fin 64) :
+      Int.toNat (((Cleanup.pid1 p : Int)*(h.shape.chunks*h.shape.groups : Int)+(Cleanup.pid2 p : Int))*
+        (h.shape.chunk : Int)*(h.shape.chunk : Int)+(Cleanup.row h p i : Int)*(h.shape.chunk : Int)+
+        (Cleanup.column h p j : Int))=Cleanup.offset h p i j := by
+    have eq : ((Cleanup.pid1 p : Int)*(h.shape.chunks*h.shape.groups : Int)+(Cleanup.pid2 p : Int))*
+        (h.shape.chunk : Int)*(h.shape.chunk : Int)+(Cleanup.row h p i : Int)*(h.shape.chunk : Int)+
+        (Cleanup.column h p j : Int)=(Cleanup.offset h p i j : Int) := by
+      simp [Cleanup.offset,Cleanup.pid1,Cleanup.pid2,Nat.add_mul]
+      ring
+    rw [eq];rfl
+  have mask_bridge (i : Fin 32) (j : Fin 64) :
+      ((Cleanup.pid0 p : Int)/(Host.cdiv h.shape.chunk 64 : Int)*32+(i.val : Int)<(h.shape.chunk : Int) ∧
+       (Cleanup.pid0 p : Int).tmod (Host.cdiv h.shape.chunk 64 : Int)*64+(j.val : Int)<(h.shape.chunk : Int) ∧
+       (Cleanup.pid0 p : Int)/(Host.cdiv h.shape.chunk 64 : Int)*32+(i.val : Int)<
+         (Cleanup.pid0 p : Int).tmod (Host.cdiv h.shape.chunk 64 : Int)*64+(j.val : Int)) ↔
+        Cleanup.active h p i j := by
+    rw [row_cast i,col_cast j]
+    simp only [Int.ofNat_lt,Cleanup.active]
+  have address_bridge (i : Fin 32) (j : Fin 64) :
+      Int.toNat (((Cleanup.pid1 p : Int)*(h.shape.chunks*h.shape.groups : Int)+(Cleanup.pid2 p : Int))*
+        (h.shape.chunk : Int)*(h.shape.chunk : Int)+
+        ((Cleanup.pid0 p : Int)/(Host.cdiv h.shape.chunk 64 : Int)*32+(i.val : Int))*(h.shape.chunk : Int)+
+        ((Cleanup.pid0 p : Int).tmod (Host.cdiv h.shape.chunk 64 : Int)*64+(j.val : Int)))=
+          Cleanup.offset h p i j := by
+    rw [row_cast i,col_cast j]
+    exact offset_cast i j
+  simp only [Cleanup.pid0,Cleanup.pid1,Cleanup.pid2,Host.cdiv,ceiling,Int.natCast_mul] at mask_bridge address_bridge
+  simp only [hcdiv,Host.cdiv,ceiling,mask_bridge,address_bridge]
+  let tiles : Nat := (h.shape.chunk+63)/64
+  let rr (i : Fin 32) : Int := (Cleanup.pid0 p : Int)/(tiles : Int)*32+(i.val : Int)
+  let cc (j : Fin 64) : Int := (Cleanup.pid0 p : Int).tmod (tiles : Int)*64+(j.val : Int)
+  let rawMask (i : TileIndex [32,64]) : Prop :=
+    rr i.1<(h.shape.chunk : Int) ∧ cc i.2.1<(h.shape.chunk : Int) ∧ rr i.1<cc i.2.1
+  let rawOffset (i : TileIndex [32,64]) : Nat :=
+    Int.toNat (((Cleanup.pid1 p : Int)*(h.shape.chunks*h.shape.groups : Int)+(Cleanup.pid2 p : Int))*
+      (h.shape.chunk : Int)*(h.shape.chunk : Int)+rr i.1*(h.shape.chunk : Int)+cc i.2.1)
+  have hmask (i : TileIndex [32,64]) : rawMask i ↔ Cleanup.active h p i.1 i.2.1 := by
+    simpa only [rawMask,rr,cc,tiles,Host.cdiv,ceiling] using mask_bridge i.1 i.2.1
+  have hoff (i : TileIndex [32,64]) : rawOffset i=Cleanup.offset h p i.1 i.2.1 := by
+    simpa only [rawOffset,rr,cc,tiles,Host.cdiv,ceiling] using address_bridge i.1 i.2.1
+  have bridge (jobs : List (TileIndex [32,64])) (entry : State α) :
+      (jobs.foldl (fun t i => if rawMask i then t.write h.Out (rawOffset i) (.mk .fp32 zero) else t) entry).mem=
+        (jobs.filterMap (fun i => if Cleanup.active h p i.1 i.2.1 then
+          some (Cleanup.offset h p i.1 i.2.1) else none)).foldl (store h.Out zero) entry.mem := by
+    induction jobs generalizing entry with
+    | nil => rfl
+    | cons i jobs ih =>
+      by_cases ha : Cleanup.active h p i.1 i.2.1
+      · have hm : rawMask i := (hmask i).mpr ha
+        simp only [List.foldl_cons,List.filterMap_cons,ha,hm,↓reduceIte]
+        rw [ih,hoff i]
+        rfl
+      · have hm : ¬rawMask i := fun hn => ha ((hmask i).mp hn)
+        simpa only [List.foldl_cons,List.filterMap_cons,ha,hm,↓reduceIte] using ih entry
+  simpa only [rawMask,rawOffset,rr,cc,tiles,Cleanup.active,Cleanup.row,Cleanup.column,Cleanup.offset,
+    Cleanup.pid0,Cleanup.pid1,Cleanup.pid2,Host.cdiv,ceiling,State.setReg_mem,
+    Nat.mul_add,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,and_assoc,Int.natCast_mul] using
+    (bridge (TileShape.allIndices [32,64]) _)
 
 /-- The readable DSL's row-major lanes are exactly the saved source event list. -/
 theorem addresses_eq (h : Host.Call) :
@@ -82,7 +154,7 @@ def schedule {α : Type} [Inhabited α] (rest : Algebra α) (zero : α) (h : Hos
   | [],s => some s
   | p::ps,s => do
     let next ← FP.Structural.exec (engine (algebra rest zero))
-      (Kernels.clearUpper h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)
+      (Kernels.clearUpperKernel h.Out h.shape.chunk (h.shape.chunks*h.shape.groups)) (atIndex h s p)
     schedule rest zero h ps next
 
 theorem successful_schedule {α : Type} [Inhabited α] (rest : Algebra α) (zero : α)

@@ -35,7 +35,7 @@ theorem chunk_safe (rest : Algebra α) (zero : α) (p : Parameters)
     Safety.traceSafeList (backend rest zero) bounds (body .int32 p)
       (s.setReg "start_nn" .nat [] (fun _ => start)) := by
   rcases context with ⟨hr,hc⟩
-  simp [body,source,ComputeKernel.surfaceBody,
+  simp [body,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -43,6 +43,10 @@ theorem chunk_safe (rest : Algebra α) (zero : α) (p : Parameters)
     copyBackend,backend,ComputeDType.eraseDType,numeric,natLt,numericLt,numericLe,
     bop,ofFloat,toFloat,Region.cast,store,State.setReg,TileShape.dropInsertedIndex,hr,hc,
     Broadcast.leftIndex,Broadcast.rightIndex,Fin.eq_zero]
+  have pid_cast : (s.pids 0 : Int) * 64 = ((s.pids 0 * 64 : Nat) : Int) := by
+    norm_cast
+  simp only [pid_cast, ← Int.natCast_add, ← Int.natCast_mul, Int.ofNat_lt,
+    Int.toNat_natCast]
   constructor
   · intro hi
     simpa only [Nat.add_comm] using h.idAccess start hs (by simpa only [Nat.add_comm] using hi)
@@ -56,7 +60,7 @@ theorem chunk_safe (rest : Algebra α) (zero : α) (p : Parameters)
       (by simpa only [Nat.add_comm] using lo)
       (by simpa only [Nat.add_comm] using hi) i.val col
   · intro i row col
-    simp only [if_pos row]
+    simp only [if_pos row, ← Int.natCast_add, Int.toNat_natCast]
     simpa only [Nat.add_comm] using h.outputAccess start hs
       (by simpa only [Nat.add_comm] using row) i.val col
 

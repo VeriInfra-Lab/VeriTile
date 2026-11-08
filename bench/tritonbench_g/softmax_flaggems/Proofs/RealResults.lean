@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_flaggems.Proofs.IO
+import bench.tritonbench_g.softmax_flaggems.IO
 import bench.tritonbench_g.softmax_flaggems.Proofs.GridSafety
 import bench.tritonbench_g.softmax_flaggems.Proofs.RawCorrect
 

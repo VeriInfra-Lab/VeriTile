@@ -21,7 +21,7 @@ theorem source_split (c : Config) :
       prelude c ++ [blockStatement c] ++ between c ++ [columnStatement c] ++ suffix c := by
   rcases c with ⟨storage,q,k,v,out,seq,blocks,offsets,counts,columns,sqz,sqh,sqm,sqk,skz,skh,skn,skk,svz,svh,svn,svk,soz,soh,som,sok,Z,H,T,NR,NS,NV,BM,BN,BD,scale⟩
   cases storage <;> simp [prelude,blockStatement,columnStatement,between,suffix,blockBody,columnBody,
-    activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody]
+    activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody]
 
 theorem between_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (c : Config) (s t : State α) (a : Accumulator α c.BM c.BD) (h : Ready M c s t a) :
@@ -32,7 +32,7 @@ theorem between_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   all_goals
     have hq:=h.query
     simp only [TypedSource.Storage.tile,TypedSource.Storage.float,FloatDType.toTileDType,ofFloat] at hq
-    simp [between,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,
+    simp [between,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,h.numcolumns]
   all_goals constructor <;> simp [TypedSource.Storage.tile,TypedSource.Storage.float,State.setReg,h.mem,h.pids,h.undef,h.seqlen,h.rows,h.lanes,h.keyptr,h.valueptr,
     h.outptr,h.numblocks,h.blockptr,h.numcolumns,h.columnptr,hq,h.mask,h.maximum,h.normalizer,h.output,h.maxblocks,ofFloat]
@@ -61,7 +61,7 @@ def namedKernel (c : Config) : ComputeKernel :=
 
 theorem kernel_named (c : Config) : kernel c=namedKernel c := by
   cases hs : c.storage <;> simp [kernel,namedKernel,activeBody,parsedActiveBody,parsedKernel,hs,
-    TypedSource.FP16.source,TypedSource.BF16.source,ComputeKernel.surfaceBody]
+    TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,ComputeKernel.surfaceBody]
 
 theorem active_kernel_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     (c : Config) (s : State α) (hactive : rowStart c s < sequenceLength c s) :
@@ -70,7 +70,7 @@ theorem active_kernel_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot �
   rw [kernel_named]
   simp only [rowStart,sequenceLength,Region.cast] at hactive
   rcases c with ⟨storage,q,k,v,out,seq,blocks,offsets,counts,columns,sqz,sqh,sqm,sqk,skz,skh,skn,skk,svz,svh,svn,svk,soz,soh,som,sok,Z,H,T,NR,NS,NV,BM,BN,BD,scale⟩
-  cases storage <;> dsimp only at hactive <;> simp [namedKernel,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,FP.Structural.exec,run,step,
+  cases storage <;> dsimp only at hactive <;> simp [namedKernel,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,FP.Structural.exec,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,natLe,numericLt,numericLe,integralFloorDiv,integralMod,
     Region.cast,hactive]

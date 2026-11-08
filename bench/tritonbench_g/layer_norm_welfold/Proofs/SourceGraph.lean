@@ -5,7 +5,8 @@ open VeriTile.Triton FP.Structural Reuse
 noncomputable section
 set_option maxHeartbeats 1000000
 
-/-- Only scalar source operations are bound. No reduction, row or output field. -/
+/-- Scalar interpretation bindings, including the physical FP32 read (unary
+8) and the distinct device-library rsqrt (unary 2). -/
 structure SourceBindings {α : Type} (M : Algebra α) (p : Primitives α) : Prop where
   zero : p.zero = LayerNormWelfold.zero M
   one : p.one = M.fromNat (some .fp32) 1
@@ -15,7 +16,8 @@ structure SourceBindings {α : Type} (M : Algebra α) (p : Primitives α) : Prop
   div : ∀ x y, p.div x y = M.binary (some .fp32) .real .div x y
   cast32 : ∀ x, p.unary 0 x = M.cast (some .fp32) .real .real x
   bf16 : ∀ x, p.unary 1 x = M.cast none .real .bf16 x
-  rsqrt : ∀ x, p.unary 2 x = M.unary (some .fp32) .rsqrt x
+  rsqrt : ∀ x, p.unary 2 x = M.unary (some .fp32) .libdeviceRsqrt x
+  fp32Load : ∀ x, p.unary 8 x = M.fp32Load x
 
 /-- Atom kinds 0/1 are D/epsilon; kinds 2/3/4 are original X/W/bias cells.
 There is no atom representing a desired reduction or output. -/
@@ -29,10 +31,10 @@ def inputs {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
   | 3 => (s.mem W pair.2).read .real
   | _ => (s.mem Bias pair.2).read .real
 
-def loadExpr (kind col : Nat) : Expr := .unary 0 (.unary 0 (.atom (Nat.pair kind col)))
+def loadExpr (kind col : Nat) : Expr := .unary 0 (.unary 0 (.unary 8 (.atom (Nat.pair kind col))))
 def dimensionExpr (D : Nat) : Expr := if D=1 then .one else .atom (Nat.pair 0 0)
 def laneExpr (D B k : Nat) (i : Fin B) : Expr :=
-  .unary 0 (.unary 0 (if k*B+i.val<D then .atom (Nat.pair 2 (k*B+i.val)) else .zero))
+  .unary 0 (.unary 0 (.unary 8 (if k*B+i.val<D then .atom (Nat.pair 2 (k*B+i.val)) else .zero)))
 def advanceExpr (phase : Bool) (D B k : Nat) (mean : Expr) (previous : Fin B→Expr) : Fin B→Expr := fun i =>
   let x := laneExpr D B k i
   let delta := Expr.sub x mean
@@ -62,7 +64,7 @@ theorem dimension_eval {α : Type} [Inhabited α] (M : Algebra α) (p : Primitiv
 theorem lane_eval {α : Type} [Inhabited α] (M : Algebra α) (p : Primitives α)
     (h : SourceBindings M p) (s : State α) (X W Bias : RegionName) (D B row k : Nat) (i : Fin B) :
     eval p (inputs M s X W Bias D row) (laneExpr D B k i)=loaded M (atRow s row) X D B k i := by
-  by_cases hc : k*B+i.val<D <;> simp [laneExpr,eval,h.cast32,h.zero,inputs,loaded,atRow,hc]
+  by_cases hc : k*B+i.val<D <;> simp [laneExpr,eval,h.cast32,h.fp32Load,h.zero,inputs,loaded,atRow,hc]
 
 theorem recurrence_eval {α : Type} [Inhabited α] (M : Algebra α) (p : Primitives α)
     (h : SourceBindings M p) (s : State α) (X W Bias : RegionName) (D B row : Nat)
@@ -108,7 +110,7 @@ theorem output_eval {α : Type} [Inhabited α] (M : Algebra α) (p : Primitives 
     (h : SourceBindings M p) (s : State α) (X W Bias : RegionName) (D B row col : Nat) (tree : ReductionTree B) :
     eval p (inputs M s X W Bias D row) (outputExpr D B col tree)=rowOutput M s X W Bias D B row col tree := by
   simp [outputExpr,eval,mean_eval M p h,inverse_eval M p h,loadExpr,inputs,h.bf16,h.cast32,
-    h.add,h.mul,h.sub,rowOutput,normalizeValue]
+    h.fp32Load,h.add,h.mul,h.sub,rowOutput,normalizeValue]
 
 #axiomsClean recurrence_eval
 #axiomsClean mean_eval

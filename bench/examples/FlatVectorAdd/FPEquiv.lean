@@ -1,3 +1,5 @@
+import bench.examples.FlatVectorAdd.IO
+import bench.examples.FlatVectorAdd.Contract
 import bench.examples.FlatVectorAdd.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -12,8 +14,6 @@ namespace VeriTile.Bench.Examples.FlatVectorAddFPEquiv
 open VeriTile.Bench.Examples.FlatVectorAdd.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Finite operands after the original common prefix. -/
 def additionSite (nElements blockSize : Nat) : Site where

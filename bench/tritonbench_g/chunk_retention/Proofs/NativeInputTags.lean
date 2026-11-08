@@ -1,5 +1,5 @@
 import bench.tritonbench_g.chunk_retention.IO
-import bench.tritonbench_g.chunk_retention.Sources.BackwardQKVReadTags
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.BackwardQKVReadTags
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.PublicIO
 open VeriTile Triton FP.Structural KernelPacket KernelStaging BackwardQKVSource

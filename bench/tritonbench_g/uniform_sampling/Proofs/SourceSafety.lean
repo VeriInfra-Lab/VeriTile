@@ -31,7 +31,7 @@ private theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases swapped
   all_goals
     simp only [KernelSource.source,Bool.false_eq_true,if_false,if_true,
-      kernel,indexCommutedKernel,ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,
+      kernel,indexCommutedKernel,runtimeKernel,runtimeCandidateKernel,ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero,
       Random.i32ArangeSize]
     intro st member s
     simp only [List.mem_cons,List.not_mem_nil,or_false] at member
@@ -75,7 +75,7 @@ private theorem stores_safe {α : Type} [Inhabited α] (M : Algebra α)
     (bound : ∀ f : Fin 4,∀ i : Fin B,KernelOffsets.output pid B f.val i.val<N →
       KernelOffsets.output pid B f.val i.val<bounds y) :
     Safety.traceSafeList M bounds (KernelStores.body y N B) s := by
-  let v := fun f i => M.cast (some .fp32) .real .real (values f i)
+  let v := fun f i => values f i
   let s0 := KernelStores.field y N pid B 0 (v 0) s
   let s1 := KernelStores.field y N pid B 1 (v 1) s0
   let s2 := KernelStores.field y N pid B 2 (v 2) s1

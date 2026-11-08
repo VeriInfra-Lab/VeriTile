@@ -60,8 +60,65 @@ def Engine.algebra (e : Engine A C) : Algebra A where
 def active (M N K BM p k : Nat) (i : TileIndex [BM,C]) : Prop :=
   p*BM+i.1.val<M ∧ i.2.1.val<N ∧ k<K
 
+def signedClamp (a n : Nat) : Int :=
+  if (a : Int) < (n : Int)-1 then a else (n : Int)-1
+
+theorem clamp_expression (a n : Nat) :
+    (if (a : Int) < (n : Int)-1 then (a : Int) else (n : Int)-1) = signedClamp a n := rfl
+
+theorem signedClamp_eq (a n : Nat) (hn : 0<n) :
+    signedClamp a n = (min a (n-1) : Nat) := by
+  have cast_sub : ((n-1 : Nat) : Int) = (n : Int)-1 := Int.natCast_sub hn
+  simp only [signedClamp, ← cast_sub, Int.ofNat_lt]
+  split_ifs with h
+  · rw [min_eq_left (Nat.le_of_lt h)]
+  · rw [min_eq_right (Nat.le_of_not_gt h)]
+
+theorem signedAddress_eq (M N K a b k : Nat) (hm : 0<M) (hn : 0<N) (hk : 0<K) :
+    (signedClamp a M * N * K + signedClamp b N * K + signedClamp k K).toNat =
+      min a (M-1)*N*K+min b (N-1)*K+min k (K-1) := by
+  simp only [signedClamp_eq _ _ hm, signedClamp_eq _ _ hn, signedClamp_eq _ _ hk,
+    -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast]
+
+/-- Execution address in the source's signed index channel. Its dense
+mathematical coordinate is proved separately under the actual access mask. -/
 def address (M N K BM p k : Nat) (i : TileIndex [BM,C]) : Nat :=
-  min (p*BM+i.1.val) (M-1)*N*K+min i.2.1.val (N-1)*K+min k (K-1)
+  (signedClamp (p*BM+i.1.val) M * N * K + signedClamp i.2.1.val N * K + signedClamp k K).toNat
+
+theorem address_nat (M N K BM p k : Nat) (i : TileIndex [BM,C])
+    (hm : 0<M) (hn : 0<N) (hk : 0<K) :
+    address M N K BM p k i =
+      min (p*BM+i.1.val) (M-1)*N*K+min i.2.1.val (N-1)*K+min k (K-1) :=
+  signedAddress_eq M N K _ _ _ hm hn hk
+
+/-- The native signed clamp agrees with the natural mathematical address in
+active lanes. Empty dimensions remain inactive, so no positivity premise is
+added to the public kernel theorem. -/
+theorem signed_masked_read [Inhabited A] (memory : RegionName → Nat → Cell A)
+    (r : RegionName) (M N K a b k : Nat) (fallback : A) :
+    (if a<M ∧ b<N ∧ k<K then
+      (memory r (signedClamp a M * N * K + signedClamp b N * K + signedClamp k K).toNat).read .real
+    else fallback) =
+    (if a<M ∧ b<N ∧ k<K then
+      (memory r (min a (M-1)*N*K+min b (N-1)*K+min k (K-1))).read .real
+    else fallback) := by
+  by_cases h : a<M ∧ b<N ∧ k<K
+  · simp only [if_pos h, signedAddress_eq M N K a b k (by omega) (by omega) (by omega)]
+  · simp only [if_neg h]
+
+theorem signed_masked_write (memory : RegionName → Nat → Cell A)
+    (r : RegionName) (M N K a b k : Nat) (value : Cell A) :
+    (if a<M ∧ b<N ∧ k<K then
+      (fun r' o' => if r'=r ∧ o'=(signedClamp a M * N * K + signedClamp b N * K + signedClamp k K).toNat
+        then value else memory r' o')
+    else memory) =
+    (if a<M ∧ b<N ∧ k<K then
+      (fun r' o' => if r'=r ∧ o'=min a (M-1)*N*K+min b (N-1)*K+min k (K-1)
+        then value else memory r' o')
+    else memory) := by
+  by_cases h : a<M ∧ b<N ∧ k<K
+  · simp only [if_pos h, signedAddress_eq M N K a b k (by omega) (by omega) (by omega)]
+  · simp only [if_neg h]
 
 def loaded [Inhabited A] (fallback : A) (X : RegionName)
     (M N K BM C : Nat) (s : State A) : Values A .real [BM,C] :=
@@ -92,50 +149,54 @@ def stores [Inhabited A] (O : RegionName) (M N K BM C : Nat)
 arbitrary FP32 words, casts, special-value policies and unchanged reducers. -/
 theorem forward_total [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s : State A) (hc : 0<C) :
-    ∃ final,FP.Structural.exec algebra (Source.forward O X M N K BM C) s=some final := by
-  simp [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    ∃ final,FP.Structural.exec algebra (Source.forwardKernel O X M N K BM C) s=some final := by
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.forwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,hc,Nat.ne_of_gt hc,
     State.setReg]
 
 theorem backward_total [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (M N K BM C : Nat) (s : State A) :
-    ∃ final,FP.Structural.exec algebra (Source.backward Y G O M N K BM C) s=some final := by
-  simp [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+    ∃ final,FP.Structural.exec algebra (Source.backwardKernel Y G O M N K BM C) s=some final := by
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.backwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg]
 
 theorem forward_exec [Inhabited A] (e : Engine A C) (O X : RegionName)
     (M N K BM : Nat) (s : State A) (hc : 0<C) :
-    ∃ final,FP.Structural.exec e.algebra (Source.forward O X M N K BM C) s=some final ∧
+    ∃ final,FP.Structural.exec e.algebra (Source.forwardKernel O X M N K BM C) s=some final ∧
       final.mem=(stores O M N K BM C s (forwardValue e X M N K BM s)).mem := by
-  simp [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.forwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,reduceWith,extend,
-    active,address,loaded,forwardValue,stores,TileShape.axisDim,TileShape.insertAxisIndex,
+    active,address,signedClamp,loaded,forwardValue,stores,TileShape.axisDim,TileShape.insertAxisIndex,
     TileShape.eraseAxis,TileShape.dropInsertedIndex,
-    toFloat,ofFloat,hc,Nat.ne_of_gt hc,State.setReg,min_def_lt,and_assoc,
-    VeriTile.Bench.Repairs.MaxReduction.Source.masked_mem]
+    toFloat,ofFloat,hc,Nat.ne_of_gt hc,State.setReg,and_assoc,
+    VeriTile.Bench.Repairs.MaxReduction.Source.masked_mem,
+    -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt,
+    ]
 
 theorem backward_exec [Inhabited A] (e : Engine A C) (Y G O : RegionName)
     (M N K BM : Nat) (s : State A) :
-    ∃ final,FP.Structural.exec e.algebra (Source.backward Y G O M N K BM C) s=some final ∧
+    ∃ final,FP.Structural.exec e.algebra (Source.backwardKernel Y G O M N K BM C) s=some final ∧
       final.mem=(stores O M N K BM C s (backwardValue e Y G M N K BM s)).mem := by
-  simp [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.backwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,Engine.algebra,reduceWith,extend,
-    active,address,loaded,backwardValue,stores,TileShape.axisDim,TileShape.insertAxisIndex,
+    active,address,signedClamp,loaded,backwardValue,stores,TileShape.axisDim,TileShape.insertAxisIndex,
     TileShape.eraseAxis,TileShape.dropInsertedIndex,
-    toFloat,ofFloat,State.setReg,min_def_lt,and_assoc,
-    VeriTile.Bench.Repairs.MaxReduction.Source.masked_mem]
+    toFloat,ofFloat,State.setReg,and_assoc,
+    VeriTile.Bench.Repairs.MaxReduction.Source.masked_mem,
+    -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt,
+    ]
 
 /-- Exterior memory is preserved for arbitrary source floating semantics. -/
 theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
     (M N K BM C : Nat) (s final : State A) (hc : 0<C)
-    (ran : FP.Structural.exec algebra (Source.forward O X M N K BM C) s=some final)
+    (ran : FP.Structural.exec algebra (Source.forwardKernel O X M N K BM C) s=some final)
     (r : RegionName) (o : Nat) (outside : r≠O ∨ M*N*K≤o) :
     final.mem r o=s.mem r o := by
-  simp [Source.forward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.forwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg,hc,Nat.ne_of_gt hc,and_assoc] at ran
   subst final
@@ -145,24 +206,25 @@ theorem forward_frame [Inhabited A] (algebra : Algebra A) (O X : RegionName)
   · right
     intro i _ hi same
     have active : s.pids 0*BM+i.1.val<M ∧ i.2.1.val<N ∧ s.pids 1<K := by
-      simpa only [and_assoc] using hi
+      simpa only [and_assoc, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt] using hi
     have bound := Address.masked_offset_bound
       (show 0<M by omega) (show 0<N by omega) (show 0<K by omega)
       (s.pids 0*BM+i.1.val) i.2.1.val (s.pids 1)
-    have bound' : ((if s.pids 0*BM+i.1.val<M-1 then s.pids 0*BM+i.1.val else M-1)*N*K+
-        (if i.2.1.val<N-1 then i.2.1.val else N-1)*K+
-        (if s.pids 1<K-1 then s.pids 1 else K-1))<M*N*K := by
-      simpa only [Address.offset,Address.safe,min_def_lt] using bound
-    simp only [ite_mul] at bound'
+    simp only [Int.natCast_mul, Int.natCast_add, ← ite_mul] at same
+    simp only [ ← Int.natCast_mul, ← Int.natCast_add, clamp_expression] at same
+    change o = (signedClamp (s.pids 0*BM+i.1.val) M * N * K +
+      signedClamp i.2.1.val N * K + signedClamp (s.pids 1) K).toNat at same
+    rw [signedAddress_eq M N K _ _ _ (by omega) (by omega) (by omega)] at same
+    simp only [Address.offset,Address.safe] at bound
     omega
 
 /-- Exterior memory is preserved for arbitrary source floating semantics. -/
 theorem backward_frame [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
     (M N K BM C : Nat) (s final : State A)
-    (ran : FP.Structural.exec algebra (Source.backward Y G O M N K BM C) s=some final)
+    (ran : FP.Structural.exec algebra (Source.backwardKernel Y G O M N K BM C) s=some final)
     (r : RegionName) (o : Nat) (outside : r≠O ∨ M*N*K≤o) :
     final.mem r o=s.mem r o := by
-  simp [Source.backward,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp (config := { unfoldPartialApp := Bool.true }) [Source.backwardKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,Region.cast,TileShape.axisDim,State.setReg,and_assoc] at ran
   subst final
@@ -172,15 +234,16 @@ theorem backward_frame [Inhabited A] (algebra : Algebra A) (Y G O : RegionName)
   · right
     intro i _ hi same
     have active : s.pids 0*BM+i.1.val<M ∧ i.2.1.val<N ∧ s.pids 1<K := by
-      simpa only [and_assoc] using hi
+      simpa only [and_assoc, -Nat.cast_mul, -Nat.cast_add, ← Int.natCast_mul, ← Int.natCast_add, Int.ofNat_lt] using hi
     have bound := Address.masked_offset_bound
       (show 0<M by omega) (show 0<N by omega) (show 0<K by omega)
       (s.pids 0*BM+i.1.val) i.2.1.val (s.pids 1)
-    have bound' : ((if s.pids 0*BM+i.1.val<M-1 then s.pids 0*BM+i.1.val else M-1)*N*K+
-        (if i.2.1.val<N-1 then i.2.1.val else N-1)*K+
-        (if s.pids 1<K-1 then s.pids 1 else K-1))<M*N*K := by
-      simpa only [Address.offset,Address.safe,min_def_lt] using bound
-    simp only [ite_mul] at bound'
+    simp only [Int.natCast_mul, Int.natCast_add, ← ite_mul] at same
+    simp only [ ← Int.natCast_mul, ← Int.natCast_add, clamp_expression] at same
+    change o = (signedClamp (s.pids 0*BM+i.1.val) M * N * K +
+      signedClamp i.2.1.val N * K + signedClamp (s.pids 1) K).toNat at same
+    rw [signedAddress_eq M N K _ _ _ (by omega) (by omega) (by omega)] at same
+    simp only [Address.offset,Address.safe] at bound
     omega
 
 end

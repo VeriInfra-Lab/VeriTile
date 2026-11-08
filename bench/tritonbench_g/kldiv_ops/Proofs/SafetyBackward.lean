@@ -36,10 +36,10 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (row start : 
         (traceSafeList_cons_of_step ?_ (step3 M p flag s row start)
           (traceSafeList_cons_intro ?_ (by intro t _;exact traceSafeList_nil _ _ _)))))
   all_goals cases flag
-  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
+  all_goals simp only [command,Backward.body,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,
+    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
 
     ComputeKernel.surfaceBody,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
@@ -53,7 +53,13 @@ theorem chunk_safe (M : Algebra α) (p : Parameters) (flag : Bool) (row start : 
     decide_eq_true_eq,ite_true,ite_false,dite_true,dite_false,Bool.false_eq_true,Bool.true_eq,
     Option.some.injEq,forall_eq,forall_eq',exists_eq_left,exists_eq_left',true_and,and_true,
     Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_add,Int.toNat_natCast,Int.ofNat_lt]
-  all_goals first | exact fun j hj => ht j.1 hj | exact fun j hj => ho j.1 hj
+  all_goals try simp only [Bool.not_false,Bool.not_true,ite_true,ite_false]
+  all_goals first
+    | exact fun (j : TileIndex [p.block]) hj => ht j.1 hj
+    | exact fun (j : TileIndex [p.block]) hj => ho j.1 hj
+    | (apply traceSafeList_cons_intro
+       · simp only [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,precisionContext,true_and,and_true]
+       · intro t _; exact traceSafeList_nil _ _ _)
 
 theorem prefix_safe (M : Algebra α) (p : Parameters) (flag : Bool)
     (bounds : RegionName → Nat) (s : State α) :
@@ -61,15 +67,15 @@ theorem prefix_safe (M : Algebra α) (p : Parameters) (flag : Bool)
   apply pure_trace
   intro cmd member state
   cases flag
-  all_goals simp only [Backward.backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
+  all_goals simp only [Backward.backwardPrefix,backward,KernelDSL.backward,KernelDSL.backwardDefault,KernelDSL.backwardLog,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLog,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefault,
-    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,
+    VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardDefaultOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.defaultTarget,backwardKernel,backwardCandidateKernel,VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.MathStorage.storage,
     VeriTile.Bench.TritonBenchG.KldivOps.TypedSource.backwardLogOriginal,VeriTile.Bench.Repairs.KldivOps.BackwardSource.logarithmic,
 
     ComputeKernel.surfaceBody,List.take,Bool.false_eq_true,Bool.true_eq,ite_true,ite_false,
     List.mem_cons,List.not_mem_nil,or_false] at member
-  all_goals rcases member with rfl | rfl | rfl | rfl | rfl
+  all_goals rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals simp only [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
     precisionContext,and_true]
 

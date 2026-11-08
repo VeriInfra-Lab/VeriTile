@@ -79,11 +79,11 @@ def activation (M : Algebra α) (name : Option String) (x : α) : α :=
   let one := M.literal (some .fp32) .real 1.0
   let add := M.binary (some .fp32) .real .add
   let mul := M.binary (some .fp32) .real .mul
-  if name=some "tanh" then M.unary (some .fp32) .tanh x
+  if name=some "tanh" then M.unary (some .fp32) .libdeviceTanh x
   else if name=some "gelu" then mul (mul x half) (add one
     (M.unary (some .fp32) .erf (M.binary (some .fp32) .real .div x (M.literal (some .fp32) .real (Real.sqrt 2)))))
   else if name=some "fast_gelu" then mul (mul half x) (add (M.literal (some .fp32) .real 1)
-    (M.unary (some .fp32) .tanh (mul (M.literal (some .fp32) .real (Real.sqrt (2.0/Real.pi)))
+    (M.unary (some .fp32) .libdeviceTanh (mul (M.literal (some .fp32) .real (Real.sqrt (2.0/Real.pi)))
       (add x (mul (mul (mul (M.literal (some .fp32) .real 0.044715) x) x) x)))))
   else if name=some "relu" then M.binary (some .fp32) .real .max (zero M) x
   else x

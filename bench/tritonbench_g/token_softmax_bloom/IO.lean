@@ -5,8 +5,8 @@ import bench.tritonbench_g.token_softmax_llama.Proofs.Native
 import VeriTile.Triton.Float.ProgramIO
 
 /-! Public logical IO for the complete selected source schedule. Metadata ports
-are the existing natural-index projection of the checked signed metadata ABI;
-the unchanged Tensor bridge retains INT32 loading and widening. Payload and
+retain signed Int32 load values and int64 widening. Only finite segment counts
+use toNat; the logical readers retain the entire signed metadata input. Payload and
 output windows retain each head/token stride and every selected launch. -/
 namespace VeriTile.Bench.Repairs.TokenSoftmaxBloom.SoftmaxIO
 open VeriTile.Triton FP.Structural
@@ -14,27 +14,34 @@ open VeriTile.Bench.Repairs.TokenSoftmaxLlama.Strided
 noncomputable section
 
 def channels (α : Type) (p : Parameters) (work : List Grid.PID) :=
-  ChannelValues α [⟨.nat, [work.length], Region.cast p.start⟩,
-    ⟨.nat, [work.length], Region.cast p.length⟩, ⟨.fp32, [work.length,p.width], p.input⟩]
+  ChannelValues α [⟨.int, [work.length], Region.cast p.start⟩,
+    ⟨.int, [work.length], Region.cast p.length⟩, ⟨.fp32, [work.length,p.width], p.input⟩]
 
 def start {α : Type} (p : Parameters) (work : List Grid.PID)
-    (vals : channels α p work) (r : Fin work.length) : Nat := vals (0 : Fin 3) (r,())
+    (vals : channels α p work) (r : Fin work.length) : Int := vals (0 : Fin 3) (r,())
 
 def length {α : Type} (p : Parameters) (work : List Grid.PID)
-    (vals : channels α p work) (r : Fin work.length) : Nat := vals (1 : Fin 3) (r,())
+    (vals : channels α p work) (r : Fin work.length) : Nat := (vals (1 : Fin 3) (r,())).toNat
 
 def inputOffset {α : Type} (p : Parameters) (work : List Grid.PID)
     (vals : channels α p work) (r : Fin work.length) (c : Nat) : Nat :=
-  (work.get r).2*p.inputHeadStride+(start p work vals r+c)*p.inputTokenStride
+  (((work.get r).2 : Int)*p.inputHeadStride+(start p work vals r+c)*p.inputTokenStride).toNat
 
 def outputOffset {α : Type} (p : Parameters) (work : List Grid.PID)
     (vals : channels α p work) (r : Fin work.length) (c : Nat) : Nat :=
-  (work.get r).2*p.outputHeadStride+(start p work vals r+c)*p.outputTokenStride
+  (((work.get r).2 : Int)*p.outputHeadStride+(start p work vals r+c)*p.outputTokenStride).toNat
+
+/-- These sign constraints were formerly implicit in the Nat input carrier;
+they are now explicit conditions on the actual signed metadata cells. -/
+def NonnegativeMetadata {α : Type} (p : Parameters) (work : List Grid.PID)
+    (vals : channels α p work) : Prop :=
+  ∀ r, 0 ≤ start p work vals r ∧ (0 : Int) ≤ vals (1 : Fin 3) (r,())
 
 /-- Repeated identical launches remain admitted: uniqueness identifies
 PID/lane events, not their positions in the schedule. -/
 def Unique {α : Type} (p : Parameters) (work : List Grid.PID)
     (vals : channels α p work) : Prop :=
+  NonnegativeMetadata p work vals ∧
   ∀ r s (i j : Fin p.width), i.val < length p work vals r → j.val < length p work vals s →
     outputOffset p work vals r i.val = outputOffset p work vals s j.val →
       work.get r = work.get s ∧ i = j
@@ -43,8 +50,8 @@ def Cover {α : Type} (p : Parameters) (work : List Grid.PID)
     (vals : channels α p work) : Prop := ∀ r, length p work vals r ≤ p.width
 
 def ports (α : Type) (p : Parameters) (work : List Grid.PID) : MemoryIO α where
-  inputs := [⟨.nat, [work.length], Region.cast p.start⟩,
-    ⟨.nat, [work.length], Region.cast p.length⟩, ⟨.fp32, [work.length,p.width], p.input⟩]
+  inputs := [⟨.int, [work.length], Region.cast p.start⟩,
+    ⟨.int, [work.length], Region.cast p.length⟩, ⟨.fp32, [work.length,p.width], p.input⟩]
   outputs := [⟨.fp32, [work.length,p.width], p.output⟩]
   buffers := [Region.cast p.start, Region.cast p.length, p.input, p.output]
   read := by
@@ -130,13 +137,13 @@ open VeriTile.Bench.Repairs.TokenSoftmaxLlama.Strided
 noncomputable section
 
 structure Inputs (p : Parameters) (work : List Grid.PID) where
-  start : Fin work.length → Nat
-  length : Fin work.length → Nat
+  start : Fin work.length → Int
+  length : Fin work.length → Int
   values : Fin work.length → Fin p.width → ℝ
 
 def inputs (p : Parameters) (work : List Grid.PID) :
     SoftmaxIO.channels ℝ p work ≃ Inputs p work where
-  toFun := fun values => ⟨SoftmaxIO.start p work values, SoftmaxIO.length p work values,
+  toFun := fun values => ⟨SoftmaxIO.start p work values, (fun r => values (1 : Fin 3) (r,())),
     fun job col => values (2 : Fin 3) (job,col,())⟩
   invFun := fun xs port => match port with
     | ⟨0,_⟩ => fun j => xs.start j.1

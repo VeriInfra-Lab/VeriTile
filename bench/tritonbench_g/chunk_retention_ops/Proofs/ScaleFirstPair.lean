@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention_ops.PairIO
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Support.PairIO
 import bench.tritonbench_g.chunk_retention_ops.Proofs.ScaleFirstSafety
 import bench.tritonbench_g.chunk_retention_ops.Proofs.IOResults
 import bench.tritonbench_g.chunk_retention.Proofs.ScaleFirstObservation

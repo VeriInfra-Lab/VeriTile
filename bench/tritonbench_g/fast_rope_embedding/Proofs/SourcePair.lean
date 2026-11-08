@@ -1,5 +1,5 @@
 import bench.tritonbench_g.fast_rope_embedding.Kernels
-import bench.tritonbench_g.fast_rope_embedding.Sources.Mathematical_Kernels
+import bench.tritonbench_g.fast_rope_embedding.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.ProgramIO
 
 namespace VeriTile.Bench.Repairs.FastRopeEmbedding.SourcePair

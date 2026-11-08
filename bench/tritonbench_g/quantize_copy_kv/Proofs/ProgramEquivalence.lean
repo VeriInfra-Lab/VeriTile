@@ -1,4 +1,4 @@
-import bench.tritonbench_g.quantize_copy_kv.Programs
+import bench.tritonbench_g.quantize_copy_kv.Proofs.Support.Programs
 
 namespace VeriTile.Bench.Repairs.QuantizeCopyKv.FPEquivProof
 open VeriTile.Triton FP.Structural KernelSource

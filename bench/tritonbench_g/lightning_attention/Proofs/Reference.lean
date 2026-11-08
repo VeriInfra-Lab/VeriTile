@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lightning_attention.Reference
+import bench.tritonbench_g.lightning_attention.Proofs.Support.Reference
 
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly
 open VeriTile Triton FP.Structural

@@ -46,6 +46,17 @@ theorem safeAdvance2 {α : Type} [Inhabited α] (M : Algebra α)
   rw [Safety.safeOp_unfold]
   simp only [List.mem_cons,List.not_mem_nil,or_false,forall_eq_or_imp,forall_eq]
 
+theorem safeBlockPtrMetadata2 {α : Type} [Inhabited α] (M : Algebra α)
+    (precision : Option ComputeDType) (bounds : RegionName → Nat) (s : State α)
+    (region : RegionName) (base : Op .nat []) (parent block : List Nat)
+    (rs cs a b : Op .nat []) :
+    Safety.safeOp M precision bounds s (.makeBlockPtrDynMetadata region base parent block [rs,cs] [a,b]) ↔
+      Safety.safeOp M precision bounds s base ∧
+      (Safety.safeOp M precision bounds s rs ∧ Safety.safeOp M precision bounds s cs) ∧
+      (Safety.safeOp M precision bounds s a ∧ Safety.safeOp M precision bounds s b) := by
+  rw [Safety.safeOp_unfold]
+  simp only [List.mem_cons,List.not_mem_nil,or_false,forall_eq_or_imp,forall_eq]
+
 /-- An assignment cannot alter another live pointer register. The evaluated
 arithmetic expression is kept opaque throughout this source-state fact. -/
 theorem assign_keeps_reg {α : Type} [Inhabited α] (M : Algebra α)

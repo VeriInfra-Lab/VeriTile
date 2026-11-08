@@ -42,7 +42,7 @@ def iteration_of_reached (c : Config) (s t : State (Term α)) (scale : Term α) 
     all_goals
       refine ⟨?_,?_⟩
       swap
-      simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,
+      simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
         ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
         run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,algebra,
         ComputeDType.eraseDType,
@@ -63,7 +63,7 @@ def iteration_of_reached (c : Config) (s t : State (Term α)) (scale : Term α) 
     all_goals
       refine ⟨?_,?_⟩
       swap
-      simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,
+      simp [parts,kernel,hf,hc,TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
         ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
         run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,algebra,
         ComputeDType.eraseDType,

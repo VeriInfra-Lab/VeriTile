@@ -25,7 +25,7 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A) (op : Operation)
   | forward log causal mode =>
     cases mode <;> cases log <;> cases causal
     all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, KernelExecution.source,
-      forward, Forward.Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forward, backward, ComputeKernel.surfaceBody,
+      forward, Forward.Typed.fp32Original,VeriTile.Bench.Repairs.Ksoftmax.forwardKernel, backward,VeriTile.Bench.Repairs.Ksoftmax.backward,VeriTile.Bench.Repairs.Ksoftmax.backwardTypedKernel, ComputeKernel.surfaceBody,
       Forward.MaskMode.python, Forward.MaskMode.present, Operation.causal, Operation.readsRight,
       Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
       Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
@@ -33,6 +33,7 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A) (op : Operation)
       FP.ProfiledRewrite.engine, Algebra.withDefaultPrecision, resolvePrecision, State.setReg, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, natLt, natLe, numericLt, numericLe, numericEq, Region.cast, ofFloat, toFloat,
       TileShape.axisDim, positive, Broadcast.leftIndex, Broadcast.rightIndex]
+    all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
     all_goals
       simp [Operation.causal, Operation.readsRight, Forward.MaskMode.present,
         Forward.readActive, Bool.and_eq_true, decide_eq_true_eq, rightAddress,
@@ -48,13 +49,14 @@ theorem source_safe {A : Type} [Inhabited A] (M : Algebra A) (op : Operation)
   | backward log causal =>
     cases log <;> cases causal
     all_goals simp (maxSteps := 2200000) [FP.Structural.TraceSafe, KernelExecution.source,
-      backward, ComputeKernel.surfaceBody,
+      backward,VeriTile.Bench.Repairs.Ksoftmax.backward,VeriTile.Bench.Repairs.Ksoftmax.backwardTypedKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList, Safety.stepSafe, Safety.safeExpr, Safety.safeCompute,
       Safety.safeOp.eq_def, Safety.safeAddress, Safety.safeMask, Safety.addressSafe,
       Safety.maskActive, run, step, stepAlg, evalExpr, evalComputeOp, evalOp_unfold,
       FP.ProfiledRewrite.engine, Algebra.withDefaultPrecision, resolvePrecision, State.setReg, store, Option.bind, ComputeDType.eraseDType,
       numeric, bop, natLt, natLe, numericLt, numericLe, numericEq, Region.cast, ofFloat, toFloat,
       TileShape.axisDim, positive, Broadcast.leftIndex, Broadcast.rightIndex]
+    all_goals simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
     all_goals
       simp [Operation.causal, Operation.readsRight, Forward.readActive, Bool.and_eq_true,
         decide_eq_true_eq, rightAddress, Native.flat] at left right output

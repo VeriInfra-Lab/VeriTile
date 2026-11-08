@@ -1,3 +1,4 @@
+import VeriTile.Triton.Source
 import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Mathematical_RealSource
 
 /-! Symbolic parameters and named slices of the complete source. Splitting at
@@ -62,27 +63,31 @@ theorem storage_erasure (aStorage doutStorage : TypedSource.Storage) (swapped : 
     p.dBatch p.dChunk p.dHead p.dRow p.dColumn p.oBatch p.oRow p.oHead p.oColumn
     p.rBatch p.rRow p.rHead p.rColumn BM BN BCS p.hasResidual
 
-def parts (swapped : Bool) (BM BN BCS : Nat) (p : Parameters) : Source.DynamicRange :=
-  (Source.dynamicRange? (source .fp32 .fp32 swapped .real .real BM BN BCS p).surfaceBody "cs").getD
-    ⟨[], .constNat 0, .constNat 0, .constNat 0, [], []⟩
+def parts (swapped : Bool) (BM BN BCS : Nat) (p : Parameters) : Source.IntRange :=
+  (Source.intRange? (source .fp32 .fp32 swapped .real .real BM BN BCS p).surfaceBody "cs").getD
+    ⟨[], .constInt 0, .constInt 0, .constNat 0, [], []⟩
 
 def realPart (code : List ComputeStmt) : List Stmt :=
   Stmt.eraseDTypeList (ComputeKernel.mk [] [] code).toAlgKernel.body
 
-def loopBound (BCS : Nat) : Op .nat [] :=
-  .div .nat .nil (.sub .nat .nil
-    (.add .nat .nil (.ref .nat [] "chunk_size_limit") (.constNat BCS)) (.constNat 1)) (.constNat BCS)
+def loopBound (BCS : Nat) : Op .int [] :=
+  .truncDiv .nil
+    (.add .int .nil (.ref .int [] "chunk_size_limit")
+      (.sub .int .nil (.constInt BCS) (.constInt 1)))
+    (.constInt BCS)
 
 theorem body_split (swapped : Bool) (BM BN BCS : Nat) (p : Parameters) :
     (kernel swapped BM BN BCS p).toAlgKernel.body =
       realPart (parts swapped BM BN BCS p).before ++
-        [.forRangeDyn "cs" (.constNat 0) (loopBound BCS) (.constNat 1)
+        [.forRangeInt "cs" (.constInt 0) (loopBound BCS) (.constNat 1)
           (realPart (parts swapped BM BN BCS p).body)] ++
       realPart (parts swapped BM BN BCS p).after := by
   cases swapped
   all_goals
-    simp [kernel, source, parts, realPart, loopBound, TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.quotedOriginal,
-      Source.dynamicRange?, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+    simp [kernel, source, parts, realPart, loopBound, TypedSource.specialize, VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.family,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.sourceKernel,
+      VeriTile.Bench.Repairs.BmmChunkBwd.Kernels.dotDType,
+      Source.intRange?, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
       ComputeStmt.listToAlgorithm?_map_alg, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType,

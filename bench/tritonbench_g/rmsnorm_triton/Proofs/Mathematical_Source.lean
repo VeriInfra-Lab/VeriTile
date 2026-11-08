@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_triton.Sources.Mathematical_Kernels
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormTriton
@@ -20,7 +20,10 @@ theorem typed_algorithm (input weight output : Storage) (v : Bool)
     (typedKernel input weight output v X W O sxb sxm sxk sw sob som sok N B eps).eraseDType.toAlgorithm? =
       Except.ok (mathKernel v X W O sxb sxm sxk sw sob som sok N B eps) := by
   cases input <;> cases weight <;> cases output <;> cases v <;>
-    simp [mathKernel, typedKernel, originalTyped,VeriTile.Bench.Repairs.RmsnormTriton.kernel,
+    simp [VeriTile.Bench.Repairs.RmsnormTriton.originalForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.commutedForKernel,
+    VeriTile.Bench.Repairs.RmsnormTriton.family,
+    mathKernel, typedKernel, originalTyped,VeriTile.Bench.Repairs.RmsnormTriton.kernel,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
       ComputeKernel.eraseDType, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
       ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,

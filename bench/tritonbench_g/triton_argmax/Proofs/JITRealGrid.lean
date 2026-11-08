@@ -79,7 +79,7 @@ theorem first_snapshot (kind : TypedScratch.Kind) (rest : Algebra Value) (s : St
     (X V : RegionName) (I : Region .int) (c : GlobalConfig) (coverage : Math.GlobalCoverage c)
     (input : Nat → ℝ) (pid : Nat) (active : pid<c.blocks) (index64 : Bool)
     (reads : ∀ i,i<c.size → (s.mem X i).read .real=(input i : Value)) :
-    ∃ t, FP.Structural.exec (backend rest) (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64)
+    ∃ t, FP.Structural.exec (backend rest) (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64)
       (JITStage1.arguments (atProgram s pid) c.size 0)=some t ∧ t.mem=(snapshotStore kind V I c input s pid).mem := by
   obtain ⟨t,run,mem⟩ := JITRealGlobal.stage1_run kind rest (atProgram s pid) X V I c.size c.block 0 index64 coverage.blockPositive
   have selected := TypedReal.first_reference (adapter:=.directCast kind.direct) (atProgram s pid) X c coverage 0 input
@@ -99,7 +99,7 @@ theorem grid_run (kind : TypedScratch.Kind) (rest : Algebra Value) (s : State Va
     (c : GlobalConfig) (coverage : Math.GlobalCoverage c) (input : Nat → ℝ)
     (jobs : List Nat) (active : ∀ pid,pid∈jobs → pid<c.blocks) (index64 : Bool)
     (reads : ∀ i,i<c.size → (s.mem X i).read .real=(input i : Value)) :
-    ∃ t, GridRun (backend rest) (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size jobs s t ∧
+    ∃ t, GridRun (backend rest) (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size jobs s t ∧
       t.mem=(jobs.foldl (snapshotStore kind V I c input) s).mem := by
   induction jobs generalizing s with
   | nil => exact ⟨s,.nil s,rfl⟩
@@ -121,9 +121,9 @@ theorem global_source_reference (kind : TypedScratch.Kind) (rest : Algebra Value
     (input : Nat → ℝ) (index64 : Bool)
     (reads : ∀ i,i<c.size → (s.mem X i).read .real=(input i : Value)) :
     ∃ middle final,
-      GridRun (backend rest) (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size
+      GridRun (backend rest) (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size
         (List.range c.blocks) s middle ∧
-      FP.Structural.exec (backend rest) (JITSource.stage2 V I O (JITStage1.floatingType kind) c.midBlock) (middle.setReg "mid_size" .int [] (fun _ => (c.blocks : Int)))=some final ∧
+      FP.Structural.exec (backend rest) (JITSource.stage2Kernel V I O (JITStage1.floatingType kind) c.midBlock) (middle.setReg "mid_size" .int [] (fun _ => (c.blocks : Int)))=some final ∧
       final.mem (Region.cast O) 0=.mk .int (Int.ofNat
         (Math.argmax c.size coverage.sizePositive (fun i : Fin c.size => input i.val)).val) ∧
       (∀ region offset,(region≠Region.cast O ∨ offset≠0) →

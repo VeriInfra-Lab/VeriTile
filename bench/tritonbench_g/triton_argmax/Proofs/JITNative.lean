@@ -23,7 +23,7 @@ theorem first_float (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)
     (rest : Algebra Word) (s : State Word) (X V : RegionName) (I : Region .int)
     (c : GlobalConfig) (g : Native.GlobalPrograms c) (base : Nat) (index64 : Bool) (positive : 0<c.block) :
     ∃ t, FP.Structural.exec (TypedScratch.backend round rest)
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) (JITStage1.arguments s c.size base)=some t ∧
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) (JITStage1.arguments s c.size base)=some t ∧
       t.mem=((s.write V (s.pids 0+base) (.mk (TypedScratch.channel kind).toTileDType
         (ofFloat (TypedScratch.channel kind) (codec.decode
           (Native.firstValue (floatingScratch kind cast) g (fun i => (s.mem X i).read .real) (s.pids 0+base)))))).write
@@ -39,7 +39,7 @@ theorem first_integer (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPri
     (rest : Algebra Word) (s : State Word) (X V : RegionName) (I : Region .int)
     (c : GlobalConfig) (g : Native.GlobalPrograms c) (base : Nat) (index64 : Bool) (positive : 0<c.block) :
     ∃ t, FP.Structural.exec (JITInteger.backend kind p rest)
-      (JITSource.stage1 X V I (JITInteger.sourceType kind) c.block index64)
+      (JITSource.stage1Kernel X V I (JITInteger.sourceType kind) c.block index64)
       (JITStage1.arguments s c.size base)=some t ∧
       t.mem=((s.write V (s.pids 0+base) (JITInteger.cell kind
         ((Native.firstValue (integerScratch kind p) g (fun i=>(s.mem X i).read .real)
@@ -64,7 +64,7 @@ theorem second_float (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)
     (reads : ∀ i,i<c.blocks → toFloat (TypedScratch.channel kind)
       ((s.mem V i).read (TypedScratch.channel kind).toTileDType)=codec.decode (mid i)) :
     ∃ t, FP.Structural.exec (TypedScratch.backend round rest)
-      (JITSource.stage2 V I O (JITStage1.floatingType kind) c.midBlock) (s.setReg "mid_size" .int [] (fun _ => (c.blocks : Int)))=some t ∧
+      (JITSource.stage2Kernel V I O (JITStage1.floatingType kind) c.midBlock) (s.setReg "mid_size" .int [] (fun _ => (c.blocks : Int)))=some t ∧
       t.mem=(s.write (Region.cast O) 0 (.mk .int ((s.mem (Region.cast I)
         (Native.secondSelected (floatingScratch kind cast) Bool.true g mid).val).read .int))).mem := by
   obtain ⟨t,run,mem⟩ := JITStage1.floating_second kind round rest s V I O c.blocks c.midBlock positive
@@ -111,7 +111,7 @@ theorem second_integer (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPr
     (c : GlobalConfig) (g : Native.GlobalPrograms c) (positive : 0<c.midBlock)
     (mid : Nat → MidWord (Formats.format kind))
     (reads : ∀ i,i<c.blocks → JITInteger.read kind (s.mem V i)=Formats.decodeStored kind (mid i)) :
-    ∃ t, FP.Structural.exec rest (JITSource.stage2 V I O (JITInteger.sourceType kind) c.midBlock)
+    ∃ t, FP.Structural.exec rest (JITSource.stage2Kernel V I O (JITInteger.sourceType kind) c.midBlock)
       (s.setReg "mid_size" .int [] (fun _ => (c.blocks : Int)))=some t ∧
       t.mem=(s.write (Region.cast O) 0 (.mk .int ((s.mem (Region.cast I)
         (Native.secondSelected (integerScratch kind p) Bool.false g mid).val).read .int))).mem := by

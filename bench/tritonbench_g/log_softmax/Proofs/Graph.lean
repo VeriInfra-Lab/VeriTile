@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Sources.Kernels
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Sources.Kernels
 
 /-! The actual selected FP32 scalar/reduction graph. Leaves are all padded
 lanes, and roots may differ by consumer lane. Native contraction is explicit;

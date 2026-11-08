@@ -13,7 +13,17 @@ import VeriTile.Triton.Math.SinkhornMemory
 /-! Real execution, arithmetic and memory lemmas for HyperConnectionsDepth.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
+  VeriTile.Triton.ComputeKernel.toAlgorithm? VeriTile.Triton.ComputeStmt.toAlgorithm?
+  VeriTile.Triton.ComputeStmt.listToAlgorithm?
+
+@[simp] private theorem source_except_ok_bind {α β ε : Type _} (a : α)
+    (f : α → Except ε β) :
+    (Except.ok a : Except ε α) >>= f = f a := rfl
 namespace VeriTile.Bench.Examples.HyperConnectionsDepth.Memory
+
+
 open VeriTile Triton TraceProofs Kernels
 
 set_option maxHeartbeats 6400000
@@ -27,7 +37,7 @@ theorem traceSafe (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     (hpost : T * S ≤ bounds "h_post")
     (hout : s.pid * (S * D) + S * D ≤ bounds "out") :
     Kernel.TraceSafe bounds
-      (if optimized then (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
+      (if optimized then (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
        else (matrixOriginal S T D iters tau).toAlgKernel) s := by
   cases optimized <;> simp only [Bool.false_eq_true, ↓reduceIte]
   all_goals
@@ -142,9 +152,9 @@ theorem traceSafe (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
 
 /-- Both sources remain in the fragment supported by address relocation. -/
 theorem flattenOk (optimized : Bool) (S T D iters : Nat) (tau : ℝ) :
-    (if optimized then (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
+    (if optimized then (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau).toAlgKernel
      else (matrixOriginal S T D iters tau).toAlgKernel).FlattenOk := by
-  cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimized, ComputeKernel.toAlgKernel,
+  cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimizedKernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end VeriTile.Bench.Examples.HyperConnectionsDepth.Memory
@@ -170,7 +180,7 @@ private theorem mhcDepth_exec_view (tau : ℝ) (s : BlockState) :
         (s.readMem ⟨"res_mix"⟩ s.pid
           + Real.exp (s.readMem ⟨"h_post"⟩ 0 / tau)
             * s.readMem ⟨"branch_out"⟩ s.pid) := by
-  simp [mhcDepthConnectionKernel, exec, stepStmts,
+  simp [scalarKernel, mhcDepthConnectionKernel, exec, stepStmts,
     stepStmt, NumericDType.add, NumericDType.mul, NumericDType.div,
     WithBot.realAdd, WithBot.realMul, WithBot.realDiv,
     BlockState.writeMem, BlockState.readMem]
@@ -183,7 +193,7 @@ private theorem mhcDepth_frame (tau : ℝ) (s s1 : BlockState)
     (r : RegionName) (o : Nat)
     (hmiss : ¬(r = ⟨"out"⟩ ∧ o = s.pid)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, mhcDepthConnectionKernel,
+  simp [exec, scalarKernel, mhcDepthConnectionKernel,
     ComputeKernel.toAlgKernel, stepStmts, stepStmt,
     NumericDType.add, NumericDType.mul, NumericDType.div] at hExec
   subst hExec
@@ -336,7 +346,7 @@ theorem mhcDepth_flattenOk (tau : ℝ) :
     ((mhcDepthConnectionKernel ⟨"res_mix"⟩ ⟨"branch_out"⟩ ⟨"h_post"⟩
       ⟨"out"⟩ 1 1 1 0 tau).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [mhcDepthConnectionKernel,
+  simp [scalarKernel, mhcDepthConnectionKernel,
     ComputeKernel.toAlgKernel, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
@@ -349,7 +359,7 @@ attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? ComputeDT
 theorem optimized_exec (tau : ℝ) (s : BlockState) :
     exec (optimizedKernel tau).toAlgKernel s =
       exec (mhcDepthConnectionKernel "res_mix" "branch_out" "h_post" "out" 1 1 1 0 tau).toAlgKernel s := by
-  simp [optimizedKernel, mhcDepthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [optimizedKernel, scalarKernel, mhcDepthConnectionKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul,
       NumericDType.div, add_comm]
 
@@ -426,7 +436,7 @@ Tile.bop WithBot.realAdd (.consSame (.consSame .nil)) res
           (congrFun (congrFun (hmem.trans hm) r) o)
 
 theorem matrix_optimized_run (S T D iters : Nat) (tau : ℝ) (s : BlockState) :
-    Spec.Real (∃ t, exec (matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau) s = some t ∧
+    Spec.Real (∃ t, exec (matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau) s = some t ∧
       (∀ i : TileIndex [S, D], t.readMem "out" (s.pid * (S * D) + i.1.val * D + i.2.1.val) =
         (((fun {S T D : Nat} (res : Tile .real [S, D]) (branch : Tile .real [T, D])
     (logits : Tile .real [T, S]) (tau : ℝ) (iters : Nat) =>
@@ -451,7 +461,7 @@ theorem matrix_region_run (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
     (hy : ∀ i, s.readMem "branch_out" (s.pid * (T * D) + i.val) = ys i)
     (hz : ∀ i, s.readMem "h_post" (0 + i.val) = zs i) :
     ∃ t, exec (if optimized then
-        matrixOptimized "res_mix" "branch_out" "h_post" "out" S T D iters tau
+        matrixOptimizedKernel "res_mix" "branch_out" "h_post" "out" S T D iters tau
       else matrixOriginal S T D iters tau) s = some t ∧
       (∀ i : Fin (S * D), t.readMem "out" (s.pid * (S * D) + i.val) =
         ((Tile.bop WithBot.realAdd (.consSame (.consSame .nil)) (matrixTile xs)

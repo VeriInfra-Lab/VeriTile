@@ -1,5 +1,5 @@
-import bench.tritonbench_g.decay_cumsum.Sources.Mathematical_Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.decay_cumsum.Proofs.Sources.Mathematical_Kernels
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.MaskEquivalence
 open VeriTile Triton FP.Structural FP.ProfiledRewrite TypedSource
@@ -16,6 +16,16 @@ set_option maxRecDepth 20000
   intro t ht
   simp only [FP.Structural.evalOp]
   rw [ha t ht, hb t ht]
+
+/-- Signed source comparisons preserve exact index rewrites. -/
+@[spec_rule] theorem op_int_lt {α : Type} [Inhabited α] (M : Algebra α)
+    (s : State α) (before : List ComputeStmt) (bc : Broadcast sa sb sh)
+    (a a' : Op .int sa) (b b' : Op .int sb)
+    (ha : OpEquivalent M s before a a') (hb : OpEquivalent M s before b b') :
+    OpEquivalent M s before (.lt .int bc a b) (.lt .int bc a' b') := by
+  intro t ht
+  simp only [FP.Structural.evalOp]
+  rw [ha t ht,hb t ht]
 
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 

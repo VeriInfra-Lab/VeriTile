@@ -67,7 +67,7 @@ def run (A : Algebra α) (X Y W : RegionName) (rows N B : Nat) (eps : α) (initi
     Nat → Option (State α)
   | 0 => some initial
   | k+1 => (run A X Y W rows N B eps initial k).bind
-      (fun s => FP.Structural.exec A (runtimeKernel X Y W N B) ((setup rows k s).setReg "eps_arg" .real [] (fun _=>eps)))
+      (fun s => FP.Structural.exec A (runtimeKernel X Y W N B) ((setup rows k s).setReg "eps" .real [] (fun _=>eps)))
 
 def graph (A : Algebra α) (X Y W : RegionName) (N B : Nat) (eps : α) (initial : State α) : Nat → State α
   | 0 => initial

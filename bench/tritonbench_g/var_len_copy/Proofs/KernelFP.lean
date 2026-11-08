@@ -7,7 +7,7 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 16000
 
 def prefixBody (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List ComputeStmt :=
-  (kernel Bool.false os ol ns src dst B).surfaceBody.take 6
+  (kernel Bool.false os ol ns src dst B).surfaceBody.take 9
 
 theorem source_decomposition (v : Bool)
     (os ol ns : Region .int) (src dst : RegionName) (B : Nat) :

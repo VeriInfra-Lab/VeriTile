@@ -52,12 +52,18 @@ theorem safe (s : BlockState) (g : RegionName) (T BT BK : Nat)
     (bounds : RegionBounds) (hb : Bounds s T BT g bounds) :
     Stmt.TraceSafeList bounds (cbdPreLoop g T BT BK) s := by
   unfold cbdPreLoop
-  rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (evalOp_programId 0 s))]
-  refine ⟨by simp [Stmt.TraceSafe, Op.SafeAt], ?_⟩
-  rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (evalOp_programId 1 _))]
-  refine ⟨by simp [Stmt.TraceSafe, Op.SafeAt], ?_⟩
-  rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (evalOp_programId 2 _))]
-  refine ⟨by simp [Stmt.TraceSafe, Op.SafeAt], ?_⟩
+  have ids : stepStmt (.ifThen (.constBool Bool.true)
+      [.assign .nat [] "i_k" (.programId 0), .assign .nat [] "i_t" (.programId 1),
+       .assign .nat [] "i_bh" (.programId 2)]) s = some
+      (((s.setReg "i_k" .nat [] (Tile.scalar (s.pids 0))).setReg
+        "i_t" .nat [] (Tile.scalar (s.pids 1))).setReg
+        "i_bh" .nat [] (Tile.scalar (s.pids 2))) := by
+    simp [stepStmt,stepStmts,evalOp.eq_def,bind,Option.bind,BlockState.setReg]
+  rw [TraceProofs.cons_of_run_iff ids]
+  refine ⟨?_,?_⟩
+  · simp only [Stmt.TraceSafe,Op.SafeAt,evalOp.eq_def,Tile.scalar,true_and,if_true]
+    apply TraceProofs.all_safe
+    simp [Stmt.TraceSafe,Op.SafeAt]
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (evalOp_numPrograms 2 _))]
   refine ⟨by simp [Stmt.TraceSafe, Op.SafeAt], ?_⟩
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some (evalOp_arange BT _))]

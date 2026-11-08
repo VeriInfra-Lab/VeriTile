@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lightning_attention.Proofs.LogicalTarget
-import bench.tritonbench_g.chunk_linear_attn.RealVJP
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.RealVJP
 namespace VeriTile.Bench.Repairs.LightningAttention
 open scoped BigOperators
 noncomputable section

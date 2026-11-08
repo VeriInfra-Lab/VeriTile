@@ -1,3 +1,4 @@
+import bench.tritonbench_g.diag_ssm_triton.Proofs.FlatForwardTransport
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Erasure
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_RealReference
 import VeriTile.Triton.Semantics.ProgramRewrite
@@ -25,9 +26,10 @@ def loopBody (x y : RegionName) (batch dim block : Nat) : List Stmt :=
 
 theorem real_source_body (s x l y : RegionName) (length batch dim block : Nat) :
     (Erasure.forward Bool.false s x l y length batch dim block).toAlgKernel.body =
-      prelude s l batch dim block ++ [.forLoop "t" length (loopBody x y batch dim block)] := by
-  simp only [prelude,loopBody,RealReference.diagSsmForwardPreLoop,RealReference.diagSsmForwardLoopBody,Erasure.forward,TypedSource.forward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.forwardTyped,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,ComputeDType.eraseDType,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,IntegralDType.eraseDType,Except.bind,bind]
-  try rfl
+      ForwardTransport.before ⟨s,x,y,l,batch,dim,block⟩ length ++
+        [.forRangeInt "t" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1)
+          (ForwardTransport.body ⟨s,x,y,l,batch,dim,block⟩)] :=
+  ForwardTransport.source_code ⟨s,x,y,l,batch,dim,block⟩ length
 
 theorem index_product (batch dim : Nat) (u : BlockState) :
     evalOp (.mul .nat .nil (.mul .nat .nil (.ref .nat [] "t") (.constNat batch)) (.constNat dim)) u =
@@ -77,16 +79,13 @@ theorem loop_congr (idx : RegName) (start stop : Nat) (left right : List Stmt)
 termination_by stop-start
 decreasing_by omega
 
+/-- Internal index registers differ; all raw memory cells agree. -/
 theorem real_source_exec (s x l y : RegionName) (length batch dim block : Nat) (u : BlockState) :
-    exec (Erasure.forward Bool.false s x l y length batch dim block).toAlgKernel u =
-      exec (RealReference.diag_ssm_forward_kernel s x l y length batch dim block).toAlgKernel u := by
-  unfold exec
-  rw [real_source_body,RealReference.diag_ssm_forward_kernel_toAlg_body]
-  simp only [RealReference.diagSsmForwardProjectedBody,ProgramRewrite.append,prelude_steps]
-  congr 1
-  funext v
-  simp only [stepStmts,stepForLoopAux.forLoop_unfold]
-  rw [loop_congr "t" 0 length _ _ (loop_steps x y batch dim block)]
+    (exec (Erasure.forward Bool.false s x l y length batch dim block).toAlgKernel u).map BlockState.mem =
+      (exec (RealReference.diag_ssm_forward_kernel s x l y length batch dim block).toAlgKernel u).map BlockState.mem := by
+  obtain ⟨a,b,ha,hb,obs⟩ := ForwardTransport.runs_related ⟨s,x,y,l,batch,dim,block⟩ length u
+  simp only [ForwardTransport.source] at ha
+  simp only [ha,hb,Option.map_some,obs.mem]
 
 theorem flat_mask_step (A : FlatAlloc) (batch dim block : Nat) (u : BlockState) :
     stepStmt (A.flattenStmt (mask batch dim block)) u =
@@ -115,23 +114,18 @@ theorem flat_loop_steps (A : FlatAlloc) (x y : RegionName) (batch dim block : Na
 
 theorem real_source_flat_exec (A : FlatAlloc) (s x l y : RegionName)
     (length batch dim block : Nat) (u : BlockState) :
-    exec (A.flattenKernel (Erasure.forward Bool.false s x l y length batch dim block).toAlgKernel) u =
-      exec (A.flattenKernel (RealReference.diag_ssm_forward_kernel s x l y length batch dim block).toAlgKernel) u := by
-  unfold exec FlatAlloc.flattenKernel
-  rw [real_source_body,RealReference.diag_ssm_forward_kernel_toAlg_body]
-  simp only [RealReference.diagSsmForwardProjectedBody,FlatAlloc.flattenStmts_append,
-    ProgramRewrite.append,flat_prelude_steps]
-  congr 1
-  funext v
-  simp only [FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,stepStmts,stepForLoopAux.forLoop_unfold]
-  rw [loop_congr "t" 0 length _ _ (flat_loop_steps A x y batch dim block)]
+    (exec (A.flattenKernel (Erasure.forward Bool.false s x l y length batch dim block).toAlgKernel) u).map BlockState.mem =
+      (exec (A.flattenKernel (RealReference.diag_ssm_forward_kernel s x l y length batch dim block).toAlgKernel) u).map BlockState.mem := by
+  obtain ⟨a,b,ha,hb,obs⟩ := FlatForwardTransport.runs_related A ⟨s,x,y,l,batch,dim,block⟩ length u
+  simp only [FlatForwardTransport.source] at ha
+  simp only [ha,hb,Option.map_some,obs.mem]
 
 theorem typed_source_flat_exec (storage : Storage) (A : FlatAlloc) (s x l y : RegionName)
     (length batch dim block : Nat) (u : BlockState) :
-    exec (A.flattenKernel (TypedSource.forward storage Bool.false s x l y length batch dim block).eraseDType.toAlgKernel) u =
-      exec (A.flattenKernel (RealReference.diag_ssm_forward_kernel s x l y length batch dim block).toAlgKernel) u := by
-  have h := real_source_flat_exec A s x l y length batch dim block u
-  simpa only [exec,FlatAlloc.flattenKernel,Erasure.forward_body] using h
+    (exec (A.flattenKernel (TypedSource.forward storage Bool.false s x l y length batch dim block).eraseDType.toAlgKernel) u).map BlockState.mem =
+      (exec (A.flattenKernel (RealReference.diag_ssm_forward_kernel s x l y length batch dim block).toAlgKernel) u).map BlockState.mem := by
+  simpa only [exec,FlatAlloc.flattenKernel,Erasure.forward_body] using
+    real_source_flat_exec A s x l y length batch dim block u
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

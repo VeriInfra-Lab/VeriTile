@@ -38,7 +38,7 @@ def bodyExecution (native : Scalars) (p : Parameters) (g : Graph p.blockRows p.b
   have hAM := h.metadata "stride_am" p.strideColumn (by simp [scalarParameters])
   have hBM := h.metadata "stride_bm" p.strideVector (by simp [scalarParameters])
   have counter := AffineWhile.normalized_read current "m" off h.counter
-  simp [loopBody,loopStatement,source,Kernels.fmaFromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.fmaBody,
+  simp [loopBody,loopStatement,source,Kernels.fmaFromParameters,arguments,VeriTile.Bench.Repairs.MatrixVectorMultip.Kernels.fmaKernel,
     Kernels.arguments,Kernels.fromParameters,Kernels.fmaFromParameters,ComputeKernel.surfaceBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,ScalarArgument.statement,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,numeric,FP.Structural.bop,natLt,numericEq,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,

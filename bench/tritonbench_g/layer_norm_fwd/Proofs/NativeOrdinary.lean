@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.NativeIO
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.NativeIO
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.NativeInterface
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite

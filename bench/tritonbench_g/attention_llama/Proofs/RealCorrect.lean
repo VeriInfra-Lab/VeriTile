@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.Sources.Kernels
+import bench.tritonbench_g.attention_llama.Proofs.Sources.Kernels
 import bench.tritonbench_g.attention_llama.Proofs.ByteHostResult
 import bench.tritonbench_g.attention_llama.Proofs.AccessSafety
 import bench.tritonbench_g.attention_llama.Proofs.ByteSafety

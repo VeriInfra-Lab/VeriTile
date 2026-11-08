@@ -27,16 +27,16 @@ theorem backward_formula_real (p : DotTrees) (s : Shape) (tile : Tile) :
     rfl
 
 theorem forward_real (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) :
     (forwardIO realScalar p s tile).Implements (forwardMath s tile) := by
   rw [← forward_formula_real p s tile]
-  exact forward_implements realScalar p s tile valid
+  exact forward_implements realScalar p s tile shape valid
 
 theorem backward_real (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
     (backwardIO realScalar p s tile).Implements (backwardMath s tile) := by
   rw [← backward_formula_real p s tile]
-  exact backward_implements realScalar p s tile valid keyPositive valuePositive
+  exact backward_implements realScalar p s tile shape valid keyPositive valuePositive
 
 #axiomsClean forward_real
 #axiomsClean backward_real

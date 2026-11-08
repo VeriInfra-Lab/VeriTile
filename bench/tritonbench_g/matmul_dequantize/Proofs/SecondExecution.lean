@@ -31,7 +31,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     {t : State α // run (backend M D) (prelude p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [prelude, source, FPTyped.matmulTyped, ComputeKernel.surfaceBody,
+  simp [prelude, source, FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,
@@ -55,7 +55,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
       (current.setReg "k" .nat [] (fun _ => k)) = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [body, source, FPTyped.matmulTyped, ComputeKernel.surfaceBody,
+  simp [body, source, FPTyped.matmulTyped,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul_kernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

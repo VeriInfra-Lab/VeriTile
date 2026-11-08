@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelGradientProgram
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelGradientProgram
 import bench.tritonbench_g.chunk_retention.Proofs.PureAccessSafety
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
@@ -20,7 +20,7 @@ private theorem entry_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameter
     (hq : ∀ e t,e<p.K → t<p.T → s.pids 2*(p.T*p.K)+e+t*p.K<bounds "q")
     (hk : ∀ t e,t<p.T → e<p.K → s.pids 2*(p.T*p.K)+t*p.K+e<bounds "k") :
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).before s := by
-  simp [gradientParts,kernel,Source.backwardQKV,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [gradientParts,kernel,Source.backwardQKVKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -47,7 +47,7 @@ private theorem body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
       (s.setReg "i_v" .nat [] (fun _=>vb)) := by
   have hn : Int.toNat (((pid.x:Int)*heads+pid.z)*((p.T:Int)*p.V))=
       (pid.x*heads+pid.z)*(p.T*p.V) := by norm_cast
-  simp [gradientParts,kernel,Source.backwardQKV,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [gradientParts,kernel,Source.backwardQKVKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -73,7 +73,7 @@ private theorem finish_safe (M : Algebra α) (D : DotPrimitive α) (p : Paramete
     (hq : ∀ i,gradKeyActive p pid i → gradKeyOffset p pid i<bounds "queryGradient")
     (hk : ∀ i,gradKeyActive p pid i → gradKeyOffset p pid i<bounds "keyGradient") :
     Safety.traceSafeList (engine (withDot M D)) bounds (gradientParts p scale).after s := by
-  simp [gradientParts,kernel,Source.backwardQKV,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+  simp [gradientParts,kernel,Source.backwardQKVKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
       Triton.Source.prefixBefore,Option.map,Option.getD,AccessSafety.singleton_safe,AccessSafety.pair_safe,
       Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -128,14 +128,9 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     · exact ⟨ready.1,ready.2.1,_,ready.2.2.1⟩
   obtain ⟨mid,hm,ctx,fixed,ha,_⟩ := gradientLoop M D p scale pid (s.numPids 2) s.mem start.val
     ready.1 ready.2.1 ready.2.2.1
-  have h0 : (gradientParts p scale).start=.constNat 0 := rfl
-  have hn : (gradientParts p scale).stop=.div .nat .nil
-    (.sub .nat .nil (.add .nat .nil (.constNat p.V) (.constNat p.BV)) (.constNat 1)) (.constNat p.BV) := rfl
-  have h1 : (gradientParts p scale).stride=.constNat 1 := rfl
   have loopRun : step (engine (withDot M D))
-      (.forRangeDyn "i_v" (gradientParts p scale).start (gradientParts p scale).stop
-        (gradientParts p scale).stride (gradientParts p scale).body) start.val=some mid := by
-    simpa [step,h0,hn,h1,evalOp_unfold,Option.bind,numeric,bop,valueBlocks] using hm
+      (.forRange "i_v" 0 (valueBlocks p) 1 (gradientParts p scale).body) start.val=some mid := by
+    simpa only [step] using hm
   unfold TraceSafe
   rw [gradient_parts,List.append_assoc,Safety.traceSafeList_append]
   refine ⟨entry_safe M D p scale s bounds hq hk,?_⟩
@@ -143,8 +138,7 @@ theorem source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
   rw [start.property] at ran
   cases ran
   apply Safety.traceSafeList_cons_of_step
-    (by simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,h0,hn,h1,evalOp_unfold,
-      numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,valueBlocks] using safeLoop) loopRun
+    (by simpa only [Safety.stepSafe_unfold] using safeLoop) loopRun
   exact finish_safe M D p scale pid (s.numPids 2) s.mem mid _ ctx fixed ha bounds hdq hdk
 
 #axiomsClean source_safe

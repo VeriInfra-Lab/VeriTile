@@ -21,8 +21,8 @@ module responsibilities. This guide points to current tools and inventories.
 - `verso/`: an independent presentation project with its own Lean toolchain.
 
 `validation/task_progress.json` selects the current public task entries.
-`validation/contracts.json` records their reviewed specifications and
-conditions. `validation/source.json` binds the retained source tree.
+`validation/archive/contracts.json` preserves earlier reviewed specifications and conditions.
+Generate a current source snapshot with `python3 scripts/bench/final_inventory.py --write PATH`.
 Source correspondence, Lean proofs, numerical evidence and native execution
 remain distinct results; preserve pending classifications.
 

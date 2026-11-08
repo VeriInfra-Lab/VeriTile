@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_reducev.Candidate
+import bench.tritonbench_g.softmax_reducev.Proofs.Support.Candidate
 import bench.tritonbench_g.softmax_reducev.Proofs.IOSourceSafety
 
 namespace VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.AddressSchedule
@@ -31,7 +31,7 @@ def tail (p : Parameters) := (EarlyAddress.source p).surfaceBody.drop 13
 theorem prepare_eq (M : Algebra α) (p : Parameters) (s t : State α)
     (a : Accumulator α p.dimensions) (h : Ready p s t a) :
     run M ((tail p).take 3) t = run M ((suffix p).take 3) t := by
-  simp [tail,EarlyAddress.source,EarlyAddress.typed,suffix,source,typed,
+  simp [tail,EarlyAddress.source,EarlyAddress.typed,EarlyAddress.earlyTypedKernel,suffix,source,typedKernel,
     ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,h.batch,h.head,h.dimensions,h.output,h.normalizer]
@@ -51,10 +51,11 @@ Ready invariant justifies independent output-address and division scheduling. -/
 theorem execution_eq (M : Algebra α) (p : Parameters) (s : State α) (hN : 0 < p.tokens) :
     FP.Structural.exec M (EarlyAddress.source p) s = FP.Structural.exec M (source p) s := by
   have split : (EarlyAddress.source p).surfaceBody = prelude p ++
-      [.forRangeDyn "start_n" (.constNat 0) (.ref .nat [] "cur_batch_seq_len")
+      [.forRangeInt "start_n" (.constInt 0) (.ref .int [] "cur_batch_seq_len")
         (.constNat p.tokens) (loopBody p)] ++ tail p := by rfl
   obtain ⟨a,ha,har⟩ := prefix_run M p s
-  obtain ⟨b,hb,hbr⟩ := loop_run M p s a 0 (sequenceLength p s) p.tokens _ har hN
+  obtain ⟨b,hb,hbr⟩ := loop_run M p s a 0 (sequenceWord p s) p.tokens _ har hN
+  simp only [Nat.cast_zero] at hb
   change run M (EarlyAddress.source p).surfaceBody s = run M (source p).surfaceBody s
   rw [split,source_split]
   simp only [run_append,ha,Option.bind_some,run,step,evalOp_unfold,har.seqlen,Option.bind,hb]
@@ -64,7 +65,7 @@ theorem execution_eq (M : Algebra α) (p : Parameters) (s : State α) (hN : 0 < 
 theorem tail_safety_iff (M : Algebra α) (p : Parameters) (s t : State α)
     (a : Accumulator α p.dimensions) (h : Ready p s t a) (bounds : RegionName → Nat) :
     Safety.traceSafeList M bounds (tail p) t ↔ Safety.traceSafeList M bounds (suffix p) t := by
-  simp [tail,EarlyAddress.source,EarlyAddress.typed,suffix,source,typed,ComputeKernel.surfaceBody,
+  simp [tail,EarlyAddress.source,EarlyAddress.typed,EarlyAddress.earlyTypedKernel,suffix,source,typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -78,10 +79,11 @@ theorem safety_iff (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hN : 0 < p.tokens) :
     TraceSafe M bounds (EarlyAddress.source p) s ↔ TraceSafe M bounds (source p) s := by
   obtain ⟨a,ha,har⟩ := prefix_run M p s
-  obtain ⟨b,hb,hbr⟩ := loop_run M p s a 0 (sequenceLength p s) p.tokens _ har hN
+  obtain ⟨b,hb,hbr⟩ := loop_run M p s a 0 (sequenceWord p s) p.tokens _ har hN
+  simp only [Nat.cast_zero] at hb
   have beforeRun : run M ((source p).surfaceBody.take 13) s = some b := by
     have split : (source p).surfaceBody.take 13 = prelude p ++
-        [.forRangeDyn "start_n" (.constNat 0) (.ref .nat [] "cur_batch_seq_len")
+        [.forRangeInt "start_n" (.constInt 0) (.ref .int [] "cur_batch_seq_len")
           (.constNat p.tokens) (loopBody p)] := by rfl
     rw [split]
     simp only [run_append,ha,Option.bind_some,run,step,evalOp_unfold,har.seqlen,Option.bind]

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Kernels
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Examples.Common
 
 /-! Real execution, bounds and memory-frame lemmas. Public IO and mathematical

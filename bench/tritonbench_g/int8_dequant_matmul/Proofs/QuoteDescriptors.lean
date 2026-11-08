@@ -9,7 +9,7 @@ set_option linter.unusedSimpArgs false
 
 theorem epilogue_descriptors (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (base current : State (Sum F H))
-    (divisor : F) (hasDivisor : base.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor))
+    (divisor : F) (hasDivisor : base.regs .real [] "divfactor"=some (fun _=>.inl divisor))
     (ctx : Context s c base (steps s c) current)
     (acc : HasAcc c (accumulation q s c base) current) :
     let final:=(epilogueExecution (floating q) q s c bias base current (.inl divisor) hasDivisor
@@ -36,7 +36,7 @@ theorem epilogue_descriptors (q : IntegerModel I F H) [Inhabited (Sum F H)]
 structure Result (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (base : State (Sum F H)) (divisor : F)
     (final : State (Sum F H)) : Prop where
-  out : register final .fp16 [c.BM,c.BN] "out"=fun i=>.inr (value q s c bias base divisor i)
+  out : register final .fp16 [c.BM,c.BN] "acc"=fun i=>.inr (value q s c bias base divisor i)
   address : register final .ptr [c.BM,c.BN] "C"=
     fun i : TileIndex [c.BM,c.BN]=>(("C":RegionName),offset s c base i)
   mask : register final .bool [c.BM,c.BN] "mask"=fun i=>decide (active s c base i)
@@ -44,14 +44,14 @@ structure Result (q : IntegerModel I F H) [Inhabited (Sum F H)]
 
 theorem fullResult (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (bias : Bool) (initial : State (Sum F H))
-    (divisor : F) (hasDivisor : initial.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor)) :
+    (divisor : F) (hasDivisor : initial.regs .real [] "divfactor"=some (fun _=>.inl divisor)) :
     ∃ final, execute (floating q) q s.M s.N (source s c bias) initial=some final ∧
       Result q s c bias (preludeExecution (floating q) q s c bias initial).val divisor final := by
   let base:=(preludeExecution (floating q) q s c bias initial).val
   have start:=preludeContext (floating q) q s c bias initial
   obtain ⟨current,hloop,ctx,acc⟩:=rangeExecution (floating q) q s c bias base base 0 (steps s c)
     (Nat.zero_le _) (fun _=>0) start.1 start.2
-  have hd : base.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor) := by
+  have hd : base.regs .real [] "divfactor"=some (fun _=>.inl divisor) := by
     simpa [base,preludeExecution] using hasDivisor
   let final:=epilogueExecution (floating q) q s c bias base current (.inl divisor) hd
     (fun x y=>.inr (q.ops.hadd (asH q.ops x) (asH q.ops y))) rfl ctx acc
@@ -60,9 +60,10 @@ theorem fullResult (q : IntegerModel I F H) [Inhabited (Sum F H)]
     descriptors.1,descriptors.2,epilogue_memory q s c bias base current divisor hd ctx acc⟩⟩
   unfold execute
   rw [source_decomposition,run_append,run_append,(preludeExecution (floating q) q s c bias initial).property]
-  change ((run (floating q) q s.M s.N [.forRange "k" 0 (steps s c) 1 (body s c bias)] base).bind
+  change ((run (floating q) q s.M s.N [loopStatement s c bias] base).bind
       (run (floating q) q s.M s.N (epilogue s c bias)))=some final.val
-  simp only [run,step,hloop,Option.bind_some]
+  simp only [Nat.cast_zero] at hloop
+  simp only [run,step_loop,hloop,bind,pure,Option.bind]
   exact final.property
 
 #axiomsClean epilogue_descriptors
@@ -74,7 +75,7 @@ def replay (q : IntegerModel I F H) [Inhabited (Sum F H)] (c : Config)
     (final : State (Sum F H)) (mem : RegionName→Nat→Cell (Sum F H)) :=
   (TileShape.allIndices [c.BM,c.BN]).foldl (fun current i=>
     let pointer:=register final .ptr [c.BM,c.BN] "C" i
-    let value:=register final .fp16 [c.BM,c.BN] "out" i
+    let value:=register final .fp16 [c.BM,c.BN] "acc" i
     if register final .bool [c.BM,c.BN] "mask" i then
       writeCell current pointer.1 pointer.2 (.mk .fp16
         (if c.S=1 then value else .inr (q.ops.hadd

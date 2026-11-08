@@ -9,7 +9,7 @@ set_option maxRecDepth 20000
 /-- Both programs are the current repair and its integer-index candidate. -/
 def selected (swapped : Bool) : ComputeKernel :=
   let p : Parameters := ⟨"weight","ids","out",-2,1,2,2,4,2,4⟩
-  if swapped then indexCommutedSource .int32 p else source .int32 p
+  if swapped then indexCommutedKernel .int32 p else sourceKernel .int32 p
 
 def loads {d : TileDType} {sh : TileShape} : Op d sh → List (TileDType × Bool × Bool)
   | .load dt _ (.mask _) _ => [(dt,Bool.true,Bool.false)]
@@ -35,7 +35,7 @@ theorem source_accesses (swapped : Bool) :
        ("load",.real,Bool.true,Bool.true),
        ("store",.real,Bool.true,Bool.false)] := by
   cases swapped
-  all_goals simp [selected,source,indexCommutedSource,Region.cast,ComputeKernel.surfaceBody,accesses,loads,
+  all_goals simp [selected,sourceKernel,indexCommutedKernel,Region.cast,ComputeKernel.surfaceBody,accesses,loads,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
 
 /-- Inspect the signed subtraction/comparisons rather than a Nat surrogate. -/
@@ -58,7 +58,7 @@ theorem signed_id_operations (swapped : Bool) :
       (fun x => x.1=="id_mask" || x.1=="token_ids") =
       [("token_ids",[]),("id_mask",[("ge",.int),("lt",.int)]),("token_ids",[("sub",.int)])] := by
   cases swapped
-  all_goals simp [selected,source,indexCommutedSource,Region.cast,ComputeKernel.surfaceBody,assignments,signedOps,
+  all_goals simp [selected,sourceKernel,indexCommutedKernel,Region.cast,ComputeKernel.surfaceBody,assignments,signedOps,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.toOption]
 
 #guard_msgs (drop info) in

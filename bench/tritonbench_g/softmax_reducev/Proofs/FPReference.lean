@@ -6,27 +6,36 @@ open VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.Range (foldRange)
 noncomputable section
 abbrev Index (p : Parameters) := TileIndex [p.dimensions]
 
+def sequenceWord {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
+  (s.mem (Region.cast p.lengths) (s.pids 0)).read .int
+
 def sequenceLength {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.lengths) (s.pids 0)).read .nat
+  (sequenceWord p s).toNat
 
-def sequenceStart {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  (s.mem (Region.cast p.starts) (s.pids 0)).read .nat
+def sequenceStart {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
+  (s.mem (Region.cast p.starts) (s.pids 0)).read .int
 
-def locationBase {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Nat :=
-  s.pids 0 * p.locationBatchStride + (p.maxLength - sequenceLength p s) * p.locationSequenceStride
+/-- Keep the signed difference even when the logical count exceeds maximum. -/
+def locationBase {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Int :=
+  (s.pids 0*p.locationBatchStride : Nat) +
+    ((p.maxLength : Int)-sequenceWord p s)*p.locationSequenceStride
 
 def active {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start : Nat) (i : Fin p.tokens) : Prop :=
   start+i.val  <  sequenceLength p s
 instance {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start : Nat) (i : Fin p.tokens) :
     Decidable (active p s start i) := inferInstanceAs (Decidable (_  <  _))
 
+theorem natural_signed_lt (a b : Nat) (n : Int) :
+    ((a : Int)+(b : Int)<n) ↔ a+b<n.toNat := by omega
+
 def location {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start : Nat) (i : Fin p.tokens) : Int :=
   if active p s start i then
-    (s.mem (Region.cast p.locations) (locationBase p s+(start+i.val)*p.locationSequenceStride)).read .int
+    (s.mem (Region.cast p.locations) ((locationBase p s+(start+i.val)*p.locationSequenceStride).toNat)).read .int
   else 0
 
 def logicOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start : Nat) (i : Fin p.tokens) :=
-  s.pids 1 * p.logicHeadStride + (sequenceStart p s + start+i.val)*p.logicSequenceStride
+  ((s.pids 1 * p.logicHeadStride : Nat) +
+    (sequenceStart p s + (start : Int)+i.val)*p.logicSequenceStride : Int).toNat
 
 def valueOffset {α : Type} [Inhabited α] (p : Parameters) (s : State α) (start : Nat)
     (i : TileIndex [p.tokens,p.dimensions]) : Nat :=
@@ -40,14 +49,13 @@ def outputOffset {α : Type} (p : Parameters) (s : State α) (i : Index p) : Nat
 store. V is zero-filled outside active key lanes; no sentinel address is read. -/
 def logits {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) (start : Nat) :
     Values α .real [p.tokens] := fun i =>
-  M.cast (some .fp32) .fp32 .real (if active p s start i.1 then
-    (s.mem p.logics (logicOffset p s start i.1)).read .fp32
-    else M.cast (some .fp32) .real .fp32 M.negInf)
+  M.fp32Load (if active p s start i.1 then
+    (s.mem p.logics (logicOffset p s start i.1)).read .real else M.negInf)
 def values {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) (start : Nat) :
     Values α .real [p.tokens,p.dimensions] := fun i =>
-  M.cast (some .fp32) .fp32 .real (if active p s start i.1 then
-    (s.mem p.values (valueOffset p s start i)).read .fp32
-    else M.cast (some .fp32) .real .fp32 (M.literal (some .fp32) .real 0.0))
+  M.fp32Load (if active p s start i.1 then
+    (s.mem p.values (valueOffset p s start i)).read .real
+    else M.literal (some .fp32) .real 0.0)
 
 structure Accumulator (α : Type) (D : Nat) where
   maximum : α
@@ -85,11 +93,11 @@ def finalAccumulator {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
 
 def outputValues {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (a : Accumulator α p.dimensions) : Index p → α := fun i =>
-  M.cast none .real .fp32 (M.binary (some .fp32) .real .div (a.output i) a.normalizer)
+  M.binary (some .fp32) .real .div (a.output i) a.normalizer
 
 def written {α : Type} (p : Parameters) (s : State α) (v : Index p → α) : State α :=
   (TileShape.allIndices [p.dimensions]).foldl
-    (fun t i => t.write p.output (outputOffset p s i) (.mk .fp32 (v i))) s
+    (fun t i => t.write p.output (outputOffset p s i) (.mk .real (v i))) s
 
 end
 end VeriTile.Bench.Repairs.SoftmaxReduceVNegInfChecked.FPValue

@@ -24,18 +24,18 @@ def nativeDomain (p : Parameters) (wholeRow : Bool)
 
 def forwardFormula (M : Algebra α) (p : Parameters) (wholeRow : Bool)
     (xs : ChannelValues α (forwardInputs p wholeRow)) : ChannelValues α (forwardOutputs p) :=
-  Fin.cases (fun _ => KernelModel.cast M (LogicalModel.lse M p 0
-      (tile (α:=α) p wholeRow 0 (xs (1 : Fin 3)))))
-    (Fin.cases (fun _ => KernelModel.cast M (LogicalModel.forwardLoss M p
+  Fin.cases (fun _ => LogicalModel.lse M p 0
+      (tile (α:=α) p wholeRow 0 (xs (1 : Fin 3))))
+    (Fin.cases (fun _ => LogicalModel.forwardLoss M p
       (tile (α:=α) p wholeRow 0 (xs (1 : Fin 3))) (forwardLabel p wholeRow xs)
-      (xs (2 : Fin 3) PUnit.unit))) (fun k => k.elim0))
+      (xs (2 : Fin 3) PUnit.unit)) (fun k => k.elim0))
 
 def chunkedFormula (M : Algebra α) (p : Parameters) (chunk : Nat) (wholeRow : Bool)
     (xs : ChannelValues α (forwardInputs p wholeRow)) : ChannelValues α (forwardOutputs p) :=
-  Fin.cases (fun _ => KernelModel.cast M (LogicalModel.lse M p chunk
-      (tile (α:=α) p wholeRow chunk (xs (1 : Fin 3)))))
-    (Fin.cases (fun _ => KernelModel.cast M (LogicalModel.chunkLoss M p
-      (forwardLabel p wholeRow xs) (xs (2 : Fin 3) PUnit.unit))) (fun k => k.elim0))
+  Fin.cases (fun _ => LogicalModel.lse M p chunk
+      (tile (α:=α) p wholeRow chunk (xs (1 : Fin 3))))
+    (Fin.cases (fun _ => LogicalModel.chunkLoss M p
+      (forwardLabel p wholeRow xs) (xs (2 : Fin 3) PUnit.unit)) (fun k => k.elim0))
 
 def backwardFormula (M : Algebra α) (p : Parameters) (chunk : Nat) (wholeRow : Bool)
     (xs : ChannelValues α (backwardInputs p wholeRow)) : ChannelValues α (backwardOutputs p) :=

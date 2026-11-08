@@ -6,7 +6,7 @@ namespace VeriTile.Bench.Repairs.SinKernel.Projection
 open VeriTile.Triton
 
 theorem kernel_algorithm (X O : RegionName) (n B : Nat) :
-    (kernel X O n B).toAlgKernel =
+    (sourceKernel X O n B).toAlgKernel =
       (VeriTile.Bench.TritonBenchG.SinKernel.kernel_function X O n B).toAlgKernel := by rfl
 
 theorem original_projection (n : Nat) :

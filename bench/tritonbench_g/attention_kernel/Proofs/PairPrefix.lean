@@ -29,7 +29,7 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α)
   cases storage
   all_goals
     simp [kernelAs,Source.kernelAs,TypedSource.queryEarly,TypedSource.repaired,
-      TypedSource.FP16.queryEarly,TypedSource.FP16.repaired,
+      TypedSource.FP16.queryEarly,TypedSource.FP16.repaired,TypedSource.originalKernel,TypedSource.queryEarlyKernel,TypedSource.Storage.float,
       TypedSource.BF16.queryEarly,TypedSource.BF16.repaired,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       evalOffsets,boundaryZero,Option.bind,numeric,integralFloorDiv,integralMod,
@@ -52,7 +52,7 @@ theorem prefix_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases storage
   all_goals
     simp only [kernelAs,Source.kernelAs,TypedSource.queryEarly,TypedSource.repaired,
-      TypedSource.FP16.queryEarly,TypedSource.FP16.repaired,
+      TypedSource.FP16.queryEarly,TypedSource.FP16.repaired,TypedSource.originalKernel,TypedSource.queryEarlyKernel,TypedSource.Storage.float,
       TypedSource.BF16.queryEarly,TypedSource.BF16.repaired,
       ComputeKernel.surfaceBody,List.take_succ_cons,List.take_zero]
     simp only [Safety.traceSafeList_unfold,Safety.stepSafe_unfold,

@@ -12,7 +12,7 @@ theorem domain_is_shared : Checked.InputContract=TokenSoftmaxBloom.Checked.Input
 
 /- Candidate source and invocation retain their names in Kernels.lean. -/
 
-theorem candidate_is_shared : indexCommutedSource=TokenSoftmaxBloom.indexCommutedSource := rfl
+theorem candidate_is_shared : indexCommutedKernel=TokenSoftmaxBloom.indexCommutedSource := rfl
 
 abbrev program := TokenSoftmaxBloom.KernelRewrite.program
 

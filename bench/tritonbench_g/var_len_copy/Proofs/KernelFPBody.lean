@@ -11,7 +11,7 @@ set_option maxRecDepth 16000
 
 def body (v : Bool) (os ol ns : Region .int)
     (src dst : RegionName) (B : Nat) : List ComputeStmt :=
-  match ((kernel v os ol ns src dst B).surfaceBody[6]? : Option ComputeStmt) with
+  match ((kernel v os ol ns src dst B).surfaceBody[9]? : Option ComputeStmt) with
   | some (.forRangeInt _ _ _ _ body) => body
   | _ => []
 
@@ -24,8 +24,8 @@ theorem load_equivalence {α : Type} [Inhabited α] (M : Algebra α)
     (B : Nat) (s : State α) :
     step M (loadStatement Bool.false os ol ns src dst B) s =
       step M (loadStatement Bool.true os ol ns src dst B) s := by
-  all_goals simp only [loadStatement, body, kernel, ComputeKernel.surfaceBody,
-    List.getElem?_cons_zero, List.getElem?_cons_succ, List.headD_cons]
+  all_goals simp only [loadStatement, body, kernel,Source.bodyKernel,Source.commutedBodyPastedKernel, ComputeKernel.surfaceBody,
+    Bool.false_eq_true, ite_false, ite_true, List.getElem?_cons_zero, List.getElem?_cons_succ, List.headD_cons]
   all_goals simp only [step, evalExpr, evalComputeOp]
   all_goals
     cases ho : s.regs .int [] "old_start" <;> cases hi : s.regs .int [] "i"

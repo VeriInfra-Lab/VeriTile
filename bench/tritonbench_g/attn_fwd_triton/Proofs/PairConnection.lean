@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attn_fwd_triton.PairIO
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.PairIO
 import bench.tritonbench_g.attn_fwd_triton.Proofs.NativeSchedule
 import bench.tritonbench_g.attn_fwd_triton.Kernels
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
@@ -44,15 +44,15 @@ theorem no_underflow (a b : Nat) : (a/b)*b≤a := Nat.div_mul_le_self a b
 
 theorem step_remainder (M : Algebra A) (out dividend : RegName) (width : Nat) :
     StepEq M
-      (.assign .int [] out (.alg (.tritonMod .int .nil (.ref .int [] dividend) (.castNatToInt (.constNat width)))))
+      (.assign .int [] out (.alg (.truncMod .nil (.ref .int [] dividend) (.constInt (width : Int)))))
       (.assign .int [] out (.alg (.sub .int .nil (.ref .int [] dividend)
-        (.mul .int .nil (.tritonDiv .int .nil (.ref .int [] dividend) (.castNatToInt (.constNat width)))
-          (.castNatToInt (.constNat width)))))) := by
+        (.mul .int .nil (.truncDiv .nil (.ref .int [] dividend) (.constInt (width : Int)))
+          (.constInt (width : Int)))))) := by
   constructor
   · intro s
     simp only [step,evalExpr,evalOp_unfold]
     cases ha : s.regs .int [] dividend
-    all_goals simp [ha,bind,Option.bind,numeric,integralMod,integralFloorDiv,bop]
+    all_goals simp [ha,bind,Option.bind,numeric,integralMod,integralFloorDiv,bop,Int.tmod_def]
     all_goals unfold bop
     all_goals simp [Broadcast.leftIndex,Broadcast.rightIndex,Int.mul_comm]
   · intro bounds s
@@ -62,9 +62,13 @@ theorem step_remainder (M : Algebra A) (out dividend : RegName) (width : Nat) :
 numeric backend and complete original Config. -/
 theorem source_pair (M : Algebra A) (p : Config) (BD : Nat) :
     CodeEq M (source p BD Bool.false).surfaceBody (kernel p BD).surfaceBody := by
-  unfold source kernel AttnFwdTriton.TypedSource.repaired quotientRemainder ComputeKernel.surfaceBody
-  simp only [Bool.false_eq_true, ↓reduceIte]
-  repeat' first
+  by_cases hd : p.stage=2
+  all_goals simp only [source,kernel,AttnFwdTriton.TypedSource.repaired,
+    AttnFwdTriton.TypedSource.quotientRemainder,
+    AttnFwdTriton.originalKernel,AttnFwdTriton.candidateKernel,
+    hd,decide_true,decide_false,ComputeKernel.surfaceBody,
+    Bool.false_eq_true,Bool.true_eq,↓reduceIte]
+  all_goals repeat' first
     | exact code_refl M _
     | exact step_refl M _
     | apply code_cons

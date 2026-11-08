@@ -9,6 +9,7 @@ noncomputable section
 
 structure Laws (m : Model ℝ) : Prop where
   literal : ∀ x,lit m x=x
+  integer : ∀ x,m.scalar.fromInt (some .fp32) x=(x : ℝ)
   add : ∀ x y,bin m .add x y=x+y
   sub : ∀ x y,bin m .sub x y=x-y
   mul : ∀ x y,bin m .mul x y=x*y
@@ -25,7 +26,7 @@ theorem padded_sum (N B : Nat) (covers : N≤B) (x : Nat → ℝ) :
 
 theorem mean_real (m : Model ℝ) (laws : Laws m) (N B : Nat) (covers : N≤B) (x : Nat → ℝ) :
     SourceForwardGraph.mean m N B x=RealProof.Spec.mean N x := by
-  simp only [SourceForwardGraph.mean,laws.div,laws.sum,xload,laws.add,laws.literal,laws.cast,zero_add]
+  simp only [SourceForwardGraph.mean,laws.div,laws.sum,xload,laws.add,laws.literal,laws.integer,laws.load,laws.cast,zero_add]
   rw [padded_sum N B covers]
   rfl
 
@@ -34,22 +35,22 @@ theorem variance_real (m : Model ℝ) (laws : Laws m) (N B : Nat) (covers : N≤
   have hc (j : Nat) : SourceForwardGraph.centered m N B x j=
       if j<N then x j-RealProof.Spec.mean N x else 0 := by
     by_cases hj : j<N <;>
-      simp [SourceForwardGraph.centered,xload,mean_real m laws N B covers,laws.sub,laws.literal,laws.cast,hj]
+      simp [SourceForwardGraph.centered,xload,mean_real m laws N B covers,laws.sub,laws.literal,laws.integer,laws.load,laws.cast,hj]
   have hs (j : Fin B) :
       bin m .add (lit m 0) (bin m .mul (SourceForwardGraph.centered m N B x j.val) (SourceForwardGraph.centered m N B x j.val))=
         if j.val<N then (x j.val-RealProof.Spec.mean N x)^2 else 0 := by
-    simp only [laws.add,laws.literal,laws.mul,hc]
+    simp only [laws.add,laws.literal,laws.integer,laws.load,laws.mul,hc]
     split <;> simp [pow_two]
   unfold SourceForwardGraph.variance
   simp only [laws.div,laws.sum]
   simp only [hs]
-  simp only [laws.literal]
+  simp only [laws.literal,laws.integer,laws.load]
   rw [padded_sum N B covers (fun j => (x j-RealProof.Spec.mean N x)^2)]
   rfl
 
 theorem inverse_real (m : Model ℝ) (laws : Laws m) (N B : Nat) (covers : N≤B)
     (eps : ℝ) (x : Nat → ℝ) : inverse m N B eps x=RealProof.Spec.inverse N x eps := by
-  simp only [inverse,laws.div,laws.literal,laws.sqrt,laws.add,variance_real m laws N B covers]
+  simp only [inverse,laws.div,laws.literal,laws.integer,laws.load,laws.sqrt,laws.add,variance_real m laws N B covers]
   rfl
 
 theorem output_real (m : Model ℝ) (laws : Laws m) (N B : Nat) (covers : N≤B)

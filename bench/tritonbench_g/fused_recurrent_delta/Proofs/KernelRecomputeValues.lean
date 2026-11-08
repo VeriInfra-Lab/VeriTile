@@ -40,7 +40,7 @@ theorem carry (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv t : 
   cases vector <;> cases regs
   all_goals
     simp [KernelBackwardStep.recompute,next,KernelBackwardReference.input,
-      KernelReference.add,KernelReference.mul,KernelReference.sub,KernelReference.read,
+      KernelReference.add,KernelReference.mul,KernelReference.sub,KernelReference.read,KernelReference.loaded,
       KernelReference.cast,KernelReference.zero,keyPtr,valPtr,betaPtr,keyMask,valMask,
       State.setReg,bop,Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,scatter_other]
   all_goals try rfl

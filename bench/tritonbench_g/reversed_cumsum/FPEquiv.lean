@@ -10,9 +10,9 @@ noncomputable section
 
 
 specification reversed_cumsum_compare_right_equiv (h : Call) (c : Config) :
-    original h c ≡[assumptions] compareRight h c := by
+    original h c ≡[assumptions] compareRightKernel h c := by
   apply Spec.FloatingPoint.ofNumerical
-    (lhs := original h c) (rhs := compareRight h c)
+    (lhs := original h c) (rhs := compareRightKernel h c)
     (structural := fun _ _ => False) rfl rfl
   intro α _ M D _ u _
   exact Rewrite.whole_state (engine M) h c u

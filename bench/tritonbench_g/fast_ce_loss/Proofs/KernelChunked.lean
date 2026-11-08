@@ -17,10 +17,10 @@ variable {α : Type} [Inhabited α]
 
 def chunkedMemory (M : Algebra α) (p : Parameters) (initial : State α) : State α :=
   let afterLoss := if initial.pids 1=0 then
-    initial.write p.loss (initial.pids 0) (.mk .real (KernelModel.cast M (chunkLoss M p initial)))
+    initial.write p.loss (initial.pids 0) (.mk .real (chunkLoss M p initial))
     else initial
   afterLoss.write p.lse (initial.pids 0*p.chunks+initial.pids 1)
-    (.mk .real (KernelModel.cast M (lseValue M p initial (initial.pids 1))))
+    (.mk .real (lseValue M p initial (initial.pids 1)))
 
 /-- Every chunk writes its LSE. The first chunk alone writes the negative
 target contribution, with literal zero for ignored labels. -/
@@ -39,7 +39,7 @@ theorem chunked_executes (M : Algebra α) (p : Parameters) (initial : State α)
         simp only [label,Region.cast] at readIgnored
         refine ⟨?_,?_,?_⟩
         rotate_left
-        · simp [exec,chunked,TypedSource.chunked,hc,hs,ComputeKernel.surfaceBody,
+        · simp [exec,chunked,TypedSource.chunkedKernel,hc,hs,ComputeKernel.surfaceBody,
             run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
             engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
             numeric,natLt,numericLt,numericLe,numericEq,bop,ofFloat,toFloat,Region.cast,

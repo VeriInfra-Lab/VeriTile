@@ -11,9 +11,9 @@ def offsets (p : Layout) : Op .int [p.BM,p.D] :=
   .add .int Broadcast.nil.consL.consR
     (.add .int .scalarR
       (.mul .int .scalarR (.add .int .scalarL (z "cur_batch_in_all_start_index")
-        (rowView p).castNatToInt) (Op.constNat p.outRow).castNatToInt)
-      (Op.mul .nat .nil (n "cur_head") (.constNat p.outHead)).castNatToInt)
-    (Op.mul .nat .scalarR (dimView p) (.constNat p.outDim)).castNatToInt
+        (rowView p)) (Op.constInt p.outRow))
+      (Op.mul .int .nil (z "cur_head") (.constInt p.outHead)))
+    (Op.mul .int .scalarR (dimView p) (.constInt p.outDim))
 
 def code (p : Layout) (r : Regions) : List Stmt :=
   [.assign .int [p.BM,p.D] "off_o" (offsets p),
@@ -27,7 +27,7 @@ theorem shared (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
   cases swapped <;> rfl
 
 theorem source (p : Layout) (r : Regions) : post p r = code p r := by
-  simp only [post,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,ComputeKernel.surfaceBody,
+  simp only [post,lower,parts,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirstKernel,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,Except.bind,bind,List.map_cons,List.map_nil,

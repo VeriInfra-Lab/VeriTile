@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelRealModel
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelGradientModel
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelRealModel
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelGradientModel
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelReal
 open VeriTile Triton FP.Structural
 open KernelBackward (PID)

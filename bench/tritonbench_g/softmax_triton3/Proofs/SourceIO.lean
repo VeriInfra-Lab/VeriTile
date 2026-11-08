@@ -1,4 +1,4 @@
-import bench.tritonbench_g.softmax_triton3.SourceIO
+import bench.tritonbench_g.softmax_triton3.Proofs.Support.SourceIO
 import bench.tritonbench_g.softmax_triton3.Proofs.Pair
 import bench.tritonbench_g.softmax_triton3.Proofs.PairSafety
 import VeriTile.Triton.Float.ProgramEquivalence

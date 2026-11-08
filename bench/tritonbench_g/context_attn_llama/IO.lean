@@ -1,6 +1,6 @@
 import bench.tritonbench_g.context_attn_llama.Proofs.Mathematical_HostReadback
 import VeriTile.Triton.Memory.AlgorithmProgramIO
-import bench.tritonbench_g.context_attn_llama.Kernels
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Memory.LogicalIO
 
 /-! Public regional IO of the complete original ordinary grid. The existing

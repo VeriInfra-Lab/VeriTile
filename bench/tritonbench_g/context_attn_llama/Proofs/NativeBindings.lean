@@ -1,5 +1,5 @@
-import bench.tritonbench_g.context_attn_llama.NativeArrays
-import bench.tritonbench_g.context_attn_llama.KernelInterface
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.NativeArrays
+import bench.tritonbench_g.context_attn_llama.Proofs.Support.KernelInterface
 
 namespace VeriTile.Bench.Repairs.ContextAttnLlama.KernelOnly.NativeBindings
 open VeriTile Triton FP.Structural

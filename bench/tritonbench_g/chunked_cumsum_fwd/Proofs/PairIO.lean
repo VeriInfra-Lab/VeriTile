@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunked_cumsum_fwd.Proofs.IO
+import bench.tritonbench_g.chunked_cumsum_fwd.IO
 import bench.tritonbench_g.chunked_cumsum_fwd.Proofs.PairSemantics
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
 
@@ -30,7 +30,7 @@ def original (cfg : FP.Config) (M : NativeModel (FP.Value .fp32)) (c : Geometry)
   ProgramIO.Implementation.original
     (originalIO cfg M c plan hasBias useSoftplus lower upper) (fun _ => True)
 
-def scaleFirst (cfg : FP.Config) (M : NativeModel (FP.Value .fp32)) (c : Geometry)
+def scaleFirstKernel (cfg : FP.Config) (M : NativeModel (FP.Value .fp32)) (c : Geometry)
     (plan : PrefixPlan c.BH c.BC) (hasBias useSoftplus : Bool) (lower upper : FP.Value .fp32) :=
   ProgramIO.Implementation.ofVariant
     (scaleFirstIO cfg M c plan hasBias useSoftplus lower upper) (fun _ => True)

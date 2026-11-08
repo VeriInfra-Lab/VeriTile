@@ -10,21 +10,21 @@ noncomputable section
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
 def forwardOriginal (O X : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.forward O X M N K BM C,[]⟩
-def forwardCommuted (O X : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.forwardCommuted O X M N K BM C,[]⟩
+  ⟨Source.forwardKernel O X M N K BM C,[]⟩
+def forwardCommutedKernel (O X : RegionName) (M N K BM C : Nat) : Program :=
+  ⟨Source.forwardCommutedKernel O X M N K BM C,[]⟩
 def backwardOriginal (Y G O : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.backward Y G O M N K BM C,[]⟩
-def backwardCommuted (Y G O : RegionName) (M N K BM C : Nat) : Program :=
-  ⟨Source.backwardCommuted Y G O M N K BM C,[]⟩
+  ⟨Source.backwardKernel Y G O M N K BM C,[]⟩
+def backwardCommutedKernel (Y G O : RegionName) (M N K BM C : Nat) : Program :=
+  ⟨Source.backwardCommutedKernel Y G O M N K BM C,[]⟩
 
 /-- Retains the general one-program equivalence with arbitrary named regions. -/
 specification forward_index_equiv (O X : RegionName) (M N K BM C : Nat) (hc : 0<C) :
-    forwardOriginal O X M N K BM C ≡[assumptions] forwardCommuted O X M N K BM C :=
+    forwardOriginal O X M N K BM C ≡[assumptions] forwardCommutedKernel O X M N K BM C :=
   IndexEquivalence.forward_index_equiv O X M N K BM C hc
 
 specification backward_index_equiv (Y G O : RegionName) (M N K BM C : Nat) :
-    backwardOriginal Y G O M N K BM C ≡[assumptions] backwardCommuted Y G O M N K BM C :=
+    backwardOriginal Y G O M N K BM C ≡[assumptions] backwardCommutedKernel Y G O M N K BM C :=
   IndexEquivalence.backward_index_equiv Y G O M N K BM C
 
 

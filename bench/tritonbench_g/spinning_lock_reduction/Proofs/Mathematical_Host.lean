@@ -1,5 +1,5 @@
 import bench.tritonbench_g.spinning_lock_reduction.Proofs.Mathematical_ZeroInvariant
-import bench.tritonbench_g.spinning_lock_reduction.Sources.Mathematical_HostSource
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Sources.Mathematical_HostSource
 
 namespace VeriTile.Bench.TritonBenchG.SpinningLock
 

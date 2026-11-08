@@ -13,7 +13,7 @@ set_option linter.unusedSimpArgs false
 def residualState (enabled : Bool) (region : RegionName) (start N block : Nat)
     (x : Fin block → ℝ) (s : BlockState) : BlockState :=
   if enabled then
-    (s.setReg "residual" .real [block]
+    ((s.setReg "__veritile_load_4" .real [block] (Execution.realTile (rowValues region start N block s))).setReg "residual" .real [block]
       (Execution.realTile (rowValues region start N block s))).setReg "x" .real [block]
       (Execution.realTile (fun j => x j + rowValues region start N block s j))
   else s
@@ -30,12 +30,19 @@ theorem residualStmt_exec (enabled : Bool) (region : RegionName) (start N block 
   cases enabled
   · rfl
   · simp only [↓reduceIte]
-    have hl := stepStmt_assign_eq_some (name := "residual")
+    let values := Execution.realTile (rowValues region start N block s)
+    let loaded := s.setReg "__veritile_load_4" .real [block] values
+    let copied := loaded.setReg "residual" .real [block] values
+    have hl := stepStmt_assign_eq_some (name := "__veritile_load_4")
       (rowLoadOp_eval "RESIDUAL" region start N block s (hptr rfl) hcols)
-    have ha := addStmt_exec "residual" block x (rowValues region start N block s)
-      (s.setReg "residual" .real [block] (Execution.realTile (rowValues region start N block s)))
-      (by simpa using hx) (by simp)
-    rw [stepStmts.cons_some hl, stepStmts.cons_some ha, stepStmts.nil]
+    have hc : stepStmt (.assign .real [block] "residual"
+        (.ref .real [block] "__veritile_load_4")) loaded = some copied := by
+      simp [loaded,copied,values,stepStmt,evalOp.eq_def]
+    have ha := addStmt_exec "residual" block x (rowValues region start N block s) copied
+      (by simpa [copied,loaded,values] using hx) (by simp [copied,loaded,values])
+    rw [stepStmts.cons_some hl]
+    change stepStmts _ loaded = _
+    rw [stepStmts.cons_some hc,stepStmts.cons_some ha,stepStmts.nil]
     rfl
 
 theorem residualState_x (enabled : Bool) (region : RegionName) (start N block : Nat)
@@ -53,9 +60,10 @@ theorem residualState_mem (enabled : Bool) (region : RegionName) (start N block 
 
 theorem residualState_regs (enabled : Bool) (region : RegionName) (start N block : Nat)
     (x : Fin block → ℝ) (s : BlockState) (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hx : name ≠ "x") (hr : name ≠ "residual") :
+    (hx : name ≠ "x") (hr : name ≠ "residual")
+    (hl4 : name ≠ "__veritile_load_4" := by first | assumption | decide) :
     (residualState enabled region start N block x s).regs dtype shape name = s.regs dtype shape name := by
-  cases enabled <;> simp [residualState, hx, hr]
+  cases enabled <;> simp [residualState, hx, hr,hl4]
 
 def realStoreStmt (pointer name : RegName) (N block : Nat) : Stmt :=
   .store .real [block]

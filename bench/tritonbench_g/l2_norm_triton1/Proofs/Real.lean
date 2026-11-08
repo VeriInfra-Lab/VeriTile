@@ -58,7 +58,7 @@ theorem scalar_real (N B : Nat) (eps : ℝ) (xs : Nat → ℝ) (i : Nat) (cover 
     Tile.scalar algebra N B eps xs i=formula N eps xs i := by
   unfold Tile.scalar
   rw [variance_real N B xs cover]
-  simp only [algebra,formula]
+  simp only [algebra,formula,id_eq]
   ring
 
 /-- Existing independent padded L2 mathematics is reused without importing

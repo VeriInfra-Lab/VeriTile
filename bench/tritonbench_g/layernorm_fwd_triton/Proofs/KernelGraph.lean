@@ -10,12 +10,12 @@ register, memory, output or execution appears in these definitions. -/
 def zero (M : Algebra α) := M.literal (some .fp32) .real 0
 def loadX (M : Algebra α) (N : Nat) (x : Nat → α) (j : Nat) :=
   M.cast (some .fp32) .fp32 .real (if j<N then x j else
-    M.cast (some .fp32) .real .fp32 (zero M))
+    M.cast none .real .fp32 (M.literal none .real 0))
 def add (M : Algebra α) := M.binary (some .fp32) .real .add
 def sub (M : Algebra α) := M.binary (some .fp32) .real .sub
 def mul (M : Algebra α) := M.binary (some .fp32) .real .mul
 def divide (M : Algebra α) (N : Nat) (x : α) :=
-  M.binary (some .fp32) .real .div x (M.literal (some .fp32) .real N)
+  M.binary (some .fp32) .real .div x (M.fromInt (some .fp32) (N : Int))
 def sum (M : Algebra α) (a : Fin 128 → α) : α :=
   M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false
     (fun i : TileIndex [128] => a i.1) PUnit.unit
@@ -83,7 +83,7 @@ theorem source_mean (M : Algebra α) (p : Source.Parameters) (s : State α)
   rw [hs]
   exact congrArg (fun (values : TileIndex [128] → α) => M.binary (some .fp32) .real .div
       (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false values PUnit.unit)
-      (M.literal (some .fp32) .real p.columns)) hf
+      (M.fromInt (some .fp32) (p.columns : Int))) hf
 
 theorem source_variance (M : Algebra α) (p : Source.Parameters) (s : State α)
     (hb : p.block=128) (x : Nat → α)
@@ -116,7 +116,7 @@ theorem source_variance (M : Algebra α) (p : Source.Parameters) (s : State α)
   rw [hs]
   exact congrArg (fun (values : TileIndex [128] → α) => M.binary (some .fp32) .real .div
       (M.reduceSum (some .fp32) ⟨0,by simp⟩ Bool.false values PUnit.unit)
-      (M.literal (some .fp32) .real p.columns)) hf
+      (M.fromInt (some .fp32) (p.columns : Int))) hf
 
 theorem source_output (M : Algebra α) (p : Source.Parameters) (s : State α)
     (hb : p.block=128) (x w : Nat → α)

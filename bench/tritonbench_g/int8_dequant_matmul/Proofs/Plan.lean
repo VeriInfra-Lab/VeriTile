@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.Math
-import bench.tritonbench_g.quantize_kv_transform.Sources.Mathematical_MixedBits
+import bench.tritonbench_g.quantize_kv_transform.Proofs.Sources.Mathematical_MixedBits
 
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul
 open VeriTile.Triton

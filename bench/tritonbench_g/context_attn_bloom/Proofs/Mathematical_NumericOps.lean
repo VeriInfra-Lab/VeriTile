@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_bloom.Sources.Mathematical_Math
+import bench.tritonbench_g.context_attn_bloom.Proofs.Sources.Mathematical_Math
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.ContextAttnBloom.NumericOps
 open VeriTile.Triton Math

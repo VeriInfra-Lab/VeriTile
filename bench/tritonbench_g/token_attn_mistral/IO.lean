@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.LogicalProgramIO
-import bench.tritonbench_g.token_attn_mistral.Ports
+import bench.tritonbench_g.token_attn_mistral.Proofs.Support.Ports
 import bench.tritonbench_g.token_attn_mistral.Proofs.Real
 import bench.tritonbench_g.token_attn_mistral.Proofs.Native
 import VeriTile.Triton.Float.ObservedProgramIO
@@ -56,11 +56,11 @@ def inputs (p : Parameters) (work : List Grid.PID) (counts : Fin work.length →
     (IO.real p work counts).Inputs ≃ Ports.Logical ℝ work.length (Ports.span p work counts) p.width where
   toFun := Ports.logical p work counts
   invFun := fun xs port => match port with
-    | ⟨0,_⟩ => fun j => xs.sequence j.1
-    | ⟨1,_⟩ => fun j => xs.start j.1
-    | ⟨2,_⟩ => fun j => xs.request j.1
-    | ⟨3,_⟩ => fun j => xs.attention j.1
-    | ⟨4,_⟩ => fun j => xs.token j.1 j.2.1
+    | ⟨0,_⟩ => fun j => xs.sequenceWord j.1
+    | ⟨1,_⟩ => fun j => xs.startWord j.1
+    | ⟨2,_⟩ => fun j => xs.requestWord j.1
+    | ⟨3,_⟩ => fun j => xs.attentionWord j.1
+    | ⟨4,_⟩ => fun j => xs.tokenWord j.1 j.2.1
     | ⟨5,_⟩ => fun j => xs.probability j.1 j.2.1
     | ⟨6,_⟩ => fun j => xs.value j.1 j.2.1 j.2.2.1
     | ⟨n+7,h⟩ => False.elim (by simp [IO.real, IO.program, Ports.memory, Ports.inputs] at h)
@@ -90,7 +90,7 @@ def outputs (p : Parameters) (work : List Grid.PID) (counts : Fin work.length �
 /-- The exact original metadata equality, on named logical fields. -/
 def domain (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat)
     (xs : Ports.Logical ℝ work.length (Ports.span p work counts) p.width) : Prop :=
-  ∀ job, xs.attention job = counts job
+  Ports.Admissible p counts xs
 
 def io (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat) :
     LogicalProgramIO ℝ ℝ (Ports.Logical ℝ work.length (Ports.span p work counts) p.width)

@@ -20,7 +20,7 @@ theorem memory (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv t :
     simp only [KernelForwardValues.output,KernelForwardValues.residual,KernelForwardValues.input,
       KernelReference.output,KernelReference.residual,KernelReference.forward,
       KernelReference.forwardInput,KernelReference.keySum,KernelReference.add,KernelReference.mul,
-      KernelReference.sub,KernelReference.read,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
+      KernelReference.sub,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,KernelReference.scalar,
       KernelReference.stored,KernelMemory.rowStore,keyPtr,valPtr,betaPtr,keyMask,valMask,
       FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,
       Nat.add_zero,Bool.false_eq_true,ite_false,ite_true,eta]

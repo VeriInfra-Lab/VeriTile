@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_fused_llama.NativeIO
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Support.NativeIO
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.NativeSafety
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.RuntimeCandidate
 

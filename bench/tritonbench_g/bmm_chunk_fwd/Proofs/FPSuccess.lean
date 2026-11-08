@@ -1,11 +1,16 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Kernels
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.ControlArithmetic
+import VeriTile.Triton.SignedSource
+import VeriTile.Triton.Float.Integer
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.FPSuccess
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.BmmChunkFwd
+open ControlArithmetic
 noncomputable section
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
 set_option maxHeartbeats 12000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
@@ -29,36 +34,36 @@ def Ops.algebra {α : Type} (o : Ops α) : Algebra α :=
 
 def branch (h : Host.Call) (c : Host.Config) : Source.Conditional :=
   (Source.conditional? (Kernels.source h c).surfaceBody
-    (fun body => (Source.dynamicRange? body "k").isSome)).getD
+    (fun body => (Source.signedRange? body "k").isSome)).getD
     ⟨[],.constBool Bool.false,[],[],[]⟩
 
-def parts (h : Host.Call) (c : Host.Config) : Source.DynamicRange :=
-  (Source.dynamicRange? (branch h c).yes "k").getD
-    ⟨[],.constNat 0,.constNat 0,.constNat 1,[],[]⟩
+def parts (h : Host.Call) (c : Host.Config) : Source.SignedRange :=
+  (Source.signedRange? (branch h c).yes "k").getD
+    ⟨[],.constInt 0,.constInt 0,.constNat 1,[],[]⟩
 
 theorem source_split (h : Host.Call) (c : Host.Config) :
     (Kernels.source h c).surfaceBody=(branch h c).before ++
       [.ifThen (branch h c).condition (branch h c).yes] := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;>
-    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel] <;> rfl
 
 theorem branch_split (h : Host.Call) (c : Host.Config) :
     (branch h c).yes=(parts h c).before ++
-      [.forRangeDyn "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body] ++
+      [.forRangeInt "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body] ++
       (parts h c).after := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;>
-    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+    simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel] <;> rfl
 
 def Has {α : Type} (s : State α) (d : TileDType) (sh : TileShape) (n : RegName) := (s.regs d sh n).isSome
 
 def Base {α : Type} (s : State α) : Prop :=
-  Has s .nat [] "pid_b" ∧ Has s .nat [] "pid_c" ∧ Has s .nat [] "pid_h" ∧
-  Has s .nat [] "pid_m" ∧ Has s .nat [] "pid_n"
+  Has s .int [] "pid_b" ∧ Has s .int [] "pid_c" ∧ Has s .int [] "pid_h" ∧
+  Has s .int [] "pid_m" ∧ Has s .int [] "pid_n"
 
 def Ready {α : Type} (h : Host.Call) (c : Host.Config) (s : State α) : Prop :=
-  Base s ∧ Has s .nat [c.M] "offs_m" ∧ Has s .nat [c.N] "offs_n" ∧
-  Has s .nat [c.K] "offs_k" ∧ Has s .ptr [c.M,c.K] "a_ptrs" ∧
-  Has s .ptr [c.K,c.N] "b_ptrs" ∧ Has s .nat [] "chunk_size_limit" ∧
+  Base s ∧ Has s .int [c.M] "offs_m" ∧ Has s .int [c.N] "offs_n" ∧
+  Has s .int [c.K] "offs_k" ∧ Has s .ptr [c.M,c.K] "a_ptrs" ∧
+  Has s .ptr [c.K,c.N] "b_ptrs" ∧ Has s .int [] "chunk_size_limit" ∧
   Has s .real [c.M,c.N] "acc" ∧ (h.hasSeq=Bool.true → Has s .ptr [] "seq_idx_ptr")
 
 def active {α : Type} (h : Host.Call) (c : Host.Config) (s : State α) : Bool :=
@@ -66,18 +71,18 @@ def active {α : Type} (h : Host.Call) (c : Host.Config) (s : State α) : Bool :
     (s.pids 0 / Host.cdiv h.shape.chunk c.N+1)*c.M)
 
 def Fixed {α : Type} (s t : State α) : Prop :=
-  t.regs .nat [] "pid_b"=s.regs .nat [] "pid_b" ∧
-  t.regs .nat [] "pid_c"=s.regs .nat [] "pid_c" ∧
-  t.regs .nat [] "pid_h"=s.regs .nat [] "pid_h" ∧
-  t.regs .nat [] "pid_m"=s.regs .nat [] "pid_m" ∧
-  t.regs .nat [] "pid_n"=s.regs .nat [] "pid_n"
+  t.regs .int [] "pid_b"=s.regs .int [] "pid_b" ∧
+  t.regs .int [] "pid_c"=s.regs .int [] "pid_c" ∧
+  t.regs .int [] "pid_h"=s.regs .int [] "pid_h" ∧
+  t.regs .int [] "pid_m"=s.regs .int [] "pid_m" ∧
+  t.regs .int [] "pid_n"=s.regs .int [] "pid_n"
 
 def Controls {α : Type} (h : Host.Call) (c : Host.Config) (s t : State α) : Prop :=
-  t.regs .nat [] "pid_b"=some (fun _ => s.pids 1) ∧
-  t.regs .nat [] "pid_c"=some (fun _ => s.pids 2/h.shape.groups) ∧
-  t.regs .nat [] "pid_h"=some (fun _ => s.pids 2-s.pids 2/h.shape.groups*h.shape.groups) ∧
-  t.regs .nat [] "pid_m"=some (fun _ => s.pids 0/Host.cdiv h.shape.chunk c.N) ∧
-  t.regs .nat [] "pid_n"=some (fun _ => s.pids 0%Host.cdiv h.shape.chunk c.N)
+  t.regs .int [] "pid_b"=some (fun _ => (s.pids 1 : Int)) ∧
+  t.regs .int [] "pid_c"=some (fun _ => ((s.pids 2/h.shape.groups : Nat) : Int)) ∧
+  t.regs .int [] "pid_h"=some (fun _ => ((s.pids 2-s.pids 2/h.shape.groups*h.shape.groups : Nat) : Int)) ∧
+  t.regs .int [] "pid_m"=some (fun _ => ((s.pids 0/Host.cdiv h.shape.chunk c.N : Nat) : Int)) ∧
+  t.regs .int [] "pid_n"=some (fun _ => ((s.pids 0%Host.cdiv h.shape.chunk c.N : Nat) : Int))
 
 theorem Fixed.refl {α : Type} (s : State α) : Fixed s s := ⟨rfl,rfl,rfl,rfl,rfl⟩
 theorem Fixed.trans {α : Type} {s t u : State α} (a : Fixed s t) (b : Fixed t u) : Fixed s u := by
@@ -94,13 +99,26 @@ theorem prologue {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Ho
       Controls h c s t := by
   cases ha : h.aStorage <;> cases hb : h.bStorage <;> cases causal : h.causal
   all_goals
-    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,causal,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 300000}) [branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,causal,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
-      Region.cast,State.setReg,integralFloorDiv,integralMod,Base,Has,active,Host.cdiv,Controls]
-  all_goals repeat' constructor
+      Region.cast,integralFloorDiv,integralMod,Base,Has,active,Host.cdiv,Controls]
+  all_goals
+      repeat' apply And.intro
+      all_goals
+        funext i
+        dsimp (config := { failIfUnchanged := Bool.false }) only [FP.Structural.bop]
+        try simp only [ControlArithmetic.cdiv_int, ControlArithmetic.tdiv_nat,
+          ControlArithmetic.tmod_nat, ControlArithmetic.remainder_int]
+      all_goals first | rfl | norm_cast | omega
+      all_goals
+        simp only [ControlArithmetic.tmod_nat, ← Int.natCast_one, ← Int.natCast_add,
+          ← Int.natCast_mul, Int.ofNat_le]
+        simp only [← decide_not, decide_eq_decide]
+        omega
+
 
 
 theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config)
@@ -114,12 +132,12 @@ theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
   obtain ⟨v4,h4⟩ := Option.isSome_iff_exists.mp h4
   cases ha : h.aStorage <;> cases hb : h.bStorage <;> cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 300000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 300000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
-      Region.cast,State.setReg,integralFloorDiv,integralMod,Ready,Base,Has,Fixed,h0,h1,h2,h3,h4]
+      Region.cast,integralFloorDiv,integralMod,Ready,Base,Has,Fixed,h0,h1,h2,h3,h4]
 
 
 end

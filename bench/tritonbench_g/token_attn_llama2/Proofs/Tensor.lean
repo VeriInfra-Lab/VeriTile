@@ -79,12 +79,12 @@ def metadata (t : TensorCall) (read : Nat → Word) : Whole.Metadata t.call wher
   locations := fun i => (read (t.locations.metadata.dataPtr.toNat+4*i.val)).toInt
 
 def buffers {A} [Inhabited A] (t : TensorCall) (before : Cells A) : Whole.Buffers A t.call where
-  q := fun i => (before (t.q.tensor.dataPtr.toNat+4*i.val)).read .fp32
-  k := fun i => (before (t.k.tensor.dataPtr.toNat+4*i.val)).read .fp32
-  out := fun i => (before (t.output.tensor.dataPtr.toNat+4*i.val)).read .fp32
+  q := fun i => (before (t.q.tensor.dataPtr.toNat+4*i.val)).read .real
+  k := fun i => (before (t.k.tensor.dataPtr.toNat+4*i.val)).read .real
+  out := fun i => (before (t.output.tensor.dataPtr.toNat+4*i.val)).read .real
 
 def logical {A} [Inhabited A] (before : Cells A) (t : Payload) (i : Nat) : A :=
-  (before (t.tensor.storage.address (t.tensor.physicalIndex i))).read .fp32
+  (before (t.tensor.storage.address (t.tensor.physicalIndex i))).read .real
 
 theorem payload_address (t : Payload) (contiguous : t.tensor.metadata.isContiguous=Bool.true)
     (i : Nat) (hi : i < t.tensor.metadata.numel) :
@@ -104,13 +104,13 @@ theorem payload_address (t : Payload) (contiguous : t.tensor.metadata.isContiguo
 theorem payload_read {A} [Inhabited A] (before : Cells A) (t : Payload)
     (contiguous : t.tensor.metadata.isContiguous=Bool.true) (i : Nat)
     (hi : i < t.tensor.metadata.numel) :
-    (before (t.tensor.dataPtr.toNat+4*i)).read .fp32=logical before t i := by
+    (before (t.tensor.dataPtr.toNat+4*i)).read .real=logical before t i := by
   rw [payload_address t contiguous i hi]
   rfl
 
 theorem logical_fp32 (read : Nat → Word) (t : Payload)
     (ordinary : t.tensor.metadata.isNeg=Bool.false) (i : Nat) :
-    logical (fun address => Cell.mk .fp32 (read address)) t i=
+    logical (fun address => Cell.mk .real (read address)) t i=
       (VeriTile.Torch.FP32.logicalValue (fun address => ⟨read address⟩) t.tensor t.laws i).bits := by
   simp [logical,VeriTile.Torch.FP32.logicalValue,ordinary]
 

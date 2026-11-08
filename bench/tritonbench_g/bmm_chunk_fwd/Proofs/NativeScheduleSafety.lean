@@ -6,7 +6,8 @@ import bench.tritonbench_g.bmm_chunk_fwd.Proofs.NativeScheduleExecution
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.BmmIO.Native
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.BmmChunkFwd
-open KernelInterface NativeGraph
+open KernelInterface NativeGraph ControlArithmetic
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
 noncomputable section
 open Classical
 set_option maxHeartbeats 4000000
@@ -62,22 +63,66 @@ theorem cleanup_safe (rest : Algebra Expr) (p : Parameters) (pid : Cleanup.PID (
     (output : ∀ off,Cleanup.Upper (parameters p) off → off<bounds p.Out) (s : State Expr) :
     (cleanupInvocation rest p pid).Safe bounds s := by
   change TraceSafe (engine (CleanupSource.algebra rest (.leaf .fp32 0))) bounds
-    (Kernels.clearUpper p.Out p.shape.chunk (p.shape.chunks*p.shape.groups))
+    (Kernels.clearUpperKernel p.Out p.shape.chunk (p.shape.chunks*p.shape.groups))
     (CleanupSource.atIndex (parameters p) s pid)
-  simp (config := {maxSteps := 400000}) [TraceSafe,Kernels.clearUpper,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 400000}) [TraceSafe,Kernels.clearUpperKernel,VeriTile.Bench.Repairs.BmmChunkFwd.clearUpperKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
-    State.setReg,integralFloorDiv,integralMod,CleanupSource.atIndex,CleanupSource.algebra,FP.Structural.store,
+    integralFloorDiv,integralMod,CleanupSource.atIndex,CleanupSource.algebra,FP.Structural.store,
     GridIndex.toPids,Host.Call.grid,Cleanup.config,Grid.rank]
+  let h := parameters p
+  have ceiling : h.shape.chunk+64-1=h.shape.chunk+63 := by omega
+  simp only [CleanupSource.addresses,Cleanup.active,Cleanup.row,Cleanup.column,
+    Cleanup.offset,Cleanup.pid0,Cleanup.pid1,Cleanup.pid2,Host.cdiv,
+    Nat.mul_add,Nat.add_mul,Nat.mul_assoc,Nat.add_assoc,and_assoc,ceiling]
+  have hcdiv : Int.tdiv ((h.shape.chunk : Int)+63) 64 =
+      (Host.cdiv h.shape.chunk 64 : Int) := by
+    simpa only [Host.cdiv,ceiling,show (64 : Int)-1=63 by decide] using
+      (ControlArithmetic.cdiv_signed_int h.shape.chunk 64)
+  have row_cast (i : Fin 32) :
+      (Cleanup.pid0 pid : Int)/(Host.cdiv h.shape.chunk 64 : Int)*32+(i.val : Int) =
+        (Cleanup.row h pid i : Int) := by
+    simp [Cleanup.row,Cleanup.pid0]
+  have col_cast (j : Fin 64) :
+      (Cleanup.pid0 pid : Int).tmod (Host.cdiv h.shape.chunk 64 : Int)*64+(j.val : Int) =
+        (Cleanup.column h pid j : Int) := by
+    simp [Cleanup.column,Cleanup.pid0,Int.tmod_eq_emod_of_nonneg (Int.natCast_nonneg _)]
+  have offset_cast (i : Fin 32) (j : Fin 64) :
+      Int.toNat (((Cleanup.pid1 pid : Int)*(h.shape.chunks*h.shape.groups : Int)+(Cleanup.pid2 pid : Int))*
+        (h.shape.chunk : Int)*(h.shape.chunk : Int)+(Cleanup.row h pid i : Int)*(h.shape.chunk : Int)+
+        (Cleanup.column h pid j : Int))=Cleanup.offset h pid i j := by
+    have eq : ((Cleanup.pid1 pid : Int)*(h.shape.chunks*h.shape.groups : Int)+(Cleanup.pid2 pid : Int))*
+        (h.shape.chunk : Int)*(h.shape.chunk : Int)+(Cleanup.row h pid i : Int)*(h.shape.chunk : Int)+
+        (Cleanup.column h pid j : Int)=(Cleanup.offset h pid i j : Int) := by
+      simp [Cleanup.offset,Cleanup.pid1,Cleanup.pid2,Nat.add_mul]
+      ring
+    rw [eq];rfl
   intro i j hr hc upper
-  have active : Cleanup.active (parameters p) pid i j := ⟨hr,hc,upper⟩
-  have bounded := output _ ((Cleanup.image (parameters p) _).mp
-    ((Cleanup.member (parameters p) _).mpr ⟨pid,i,j,active,rfl⟩))
-  simpa [Cleanup.offset,Cleanup.row,Cleanup.column,Cleanup.pid0,Cleanup.pid1,Cleanup.pid2,Host.cdiv,
-    parameters,Nat.add_mul,Nat.mul_assoc] using bounded
+  change (Cleanup.pid0 pid : Int)/(((h.shape.chunk : Int)+63).tdiv 64)*32+(i.val : Int)<(h.shape.chunk : Int) at hr
+  change (Cleanup.pid0 pid : Int).tmod (((h.shape.chunk : Int)+63).tdiv 64)*64+(j.val : Int)<(h.shape.chunk : Int) at hc
+  change (Cleanup.pid0 pid : Int)/(((h.shape.chunk : Int)+63).tdiv 64)*32+(i.val : Int)<
+    (Cleanup.pid0 pid : Int).tmod (((h.shape.chunk : Int)+63).tdiv 64)*64+(j.val : Int) at upper
+  have active : Cleanup.active h pid i j := by
+    try simp only [hcdiv,row_cast,col_cast,Int.ofNat_lt] at hr hc upper
+    exact ⟨hr,hc,upper⟩
+  have bounded := output _ ((Cleanup.image h _).mp
+    ((Cleanup.member h _).mpr ⟨pid,i,j,active,rfl⟩))
+  have address : Int.toNat (((Cleanup.pid1 pid : Int)*(h.shape.chunks*h.shape.groups : Int)+
+      (Cleanup.pid2 pid : Int))*(h.shape.chunk : Int)*(h.shape.chunk : Int)+
+      ((Cleanup.pid0 pid : Int)/((h.shape.chunk : Int)+63).tdiv 64*32+(i.val : Int))*(h.shape.chunk : Int)+
+      ((Cleanup.pid0 pid : Int).tmod (((h.shape.chunk : Int)+63).tdiv 64)*64+(j.val : Int)))=
+        Cleanup.offset h pid i j := by
+    rw [hcdiv,row_cast i,col_cast j]
+    exact offset_cast i j
+  change Int.toNat (((Cleanup.pid1 pid : Int)*(h.shape.chunks*h.shape.groups : Int)+
+      (Cleanup.pid2 pid : Int))*(h.shape.chunk : Int)*(h.shape.chunk : Int)+
+      ((Cleanup.pid0 pid : Int)/((h.shape.chunk : Int)+63).tdiv 64*32+(i.val : Int))*(h.shape.chunk : Int)+
+      ((Cleanup.pid0 pid : Int).tmod (((h.shape.chunk : Int)+63).tdiv 64)*64+(j.val : Int)))<bounds h.Out
+  rw [address]
+  exact bounded
 
 theorem all_safe (rest : Algebra Expr) (p : Parameters) (c : Host.Config)
     (v : Values p) (bounds : RegionName → Nat) (bounded : (io rest p c).toProgramIO.InBounds bounds v)

@@ -22,8 +22,8 @@ private partial def hasStore (raw : Syntax) : Bool :=
 /-- An incoming pointer alias may not acquire a different source type along
 one dynamic arm. Fresh aliases are local to that arm/iteration. -/
 private partial def rejectRebind (aliases : List Name) (raw : Syntax) : MacroM Unit := do
-  if let `(tritonStmt| $name:ident = $_:tritonExpr) := raw then
-    if aliases.contains name.getId.eraseMacroScopes then
+  if let `(tritonStmt| $name:ident = $value:tritonExpr) := raw then
+    if aliases.contains name.getId.eraseMacroScopes && !pointer aliases value then
       Macro.throwErrorAt name "pointer alias is rebound under runtime control flow"
   for arg in raw.getArgs do rejectRebind aliases arg
 
@@ -53,6 +53,12 @@ partial def lower (convert : TSyntax `tritonExpr → MacroM (TSyntax `tritonExpr
         let value ← convert value
         stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr,
           $kwarg:tritonMemKwarg $[, $kwargs:tritonMemKwarg]*))
+    | `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr,
+        $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
+      if pointer aliases destination then
+        let value ← convert value
+        stmt ← `(tritonStmt| tl.store($destination:tritonExpr, $value:tritonExpr,
+          $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*))
     | `(tritonStmt| if $condition:tritonExpr { $yes:tritonStmt* } else { $no:tritonStmt* }) =>
       for st in yes do rejectRebind aliases st.raw
       for st in no do rejectRebind aliases st.raw
@@ -63,6 +69,10 @@ partial def lower (convert : TSyntax `tritonExpr → MacroM (TSyntax `tritonExpr
       for st in yes do rejectRebind aliases st.raw
       let yes := (← lower convert aliases yes.toList).toArray
       stmt ← `(tritonStmt| if $condition:tritonExpr { $yes* })
+    | `(tritonStmt| for $index:ident in range($stop:tritonExpr) { $inner:tritonStmt* }) =>
+      for st in inner do rejectRebind aliases st.raw
+      let inner := (← lower convert aliases inner.toList).toArray
+      stmt ← `(tritonStmt| for $index:ident in range($stop:tritonExpr) { $inner* })
     | `(tritonStmt| for $index:ident in range($start:tritonExpr, $stop:tritonExpr, $stride:tritonExpr) { $inner:tritonStmt* }) =>
       for st in inner do rejectRebind aliases st.raw
       let inner := (← lower convert aliases inner.toList).toArray

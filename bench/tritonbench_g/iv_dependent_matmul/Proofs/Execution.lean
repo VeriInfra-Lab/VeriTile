@@ -1,5 +1,5 @@
 import bench.tritonbench_g.iv_dependent_matmul.Proofs.Native
-import bench.tritonbench_g.sgmv_expand_slice.Sources.Mathematical_FPContract
+import bench.tritonbench_g.sgmv_expand_slice.Proofs.Sources.Mathematical_FPContract
 
 /-! Functional execution of the finite source, in source order. Scalar algebra
 is a parameter: FP instantiation preserves exact source Dot+Add or independent

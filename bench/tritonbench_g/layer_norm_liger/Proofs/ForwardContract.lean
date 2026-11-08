@@ -1,7 +1,7 @@
 import bench.tritonbench_g.layer_norm_liger.Proofs.ForwardRun
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Forward
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 
 theorem reference_y {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)

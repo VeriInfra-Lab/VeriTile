@@ -51,7 +51,7 @@ theorem forward_state (s : Shape) (f : Flags) (bh iv : Nat) (u : State ℝ)
   induction n generalizing i with
   | zero =>
     simp [KernelReference.forward,KernelReference.forwardInput,KernelReference.add,KernelReference.zero,
-      KernelReference.read,KernelReference.cast,algebra,Math.state,column]
+      KernelReference.read,KernelReference.loaded,KernelReference.cast,algebra,Math.state,column]
     all_goals split <;> simp_all
   | succ n ih =>
     simp only [KernelReference.forward,KernelReference.keySum,algebra,sum]
@@ -62,7 +62,7 @@ theorem forward_state (s : Shape) (f : Flags) (bh iv : Nat) (u : State ℝ)
             (KernelReference.forwardInput algebra s f bh iv u).key n k)*
           (KernelReference.forwardInput algebra s f bh iv u).beta n j)=_
     simp only [ih,Math.state,Math.next,Math.residual,Math.dot]
-    simp [KernelReference.forwardInput,KernelReference.read,KernelReference.cast,KernelReference.zero,algebra,column]
+    simp [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,algebra,column]
     ring
 
 theorem forward_residual (s : Shape) (f : Flags) (bh iv : Nat) (u : State ℝ) (t : Nat) (j : Fin s.FBV) :
@@ -73,7 +73,7 @@ theorem forward_residual (s : Shape) (f : Flags) (bh iv : Nat) (u : State ℝ) (
   rw [forward_sum]
   simp_rw [KernelReal.forward_state s f bh iv u]
   simp [KernelReference.sub,KernelReference.mul,KernelReference.forwardInput,
-    KernelReference.read,KernelReference.cast,KernelReference.zero,algebra,Math.residual,Math.dot,column]
+    KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,algebra,Math.residual,Math.dot,column]
 
 theorem forward_output (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : State ℝ) (t : Nat) (j : Fin s.FBV) :
     KernelReference.output algebra s (KernelReference.forwardInput algebra s f bh iv u) scale t j=
@@ -87,8 +87,8 @@ theorem forward_output (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : 
   simp only [Math.output,Math.dot,Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro i _
-  simp only [KernelReference.forwardInput,KernelReference.read,KernelReference.cast,KernelReference.zero,
-    algebra,column,decide_eq_true_eq]
+  simp only [KernelReference.forwardInput,KernelReference.read,KernelReference.loaded,KernelReference.cast,KernelReference.zero,
+    algebra,column,decide_eq_true_eq,id_eq]
   ring
 
 #axiomsClean forward_state

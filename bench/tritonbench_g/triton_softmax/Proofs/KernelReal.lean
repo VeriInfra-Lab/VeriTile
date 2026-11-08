@@ -1,3 +1,4 @@
+import bench.tritonbench_g.triton_softmax.Proofs.IntegerAddresses
 import bench.tritonbench_g.triton_softmax.Proofs.Memory
 import bench.tritonbench_g.softmax_triton1.Proofs.KernelMath
 import bench.tritonbench_g.softmax_triton1.Proofs.SourceContract
@@ -21,7 +22,7 @@ def evaluate (x y : Tensor) (B p : Nat) (s : BlockState) :=
 theorem source_memory (x y : Tensor) (B p : Nat) (hB : 0<B) (s t : BlockState)
     (runEq : evaluate x y B p s=some t) :
     ∃ u,exec (SoftmaxTriton1.softmax_kernel y.region x.region x.offset y.offset x.rowStride x.colStride y.rowStride y.colStride x.cols B).toAlgKernel (launchState x p s)=some u ∧ u.mem=t.mem := by
-  simp [evaluate,exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
+  simp [evaluate,exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,Except.bind,bind,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
@@ -30,7 +31,7 @@ theorem source_memory (x y : Tensor) (B p : Nat) (hB : 0<B) (s t : BlockState)
   obtain ⟨u,hu⟩ := SoftmaxTriton1.row_exec y.region x.region x.offset y.offset x.rowStride x.colStride y.rowStride y.colStride x.cols B hB (launchState x p s)
   refine ⟨u,hu,?_⟩
   simp [exec,SoftmaxTriton1.softmax_kernel,
-    ComputeKernel.toAlgKernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
+    ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,Except.bind,bind,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,
@@ -77,7 +78,7 @@ theorem source : SourceContract access evaluate formula := by
 
 theorem terminates (x y : Tensor) (B p : Nat) (hB : 0<B) (s : BlockState) :
     ∃ t,evaluate x y B p s=some t := by
-  simp [evaluate,exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
+  simp [evaluate,exec,softmax_kernel,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,Except.bind,bind,ComputeKernel.surfaceBody,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,stepStmts,stepStmt,evalOp.eq_def,
     Tile.bop,Tile.cop,Tile.ptrAdd,Tile.uop,Tile.reduceMax,Tile.reduceMaxDrop,
     Tile.reduceSum,Tile.reduceSumDrop,TileShape.axisDim,TileShape.eraseAxis,
     TileShape.insertAxisIndex,NumericDType.add,NumericDType.mul,NumericDType.sub,NumericDType.div,

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.triton_softmax.Proofs.IntegerAddresses
 import bench.tritonbench_g.triton_softmax.Kernels
 import VeriTile.Triton.Float.StructuralSafety
 
@@ -20,7 +21,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-    store,step,evalExpr,evalComputeOp,evalOp_unfold,State.setReg,numeric,natLt,bop,
+    store,step,evalExpr,evalComputeOp,evalOp_unfold,State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,
     ComputeDType.eraseDType,TileShape.axisDim,Option.bind,Function.comp_def]
   exact ⟨fun i hi => hin i hi,fun i hi => hout i hi⟩
 
@@ -36,7 +37,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-    store,step,evalExpr,evalComputeOp,evalOp_unfold,State.setReg,numeric,natLt,bop,
+    store,step,evalExpr,evalComputeOp,evalOp_unfold,State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,
     ComputeDType.eraseDType,TileShape.axisDim,Option.bind,Function.comp_def]
   exact ⟨fun i hi => by simpa [Nat.mul_comm] using hin i hi,fun i hi => hout i hi⟩
 

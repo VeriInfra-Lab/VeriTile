@@ -15,8 +15,8 @@ theorem accesses (M : Algebra α) (dot : Dot α) (c : Config) (s current : State
     (bounds : RegionName → Nat) (cap : Capacity c bounds) :
     traceSafeList (engine (withDot M dot)) bounds ((parts c).after.take 4) current := by
   change traceSafeList (engine (withDot M dot)) bounds
-    (((kernel c).surfaceBody.drop 15).take 4) current
-  simp only [kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
+    (((kernel c).surfaceBody.drop 13).take 4) current
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.drop,List.take]
   simp only [traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold]
   simp only [safeBlockPtr1,safeBlockPtr2]
@@ -37,7 +37,7 @@ theorem calculate (M : Algebra α) (dot : Dot α) (c : Config) (s current : Stat
     (bounds : RegionName → Nat) (cap : Capacity c bounds) :
     traceSafeList (engine (withDot M dot)) bounds ((parts c).after.take 17) current := by
   have split : (parts c).after.take 17 = (parts c).after.take 4 ++
-      (((kernel c).surfaceBody.drop 19).take 13) := rfl
+      (((kernel c).surfaceBody.drop 17).take 13) := rfl
   rw [split,traceSafeList_append]
   exact ⟨accesses M dot c s current a carry ctx bounds cap,
     fun t _=>TypedMemoryFree.post_suffix M dot c bounds t⟩
@@ -46,8 +46,8 @@ theorem stores_safe (M : Algebra α) (dot : Dot α) (c : Config) (s current : St
     (carry : Carries α c) (ctx : AnswerContext M dot c (Typed.prepare c s a) carry current)
     (bounds : RegionName → Nat) (cap : Capacity c bounds) :
     traceSafeList (engine (withDot M dot)) bounds ((parts c).after.drop 17) current := by
-  change traceSafeList (engine (withDot M dot)) bounds ((kernel c).surfaceBody.drop 32) current
-  simp only [kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
+  change traceSafeList (engine (withDot M dot)) bounds ((kernel c).surfaceBody.drop 30) current
+  simp only [kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
     ComputeKernel.surfaceBody,List.drop]
   simp [traceSafeList_unfold,stepSafe_unfold,safeAddress_unfold,safeMask_unfold,
     safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,

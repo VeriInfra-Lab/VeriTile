@@ -125,7 +125,7 @@ class AuditShardTests(unittest.TestCase):
                          for name in ['Kernels', 'Correct', 'FPEquiv', 'Proofs/Real']]
         self.targets += ['bench/examples/One.lean', 'bench/examples/Two.lean',
                          'bench/examples/LogExp/Kernels.lean',
-                         'bench/examples/LogExp/Correct.lean',
+                         'bench/examples/LogExp/RealCorrect.lean',
                          'bench/examples/LogExp/FPEquiv.lean',
                          'tests/lean/One.lean', 'tests/lean/Two.lean']
         for target in self.targets:
@@ -133,18 +133,23 @@ class AuditShardTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.touch()
         (self.root / 'validation').mkdir()
-        (self.root / 'validation/source.json').write_text(json.dumps({
-            target: hashlib.sha256(b'').hexdigest() for target in self.targets}))
-        # The inventory's semantic/source checks have their own adversarial
-        # tests. This small fixture exposes its target-and-drift CLI contract.
-        (self.root / 'scripts/bench/final_inventory.py').write_text('''
+        self.inventory_targets = tuple(self.targets)
+        # Stub only inventory generation. Test the production snapshot handoff,
+        # sharding and worker postcheck without a full corpus in the fixture.
+        (self.root / 'scripts/bench/final_inventory.py').write_text(f'''
 import hashlib, json, sys
 from pathlib import Path
-data = json.loads(Path('validation/source.json').read_text())
-for path, expected in sorted(data.items()):
-    assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected
-    if '--ci-targets' not in sys.argv or '/Proofs/' not in path:
-        print(path)
+targets = {self.targets!r}
+data = {{path: hashlib.sha256(Path(path).read_bytes()).hexdigest() for path in targets}}
+if '--write' in sys.argv:
+    Path(sys.argv[sys.argv.index('--write') + 1]).write_text(json.dumps(data))
+    raise SystemExit()
+if '--snapshot' in sys.argv:
+    assert data == json.loads(Path(sys.argv[sys.argv.index('--snapshot') + 1]).read_text())
+if '--check' not in sys.argv:
+    for path in sorted(data):
+        if '--ci-targets' not in sys.argv or '/Proofs/' not in path:
+            print(path)
 ''')
         # Substitute only proof execution; target selection, xargs dispatch,
         # result accounting and failure propagation use the production scripts.
@@ -215,9 +220,29 @@ raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
                                             'AUDIT_TRUST_SHARD_INDEX': str(index)}, ['--ci-targets'])
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             combined.extend(calls)
-        inventory = json.loads((self.root / 'validation/source.json').read_text())
-        self.assertCountEqual(combined, [p for p in inventory if '/Proofs/' not in p])
+        self.assertCountEqual(combined, [p for p in self.inventory_targets if '/Proofs/' not in p])
         self.assertEqual(len(combined), len(set(combined)))
+
+    def test_generated_inventory_detects_changes_during_replay(self):
+        result, calls = self.run_audit({'MUTATE_TARGET': self.targets[0]})
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('changed during trust audit', result.stderr)
+        self.assertCountEqual(calls, self.targets)
+
+    def test_ci_mode_checks_the_snapshot_from_build_before_launch(self):
+        snapshot = self.root / 'inventory.json'
+        subprocess.run(['python3', 'scripts/bench/final_inventory.py', '--write', str(snapshot)],
+                       cwd=self.root, check=True)
+        checksum = hashlib.sha256(snapshot.read_bytes()).hexdigest()
+        env = {'AUDIT_TRUST_SNAPSHOT': str(snapshot), 'AUDIT_TRUST_SNAPSHOT_SHA256': checksum}
+        result, calls = AuditShardTests.run_audit(self, env, ['--ci-targets'])
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(calls)
+        snapshot.write_text(snapshot.read_text() + '\n')
+        result, calls = AuditShardTests.run_audit(self, env, ['--ci-targets'])
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('snapshot changed before trust audit', result.stderr)
+        self.assertEqual(calls, [])
 
     def test_ci_mode_propagates_failure_and_rejects_named_targets(self):
         result, _ = AuditShardTests.run_audit(self, {'FAIL_TARGET': self.targets[0]}, ['--ci-targets'])

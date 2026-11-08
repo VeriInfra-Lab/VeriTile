@@ -13,15 +13,19 @@ def triOp (c : Config) : Op .real [c.BT,c.BT] :=
     (.broadcast (.const 1.0) [c.BT,c.BT]) (.broadcast (.const 0.0) [c.BT,c.BT])
 
 def initCode (c : Config) : List ComputeStmt :=
-  [.assign .nat [] "i_s" (.alg (.programId 0)),
-   .assign .nat [] "i_bh" (.alg (.programId 1)),
+  [.ifThen (.constBool Bool.true)
+    [.assign .int [] "i_s" (.alg (.castNatToInt (.programId 0))),
+     .assign .int [] "i_bh" (.alg (.castNatToInt (.programId 1)))],
    .assign .nat [c.BT] "o_i" (.alg (.arange c.BT)),
    .assign .real [c.BT,c.BT] "m_s" (.alg (triOp c)),
    .assign .real [BS] "b_z" (.compute (.full [BS] (.alg .fp32 (.const 0))))]
 
+def inputLoadOp (h : Call) (c : Config) : Op h.inputDType.toTileDType [c.BT,BS] :=
+  .load h.inputDType.toTileDType (.ptr (.ref .ptr [c.BT,BS] "p_s"))
+    (.maskOther (.ref .bool [c.BT,BS] "active")
+      (.broadcast (.castFloat .real h.inputDType (.const 0)) [c.BT,BS]))
 def loadOp (h : Call) (c : Config) : Op .real [c.BT,BS] :=
-  .castFloat h.inputDType .real (.load h.inputDType.toTileDType (.ptr (.ref .ptr [c.BT,BS] "p_s"))
-    (.maskOther (.ref .bool [c.BT,BS] "active") (.broadcast (.castFloat .real h.inputDType (.const 0)) [c.BT,BS])))
+  .castFloat h.inputDType .real (.ref h.inputDType.toTileDType [c.BT,BS] "__veritile_load_0")
 
 def outputOp (c : Config) : Op .real [c.BT,BS] :=
   .add .real (.consL (.consSame .nil)) (.expandDim ⟨0,by simp⟩ (.ref .real [BS] "b_z"))
@@ -38,16 +42,17 @@ def storeOp (h : Call) (c : Config) : ComputeStmt :=
 def loopBody (h : Call) (c : Config) : List ComputeStmt :=
   [.assign .int [] "i_t" (.alg indexOp),
    .assign .int [] "start_t" (.alg (startTOp c)),
-   .assign .nat [] "start_s" (.alg startSOp),
-   .assign .nat [c.BT] "lane_t" (.alg (.arange c.BT)),
-   .assign .nat [BS] "lane_s" (.alg (.arange BS)),
+   .assign .int [] "start_s" (.alg startSOp),
+   .assign .int [c.BT] "lane_t" (.alg (.castNatToInt (.arange c.BT))),
+   .assign .int [BS] "lane_s" (.alg (.castNatToInt (.arange BS))),
    .assign .bool [c.BT] "active_t" (.alg (activeTOp h c)),
    .assign .bool [BS] "active_s" (.alg (activeSOp h)),
    .assign .int [c.BT] "times" (.alg (timeOp c)),
-   .assign .nat [BS] "features" (.alg featureOp),
+   .assign .int [BS] "features" (.alg featureOp),
    .assign .bool [c.BT,BS] "active" (.alg (maskOp c)),
    .assign .ptr [c.BT,BS] "p_s" (.alg (pointerOp h c h.input)),
    .assign .ptr [c.BT,BS] "p_z" (.alg (pointerOp h c h.output)),
+   .assign h.inputDType.toTileDType [c.BT,BS] "__veritile_load_0" (.alg (inputLoadOp h c)),
    .assign .real [c.BT,BS] "b_s" (.compute (.alg .fp32 (loadOp h c))),
    .assign .real [c.BT,BS] "b_c" (.compute (.alg .fp32 (outputOp c))),
    storeOp h c,
@@ -57,7 +62,7 @@ def statement (h : Call) (c : Config) : ComputeStmt :=
   .forRangeInt "__rev_i_t" (reverseStart h c) (.constInt 1) (.constNat 1) (loopBody h c)
 def body (h : Call) (c : Config) := initCode c++[statement h c]
 
-theorem source_body (h : Call) (c : Config) : (Kernels.source h c).surfaceBody=body h c := by rfl
+theorem source_body (h : Call) (c : Config) : (Kernels.sourceKernel h c).surfaceBody=body h c := by rfl
 
 #print axioms source_body
 end VeriTile.Bench.Repairs.ReversedCumsum.FPProgram

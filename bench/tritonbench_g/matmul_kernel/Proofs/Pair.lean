@@ -87,28 +87,28 @@ private theorem eval_remap (M : Algebra α) (p : Option ComputeDType)
 theorem a_step_equal (M : Algebra α) (p : Config) (s : State α) :
     FP.Structural.step M (firstA p) s=FP.Structural.step M (candidateA p) s := by
   simp [firstA,candidateA,KernelSource.body,candidateBody,KernelSource.source,
-    KernelSource.typed,remaining,typedRemaining,ComputeKernel.surfaceBody,
+    KernelSource.typedKernel,remaining,typedRemainingKernel,ComputeKernel.surfaceBody,
     FP.Structural.step,evalExpr,evalComputeOp]
   erw [eval_load_ptr,eval_load_ptr,eval_remap,eval_remap,tail_mask_eval]
 
 theorem b_step_equal (M : Algebra α) (p : Config) (s : State α) :
     FP.Structural.step M (secondB p) s=FP.Structural.step M (candidateB p) s := by
   simp [secondB,candidateB,KernelSource.body,candidateBody,KernelSource.source,
-    KernelSource.typed,remaining,typedRemaining,ComputeKernel.surfaceBody,
+    KernelSource.typedKernel,remaining,typedRemainingKernel,ComputeKernel.surfaceBody,
     FP.Structural.step,evalExpr,evalComputeOp]
   erw [eval_load_ptr,eval_load_ptr,eval_remap,eval_remap,tail_mask_eval]
 
 theorem a_safe_equal (M : Algebra α) (p : Config) (bounds : RegionName → Nat) (s : State α) :
     Safety.stepSafe M bounds (firstA p) s ↔ Safety.stepSafe M bounds (candidateA p) s := by
   simp [firstA,candidateA,KernelSource.body,candidateBody,KernelSource.source,
-    KernelSource.typed,remaining,typedRemaining,ComputeKernel.surfaceBody,
+    KernelSource.typedKernel,remaining,typedRemainingKernel,ComputeKernel.surfaceBody,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.maskActive,eval_remap,tail_mask_eval]
 
 theorem b_safe_equal (M : Algebra α) (p : Config) (bounds : RegionName → Nat) (s : State α) :
     Safety.stepSafe M bounds (secondB p) s ↔ Safety.stepSafe M bounds (candidateB p) s := by
   simp [secondB,candidateB,KernelSource.body,candidateBody,KernelSource.source,
-    KernelSource.typed,remaining,typedRemaining,ComputeKernel.surfaceBody,
+    KernelSource.typedKernel,remaining,typedRemainingKernel,ComputeKernel.surfaceBody,
     Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.maskActive,eval_remap,tail_mask_eval]
 

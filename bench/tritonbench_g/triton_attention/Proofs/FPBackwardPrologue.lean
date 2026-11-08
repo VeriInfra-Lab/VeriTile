@@ -23,7 +23,7 @@ def backwardPrologueResult (p : BackwardParameters) (s : State α) : State α :=
 
 theorem backwardPrologueExecution (rest : Algebra α) (P : Primitives α) (p : BackwardParameters) (s : State α) :
     run (backend rest P) (backwardPrologue p) s=some (backwardPrologueResult p s) := by
-  simp [backwardPrologue,backwardSource,backwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [backwardPrologue,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,evalOffsets,backend,backwardPrologueResult,
     backwardPointer,backwardHeadRow,backwardByteBase,integralFloorDiv,integralMod,
     FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind]

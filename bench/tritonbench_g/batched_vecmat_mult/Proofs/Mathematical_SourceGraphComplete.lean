@@ -14,14 +14,14 @@ theorem loop_correct (rest : Algebra Word) (plans : PlanSelector)
     (p : Parameters) (initial : State Word) (fuel c : Nat) (current : State Word)
     (hle : c ≤ p.K / p.BK) (hbound : p.K / p.BK - c ≤ fuel)
     (h : Invariant plans p initial c current) :
-    ∃ final, FP.Structural.range (engine rest plans) "k_index" c (p.K / p.BK) 1
+    ∃ final, FP.Structural.rangeInt (engine rest plans) "k_index" (c:Int) ((p.K / p.BK:Nat):Int) 1
       (body p) current = some final ∧ Invariant plans p initial (p.K / p.BK) final := by
   induction fuel generalizing c current with
   | zero =>
     have he : c = p.K / p.BK := by omega
     subst c
     refine ⟨current, ?_, h⟩
-    rw [FP.Structural.range]
+    rw [FP.Structural.rangeInt]
     simp
   | succ fuel ih =>
     by_cases hc : c < p.K / p.BK
@@ -29,12 +29,12 @@ theorem loop_correct (rest : Algebra Word) (plans : PlanSelector)
       obtain ⟨final, he, hf⟩ := ih (c+1) next.val (by omega) (by omega)
         (bodyInvariant rest plans p initial current c h)
       refine ⟨final, ?_, hf⟩
-      rw [FP.Structural.range, if_neg (by decide), if_pos hc, next.property]
-      exact he
+      rw [FP.Structural.rangeInt, if_neg (by decide), if_pos (by exact_mod_cast hc), next.property]
+      simpa only [Int.natCast_add,Int.natCast_one] using he
     · have he : c = p.K / p.BK := by omega
       subst c
       refine ⟨current, ?_, h⟩
-      rw [FP.Structural.range]
+      rw [FP.Structural.rangeInt]
       simp
 
 def tailExecution (rest : Algebra Word) (plans : PlanSelector)
@@ -43,16 +43,16 @@ def tailExecution (rest : Algebra Word) (plans : PlanSelector)
     {t : State Word // run (engine rest plans) (tail p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [tail, source, TypedSource.original, ComputeKernel.surfaceBody,
+  simp [tail, source, TypedSource.original, VeriTile.Bench.Repairs.BatchedVecmatMult.sourceKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, Option.bind,
     store, h.offsets, h.carry, Region.cast]
   rfl
 
 theorem fold_write_memory (p : Parameters) (initial s : State Word)
     (values : TileIndex [p.BM,p.BN] → Word) (xs : List (TileIndex [p.BM,p.BN])) :
-    (xs.foldl (fun t i => t.write p.output (outputOffset p initial i) (.mk .real (values i))) s).mem =
+    (xs.foldl (fun t i => t.write p.output (outputOffset p initial i) (.mk .fp32 (values i))) s).mem =
       xs.foldl (fun mem i => fun r o => if r = p.output ∧ o = outputOffset p initial i then
-        .mk .real (values i) else mem r o) s.mem := by
+        .mk .fp32 (values i) else mem r o) s.mem := by
   induction xs generalizing s with
   | nil => rfl
   | cons i xs ih =>
@@ -66,7 +66,7 @@ theorem tail_memory (rest : Algebra Word) (plans : PlanSelector)
   simp only [tailExecution]
   change ((TileShape.allIndices [p.BM,p.BN]).foldl
     (fun t i => t.write p.output (outputOffset p initial i)
-      (.mk .real (accumulated plans p initial (p.K / p.BK) i))) current).mem = _
+      (.mk .fp32 (accumulated plans p initial (p.K / p.BK) i))) current).mem = _
   rw [fold_write_memory, h.memory]
   rfl
 
@@ -86,7 +86,9 @@ theorem complete_correct (rest : Algebra Word) (plans : PlanSelector)
     simp only [Option.bind_some, run, step, evalExpr, evalComputeOp, evalOp_unfold,
       bind, Option.bind]
     rw [hp.blocks]
-    simp only [hl]
+    simp only [bind,Option.bind]
+    simp only [Nat.cast_zero] at hl
+    rw [hl]
     exact final.property
   · intro r o ho
     rw [tail_memory]

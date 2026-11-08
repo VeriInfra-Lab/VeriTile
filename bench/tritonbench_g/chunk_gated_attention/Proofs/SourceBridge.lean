@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_gated_attention.SourceDefinitions
-import bench.tritonbench_g.chunk_gated_attention.Sources.RealSource
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Support.SourceDefinitions
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.RealSource
 
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly
 open VeriTile Triton

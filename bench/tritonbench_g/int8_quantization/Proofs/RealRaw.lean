@@ -59,7 +59,7 @@ theorem all_coordinates_raw (p : Parameters) (block : 0<p.blockRows)
 
 #axiomsClean per_block_int8_real_raw
 #axiomsClean all_coordinates_raw
-#specNonCircular totalOutput avoiding [source,FP.Structural.exec,Grid.model,quantized]
-#specNonCircular totalScale avoiding [source,FP.Structural.exec,Grid.model,savedScale]
+#specNonCircular totalOutput avoiding [sourceKernel,FP.Structural.exec,Grid.model,quantized]
+#specNonCircular totalScale avoiding [sourceKernel,FP.Structural.exec,Grid.model,savedScale]
 end
 end VeriTile.Bench.Repairs.Int8Quantization.Specification

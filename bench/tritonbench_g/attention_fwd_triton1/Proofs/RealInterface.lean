@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton1.RealIO
+import bench.tritonbench_g.attention_fwd_triton1.Proofs.Support.RealIO
 import bench.tritonbench_g.attention_fwd_triton1.Proofs.IOInterface
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked.RealIO

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.pow_scalar_tensor.Proofs.Control
 import VeriTile.Triton.Float.Loop
 import bench.tritonbench_g.pow_scalar_tensor.Proofs.Source
 import bench.tritonbench_g.pow_scalar_tensor.Proofs.Mathematical_WholeHost
@@ -18,15 +19,6 @@ def kernelIds (c : Parameters) (s : State α) : List Nat :=
   if c.oneTile then [s.pids 0]
   else (List.range c.tiles).map (fun j => s.pids 0 + j * s.numPids 0)
 
-private theorem range_assign [Inhabited α] (M : Algebra α)
-    (idx : RegName) (start stop stride : Nat) (name : RegName)
-    (e : Op dtype shape) (body : List ComputeStmt) (s : State α) :
-    FP.Structural.range M idx start stop stride (.assign dtype shape name (.alg e) :: body) s =
-      FP.Structural.range M idx start stop stride (.alg (.assign dtype shape name e) :: body) s := by
-  apply range_congr_on_reachable
-  intro cur t _ _ _
-  simp only [run,step,stepAlg,evalExpr]
-
 theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
     (candidate : Bool) (s : State α) :
     ∃ actualFinal flatFinal,
@@ -38,19 +30,18 @@ theorem kernel_execution [Inhabited α] (M : Algebra α) (c : Parameters)
       (tileOutput M (config c candidate)) (perTile c candidate) (tile_implementation M c candidate)
       c.n c.B c.tiles s
     refine ⟨actual,flat,?_,?_,obs⟩
-    · cases candidate <;>
-        simpa [sourceKernel,kernel,commutedKernel,branch,gridStrideKernel,gridStrideCommuted,
-          perTile,oneTileKernel,oneTileCommuted,FP.Structural.exec,StructuralControl.gridBody,
-          StructuralControl.loopBody,SourceForRange.tileIdStmt,SourceForRange.numTilesStmt,
-          ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric,range_assign] using ran
+    · rw [Control.source_run,Control.selected_layout]
+      simp only [branch,Bool.false_eq_true,if_false]
+      rw [Control.grid_run]
+      exact ran
     · simpa only [kernelIds,branch,Bool.false_eq_true,if_false] using flatRan
   · obtain ⟨actual,ran,obs⟩ := one_tile_execution M
       (tileOutput M (config c candidate)) (perTile c candidate) (tile_implementation M c candidate) c.n c.B s
     refine ⟨actual,flatState (tileOutput M (config c candidate)) (s.pids 0) s,?_,?_,obs⟩
-    · cases candidate <;>
-        simpa [sourceKernel,kernel,commutedKernel,branch,oneTileKernel,oneTileCommuted,perTile,
-          FP.Structural.exec,StructuralControl.oneTileBody,SourceForRange.numTilesStmt,
-          ComputeKernel.surfaceBody,run,step,stepAlg,evalExpr,evalOp_unfold,numeric] using ran
+    · rw [Control.source_run,Control.selected_layout]
+      simp only [branch,Bool.true_eq,if_true]
+      rw [Control.one_run]
+      exact ran
     · simp [kernelIds,branch,runTiles,flatTile]
 
 /-- Both actual integer-index variants succeed and agree on every memory

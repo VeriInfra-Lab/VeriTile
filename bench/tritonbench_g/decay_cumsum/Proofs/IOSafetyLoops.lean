@@ -86,47 +86,67 @@ termination_by p.span-n
     exact bounded "g" (by cases kind <;> simp [FPTile.inputs,FPTile.outputs,inputRegions,outputRegions])
       ⟨p.span-1,by omega⟩ j
   · intro start ran
-    have eq := Option.some.inj ((FPPrefix.executes M kind h p prog u hf hc hr).symm.trans ran)
+    have eq := Option.some.inj ((FPPrefix.executes M kind h p prog u hf hc hr (Or.inr positive)).symm.trans ran)
     subst start
     apply Safety.traceSafeList_cons_intro ?_ (by intro;intro;exact Safety.traceSafeList_nil _ _ _)
     cases kind
     case forward =>
       simp only [FPProgram.loopCode,forward_body,Safety.stepSafe_unfold,
         Safety.safeOp_unfold,evalOp_unfold,Option.bind_some,true_and]
-      apply Safety.rangeSafe_of_invariant (engine M) bounds "i" p.span 1 (forwardBody h)
-        (FPForward.Holds M h p prog u)
-      · intro n active current inv
-        apply forward_safe M h p prog u n _ (FPForward.bind_holds M h p prog u n current inv) bounds
-        · exact bounded "g" (by simp [FPTile.inputs,FPTile.outputs]) ⟨n,active⟩
-        · exact bounded "go" (by simp [FPTile.inputs,FPTile.outputs]) ⟨n,active⟩
-      · intro n active current inv next executed
-        obtain ⟨v,he,hv⟩ := FPForward.iteration M h p prog u n
-          (current.setReg "i" .nat [] (fun _ => n)) active (FPForward.bind_holds M h p prog u n current inv)
-        have eq := Option.some.inj (he.symm.trans executed)
+      apply Safety.rangeIntSafe_of_invariant (engine M) bounds "i" (p.span:Int) 1 (forwardBody h)
+        (fun q current => 0≤q ∧ FPForward.Holds M h p prog u q.toNat current)
+      · intro q active current ⟨nonneg,inv⟩
+        have castEq : (q.toNat:Int)=q := Int.toNat_of_nonneg nonneg
+        have activeNat : q.toNat<p.span := by omega
+        rw [←castEq]
+        apply forward_safe M h p prog u q.toNat _ (FPForward.bind_holds M h p prog u q.toNat current inv) bounds
+        · exact bounded "g" (by simp [FPTile.inputs,FPTile.outputs]) ⟨q.toNat,activeNat⟩
+        · exact bounded "go" (by simp [FPTile.inputs,FPTile.outputs]) ⟨q.toNat,activeNat⟩
+      · intro q active current ⟨nonneg,inv⟩ next executed
+        have castEq : (q.toNat:Int)=q := Int.toNat_of_nonneg nonneg
+        have activeNat : q.toNat<p.span := by omega
+        obtain ⟨v,he,hv⟩ := FPForward.iteration M h p prog u q.toNat
+          (current.setReg "i" .int [] (fun _ => Int.ofNat q.toNat)) activeNat
+          (FPForward.bind_holds M h p prog u q.toNat current inv)
+        have he' : run (engine M) (forwardBody h) (current.setReg "i" .int [] (fun _ => q))=some v := by
+          simpa only [Int.ofNat_eq_natCast,castEq] using he
+        have eq := Option.some.inj (he'.symm.trans executed)
         subst next
-        exact hv
-      · exact FPForward.initial_holds M h p prog u
+        refine ⟨by omega,?_⟩
+        have nextIndex : (q+1).toNat=q.toNat+1 := by omega
+        simpa only [Nat.cast_one,nextIndex] using hv
+      · exact ⟨by decide,FPForward.initial_holds M h p prog u⟩
     case prepare =>
       simp only [FPProgram.loopCode,prepare_body,Safety.stepSafe_unfold,
         Safety.safeOp_unfold,evalOp_unfold,Option.bind_some,true_and]
-      apply Safety.rangeSafe_of_invariant (engine M) bounds "i" p.span 1 (prepareBody h scale)
-        (FPPrepare.Holds M h p prog scale u)
-      · intro n active current inv
-        apply prepare_safe M h p prog scale u n _ (FPPrepare.bind_holds M h p prog scale u n current inv) bounds
-        all_goals exact bounded _ (by simp [FPTile.inputs,FPTile.outputs]) ⟨n,active⟩
-      · intro n active current inv next executed
-        obtain ⟨v,he,hv⟩ := FPPrepare.iteration M h p prog scale u n
-          (current.setReg "i" .nat [] (fun _ => n)) active (FPPrepare.bind_holds M h p prog scale u n current inv)
-        have eq := Option.some.inj (he.symm.trans executed)
+      apply Safety.rangeIntSafe_of_invariant (engine M) bounds "i" (p.span:Int) 1 (prepareBody h scale)
+        (fun q current => 0≤q ∧ FPPrepare.Holds M h p prog scale u q.toNat current)
+      · intro q active current ⟨nonneg,inv⟩
+        have castEq : (q.toNat:Int)=q := Int.toNat_of_nonneg nonneg
+        have activeNat : q.toNat<p.span := by omega
+        rw [←castEq]
+        apply prepare_safe M h p prog scale u q.toNat _ (FPPrepare.bind_holds M h p prog scale u q.toNat current inv) bounds
+        all_goals exact bounded _ (by simp [FPTile.inputs,FPTile.outputs]) ⟨q.toNat,activeNat⟩
+      · intro q active current ⟨nonneg,inv⟩ next executed
+        have castEq : (q.toNat:Int)=q := Int.toNat_of_nonneg nonneg
+        have activeNat : q.toNat<p.span := by omega
+        obtain ⟨v,he,hv⟩ := FPPrepare.iteration M h p prog scale u q.toNat
+          (current.setReg "i" .int [] (fun _ => Int.ofNat q.toNat)) activeNat
+          (FPPrepare.bind_holds M h p prog scale u q.toNat current inv)
+        have he' : run (engine M) (prepareBody h scale) (current.setReg "i" .int [] (fun _ => q))=some v := by
+          simpa only [Int.ofNat_eq_natCast,castEq] using he
+        have eq := Option.some.inj (he'.symm.trans executed)
         subst next
-        exact hv
-      · exact FPPrepare.initial_holds M h p positive prog scale u
+        refine ⟨by omega,?_⟩
+        have nextIndex : (q+1).toNat=q.toNat+1 := by omega
+        simpa only [Nat.cast_one,nextIndex] using hv
+      · exact ⟨by decide,FPPrepare.initial_holds M h p positive prog scale u⟩
     case backward =>
-      have hs : (0:Int)-(Int.ofNat p.span-1)=Int.ofNat 0-Int.ofNat (p.span-1) := by
+      have hs : (0:Int)-Int.ofNat (p.span-1)=Int.ofNat 0-Int.ofNat (p.span-1) := by
         simp only [Int.ofNat_eq_natCast];omega
       simp only [FPProgram.loopCode,backward_body,Safety.stepSafe_unfold,
         Safety.safeOp_unfold,evalOp_unfold,Option.bind_some,true_and]
-      change Safety.rangeIntSafe (engine M) bounds "__rev_j" ((0:Int)-(Int.ofNat p.span-1))
+      change Safety.rangeIntSafe (engine M) bounds "__rev_j" ((0:Int)-Int.ofNat (p.span-1))
         1 1 (backwardBody h p) (FPPrefix.initial M .backward h p prog u)
       rw [hs]
       exact backward_loop_safe M h p positive prog u 0 _ (initial_holds M h p positive prog u) bounds bounded

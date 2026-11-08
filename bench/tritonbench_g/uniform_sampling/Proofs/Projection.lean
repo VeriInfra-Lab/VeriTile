@@ -14,8 +14,8 @@ def source (swapped : Bool) (y : RegionName) (N : Nat) (seed offset : Int)
 
 def indexOp (swapped : Bool) (B : Nat) : Op .int [B] :=
   .add .int .scalarL
-    (if swapped then .mul .int .nil (.castNatToInt (.ref .nat [] "BLOCK_arg")) (.ref .int [] "pid")
-     else .mul .int .nil (.ref .int [] "pid") (.castNatToInt (.ref .nat [] "BLOCK_arg")))
+    (if swapped then .mul .int .nil (.castNatToInt (.ref .nat [] "BLOCK")) (.ref .int [] "pid")
+     else .mul .int .nil (.ref .int [] "pid") (.castNatToInt (.ref .nat [] "BLOCK")))
     (.ref .int [B] "lane")
 
 def indexStmt (swapped : Bool) (B : Nat) : ComputeStmt :=
@@ -30,7 +30,7 @@ theorem source_split (swapped : Bool) (y : RegionName) (N : Nat) (seed offset : 
 
 theorem index_step (B : Nat) {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
     step M (indexStmt Bool.false B) s = step M (indexStmt Bool.true B) s := by
-  cases hb : s.regs .nat [] "BLOCK_arg" <;>
+  cases hb : s.regs .nat [] "BLOCK" <;>
     cases hp : s.regs .int [] "pid" <;>
     cases hl : s.regs .int [B] "lane" <;>
     simp [indexStmt, indexOp, step, evalExpr, evalOp_unfold, hb, hp, hl, numeric]

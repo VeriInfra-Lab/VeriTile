@@ -15,7 +15,7 @@ def source (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : Kernel :=
   (kernel Bool.false os ol ns src dst B).eraseDType.toAlgKernel
 
 def body (os ol ns : Region .int) (src dst : RegionName) (B : Nat) : List Stmt :=
-  match ((source os ol ns src dst B).body[6]? : Option Stmt) with
+  match ((source os ol ns src dst B).body[9]? : Option Stmt) with
   | some (.forRangeInt _ _ _ _ b) => b
   | _ => []
 
@@ -50,7 +50,7 @@ theorem step (os ol ns : Region .int) (src dst : RegionName) (B : Nat)
     stepStmts (body os ol ns src dst B) s =
       some (scatter (B := B) (midState (B := B) s src length oldStart current) dst newStart current length
         (value s src length oldStart current)) := by
-  simp [body, source, kernel, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
+  simp [body, source, kernel,Source.bodyKernel,Source.commutedBodyPastedKernel, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.eraseDType,

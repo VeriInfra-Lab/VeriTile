@@ -1,6 +1,6 @@
 import bench.tritonbench_g.streamk_matmul.Proofs.EventOriginalDomain
 import bench.tritonbench_g.streamk_matmul.Proofs.EventCapacity
-import bench.tritonbench_g.streamk_matmul.ProgramView
+import bench.tritonbench_g.streamk_matmul.Proofs.Support.ProgramView
 
 namespace VeriTile.Bench.Repairs.StreamK.TileChecked.AreaEquivalence
 open Whole001 Source Reader VeriTile Triton

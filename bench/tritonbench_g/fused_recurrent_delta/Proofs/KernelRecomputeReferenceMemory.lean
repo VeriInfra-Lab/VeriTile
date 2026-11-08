@@ -56,7 +56,7 @@ theorem future (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : N
 theorem input_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial u : State α) (n : Nat) (same : u.mem=(memory M s f scale bh iv initial n).mem) :
     KernelBackwardReference.input M s f bh iv u=KernelBackwardReference.input M s f bh iv initial := by
-  simp only [KernelBackwardReference.input,KernelReference.read,same,
+  simp only [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,same,
     readonly M s f scale bh iv initial n "k" _ (by decide) (by decide),
     readonly M s f scale bh iv initial n "q" _ (by decide) (by decide),
     readonly M s f scale bh iv initial n "v" _ (by decide) (by decide),
@@ -72,7 +72,7 @@ theorem dk_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv
       (decide (i.val<s.K)))=(fun i : Fin s.BK => KernelReference.read M initial "dk"
         (keyAddress s (plane s bh iv) n i.val) (decide (i.val<s.K))) := by
     funext i
-    simp only [KernelReference.read,same]
+    simp only [KernelReference.read,KernelReference.loaded,same]
     by_cases active : i.val<s.K
     · rw [future M s f scale bh iv initial n n (Nat.le_refl _) i active]
     · simp [active]
@@ -80,7 +80,7 @@ theorem dk_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv
       (decide (iv*s.BBV+j.val<s.V)))=(fun j : Fin s.BBV => KernelReference.read M initial "dv"
         (valAddress s bh iv s.BBV n j.val) (decide (iv*s.BBV+j.val<s.V))) := by
     funext j
-    simp only [KernelReference.read,same,readonly M s f scale bh iv initial n "dv" _ (by decide) (by decide)]
+    simp only [KernelReference.read,KernelReference.loaded,same,readonly M s f scale bh iv initial n "dv" _ (by decide) (by decide)]
   simp only [KernelRecomputeValues.dk,corrected,hk,hv]
 
 theorem step_values (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)

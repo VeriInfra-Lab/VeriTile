@@ -19,12 +19,12 @@ theorem xhat_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : State �
     (stride N r j : Nat) : xhat m s stride N r j=if j<N then normalized s stride r j else 0 := by
   by_cases hj : j<N <;>
     simp [xhat,loaded,SourceGroupedGraph.inverse,normalized,row,savedMean,savedInverse,
-      laws.literal,laws.mul,laws.sub,laws.cast,laws.load,hj]
+      laws.literal,laws.integer,laws.load,laws.mul,laws.sub,laws.cast,laws.load,hj]
 
 theorem wdy_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : State ℝ)
     (stride N r j : Nat) : wdy m s stride N r j=if j<N then weightedDy s stride r j else 0 := by
   by_cases hj : j<N <;>
-    simp [wdy,loaded,weightedDy,row,weight,laws.literal,laws.mul,laws.cast,hj,mul_comm]
+    simp [wdy,loaded,weightedDy,row,weight,laws.literal,laws.integer,laws.load,laws.mul,laws.cast,hj,mul_comm]
 
 theorem first_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : State ℝ)
     (stride N B r : Nat) (hb : N≤B) :
@@ -37,14 +37,16 @@ theorem first_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : State 
   unfold first
   simp only [laws.div,laws.sum]
   simp only [hv]
-  rw [laws.literal,SourceForwardReal.padded_sum N B hb
+  rw [laws.integer,SourceForwardReal.padded_sum N B hb
     (fun j => weightedDy s stride r j*normalized s stride r j)]
+  simp only [Int.cast_natCast]
 
 theorem second_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : State ℝ)
     (stride N B r : Nat) (hb : N≤B) :
     second m s stride N B r=(∑ j ∈ Finset.range N,weightedDy s stride r j)/(N : ℝ) := by
-  simp only [second,laws.div,laws.sum,laws.literal,wdy_real m laws]
+  simp only [second,laws.div,laws.sum,laws.literal,laws.integer,laws.load,wdy_real m laws]
   rw [SourceForwardReal.padded_sum N B hb (weightedDy s stride r)]
+  simp only [Int.cast_natCast]
 
 theorem dx_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : State ℝ)
     (stride N B r j : Nat) (hb : N≤B) (hj : j<N) :
@@ -66,7 +68,7 @@ theorem nextCarries_real (m : Model ℝ) (laws : SourceForwardReal.Laws m) (s : 
     (nextCarries m s stride N B group r a).2 i=
       row s "DY" stride r i.1.val+(if r=group then 0 else a.2 i) := by
   by_cases hr : r=group <;>
-    simp [nextCarries,loaded,xhat_real m laws,hi,hr,laws.cast,laws.mul,laws.add,row]
+    simp [nextCarries,loaded,xhat_real m laws,hi,hr,laws.cast,laws.mul,laws.add,laws.load,row]
 
 #axiomsClean dx_real
 #axiomsClean nextCarries_real

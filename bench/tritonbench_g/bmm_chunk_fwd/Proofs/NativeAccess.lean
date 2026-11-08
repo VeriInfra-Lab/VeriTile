@@ -79,14 +79,14 @@ theorem a_inactive {α : Type} [Inhabited α] (o : FPSuccess.Ops α) (h : Host.C
     (c : Host.Config) (d : Coordinates) (q i e : Nat) (s : State α)
     (hm : SourceAccess.aMask h c d q i e=Bool.false) :
     SourceAccess.aValue o h c d q s i e=
-      o.scalar.cast (some .fp32) .real .real (o.scalar.literal (some .fp32) .real 0) := by
+      o.scalar.cast (some .fp32) .real .real (o.scalar.fp32Load (o.scalar.literal (some .fp32) .real 0)) := by
   simp only [SourceAccess.aValue,hm,Bool.false_eq_true,↓reduceIte]
 
 theorem b_inactive {α : Type} [Inhabited α] (o : FPSuccess.Ops α) (h : Host.Call)
     (c : Host.Config) (d : Coordinates) (q e j : Nat) (s : State α)
     (hm : SourceAccess.bMask h c d q e j=Bool.false) :
     SourceAccess.bValue o h c d q s e j=
-      o.scalar.cast (some .fp32) .real .real (o.scalar.literal (some .fp32) .real 0) := by
+      o.scalar.cast (some .fp32) .real .real (o.scalar.fp32Load (o.scalar.literal (some .fp32) .real 0)) := by
   simp only [SourceAccess.bValue,hm,Bool.false_eq_true,↓reduceIte]
 
 #axiomsClean masks

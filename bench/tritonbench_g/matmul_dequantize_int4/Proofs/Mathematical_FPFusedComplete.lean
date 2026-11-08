@@ -49,7 +49,7 @@ def epilogueExecution (M : Algebra Word) (D : DotAcc Word)
     {t : State Word // run (FPCompiled.backend M D) (FPCompiled.epilogue p) current = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp [FPCompiled.epilogue, FPCompiled.source, FPCompiled.typed, ComputeKernel.surfaceBody,
+  simp [FPCompiled.epilogue, FPCompiled.source, FPCompiled.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode,FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
     FP.Structural.bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
     FloatDType.numericDType, FloatDType.toTileDType,

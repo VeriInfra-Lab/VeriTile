@@ -16,7 +16,7 @@ theorem suffix_run {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
     ∃ final, run (backend M D) (suffix c) t = some final ∧
       final.mem = (outputMemory M D c s a).mem := by
   rcases c with ⟨storage,q,k,v,out,seq,blocks,offsets,counts,columns,sqz,sqh,sqm,sqk,skz,skh,skn,skk,svz,svh,svn,svk,soz,soh,som,sok,Z,H,T,NR,NS,NV,BM,BN,BD,scale⟩
-  cases storage <;> simp [suffix,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,
+  cases storage <;> simp [suffix,activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.Storage.tile,TypedSource.Storage.float,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,numericEq,backend,Region.cast,ofFloat,toFloat,store,
     h.output,h.normalizer,h.outptr,h.mask,outputPointer,outputMemory,show (0.0 : ℝ)=0 by norm_num]

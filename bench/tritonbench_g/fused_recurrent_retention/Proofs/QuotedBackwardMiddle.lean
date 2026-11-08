@@ -15,8 +15,8 @@ theorem backward_middle_values {α : Type} [Inhabited α] (a : Arithmetic α)
         (Program.backwardSecond (layout s b) backwardRegions seed final).before current = some entry ∧
       BackwardSecondInvariant a s b initial final pid 0 entry ∧ entry.mem=current.mem := by
   cases final <;>
-    simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,
-      ComputeKernel.surfaceBody,Source.dynamicRange?,run,step,FP.Structural.evalExpr,
+    simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,
+      ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
       natLt,integralFloorDiv,integralMod,Region.cast,layout,backwardRegions,
       h.scale,h.keyId,h.valueId,h.headId,h.localHead,h.beta,h.maskK,h.maskV,

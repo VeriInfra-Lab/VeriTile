@@ -56,8 +56,8 @@ theorem grid_correct (rest : Algebra ℝ) (p : Parameters)
     · simp [complete, hr]
     · simp [complete, Nat.not_lt.mpr hi]
 
-#specNonCircular ScaleCondition avoiding [source, kernel, scalar, executeProgram, execute]
-#specNonCircular Result avoiding [source, kernel, scalar, executeProgram, execute]
+#specNonCircular ScaleCondition avoiding [sourceKernel, kernel, scalar, executeProgram, execute]
+#specNonCircular Result avoiding [sourceKernel, kernel, scalar, executeProgram, execute]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

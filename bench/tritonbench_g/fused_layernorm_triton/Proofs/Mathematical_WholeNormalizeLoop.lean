@@ -28,7 +28,7 @@ theorem normalize_chunk_effect {α : Type} [Inhabited α] (M : Algebra α)
     (D B k row : Nat) (mean inverse : α)
     (hm : s.regs .real [1,1] "tmp3" = some (fun _ => mean))
     (hr : s.regs .real [1,1] "tmp10" = some (fun _ => inverse))
-    (hx : s.regs .nat [1,1] "x0" = some (fun _ => row)) :
+    (hx : s.regs .int [1,1] "x0" = some (fun _ => (row : Int))) :
     ∃ final, run (withEquality M equal32) (normalizeChunk X W Bias Y D B k) s = some final ∧
       NormalizeEffect M s final X W Bias Y D B k 1 row mean inverse := by
   obtain ⟨t, ht, hmem, hreg⟩ := normalize_chunk_run M equal32 s X W Bias Y D B k row mean inverse hm hr hx
@@ -56,7 +56,7 @@ theorem normalize_loop_run {α : Type} [Inhabited α] (M : Algebra α)
     (hX : X ≠ Y) (hW : W ≠ Y) (hBias : Bias ≠ Y)
     (hm : s.regs .real [1,1] "tmp3" = some (fun _ => mean))
     (hr : s.regs .real [1,1] "tmp10" = some (fun _ => inverse))
-    (hx : s.regs .nat [1,1] "x0" = some (fun _ => row)) :
+    (hx : s.regs .int [1,1] "x0" = some (fun _ => (row : Int))) :
     ∃ final, run (withEquality M equal32) (normalizeCode X W Bias Y D B start count) s = some final ∧
       NormalizeEffect M s final X W Bias Y D B start count row mean inverse := by
   induction count generalizing start s with
@@ -101,7 +101,7 @@ theorem normalize_whole_row {α : Type} [Inhabited α] (M : Algebra α)
     (hX : X ≠ Y) (hW : W ≠ Y) (hBias : Bias ≠ Y)
     (hm : s.regs .real [1,1] "tmp3" = some (fun _ => mean))
     (hr : s.regs .real [1,1] "tmp10" = some (fun _ => inverse))
-    (hx : s.regs .nat [1,1] "x0" = some (fun _ => row)) :
+    (hx : s.regs .int [1,1] "x0" = some (fun _ => (row : Int))) :
     ∃ final, run (withEquality M equal32) (normalizeCode X W Bias Y D B 0 (blockCount D B)) s = some final ∧
       NormalizeRegisters s final row mean inverse ∧
       (∀ col, col < D → final.mem Y (col + D * row) =
