@@ -34,11 +34,15 @@ tar --zstd -xf "$archives/lean.tar.zst" --strip-components=1 -C "$release_dir"
 
 retry download_release repos/digama0/leangz/releases/assets/343278048 \
   46564c5a15b0a5919dee06b246ac1297399968c828269f675212104d7d1ac445 "$archives/leantar.tar.gz"
-tar -xzf "$archives/leantar.tar.gz" --strip-components=1 -C "$release_dir/bin"
+tar -xzf "$archives/leantar.tar.gz" --strip-components=1 -C "$archives"
+export MATHLIB_CACHE_DIR=${MATHLIB_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/mathlib}
+mkdir -p "$MATHLIB_CACHE_DIR"
+install -m 0755 "$archives/leantar" "$MATHLIB_CACHE_DIR/leantar-0.1.17"
 
 export PATH="$release_dir/bin:$PATH"
 export MATHLIB_CACHE_GET_URL=${MATHLIB_CACHE_GET_URL:-https://cache.mathlib.org/mathlib4}
 lean --version
+"$MATHLIB_CACHE_DIR/leantar-0.1.17" --version
 retry lake exe cache get
 read -r -a build_targets <<< "$VERITILE_BUILD_ARGS"
 lake build "${build_targets[@]}"
