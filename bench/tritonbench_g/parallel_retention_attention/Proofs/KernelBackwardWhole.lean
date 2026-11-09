@@ -1,5 +1,6 @@
 /- Reuses the historical complete retention execution proof, adapted only
 to this repair's explicit zero-padded source and task-local namespace. -/
+import VeriTile.Triton.Float.MaskedScatter
 import bench.tritonbench_g.parallel_retention_attention.Proofs.BackwardPrefix
 import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.Sources.Mathematical_FPStages
 namespace VeriTile.Bench.Repairs.ParallelRetentionAttention.Kernel.FPStages
@@ -11,16 +12,11 @@ set_option maxHeartbeats 8000000
 set_option maxRecDepth 30000
 set_option linter.unusedSimpArgs false
 
-/- Local copy of the only extra register-frame lemma formerly obtained via
-the unrelated complete parallel-attention forward theorem. -/
+/-- Compatibility entry for the register frame of the masked stores. -/
 @[simp] theorem masked_scatter_regs {α ι : Type} (R : RegionName) (off : ι → Nat)
     (active : ι → Prop) [DecidablePred active] (value : ι → Cell α) (l : List ι) (s : State α) :
-    (l.foldl (fun t i => if active i then t.write R (off i) (value i) else t) s).regs = s.regs := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    rw [List.foldl_cons, ih]
-    split <;> rfl
+    (l.foldl (fun t i => if active i then t.write R (off i) (value i) else t) s).regs = s.regs :=
+  State.masked_scatter_regs l active R off value s
 
 def backwardMiddle (c : BackwardConfig) := ((backwardKernel c).surfaceBody.drop 44).take 7
 def backwardSuffix (c : BackwardConfig) := (backwardKernel c).surfaceBody.drop 52
