@@ -16,7 +16,7 @@ def indexCommuted (p : Layout) : Program where
   domain := []
 
 theorem equivalent (p : Layout) : original p ≡[assumptions] indexCommuted p := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 /-- Exact integer-prefix execution equality composes with the unchanged
 remainder, so it also transports successful complete execution. -/

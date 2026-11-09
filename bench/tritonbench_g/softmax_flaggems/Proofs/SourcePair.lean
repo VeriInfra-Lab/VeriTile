@@ -12,22 +12,22 @@ set_option maxRecDepth 30000
 theorem forward_noninner_equivalent (X Y : RegionName) (M N K B C : Nat) (one : Bool) :
     program (forward_noninner Y X M N K B C one) ≡[assumptions]
       program (AddressCandidate.forward_noninner Y X M N K B C one) := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 theorem forward_inner_equivalent (X Y : RegionName) (M N B : Nat) (one : Bool) :
     program (forward_inner Y X M N B one) ≡[assumptions]
       program (AddressCandidate.forward_inner Y X M N B one) := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 theorem backward_noninner_equivalent (P G Y : RegionName) (M N K B C : Nat) (one : Bool) :
     program (backward_noninner P G Y M N K B C one) ≡[assumptions]
       program (AddressCandidate.backward_noninner P G Y M N K B C one) := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 theorem backward_inner_equivalent (P G Y : RegionName) (M N B C : Nat) (one : Bool) :
     program (backward_inner P G Y M N B C one) ≡[assumptions]
       program (AddressCandidate.backward_inner P G Y M N B C one) := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 theorem forward_equivalent (X Y : RegionName) (d : Dimensions) (c : LaunchConfig) :
     forwardOriginal X Y d c ≡[assumptions] forwardAddressCommuted X Y d c := by

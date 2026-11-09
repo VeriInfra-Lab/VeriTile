@@ -9,7 +9,7 @@ open scoped VeriTile.Spec
 binding. The sole change is Nat multiplication; no FP rewrite is introduced. -/
 theorem equivalent (p : Source.Parameters) (back : Bool) :
     original p back ≡[assumptions] indexCommutedKernel p back := by
-  cases back <;> unfold original indexCommutedKernel assumptions <;> equiv_decompose <;> fp_prove
+  cases back <;> unfold original indexCommutedKernel assumptions <;> split_equiv <;> solve_fp
 
 #axiomsClean equivalent
 end VeriTile.Bench.Repairs.RopeEmbedding.PairProof

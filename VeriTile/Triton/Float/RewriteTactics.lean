@@ -3,7 +3,7 @@ import VeriTile.Triton.Float.BranchRewrite
 
 /-! Optional semantic adapter for contextual program rewrites. Decomposition
 only compares source statements and retains their prefixes. Numerical steps
-are discharged separately by fp_prove using checked contextual lemmas. -/
+are discharged separately by solve_fp using checked contextual lemmas. -/
 namespace VeriTile.Triton.FP.RewriteTactics
 open Lean Meta Elab Tactic
 open VeriTile.Meta.EquivDecompose
@@ -94,7 +94,7 @@ private def contextPlan (lhs rhs : Expr) : MetaM (Option (Name × Nat)) := do
 
 /-- Descend through ranges and matching conditional arms only when the declared
 site supplies that execution context's guard. Numerical obligations remain for
-fp_prove; this traversal does not manufacture conditions or rewrite a test. -/
+solve_fp; this traversal does not manufacture conditions or rewrite a test. -/
 private partial def contexts (goal : MVarId) (reverse : Bool := false) : MetaM (List MVarId) := goal.withContext do
   let target ← instantiateMVars (← goal.getType)
   unless target.isAppOfArity ``ProfiledRewrite.Contextual 8 do return [goal]
@@ -153,10 +153,13 @@ private def decompose (kernelField domainField contextual : Name) (goal : MVarId
 /-- Prove later differences first, so each numerical guard still refers to
 the original program prefix. This changes proof composition order only;
 source execution order, suffixes and all domain obligations are preserved. -/
-syntax "equiv_decompose" " (" "reverse" " := " &"true" ")" : tactic
+syntax "split_equiv" " (" "reverse" " := " &"true" ")" : tactic
+
+macro "equiv_decompose" " (" "reverse" " := " &"true" ")" : tactic =>
+  `(tactic| split_equiv (reverse := true))
 
 elab_rules : tactic
-  | `(tactic| equiv_decompose (reverse := true)) => do
+  | `(tactic| split_equiv (reverse := true)) => do
     let goal ← getMainGoal
     goal.withContext do
       let target ← whnf (← goal.getType)
@@ -170,7 +173,7 @@ elab_rules : tactic
       else throwUnsupportedSyntax
 
 elab_rules : tactic
-  | `(tactic| equiv_decompose) => do
+  | `(tactic| split_equiv) => do
     let goal ← getMainGoal
     goal.withContext do
       let target ← whnf (← goal.getType)

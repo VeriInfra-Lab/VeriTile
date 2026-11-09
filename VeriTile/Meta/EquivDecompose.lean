@@ -2,7 +2,7 @@ import Lean
 import VeriTile.Spec
 
 /-!
-`equiv_decompose` exposes local differences in sequential program equivalence.
+`split_equiv` exposes local differences in sequential program equivalence.
 It uses only definitional equality and the existing syntax composition rules;
 it does not inspect numerical atoms. Signature and context obligations remain
 visible when they are not definitionally true. Changed loops, branches, casts
@@ -151,16 +151,23 @@ def decompose (goal : MVarId) (splitChanges : Bool) : MetaM (List MVarId) := goa
       if !(← trivial? child) then
         remaining := remaining ++ (← decomposeList child splitChanges)
     return remaining
-  throwError "equiv_decompose expects program equivalence or a syntax derivation"
+  throwError "split_equiv expects program equivalence or a syntax derivation"
 
 /-- Expose changed fragments; `(split := false)` keeps adjacent changes together. -/
-syntax (name := equivDecompose) "equiv_decompose" : tactic
-syntax (name := equivDecomposeSplit) "equiv_decompose" " (" "split" " := "
+syntax (name := equivDecompose) "split_equiv" : tactic
+syntax (name := equivDecomposeSplit) "split_equiv" " (" "split" " := "
   (&"true" <|> &"false") ")" : tactic
 
 elab_rules : tactic
-  | `(tactic| equiv_decompose) => liftMetaTactic fun goal => decompose goal true
-  | `(tactic| equiv_decompose (split := true)) => liftMetaTactic fun goal => decompose goal true
-  | `(tactic| equiv_decompose (split := false)) => liftMetaTactic fun goal => decompose goal false
+  | `(tactic| split_equiv) => liftMetaTactic fun goal => decompose goal true
+  | `(tactic| split_equiv (split := true)) => liftMetaTactic fun goal => decompose goal true
+  | `(tactic| split_equiv (split := false)) => liftMetaTactic fun goal => decompose goal false
+
+-- Existing proof scripts may keep the previous spelling.
+macro "equiv_decompose" : tactic => `(tactic| split_equiv)
+macro "equiv_decompose" " (" "split" " := " &"true" ")" : tactic =>
+  `(tactic| split_equiv (split := true))
+macro "equiv_decompose" " (" "split" " := " &"false" ")" : tactic =>
+  `(tactic| split_equiv (split := false))
 
 end VeriTile.Meta.EquivDecompose

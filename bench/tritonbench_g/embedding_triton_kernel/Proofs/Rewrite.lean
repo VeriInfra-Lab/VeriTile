@@ -20,7 +20,7 @@ def indexCommuted (p : Parameters) : Program where
 /-- The actual integer-product variant preserves the entire typed execution,
 including all iterations, memory, registers and any failure. -/
 theorem equivalent (p : Parameters) : original p ≡[assumptions] indexCommuted p := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 /-- Direct whole-state equality for every algebra, so constructive success
 can be transported without introducing a numerical-model premise. -/

@@ -55,7 +55,7 @@ theorem equivalent :
     original dtype out_dtype input o head time feature T S BT BS BH base
       ≡[([] : Spec.Assumptions FP.GuardedFragment)]
     candidate dtype out_dtype input o head time feature T S BT BS BH base := by
-  equiv_decompose
+  split_equiv
   apply contextual_if_unconditional
   intro t
   change Contextual M t

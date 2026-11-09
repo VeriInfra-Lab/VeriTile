@@ -24,7 +24,7 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (indexStmt Bool.false R) (indexStmt Bool.true R)
   unfold indexStmt
   simp only [Bool.false_eq_true, ↓reduceIte]
-  fp_prove
+  solve_fp
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

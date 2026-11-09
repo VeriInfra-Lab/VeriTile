@@ -23,7 +23,7 @@ row address. The complete floating program remains in its original context. -/
 theorem equivalent (Y X : RegionName) (ib ob ir ic orow oc N B : Nat) :
     program (softmax_kernel Y X ib ob ir ic orow oc N B) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       program (indexCommutedKernel Y X ib ob ir ic orow oc N B) := by
-  equiv_decompose; fp_prove
+  split_equiv; solve_fp
 
 theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     (Y X : RegionName) (ib ob ir ic orow oc N B : Nat) (s : FP.Structural.State A) :
@@ -35,7 +35,7 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
   have h : Contextual algebra s (original.take 1) (original.drop 2)
       (original.getD 1 (.ifThen (.constBool Bool.false) []))
       (candidate.getD 1 (.ifThen (.constBool Bool.false) [])) := by
-    fp_prove
+    solve_fp
   exact h
 
 #axiomsClean equivalent

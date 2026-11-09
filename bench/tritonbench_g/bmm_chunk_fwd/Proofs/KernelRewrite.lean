@@ -15,7 +15,7 @@ The complete floating program remains in its original context. -/
 theorem equivalent (h : Host.Call) (c : Host.Config) :
     program (Kernels.fp32Source h c) ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       program (Kernels.indexCommutedKernel h c) := by
-  equiv_decompose; fp_prove
+  split_equiv; solve_fp
 
 theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
     (h : Host.Call) (c : Host.Config) (s : FP.Structural.State A) :
@@ -28,7 +28,7 @@ theorem execution {A : Type} [Inhabited A] (algebra : FP.Structural.Algebra A)
       (.mul .int .nil (.ref .int [] "pid_c") (.castNatToInt (.constNat h.shape.groups))))))
     (.assign .int [] "pid_h" (.alg (.sub .int .nil (.ref .int [] "pid_ch")
       (.mul .int .nil (.castNatToInt (.constNat h.shape.groups)) (.ref .int [] "pid_c")))))
-  fp_prove
+  solve_fp
 
 #axiomsClean equivalent
 #axiomsClean execution
