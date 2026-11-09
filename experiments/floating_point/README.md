@@ -4,10 +4,63 @@ For additional basic relations, use the
 [supplemental experiment instructions](supplement/README.md).
 Both catalogues use local-ULP mean bias and a ratio of peak absolute oracle errors.
 
-The bias protocol pools IID scalar instances into one mean per replicate in local ULPs.
-The magnitude gate compares peak absolute oracle errors without ULP normalization.
-The published tables use fresh GPU samples from this protocol and independent CPU
-replay. Their recorded source hashes bind the sampling and aggregation semantics.
+The published tables use replicate means in local ULPs and a peak-error ratio
+with tail fitting. Their recorded source hashes bind the sampling and
+aggregation semantics. Use the fixed-batch entry below for new paper runs.
+
+## Paper fixed-batch protocol
+
+`scripts/check_numerics_paper.py` runs one fixed batch per rule and format on
+an NVIDIA CUDA GPU. The two gates share the in-domain lanes where reference,
+candidate and oracle are all finite. The bias gate requires
+`abs(mean) + 5 * sample_std / sqrt(n) <= tau` over individual signed ULP
+shifts, with sample variance using `n - 1`. The magnitude gate requires
+`candidate_peak <= 10 * reference_peak` in absolute output units. The peaks
+can come from different lanes. A zero candidate peak gives ratio zero, and
+a positive candidate peak against zero reference error gives infinity.
+Fewer than two retained samples give `INCONCLUSIVE`.
+
+Install the CUDA experiment dependencies with
+`python3 -m pip install -r experiments/floating_point/requirements.txt`.
+Check the effective protocol, run a small smoke batch, and run the experiment
+with a fresh output directory.
+
+```bash
+python3 scripts/check_numerics_paper.py check
+python3 scripts/check_numerics_paper.py run --smoke --rules ADD-ASSOC --formats fp32 --output Logs/paper-smoke
+python3 scripts/check_numerics_paper.py run --output Logs/paper-primary
+python3 scripts/check_numerics_paper.py run --catalog supplement --output Logs/paper-supplement
+```
+
+Use `--profile` for a specific primary or supplemental profile, and
+`--rules` or `--formats` to select the experiment rows. The batch size is the
+product of the configured `shape` dimensions, by default `4096×4096`.
+The fixed-batch decision reads `gates.bias.tau` from the profile, by default
+`0.05 ULP`. Replicate and tail fields are carried in the profile for compatibility
+with existing configuration files. The effective settings are in the manifest's
+`protocol` section. For ULP lookup at a finite oracle outside the output range,
+use the inward spacing at the largest finite value in that format. Oracle errors
+still use the original value. The FP64-work division profile retains its
+compiled residual oracle.
+
+Copy the entire output directory to a checkout of the same source revision.
+Replay the gates on CPU with the NumPy version recorded in the manifest.
+
+```bash
+python3 scripts/check_numerics_paper.py import Logs/paper-primary --output Logs/paper-primary.json
+python3 scripts/check_numerics_paper.py import Logs/paper-supplement --output Logs/paper-supplement.json
+```
+
+The `paper-two-gates-v1` bundle stores signed per-lane ULP shifts, the two
+peak oracle errors, sample counts, PTX and source hashes. Replay recomputes
+the decision from those observations and reports domain exclusions, nonfinite
+exclusions, and both gate results per row. Smoke rows stay out of `accepted`.
+Repeat the same GPU command with `--resume` to retain verified rows and rerun
+unfinished or errored rows. Keep bundles under `Logs/` or outside the repository.
+The JSON report is for review of the new measurements. The existing Lean
+admission exporters consume the historical report formats described below.
+
+## GPU run and result return for the replicate protocol
 
 Edit [config.py](config.py), check atomic expression pairs with Triton kernels on an NVIDIA GPU,
 then import the result directory on the development machine (Python + NumPy).
@@ -16,8 +69,6 @@ The importer recomputes both gates instead of trusting PASS labels.
 The runner saves paired kernel observations and compiled PTX. CPU replay checks
 the bundle and computes the numerical admission table. Lean integration is
 described in [FloatingPointPrimitives.md](../../documents/FloatingPointPrimitives.md).
-
-## GPU run and result return
 
 Check out the same experiment revision on both machines. Use Linux
 with an NVIDIA CUDA GPU. For a fresh Python 3.11–3.13 virtual environment:
