@@ -44,15 +44,15 @@ theorem history_storage (BT BK BV : Nat) (gateK initial final : Bool) :
     ((loop BT BK BV gateK initial final).body.drop
       (Source.prefixBeforeStore (loop BT BK BV gateK initial final).body).length).head? = some
       (.store .fp32 [BK,BV] (.blockPtr (.ref .blockPtr [BK,BV] "p_h") [0,1])
-        (.alg (.castFloat .fp32 .fp32 (.withPrecision .fp32 .fp32
-          (.castFloat .real .fp32 (.ref .real [BK,BV] "b_h"))))) .none) := rfl
+        (.alg (.castFloat .real .fp32 (.withPrecision .real .fp32
+          (.ref .real [BK,BV] "b_h")))) .none) := rfl
 
 theorem final_storage (BT BK BV : Nat) (gateK initial final : Bool) :
     ((finalBranch BT BK BV gateK initial final).yes.drop
       (Source.prefixBeforeStore (finalBranch BT BK BV gateK initial final).yes).length).head? = some
       (.store .fp32 [BK,BV] (.blockPtr (.ref .blockPtr [BK,BV] "p_h") [0,1])
-        (.alg (.castFloat .fp32 .fp32 (.withPrecision .fp32 .fp32
-          (.castFloat .real .fp32 (.ref .real [BK,BV] "b_h"))))) .none) := rfl
+        (.alg (.castFloat .real .fp32 (.withPrecision .real .fp32
+          (.ref .real [BK,BV] "b_h")))) .none) := rfl
 
 /-- Repaired endpoint: rebased pointer, native offsets exactly zero. -/
 theorem key_endpoint (BT BK BV : Nat) (gateK initial final : Bool) :
