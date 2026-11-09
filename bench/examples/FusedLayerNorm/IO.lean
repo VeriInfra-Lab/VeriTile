@@ -49,21 +49,14 @@ def fusedIO (N stride : Nat) (ε : ℝ) : KernelIO₃ where
 
 end VeriTile.Bench.Examples.FusedLayerNormCorrect
 
-namespace VeriTile.Bench.Examples.FusedLayerNormFPEquiv
+namespace VeriTile.Bench.Examples.LayerNormFPExecution
 
 open VeriTile.Bench.Examples.FusedLayerNorm.Kernels
 
-open VeriTile Triton FP.Structural FP.CountConversion
+open VeriTile Triton
 
-open _root_.VeriTile.Triton.FP.Equational (ReductionPlan)
-
-open scoped VeriTile.Spec
-
-open _root_.VeriTile.Triton.FP.Equational (Schedules)
-
-/-- Declare the three public input ports once each. The DSL's metadata lists
-each antiquoted load occurrence, including the fused kernel's second x read;
-the explicit IO declaration preserves the entire original statement body. -/
+/-- Bind each input port once. The fused source reads `x` again for the affine
+output and uses the same port and layout for both reads. -/
 def twopassIO (x g b y : RegionName) (N stride : Nat) (ε : ℝ) : KernelIO₃ where
   kernel := .mk [x, g, b] [y] (twoPassLayerNormKernel x g b y N stride ε).surfaceBody
   in1 := x
@@ -82,5 +75,12 @@ def twopassIO (x g b y : RegionName) (N stride : Nat) (ε : ℝ) : KernelIO₃ w
 def fusedIO (x g b y : RegionName) (N stride : Nat) (ε : ℝ) : KernelIO₃ :=
   (twopassIO x g b y N stride ε).withKernel
     (.mk [x, g, b] [y] (fusedLayerNormKernel x g b y N stride ε).surfaceBody)
+
+end VeriTile.Bench.Examples.LayerNormFPExecution
+
+namespace VeriTile.Bench.Examples.FusedLayerNormFPEquiv
+
+abbrev twopassIO := LayerNormFPExecution.twopassIO
+abbrev fusedIO := LayerNormFPExecution.fusedIO
 
 end VeriTile.Bench.Examples.FusedLayerNormFPEquiv

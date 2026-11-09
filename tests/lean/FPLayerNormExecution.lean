@@ -24,6 +24,7 @@ example (x g b y : RegionName) (N stride : Nat) (ε : ℝ) :
 -- The loop's memory preservation makes the second read sound even in-place;
 -- the execution theorem needs no disjointness assumption on the input ports.
 example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat) (ε : ℝ)
+    (hWord : N < 2^64)
     (xs gs bs : Fin N → α) (s : State α)
     (hx : ∀ i : Fin N, (s.mem "x" (s.pids 0 * stride + i.val)).read .real = xs i)
     (hg : ∀ i : Fin N, (s.mem "gamma" i.val).read .real = gs i)
@@ -33,7 +34,7 @@ example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat) (ε : ℝ)
         .mk .bf16 (outputValue M ε (xs i) (gs i) (bs i)
           (WelfordFPExecution.recurrence M xs N).1 (onlineVariance M xs))) ∧
       (∀ (r : RegionName) o, (r ≠ "x" ∨ ∀ i : Fin N, o ≠ s.pids 0 * stride + i.val) → t.mem r o = s.mem r o) :=
-  fused_run M "x" "gamma" "beta" "x" stride ε xs gs bs s hx hg hb
+  fused_run M "x" "gamma" "beta" "x" stride ε xs gs bs s hWord hx hg hb
 
 private noncomputable def model : Algebra ℚ where
   literal := fun _ _ r => if r = 0 then 0 else 1
