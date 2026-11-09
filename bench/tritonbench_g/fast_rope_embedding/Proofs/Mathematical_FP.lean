@@ -18,7 +18,7 @@ theorem equivalent (input cosine sine : Storage) (Q C S : RegionName)
     (QR CR SR seq H heads B : Nat) (backwards : Bool) :
     program input cosine sine Bool.false Q C S QR CR SR seq H heads B backwards ≡[assumptions]
     program input cosine sine Bool.true Q C S QR CR SR seq H heads B backwards := by
-  cases input <;> cases cosine <;> cases sine <;> cases backwards <;> equiv_decompose <;> fp_prove
+  cases input <;> cases cosine <;> cases sine <;> cases backwards <;> split_equiv <;> solve_fp
 
 #print_fp_assumptions equivalent
 #guard_msgs (drop info) in

@@ -33,7 +33,7 @@ def loadFirstProgram (dtype : FloatDType) (A A2 : RegionName) (T BT BC NK : Nat)
 theorem merge_equiv (dtype : FloatDType) (A A2 : RegionName) (T BT BC NK : Nat)
     (R : Spec.Assumptions FP.GuardedFragment) :
     originalProgram dtype A A2 T BT BC NK ≡[R] loadFirstProgram dtype A A2 T BT BC NK := by
-  equiv_decompose; fp_prove
+  split_equiv; solve_fp
 
 #print_fp_assumptions merge_equiv
 #guard_msgs (drop info) in

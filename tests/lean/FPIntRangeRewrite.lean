@@ -22,8 +22,8 @@ private def program (swapped : Bool) (start stop : Int) (stride : Nat) : Program
 
 theorem signed_loop_equiv (R : FP.ScalarArithmetic.Rules) (start stop : Int) (stride : Nat) :
     program false start stop stride ≡[R] program true start stop stride := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by signed_loop_equiv:
 ---
@@ -49,8 +49,8 @@ private def padded (swapped : Bool) : Program := ⟨.mk [] [] (code swapped), lo
 
 theorem insertions_keep_signed_context (R : FP.ScalarArithmetic.Rules) :
     padded false ≡[R] padded true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 private def nested (swapped : Bool) (selected : Bool) : Program where
   kernel := .mk [] [] [.ifThen (.constBool selected)
@@ -62,38 +62,38 @@ private def nested (swapped : Bool) (selected : Bool) : Program where
 
 theorem nested_signed_loop (R : FP.ScalarArithmetic.Rules) (selected : Bool) :
     nested false selected ≡[R] nested true selected := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 set_option linter.unusedVariables false in
 example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program false (-2) 1 1 with domain := [] } : Program) ≡[R]
         ({ program true (-2) 1 1 with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ program false (-2) 1 1 with domain := [inner] } : Program) ≡[R]
         ({ program true (-2) 1 1 with domain := [inner] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : program false (-2) 1 1 ≡[R]
         ({ program true 0 1 1 with domain := [site (-2) 1 1] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ padded false with domain := [site (-2) 1 1] } : Program) ≡[R]
         ({ padded true with domain := [site (-2) 1 1] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   let natural := Site.range [] "i" (.constNat 0) (.constNat 1) (.constNat 1)
     (body false) inner
   fail_if_success
     have : ({ program false (-2) 1 1 with domain := [natural] } : Program) ≡[R]
         ({ program true (-2) 1 1 with domain := [natural] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 private def model : Algebra Nat where

@@ -78,18 +78,18 @@ then run:
 git clone https://github.com/VeriInfra-Lab/VeriTile.git
 cd VeriTile
 lake exe cache get
-lake build
-lake env lean bench/examples/VectorAdd/Correct.lean
+lake build bench.examples.VectorAdd.RealCorrect bench.examples.VectorAdd.FPEquiv
+lake env lean bench/examples/VectorAdd/RealCorrect.lean
 ```
 
 The repository pins the Lean and Mathlib versions. The cache command downloads
-precompiled dependencies; `lake build` builds the default library target.
+precompiled dependencies; `lake build` builds the example and its dependencies.
 The last command compiles the complete vector-add example and checks its
 proofs in Lean. For the additional official comparator audit, follow the
 [verification setup](scripts/README.md#setup). An agent CLI is optional.
 
-The steps below outline how to write a new kernel; the proof sketch uses
-`...` where the linked complete example supplies the proof.
+The steps below show the vector-add body and its public real-correctness
+specification from the complete example.
 
 ### 1. Write a `ComputeKernel`
 
@@ -97,14 +97,31 @@ Kernels are region-polymorphic: memory regions arrive as `RegionName`
 parameters; `tl.load` / `tl.store` use first-class pointer expressions.
 
 ```lean
-def addKernel (xReg yReg outReg : RegionName) (n : Nat) : ComputeKernel := triton {
-  pid     = tl.program_id(0)
-  offsets = pid * $(n) + tl.arange(0, $(n))
-  x       = tl.load($(xReg) + offsets)
-  y       = tl.load($(yReg) + offsets)
-  tl.store($(outReg) + offsets, x + y)
-}
+import VeriTile.Triton.DSL.CallSignature
+open VeriTile Triton
+
+def callSignature : CallSignature where
+  pointers := [("x_ptr", .fp32), ("y_ptr", .fp32), ("out_ptr", .fp32)]
+  scalars := []
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["x_ptr", "y_ptr"]
+  writePorts := ["out_ptr"]
+
+def addKernel (x_ptr y_ptr out_ptr : RegionName) (BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call callSignature call_args [] in triton {
+    pid = tl.program_id(0)
+    offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    x = tl.load(x_ptr + offsets)
+    y = tl.load(y_ptr + offsets)
+    output = x + y
+    tl.store(out_ptr + offsets, output)
+  }
 ```
+
+The body copies the registered [Python function](bench/examples/VectorAdd/VectorAdd.py).
+Pointer types and constexpr parameters stay outside it. Reusable bodies use
+`def nameSource : SourceProcedure := with_triton_params ... in triton { ... }`;
+see the [source-authoring standard](AGENTS.md#kernel-源码与文件职责).
 
 ### 2. Choose a theorem surface
 
@@ -112,42 +129,44 @@ For new public headlines, express correctness against the mathematical formula
 in real semantics (`Spec.Real`); use `lhs ≡[R] rhs` in the `VeriTile.Spec` scope
 for implementation equivalence derived from two-gates-admitted atomic rules. Both keep the `specification` keyword.
 After importing `VeriTile.Meta.StatementAudit`, `#print_fp_assumptions name`
-shows only the atomic assumptions referenced by an FP proof. The existing proof vocabulary below
-retains its original mathematical/abstract-rounding meaning.
+reports the experimental assumptions and strict model certificates used by the proof.
 
 | Goal | Use |
 |---|---|
-| One kernel matches an output spec | `ComputeCorrect.Realizes_without_Rounding` |
-| One kernel refines another (writes-equality) | `ComputeRefine.Refines` |
-| Two kernels agree pointwise per address | `ComputeRefine.RefinesAt` |
-| Single kernel / pairs under a rounding model (narrow-float) | `ComputeRefine.Realizes` / `Refines` / `RefinesAt` |
-| Value + index output (e.g. `tl.max(..., return_indices=True)`) | `ComputeCorrect.OutputPairWhere` |
-| Custom postcondition over the final state | `ComputeCorrect.Post` / `ComputeRefine.Post` |
-| Relation over arbitrary initial states (rare) | `ComputeCorrect.General` / `ComputeRefine.General` |
+| Kernel matches an independent mathematical formula | `Spec.Real (io ⊨ fun ... => formula)` |
+| Original and candidate implementations are equivalent under rules `R` | `original ≡[R] candidate` |
 
 Full surface guide: [CorrectnessSurfaces.md](documents/CorrectnessSurfaces.md).
 
-### 3. Prove via the projected algorithm
+### 3. State and prove the public specification
+
+The example's `IO.lean` binds the input/output windows. Its `Proofs/Real.lean`
+provides execution, safety and frame lemmas used by `RealCorrect.lean`:
 
 ```lean
-theorem add_kernel_correct
-    (xReg yReg outReg : RegionName) (n : Nat) (hN : 0 < n)
-    (s : BlockState) (xs ys : Fin n → ℝ)
-    (h_x : TensorView.loadedArray s (programTileView s xReg n) xs)
-    (h_y : TensorView.loadedArray s (programTileView s yReg n) ys) :
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := addKernel xReg yReg outReg n)
-      (initialState := s)
-      (write := fun i : Fin n => some (outReg, s.pid * n + i.val))
-      (expected := fun i => xs i + ys i) := by
-  -- bridge to the projected algorithm kernel, then close on Real semantics
-  ...
+import bench.examples.VectorAdd.IO
+import bench.examples.VectorAdd.Proofs.Real
+open VeriTile Triton
+open VeriTile.Bench.Examples.VectorAdd
+open scoped VeriTile.Triton.KernelIO₂
+
+specification add_kernel_correctness (B : Nat) (hB : 0 < B) :
+    Spec.Real (addIO B ⊨ fun xs ys i => xs i + ys i) := by
+  refine KernelIO₂.Implements.intro _ ?_ ?_ ?_
+  · exact addKernel_flattenOk "x" "y" "out" B
+  · intro bounds s h1 h2 h3
+    exact addKernel_traceSafe "x" "y" "out" B bounds s h1 h2 h3
+  · intro s₀ xs ys hx hy
+    exact addKernel_region_run B hB s₀ xs ys hx hy
 ```
 
 The standard pattern: `ComputeKernel.computeCorrect_of_toAlgKernel rfl`
 discharges the projection, then `simp` reduces `exec` to the body
 recurrence; the algebraic content closes by `simp` on the spec or by
-invoking a math identity from `Mathlib`. The LLM proof wrapper
+invoking a math identity from `Mathlib`. For equivalence proofs, `split_equiv`
+isolates changed statements and `solve_fp` applies checked rules and discharges
+their premises. See [the tactic guide](documents/EquivalenceTactics.md) for
+options and guarded examples. The LLM proof wrapper
 `scripts/prove.sh` automates this loop and uses the official comparator to judge
 the targets selected with `--theorem` against the original task.
 See [setup and usage](scripts/README.md).
@@ -166,13 +185,13 @@ See the [worked-example index](bench/examples/README.md) for the shared-source d
 ## Minimal Example
 
 Elementwise vector add against the `addSpec xs ys i = xs i + ys i` math
-spec — see [`bench/examples/VectorAdd/Correct.lean`](bench/examples/VectorAdd/RealCorrect.lean).
+spec — see [`bench/examples/VectorAdd/RealCorrect.lean`](bench/examples/VectorAdd/RealCorrect.lean).
 
 ## Floating-Point Equivalence Example
 
 Vector addition with swapped operands — see
 [`VectorAdd/FPEquiv.lean`](bench/examples/VectorAdd/FPEquiv.lean), alongside
-[`VectorAdd/Correct.lean`](bench/examples/VectorAdd/RealCorrect.lean). The FP proof
+[`VectorAdd/RealCorrect.lean`](bench/examples/VectorAdd/RealCorrect.lean). The FP proof
 uses the experiment-selected `add_commute` atom; the real proof states the
 pointwise mathematical formula. `#print_fp_assumptions add_kernel_equiv`
 prints the atom used by the FP proof.
@@ -247,7 +266,7 @@ verso/                     Slide deck / overview
   benchmarks/showcases and the GeLU/trust-report target are separate
 - `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
 - `lake build TritonBenchSpecExamples` — build all worked examples, including the independent real/FP pairs
-- `lake env lean bench/examples/VectorAdd/Correct.lean` — quick example smoke check after building
+- `lake env lean bench/examples/VectorAdd/RealCorrect.lean` — quick example smoke check after building
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
 - `scripts/bench/check_ports.sh` — current selected-corpus trust/replay; named arguments

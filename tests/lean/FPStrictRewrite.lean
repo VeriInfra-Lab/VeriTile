@@ -14,14 +14,14 @@ theorem explicit_add (rest : Algebra (Value .fp32)) (cfg : Config)
     (out : RegName) (a b : Op .real shape) :
     GuardedRewrite.Contextual (Software.scalarFP32 rest cfg) s before after
       (assignment .add out a b) (assignment .add out b a) := by
-  fp_prove
+  solve_fp
 
 theorem profiled_explicit_mul (rest : Algebra (Value .fp32)) (cfg : Config)
     (s : State (Value .fp32)) (before after : List ComputeStmt)
     (out : RegName) (a b : Op .real shape) :
     ProfiledRewrite.Contextual (Software.scalarFP32 rest cfg) s before after
       (assignment .mul out a b) (assignment .mul out b a) := by
-  fp_prove
+  solve_fp
 
 theorem default_add (rest : Algebra (Value .fp32)) (cfg : Config)
     (s : State (Value .fp32)) (before after : List ComputeStmt)
@@ -29,7 +29,7 @@ theorem default_add (rest : Algebra (Value .fp32)) (cfg : Config)
     ProfiledRewrite.Contextual (Software.scalarFP32 rest cfg) s before after
       (.assign .real shape out (.alg (.add .real (sameShape shape) a b)))
       (.assign .real shape out (.alg (.add .real (sameShape shape) b a))) := by
-  fp_prove
+  solve_fp
 
 -- A successful original execution returns the same complete state. Prefix
 -- support, loads, stores and any other context obligations are retained.
@@ -52,18 +52,18 @@ example (rest : Algebra (Value .fp32)) (cfg : Config)
     have : ProfiledRewrite.Contextual (Software.scalarFP32 rest cfg) s before after
         (.assign .real shape out (.compute (.alg .fp64 (.add .real (sameShape shape) a b))))
         (.assign .real shape out (.compute (.alg .fp64 (.add .real (sameShape shape) b a)))) := by
-      fp_prove
+      solve_fp
   -- Untagged .real operations require the declared default precision.
   fail_if_success
     have : GuardedRewrite.Contextual (Software.scalarFP32 rest cfg) s before after
         (.assign .real shape out (.alg (.add .real (sameShape shape) a b)))
         (.assign .real shape out (.alg (.add .real (sameShape shape) b a))) := by
-      fp_prove
+      solve_fp
   -- No identity is inferred for the arbitrary residual algebra.
   fail_if_success
     have : GuardedRewrite.Contextual rest s before after
         (assignment .add out a b) (assignment .add out b a) := by
-      fp_prove
+      solve_fp
   trivial
 
 #guard_msgs (drop info) in
@@ -108,13 +108,13 @@ private def profiledProgram (swapped : Bool) : ProfiledRewrite.Program :=
 -- strictly proved commutation needs no empirical entries in the rule table.
 theorem guarded_empty_rules :
     guardedProgram false ≡[([] : Spec.Assumptions GuardedFragment)] guardedProgram true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 theorem profiled_empty_rules :
     profiledProgram false ≡[([] : Spec.Assumptions GuardedFragment)] profiledProgram true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 private def division (reciprocal : Bool) : ComputeStmt :=
   .assign .real [4] "out" (.alg (if reciprocal then
@@ -130,8 +130,8 @@ private def mixedProgram (swapped reciprocal : Bool) : ProfiledRewrite.Program :
 -- reciprocal transformation requires the experimental rule bundle.
 theorem mixed_strict_experimental (R : ScalarArithmetic.Rules) :
     mixedProgram false false ≡[R] mixedProgram true true := by
-  equiv_decompose (reverse := true)
-  all_goals fp_prove
+  split_equiv (reverse := true)
+  all_goals solve_fp
 
 #guard_msgs (drop info) in
 #axiomsClean guarded_empty_rules

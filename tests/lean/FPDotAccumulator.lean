@@ -171,16 +171,16 @@ private def padding : ComputeStmt := .assign .nat [] "unrelated" (.alg (.constNa
 
 theorem eager_where_tactic (R : FP.ScalarArithmetic.Rules) :
     whereProgram [padding] Bool.false ≡[R] whereProgram [padding] Bool.true := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 /-- The generic eager-selection rule must not erase its operand guards. -/
 example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ whereProgram [padding] Bool.false with domain := [] } : Program) ≡[R]
         ({ whereProgram [padding] Bool.true with domain := [] } : Program) := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   trivial
 
 #guard_msgs (drop info) in

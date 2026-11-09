@@ -32,8 +32,8 @@ def optimized (blockSize : Nat) : Program :=
 including all registers and memory; failed surrounding executions also agree. -/
 specification add_kernel_equiv (blockSize : Nat) :
     original blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized blockSize := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions add_kernel_equiv
 #guard_msgs (drop info) in

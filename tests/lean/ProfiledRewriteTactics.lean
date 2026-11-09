@@ -32,8 +32,8 @@ private def program (extra : List ComputeStmt) (a b : Bool) : Program :=
 -- common statement shifts both sites without changing their definitions.
 theorem two_sites (R : ScalarArithmetic.Rules) :
     program [padding] false false ≡[R] program [padding] true true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #guard_msgs (drop info) in
 #axiomsClean two_sites
@@ -48,23 +48,23 @@ private def originalSites (extra : List ComputeStmt) : List Site :=
 theorem two_original_sites (R : ScalarArithmetic.Rules) :
     ({ program [padding] false false with domain := originalSites [padding] } : Program) ≡[R]
     ({ program [padding] true true with domain := originalSites [padding] } : Program) := by
-  equiv_decompose (reverse := true)
-  all_goals fp_prove
+  split_equiv (reverse := true)
+  all_goals solve_fp
 
 #guard_msgs (drop info) in
 #axiomsClean two_original_sites
 
 -- Proof order supplies no missing guard for the later computed operand.
+-- Failed proof attempts intentionally leave their hypotheses unused.
+set_option linter.unusedVariables false
+
 example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program [] false false with domain := (originalSites []).take 1 } : Program) ≡[R]
         ({ program [] true true with domain := (originalSites []).take 1 } : Program) := by
-      equiv_decompose (reverse := true)
-      all_goals fp_prove
+      split_equiv (reverse := true)
+      all_goals solve_fp
   trivial
-
--- Failed proof attempts intentionally leave their hypotheses unused.
-set_option linter.unusedVariables false
 
 -- The domain is mandatory: removing the finite and nonzero obligations must
 -- not turn the same source transformation into a proved equivalence.
@@ -72,8 +72,8 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program [] false false with domain := [] } : Program) ≡[R]
         ({ program [] true true with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- A different actual operand cannot borrow the first site's guard.
@@ -84,7 +84,7 @@ example (R : ScalarArithmetic.Rules) (M : Algebra Nat) (D : Guarded.Domain Nat)
     have : Contextual M s [] []
         (.assign .real [4] "out" (.alg (.add .real (.consSame .nil) (.ref .real [4] "other") (.ref .real [4] "y"))))
         (.assign .real [4] "out" (.alg (.add .real (.consSame .nil) (.ref .real [4] "y") (.ref .real [4] "other")))) := by
-      fp_prove
+      solve_fp
   trivial
 
 -- Arithmetic rules cannot replace the stored register with an unrelated
@@ -94,8 +94,8 @@ example (R : ScalarArithmetic.Rules) : True := by
     have : (⟨.mk ["x", "y"] ["out"] [write], []⟩ : Program) ≡[R]
         (⟨.mk ["x", "y"] ["out"]
           [.store .real [4] (.region "out" (.arange 4)) (.alg (.ref .real [4] "x")) .none], []⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- Changing compute precision is an observable source difference. A fp32
@@ -107,16 +107,16 @@ example (R : ScalarArithmetic.Rules) : True := by
           [.assign .real [4] "sum" (.compute (.alg .fp64
             (.add .real (.consSame .nil) (.ref .real [4] "y") (.ref .real [4] "x"))))],
           (sites [])⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- An empty assumption table supplies no numerical rewrite evidence.
 example : True := by
   fail_if_success
     have : program [] false false ≡[([] : Spec.Assumptions GuardedFragment)] program [] true true := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 end ProfiledRewriteTacticTests
@@ -139,8 +139,8 @@ private def program (optimized : Bool) : Program :=
 
 theorem computed_denominator (R : ScalarArithmetic.Rules) :
     program false ≡[R] program true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by computed_denominator:
 ---
@@ -159,14 +159,14 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program false with domain := finiteOnly } : Program) ≡[R]
         ({ program true with domain := finiteOnly } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- A check at the wrong commonPrefix does not establish the computed sum's domain.
   fail_if_success
     have : ({ program false with domain := [.divScalar [] 4 [] numerator denominator] } : Program) ≡[R]
         ({ program true with domain := [.divScalar [] 4 [] numerator denominator] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 end ComputedDenominatorTests
@@ -192,8 +192,8 @@ private def program (swapped : Bool) : Program :=
 -- can be assumed by its spelling. The extra prefix statement is retained.
 theorem computed_scalar (R : ScalarArithmetic.Rules) :
     program false ≡[R] program true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by computed_scalar:
 ---
@@ -215,28 +215,28 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program false with domain := [.add commonPrefix [4] tile tile] } : Program) ≡[R]
         ({ program true with domain := [.add commonPrefix [4] tile tile] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- Neither another scalar nor the scalar before its computation can lend a guard.
   fail_if_success
     have : ({ program false with domain := [.addScalar commonPrefix 4 [] tile
           (.ref .real [] "other")] } : Program) ≡[R]
         ({ program true with domain := [.addScalar commonPrefix 4 [] tile
           (.ref .real [] "other")] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ program false with domain := [.addScalar [] 4 [] tile scalar] } : Program) ≡[R]
         ({ program true with domain := [.addScalar [] 4 [] tile scalar] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- An explicit fp64 operation does not become a profiled fp32 operation.
   fail_if_success
     have : program false ≡[R]
         (⟨.mk ["x"] [] (commonPrefix ++ [.assign .real [4] "out"
           (.compute (.alg .fp64 (expression true)))]), [site]⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 end ScalarBroadcastTests
@@ -264,8 +264,8 @@ private def program (swapped : Bool) : Program :=
 -- rewrite must preserve both the actual scalar domain and the suffix store.
 theorem inplace_computed_multiplier (R : ScalarArithmetic.Rules) :
     program false ≡[R] program true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by inplace_computed_multiplier:
 ---
@@ -287,22 +287,22 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program false with domain := [.add commonPrefix [4] tile tile] } : Program) ≡[R]
         ({ program true with domain := [.add commonPrefix [4] tile tile] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- Keeping the declared IO names cannot justify storing the old input instead.
   fail_if_success
     have : program false ≡[R]
         (⟨.mk ["x"] ["x"] (commonPrefix ++ [assignment true,
           .store .real [4] (.region "x" (.arange 4)) (.alg tile) .none]), [site]⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- The new broadcast rule cannot erase an explicit compute precision.
   fail_if_success
     have : program false ≡[R]
         (⟨.mk ["x"] ["x"] (commonPrefix ++ [.assign .real [4] "out"
           (.compute (.alg .fp64 (expression true))), write]), [site]⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 end ScalarMultiplicationTests
@@ -336,8 +336,8 @@ private def program (swapped : Bool) : Program :=
 -- and an unrelated assignment. Its value changes; the tail mask stays intact.
 theorem masked_store_value (R : ScalarArithmetic.Rules) :
     program false ≡[R] program true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by masked_store_value:
 ---
@@ -362,30 +362,30 @@ example (R : ScalarArithmetic.Rules) : True := by
         (⟨.mk ["x", "y"] ["scratch", "out"] (commonPrefix ++ [
           .store .real [4] (.region "out" (.arange 4)) (.alg (expression true)) .none]),
           sites⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : program false ≡[R]
         (⟨.mk ["x", "y"] ["scratch", "out"] (commonPrefix ++ [
           .store .real [4] (.region "other" (.arange 4)) (.alg (expression true)) tailMask]),
           sites⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : program false ≡[R]
         (⟨.mk ["x", "y"] ["scratch", "out"] (commonPrefix ++ [
           .store .real [4] (.region "out" (.arange 4))
             (.compute (.alg .fp64 (expression true))) tailMask]), sites⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- The earlier store's guards do not establish finiteness after exp updates x.
   fail_if_success
     have : ({ program false with domain :=
           [.add (Source.prefixBeforeStore (code false)) [4] left right] } : Program) ≡[R]
         ({ program true with domain :=
           [.add (Source.prefixBeforeStore (code false)) [4] left right] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 end StoreValueTests
@@ -407,8 +407,8 @@ private def program (wide swapped : Bool) (sites : List Site) : Program :=
 
 theorem computed_fp32_scalar (R : ScalarArithmetic.Rules) :
     program Bool.false Bool.false [site] ≡[R] program Bool.false Bool.true [site] := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by computed_fp32_scalar:
 ---
@@ -427,14 +427,14 @@ set_option linter.unusedVariables false
 example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : program Bool.false Bool.false [] ≡[R] program Bool.false Bool.true [] := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : program Bool.true Bool.false [site] ≡[R] program Bool.true Bool.true [site] := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 end ExplicitFP32ScalarTests

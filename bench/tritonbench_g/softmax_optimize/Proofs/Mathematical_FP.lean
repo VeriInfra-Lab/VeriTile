@@ -85,7 +85,7 @@ theorem contextual_signed_range {α : Type} [Inhabited α] (M : Algebra α)
       (.mul .int .nil a b) (.ref .int [B] "n_offsets"))))
     (.assign .int [B] "offset" (.alg (.add .int .scalarL
       (.mul .int .nil b a) (.ref .int [B] "n_offsets"))))
-  fp_prove
+  solve_fp
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

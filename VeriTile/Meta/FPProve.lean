@@ -2,7 +2,7 @@ import VeriTile.Meta.EquivDecompose
 import VeriTile.Meta.Specification
 
 /-!
-`fp_prove` builds proof terms from local hypotheses, explicit lemma hints and
+`solve_fp` builds proof terms from local hypotheses, explicit lemma hints and
 `@[spec_rule]` lemmas. Syntax derivations additionally support bounded search
 through symmetry, transitivity and common statement contexts. No report data
 is turned into an admission proof, and no real arithmetic tactic is invoked.
@@ -130,11 +130,11 @@ def search (goal : MVarId) (facts : Array Expr) (maxSteps : Nat) : MetaM Bool :=
 
 /-- Prove using registered rules and optional explicit hints. The step bound
 controls the number of atomic edges, independently of premise-search depth. -/
-syntax (name := fpProve) "fp_prove" (" (" &"maxSteps" " := " num ")")?
+syntax (name := fpProve) "solve_fp" (" (" &"maxSteps" " := " num ")")?
   (" [" term,* "]")? : tactic
 
 elab_rules : tactic
-  | `(tactic| fp_prove $[ (maxSteps := $steps:num)]? $[ [$hints:term,*]]?) => do
+  | `(tactic| solve_fp $[ (maxSteps := $steps:num)]? $[ [$hints:term,*]]?) => do
     let goal ← getMainGoal
     goal.withContext do
       let mut facts := #[]
@@ -149,6 +149,14 @@ elab_rules : tactic
         replaceMainGoal []
       else
         saved.restore
-        throwTacticEx `fp_prove goal "fp_prove could not close this goal using the available hypotheses and @[spec_rule] lemmas.\nA required atomic rule, domain premise or structural lemma may be missing, or the search bound was reached.\nUse an explicit lemma hint, increase (maxSteps := ...), or prove the remaining goal manually."
+        throwTacticEx `solve_fp goal "solve_fp could not close this goal using the available hypotheses and @[spec_rule] lemmas.\nA required atomic rule, domain premise or structural lemma may be missing, or the search bound was reached.\nUse an explicit lemma hint, increase (maxSteps := ...), or prove the remaining goal manually."
+
+-- Forward the previous spelling, including its options and lemma hints.
+syntax "fp_prove" (" (" &"maxSteps" " := " num ")")?
+  (" [" term,* "]")? : tactic
+
+macro_rules
+  | `(tactic| fp_prove $[ (maxSteps := $steps:num)]? $[ [$hints:term,*]]?) =>
+    `(tactic| solve_fp $[ (maxSteps := $steps:num)]? $[ [$hints:term,*]]?)
 
 end VeriTile.Meta.FPProve

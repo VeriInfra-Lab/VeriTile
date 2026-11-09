@@ -50,7 +50,7 @@ theorem output_equiv (R : Spec.Assumptions FP.GuardedFragment) :
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV ≡[R]
     sumLeft queryStorage valueStorage gateStorage dtype out_dtype q v g h o A
       s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV := by
-  cases queryStorage <;> cases valueStorage <;> cases gateStorage <;> equiv_decompose <;> fp_prove
+  cases queryStorage <;> cases valueStorage <;> cases gateStorage <;> split_equiv <;> solve_fp
 end
 
 #print_fp_assumptions output_equiv

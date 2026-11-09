@@ -37,7 +37,7 @@ def scaleFirst : Program :=
 theorem split_equiv (R : Spec.Assumptions FP.GuardedFragment) :
     original qs ks gs q k g A s_k_h s_k_t scale T K BT BC BK NC ≡[R]
     scaleFirst qs ks gs q k g A s_k_h s_k_t scale T K BT BC BK NC := by
-  cases qs <;> cases ks <;> cases gs <;> equiv_decompose <;> fp_prove
+  cases qs <;> cases ks <;> cases gs <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions split_equiv
 #guard_msgs (drop info) in

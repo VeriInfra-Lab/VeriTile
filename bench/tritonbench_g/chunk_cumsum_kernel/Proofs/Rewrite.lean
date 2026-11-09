@@ -32,8 +32,8 @@ def candidateBody (input output : RegionName) (T BT : Nat) : Program :=
 @[spec_rule] theorem body_equiv (input output : RegionName) (T BT : Nat) :
     originalBody input output T BT ≡[([] : Spec.Assumptions FP.GuardedFragment)]
       candidateBody input output T BT := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 /-- Check actual operands in reached source states, except for the final
 carry update: that register is never read by a later output. No assumption

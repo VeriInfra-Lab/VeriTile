@@ -22,32 +22,32 @@ private def program (selected swapped : Bool) : Program where
 
 theorem selected_arm (selected : Bool) (R : FP.ScalarArithmetic.Rules) :
     program selected false ≡[R] program selected true := by
-  cases selected <;> equiv_decompose <;> fp_prove
+  cases selected <;> split_equiv <;> solve_fp
 
 set_option linter.unusedVariables false in
 example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program true false with domain := [] } : Program) ≡[R]
         ({ program true true with domain := [] } : Program) := by
-      equiv_decompose <;> fp_prove
+      split_equiv <;> solve_fp
   fail_if_success
     have : ({ program false false with domain :=
         [.branch [padding] (.constBool false) true inner] } : Program) ≡[R]
         ({ program false true with domain :=
         [.branch [padding] (.constBool false) true inner] } : Program) := by
-      equiv_decompose <;> fp_prove
+      split_equiv <;> solve_fp
   fail_if_success
     have : ({ program true false with domain :=
         [.branch [] (.constBool true) true inner] } : Program) ≡[R]
         ({ program true true with domain :=
         [.branch [] (.constBool true) true inner] } : Program) := by
-      equiv_decompose <;> fp_prove
+      split_equiv <;> solve_fp
   trivial
 
 -- Commutativity has a strict model certificate and needs no experimental atom.
 theorem selected_arm_without_experiments :
     program true false ≡[([] : Spec.Assumptions FP.GuardedFragment)] program true true := by
-  equiv_decompose <;> fp_prove
+  split_equiv <;> solve_fp
 
 #axiomsClean contextual_constant_then
 #axiomsClean contextual_constant_else

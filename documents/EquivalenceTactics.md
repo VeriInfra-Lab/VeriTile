@@ -3,6 +3,10 @@
 The two tactics compose syntax derivations using the existing equivalence
 notation. Guarded atoms keep their conditions in those syntax fragments:
 
+The public tactic names follow the paper: `split_equiv` and `solve_fp`.
+The previous spellings `equiv_decompose` and `fp_prove` remain compatibility
+aliases with the same options and hints.
+
 ```lean
 import VeriTile.Meta.FPProve
 import VeriTile.Triton.Float.ScalarArithmetic
@@ -10,8 +14,8 @@ open VeriTile Triton FP.ScalarArithmetic
 open scoped VeriTile.Spec
 
 theorem addition_atom (R : Rules) : [lhs .addCommute] ≡[R] [rhs .addCommute] := by
-  equiv_decompose
-  fp_prove [admitted R .addCommute (by decide)]
+  split_equiv
+  solve_fp [admitted R .addCommute (by decide)]
 ```
 
 Both tactics construct proof terms checked by Lean. Lifting this scalar atom
@@ -20,7 +24,7 @@ values. [VectorAdd/FPEquiv.lean](../bench/examples/VectorAdd/FPEquiv.lean) uses
 the two tactics to apply the checked `GuardedRewrite.add_commute` bridge; a raw report row
 must not be rebound to an unguarded program fragment.
 
-## `equiv_decompose`
+## `split_equiv`
 
 Import `VeriTile.Meta.EquivDecompose` when only decomposition is needed. This
 module imports the generic specification calculus and Lean; it does not import
@@ -35,7 +39,7 @@ For concrete statement-list spines, it finds a longest common subsequence
 using definitional equality. Common statements get reflexivity proofs;
 changed fragments become goals. Equal-length changed fragments split into
 statement pairs by default. Insertions and deletions remain explicit goals
-with an empty side. Use `equiv_decompose (split := false)` when an atomic or
+with an empty side. Use `split_equiv (split := false)` when an atomic or
 derived lemma concerns several adjacent statements together.
 
 For example, changing `u = a + b; v = c * d` to
@@ -50,17 +54,17 @@ constructs. A symbolic list spine remains an unsplit derivation goal. The
 generic path handles the sequential syntax calculus. Semantic decomposition
 requires a proved adapter, such as the IO adapter described below.
 
-## `fp_prove`
+## `solve_fp`
 
 The tactic uses local hypotheses, imported/local `@[spec_rule]` lemmas and
-optional hints, for example `fp_prove [my_derived_lemma]`. It instantiates the
+optional hints, for example `solve_fp [my_derived_lemma]`. It instantiates the
 lemmas and solves their premises with bounded lemma application. Precision,
 admission and domain premises must match or be proved by these inputs.
 
 For syntax derivations, it can additionally compose concrete fragment rewrites
 using symmetry, transitivity and common statement contexts. Search defaults
 to eight rewrite edges and at most 256 distinct fragment states, with premise
-search depth six. `fp_prove (maxSteps := 16) [my_lemma]` changes the edge bound.
+search depth six. `solve_fp (maxSteps := 16) [my_lemma]` changes the edge bound.
 Only fully instantiated intermediate fragments enter the search.
 
 Failure preserves the goal and reports that a rule, premise or structural
@@ -80,8 +84,8 @@ conditions include products and exponential results when those are operands.
 Shapes remain symbolic. This adapter preserves the complete execution result,
 including failure; it does not independently prove successful execution.
 
-Import `VeriTile.Triton.Float.RewriteTactics` to use `equiv_decompose` followed
-by `all_goals fp_prove`. The semantic adapter retains the program-point domains
+Import `VeriTile.Triton.Float.RewriteTactics` to use `split_equiv` followed
+by `all_goals solve_fp`. The semantic adapter retains the program-point domains
 and applies the checked bridge lemmas, including explicit fp32 compute tags.
 The scalar HyperConnectionsWidth example composes two sites and prints
 `mul_commute` once. It uses the same decomposition path as the matrix examples
@@ -96,18 +100,18 @@ adapter. Both general HyperConnections proofs now use:
 specification mhc_width_matrix_equiv (S T D numIters : Nat) (tau : ℝ) (R : Rules) :
     matrixOriginalProgram S T D numIters tau ≡[R]
       matrixOptimizedProgram S T D numIters tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 ```
 
-`equiv_decompose` compares the aligned source statements, carries the shared
+`split_equiv` compares the aligned source statements, carries the shared
 signature and declared domains, and exposes one `Contextual` goal per changed
 statement. Every goal retains its complete prefix and suffix. Earlier changes
 are present in later prefixes, so a second rewrite is checked against the
 actual intermediate program. Loops, casts, masks and stores are kept intact.
 Different list lengths require an explicit execution lemma in this adapter.
 
-`fp_prove` selects checked contextual arithmetic lemmas and discharges their
+`solve_fp` selects checked contextual arithmetic lemmas and discharges their
 premises from the model and the retained site guards. It does not invent
 finite/nonzero facts, discard guards, or change a precision tag. Depth prints
 only `add_commute`; Width prints only `div_mul_rcp`. Both leave the matrix
@@ -145,8 +149,8 @@ Import `VeriTile.Triton.Float.BroadcastRewrite` for multiplication between
 two broadcast operands, such as a matrix and an expanded per-row vector.
 `Site.mulBroadcast` uses the default fp32 context; `Site.mulBroadcastFP32`
 uses explicit fp32 computation. Each checks both actual operand tiles after
-the common prefix and uses only `mul_commute`. `equiv_decompose` locates the
-changed assignment and `fp_prove` applies the corresponding contextual lemma,
+the common prefix and uses only `mul_commute`. `split_equiv` locates the
+changed assignment and `solve_fp` applies the corresponding contextual lemma,
 preserving loads, casts, subsequent scans, stores and execution failures.
 `tests/lean/FPBroadcastMultiplication.lean` checks both precision paths with
 mixed input storage and unchanged cumulative scan/writeback.
@@ -169,7 +173,7 @@ it preserves undefined operands and execution failure. Store congruence keeps
 the destination, mask and dtype identical.
 
 The `apply_penalty/FPEquiv.lean` benchmark uses `op_div_scalar_mul_rcp` inside
-`tl.where`. `equiv_decompose; fp_prove` proves the complete gather/scatter kernel
+`tl.where`. `split_equiv; solve_fp` proves the complete gather/scatter kernel
 rewrite and prints only `div_mul_rcp`. Its guards check the actual loaded logits
 and repetition scalar at `rep_logits`; the scalar must be finite and nonzero,
 while negative operands are allowed. The FP proof preserves the source store
@@ -200,9 +204,9 @@ after binding its index. The inner site then runs its own prefix before
 checking operands. A condition checked only at loop entry cannot establish
 this premise. Zero stride and empty intervals have no active iterations.
 
-`equiv_decompose` applies the proved range congruence when the index and all
+`split_equiv` applies the proved range congruence when the index and all
 bounds match and the declared domain supplies this range site. It then locates
-the body's differences, preserving the iteration guard for `fp_prove`. Nested
+the body's differences, preserving the iteration guard for `solve_fp`. Nested
 ranges use nested sites. Missing guards, changed bounds and changed list lengths
 remain proof obligations; the tactic does not synthesize an invariant.
 
@@ -312,7 +316,7 @@ and valid `Fin` indices starting at zero; Boolean and unit candidates are also
 available. Explicit hints can provide witnesses beyond that range. Failed
 branches restore their metavariable assignments. Failure reports that no
 checked counterexample was found; neither missing admission nor failure of
-`fp_prove` is treated as a disproof. `trace.VeriTile.disprove` exposes the search
+`solve_fp` is treated as a disproof. `trace.VeriTile.disprove` exposes the search
 obligations when debugging.
 
 Run `python3 -m unittest scripts.test_disprove` for declaration polarity and

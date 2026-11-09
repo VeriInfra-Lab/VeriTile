@@ -29,8 +29,8 @@ set_option linter.unusedSectionVars false
 -- Importing the numerical adapter preserves the generic syntax path.
 theorem syntax_fallback (R : Spec.Assumptions Nat) (h : Spec.Derivation R [1] [2]) :
     [0, 1, 9] ≡[R] [0, 2, 9] := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 def forward (input output : RegionName) (stride B : Nat) : ComputeKernel := triton {
   row_id := tl.program_id(0)
@@ -91,21 +91,21 @@ def io (input output : RegionName) (stride B : Nat) (reversed : Bool) : KernelIO
 
 theorem renamed_equiv (input output : RegionName) (stride B : Nat) (R : Rules) :
     io input output stride B Bool.false ≡[R] io input output stride B Bool.true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 theorem inplace_empty (stride : Nat) (R : Rules) :
     io "buffer" "buffer" stride 0 Bool.false ≡[R] io "buffer" "buffer" stride 0 Bool.true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 -- Verify that structural decomposition exposes a numerical relation, and that
 -- the difference is not changed into equality of the two address vectors.
 theorem exposed_output (stride B : Nat) (R : Rules) :
     io "src" "dst" stride B Bool.false ≡[R] io "src" "dst" stride B Bool.true := by
-  equiv_decompose
+  split_equiv
   change TermEq R.assumptions _ _
-  fp_prove
+  solve_fp
 
 section Values
 variable {α : Type} (R : Spec.Assumptions ComputeStmt)
@@ -116,33 +116,33 @@ include hc ha
 theorem arbitrary_permutation (plans : Schedules) (B : Nat) (xs : Fin B → Term α)
     (σ : Equiv.Perm (Fin B)) :
     TermEq R (fp32Sum plans B xs) (fp32Sum plans B (xs ∘ σ)) := by
-  fp_prove
+  solve_fp
 
 theorem inverse_permutation (plans : Schedules) (B : Nat) (xs : Fin B → Term α)
     (σ : Equiv.Perm (Fin B)) :
     TermEq R (fp32Sum plans B xs) (fp32Sum plans B (xs ∘ σ.symm)) := by
-  fp_prove
+  solve_fp
 
 theorem explicit_vector_equation (plans : Schedules) (B : Nat)
     (xs ys : Fin B → Term α) (σ : Equiv.Perm (Fin B)) (h : ys = xs ∘ σ) :
     TermEq R (fp32Sum plans B xs) (fp32Sum plans B ys) := by
-  fp_prove
+  solve_fp
 
 theorem common_cast (plans : Schedules) (B : Nat) (xs : Fin B → Term α) :
     TermEq R
       (.app (.cast (some .fp32) .real .bf16) [fp32Sum plans B xs])
       (.app (.cast (some .fp32) .real .bf16) [fp32Sum plans B (fun i => xs i.rev)]) := by
-  fp_prove
+  solve_fp
 
 theorem invalid_inputs_rejected (plans : Schedules) (xs : Fin 3 → Term α) : True := by
   fail_if_success
-    have : TermEq R (fp32Sum plans 3 xs) (fp32Sum plans 3 (fun _ => xs 0)) := by fp_prove
+    have : TermEq R (fp32Sum plans 3 xs) (fp32Sum plans 3 (fun _ => xs 0)) := by solve_fp
   fail_if_success
     have : TermEq R (fp32Sum plans 3 xs)
-        (fp32Sum plans 2 (fun i => xs ⟨i.val, by omega⟩)) := by fp_prove
+        (fp32Sum plans 2 (fun i => xs ⟨i.val, by omega⟩)) := by solve_fp
   fail_if_success
     have : TermEq R (fp32Sum plans 3 xs)
-        ((fp32Sum plans 3 xs).add (.app (.literal (some .fp32) .real 0) [])) := by fp_prove
+        ((fp32Sum plans 3 xs).add (.app (.literal (some .fp32) .real 0) [])) := by solve_fp
   trivial
 
 omit hc ha in
@@ -152,23 +152,23 @@ def sum64 (plans : Schedules) (xs : Fin 3 → Term α) : Term α :=
 
 theorem precision_and_cast_rejected (plans : Schedules) (xs : Fin 3 → Term α) : True := by
   fail_if_success
-    have : TermEq R (fp32Sum plans 3 xs) (sum64 plans (fun i => xs i.rev)) := by fp_prove
+    have : TermEq R (fp32Sum plans 3 xs) (sum64 plans (fun i => xs i.rev)) := by solve_fp
   fail_if_success
     have : TermEq R
         (.app (.cast (some .fp32) .real .bf16) [fp32Sum plans 3 xs])
-        (.app (.cast (some .fp32) .real .fp32) [fp32Sum plans 3 (fun i => xs i.rev)]) := by fp_prove
+        (.app (.cast (some .fp32) .real .fp32) [fp32Sum plans 3 (fun i => xs i.rev)]) := by solve_fp
   trivial
 
 theorem association_required (plans : Schedules) (B : Nat) (xs : Fin B → Term α) : True := by
   clear ha
   fail_if_success
-    have : TermEq R (fp32Sum plans B xs) (fp32Sum plans B (fun i => xs i.rev)) := by fp_prove
+    have : TermEq R (fp32Sum plans B xs) (fp32Sum plans B (fun i => xs i.rev)) := by solve_fp
   trivial
 
 theorem commutation_required (plans : Schedules) (B : Nat) (xs : Fin B → Term α) : True := by
   clear hc
   fail_if_success
-    have : TermEq R (fp32Sum plans B xs) (fp32Sum plans B (fun i => xs i.rev)) := by fp_prove
+    have : TermEq R (fp32Sum plans B xs) (fp32Sum plans B (fun i => xs i.rev)) := by solve_fp
   trivial
 end Values
 
@@ -182,12 +182,12 @@ def shiftedOutput (stride B : Nat) : KernelIO₁ :=
 theorem output_contract_retained (stride B : Nat) (R : Rules) : True := by
   fail_if_success
     have : twoOutputs stride B Bool.false ≡[R] twoOutputs stride B Bool.true := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : io "src" "dst" stride B Bool.false ≡[R] shiftedOutput stride B := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 open Lean Elab Command in

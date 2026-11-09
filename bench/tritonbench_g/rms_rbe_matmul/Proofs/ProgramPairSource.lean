@@ -18,7 +18,7 @@ def indexCommuted (fp8 : Bool) (p : TypedSource.Arguments) : FP.ProfiledRewrite.
 /-- The historical exact address rewrite now covers the actual repaired source. -/
 theorem equivalent (fp8 : Bool) (p : TypedSource.Arguments) :
     original fp8 p ≡[([] : Spec.Assumptions FP.GuardedFragment)] indexCommuted fp8 p := by
-  cases fp8 <;> equiv_decompose <;> fp_prove
+  cases fp8 <;> split_equiv <;> solve_fp
 
 variable {α : Type} [Inhabited α]
 
