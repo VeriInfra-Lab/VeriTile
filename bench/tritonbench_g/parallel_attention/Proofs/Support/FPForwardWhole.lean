@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.MaskedScatter
 import bench.tritonbench_g.parallel_attention.Proofs.Support.FPForwardLoop
 import bench.tritonbench_g.fused_recurrent_hgrn.Proofs.Sources.Mathematical_FPStages
 namespace VeriTile.Bench.Repairs.ParallelAttentionKernel
@@ -10,12 +11,8 @@ set_option linter.unusedSimpArgs false
 
 @[simp] theorem masked_scatter_regs {α ι : Type} (R : RegionName) (off : ι → Nat)
     (active : ι → Prop) [DecidablePred active] (value : ι → Cell α) (l : List ι) (s : State α) :
-    (l.foldl (fun t i => if active i then t.write R (off i) (value i) else t) s).regs = s.regs := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    rw [List.foldl_cons, ih]
-    split <;> rfl
+    (l.foldl (fun t i => if active i then t.write R (off i) (value i) else t) s).regs = s.regs :=
+  State.masked_scatter_regs l active R off value s
 
 def forwardKernel (c : ForwardConfig) : ComputeKernel :=
   forwardSource c.q c.k c.v c.o c.z c.s_qk_h c.s_qk_t c.s_qk_d
