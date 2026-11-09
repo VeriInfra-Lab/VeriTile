@@ -18,6 +18,7 @@ on:
       - 'bench/tritonbench_g/**'
       - 'scripts/bench/coverage_review.py'
       - 'scripts/bench/final_inventory.py'
+      - 'scripts/bench/lean_import_scan.py'
       - 'validation/**'
       - 'scripts/spec_sheet.py'
       - 'bench/examples/**'
@@ -39,6 +40,7 @@ on:
       - 'bench/tritonbench_g/**'
       - 'scripts/bench/coverage_review.py'
       - 'scripts/bench/final_inventory.py'
+      - 'scripts/bench/lean_import_scan.py'
       - 'validation/**'
       - 'scripts/spec_sheet.py'
       - 'bench/examples/**'
@@ -87,7 +89,9 @@ jobs:
         run: python3 -m unittest discover -s ../scripts -p 'test_coverage_review.py'
 
       - name: Check recorded proof freshness
-        run: python3 scripts/record-home-demo.py --check
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_record_home_demo.py'
+          python3 scripts/record-home-demo.py --check
 
       - name: Build site
         run: bun run build
