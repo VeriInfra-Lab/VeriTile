@@ -1,23 +1,20 @@
 import bench.examples.FusedLayerNorm.IO
 import bench.examples.FusedLayerNorm.Contract
-import bench.examples.FusedLayerNorm.Kernels
-/- Original online-statistics versus two-pass LayerNorm. The shared affine
-suffix retains its sqrt, epsilon, gamma/beta and bf16 cast. The proof combines
-strictly certified scalar and bounded count rules with admitted arithmetic
-relaxations. Empty output rows remain covered because both sources preserve
-every memory cell at N = 0. -/
 import bench.examples.FusedLayerNorm.Proofs.FP
 import VeriTile.Triton.Float.CountConversionLaws
 import VeriTile.Triton.Float.Kernel
 import VeriTile.Meta.StatementAudit
 
+/- Original online-statistics versus two-pass LayerNorm. The shared affine
+suffix retains its sqrt, epsilon, gamma/beta and bf16 cast. The proof combines
+strictly certified scalar and bounded count rules with admitted arithmetic
+relaxations. Empty output rows remain covered because both sources preserve
+every memory cell at N = 0. -/
+
 namespace VeriTile.Bench.Examples.FusedLayerNormFPEquiv
-open VeriTile.Bench.Examples.FusedLayerNorm.Kernels
 open VeriTile Triton FP.Structural FP.CountConversion
-open LayerNormFPContract LayerNormFPExecution
 open _root_.VeriTile.Triton.FP.Equational (ReductionPlan)
 open scoped VeriTile.Spec
-open _root_.VeriTile.Triton.FP.Equational (Schedules)
 
 def twopass (x g b y : RegionName) (N stride : Nat) (ε : ℝ) (empty : ReductionPlan 0) :
     FP.Kernel₃ where

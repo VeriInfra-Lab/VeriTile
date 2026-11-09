@@ -1,4 +1,5 @@
-import bench.examples.FusedLayerNorm.Kernels
+import bench.examples.FusedLayerNorm.Contract
+import bench.examples.FusedLayerNorm.IO
 import bench.examples.Welford.Proofs.FP
 
 /-! FP proof support for FusedLayerNorm. The public specification and atomic
@@ -106,30 +107,6 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α)
       · exact Or.inr fun k _ => ho k.1
     · exact congrFun (congrFun hmem r) o
 
-/-- Declare the three public input ports once each. The DSL's metadata lists
-each antiquoted load occurrence, including the fused kernel's second x read;
-the explicit IO declaration preserves the entire original statement body. -/
-def twopassIO (x g b y : RegionName) (N stride : Nat) (ε : ℝ) : KernelIO₃ where
-  kernel := .mk [x, g, b] [y] (twoPassLayerNormKernel x g b y N stride ε).surfaceBody
-  projection := by rfl
-  in1 := x
-  in2 := g
-  in3 := b
-  out := y
-  B1 := N
-  B2 := N
-  B3 := N
-  Bout := N
-  read1 := fun pid => pid * stride
-  read2 := fun _ => 0
-  read3 := fun _ => 0
-  write := fun pid => pid * stride
-
-def fusedIO (x g b y : RegionName) (N stride : Nat) (ε : ℝ) : KernelIO₃ :=
-  { twopassIO x g b y N stride ε with
-    kernel := .mk [x, g, b] [y] (fusedLayerNormKernel x g b y N stride ε).surfaceBody
-    projection := by rfl }
-
 theorem same_signature (x g b y : RegionName) (N stride : Nat) (ε : ℝ) :
     ioSignature (twopassIO x g b y N stride ε) =
       ioSignature (fusedIO x g b y N stride ε) := rfl
@@ -181,12 +158,6 @@ theorem empty_structural (x g b y : RegionName) (stride : Nat) (ε : ℝ) :
     Region.cast, ofFloat, toFloat, numeric, FP.Structural.bop,
     PrivateScratch, Frame, loop]
 
-
-/-- Nonempty rows use exactly Welford's compiled statistics domain. Empty
-rows have no numerical output and require no domain checks. -/
-def requirements (x : RegionName) (N stride : Nat) (empty : ReductionPlan 0)
-    (plans : Schedules) : FP.GuardExpression.Condition :=
-  if N = 0 then .top else WelfordFPContract.requirements x N stride empty plans
 
 def fused (x g b y : RegionName) (N stride : Nat) (ε : ℝ) (empty : ReductionPlan 0) :
     FP.Scheduled.IO₃ :=
