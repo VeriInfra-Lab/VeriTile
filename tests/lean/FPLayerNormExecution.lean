@@ -10,6 +10,7 @@ namespace FPLayerNormExecutionTests
 open VeriTile Triton FP.Structural
 open VeriTile.Bench.Examples
 open LayerNormFPExecution
+open WelfordFPExecution (sourceEngine)
 open scoped VeriTile.Spec
 
 -- Preserve the original statement body while explicitly declaring the three
@@ -26,13 +27,15 @@ example (x g b y : RegionName) (N stride : Nat) (ε : ℝ) :
 example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat) (ε : ℝ)
     (hWord : N < 2^64)
     (xs gs bs : Fin N → α) (s : State α)
-    (hx : ∀ i : Fin N, (s.mem "x" (s.pids 0 * stride + i.val)).read .real = xs i)
-    (hg : ∀ i : Fin N, (s.mem "gamma" i.val).read .real = gs i)
-    (hb : ∀ i : Fin N, (s.mem "beta" i.val).read .real = bs i) :
-    ∃ t, FP.Structural.exec M (fusedLayerNormKernel "x" "gamma" "beta" "x" N stride ε) s = some t ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem "x" (s.pids 0 * stride + i.val)).read .real) = xs i)
+    (hg : ∀ i : Fin N, M.fp32Load ((s.mem "gamma" i.val).read .real) = gs i)
+    (hb : ∀ i : Fin N, M.fp32Load ((s.mem "beta" i.val).read .real) = bs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M)
+        (fusedLayerNormKernel "x" "gamma" "beta" "x" N stride ε) s = some t ∧
       (∀ i : Fin N, t.mem "x" (s.pids 0 * stride + i.val) =
-        .mk .bf16 (outputValue M ε (xs i) (gs i) (bs i)
-          (WelfordFPExecution.recurrence M xs N).1 (onlineVariance M xs))) ∧
+        .mk .bf16 (outputValue (sourceEngine M) ε (xs i) (gs i) (bs i)
+          (WelfordFPExecution.recurrence (sourceEngine M) xs N).1
+          (onlineVariance (sourceEngine M) xs))) ∧
       (∀ (r : RegionName) o, (r ≠ "x" ∨ ∀ i : Fin N, o ≠ s.pids 0 * stride + i.val) → t.mem r o = s.mem r o) :=
   fused_run M "x" "gamma" "beta" "x" stride ε xs gs bs s hWord hx hg hb
 
