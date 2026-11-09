@@ -75,13 +75,9 @@ jobs:
           python3 -m unittest discover -s scripts -p 'test_audit_shards.py'
 
       - name: Build Lean project
-        uses: leanprover/lean-action@v1
+        uses: ./.github/actions/build-lean
         with:
-          build: true
           build-args: "VeriTile VeriTileFull bench.examples.VectorAdd.Kernels bench.tritonbench_g.softmax_triton1.Kernels"
-          test: false
-          lint: false
-          use-mathlib-cache: auto
 
       - name: Set up official proof comparator
         uses: ./.github/actions/setup-comparator
