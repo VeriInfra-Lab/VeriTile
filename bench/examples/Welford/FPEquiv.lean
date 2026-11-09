@@ -1,24 +1,18 @@
 import bench.examples.Welford.IO
 import bench.examples.Welford.Contract
-import bench.examples.Welford.Kernels
-/- Original online versus two-pass Welford, using strictly certified scalar
-and bounded count rules together with admitted scalar relaxations.
-The count bound is the integer conversion theorem's domain. Empty Welford
-rows divide by zero and are outside this FP contract. -/
 import bench.examples.Welford.Proofs.FP
 import VeriTile.Triton.Float.CountConversionLaws
 import VeriTile.Triton.Float.Kernel
 import VeriTile.Meta.StatementAudit
 
+/- Original online versus two-pass Welford, using strictly certified scalar
+and bounded count rules together with admitted scalar relaxations.
+The count bound is the integer conversion theorem's domain. Empty Welford
+rows divide by zero and are outside this FP contract. -/
 namespace VeriTile.Bench.Examples.WelfordFPEquiv
-open VeriTile.Bench.Examples.Welford.Kernels
 open VeriTile Triton FP.Structural FP.CountConversion
-open WelfordFPContract WelfordFPExecution
 open _root_.VeriTile.Triton.FP.Equational (ReductionPlan)
 open scoped VeriTile.Spec
-open WelfordFPComparison (rowPlan)
-open _root_.VeriTile.Triton.FP.Equational (Schedules)
-open FP.GuardExpression
 
 def online (x mean variance : RegionName) (N stride : Nat) (empty : ReductionPlan 0) :
     FP.Kernel₁ₓ₂ where

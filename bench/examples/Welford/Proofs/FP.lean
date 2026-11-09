@@ -1,4 +1,5 @@
-import bench.examples.Welford.Kernels
+import bench.examples.Welford.Contract
+import bench.examples.Welford.IO
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Float.Control
 import VeriTile.Triton.Float.ExecutionProfile
@@ -245,26 +246,6 @@ theorem twopass_run {α : Type} [Inhabited α] (M : Algebra α)
   simp only [if_neg (by tauto : ¬ (r = varReg ∧ o = 0)),
     if_neg (by tauto : ¬ (r = meanReg ∧ o = 0))]
 
-/-- The original implementations expose both statistics, with symbolic row
-length and stride. These contracts add no numerical relation between them. -/
-def onlineIO (x mean variance : RegionName) (N stride : Nat) : KernelIO₁ₓ₂ where
-  kernel := onlineWelfordKernel x mean variance N stride
-  projection := by rfl
-  inp := x
-  out1 := mean
-  out2 := variance
-  Bin := N
-  Bout1 := 1
-  Bout2 := 1
-  read := fun pid => pid * stride
-  write1 := fun _ => 0
-  write2 := fun _ => 0
-
-def twopassIO (x mean variance : RegionName) (N stride : Nat) : KernelIO₁ₓ₂ :=
-  { onlineIO x mean variance N stride with
-    kernel := twopassWelfordKernel x mean variance N stride
-    projection := by rfl }
-
 theorem io_same_signature (x mean variance : RegionName) (N stride : Nat) :
     io₁ₓ₂Signature (onlineIO x mean variance N stride) =
       io₁ₓ₂Signature (twopassIO x mean variance N stride) := rfl
@@ -366,9 +347,6 @@ open WelfordFPExecution
 All casts, index conversions and non-sum operations retain their meanings. -/
 def engine {α : Type} (M : Algebra α) (plans : Schedules) : Algebra α :=
   (FP.ScalarReduction.algebra M plans).withDefaultPrecision .fp32
-
-def rowPlan (plans : Schedules) (N : Nat) : ReductionPlan N :=
-  plans (some .fp32) [N] ⟨0, by simp⟩ Bool.false PUnit.unit
 
 theorem sum_value {α : Type} (M : Algebra α) (plans : Schedules) (xs : Fin N → α) :
     sumValue (engine M plans) xs = value M xs (zero M) (rowPlan plans N).tree := by
@@ -487,22 +465,12 @@ open FP.GuardExpression
 open _root_.VeriTile.Triton.FP.Equational (ReductionPlan Schedules)
 open WelfordFPExecution WelfordFPComparison
 
-def rowExpressions (x : RegionName) (stride : Nat) (i : Nat) : Expr MemoryInput :=
-  .fp32Load (.input ⟨x, fun pid => pid * stride + i, .real⟩)
-
 def rowValues {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (x : RegionName)
     (stride i : Nat) : α := M.fp32Load ((s.mem x (s.pids 0 * stride + i)).read .real)
 
 @[simp] theorem eval_row {α : Type} [Inhabited α] (M : Algebra α)
     (s : State α) (x : RegionName) (stride i : Nat) :
     (rowExpressions x stride i).eval M (MemoryInput.read s) = rowValues M s x stride i := rfl
-
-/-- The numerical proof domain contains initialization, each iteration, and
-both normalization paths for all three statistics. Dimensions stay symbolic. -/
-def requirements (x : RegionName) (N stride : Nat) (empty : ReductionPlan 0)
-    (plans : Schedules) : Condition :=
-  FP.WelfordConditions.complete (FP.GuardExpression.algebra MemoryInput)
-    (rowExpressions x stride) empty (rowPlan plans N)
 
 /-- Reification neither drops a guard nor introduces an equation premise. -/
 theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
