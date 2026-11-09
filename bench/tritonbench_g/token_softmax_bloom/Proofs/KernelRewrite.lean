@@ -24,17 +24,8 @@ def program (k : ComputeKernel) : Program := ⟨k,[]⟩
 @[spec_rule] theorem signed_index_product_commutes {α : Type} [Inhabited α]
     (M : FP.Structural.Algebra α) (s : FP.Structural.State α) (before : List ComputeStmt)
     (a b : Op .int []) :
-    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) := by
-  intro t _
-  change (FP.Structural.evalOp (engine M) none a t >>= fun x =>
-    FP.Structural.evalOp (engine M) none b t >>= fun y =>
-      some (FP.Structural.bop Int.mul .nil x y)) =
-    (FP.Structural.evalOp (engine M) none b t >>= fun y =>
-      FP.Structural.evalOp (engine M) none a t >>= fun x =>
-        some (FP.Structural.bop Int.mul .nil y x))
-  cases ha : FP.Structural.evalOp (engine M) none a t <;>
-    cases hb : FP.Structural.evalOp (engine M) none b t
-  all_goals first | rfl | (apply congrArg some; funext i; exact Int.mul_comm _ _)
+    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) :=
+  FP.ProfiledRewrite.op_int_mul_comm M s before a b
 
 @[spec_rule] theorem signed_address_projection {α : Type} [Inhabited α]
     (M : FP.Structural.Algebra α) (s : FP.Structural.State α) (before : List ComputeStmt)
