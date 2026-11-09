@@ -46,10 +46,13 @@ class AuditGateTests(unittest.TestCase):
             target = self.fixture_root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / name, target)
-        for task, helpers in [('vector_addition', ['Real']), ('mean_reduction', ['Candidate', 'Source'])]:
+        for task, real_entry, helpers in [
+            ('vector_addition', 'RealCorrect', ['Real']),
+            ('mean_reduction', 'Correct', ['Candidate', 'Source']),
+        ]:
             directory = self.fixture_root / 'bench/tritonbench_g' / task
             (directory / 'Proofs').mkdir(parents=True)
-            for name in ['Correct', 'FPEquiv', 'Kernels', *['Proofs/' + h for h in helpers]]:
+            for name in [real_entry, 'FPEquiv', 'Kernels', *['Proofs/' + h for h in helpers]]:
                 (directory / (name + '.lean')).write_text('-- Synthetic worker-accounting fixture.\n')
 
     def run_gate(self, script, env):
@@ -69,7 +72,7 @@ class AuditGateTests(unittest.TestCase):
     def test_worker_failures_and_result_accounting(self):
         for script, variable, targets in [
             ('scripts/bench/check_ports.sh', 'CHECK_PORTS_JOBS', [
-                'vector_addition/Correct.lean', 'vector_addition/FPEquiv.lean',
+                'vector_addition/RealCorrect.lean', 'vector_addition/FPEquiv.lean',
                 'vector_addition/Kernels.lean', 'vector_addition/Proofs/Real.lean',
                 'mean_reduction/Correct.lean', 'mean_reduction/FPEquiv.lean',
                 'mean_reduction/Kernels.lean', 'mean_reduction/Proofs/Candidate.lean',
@@ -79,7 +82,7 @@ class AuditGateTests(unittest.TestCase):
                 'bench/tritonbench_g/vector_addition/FPEquiv.lean',
                 'bench/tritonbench_g/vector_addition/Kernels.lean',
                 'bench/tritonbench_g/vector_addition/Proofs/Real.lean',
-                'bench/tritonbench_g/mean_reduction/RealCorrect.lean',
+                'bench/tritonbench_g/mean_reduction/Correct.lean',
                 'bench/tritonbench_g/mean_reduction/FPEquiv.lean',
                 'bench/tritonbench_g/mean_reduction/Kernels.lean',
                 'bench/tritonbench_g/mean_reduction/Proofs/Candidate.lean',

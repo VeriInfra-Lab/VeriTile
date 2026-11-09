@@ -74,12 +74,17 @@ def variant_source(path: Path) -> str:
         else:
             kind, names, index = selector
             part = statements[kind, tuple(names)][index]
-            renamed = []
-            for token in tokenize.generate_tokens(io.StringIO(part + '\n').readline):
-                if token.type == tokenize.NAME:
-                    token = token._replace(string=recipe['names'].get(token.string, token.string))
-                renamed.append(token)
-            parts.append(tokenize.untokenize(renamed).rstrip())
+            # Edit identifier spans in the original text. Rebuilding every token
+            # can change the whitespace before an explicit line continuation.
+            part_lines = part.split('\n')
+            tokens = list(tokenize.generate_tokens(io.StringIO(part + '\n').readline))
+            for token in reversed(tokens):
+                if token.type == tokenize.NAME and token.string in recipe['names']:
+                    line, start = token.start
+                    end = token.end[1]
+                    original = part_lines[line - 1]
+                    part_lines[line - 1] = original[:start] + recipe['names'][token.string] + original[end:]
+            parts.append('\n'.join(part_lines).rstrip())
     return '\n\n'.join(parts) + '\n'
 
 

@@ -64,13 +64,9 @@ jobs:
           python3 -B -m unittest discover -s scripts -p 'test_audit_shards.py'
           python3 -B -m unittest discover -s scripts -p 'test_comparator_preflight.py'
           bash scripts/bench/audit_tritonbench_g.sh --source-only
-      - uses: leanprover/lean-action@v1
+      - uses: ./.github/actions/build-lean
         with:
-          build: true
           build-args: "VeriTile VeriTileMath VeriTileFull"
-          test: false
-          lint: false
-          use-mathlib-cache: auto
       - uses: ./.github/actions/setup-comparator
       - name: Replay library proofs
         run: python3 scripts/check_comparator.py --library
