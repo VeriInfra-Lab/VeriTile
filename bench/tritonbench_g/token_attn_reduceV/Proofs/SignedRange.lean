@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.RangeInduction
 import bench.tritonbench_g.token_attn_reduceV.Proofs.Model
 
 namespace VeriTile.Bench.Repairs.TokenAttnReduceV
@@ -18,23 +19,12 @@ theorem range_int_values {α β : Type} [Inhabited α] (M : Algebra α)
     (h : I cur initial s) :
     ∃ final, FP.Structural.rangeInt M idx cur stop stride body s = some final ∧
       Done (foldRange update cur stop stride initial) final := by
-  by_cases hz : stride = 0
-  · exact ⟨s, by simp [FP.Structural.rangeInt, hz], by simpa [foldRange, hz] using hdone cur initial s h⟩
-  · by_cases hc : cur < stop
-    · obtain ⟨next,he,hn⟩ := hstep cur initial s h hc
-      obtain ⟨final,hf,hd⟩ := range_int_values M idx body update I Done
-        (cur+stride) stop stride (update cur initial) next hstep hdone hn
-      refine ⟨final,?_,?_⟩
-      · have hi : (cur : Int) < stop := by exact_mod_cast hc
-        rw [FP.Structural.rangeInt]
-        simpa only [hz, hi, if_false, if_true, he,
-          Option.bind_some, Nat.cast_add] using hf
-      · rw [foldRange]
-        simpa only [hz,hc,if_false,if_true] using hd
-    · exact ⟨s, by simp [FP.Structural.rangeInt,hz,hc],
-        by simpa [foldRange,hz,hc] using hdone cur initial s h⟩
-termination_by stop-cur
- decreasing_by omega
+  refine FP.Structural.rangeInt_fold M idx body update I Done cur (stop : Int) stride initial s
+    (fun n a => foldRange update n stop stride a) ?_ ?_ hdone h
+  · simp only [Int.toNat_natCast]
+    intro n a
+    simpa only [dite_eq_ite] using foldRange.eq_def update n stop stride a
+  · simpa only [Int.toNat_natCast] using hstep
 
 #axiomsClean range_int_values
 end
