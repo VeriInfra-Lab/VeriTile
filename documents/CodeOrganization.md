@@ -116,43 +116,31 @@ softmax / log-sum-exp / L2 / max-with-mask alike.
 
 ### `bench/tritonbench_g/<kernel>/`, `bench/examples/`
 
-**Organization**: use the source and public-specification split documented in
-[`bench/examples/README.md`](../bench/examples/README.md): `Kernels.lean`,
-`Correct.lean`, `FPEquiv.lean`, required helpers under `Proofs/`, and optional
-proofs and applications under `Misc/`. `Correct.lean` proves only an independent
-Real mathematical specification through Mathlib. `FPEquiv.lean` compares two
-actual kernel implementations as `original ≡[R] candidate`, with the concrete
-transformation and applicable rules visible.
-`Kernels.lean` imports source definitions only. Real and FP public entries do
-not import each other; their required `Proofs/` helpers do not import those
-public entries. Neither main entry nor its required helpers imports `Misc/`.
-Cross-task proof reuse imports the applicable helper, preserving its premises.
-Required proof connections stay in `Proofs/`; optional entries belong in
-`Misc/` without duplicating the underlying proofs.
+Follow the [task layout](../AGENTS.md) and the
+[worked examples](../bench/examples/README.md).
 
-`Misc/` holds optional single-source FP/native correctness, host proofs,
-Tensor applications, candidate-correctness applications and audit entries,
-including `Misc/NativeCorrect.lean` and `Misc/TensorBridge.lean`. These ordinary
-auxiliary theorems may apply the public results. An audit that imports reader
-entries belongs in `Misc/PublicAudit.lean`, not at the task's top level or in
-`Proofs/`. A single-source native observation does not replace the main
-two-kernel equivalence; an absent existing comparison target is recorded
-explicitly.
+| Entry | Responsibility |
+| --- | --- |
+| `<task>.py` | Selected repaired Triton program, comparison candidate where present, and host input checks. |
+| `Kernels.lean` | Corresponding `triton { ... }` bodies and their source bindings. |
+| `IO.lean` | Typed regions, logical coordinates, layout, masks and scheduling. Each distinct IO view has one definition. |
+| `Contract.lean` | Input-domain definitions, call constraints and shared mathematical specifications. |
+| `RealCorrect.lean` | Public Real correctness against independent mathematics through Mathlib. |
+| `FPEquiv.lean` | Public comparison of actual kernels as `original ≡[R] candidate`, with applicable rules visible. |
+| `Proofs/` | Execution, safety and proof connections. Optional native results, host applications and audit entries go under `Proofs/Misc/`. |
 
-A task with an explicit Python host admission policy may additionally expose
-`Contract.lean`, shared by its Real and FP layers. It owns public input-domain
-definitions and check logic; equivalence and supporting lemmas belong in
-`Proofs/Contract.lean`. Keep the input assumptions visible: a Tensor-level
-statement uses the named contract, while a kernel IO states its corresponding
-typed regions, layout and access bounds. Reuse shared metadata-to-memory
-bindings when connecting these views. Python sources and task documentation
-remain beside the Lean entries.
+Public Real and FP entries share the kernels and use the relevant IO and
+contract definitions. They remain independent of one another. Required proof
+helpers import the definitions they need, and optional applications can use the
+public results. Cross-task proof reuse imports the applicable helper and
+preserves its premises. Keep the input conditions visible in each theorem,
+including any bounds supplied by its IO judgment.
 
 The TritonBench-G scope clarified on 2026-10-19 requires kernel correctness and
 kernel equivalence; the wrapper supplies input assertions. Allocation, host
 launch orchestration and returned-Tensor identity are not per-task proof or
 acceptance requirements. Existing host proofs may remain optional helpers,
-under `Misc/`, outside the current public kernel entries. This organization
+under `Proofs/Misc/`, outside the current public kernel entries. This organization
 does not add FP32-correctness or host-proof acceptance requirements.
 See [`documents/bench/TODO.md`](../documents/bench/TODO.md).
 
@@ -173,8 +161,8 @@ but never on benchmark modules. A particular kernel's supported shapes, dtypes,
 layout checks and launch configuration remain in that kernel's contract.
 
 `bench/tritonbench_g/<kernel>/` holds the single selected repaired Python program,
-`Kernels.lean`, and its canonical `Contract.lean`, `Correct.lean` and `FPEquiv.lean`
-entries. Required mathematical and source adapters remain helpers; they are not
+`Kernels.lean`, `IO.lean`, `Contract.lean`, `RealCorrect.lean` and `FPEquiv.lean`.
+Required mathematical and source adapters remain helpers; they are not
 separately selected implementations. Prior Python programs and implementation
 slots live in Git history. `validation/task_progress.json` selects current entries;
 source correspondence and native execution remain independently tracked.
