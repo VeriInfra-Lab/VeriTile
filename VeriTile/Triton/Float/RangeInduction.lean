@@ -6,7 +6,7 @@ fold equation lets callers retain their own mathematical accumulator definitions
 namespace VeriTile.Triton.FP.Structural
 
 /-- Carry a value recurrence through a loop with a natural counter. -/
-theorem range_fold {α β : Type} [Inhabited α] (M : Algebra α)
+theorem range_fold {α : Type} {β : Sort u} [Inhabited α] (M : Algebra α)
     (idx : RegName) (body : List ComputeStmt) (update : Nat → β → β)
     (I : Nat → β → State α → Prop) (Done : β → State α → Prop)
     (cur stop stride : Nat) (initial : β) (s : State α)
@@ -38,7 +38,7 @@ decreasing_by omega
 /-- Carry a natural recurrence through a signed counter starting at a
 nonnegative index. The body receives the Int counter and the signed bound
 is tested as-is, including when it is negative. -/
-theorem rangeInt_fold {α β : Type} [Inhabited α] (M : Algebra α)
+theorem rangeInt_fold {α : Type} {β : Sort u} [Inhabited α] (M : Algebra α)
     (idx : RegName) (body : List ComputeStmt) (update : Nat → β → β)
     (I : Nat → β → State α → Prop) (Done : β → State α → Prop)
     (cur : Nat) (stop : Int) (stride : Nat) (initial : β) (s : State α)
