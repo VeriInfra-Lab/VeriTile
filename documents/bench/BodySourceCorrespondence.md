@@ -1,9 +1,8 @@
 # Triton function-body correspondence
 
-The selected corpus is **not yet fully migrated** to pasted Python bodies.
-This acceptance scope is separate from the previously recorded Real and FP
-proof results. An old proof, a successful build, or an unchanged inventory
-does not establish correspondence with a Python JIT body.
+The 183 selected TritonBench-G tasks and all 19 worked-example groups have
+checked pasted Python bodies. The 334 imported bug-detection and pretrain tasks
+have no independent Python reference registered and remain outside that scope.
 
 The current machine-readable inventory is
 [`validation/source-correspondence.json`](../../validation/source-correspondence.json).
@@ -15,12 +14,9 @@ explicit 177-task plus 19-example scope.
 
 The active scope and separate validation stages are recorded in
 [`validation/body-migration-progress.json`](../../validation/body-migration-progress.json).
-All 19 examples now have registered Python bodies. Thirty-four of the 177 target
-TritonBench tasks have complete body-copy manifests; six previously aligned
-TritonBench cases are retained as regressions. The remaining 143 target tasks
-still require body migration. Indirectly loaded functions remain unresolved
-until explicitly anchored, including cross_entropy_ops and fast_ce_loss;
-triton_argmax remains in legacy AST mode.
+The completed migration comprises 177 TritonBench-G tasks and 19 worked-example
+groups. The source inventory also includes six previously aligned TritonBench-G
+tasks. Current pairs are discovered directly from the source and call bindings.
 
 Body correspondence, public Real/FP proofs, retained-module builds and official
 proof replay are separate checks. A successful historical replay certifies only
@@ -62,7 +58,7 @@ promotion correctness, or hardware behavior.
 2. Keep the Python function body in `triton { ... }`. Keep variable names,
    assignments, casts, calls, branches, masks and operation order. Supply
    pointer storage, runtime scalar types and constexpr names outside the body
-   with `with_triton_signature`. Bind runtime argument values at the call.
+   using the corresponding call signature. Bind runtime argument values at the call.
 3. Run `python3 -m scripts.bench.generate_jit_correspondence <task-dir>`.
    It discovers every JIT and candidate from the case's Python source and
    `Kernels.lean`. Review the call signature and use the corpus gate to check

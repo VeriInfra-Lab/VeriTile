@@ -1,0 +1,26 @@
+name: Build Lean with release download fallback
+description: Build the requested targets and recover from release download failures.
+inputs:
+  build-args:
+    description: Space-separated Lake build targets
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: leanprover/lean-action@v1
+      id: standard
+      continue-on-error: true
+      with:
+        build: true
+        build-args: ${{ inputs.build-args }}
+        test: false
+        lint: false
+        use-mathlib-cache: auto
+
+    - name: Build using verified GitHub release assets
+      if: steps.standard.outcome == 'failure'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        VERITILE_BUILD_ARGS: ${{ inputs.build-args }}
+      run: bash "$GITHUB_ACTION_PATH/build-from-release.sh"

@@ -1,10 +1,9 @@
 # Worked examples
 
-These Lean-authored sources have **not yet been migrated or certified for
-verbatim Python function-body copying**. All 19 groups remain pending in the
-[body-source inventory](../../documents/bench/BodySourceCorrespondence.md). Their existing Real
-and FP proofs establish the stated properties of the Lean sources; they do
-not by themselves certify correspondence with a Python `@triton.jit` body.
+All 19 groups have checked Python `@triton.jit` bodies in the
+[body-source inventory](../../documents/bench/BodySourceCorrespondence.md).
+[Source provenance](SOURCE_PROVENANCE.md) identifies examples whose Python
+reference was authored from an independent mathematical specification.
 
 There are **19 example groups and 21 public FP specifications**. Ten groups use
 empirical rules and nine use only strict-model or structural proofs; at
@@ -17,38 +16,28 @@ instance. See the [current rule-usage guide](../../documents/FPRemainingAdmissio
 for the complete list and proof boundaries; catalogue availability is not proof use.
 
 Each example has its own directory. Start with `Kernels.lean` to read the
-Triton programs, then choose the specification you want to inspect:
+Triton programs, then choose the specification you want to inspect.
 
 | File | Purpose |
 | --- | --- |
+| `<example>.py` | Python Triton sources for the example, with names for the reference and candidate. |
 | `Kernels.lean` | Original, optimized and intermediate source programs, including precision, casts, masks and stores. |
-| `Correct.lean` | Public IO, necessary conditions, independent mathematical formulas and real correctness specifications, with short composition proofs. |
-| `FPEquiv.lean` | Public IO, precision, numerical domains and FP equivalence specifications, with short composition proofs and `#print_fp_assumptions`. |
-| `Proofs/Real.lean` | Supporting real execution and memory-bound lemmas, when needed. |
-| `Proofs/FP.lean` | Supporting FP execution, operand-domain and composition lemmas, when needed. |
-| `Proofs/LegacyCorrect.lean` | Real correctness of StableLogSumExp's historical unconditional source; the current pair stays in `Correct.lean`. |
-| `Proofs/LegacyRealEquiv.lean` | Retained proofs using real intermediate arithmetic and their stated cast semantics. These are separate from the two-gates FP specifications. |
-| `Proofs/Unconditional.lean` | Lean-checked disproof of StableLogSumExp's historical FP target without fallbacks; `UnconditionalModel.lean` supplies the logical countermodel. |
+| `RealCorrect.lean` | Public Real correctness against independent mathematical formulas. |
+| `FPEquiv.lean` | Public FP equivalence with the applicable precision and domain, and `#print_fp_assumptions`. |
+| `IO.lean` | Shared port bindings, logical views, memory layout and schedules. |
+| `Contract.lean` | Allowed inputs, call constraints and shared mathematical specifications. |
+| `Proofs/` | Execution, memory, projection and composition lemmas. Optional applications go in `Proofs/Misc/`. |
 
-Only `Kernels.lean`, `Correct.lean` and `FPEquiv.lean` live at an example's
-top level. Read these three files first; `Proofs/` contains supporting detail
-and is omitted when no separate helpers are needed. Projection, execution,
-memory bounds and real arithmetic belong in `Proofs/Real.lean`; FP execution,
-recurrences and scalar derivations belong in `Proofs/FP.lean`.
-Helper modules do not import reader entries, and real and FP layers remain
-independent. Cross-example proof reuse imports the corresponding helper module.
-
-The same primary split applies to selected TritonBench-G revisions. Optional
-single-source native results, Tensor/host applications and extra audit readers
-belong in a task's `Misc/` directory (for example, `Misc/NativeCorrect.lean` and
-`Misc/TensorBridge.lean`). Helpers needed by the primary Real correctness or
-two-program FP equivalence remain in `Proofs/`; optional results add no FP32
-correctness or host-proof acceptance requirement.
+The same layout applies to selected TritonBench-G tasks. Required proof
+helpers use the IO and contract definitions directly. Real and FP public
+entries remain independent, and cross-example reuse imports the relevant
+definition or helper module. StableLogSumExp keeps the historical FP
+countermodel in `Proofs/Unconditional.lean` and `Proofs/UnconditionalModel.lean`.
 
 IO windows, masks, scratch regions, precision profiles and numerical domains
-remain visible in the entry files: these determine the statement itself.
-Scheduled examples explicitly assemble their public contracts there. Lean checks
-that those contracts match the internal execution interfaces used by the proofs.
+determine the statement itself. Scheduled examples assemble their public
+contracts from the named definitions. Lean checks their connection to the
+execution interfaces used by the proofs.
 
 Reduction examples use `FP.Kernel₁`, `FP.Kernel₁ₓ₂` or `FP.Kernel₃` from
 `VeriTile.Triton.Float.Kernel`, according to the number of input/output regions.
@@ -67,7 +56,7 @@ scope is preserved. For IO contracts, `withKernel` replaces the source while
 Lean checks its projection automatically; changes to scratch or masks remain
 explicit. These helpers do not establish numerical equivalence.
 
-`Correct.lean` and `FPEquiv.lean` reference the same typed source definitions
+`RealCorrect.lean` and `FPEquiv.lean` reference the same typed source definitions
 without importing one another. Names such as `originalKernel` only specialize
 region names or the documented scalar slice; they do not duplicate the source.
 Correctness uses the real projection of that source, erasing casts when required.
