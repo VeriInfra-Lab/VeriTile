@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ScatterProjection
 import bench.tritonbench_g.layer_norm_ops.Proofs.ForwardModel
 
 namespace VeriTile.Bench.Repairs.LayerNormOps.Forward
@@ -14,12 +15,8 @@ set_option linter.unusedSimpArgs false
     (region : ι → RegionName) (offset : ι → Nat) (value : ι → Cell α)
     (s : State α) :
     (xs.foldl (fun t i => if active i then t.write (region i) (offset i) (value i)
-      else t) s).undef = s.undef := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    simp only [List.foldl_cons, ih]
-    split <;> rfl
+      else t) s).undef = s.undef :=
+  State.fold_writes_undef xs active region offset value s
 
 @[simp] theorem vector_bop {α β γ : Type} {n : Nat}
     (f : α → β → γ) (a : TileIndex [n] → α) (b : TileIndex [n] → β) :

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ScatterProjection
 import bench.tritonbench_g.fused_recurrent_retention.Proofs.QuotedProgram
 
 namespace VeriTile.Bench.Repairs.FusedRecurrentRetention.Quoted
@@ -24,12 +25,8 @@ def ForwardReady {α : Type} (p : Layout) (s : State α) : Prop :=
     (region : ι → RegionName) (offset : ι → Nat) (active : ι → Prop)
     [DecidablePred active] (value : ι → Cell α) :
     (items.foldl (fun t i => if active i then
-      t.write (region i) (offset i) (value i) else t) s).regs = s.regs := by
-  induction items generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    simp only [List.foldl_cons, ih]
-    split <;> rfl
+      t.write (region i) (offset i) (value i) else t) s).regs = s.regs :=
+  State.fold_writes_regs items active region offset value s
 
 def FirstReady {α : Type} (p : Layout) (s : State α) : Prop :=
   (∃ a, s.regs .real [] "scale" = some a) ∧

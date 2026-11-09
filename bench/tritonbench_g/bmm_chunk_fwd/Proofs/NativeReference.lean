@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ScatterProjection
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.NativeBody
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.SourceAccess
 import VeriTile.Meta.Specification
@@ -139,12 +140,8 @@ def scatter (h : Host.Call) (c : Host.Config) (d : Coordinates) (x : Inputs)
 theorem scatter_memory {ι : Type} (r : ι → RegionName) (off : ι → Nat)
     (v : ι → Cell Expr) (mask : ι → Prop) [DecidablePred mask] (l : List ι) (s : State Expr) :
     (l.foldl (fun t i => if mask i then t.write (r i) (off i) (v i) else t) s).mem=
-      l.foldl (fun m i => if mask i then writeMemory m (r i) (off i) (v i) else m) s.mem := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons i l ih =>
-    simp only [List.foldl_cons]
-    by_cases hi : mask i <;> simp only [hi,↓reduceIte,ih] <;> rfl
+      l.foldl (fun m i => if mask i then writeMemory m (r i) (off i) (v i) else m) s.mem :=
+  State.fold_writes_mem l mask r off v s
 
 /-- Exact numerical values and writes of the executed source epilogue, with the
 signed sequence loads tied to the independent input arrays. -/
