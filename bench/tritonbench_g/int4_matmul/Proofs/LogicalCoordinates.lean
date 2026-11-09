@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int4_matmul.Formula
+import bench.tritonbench_g.int4_matmul.Proofs.Support.Formula
 import bench.tritonbench_g.int4_matmul.IO
 import bench.tritonbench_g.int4_matmul.Proofs.IOImplements
 

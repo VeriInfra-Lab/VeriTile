@@ -1,4 +1,5 @@
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.SourcePointers
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.NativeBridge
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.NativeLoop
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
@@ -13,7 +14,7 @@ def run {α : Type} [Inhabited α] (M : Algebra α) (body : List ComputeStmt) :
   | 0,cur,stop,s => if cur.slt stop then none else some s
   | fuel+1,cur,stop,s =>
     if cur.slt stop then
-      (FP.Structural.run M body (s.setReg "k" .nat [] (fun _ => cur.toNat))).bind
+      (FP.Structural.run M body (s.setReg "k" .int [] (fun _ => cur.toNat))).bind
         (run M body fuel (cur+1) stop)
     else some s
 
@@ -21,17 +22,17 @@ theorem exact_range {α : Type} [Inhabited α] (M : Algebra α) (body : List Com
     (fuel cur stop : Nat) (ht : cur+fuel=stop) (hs : stop<9223372036854775808)
     (s : State α) :
     run M body fuel (BitVec.ofNat 64 cur) (BitVec.ofNat 64 stop) s=
-      range M "k" cur stop 1 body s := by
+      rangeInt M "k" cur stop 1 body s := by
   induction fuel generalizing cur s with
   | zero =>
     have eq : cur=stop := by omega
     subst cur
-    rw [run,Finite.compare64 _ _ hs hs,range]
+    rw [run,Finite.compare64 _ _ hs hs,rangeInt_nat_step]
     simp
   | succ fuel ih =>
     have hc : cur<stop := by omega
     have hcur : cur<9223372036854775808 := by omega
-    rw [run,Finite.compare64 _ _ hcur hs,if_pos (by simp [hc]),range,
+    rw [run,Finite.compare64 _ _ hcur hs,if_pos (by simp [hc]),rangeInt_nat_step,
       if_neg (by decide),if_pos hc,NativeControl.nat64 cur hcur]
     congr 1
     funext t
@@ -72,7 +73,7 @@ theorem source_iterations {α : Type} [Inhabited α] (o : FPSuccess.Ops α)
     (h : Host.Call) (c : Host.Config) (hc : c∈Host.configurations)
     (sizes : Finite.AllocatedSizes h.shape) (d : Coordinates) (s : State α)
     (hs : StateAt h c d 0 s) (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
-    ∃ t, range (engine o.algebra) "k" 0 (Host.cdiv h.shape.K c.K) 1 (FPSuccess.parts h c).body s=some t ∧
+    ∃ t, rangeInt (engine o.algebra) "k" 0 (Host.cdiv h.shape.K c.K) 1 (FPSuccess.parts h c).body s=some t ∧
       run (engine o.algebra) (FPSuccess.parts h c).body (Host.cdiv h.shape.K c.K)
         0 (NativeControl.ceil h.shape.K c.K) s=some t ∧
       StateAt h c d (Host.cdiv h.shape.K c.K) t ∧ t.mem=s.mem := by

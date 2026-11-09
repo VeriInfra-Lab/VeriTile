@@ -9,42 +9,42 @@ set_option maxHeartbeats 4000000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def originalOffset (p : Parameters) : Op .nat [p.block] :=
-  .add .nat .scalarL
-    (.mul .nat .nil (.ref .nat [] "cur_head") (.constNat p.probHeadStride))
-    (.mul .nat .scalarR
-      (.add .nat .scalarL (.ref .nat [] "cur_batch_in_all_start_index")
-        (.ref .nat [p.block] "offs_n")) (.constNat p.probTokenStride))
+def originalOffset (p : Parameters) : Op .int [p.block] :=
+  .add .int .scalarL
+    (.castNatToInt (.mul .nat .nil (.ref .nat [] "cur_head") (.constNat p.probHeadStride)))
+    (.mul .int .scalarR
+      (.add .int .scalarL (.ref .int [] "cur_batch_in_all_start_index")
+        (.castNatToInt (.ref .nat [p.block] "offs_n"))) (.castNatToInt (.constNat p.probTokenStride)))
 
-def affineOffset (p : Parameters) : Op .nat [p.block] :=
-  .add .nat .scalarL
-    (.add .nat .nil
-      (.mul .nat .nil (.ref .nat [] "cur_head") (.constNat p.probHeadStride))
-      (.mul .nat .nil (.ref .nat [] "cur_batch_in_all_start_index") (.constNat p.probTokenStride)))
-    (.mul .nat .scalarR (.ref .nat [p.block] "offs_n") (.constNat p.probTokenStride))
+def affineOffset (p : Parameters) : Op .int [p.block] :=
+  .add .int .scalarL
+    (.add .int .nil
+      (.castNatToInt (.mul .nat .nil (.ref .nat [] "cur_head") (.constNat p.probHeadStride)))
+      (.mul .int .nil (.ref .int [] "cur_batch_in_all_start_index") (.castNatToInt (.constNat p.probTokenStride))))
+    (.castNatToInt (.mul .nat .scalarR (.ref .nat [p.block] "offs_n") (.constNat p.probTokenStride)))
 
 theorem offset_eval (M : Algebra α) (p : Parameters) (s : State α) :
     FP.Structural.evalOp M none (originalOffset p) s = FP.Structural.evalOp M none (affineOffset p) s := by
   simp only [originalOffset,affineOffset,FP.Structural.evalOp_unfold]
   cases h : s.regs .nat [] "cur_head" <;>
-    cases b : s.regs .nat [] "cur_batch_in_all_start_index" <;>
+    cases b : s.regs .int [] "cur_batch_in_all_start_index" <;>
     cases n : s.regs .nat [p.block] "offs_n"
   all_goals simp [h,b,n,bind,Option.bind,FP.Structural.numeric,FP.Structural.bop,
-    Broadcast.leftIndex,Broadcast.rightIndex,Nat.add_mul,Nat.add_assoc]
+    Broadcast.leftIndex,Broadcast.rightIndex,Int.natCast_mul,Int.add_mul,Int.add_assoc]
   funext i
-  simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Nat.add_mul,Nat.add_assoc]
+  simp [FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,Int.natCast_mul,Int.add_mul,Int.add_assoc]
 
 theorem decomposition (p : Parameters) :
     (kernel p).surfaceBody = (kernel p).surfaceBody.take 11 ++
-      .assign .nat [p.block] "p_offs" (.alg (originalOffset p)) :: (kernel p).surfaceBody.drop 12 := rfl
+      .assign .int [p.block] "p_offs" (.alg (originalOffset p)) :: (kernel p).surfaceBody.drop 12 := rfl
 
 theorem candidate_decomposition (p : Parameters) :
     (affineKernel p).surfaceBody = (kernel p).surfaceBody.take 11 ++
-      .assign .nat [p.block] "p_offs" (.alg (affineOffset p)) :: (kernel p).surfaceBody.drop 12 := rfl
+      .assign .int [p.block] "p_offs" (.alg (affineOffset p)) :: (kernel p).surfaceBody.drop 12 := rfl
 
 theorem step_equal (M : Algebra α) (p : Parameters) (s : State α) :
-    step M (.assign .nat [p.block] "p_offs" (.alg (originalOffset p))) s =
-      step M (.assign .nat [p.block] "p_offs" (.alg (affineOffset p))) s := by
+    step M (.assign .int [p.block] "p_offs" (.alg (originalOffset p))) s =
+      step M (.assign .int [p.block] "p_offs" (.alg (affineOffset p))) s := by
   simp only [FP.Structural.step,FP.Structural.evalExpr,offset_eval]
 
 theorem execution (M : Algebra α) (p : Parameters) (s : State α) :

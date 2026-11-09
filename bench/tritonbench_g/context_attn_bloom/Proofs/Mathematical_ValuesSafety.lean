@@ -10,9 +10,9 @@ theorem safe (p : Layout) (r : Regions) (sn last : Int) (head : Nat) (pages : Fi
     (u : BlockState) (bounds : RegionBounds)
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hp : u.regs .int [p.BN] "kv_loc" = some (Tile.vec pages))
     (hb : ∀ (j : Fin p.BN) (d : Fin p.D), sn+j.val < last → d.val < p.headDim →
       (address p head (pages j) d.val).toNat < bounds r.value) :
@@ -20,13 +20,13 @@ theorem safe (p : Layout) (r : Regions) (sn last : Int) (head : Nat) (pages : Fi
   let off : Tile .int [p.BN,p.D] := Tile.mat (fun j d => address p head (pages j) d.val)
   let s1 := u.setReg "off_v" .int [p.BN,p.D] off
   have h1 : evalOp (offsets p) u = some off := by
-    simp [offsets,tokenView,channelView,n,off,address,evalOp.eq_def,hh,hd,hp,
+    simp [offsets,tokenView,channelView,n,z,off,address,evalOp.eq_def,hh,hd,hp,
       Tile.mat,Tile.vec,Tile.scalar,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex,
       Option.bind,Nat.cast_mul,-Tile.scalar_eta]
   rw [ValuesProgram.source]
   unfold code
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some h1)]
-  refine ⟨by simp [Stmt.TraceSafe,offsets,tokenView,channelView,n,Op.SafeAt.eq_def],?_⟩
+  refine ⟨by simp [Stmt.TraceSafe,offsets,tokenView,channelView,n,z,Op.SafeAt.eq_def],?_⟩
   change Stmt.TraceSafeList bounds _ s1
   apply TraceProofs.assign_cons
   · apply SafeOps.maskedLoad r.value _ _ _ bounds s1

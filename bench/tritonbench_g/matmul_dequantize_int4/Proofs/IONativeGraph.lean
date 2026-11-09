@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize_int4.NativeIO
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Support.NativeIO
 import bench.tritonbench_g.matmul_dequantize_int4.Proofs.IOExecution
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeInt4.IONativeGraph

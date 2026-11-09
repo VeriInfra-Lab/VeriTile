@@ -12,7 +12,7 @@ def BackwardWrites (s : State α) (T D BD : Nat) (r : RegionName) (a : Nat) : Pr
   (r="dx" ∨ r="dg") ∧ ∃ t, t < T ∧ ∃ j, lane s BD j < D ∧ a=row s t T D BD j
 
 theorem backward_complete (p : Ops α) (s : State α) (T D BD : Nat) (U V : Bool) :
-    ∃ q, run (algebra p) (backward T D BD U V).surfaceBody s=some q ∧ q.pids=s.pids ∧
+    ∃ q, run (algebra p) (backwardKernel T D BD U V).surfaceBody s=some q ∧ q.pids=s.pids ∧
       (∀ t, t < T → ∀ j, lane s BD j < D →
         q.mem "dx" (row s t T D BD j)=
           .mk .real (reverseDx p s T D BD t (reverseValues p s V T D BD (T-1-t)) j)) ∧

@@ -1,12 +1,12 @@
-import bench.examples.TritonBenchVectorAddition.Correct
-import bench.examples.VectorAdd.Correct
-import bench.examples.FlatVectorAdd.Correct
-import bench.examples.FloatDTypeAdd.Correct
-import bench.examples.AdamUpdateGridLaunch.Correct
-import bench.examples.HyperConnectionsDepth.Correct
-import bench.examples.HyperConnectionsWidth.Correct
-import bench.examples.RowWiseSum.Correct
-import bench.examples.RowWiseMax.Correct
+import bench.examples.TritonBenchVectorAddition.RealCorrect
+import bench.examples.VectorAdd.RealCorrect
+import bench.examples.FlatVectorAdd.RealCorrect
+import bench.examples.FloatDTypeAdd.RealCorrect
+import bench.examples.AdamUpdateGridLaunch.RealCorrect
+import bench.examples.HyperConnectionsDepth.RealCorrect
+import bench.examples.HyperConnectionsWidth.RealCorrect
+import bench.examples.RowWiseSum.RealCorrect
+import bench.examples.RowWiseMax.RealCorrect
 
 /-!
 Regression contracts for the optimized real specifications: exact source wiring,

@@ -4,7 +4,7 @@ import VeriTile.Torch.FP32
 
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Wrapper
 open VeriTile.Triton FP.Structural VeriTile.Torch
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 
 /-- Actual regions returned by the original contiguous/view preparation.

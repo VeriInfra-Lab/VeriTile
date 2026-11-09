@@ -1,4 +1,4 @@
-import bench.tritonbench_g.triton_conv2d_fwd.Spec
+import bench.tritonbench_g.triton_conv2d_fwd.Proofs.Support.Spec
 import bench.tritonbench_g.triton_conv2d_fwd.Proofs.Grid
 namespace VeriTile.Bench.Repairs.Conv2d
 open scoped BigOperators

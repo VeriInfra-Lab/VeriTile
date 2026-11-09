@@ -7,11 +7,11 @@ set_option maxHeartbeats 3600000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-def lanes (n : Nat) : Tile .nat [n] := ⟨fun i => i.1.val⟩
+def lanes (n : Nat) : Tile .int [n] := ⟨fun i => (i.1.val:Int)⟩
 def maskT (h : Call) (c : Config) (q : Nat) : Tile .bool [c.BT] := ⟨fun i => decide (Geometry.activeT h c q i.1)⟩
 def maskS (h : Call) (f : Nat) : Tile .bool [BS] := ⟨fun j => decide (Geometry.activeS h f j.1)⟩
 def times (h : Call) (c : Config) (q : Nat) : Tile .int [c.BT] := ⟨fun i => (Geometry.time h c q i.1:Int)⟩
-def features (h : Call) (f : Nat) : Tile .nat [BS] := ⟨fun j => Geometry.feature h f j.1⟩
+def features (h : Call) (f : Nat) : Tile .int [BS] := ⟨fun j => (Geometry.feature h f j.1:Int)⟩
 def mask (h : Call) (c : Config) (q f : Nat) : Tile .bool [c.BT,BS] := ⟨fun i => decide (Geometry.active h c q f i.1 i.2.1)⟩
 def pointer (h : Call) (c : Config) (row q f : Nat) (r : RegionName) : Tile .ptr [c.BT,BS] :=
   ⟨fun i => (r,Geometry.address h row (Geometry.time h c q i.1) (Geometry.feature h f i.2.1))⟩
@@ -24,13 +24,13 @@ theorem startT_eval (c : Config) (q : Nat) (u : BlockState)
   simp [-Tile.scalar_eta,startTOp,evalOp,hi,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.mul]
 
 theorem startS_eval (f : Nat) (u : BlockState)
-    (hi : u.regs .nat [] "i_s"=some (Tile.scalar f)) :
-    evalOp startSOp u=some (Tile.scalar (f*BS)) := by
+    (hi : u.regs .int [] "i_s"=some (Tile.scalar (f:Int))) :
+    evalOp startSOp u=some (Tile.scalar (f*BS:Int)) := by
   simp [-Tile.scalar_eta,startSOp,evalOp,hi,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.mul]
 
 theorem activeT_eval (h : Call) (c : Config) (q : Nat) (u : BlockState) (hq : q*c.BT<h.T)
     (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lane_t"=some (lanes c.BT)) :
+    (hl : u.regs .int [c.BT] "lane_t"=some (lanes c.BT)) :
     evalOp (activeTOp h c) u=some (maskT h c q) := by
   simp only [activeTOp,evalOp,hs,hl]
   apply congrArg some
@@ -43,8 +43,8 @@ theorem activeT_eval (h : Call) (c : Config) (q : Nat) (u : BlockState) (hq : q*
   omega
 
 theorem activeS_eval (h : Call) (f : Nat) (u : BlockState)
-    (hs : u.regs .nat [] "start_s"=some (Tile.scalar (f*BS)))
-    (hl : u.regs .nat [BS] "lane_s"=some (lanes BS)) :
+    (hs : u.regs .int [] "start_s"=some (Tile.scalar (f*BS:Int)))
+    (hl : u.regs .int [BS] "lane_s"=some (lanes BS)) :
     evalOp (activeSOp h) u=some (maskS h f) := by
   simp only [activeSOp,evalOp,hs,hl]
   apply congrArg some
@@ -52,10 +52,13 @@ theorem activeS_eval (h : Call) (f : Nat) (u : BlockState)
   rintro ⟨j,⟨⟩⟩
   simp [-Tile.scalar_eta,lanes,maskS,Geometry.activeS,Tile.bop,Tile.scalar,Broadcast.leftIndex,Broadcast.rightIndex,
     NumericDType.sub,ComparableDType.lt]
+  rw [←Int.natCast_mul]
+  change ((j.val:Int)<(h.S:Int)-(f*BS:Nat)) ↔ j.val<h.S-f*BS
+  omega
 
 theorem time_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
     (hs : u.regs .int [] "start_t"=some (Tile.scalar (q*c.BT:Int)))
-    (hl : u.regs .nat [c.BT] "lane_t"=some (lanes c.BT))
+    (hl : u.regs .int [c.BT] "lane_t"=some (lanes c.BT))
     (hm : u.regs .bool [c.BT] "active_t"=some (maskT h c q)) :
     evalOp (timeOp c) u=some (times h c q) := by
   simp only [timeOp,evalOp,hs,hl,hm]
@@ -66,8 +69,8 @@ theorem time_eval (h : Call) (c : Config) (q : Nat) (u : BlockState)
     Broadcast.leftIndex,Broadcast.rightIndex,NumericDType.add]
 
 theorem feature_eval (h : Call) (f : Nat) (u : BlockState)
-    (hs : u.regs .nat [] "start_s"=some (Tile.scalar (f*BS)))
-    (hl : u.regs .nat [BS] "lane_s"=some (lanes BS))
+    (hs : u.regs .int [] "start_s"=some (Tile.scalar (f*BS:Int)))
+    (hl : u.regs .int [BS] "lane_s"=some (lanes BS))
     (hm : u.regs .bool [BS] "active_s"=some (maskS h f)) :
     evalOp featureOp u=some (features h f) := by
   simp only [featureOp,evalOp,hs,hl,hm]
@@ -90,9 +93,9 @@ theorem mask_eval (h : Call) (c : Config) (q f : Nat) (u : BlockState)
     Broadcast.leftIndex,Broadcast.rightIndex]
 
 theorem pointer_eval (h : Call) (c : Config) (row q f : Nat) (r : RegionName) (u : BlockState)
-    (hr : u.regs .nat [] "i_bh"=some (Tile.scalar row))
+    (hr : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (ht : u.regs .int [c.BT] "times"=some (times h c q))
-    (hs : u.regs .nat [BS] "features"=some (features h f)) :
+    (hs : u.regs .int [BS] "features"=some (features h f)) :
     evalOp (pointerOp h c r) u=some (pointer h c row q f r) := by
   simp only [pointerOp,evalOp,hr,ht,hs]
   erw [evalOp_expandDim, evalOp_ref, ht, evalOp_expandDim, evalOp_ref, hs]

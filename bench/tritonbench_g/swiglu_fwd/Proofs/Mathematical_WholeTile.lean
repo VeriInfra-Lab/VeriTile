@@ -20,13 +20,13 @@ structure Layout where
   so : Nat
 
 def Layout.source (c : Layout) (B : Nat) : ComputeKernel :=
-  VeriTile.Bench.Repairs.SwigluFwd.kernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
+  VeriTile.Bench.Repairs.SwigluFwd.sourceKernel c.X c.Y c.OUT c.sx c.sy c.so c.cols B
 
 /-- FP32 is represented by the repaired source's real carrier plus the
 explicit some fp32 computation tag. Neither load cast is eliminated. -/
 def scalar (M : Algebra α) (x y : α) : α :=
-  let x := M.cast (some .fp32) .real .real x
-  let y := M.cast (some .fp32) .real .real y
+  let x := M.cast (some .fp32) .real .real (M.fp32Load x)
+  let y := M.cast (some .fp32) .real .real (M.fp32Load y)
   M.binary (some .fp32) .real .mul
     (M.binary (some .fp32) .real .mul x (M.unary (some .fp32) .sigmoid x)) y
 
@@ -41,13 +41,13 @@ def tileState {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     (B : Nat) (r b : Nat) (s : State α) : State α :=
   { s with pids := fun ax => if ax = 0 then r else if ax = 1 then b else 0 }
 
-/-- Constructed by reducing all ten installed source statements. -/
+/-- Constructed by reducing every installed source statement. -/
 def sourceRun {α : Type} [Inhabited α] (M : Algebra α) (c : Layout)
     (B : Nat) (r b : Nat) (s : State α) :
     { t : State α // run M (c.source B).surfaceBody (tileState M c B r b s) = some t } := by
   refine ⟨?_, ?_⟩
   swap
-  simp (maxSteps := 500000) [Layout.source, VeriTile.Bench.Repairs.SwigluFwd.kernel,
+  simp (maxSteps := 500000) [Layout.source, VeriTile.Bench.Repairs.SwigluFwd.sourceKernel,
     ComputeKernel.surfaceBody, run, step, FP.Structural.evalExpr,
     evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas, store,
     Option.bind, ComputeDType.eraseDType, numeric, bop, natLt,

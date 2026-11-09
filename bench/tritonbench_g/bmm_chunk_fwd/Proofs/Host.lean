@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Source
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.Source
 import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Mathematical_RealViews
 import VeriTile.Triton.Launch.Composition
 

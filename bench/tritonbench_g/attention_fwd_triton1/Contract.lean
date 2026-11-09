@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_fwd_triton1.Admission
+import bench.tritonbench_g.attention_fwd_triton1.Proofs.Support.Admission
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton1TileChecked
 open AttentionFwdTriton1.Whole001

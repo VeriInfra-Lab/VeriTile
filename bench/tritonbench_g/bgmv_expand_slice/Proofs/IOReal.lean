@@ -1,5 +1,5 @@
 import bench.tritonbench_g.bgmv_expand_slice.Proofs.IOImplementation
-import bench.tritonbench_g.bgmv_expand_slice.Targets
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Support.Targets
 
 namespace VeriTile.Bench.Repairs.BgmvExpandSlicePhysicalTileChecked.PublicMath
 open VeriTile.Triton FP.Structural Direct Direct.FPValues

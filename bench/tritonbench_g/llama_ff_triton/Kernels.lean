@@ -1,264 +1,321 @@
-import VeriTile.Triton.DSL
-import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.DSL.PythonBitcastBooleans
 
-namespace VeriTile.Bench.Repairs.LlamaFFScalarCast.Source
-open VeriTile.Triton Lean
-set_option maxRecDepth 16000
-set_option maxHeartbeats 4000000
+namespace VeriTile.Bench.Repairs.LlamaFFScalarCast
+open VeriTile.Triton
+noncomputable section
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 30000
+set_option linter.unusedVariables false
 
-/-- Readable shared DSL for both exact storage branches. Integer scalar casts,
-all four K masks, each E5M2 conversion and the implicit half store are retained. -/
-def half (A W1 W3 OUT RMS : RegionName)
-    (M N K sam sak sw1k sw1n sw3k sw3n soutm soutn srms BM BN BK : Nat)
-    (EPS : ℝ) : ComputeKernel := triton {
-  tl.ports inputs=[A, W1, W3, RMS], outputs=[OUT]
-  tl.region A = tl.float16, W1 = tl.float16, W3 = tl.float16, RMS = tl.float16, OUT = tl.float16
-  M64 = tl.cast($(M), tl.int64)
-  N64 = tl.cast($(N), tl.int64)
-  K64 = tl.cast($(K), tl.int64)
-  sam64 = tl.cast($(sam), tl.int64)
-  sak64 = tl.cast($(sak), tl.int64)
-  sw1k64 = tl.cast($(sw1k), tl.int64)
-  sw1n64 = tl.cast($(sw1n), tl.int64)
-  sw3k64 = tl.cast($(sw3k), tl.int64)
-  sw3n64 = tl.cast($(sw3n), tl.int64)
-  soutm64 = tl.cast($(soutm), tl.int64)
-  soutn64 = tl.cast($(soutn), tl.int64)
-  srms64 = tl.cast($(srms), tl.int64)
-  pid = tl.program_id(axis=0).to(tl.int64)
-  pid_m = pid // ((N64 + $(BN) - $(1)) // $(BN))
-  pid_n = pid % ((N64 + $(BN) - $(1)) // $(BN))
-  offs_am = (pid_m * $(BM) + tl.arange(0, $(BM))) % M64
-  offs_bn = (pid_n * $(BN) + tl.arange(0, $(BN))) % N64
-  offs_k = tl.arange(0, $(BK))
-  a_ptrs = A + (offs_am[:, None] * sam64 + offs_k[None, :] * sak64)
-  w1_ptrs = W1 + (offs_k[:, None] * sw1k64 + offs_bn[None, :] * sw1n64)
-  w3_ptrs = W3 + (offs_k[:, None] * sw3k64 + offs_bn[None, :] * sw3n64)
-  acc1 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  acc2 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  rms_w_ptrs = RMS + tl.arange(0, $(BK))[None, :] * srms64
-  a_sum = tl.zeros([$(BM), $(BK)], dtype=tl.float32)
-  for step in range($(0), ((K64 + $(BK) - $(1)) // $(BK))) {
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
-    rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    a = a * rms_w
-    b = tl.load(w1_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    acc1 += tl.dot(a, b)
-    c = tl.load(w3_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    acc2 += tl.dot(a, c)
-    a_ptrs += $(BK) * sak64
-    w1_ptrs += $(BK) * sw1k64
-    w3_ptrs += $(BK) * sw3k64
-    rms_w_ptrs += $(BK) * srms64
-  }
-  a_mean = tl.sum(a_sum, axis=1) / K64 + $(EPS)
-  a_norm = tl.math.rsqrt(a_mean)
-  acc1 = acc1 * a_norm[:, None]
-  acc2 = acc2 * a_norm[:, None]
-  accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
-  offs_outm = pid_m * $(BM) + tl.arange(0, $(BM))
-  offs_outn = pid_n * $(BN) + tl.arange(0, $(BN))
-  out_ptrs = OUT + (soutm64 * offs_outm[:, None] + soutn64 * offs_outn[None, :])
-  out_mask = (offs_outm[:, None] < M64) & (offs_outn[None, :] < N64)
-  tl.store(out_ptrs, accumulator.to(tl.float16), mask=out_mask)
+def halfSignature : CallSignature where
+  pointers := [("a_ptr",.fp16),("w1_ptr",.fp16),("w3_ptr",.fp16),("out_ptr",.fp16),("rms_w_ptr",.fp16)]
+  scalars := [("M",.integer),("N",.integer),("K",.integer),("stride_am",.integer),("stride_ak",.integer),("stride_w1k",.integer),("stride_w1n",.integer),("stride_w3k",.integer),("stride_w3n",.integer),("stride_outm",.integer),("stride_outn",.integer),("stride_rms_w",.integer)]
+  constexpr := ["USE_FP8","EPS","BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K"]
+  readPorts := ["a_ptr","w1_ptr","w3_ptr","rms_w_ptr"]
+  writePorts := ["out_ptr"]
+
+def halfKernel (a_ptr w1_ptr w3_ptr out_ptr rms_w_ptr : RegionName) (M N K stride_am stride_ak stride_w1k stride_w1n stride_w3k stride_w3n stride_outm stride_outn stride_rms_w BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) (EPS : ℝ) : ComputeKernel :=
+  let USE_FP8 := Bool.false
+  with_triton_call halfSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_w1k := stride_w1k, stride_w1n := stride_w1n, stride_w3k := stride_w3k, stride_w3n := stride_w3n, stride_outm := stride_outm, stride_outn := stride_outn, stride_rms_w := stride_rms_w] in triton {
+    """
+    w1 and w3 are weights (linear layers)
+    F.silu(w1(x)) * w3(x)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_w1k = tl.cast(stride_w1k, tl.int64)
+    stride_w1n = tl.cast(stride_w1n, tl.int64)
+    stride_w3k = tl.cast(stride_w3k, tl.int64)
+    stride_w3n = tl.cast(stride_w3n, tl.int64)
+    stride_outm = tl.cast(stride_outm, tl.int64)
+    stride_outn = tl.cast(stride_outn, tl.int64)
+    stride_rms_w = tl.cast(stride_rms_w, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    pid_m = pid // tl.cdiv(N, BLOCK_SIZE_N)
+    pid_n = pid % tl.cdiv(N, BLOCK_SIZE_N)
+
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
+    w1_ptrs = w1_ptr + (offs_k[:, None] * stride_w1k + offs_bn[None, :] * stride_w1n)
+    w3_ptrs = w3_ptr + (offs_k[:, None] * stride_w3k + offs_bn[None, :] * stride_w3n)
+    acc1 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    acc2 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+
+    rms_w_ptrs = rms_w_ptr + tl.arange(0, BLOCK_SIZE_K)[None, :] * stride_rms_w
+    a_sum = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_K), dtype=tl.float32)
+    for step in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
+        rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            rms_w = rms_w.to(tl.float8e5, bitcast=True)
+            rms_w = rms_w.to(tl.float16)
+        a = a * rms_w
+        b = tl.load(w1_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            b = b.to(tl.float8e5, bitcast=True)
+            b = b.to(tl.float32)
+            b = b.to(tl.float16)
+        acc1 += tl.dot(a, b)
+        c = tl.load(w3_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            c = c.to(tl.float8e5, bitcast=True)
+            c = c.to(tl.float32)
+            c = c.to(tl.float16)
+        acc2 += tl.dot(a, c)
+
+        a_ptrs += BLOCK_SIZE_K * stride_ak
+        w1_ptrs += BLOCK_SIZE_K * stride_w1k
+        w3_ptrs += BLOCK_SIZE_K * stride_w3k
+
+        rms_w_ptrs += BLOCK_SIZE_K * stride_rms_w
+
+    a_mean = tl.sum(a_sum, axis=1) / K + EPS
+    a_norm = tl.math.rsqrt(a_mean)
+    acc1 = acc1 * a_norm[:, None]
+    acc2 = acc2 * a_norm[:, None]
+    accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
+
+    offs_outm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
+    offs_outn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    out_ptrs = out_ptr + (stride_outm * offs_outm[:, None] + stride_outn * offs_outn[None, :])
+    out_mask = (offs_outm[:, None] < M) & (offs_outn[None, :] < N)
+    tl.store(out_ptrs, accumulator, mask=out_mask)
 }
 
-def byte (A W1 W3 OUT RMS : RegionName)
-    (M N K sam sak sw1k sw1n sw3k sw3n soutm soutn srms BM BN BK : Nat)
-    (EPS : ℝ) : ComputeKernel := triton {
-  tl.ports inputs=[A, W1, W3, RMS], outputs=[OUT]
-  tl.region A = tl.float16, W1 = tl.int8, W3 = tl.int8, RMS = tl.int8, OUT = tl.float16
-  M64 = tl.cast($(M), tl.int64)
-  N64 = tl.cast($(N), tl.int64)
-  K64 = tl.cast($(K), tl.int64)
-  sam64 = tl.cast($(sam), tl.int64)
-  sak64 = tl.cast($(sak), tl.int64)
-  sw1k64 = tl.cast($(sw1k), tl.int64)
-  sw1n64 = tl.cast($(sw1n), tl.int64)
-  sw3k64 = tl.cast($(sw3k), tl.int64)
-  sw3n64 = tl.cast($(sw3n), tl.int64)
-  soutm64 = tl.cast($(soutm), tl.int64)
-  soutn64 = tl.cast($(soutn), tl.int64)
-  srms64 = tl.cast($(srms), tl.int64)
-  pid = tl.program_id(axis=0).to(tl.int64)
-  pid_m = pid // ((N64 + $(BN) - $(1)) // $(BN))
-  pid_n = pid % ((N64 + $(BN) - $(1)) // $(BN))
-  offs_am = (pid_m * $(BM) + tl.arange(0, $(BM))) % M64
-  offs_bn = (pid_n * $(BN) + tl.arange(0, $(BN))) % N64
-  offs_k = tl.arange(0, $(BK))
-  a_ptrs = A + (offs_am[:, None] * sam64 + offs_k[None, :] * sak64)
-  w1_ptrs = W1 + (offs_k[:, None] * sw1k64 + offs_bn[None, :] * sw1n64)
-  w3_ptrs = W3 + (offs_k[:, None] * sw3k64 + offs_bn[None, :] * sw3n64)
-  acc1 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  acc2 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  rms_w_ptrs = RMS + tl.arange(0, $(BK))[None, :] * srms64
-  a_sum = tl.zeros([$(BM), $(BK)], dtype=tl.float32)
-  for step in range($(0), ((K64 + $(BK) - $(1)) // $(BK))) {
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
-    rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    rms_w = rms_w.to(tl.float8e5, bitcast=True)
-    rms_w = rms_w.to(tl.float16)
-    a = a * rms_w
-    b = tl.load(w1_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    b = b.to(tl.float8e5, bitcast=True)
-    b = b.to(tl.float32)
-    b = b.to(tl.float16)
-    acc1 += tl.dot(a, b)
-    c = tl.load(w3_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    c = c.to(tl.float8e5, bitcast=True)
-    c = c.to(tl.float32)
-    c = c.to(tl.float16)
-    acc2 += tl.dot(a, c)
-    a_ptrs += $(BK) * sak64
-    w1_ptrs += $(BK) * sw1k64
-    w3_ptrs += $(BK) * sw3k64
-    rms_w_ptrs += $(BK) * srms64
-  }
-  a_mean = tl.sum(a_sum, axis=1) / K64 + $(EPS)
-  a_norm = tl.math.rsqrt(a_mean)
-  acc1 = acc1 * a_norm[:, None]
-  acc2 = acc2 * a_norm[:, None]
-  accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
-  offs_outm = pid_m * $(BM) + tl.arange(0, $(BM))
-  offs_outn = pid_n * $(BN) + tl.arange(0, $(BN))
-  out_ptrs = OUT + (soutm64 * offs_outm[:, None] + soutn64 * offs_outn[None, :])
-  out_mask = (offs_outm[:, None] < M64) & (offs_outn[None, :] < N64)
-  tl.store(out_ptrs, accumulator.to(tl.float16), mask=out_mask)
+def halfCandidateKernel (a_ptr w1_ptr w3_ptr out_ptr rms_w_ptr : RegionName) (M N K stride_am stride_ak stride_w1k stride_w1n stride_w3k stride_w3n stride_outm stride_outn stride_rms_w BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) (EPS : ℝ) : ComputeKernel :=
+  let USE_FP8 := Bool.false
+  with_triton_call halfSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_w1k := stride_w1k, stride_w1n := stride_w1n, stride_w3k := stride_w3k, stride_w3n := stride_w3n, stride_outm := stride_outm, stride_outn := stride_outn, stride_rms_w := stride_rms_w] in triton {
+    """
+    w1 and w3 are weights (linear layers)
+    F.silu(w1(x)) * w3(x)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_w1k = tl.cast(stride_w1k, tl.int64)
+    stride_w1n = tl.cast(stride_w1n, tl.int64)
+    stride_w3k = tl.cast(stride_w3k, tl.int64)
+    stride_w3n = tl.cast(stride_w3n, tl.int64)
+    stride_outm = tl.cast(stride_outm, tl.int64)
+    stride_outn = tl.cast(stride_outn, tl.int64)
+    stride_rms_w = tl.cast(stride_rms_w, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    pid_m = pid // tl.cdiv(N, BLOCK_SIZE_N)
+    pid_n = pid % tl.cdiv(N, BLOCK_SIZE_N)
+
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
+    w1_ptrs = w1_ptr + (offs_k[:, None] * stride_w1k + offs_bn[None, :] * stride_w1n)
+    w3_ptrs = w3_ptr + (offs_k[:, None] * stride_w3k + offs_bn[None, :] * stride_w3n)
+    acc1 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    acc2 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+
+    rms_w_ptrs = rms_w_ptr + tl.arange(0, BLOCK_SIZE_K)[None, :] * stride_rms_w
+    a_sum = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_K), dtype=tl.float32)
+    for step in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
+        rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            rms_w = rms_w.to(tl.float8e5, bitcast=True)
+            rms_w = rms_w.to(tl.float16)
+        a = a * rms_w
+        b = tl.load(w1_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            b = b.to(tl.float8e5, bitcast=True)
+            b = b.to(tl.float32)
+            b = b.to(tl.float16)
+        acc1 += tl.dot(a, b)
+        c = tl.load(w3_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            c = c.to(tl.float8e5, bitcast=True)
+            c = c.to(tl.float32)
+            c = c.to(tl.float16)
+        acc2 += tl.dot(a, c)
+
+        a_ptrs += BLOCK_SIZE_K * stride_ak
+        w1_ptrs += BLOCK_SIZE_K * stride_w1k
+        w3_ptrs += BLOCK_SIZE_K * stride_w3k
+
+        rms_w_ptrs += BLOCK_SIZE_K * stride_rms_w
+
+    a_mean = tl.sum(a_sum, axis=1) / K + EPS
+    a_norm = tl.math.rsqrt(a_mean)
+    acc1 = acc1 * a_norm[:, None]
+    acc2 = acc2 * a_norm[:, None]
+    accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
+
+    offs_outm = BLOCK_SIZE_M * pid_m + tl.arange(0, BLOCK_SIZE_M)
+    offs_outn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    out_ptrs = out_ptr + (stride_outm * offs_outm[:, None] + stride_outn * offs_outn[None, :])
+    out_mask = (offs_outm[:, None] < M) & (offs_outn[None, :] < N)
+    tl.store(out_ptrs, accumulator, mask=out_mask)
 }
 
-/-- Existing historical output-row index candidate, connected to the repaired
-int64/four-mask source in both storage branches. No FP operation is reordered. -/
-def halfCandidate (A W1 W3 OUT RMS : RegionName)
-    (M N K sam sak sw1k sw1n sw3k sw3n soutm soutn srms BM BN BK : Nat)
-    (EPS : ℝ) : ComputeKernel := triton {
-  tl.ports inputs=[A, W1, W3, RMS], outputs=[OUT]
-  tl.region A = tl.float16, W1 = tl.float16, W3 = tl.float16, RMS = tl.float16, OUT = tl.float16
-  M64 = tl.cast($(M), tl.int64)
-  N64 = tl.cast($(N), tl.int64)
-  K64 = tl.cast($(K), tl.int64)
-  sam64 = tl.cast($(sam), tl.int64)
-  sak64 = tl.cast($(sak), tl.int64)
-  sw1k64 = tl.cast($(sw1k), tl.int64)
-  sw1n64 = tl.cast($(sw1n), tl.int64)
-  sw3k64 = tl.cast($(sw3k), tl.int64)
-  sw3n64 = tl.cast($(sw3n), tl.int64)
-  soutm64 = tl.cast($(soutm), tl.int64)
-  soutn64 = tl.cast($(soutn), tl.int64)
-  srms64 = tl.cast($(srms), tl.int64)
-  pid = tl.program_id(axis=0).to(tl.int64)
-  pid_m = pid // ((N64 + $(BN) - $(1)) // $(BN))
-  pid_n = pid % ((N64 + $(BN) - $(1)) // $(BN))
-  offs_am = (pid_m * $(BM) + tl.arange(0, $(BM))) % M64
-  offs_bn = (pid_n * $(BN) + tl.arange(0, $(BN))) % N64
-  offs_k = tl.arange(0, $(BK))
-  a_ptrs = A + (offs_am[:, None] * sam64 + offs_k[None, :] * sak64)
-  w1_ptrs = W1 + (offs_k[:, None] * sw1k64 + offs_bn[None, :] * sw1n64)
-  w3_ptrs = W3 + (offs_k[:, None] * sw3k64 + offs_bn[None, :] * sw3n64)
-  acc1 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  acc2 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  rms_w_ptrs = RMS + tl.arange(0, $(BK))[None, :] * srms64
-  a_sum = tl.zeros([$(BM), $(BK)], dtype=tl.float32)
-  for step in range($(0), ((K64 + $(BK) - $(1)) // $(BK))) {
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
-    rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    a = a * rms_w
-    b = tl.load(w1_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    acc1 += tl.dot(a, b)
-    c = tl.load(w3_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    acc2 += tl.dot(a, c)
-    a_ptrs += $(BK) * sak64
-    w1_ptrs += $(BK) * sw1k64
-    w3_ptrs += $(BK) * sw3k64
-    rms_w_ptrs += $(BK) * srms64
-  }
-  a_mean = tl.sum(a_sum, axis=1) / K64 + $(EPS)
-  a_norm = tl.math.rsqrt(a_mean)
-  acc1 = acc1 * a_norm[:, None]
-  acc2 = acc2 * a_norm[:, None]
-  accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
-  offs_outm = $(BM) * pid_m + tl.arange(0, $(BM))
-  offs_outn = pid_n * $(BN) + tl.arange(0, $(BN))
-  out_ptrs = OUT + (soutm64 * offs_outm[:, None] + soutn64 * offs_outn[None, :])
-  out_mask = (offs_outm[:, None] < M64) & (offs_outn[None, :] < N64)
-  tl.store(out_ptrs, accumulator.to(tl.float16), mask=out_mask)
+def byteSignature : CallSignature where
+  pointers := [("a_ptr",.fp16),("w1_ptr",.i8),("w3_ptr",.i8),("out_ptr",.fp16),("rms_w_ptr",.i8)]
+  scalars := [("M",.integer),("N",.integer),("K",.integer),("stride_am",.integer),("stride_ak",.integer),("stride_w1k",.integer),("stride_w1n",.integer),("stride_w3k",.integer),("stride_w3n",.integer),("stride_outm",.integer),("stride_outn",.integer),("stride_rms_w",.integer)]
+  constexpr := ["USE_FP8","EPS","BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K"]
+  readPorts := ["a_ptr","w1_ptr","w3_ptr","rms_w_ptr"]
+  writePorts := ["out_ptr"]
+
+def byteKernel (a_ptr w1_ptr w3_ptr out_ptr rms_w_ptr : RegionName) (M N K stride_am stride_ak stride_w1k stride_w1n stride_w3k stride_w3n stride_outm stride_outn stride_rms_w BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) (EPS : ℝ) : ComputeKernel :=
+  let USE_FP8 := Bool.true
+  with_triton_call byteSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_w1k := stride_w1k, stride_w1n := stride_w1n, stride_w3k := stride_w3k, stride_w3n := stride_w3n, stride_outm := stride_outm, stride_outn := stride_outn, stride_rms_w := stride_rms_w] in triton {
+    """
+    w1 and w3 are weights (linear layers)
+    F.silu(w1(x)) * w3(x)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_w1k = tl.cast(stride_w1k, tl.int64)
+    stride_w1n = tl.cast(stride_w1n, tl.int64)
+    stride_w3k = tl.cast(stride_w3k, tl.int64)
+    stride_w3n = tl.cast(stride_w3n, tl.int64)
+    stride_outm = tl.cast(stride_outm, tl.int64)
+    stride_outn = tl.cast(stride_outn, tl.int64)
+    stride_rms_w = tl.cast(stride_rms_w, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    pid_m = pid // tl.cdiv(N, BLOCK_SIZE_N)
+    pid_n = pid % tl.cdiv(N, BLOCK_SIZE_N)
+
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
+    w1_ptrs = w1_ptr + (offs_k[:, None] * stride_w1k + offs_bn[None, :] * stride_w1n)
+    w3_ptrs = w3_ptr + (offs_k[:, None] * stride_w3k + offs_bn[None, :] * stride_w3n)
+    acc1 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    acc2 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+
+    rms_w_ptrs = rms_w_ptr + tl.arange(0, BLOCK_SIZE_K)[None, :] * stride_rms_w
+    a_sum = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_K), dtype=tl.float32)
+    for step in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
+        rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            rms_w = rms_w.to(tl.float8e5, bitcast=True)
+            rms_w = rms_w.to(tl.float16)
+        a = a * rms_w
+        b = tl.load(w1_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            b = b.to(tl.float8e5, bitcast=True)
+            b = b.to(tl.float32)
+            b = b.to(tl.float16)
+        acc1 += tl.dot(a, b)
+        c = tl.load(w3_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            c = c.to(tl.float8e5, bitcast=True)
+            c = c.to(tl.float32)
+            c = c.to(tl.float16)
+        acc2 += tl.dot(a, c)
+
+        a_ptrs += BLOCK_SIZE_K * stride_ak
+        w1_ptrs += BLOCK_SIZE_K * stride_w1k
+        w3_ptrs += BLOCK_SIZE_K * stride_w3k
+
+        rms_w_ptrs += BLOCK_SIZE_K * stride_rms_w
+
+    a_mean = tl.sum(a_sum, axis=1) / K + EPS
+    a_norm = tl.math.rsqrt(a_mean)
+    acc1 = acc1 * a_norm[:, None]
+    acc2 = acc2 * a_norm[:, None]
+    accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
+
+    offs_outm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
+    offs_outn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    out_ptrs = out_ptr + (stride_outm * offs_outm[:, None] + stride_outn * offs_outn[None, :])
+    out_mask = (offs_outm[:, None] < M) & (offs_outn[None, :] < N)
+    tl.store(out_ptrs, accumulator, mask=out_mask)
 }
 
-def byteCandidate (A W1 W3 OUT RMS : RegionName)
-    (M N K sam sak sw1k sw1n sw3k sw3n soutm soutn srms BM BN BK : Nat)
-    (EPS : ℝ) : ComputeKernel := triton {
-  tl.ports inputs=[A, W1, W3, RMS], outputs=[OUT]
-  tl.region A = tl.float16, W1 = tl.int8, W3 = tl.int8, RMS = tl.int8, OUT = tl.float16
-  M64 = tl.cast($(M), tl.int64)
-  N64 = tl.cast($(N), tl.int64)
-  K64 = tl.cast($(K), tl.int64)
-  sam64 = tl.cast($(sam), tl.int64)
-  sak64 = tl.cast($(sak), tl.int64)
-  sw1k64 = tl.cast($(sw1k), tl.int64)
-  sw1n64 = tl.cast($(sw1n), tl.int64)
-  sw3k64 = tl.cast($(sw3k), tl.int64)
-  sw3n64 = tl.cast($(sw3n), tl.int64)
-  soutm64 = tl.cast($(soutm), tl.int64)
-  soutn64 = tl.cast($(soutn), tl.int64)
-  srms64 = tl.cast($(srms), tl.int64)
-  pid = tl.program_id(axis=0).to(tl.int64)
-  pid_m = pid // ((N64 + $(BN) - $(1)) // $(BN))
-  pid_n = pid % ((N64 + $(BN) - $(1)) // $(BN))
-  offs_am = (pid_m * $(BM) + tl.arange(0, $(BM))) % M64
-  offs_bn = (pid_n * $(BN) + tl.arange(0, $(BN))) % N64
-  offs_k = tl.arange(0, $(BK))
-  a_ptrs = A + (offs_am[:, None] * sam64 + offs_k[None, :] * sak64)
-  w1_ptrs = W1 + (offs_k[:, None] * sw1k64 + offs_bn[None, :] * sw1n64)
-  w3_ptrs = W3 + (offs_k[:, None] * sw3k64 + offs_bn[None, :] * sw3n64)
-  acc1 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  acc2 = tl.zeros([$(BM), $(BN)], dtype=tl.float32)
-  rms_w_ptrs = RMS + tl.arange(0, $(BK))[None, :] * srms64
-  a_sum = tl.zeros([$(BM), $(BK)], dtype=tl.float32)
-  for step in range($(0), ((K64 + $(BK) - $(1)) // $(BK))) {
-    a = tl.load(a_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
-    rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K64 - step * $(BK), other=0.0)
-    rms_w = rms_w.to(tl.float8e5, bitcast=True)
-    rms_w = rms_w.to(tl.float16)
-    a = a * rms_w
-    b = tl.load(w1_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    b = b.to(tl.float8e5, bitcast=True)
-    b = b.to(tl.float32)
-    b = b.to(tl.float16)
-    acc1 += tl.dot(a, b)
-    c = tl.load(w3_ptrs, mask=offs_k[:, None] < K64 - step * $(BK), other=0.0)
-    c = c.to(tl.float8e5, bitcast=True)
-    c = c.to(tl.float32)
-    c = c.to(tl.float16)
-    acc2 += tl.dot(a, c)
-    a_ptrs += $(BK) * sak64
-    w1_ptrs += $(BK) * sw1k64
-    w3_ptrs += $(BK) * sw3k64
-    rms_w_ptrs += $(BK) * srms64
-  }
-  a_mean = tl.sum(a_sum, axis=1) / K64 + $(EPS)
-  a_norm = tl.math.rsqrt(a_mean)
-  acc1 = acc1 * a_norm[:, None]
-  acc2 = acc2 * a_norm[:, None]
-  accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
-  offs_outm = $(BM) * pid_m + tl.arange(0, $(BM))
-  offs_outn = pid_n * $(BN) + tl.arange(0, $(BN))
-  out_ptrs = OUT + (soutm64 * offs_outm[:, None] + soutn64 * offs_outn[None, :])
-  out_mask = (offs_outm[:, None] < M64) & (offs_outn[None, :] < N64)
-  tl.store(out_ptrs, accumulator.to(tl.float16), mask=out_mask)
+def byteCandidateKernel (a_ptr w1_ptr w3_ptr out_ptr rms_w_ptr : RegionName) (M N K stride_am stride_ak stride_w1k stride_w1n stride_w3k stride_w3n stride_outm stride_outn stride_rms_w BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) (EPS : ℝ) : ComputeKernel :=
+  let USE_FP8 := Bool.true
+  with_triton_call byteSignature call_args [M := M, N := N, K := K, stride_am := stride_am, stride_ak := stride_ak, stride_w1k := stride_w1k, stride_w1n := stride_w1n, stride_w3k := stride_w3k, stride_w3n := stride_w3n, stride_outm := stride_outm, stride_outn := stride_outn, stride_rms_w := stride_rms_w] in triton {
+    """
+    w1 and w3 are weights (linear layers)
+    F.silu(w1(x)) * w3(x)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_am = tl.cast(stride_am, tl.int64)
+    stride_ak = tl.cast(stride_ak, tl.int64)
+    stride_w1k = tl.cast(stride_w1k, tl.int64)
+    stride_w1n = tl.cast(stride_w1n, tl.int64)
+    stride_w3k = tl.cast(stride_w3k, tl.int64)
+    stride_w3n = tl.cast(stride_w3n, tl.int64)
+    stride_outm = tl.cast(stride_outm, tl.int64)
+    stride_outn = tl.cast(stride_outn, tl.int64)
+    stride_rms_w = tl.cast(stride_rms_w, tl.int64)
+    pid = tl.program_id(axis=0).to(tl.int64)
+    pid_m = pid // tl.cdiv(N, BLOCK_SIZE_N)
+    pid_n = pid % tl.cdiv(N, BLOCK_SIZE_N)
+
+    offs_am = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)) % M
+    offs_bn = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K)
+    a_ptrs = a_ptr + (offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak)
+    w1_ptrs = w1_ptr + (offs_k[:, None] * stride_w1k + offs_bn[None, :] * stride_w1n)
+    w3_ptrs = w3_ptr + (offs_k[:, None] * stride_w3k + offs_bn[None, :] * stride_w3n)
+    acc1 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    acc2 = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+
+    rms_w_ptrs = rms_w_ptr + tl.arange(0, BLOCK_SIZE_K)[None, :] * stride_rms_w
+    a_sum = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_K), dtype=tl.float32)
+    for step in range(0, tl.cdiv(K, BLOCK_SIZE_K)):
+        a = tl.load(a_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        a_sum += tl.extra.cuda.libdevice.pow(a.to(tl.float32), 2)
+        rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            rms_w = rms_w.to(tl.float8e5, bitcast=True)
+            rms_w = rms_w.to(tl.float16)
+        a = a * rms_w
+        b = tl.load(w1_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            b = b.to(tl.float8e5, bitcast=True)
+            b = b.to(tl.float32)
+            b = b.to(tl.float16)
+        acc1 += tl.dot(a, b)
+        c = tl.load(w3_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            c = c.to(tl.float8e5, bitcast=True)
+            c = c.to(tl.float32)
+            c = c.to(tl.float16)
+        acc2 += tl.dot(a, c)
+
+        a_ptrs += BLOCK_SIZE_K * stride_ak
+        w1_ptrs += BLOCK_SIZE_K * stride_w1k
+        w3_ptrs += BLOCK_SIZE_K * stride_w3k
+
+        rms_w_ptrs += BLOCK_SIZE_K * stride_rms_w
+
+    a_mean = tl.sum(a_sum, axis=1) / K + EPS
+    a_norm = tl.math.rsqrt(a_mean)
+    acc1 = acc1 * a_norm[:, None]
+    acc2 = acc2 * a_norm[:, None]
+    accumulator = (acc1 * tl.sigmoid(acc1)) * acc2
+
+    offs_outm = BLOCK_SIZE_M * pid_m + tl.arange(0, BLOCK_SIZE_M)
+    offs_outn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N)
+    out_ptrs = out_ptr + (stride_outm * offs_outm[:, None] + stride_outn * offs_outn[None, :])
+    out_mask = (offs_outm[:, None] < M) & (offs_outn[None, :] < N)
+    tl.store(out_ptrs, accumulator, mask=out_mask)
 }
 
-def kernel (fp8 : Bool) (M N K : Nat) (EPS : ℝ) : ComputeKernel :=
-  (if fp8 then byte else half) "A" "W1" "W3" "OUT" "RMS"
-    M N K K 1 1 K 1 K N 1 1 16 16 64 EPS
-
-/-- Repaired existing candidate on the exact selected launch profile. -/
-def candidate (fp8 : Bool) (M N K : Nat) (EPS : ℝ) : ComputeKernel :=
-  (if fp8 then byteCandidate else halfCandidate) "A" "W1" "W3" "OUT" "RMS"
-    M N K K 1 1 K 1 K N 1 1 16 16 64 EPS
-
-#guard_msgs (drop info) in
-#auditModuleAxioms
-end VeriTile.Bench.Repairs.LlamaFFScalarCast.Source
+end
+end VeriTile.Bench.Repairs.LlamaFFScalarCast

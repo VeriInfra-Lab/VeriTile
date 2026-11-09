@@ -11,15 +11,16 @@ variable {α : Type} [Inhabited α]
 /-- The new schedule has exactly the old complete grid's memory result. -/
 theorem execute (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (work : List Grid.PID) (counts : Fin work.length → Nat) (vals : Ports.Values α p work counts)
-    (s : State α) (separate : Grid.Separate p) (unique : Grid.Unique p work) :
+    (s : State α) (separate : Grid.Separate p) (unique : Grid.Unique p work)
+    (metadata : ∀ pid∈work,ValidMetadata p (Grid.state s.mem pid)) :
     ∃ t,runSchedule ((IO.program M R p work counts).schedule vals) s=some t ∧
       (∀ j : Fin work.length,∀ d : Fin p.width,
         t.mem p.output (Grid.offset p work[j] (d,()))=
           Cell.mk .fp32 (outputValues M R p (Grid.state s.mem work[j]) (d,()))) ∧
       (IO.program M R p work counts).Frame vals s t := by
-  obtain ⟨t,ran,mem⟩ := IOExecution.complete M R p work s
-  obtain ⟨final,grid,_,values,frame⟩ := Grid.whole M R p work s.mem separate unique
-  rw [Grid.complete] at grid
+  obtain ⟨t,ran,mem⟩ := IOExecution.complete M R p work s separate metadata
+  obtain ⟨final,grid,_,values,frame⟩ := Grid.whole M R p work s.mem separate unique metadata
+  rw [Grid.complete M R p work s.mem separate metadata] at grid
   injection grid with eq
   have finalMem : t.mem=final := mem.trans eq
   refine ⟨t,ran,?_,?_⟩
@@ -48,7 +49,12 @@ theorem implements (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
   intro vals domain bounds hb s binding
   have f := Binding.facts M R p work counts vals domain s binding
   refine ⟨IOSafety.schedule M R p work counts vals bounds hb separate work (fun _ h=>h) s f,?_⟩
-  obtain ⟨t,ran,values,frame⟩ := execute M R p work counts vals s separate unique
+  have metadata : ∀ pid∈work,ValidMetadata p (Grid.state s.mem pid) := by
+    intro pid member
+    obtain ⟨j,hj⟩ := List.mem_iff_get.mp member
+    change work[j]=pid at hj
+    exact hj ▸ f.valid j
+  obtain ⟨t,ran,values,frame⟩ := execute M R p work counts vals s separate unique metadata
   refine ⟨t,ran,?_,frame⟩
   intro o i active
   have ho : o=⟨0,by simp [IO.program,Ports.memory,Ports.outputs]⟩ := by
@@ -60,7 +66,7 @@ theorem implements (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
   rcases i with ⟨j,d,⟨⟩⟩
   change mapCell id (t.mem p.output (Grid.offset p work[j] (d,())))=
     Cell.mk .fp32 (Reference.result M R p (Ports.logical p work counts vals) j d)
-  rw [values, f.result_eq M R domain]
+  rw [values, f.result_eq M R domain.counts]
   rfl
 
 theorem real (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat)
@@ -84,8 +90,8 @@ theorem real (p : Parameters) (work : List Grid.PID) (counts : Fin work.length �
     Cell.mk .fp32 (Reference.weighted p (Ports.logical p work counts vals) j d)
   change mapCell id (t.mem p.output (Grid.offset p work[j] (d,())))=
     Cell.mk .fp32 (Reference.result Real.algebra Real.sum p (Ports.logical p work counts vals) j d) at out
-  rw [← f.result_eq Real.algebra Real.sum domain,Real.output_weighted p _ positive,
-    Binding.real_weighted f domain positive] at out
+  rw [← f.result_eq Real.algebra Real.sum domain.counts,Real.output_weighted p _ positive,
+    Binding.real_weighted f domain.counts positive] at out
   exact out
 
 

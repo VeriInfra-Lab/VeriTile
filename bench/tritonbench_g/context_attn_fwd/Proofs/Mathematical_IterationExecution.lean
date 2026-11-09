@@ -75,12 +75,12 @@ theorem executes (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ)
   have hln3 : s3.regs .real [p.BM] "l_i" = some ln := by simp [s3,StatsExecution.prepared,ln,al,mx,lij]
   let s4 := ValuesExecution.prepared p r batch group sn last prob mx ac s3
   have e4 := ValuesExecution.executes p r batch group sn last prob mx ac s3
-    ((f123.registers .nat [] "cur_batch" (by decide)).trans hs.batch)
-    ((f123.registers .nat [] "cur_kv_head" (by decide)).trans hs.kv_head)
+    ((f123.registers .int [] "cur_batch" (by decide)).trans hs.batch)
+    ((f123.registers .int [] "cur_kv_head" (by decide)).trans hs.kv_head)
     ((f23.registers .int [] "start_n" (by decide)).trans hi1)
     ((f123.registers .int [] "block_end_loc" (by decide)).trans hs.ending)
-    ((f123.registers .nat [p.BN] "offs_n" (by decide)).trans hs.lanes)
-    ((f123.registers .nat [p.D] "offs_d" (by decide)).trans hs.channels) hprob3 hmx3 hac3
+    ((f123.registers .int [p.BN] "offs_n" (by decide)).trans hs.lanes)
+    ((f123.registers .int [p.D] "offs_d" (by decide)).trans hs.channels) hprob3 hmx3 hac3
   have f4 := Frames.values p r batch group sn last prob mx ac s3
   have fAll := then_frame f123 f4
   have hv3 : ValuesExecution.loaded p r batch group sn last s3 = vt :=

@@ -1,6 +1,6 @@
 import bench.tritonbench_g.square_matrix.Proofs.Contract
 import VeriTile.Triton.Float.Structural
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 
 namespace VeriTile.Bench.Repairs.SquareMatrix.FPProof
 open VeriTile.Triton FP.Structural

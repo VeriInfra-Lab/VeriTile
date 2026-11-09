@@ -16,16 +16,26 @@ import re
 # A typed value contract may supplement an existing source entry. Helpers stay
 # under Proofs/; accepting this name does not relax ambiguous-source checks.
 SUPPLEMENTAL_SPEC_NAMES = ('FPCorrect.lean',)
+REAL_ENTRY_NAMES = ('RealCorrect.lean', 'Correct.lean')
+
+
+def real_entry(directory: Path) -> Path:
+    entries = [directory / name for name in REAL_ENTRY_NAMES if (directory / name).is_file()]
+    if not entries:
+        raise ValueError(f'Missing split-port entry: {directory / REAL_ENTRY_NAMES[0]}')
+    if len(entries) != 1:
+        raise ValueError(f'Ambiguous Real specification entries: {entries}')
+    return entries[0]
 
 
 def source_file(directory: Path) -> Path | None:
     if (directory / 'Kernels.lean').is_file():
-        for name in ('Correct.lean', 'FPEquiv.lean'):
-            if not (directory / name).is_file():
-                raise ValueError(f'Missing split-port entry: {directory / name}')
+        real = real_entry(directory)
+        if not (directory / 'FPEquiv.lean').is_file():
+            raise ValueError(f'Missing split-port entry: {directory / "FPEquiv.lean"}')
         extra = set(directory.glob('*.lean')) - {
             directory / name for name in
-            ('Kernels.lean', 'Correct.lean', 'FPEquiv.lean', *SUPPLEMENTAL_SPEC_NAMES)}
+            ('Kernels.lean', real.name, 'FPEquiv.lean', *SUPPLEMENTAL_SPEC_NAMES)}
         # Current tasks have an explicit canonical Python/source/contract
         # entry. Their other Lean modules are retained helpers, all discovered
         # by proof_files below; source discovery still selects only Kernels.
@@ -61,7 +71,7 @@ def specification_files(root: Path) -> list[Path]:
     files = []
     for source in source_files(root):
         if source.name == 'Kernels.lean':
-            files.extend(source.parent / name for name in ('Correct.lean', 'FPEquiv.lean'))
+            files.extend((real_entry(source.parent), source.parent / 'FPEquiv.lean'))
         else:
             files.append(source)
         files.extend(source.parent / name for name in SUPPLEMENTAL_SPEC_NAMES

@@ -144,6 +144,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .sub _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .mul _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .div _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
+  | .divRN _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .floorDiv _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .mod _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .bitAnd _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
@@ -163,6 +164,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .sigmoid a => a.RespectsRegionTyping Γ
   | .sqrt a => a.RespectsRegionTyping Γ
   | .rsqrt a => a.RespectsRegionTyping Γ
+  | .libdeviceRsqrt a => a.RespectsRegionTyping Γ
   | .tanh a => a.RespectsRegionTyping Γ
   | .sin a => a.RespectsRegionTyping Γ
   | .cos a => a.RespectsRegionTyping Γ

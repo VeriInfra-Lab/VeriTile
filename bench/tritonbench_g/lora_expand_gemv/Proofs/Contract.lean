@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lora_expand_gemv.Proofs.Geometry
-import bench.tritonbench_g.bgmv_expand_slice.Sources.Contract
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Sources.Contract
 
 namespace VeriTile.Bench.Repairs.LoraExpandGemv.Contract
 open VeriTile.Torch

@@ -34,7 +34,7 @@ theorem equivalent (M : Algebra α) (dot : DotBackend α)
   apply ProgramIO.EquivalentOn.intro
   · intro xs _ bounds bounded s _
     rw [scheduleSafe_singleton]
-    change TraceSafe (machine M dot) bounds (Kernels.source h c)
+    change TraceSafe (machine M dot) bounds (Kernels.sourceKernel h c)
       ((invocation M dot h c p Bool.false).initial s)
     exact FPAccess.source_safe M dot bounds h layout c
       (Kernels.configurations_positive c chosen).1 p (bounds_binding M dot h c p xs bounds bounded) _
@@ -43,7 +43,7 @@ theorem equivalent (M : Algebra α) (dot : DotBackend α)
   · intro xs _ bounds bounded s _
     change ScheduleSafe bounds [invocation M dot h c p Bool.true] s
     rw [scheduleSafe_singleton]
-    change TraceSafe (machine M dot) bounds (Kernels.sumLeft h c)
+    change TraceSafe (machine M dot) bounds (Kernels.sumLeftKernel h c)
       ((invocation M dot h c p Bool.true).initial s)
     exact FPAccess.candidate_safe M dot bounds h layout c
       (Kernels.configurations_positive c chosen).1 p (bounds_binding M dot h c p xs bounds bounded) _
@@ -66,7 +66,7 @@ theorem equivalent (M : Algebra α) (dot : DotBackend α)
     · exact frame_binding M dot h c p xs start a frameA
     · exact frame_binding M dot h c p xs start b frameB
 
-#specNonCircular finiteCarry avoiding [Kernels.source,Kernels.sumLeft,run,FPExecution.source_correct]
+#specNonCircular finiteCarry avoiding [Kernels.sourceKernel,Kernels.sumLeftKernel,run,FPExecution.source_correct]
 #axiomsClean equivalent
 end
 end VeriTile.Bench.Repairs.ChunkCumsumVector.NativeIO

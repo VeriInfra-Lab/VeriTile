@@ -21,25 +21,33 @@ theorem count_le_capacity {B : Nat} (counts : Fin B → Nat) (b : Fin B) : count
   Finset.le_sup (Finset.mem_univ b)
 
 def inputs (p : Parameters) (B H : Nat) (counts : Fin B → Nat) : List IOChannel :=
-  [⟨.nat,[B],Region.cast p.length⟩,
-   ⟨.nat,[B],Region.cast p.start⟩,
-   ⟨.nat,[B],Region.cast p.request⟩,
-   ⟨.nat,[B,capacity counts],Region.cast p.tokens⟩,
+  [⟨.int,[B],Region.cast p.length⟩,
+   ⟨.int,[B],Region.cast p.start⟩,
+   ⟨.int,[B],Region.cast p.request⟩,
+   ⟨.int,[B,capacity counts],Region.cast p.tokens⟩,
    ⟨.fp32,[B,H,capacity counts],p.prob⟩,
    ⟨.fp32,[B,H,capacity counts,p.width],p.value⟩]
 def outputs (p : Parameters) (B H : Nat) : List IOChannel := [⟨.fp32,[B,H,p.width],p.output⟩]
 abbrev Inputs (A : Type) (p : Parameters) (B H : Nat) (counts : Fin B → Nat) := ChannelValues A (inputs p B H counts)
 abbrev Outputs (A : Type) (p : Parameters) (B H : Nat) := ChannelValues A (outputs p B H)
 
-def length {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
-    (v : Inputs A p B H counts) (b : Fin B) : Nat := v ⟨0,by simp [inputs]⟩ (b,PUnit.unit)
-def start {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
-    (v : Inputs A p B H counts) (b : Fin B) : Nat := v ⟨1,by simp [inputs]⟩ (b,PUnit.unit)
-def request {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
-    (v : Inputs A p B H counts) (b : Fin B) : Nat := v ⟨2,by simp [inputs]⟩ (b,PUnit.unit)
-def token {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
-    (v : Inputs A p B H counts) (b : Fin B) (n : Fin (capacity counts)) : Nat :=
+def lengthWord {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) : Int := v ⟨0,by simp [inputs]⟩ (b,PUnit.unit)
+def startWord {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) : Int := v ⟨1,by simp [inputs]⟩ (b,PUnit.unit)
+def requestWord {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) : Int := v ⟨2,by simp [inputs]⟩ (b,PUnit.unit)
+def tokenWord {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) (n : Fin (capacity counts)) : Int :=
   v ⟨3,by simp [inputs]⟩ (b,n,PUnit.unit)
+def length {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) : Nat := (lengthWord v b).toNat
+def start {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) : Nat := (startWord v b).toNat
+def request {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) : Nat := (requestWord v b).toNat
+def token {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
+    (v : Inputs A p B H counts) (b : Fin B) (n : Fin (capacity counts)) : Nat := (tokenWord v b n).toNat
 def prob {A : Type} {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
     (v : Inputs A p B H counts) (b : Fin B) (h : Fin H) (n : Fin (capacity counts)) : A :=
   v ⟨4,by simp [inputs]⟩ (b,h,n,PUnit.unit)
@@ -114,10 +122,15 @@ def affine (M : Algebra A) (R : SumPrimitive A) (p : Parameters)
   schedule := fun _ => jobs.map (affineInvocation M R p)
   observe := fun _ _ => id
 
-/-- Runtime metadata matches the logical extents. Counts are arbitrary;
+/-- Actual signed metadata retains the inherited nonnegative input domain.
+Unused metadata slots remain arbitrary. Runtime lengths match logical extents. Counts are arbitrary;
 capacity is derived from them, and no maximum length input guard is added. -/
 def LengthsMatch (p : Parameters) (B H : Nat) (counts : Fin B → Nat)
-    (v : Inputs A p B H counts) : Prop := ∀ b, 0<H → length v b=counts b
+    (v : Inputs A p B H counts) : Prop :=
+  (∀ b, 0<H → lengthWord v b=(counts b : Int)) ∧
+  (∀ b, 0<H → 0≤startWord v b) ∧
+  (∀ b, 0<H → 0≤requestWord v b) ∧
+  (∀ b (n : Fin (capacity counts)), 0<H → p.block≠0 → n.val<counts b → 0≤tokenWord v b n)
 
 def result {A : Type} {p : Parameters} {B H : Nat}
     (f : Fin B → Fin H → Fin p.width → A) : Outputs A p B H :=
@@ -164,17 +177,17 @@ noncomputable section
 
 /-- Full logical tensors and all runtime metadata, including inactive entries. -/
 structure Inputs (p : Parameters) (B H : Nat) (counts : Fin B → Nat) where
-  length : Fin B → Nat
-  start : Fin B → Nat
-  request : Fin B → Nat
-  token : Fin B → Fin (Interface.capacity counts) → Nat
+  length : Fin B → Int
+  start : Fin B → Int
+  request : Fin B → Int
+  token : Fin B → Fin (Interface.capacity counts) → Int
   probability : Fin B → Fin H → Fin (Interface.capacity counts) → ℝ
   value : Fin B → Fin H → Fin (Interface.capacity counts) → Fin p.width → ℝ
 
 def inputs (p : Parameters) (B H : Nat) (counts : Fin B → Nat) :
     Interface.Inputs ℝ p B H counts ≃ Inputs p B H counts where
-  toFun := fun values => ⟨Interface.length values,Interface.start values,Interface.request values,
-    Interface.token values,Interface.prob values,Interface.val values⟩
+  toFun := fun values => ⟨Interface.lengthWord values,Interface.startWord values,Interface.requestWord values,
+    Interface.tokenWord values,Interface.prob values,Interface.val values⟩
   invFun := fun xs port => match port with
     | ⟨0,_⟩ => fun j => xs.length j.1
     | ⟨1,_⟩ => fun j => xs.start j.1
@@ -213,7 +226,10 @@ def Inputs.valueAt {p : Parameters} {B H : Nat} {counts : Fin B → Nat}
   if hn : n < Interface.capacity counts then xs.value b h ⟨n,hn⟩ d else 0
 
 def domain (p : Parameters) (B H : Nat) (counts : Fin B → Nat) (xs : Inputs p B H counts) : Prop :=
-  ∀ b, 0<H → xs.length b = counts b
+  (∀ b, 0<H → xs.length b = (counts b : Int)) ∧
+  (∀ b, 0<H → 0≤xs.start b) ∧
+  (∀ b, 0<H → 0≤xs.request b) ∧
+  (∀ b (n : Fin (Interface.capacity counts)), 0<H → p.block≠0 → n.val<counts b → 0≤xs.token b n)
 
 def io (p : Parameters) (B H : Nat) (counts : Fin B → Nat) (work : List Grid.PID) :
     LogicalProgramIO ℝ ℝ (Inputs p B H counts) (Fin B → Fin H → Fin p.width → ℝ) where

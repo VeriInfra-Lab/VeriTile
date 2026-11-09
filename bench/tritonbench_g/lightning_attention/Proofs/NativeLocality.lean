@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lightning_attention.NativeIO
+import bench.tritonbench_g.lightning_attention.Proofs.Support.NativeIO
 
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.NativeLocality
 open VeriTile Triton FP.Structural

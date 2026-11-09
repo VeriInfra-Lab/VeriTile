@@ -64,8 +64,8 @@ def forwardLoss (M : Algebra α) (p : Parameters) (initial : State α) : α :=
       (cast M (cap M p (forwardScale M p (gathered M p initial))))
 
 def chunkTarget (M : Algebra α) (p : Parameters) (initial : State α) : α :=
-  cast M ((initial.mem p.logits
-    (initial.pids 0*p.logitsStride+(label p initial).toNat)).read .real)
+  cast M (M.fp32Load ((initial.mem p.logits
+    (initial.pids 0*p.logitsStride+(label p initial).toNat)).read .real))
 
 def chunkLoss (M : Algebra α) (p : Parameters) (initial : State α) : α :=
   if label p initial = -100 then literal M 0 else
@@ -102,8 +102,8 @@ def backwardDerivative (M : Algebra α) (p : Parameters) (initial : State α)
 
 def gradientValue (M : Algebra α) (p : Parameters) (initial : State α)
     (lane : Fin p.block) : α :=
-  cast M (if label p initial = -100 then literal M 0 else
-    binary M .mul (upstreamValue M p initial) (backwardDerivative M p initial lane))
+  if label p initial = -100 then literal M 0 else
+    binary M .mul (upstreamValue M p initial) (backwardDerivative M p initial lane)
 
 end
 end VeriTile.Bench.Repairs.FastCeLoss.KernelModel

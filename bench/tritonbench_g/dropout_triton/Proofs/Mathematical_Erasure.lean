@@ -16,13 +16,14 @@ theorem body (storage : Storage) (keep : KeepStorage) (swapped : Bool)
       (source keep swapped x mask out n B p).toAlgKernel.body := by
   cases storage <;> cases keep <;> cases swapped
   all_goals simp only [TypedSource.source,source,VeriTile.Bench.Repairs.DropoutTriton.sourceFamily,
+    VeriTile.Bench.Repairs.DropoutTriton.quotedOriginalKernel,VeriTile.Bench.Repairs.DropoutTriton.quotedCommutedKernel,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
-    Except.bind,bind]
-  all_goals simp only [Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType]
+    Except.bind,bind,Bool.false_eq_true,↓reduceIte]
+  all_goals try simp only [Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType]
   all_goals rfl
 
 #guard_msgs (drop info) in

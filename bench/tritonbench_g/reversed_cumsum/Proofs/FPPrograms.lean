@@ -7,8 +7,8 @@ open VeriTile Triton FP.ProfiledRewrite
 noncomputable section
 
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
-def original (h : Call) (c : Config) : Program := ⟨Kernels.source h c,[]⟩
-def compareRight (h : Call) (c : Config) : Program := ⟨Kernels.compareRight h c,[]⟩
+def original (h : Call) (c : Config) : Program := ⟨Kernels.sourceKernel h c,[]⟩
+def compareRightKernel (h : Call) (c : Config) : Program := ⟨Kernels.compareRightKernel h c,[]⟩
 
 end
 end VeriTile.Bench.Repairs.ReversedCumsum.Equivalence

@@ -46,15 +46,15 @@ def source (d : Storage) (p : Parameters) : ComputeKernel :=
     p.batches p.tokens p.block p.blockTokens p.blockDomain p.tokensDomain
 
 def prologue (d : Storage) (p : Parameters) : List ComputeStmt :=
-  (source d p).surfaceBody.take 11
+  (source d p).surfaceBody.take 9
 
 def body (d : Storage) (p : Parameters) : List ComputeStmt :=
-  match ((source d p).surfaceBody.drop 11).head? with
+  match ((source d p).surfaceBody.drop 9).head? with
   | some (ComputeStmt.forRange _ _ _ _ body) => body
   | _ => []
 
 def epilogue (d : Storage) (p : Parameters) : List ComputeStmt :=
-  (source d p).surfaceBody.drop 12
+  (source d p).surfaceBody.drop 10
 
 theorem source_decomposition (d : Storage) (p : Parameters) :
     (source d p).surfaceBody = prologue d p ++

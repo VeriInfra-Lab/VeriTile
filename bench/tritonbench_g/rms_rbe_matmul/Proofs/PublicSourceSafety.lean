@@ -36,7 +36,7 @@ theorem prefix_safe (a : Operations α) (fp8 : Bool) (p : Parameters)
   cases fp8 <;>
     simp only [prelude,kernel,TypedSource.kernel,TypedSource.source,arguments,
       ComputeKernel.surfaceBody,List.take,List.drop,List.mem_cons,List.not_mem_nil,or_false] at member
-  all_goals rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  all_goals repeat' first | (rcases member with rfl | member) | (rcases member with rfl)
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
 theorem statistics_safe (a : Operations α) (fp8 : Bool) (p : Parameters)

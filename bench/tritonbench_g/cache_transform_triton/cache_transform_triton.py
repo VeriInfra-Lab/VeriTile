@@ -72,3 +72,17 @@ def get_xine_cache(lengths: torch.Tensor, cos_cache: torch.Tensor,
     rows = [r for v in values for r in range(v)] if is_prompts else [v-1 for v in values]
     with torch.cuda.device(cos_cache.device):
         return _gather(cos_cache,rows), _gather(sin_cache,rows)
+
+
+# Existing quotient/remainder comparison, now supplied as a Python JIT too.
+@triton.jit
+def gather_cache_bytes_quotient_remainder(Cache, Rows, Output, COUNT: tl.constexpr,
+                                         ROW_BYTES: tl.constexpr, START: tl.constexpr,
+                                         BLOCK: tl.constexpr):
+    idx = tl.program_id(0).to(tl.uint64) * BLOCK + tl.arange(0, BLOCK).to(tl.uint64) + START
+    active = idx < COUNT
+    safe = tl.where(active, idx, 0)
+    row = tl.load(Rows + safe // ROW_BYTES).to(tl.uint64)
+    offset = row * ROW_BYTES + (safe - (safe // ROW_BYTES) * ROW_BYTES)
+    value = tl.load(Cache + offset, mask=active, other=0)
+    tl.store(Output + safe, value, mask=active)

@@ -103,14 +103,14 @@ def Unique (p : Parameters) (work : List PID) :=
 
 theorem whole {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (work : List PID) (m : Memory α) (separate : Separate p)
-    (unique : Unique p work) :
+    (unique : Unique p work) (valid : ∀ pid∈work, ValidMetadata p (state m pid)) :
     ∃ final, run M R p work m=some final ∧
       final=(events p work).foldl (write p (values M R p m)) m ∧
       (∀ e∈events p work, final p.output (offset p e.1 e.2)=.mk .fp32 (values M R p m e)) ∧
       (∀ r o, (r≠p.output ∨ ∀ e∈events p work,o≠offset p e.1 e.2) → final r o=m r o) := by
   have eq := (graph_snapshot M R p work m m separate (fun _ _ => rfl)).trans
     (snapshot_events M R p m m work)
-  refine ⟨graph M R p work m,complete M R p work m,eq,?_,?_⟩
+  refine ⟨graph M R p work m,complete M R p work m separate valid,eq,?_,?_⟩
   · intro e he
     rw [eq]
     apply writes_readback p _ m _ e he

@@ -17,10 +17,10 @@ open scoped VeriTile.Triton.KernelIO₂
 theorem real_projection (xReg yReg outReg : RegionName) (B : Nat) :
     (floatAddKernel xReg yReg outReg B).eraseDType.toAlgorithm? =
       Except.ok (VectorAdd.Kernels.addKernel xReg yReg outReg B).toAlgKernel := by
-  have hcast : (Op.castFloat .real .fp32 (Op.ref .real [B] "out")).eraseDType =
-      Op.ref .real [B] "out" := by
-    rw [Op.eraseDType_castFloat .real .fp32 (Op.ref .real [B] "out")]
-    change (Op.ref .real [B] "out").eraseDType = Op.ref .real [B] "out"
+  have hcast : (Op.castFloat .real .real (Op.ref .real [B] "output")).eraseDType =
+      Op.ref .real [B] "output" := by
+    rw [Op.eraseDType_castFloat .real .real (Op.ref .real [B] "output")]
+    change (Op.ref .real [B] "output").eraseDType = Op.ref .real [B] "output"
     rw [Op.eraseDType_ref]
     rfl
   simp [floatAddKernel, VectorAdd.Kernels.addKernel, ComputeKernel.eraseDType,
@@ -34,13 +34,13 @@ theorem real_projection (xReg yReg outReg : RegionName) (B : Nat) :
 theorem optimized_projection (B : Nat) :
     (optimizedKernel B).eraseDType.toAlgorithm? =
       Except.ok (VectorAdd.Kernels.optimizedKernel B).toAlgKernel := by
-  have hcast : (Op.castFloat .real .fp32 (Op.ref .real [B] "out")).eraseDType =
-      Op.ref .real [B] "out" := by
-    rw [Op.eraseDType_castFloat .real .fp32 (Op.ref .real [B] "out")]
-    change (Op.ref .real [B] "out").eraseDType = Op.ref .real [B] "out"
+  have hcast : (Op.castFloat .real .real (Op.ref .real [B] "output")).eraseDType =
+      Op.ref .real [B] "output" := by
+    rw [Op.eraseDType_castFloat .real .real (Op.ref .real [B] "output")]
+    change (Op.ref .real [B] "output").eraseDType = Op.ref .real [B] "output"
     rw [Op.eraseDType_ref]
     rfl
-  simp [optimizedKernel, VectorAdd.Kernels.optimizedKernel, ComputeKernel.eraseDType,
+  simp [optimizedKernel,commutedKernel, VectorAdd.Kernels.optimizedKernel,VectorAdd.Kernels.commutedKernel, ComputeKernel.eraseDType,
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,

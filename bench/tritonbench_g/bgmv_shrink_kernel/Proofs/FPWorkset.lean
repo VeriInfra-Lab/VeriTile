@@ -1,5 +1,5 @@
 import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.FPReadback
-import bench.tritonbench_g.bgmv_shrink_kernel.Sources.Direct_Linearization
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Sources.Direct_Linearization
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPWorkset
 open VeriTile.Triton FP.Structural VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.FPValues VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.Geometry
 noncomputable section

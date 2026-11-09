@@ -67,6 +67,6 @@ TTIR, LLVM IR, and PTX hashes. No historical evidence tree was copied.
 The current separate candidate uses zero-seeded tile dots followed by explicit
 `add.u32`. `SaturatingTile.source_dot_eq` proves that the checked signed8 tile
 cannot saturate under any instruction partition; `add_u32` proves the wrapping
-carry update. The [current revision documentation](../../../bench/tritonbench_g/int_scaled_matmul/README.md)
+carry update. The [current revision documentation](../../../bench/tritonbench_g/int_scaled_matmul/Proofs/README.md)
 records its independent validation. Acceptance of that repaired current version
 is separate from this substantive historical applicability correction.

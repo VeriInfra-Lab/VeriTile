@@ -14,12 +14,12 @@ def advance (M : Algebra α) (dot : Dot α) (c : Config) (start : Nat) :
 
 theorem advance_runs (M : Algebra α) (dot : Dot α) (c : Config) (n start : Nat)
     (s : {s : State α // Ready c s}) :
-    range (engine (withDot M dot)) "i_v" start (start+n) 1 (parts c).body s.val=
+    loop (engine (withDot M dot)) "i_v" start (start+n) (parts c).body s.val=
       some (advance M dot c start n s).val := by
   induction n generalizing start s with
-  | zero=>rw [range];simp [advance]
+  | zero=>rw [loop];simp [advance]
   | succ n ih=>
-    rw [range]
+    rw [loop]
     simp only [show (1:Nat)≠0 from by decide,if_false,
       show start<start+(n+1) from by omega,if_true,
       body_runs M dot c s.val s.property start,bind,Option.bind_some]
@@ -42,10 +42,10 @@ def loopState (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :
 
 theorem loop_runs (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :
     step (engine (withDot M dot))
-      (.forRangeDyn "i_v" (parts c).start (parts c).stop (parts c).stride (parts c).body)
+      (.forLoop "i_v" (valueBlocks c) (parts c).body)
       (entry M dot c s).val=some (loopState M dot c s).val := by
-  rw [step.eq_7]
-  change range (engine (withDot M dot)) "i_v" 0 (valueBlocks c) 1 (parts c).body (entry M dot c s).val=_
+  rw [step.eq_5]
+  change loop (engine (withDot M dot)) "i_v" 0 (valueBlocks c) (parts c).body (entry M dot c s).val=_
   simpa only [Nat.zero_add,loopState] using advance_runs M dot c (valueBlocks c) 0 ⟨(entry M dot c s).val,entry_ready M dot c s⟩
 
 theorem loop_memory (M : Algebra α) (dot : Dot α) (c : Config) (s : State α) :

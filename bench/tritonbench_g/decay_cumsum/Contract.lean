@@ -1,4 +1,4 @@
-import bench.tritonbench_g.decay_cumsum.Kernels
+import bench.tritonbench_g.decay_cumsum.Proofs.Support.KernelEntryAdapters
 import VeriTile.Torch.Tensor
 
 namespace VeriTile.Bench.Repairs.DecayCumsum

@@ -6,7 +6,7 @@ open VeriTile.Triton
 set_option maxHeartbeats 2000000
 
 def pointerPrefix (v : Bool) (Y : RegionName) (stride : Nat) (eps : ℝ) : List Stmt :=
-  [.assign .real [] "eps_arg" (.const eps),
+  [.assign .real [] "eps" (.const eps),
    .assign .nat [] "row" (.programId 0),
    .assign .ptr [] "Y" (.ptrAdd .nil (.ptrBase Y)
      (if v then .mul .nat .nil (.constNat stride) (.ref .nat [] "row")
@@ -16,7 +16,7 @@ theorem prefix_source (v : Bool) (X Y W : RegionName) (stride N B : Nat) (eps : 
     (mathKernel v X Y W stride N B eps).body.take 3 = pointerPrefix v Y stride eps := by
   cases v <;> simp [mathKernel, typedKernel,
     VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeKernel,
-    VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeCandidate,
+    VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeCandidateKernel,
     ComputeKernel.withScalarArguments, ScalarArgument.statement, ScalarArgument.fp32,
     ComputeKernel.eraseDType, ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
@@ -31,7 +31,7 @@ theorem tail_source (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) :
       (mathKernel Bool.false X Y W stride N B eps).body.drop 3 := by
   simp [mathKernel, typedKernel,
     VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeKernel,
-    VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeCandidate,
+    VeriTile.Bench.Repairs.RmsnormFusedLlama.runtimeCandidateKernel,
     ComputeKernel.withScalarArguments, ScalarArgument.statement, ScalarArgument.fp32,
     ComputeKernel.eraseDType, ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,

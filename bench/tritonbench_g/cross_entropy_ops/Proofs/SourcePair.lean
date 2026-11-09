@@ -14,7 +14,7 @@ def source (backward candidate : Bool) (p : Parameters) : ComputeKernel :=
     if candidate then backwardIndexCommutedSyntax p else backwardSyntax p
   else if candidate then forwardIndexCommutedSyntax p else forwardSyntax p
 
-private def position (backward : Bool) : Nat := if backward then 4 else 3
+private def position (backward : Bool) : Nat := if backward then 10 else 8
 
 /-- Isolate the changed statement from the complete readable source. -/
 private def indexCode (backward candidate : Bool) (p : Parameters) : List ComputeStmt :=
@@ -26,6 +26,8 @@ private theorem index_run {α : Type} [Inhabited α] (M : Algebra α)
   cases backward <;> cases h : s.regs .int [] "col_block_idx"
   all_goals simp (config := { maxSteps := 1000000 }) [indexCode,position,source,
     forwardSyntax,backwardSyntax,forwardIndexCommutedSyntax,backwardIndexCommutedSyntax,
+    forwardKernel,backwardKernel,forwardIndexCommutedKernel,backwardIndexCommutedKernel,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,
     ComputeKernel.surfaceBody,List.drop,List.take,run,step,evalExpr,evalOp_unfold,
     numeric,bop,Broadcast.leftIndex,Broadcast.rightIndex,h,Option.bind,Int.mul_comm]
   all_goals try (congr 1; funext i; simp [bop,Broadcast.leftIndex,
@@ -36,7 +38,9 @@ private theorem index_safe {α : Type} [Inhabited α] (M : Algebra α)
     Safety.traceSafeList M bounds (indexCode backward candidate p) s := by
   cases backward <;> cases candidate
   all_goals simp [indexCode,position,source,forwardSyntax,backwardSyntax,
-    forwardIndexCommutedSyntax,backwardIndexCommutedSyntax,ComputeKernel.surfaceBody,
+    forwardIndexCommutedSyntax,backwardIndexCommutedSyntax,
+    forwardKernel,backwardKernel,forwardIndexCommutedKernel,backwardIndexCommutedKernel,
+    ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,ComputeKernel.surfaceBody,
     List.drop,List.take,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
     Safety.safeAlg,Safety.safeOp,Safety.safeOp_unfold]
   all_goals split <;> trivial

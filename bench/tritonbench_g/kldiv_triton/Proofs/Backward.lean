@@ -44,7 +44,7 @@ def b5 {α : Type} [Inhabited α] (c : Invocation α) := scatter (b4 c) "input_p
 
 theorem initialize0 {α : Type} [Inhabited α] (c : Invocation α) :
     step c.m.alg (command c 0) (a0 c) = some (a1 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -70,7 +70,7 @@ theorem initialize0 {α : Type} [Inhabited α] (c : Invocation α) :
 
 theorem initialize1 {α : Type} [Inhabited α] (c : Invocation α) :
     step c.m.alg (command c 1) (a1 c) = some (a2 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -101,7 +101,7 @@ theorem initialize1 {α : Type} [Inhabited α] (c : Invocation α) :
 
 theorem initialize2 {α : Type} [Inhabited α] (c : Invocation α) :
     step c.m.alg (command c 2) (a2 c) = some (a3 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -132,7 +132,7 @@ theorem initialize2 {α : Type} [Inhabited α] (c : Invocation α) :
 
 theorem initialize3 {α : Type} [Inhabited α] (c : Invocation α) :
     step c.m.alg (command c 3) (a3 c) = some (a4 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -158,7 +158,7 @@ theorem initialize3 {α : Type} [Inhabited α] (c : Invocation α) :
 
 theorem initialize4 {α : Type} [Inhabited α] (c : Invocation α) :
     step c.m.alg (command c 4) (a4 c) = some (a5 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -184,7 +184,7 @@ theorem initialize4 {α : Type} [Inhabited α] (c : Invocation α) :
 
 theorem block0 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
     step c.m.alg (bodyCommand c 0) (b0 c) = some (b1 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -210,7 +210,7 @@ theorem block0 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
 
 theorem block1 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
     step c.m.alg (bodyCommand c 1) (b1 c) = some (b2 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -236,7 +236,7 @@ theorem block1 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
 
 theorem block2 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
     step c.m.alg (bodyCommand c 2) (b2 c) = some (b3 c) := by
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -263,7 +263,7 @@ theorem block2 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
 theorem block3 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
     step c.m.alg (bodyCommand c 3) (b3 c) = some (b4 c) := by
   cases hf : c.flag
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,
@@ -290,7 +290,7 @@ theorem block3 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
 theorem block4 {α : Type} [Inhabited α] (c : Invocation α) (h : Ready c) :
     step c.m.alg (bodyCommand c 4) (b4 c) = some (b5 c) := by
   cases hf : c.flag
-  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplate,ComputeKernel.surfaceBody,
+  all_goals simp only [command,bodyCommand,body,backwardSource,backwardTemplateKernel,ComputeKernel.surfaceBody,
       List.take,List.drop,List.getD,List.getElem?_cons_zero,List.getElem?_cons_succ,Option.getD,
       step,run,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,store,
       Option.bind,Option.bind_eq_bind,Option.pure_def,ComputeDType.eraseDType,

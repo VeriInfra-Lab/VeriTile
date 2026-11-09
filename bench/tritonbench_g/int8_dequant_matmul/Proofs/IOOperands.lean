@@ -24,7 +24,7 @@ theorem loadA (q : IntegerModel I F H) [Inhabited (Sum F H)]
       (row s c pid i%s.M)*s.K+sourceK c t z l.val := by simp [sourceK]; omega
   simp only [av,ap,ptr,rk,Prod.fst,Prod.snd]
   rw [addr]
-  simp only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt]
+  simp only [←Int.natCast_mul,←Int.natCast_add,nat_lt_signed_sub,Int.ofNat_lt]
   have read (active : sourceK c t z l.val<s.K) :=
     IOInputReads.a s c hasBias vals base cells ⟨row s c pid i%s.M,Nat.mod_lt _ rows⟩
       ⟨sourceK c t z l.val,active⟩
@@ -55,7 +55,7 @@ theorem loadB (q : IntegerModel I F H) [Inhabited (Sum F H)]
       sourceK c t z l.val*s.N+col s c pid j%s.N := by simp [sourceK]; ring
   simp only [bv,bp,ptr,rk,Prod.fst,Prod.snd]
   rw [addr]
-  simp only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt]
+  simp only [←Int.natCast_mul,←Int.natCast_add,nat_lt_signed_sub,Int.ofNat_lt]
   have read (active : sourceK c t z l.val<s.K) :=
     IOInputReads.b s c hasBias vals base cells ⟨sourceK c t z l.val,active⟩
       ⟨col s c pid j%s.N,Nat.mod_lt _ columns⟩

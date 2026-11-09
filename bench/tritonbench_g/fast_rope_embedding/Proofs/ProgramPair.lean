@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fast_rope_embedding.PairIO
+import bench.tritonbench_g.fast_rope_embedding.Proofs.Support.PairIO
 import bench.tritonbench_g.fast_rope_embedding.Proofs.SourcePair
 import bench.tritonbench_g.fast_rope_embedding.IO
 

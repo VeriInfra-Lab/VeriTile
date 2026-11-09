@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rmsnorm_fused.PairIO
+import bench.tritonbench_g.rmsnorm_fused.Proofs.Support.PairIO
 import bench.tritonbench_g.l2_norm_triton1.Proofs.Mathematical_FP
 
 namespace VeriTile.Bench.Repairs.RmsnormFused.SourcePair
@@ -27,8 +27,8 @@ commute only the two factors before the existing pointer conversion. -/
 the floating operations are opaque and receive exactly the same inputs. -/
 theorem equivalent (X Y W : RegionName) (N B : Nat) :
     original X Y W N B ≡[assumptions] addressCommuted X Y W N B := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 #axiomsClean equivalent
 end

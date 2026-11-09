@@ -1,3 +1,4 @@
+import bench.tritonbench_g.bmm_chunk_bwd.Proofs.SignedLoop
 import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Mathematical_RealStep
 import bench.tritonbench_g.bmm_chunk_bwd.Proofs.Mathematical_RealSetup
 
@@ -9,7 +10,7 @@ No loop execution or precomputed product is assumed. -/
 namespace VeriTile.Bench.TritonBenchG.BmmChunkBwd.RealLoop
 open VeriTile.Triton
 noncomputable section
-set_option maxHeartbeats 3000000
+set_option maxHeartbeats 300000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
 
@@ -34,7 +35,7 @@ def carry (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
     RealMath.partialSum (RealSetup.limit s₀ p) BCS c (product s₀ BM BN p i j)
   else 0
 
-def writes : List RegName := ["cs", "dout", "a", "acc", "dout_ptrs", "a_ptrs"]
+def writes : List RegName := ["cs", "__veritile_load_0", "dout", "__veritile_load_1", "a", "acc", "dout_ptrs", "a_ptrs"]
 
 structure Holds (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
     (c : Nat) (s : BlockState) : Prop where
@@ -52,10 +53,10 @@ structure Holds (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameter
 theorem initial (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters) :
     Holds s₀ BM BN BCS p 0 (RealSetup.result s₀ BM BN BCS p) := by
   refine ⟨Nat.zero_le _, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · simp [RealSetup.result, BlockState.setReg]
-  · simp [RealSetup.result, BlockState.setReg]
-  · simp [RealSetup.result, BlockState.setReg]
-  · simp [RealSetup.result, BlockState.setReg]
+  · simp [RealSetup.result, RealSetup.arguments, BlockState.setReg]
+  · simp [RealSetup.result, RealSetup.arguments, BlockState.setReg]
+  · simp [RealSetup.result, RealSetup.arguments, BlockState.setReg]
+  · simp [RealSetup.result, RealSetup.arguments, BlockState.setReg]
   · intros; rfl
   · simp [RealSetup.result, dPointers, RealSetup.dPointers]
   · simp [RealSetup.result, aPointers, RealSetup.aPointers]
@@ -96,29 +97,29 @@ theorem carry_succ (s₀ s : BlockState) (BM BN BCS : Nat) (p : RealProgram.Para
 theorem iteration (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
     (c : Nat) (s : BlockState) (hc : c < RealMath.blocks (RealSetup.limit s₀ p) BCS)
     (h : Holds s₀ BM BN BCS p c s) :
-    ∃ t, stepStmts (RealLoads.code BM BN BCS p) (s.setReg "cs" .nat [] (Tile.scalar c)) = some t ∧
+    ∃ t, stepStmts (RealLoads.code BM BN BCS p) (s.setReg "cs" .int [] (Tile.scalar (c : Int))) = some t ∧
       Holds s₀ BM BN BCS p (c + 1) t := by
-  let entry := s.setReg "cs" .nat [] (Tile.scalar c)
-  have hr : entry.regs .nat [BM] "offs_m" = some (Tile.vec (RealSetup.rows s₀ BM BN p)) := by
-    have hv := h.fixed .nat [BM] "offs_m" (by decide)
+  let entry := s.setReg "cs" .int [] (Tile.scalar (c : Int))
+  have hr : entry.regs .int [BM] "offs_m" = some (Tile.vec fun i => (RealSetup.rows s₀ BM BN p i : Int)) := by
+    have hv := h.fixed .int [BM] "offs_m" (by decide)
     simpa [entry, RealSetup.result] using hv
-  have hn : entry.regs .nat [BN] "offs_n" = some (Tile.vec (RealSetup.columns s₀ BN p)) := by
-    have hv := h.fixed .nat [BN] "offs_n" (by decide)
+  have hn : entry.regs .int [BN] "offs_n" = some (Tile.vec fun j => (RealSetup.columns s₀ BN p j : Int)) := by
+    have hv := h.fixed .int [BN] "offs_n" (by decide)
     simpa [entry, RealSetup.result] using hv
-  have hk : entry.regs .nat [BCS] "offs_cs" = some (Tile.vec Fin.val) := by
-    have hv := h.fixed .nat [BCS] "offs_cs" (by decide)
+  have hk : entry.regs .int [BCS] "offs_cs" = some (Tile.vec fun k => (k.val : Int)) := by
+    have hv := h.fixed .int [BCS] "offs_cs" (by decide)
     simpa [entry, RealSetup.result] using hv
-  have hl : entry.regs .nat [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limit s₀ p)) := by
-    have hv := h.fixed .nat [] "chunk_size_limit" (by decide)
+  have hl : entry.regs .int [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limitInt s₀ p)) := by
+    have hv := h.fixed .int [] "chunk_size_limit" (by decide)
     simpa [entry, RealSetup.result] using hv
   have he := RealStep.executes BM BN BCS entry p (dPointers s₀ BM BN BCS p c)
     (aPointers s₀ BN BCS p c) (RealSetup.rows s₀ BM BN p) (RealSetup.columns s₀ BN p)
-    (RealSetup.limit s₀ p) c (carry s₀ BM BN BCS p c)
+    (RealSetup.limitInt s₀ p) c (carry s₀ BM BN BCS p c)
     (by simpa [entry] using h.dout) (by simpa [entry] using h.a)
     hr hn hk hl (by simp [entry]) (by simpa [entry] using h.acc)
   refine ⟨_, he, Nat.succ_le_of_lt hc, h.mem, h.undef, h.pids, h.numPids, ?_, ?_, ?_, ?_⟩
   · intro dtype shape name hname
-    have hx : name ∉ ["dout", "a", "acc", "dout_ptrs", "a_ptrs"] := by
+    have hx : name ∉ ["__veritile_load_0", "dout", "__veritile_load_1", "a", "acc", "dout_ptrs", "a_ptrs"] := by
       have hs := hname
       simp only [writes, List.mem_cons, not_or] at hs
       simpa only [List.mem_cons, not_or] using hs.2
@@ -130,7 +131,7 @@ theorem iteration (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Paramet
     simpa [entry, BlockState.setReg, hcs] using h.fixed dtype shape name hname
   · simp [RealStep.result, d_advance]
   · simp [RealStep.result, a_advance]
-  · simp only [RealStep.result, BlockState.setReg_ne_name, ne_eq, String.reduceEq,
+  · simp only [RealStep.result, RealSetup.limitInt_toNat, BlockState.setReg_ne_name, ne_eq, String.reduceEq,
       not_false_eq_true, BlockState.setReg_same]
     congr 1
     apply Tile.ext
@@ -140,27 +141,37 @@ theorem iteration (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Paramet
 
 /-- The source's dynamic contraction loop, with its actual register bound. -/
 def statement (BM BN BCS : Nat) (p : RealProgram.Parameters) : Stmt :=
-  .forRangeDyn "cs" (.constNat 0) (RealProgram.loopBound BCS) (.constNat 1)
+  .forRangeInt "cs" (.constInt 0) (RealProgram.loopBound BCS) (.constNat 1)
     (RealLoads.code BM BN BCS p)
+
+def stop (s₀ : BlockState) (BCS : Nat) (p : RealProgram.Parameters) : Int :=
+  (RealSetup.limitInt s₀ p + ((BCS : Int) - 1)).tdiv BCS
+
+@[simp] theorem stop_count (s₀ : BlockState) (BCS : Nat) (p : RealProgram.Parameters) :
+    (stop s₀ BCS p).toNat = RealMath.blocks (RealSetup.limit s₀ p) BCS := by
+  simp only [stop, IntegerIndices.signed_blocks, RealSetup.limitInt_toNat]
+
+theorem bound_eval (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters) :
+    evalOp (RealProgram.loopBound BCS) (RealSetup.result s₀ BM BN BCS p) =
+      some (Tile.scalar (stop s₀ BCS p)) := by
+  rw [RealProgram.loopBound, eval_truncDiv]
+  simp only [evalOp.eq_def, RealSetup.chunk_limit, bind, Option.bind_some]
+  rfl
 
 theorem executes (s₀ : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters) :
     ∃ t, stepStmt (statement BM BN BCS p) (RealSetup.result s₀ BM BN BCS p) = some t ∧
       Holds s₀ BM BN BCS p (RealMath.blocks (RealSetup.limit s₀ p) BCS) t := by
   have resolve : stepStmt (statement BM BN BCS p) (RealSetup.result s₀ BM BN BCS p) =
-      stepForRangeAux "cs" 0 (RealMath.blocks (RealSetup.limit s₀ p) BCS) 1
+      stepForRangeIntAux "cs" 0 (stop s₀ BCS p) 1
         (RealLoads.code BM BN BCS p) (RealSetup.result s₀ BM BN BCS p) := by
-    simp only [statement, stepForRangeAux.forRangeDyn_unfold, RealProgram.loopBound,
-      evalOp.eq_def, RealSetup.chunk_limit, bind, Option.bind_some]
-    rfl
+    rw [statement, stepForRangeIntAux.forRangeInt_unfold, bound_eval s₀ BM BN BCS p]
+    simp only [evalOp.eq_def, bind, Option.bind_some, Tile.scalar]
   rw [resolve]
-  obtain ⟨final, t, he, hf, ht⟩ := forRangeAux_inv
-    (idx := "cs") (stop := RealMath.blocks (RealSetup.limit s₀ p) BCS) (step := 1)
-    (P := Holds s₀ BM BN BCS p) (by decide)
-    (fun c s hc h => iteration s₀ BM BN BCS p c s hc h)
-    0 (RealSetup.result s₀ BM BN BCS p) (initial s₀ BM BN BCS p)
-  have final_eq : final = RealMath.blocks (RealSetup.limit s₀ p) BCS := Nat.le_antisymm ht.count hf
-  subst final
-  exact ⟨t, he, ht⟩
+  have h := SignedLoop.executes "cs" (stop s₀ BCS p) (RealLoads.code BM BN BCS p)
+    (Holds s₀ BM BN BCS p)
+    (fun c s hc hp => iteration s₀ BM BN BCS p c s (by simpa only [stop_count] using hc) hp)
+    0 (RealSetup.result s₀ BM BN BCS p) (Nat.zero_le _) (initial s₀ BM BN BCS p)
+  simpa only [Int.natCast_zero, stop_count] using h
 
 /-- Readout is a sum over the initial memory, including a partial last block. -/
 theorem full_sum (s₀ s : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parameters)
@@ -172,13 +183,13 @@ theorem full_sum (s₀ s : BlockState) (BM BN BCS : Nat) (p : RealProgram.Parame
   rw [h.acc]
   simp only [carry, RealMath.partial_complete _ _ hBCS]
 
-/-- The prologue and loop are reached by the same full source in either order
-of the later residual addition. No pre-populated register is assumed. -/
+/-- The canonical source reaches its entire prologue and signed loop for
+either value of the retired selector. No pre-populated register is assumed. -/
 theorem prefix_executes (swapped : Bool) (s₀ : BlockState) (BM BN BCS : Nat)
     (p : RealProgram.Parameters) :
     ∃ t, stepStmts
       (RealProgram.realPart (RealProgram.parts swapped BM BN BCS p).before ++
-        [.forRangeDyn "cs" (.constNat 0) (RealProgram.loopBound BCS) (.constNat 1)
+        [.forRangeInt "cs" (.constInt 0) (RealProgram.loopBound BCS) (.constNat 1)
           (RealProgram.realPart (RealProgram.parts swapped BM BN BCS p).body)]) s₀ = some t ∧
       Holds s₀ BM BN BCS p (RealMath.blocks (RealSetup.limit s₀ p) BCS) t := by
   obtain ⟨t, he, ht⟩ := executes s₀ BM BN BCS p

@@ -35,7 +35,7 @@ theorem unique {c : Call} {m : Metadata c} {xs : Interface.Inputs α c}
   obtain ⟨bb,hb',nb⟩ := (mem_programs c.grid b.1 b.2.1 b.2.2).mp (within b hb)
   have hta := (active_eq h v scale a ba i).mp hi
   have htb := (active_eq h v scale b bb j).mp hj
-  rw [offset_eq h scale a ba i,offset_eq h scale b bb j] at he
+  rw [offset_eq h v scale a ba i,offset_eq h v scale b bb j] at he
   have hsa := (v.starts ⟨a.1,ba⟩).2
   have hsb := (v.starts ⟨b.1,bb⟩).2
   obtain ⟨heHead,heToken⟩ := v.outputInjective a.2.1 ha' b.2.1 hb'
@@ -66,7 +66,7 @@ theorem frame {c : Call} {m : Metadata c} {xs : Interface.Inputs α c}
     have hn := (active_eq h v scale pid hb i).mp active
     have hl := length_bound c m v pid.1 hb
     have hnMax : pid.2.2*32+i.1.val<c.maxLength := by omega
-    rw [offset_eq h scale pid hb i]
+    rw [offset_eq h v scale pid hb i]
     have ho := outside.1 ⟨0,by simp [Interface.io,Interface.outputs]⟩
       (⟨pid.1,hb⟩,⟨pid.2.1,hh⟩,⟨pid.2.2*32+i.1.val,hnMax⟩,PUnit.unit) hn
     exact ho.resolve_left (by simpa [Interface.io,Interface.outputs] using hr)

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.fast_rms_layernorm.Proofs.SignedIndices
 import bench.tritonbench_g.fast_rms_layernorm.Proofs.FPWeightProgram
 
 namespace VeriTile.Bench.Repairs.FastRmsLayernorm.FPWeightStep
@@ -8,7 +9,7 @@ set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
-def columns (K pid : Nat) : Values α .nat [K] := fun i => pid*K+i.1.val
+def columns (K pid : Nat) : Values α .int [K] := fun i => ((pid*K+i.1.val : Nat) : Int)
 def masks (h : Call) (K pid : Nat) : Values α .bool [K] :=
   fun i => decide (pid*K+i.1.val<h.cols)
 def raw (M : Algebra α) (h : Call) (K pid : Nat) (u : State α)
@@ -17,16 +18,16 @@ def raw (M : Algebra α) (h : Call) (K pid : Nat) (u : State α)
 def saved (u : State α) (row : Nat) : α := (u.mem "r" row).read .real
 
 def initial (M : Algebra α) (h : Call) (K : Nat) (u : State α) : State α :=
-  ((u.setReg "col" .nat [K] (columns K (u.pids 0))).setReg "mask" .bool [K] (masks h K (u.pids 0))).setReg
+  ((u.setReg "col" .int [K] (columns K (u.pids 0))).setReg "mask" .bool [K] (masks h K (u.pids 0))).setReg
     "acc" .real [K] (fun _ => FPReference.literal M 0)
 
 theorem prefix_executes (M : Algebra α) (h : Call) (K : Nat) (u : State α) :
     run (engine M) (prefixCode h K) u=some (initial M h K u) := by
-  simp [prefixCode,Kernels.weightBackward,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [prefixCode,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,
     columns,masks,initial,FPReference.literal]
-  rfl
+  simp (config := {unfoldPartialApp := Bool.true}) [FP.Structural.bop,columns,masks,Int.natCast_add,Int.natCast_mul]
 
 def nextAcc (M : Algebra α) (h : Call) (K pid row : Nat) (u : State α) (acc : Values α .real [K]) :=
   fun i => FPReference.add M (acc i) (FPWeightReference.term M h.gemma
@@ -34,17 +35,17 @@ def nextAcc (M : Algebra α) (h : Call) (K pid row : Nat) (u : State α) (acc : 
 
 theorem iteration (M : Algebra α) (h : Call) (K pid row : Nat) (u : State α)
     (acc : Values α .real [K])
-    (hcol : u.regs .nat [K] "col"=some (columns K pid))
+    (hcol : u.regs .int [K] "col"=some (columns K pid))
     (hmask : u.regs .bool [K] "mask"=some (masks h K pid))
     (hacc : u.regs .real [K] "acc"=some acc) :
-    ∃ v, run (engine M) (loopBody h K) (u.setReg "row" .nat [] (fun _ => row))=some v ∧
+    ∃ v, run (engine M) (loopBody h K) (u.setReg "row" .int [] (fun _ => (row : Int)))=some v ∧
       v.mem=u.mem ∧ v.pids=u.pids ∧
-      v.regs .nat [K] "col"=some (columns K pid) ∧
+      v.regs .int [K] "col"=some (columns K pid) ∧
       v.regs .bool [K] "mask"=some (masks h K pid) ∧
       v.regs .real [K] "acc"=some (nextAcc M h K pid row u acc) := by
   cases mode : h.gemma
   all_goals
-    simp [loopBody,Kernels.weightBackward,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [loopBody,Kernels.weightBackward,Kernels.runtimeWeightKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,natLt,numericLt,numericLe,numericEq,bop,Region.cast,State.setReg,hcol,hmask,hacc,
       nextAcc,columns,masks,raw,saved,FPWeightReference.term,FPWeightReference.normed,

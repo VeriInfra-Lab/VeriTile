@@ -1,5 +1,5 @@
 import bench.tritonbench_g.softmax_triton1.Proofs.FP
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 import VeriTile.Triton.Float.ProfiledMemory
 import VeriTile.Triton.Float.ScalarArithmeticLaws
 
@@ -61,7 +61,7 @@ numerical law. This transformation domain is not a Python input guard. -/
 def divisionSite (out inp : RegionName) (ib ob ir ic orow oc n B : Nat) : DivisionSite where
   before := sourcePrefix out inp ib ob ir ic orow oc n B
   lanes := B
-  active := .lt .nat .scalarR (.ref .nat [B] "col_offsets") (.constNat n)
+  active := .lt .int .scalarR (.ref .int [B] "col_offsets") (.constInt (n : Int))
   numerator := .ref .real [B] "numerator"
   denominator := .ref .real [] "denominator"
 
@@ -73,7 +73,7 @@ def originalExecution {α : Type} [Inhabited α] (M : Algebra α)
   refine ⟨?_, ?_⟩
   swap
   simp [FP.Structural.exec,softmax_kernel,ComputeKernel.surfaceBody,run,step,
-    evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+    evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,
     TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType]
   rfl
 
@@ -85,7 +85,7 @@ def reciprocalExecution {α : Type} [Inhabited α] (M : Algebra α)
   refine ⟨?_, ?_⟩
   swap
   simp [FP.Structural.exec,reciprocal_kernel,ComputeKernel.surfaceBody,run,step,
-    evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,natLt,bop,
+    evalExpr,evalComputeOp,evalOp_unfold,store,State.setReg,numeric,numericLt,numericLe,numericEq,natLt,bop,
     TileShape.axisDim,hB,Option.bind,Function.comp_def,ComputeDType.eraseDType]
   rfl
 
@@ -112,7 +112,7 @@ theorem site_values_iff {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
         D .nonzero (denominatorValue M inp ib ir ic n B s) := by
   simp [divisionSite, DivisionSite.Holds, sourcePrefix, Source.prefixBefore,
     softmax_kernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
-    Option.bind, numeric, natLt, bop, Region.cast, State.setReg,
+    Option.bind, numeric, numericLt, numericLe, numericEq, natLt, bop, Region.cast, State.setReg,
     TileShape.axisDim, hB, ComputeDType.eraseDType,
     engine, Algebra.withDefaultPrecision, resolvePrecision, numeratorValue, denominatorValue, Function.comp_def]
 

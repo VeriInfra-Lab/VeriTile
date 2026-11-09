@@ -22,9 +22,9 @@ theorem real_first (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
     (value : s.pids 0 + base < bounds V)
     (index : s.pids 0 + base < bounds (Region.cast I)) :
     TraceSafe (TypedReal.backend rest) bounds
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) block index64) (JITStage1.arguments s size base) := by
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) block index64) (JITStage1.arguments s size base) := by
   cases kind <;> cases index64 <;>
-    simp [TraceSafe, JITStage1.floatingType, JITSource.stage1, JITStage1.arguments,
+    simp [TraceSafe, JITStage1.floatingType, JITSource.stage1Kernel, JITStage1.arguments,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
@@ -49,9 +49,9 @@ theorem real_second (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
     (selected : TypedReal.secondIndex kind s V size block positive < bounds (Region.cast I))
     (output : 0 < bounds (Region.cast O)) :
     TraceSafe (TypedReal.backend rest) bounds
-      (JITSource.stage2 V I O (JITStage1.floatingType kind) block) (s.setReg "mid_size" .int [] (fun _ => (size : Int))) := by
+      (JITSource.stage2Kernel V I O (JITStage1.floatingType kind) block) (s.setReg "mid_size" .int [] (fun _ => (size : Int))) := by
   cases kind <;>
-    simp [TraceSafe, JITStage1.floatingType, JITSource.stage2,
+    simp [TraceSafe, JITStage1.floatingType, JITSource.stage2Kernel,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,

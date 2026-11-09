@@ -16,7 +16,7 @@ theorem forward_prologue_safe (rest : Algebra α) (P : Primitives α)
     (p : ForwardParameters) (s : State α) (bounds : RegionName→Nat)
     (query : ∀ i : FQuery p,forwardOffset p s i<bounds p.q) :
     Safety.traceSafeList (backend rest P) bounds (forwardPrologue p) s := by
-  simp [forwardPrologue,forwardSource,forwardTyped,ComputeKernel.surfaceBody,
+  simp [forwardPrologue,forwardSource,forwardTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

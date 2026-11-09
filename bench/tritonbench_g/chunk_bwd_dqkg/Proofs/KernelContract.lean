@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_bwd_dqkg.Domain
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.Support.Domain
 import bench.tritonbench_g.fast_layernorm.Proofs.KernelStorage
 import VeriTile.Triton.Float.Structural
 

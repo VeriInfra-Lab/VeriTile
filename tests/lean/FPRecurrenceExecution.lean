@@ -4,55 +4,57 @@ import bench.examples.Welford.Proofs.FP
 import bench.examples.OnlineSoftmax.Proofs.FP
 import VeriTile.Meta.StatementAudit
 
-open VeriTile.Bench.Examples.OnlineSoftmax.Kernels
-open VeriTile.Bench.Examples.Welford.Kernels
-
 namespace FPRecurrenceExecutionTests
 open VeriTile Triton FP.Structural
 open VeriTile.Bench.Examples
+open WelfordFPExecution (sourceEngine)
 
 -- Symbolic sizes and strides; no fixed GPU experiment shape enters execution.
-example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat)
+example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat) (hWord : N < 2^64)
     (xs : Fin N → α) (s : State α)
-    (hx : ∀ i : Fin N, (s.mem "x" (s.pids 0 * stride + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (Welford.Kernels.onlineWelfordKernel "x" "m" "v" N stride) s = some t ∧
-      t.mem "m" 0 = .mk .bf16 (WelfordFPExecution.meanValue M xs) ∧
-      t.mem "v" 0 = .mk .bf16 (WelfordFPExecution.varianceValue M xs) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem "x" (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    let E := sourceEngine M
+    ∃ t, FP.Structural.exec E (Welford.Kernels.onlineWelfordKernel "x" "m" "v" N stride) s = some t ∧
+      t.mem "m" 0 = .mk .bf16 (WelfordFPExecution.meanValue E xs) ∧
+      t.mem "v" 0 = .mk .bf16 (WelfordFPExecution.varianceValue E xs) ∧
       (∀ (r : RegionName) o, (r ≠ "m" ∨ o ≠ 0) → (r ≠ "v" ∨ o ≠ 0) → t.mem r o = s.mem r o) :=
-  WelfordFPExecution.online_run M "x" "m" "v" stride xs s (by decide) hx
+  WelfordFPExecution.online_run M "x" "m" "v" stride xs s hWord (by decide) hx
 
 -- The original empty-row source still reaches its two stores. There is no
 -- fabricated nonzero count, nor a cancellation of the final opaque division.
 example {α : Type} [Inhabited α] (M : Algebra α) (stride : Nat) (s : State α) :
-    ∃ t, FP.Structural.exec M (Welford.Kernels.onlineWelfordKernel "x" "m" "v" 0 stride) s = some t ∧
-      t.mem "m" 0 = .mk .bf16 (M.cast none .real .bf16 (M.literal none .real 0)) ∧
-      t.mem "v" 0 = .mk .bf16 (M.cast none .real .bf16
-        (M.binary (some .fp32) .real .div (M.literal none .real 0) (M.fromNat (some .fp32) 0))) ∧
+    let E := sourceEngine M
+    ∃ t, FP.Structural.exec E (Welford.Kernels.onlineWelfordKernel "x" "m" "v" 0 stride) s = some t ∧
+      t.mem "m" 0 = .mk .bf16 (E.cast none .real .bf16 (E.literal none .real 0)) ∧
+      t.mem "v" 0 = .mk .bf16 (E.cast none .real .bf16
+        (E.binary (some .fp32) .real .div (E.literal none .real 0) (E.fromNat (some .fp32) 0))) ∧
       (∀ (r : RegionName) o, (r ≠ "m" ∨ o ≠ 0) → (r ≠ "v" ∨ o ≠ 0) → t.mem r o = s.mem r o) := by
-  exact WelfordFPExecution.online_run M "x" "m" "v" stride Fin.elim0 s (by decide)
+  exact WelfordFPExecution.online_run M "x" "m" "v" stride Fin.elim0 s (by decide) (by decide)
     (fun i => Fin.elim0 i)
 
 -- Both executions now discharge the dual-output IO frame with symbolic sizes,
 -- while retaining the two distinct opaque numerical expressions.
-example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat)
+example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat) (hWord : N < 2^64)
     (xs : Fin N → α) (s : State α)
-    (hx : ∀ i : Fin N, (s.mem "x" (s.pids 0 * stride + i.val)).read .real = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem "x" (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    let E := sourceEngine M
     IO₁ₓ₂PrivateScratch (WelfordFPExecution.onlineIO "x" "m" "v" N stride) ∧
-    ∃ t, FP.Structural.exec M (WelfordFPExecution.onlineIO "x" "m" "v" N stride).kernel s = some t ∧
-      t.mem "m" 0 = .mk .bf16 (WelfordFPExecution.meanValue M xs) ∧
-      t.mem "v" 0 = .mk .bf16 (WelfordFPExecution.varianceValue M xs) ∧
+    ∃ t, FP.Structural.exec E (WelfordFPExecution.onlineIO "x" "m" "v" N stride).kernel s = some t ∧
+      t.mem "m" 0 = .mk .bf16 (WelfordFPExecution.meanValue E xs) ∧
+      t.mem "v" 0 = .mk .bf16 (WelfordFPExecution.varianceValue E xs) ∧
       IO₁ₓ₂Frame (WelfordFPExecution.onlineIO "x" "m" "v" N stride) s t :=
-  WelfordFPExecution.online_io_run M "x" "m" "v" stride xs s (by decide) hx
+  WelfordFPExecution.online_io_run M "x" "m" "v" stride xs s hWord (by decide) hx
 
-example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat)
+example {α : Type} [Inhabited α] (M : Algebra α) (N stride : Nat) (hWord : N < 2^64)
     (xs : Fin N → α) (s : State α)
-    (hx : ∀ i : Fin N, (s.mem "x" (s.pids 0 * stride + i.val)).read .real = xs i) :
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem "x" (s.pids 0 * stride + i.val)).read .real) = xs i) :
+    let E := sourceEngine M
     IO₁ₓ₂PrivateScratch (WelfordFPExecution.twopassIO "x" "m" "v" N stride) ∧
-    ∃ t, FP.Structural.exec M (WelfordFPExecution.twopassIO "x" "m" "v" N stride).kernel s = some t ∧
-      t.mem "m" 0 = .mk .bf16 (M.cast none .real .bf16 (WelfordFPExecution.twopassMean M xs)) ∧
-      t.mem "v" 0 = .mk .bf16 (M.cast none .real .bf16 (WelfordFPExecution.twopassVariance M xs)) ∧
+    ∃ t, FP.Structural.exec E (WelfordFPExecution.twopassIO "x" "m" "v" N stride).kernel s = some t ∧
+      t.mem "m" 0 = .mk .bf16 (E.cast none .real .bf16 (WelfordFPExecution.twopassMean E xs)) ∧
+      t.mem "v" 0 = .mk .bf16 (E.cast none .real .bf16 (WelfordFPExecution.twopassVariance E xs)) ∧
       IO₁ₓ₂Frame (WelfordFPExecution.twopassIO "x" "m" "v" N stride) s t :=
-  WelfordFPExecution.twopass_io_run M "x" "m" "v" stride xs s (by decide) hx
+  WelfordFPExecution.twopass_io_run M "x" "m" "v" stride xs s hWord (by decide) hx
 
 example (x mean variance : RegionName) (N stride : Nat) :
     Spec.ProgramSyntax.signature (WelfordFPExecution.onlineIO x mean variance N stride) =
@@ -61,9 +63,10 @@ example (x mean variance : RegionName) (N stride : Nat) :
 
 -- -inf is opaque and survives the empty online-softmax loop unchanged.
 example {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
-    ∃ t, FP.Structural.exec M (OnlineSoftmax.Kernels.onlineNormalizerKernel "x" "y" 0) s = some t ∧
+    let E := OnlineSoftmaxFPExecution.sourceEngine M
+    ∃ t, FP.Structural.exec E (OnlineSoftmax.SourceDecomposition.normalizerSource "x" "y" 0) s = some t ∧
       t.regs .real [] "m" = some (fun _ => M.negInf) ∧
-      t.regs .real [] "l" = some (fun _ => M.literal none .real 0) ∧
+      t.regs .real [] "l" = some (fun _ => E.literal none .real 0) ∧
       t.mem = s.mem ∧ t.pids = s.pids :=
   OnlineSoftmaxFPExecution.online_run M "x" "y" Fin.elim0 s (fun i => Fin.elim0 i)
 

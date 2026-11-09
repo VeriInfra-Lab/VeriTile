@@ -1,3 +1,4 @@
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.RangeHeader
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.SourceExecution
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.NativeSourceExecution
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOByteLoop
@@ -31,23 +32,24 @@ theorem source_full {α : Type} [Inhabited α] (a : Arithmetic α)
     (hh _ _ _ (by simp [headerNames])).trans (ps.1.trans he)
   have lt : last.regs .real [] "THETA"=some (fun _ => theta) :=
     (hh _ _ _ (by simp [headerNames])).trans (ps.2.trans ht)
-  have lb : last.regs .nat [] "pid_batch"=some (fun _ => s.pids 0) :=
+  have lb : last.regs .int [] "pid_batch"=some (fun _ => (s.pids 0:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.1
-  have lm : last.regs .nat [] "pid_m"=some (fun _ => programRow p s) :=
+  have lm : last.regs .int [] "pid_m"=some (fun _ => (programRow p s:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.2.1
-  have ln : last.regs .nat [] "pid_n"=some (fun _ => programCol p s) :=
+  have ln : last.regs .int [] "pid_n"=some (fun _ => (programCol p s:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.2.2
   obtain ⟨final,hepi,hmemory,eh,ep⟩ := epilogueExecutionFull a fp8 outputFP8 p last epsilon theta
     (s.pids 0) (programRow p s) (programCol p s) _ _ le lt lb lm ln hv.moments hv.accumulator
   have hstep : FP.Structural.step a.model
-      (.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1)
+      (.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p)
         (body fp8 outputFP8 p)) preState.val=some last := by
-    simpa [FP.Structural.step,evalOp_unfold,countExpr,FP.Structural.bop,
-      Broadcast.leftIndex,Broadcast.rightIndex,IOBytes.code] using hl
+    simpa only [FP.Structural.step,(range_header a.model p preState.val).1,
+      (range_header a.model p preState.val).2.1,
+      (range_header a.model p preState.val).2.2,Option.bind_some,IOBytes.code] using hl
   refine ⟨final,?_,?_,(eh _ _ _ (by simp [headerNames])).trans le,
     (eh _ _ _ (by simp [headerNames])).trans lt,ep.trans (hp.trans ?_)⟩
   rotate_left 2
-  · cases fp8 <;> cases outputFP8 <;> rfl
+  · exact prefix_pids a.model fp8 outputFP8 p s
   · rw [partition,List.append_assoc,run_append,preState.property]
     simp only [Option.bind_some,run_append,run,hstep,Option.bind_some]
     exact hepi
@@ -77,23 +79,24 @@ theorem native_source_full {α : Type} [Inhabited α] (a : Arithmetic α)
     (hh _ _ _ (by simp [headerNames])).trans (ps.1.trans he)
   have lt : last.regs .real [] "THETA"=some (fun _ => theta) :=
     (hh _ _ _ (by simp [headerNames])).trans (ps.2.trans ht)
-  have lb : last.regs .nat [] "pid_batch"=some (fun _ => s.pids 0) :=
+  have lb : last.regs .int [] "pid_batch"=some (fun _ => (s.pids 0:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.1
-  have lm : last.regs .nat [] "pid_m"=some (fun _ => programRow p s) :=
+  have lm : last.regs .int [] "pid_m"=some (fun _ => (programRow p s:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.2.1
-  have ln : last.regs .nat [] "pid_n"=some (fun _ => programCol p s) :=
+  have ln : last.regs .int [] "pid_n"=some (fun _ => (programCol p s:Int)) :=
     (hh _ _ _ (by simp [headerNames])).trans pc.2.2
   obtain ⟨final,hepi,hmemory,eh,ep⟩ := nativeEpilogueExecutionFull a plan fp8 outputFP8 p last epsilon theta
     (s.pids 0) (programRow p s) (programCol p s) _ _ le lt lb lm ln hv.moments hv.accumulator
   have hstep : FP.Structural.step a.model
-      (.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1)
+      (.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p)
         (selectedBody fp8 outputFP8 p)) preState.val=some last := by
-    simpa [FP.Structural.step,evalOp_unfold,countExpr,FP.Structural.bop,
-      Broadcast.leftIndex,Broadcast.rightIndex,IOBytes.code] using hl
+    simpa only [FP.Structural.step,(range_header a.model p preState.val).1,
+      (range_header a.model p preState.val).2.1,
+      (range_header a.model p preState.val).2.2,Option.bind_some,IOBytes.code] using hl
   refine ⟨final,?_,?_,(eh _ _ _ (by simp [headerNames])).trans le,
     (eh _ _ _ (by simp [headerNames])).trans lt,ep.trans (hp.trans ?_)⟩
   rotate_left 2
-  · cases fp8 <;> cases outputFP8 <;> rfl
+  · exact prefix_pids a.model fp8 outputFP8 p s
   · rw [selectedSource,List.append_assoc,run_append,preState.property]
     simp only [Option.bind_some,run_append,run,hstep,Option.bind_some]
     exact hepi

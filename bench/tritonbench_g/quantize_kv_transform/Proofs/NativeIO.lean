@@ -40,7 +40,7 @@ theorem implements (a : Arithmetic) (rest : Algebra Word) (p : Parameters)
   · intro t h ht
     exact scales t ⟨h.val, lt_of_lt_of_le h.isLt headCover⟩ ht h.isLt
 
-#specNonCircular mathematical avoiding [kernel, FP.Structural.exec, KernelGrid.run]
+#specNonCircular mathematical avoiding [sourceKernel, FP.Structural.exec, KernelGrid.run]
 #axiomsClean implements
 #guard_msgs (drop info) in
 #auditModuleAxioms

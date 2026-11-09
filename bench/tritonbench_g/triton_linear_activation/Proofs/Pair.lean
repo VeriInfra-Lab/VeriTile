@@ -1,5 +1,5 @@
-import bench.tritonbench_g.triton_linear_activation.PairIO
-import bench.tritonbench_g.triton_linear_activation.CandidateKernels
+import bench.tritonbench_g.triton_linear_activation.Proofs.Support.PairIO
+import bench.tritonbench_g.triton_linear_activation.Proofs.Support.CandidateKernels
 import bench.tritonbench_g.triton_linear_activation.Proofs.IOBindings
 import bench.tritonbench_g.triton_linear_activation.Proofs.KernelMemory
 import bench.tritonbench_g.triton_linear_activation.Proofs.KernelContract
@@ -11,28 +11,45 @@ noncomputable section
 set_option maxHeartbeats 400000
 set_option maxRecDepth 32000
 
-def before (mode : Mode) (p : Parameters) := (source mode p).surfaceBody.take 3
+/-- Inspect the common width prefix of the same copied candidate, with
+unrelated constexpr flags fixed only for this proof projection. -/
+def candidatePrefix (mode : Mode) (p : Parameters) : ComputeKernel :=
+  CandidateSource.typed (dtype mode) p.output p.saved p.input p.weight p.bias
+    p.rows p.columns p.inner p.outputRowStride p.outputColStride p.savedRowStride p.savedColStride
+    p.inputRowStride p.inputInnerStride p.weightColStride p.weightInnerStride
+    p.blockRows p.groupRows p.blockColumns p.blockInner Bool.false Bool.false Bool.false p.activation
+
+def before (mode : Mode) (p : Parameters) := (flagged mode p Bool.false Bool.false Bool.false).surfaceBody.take 3
 def after (mode : Mode) (p : Parameters) := (source mode p).surfaceBody.drop 4
 def originalSite (mode : Mode) (p : Parameters) :=
-  ((source mode p).surfaceBody[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+  ((flagged mode p Bool.false Bool.false Bool.false).surfaceBody[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
 def shiftedSite (mode : Mode) (p : Parameters) :=
-  ((CandidateSource.source mode p).surfaceBody[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
+  ((candidatePrefix mode p).surfaceBody[3]? : Option ComputeStmt).getD (.effectMarker "unreachable")
 
 theorem original_code (mode : Mode) (p : Parameters) :
-    (source mode p).surfaceBody = before mode p ++ originalSite mode p :: after mode p := rfl
+    (source mode p).surfaceBody = before mode p ++ originalSite mode p :: after mode p := by
+  cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
+    cases hl : (p.inner%p.blockInner==0) <;>
+    simp only [before,after,originalSite,flagged,source,typed,originalKernel,dtype,hb,hs,hl,
+      Bool.false_eq_true,if_false,if_true] <;> rfl
 
 theorem shifted_code (mode : Mode) (p : Parameters) :
-    (CandidateSource.source mode p).surfaceBody = before mode p ++ shiftedSite mode p :: after mode p := rfl
+    (CandidateSource.source mode p).surfaceBody = before mode p ++ shiftedSite mode p :: after mode p := by
+  cases mode <;> cases hb : p.hasBias <;> cases hs : p.saveInputs <;>
+    cases hl : (p.inner%p.blockInner==0) <;>
+    simp only [before,after,shiftedSite,candidatePrefix,flagged,source,typed,originalKernel,
+      CandidateSource.source,CandidateSource.typed,candidateKernel,dtype,hb,hs,hl,
+      Bool.false_eq_true,if_false,if_true] <;> rfl
 
 theorem site_run {α : Type} [Inhabited α] (M : Algebra α) (mode : Mode) (p : Parameters) (s : State α) :
     step M (originalSite mode p) s = step M (shiftedSite mode p) s := by
-  simp only [originalSite,shiftedSite,source,typed,CandidateSource.source,CandidateSource.typed,
+  simp only [originalSite,shiftedSite,flagged,candidatePrefix,source,typed,originalKernel,CandidateSource.source,CandidateSource.typed,candidateKernel,
+    Bool.false_eq_true,if_false,if_true,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   by_cases hg : p.groupRows=8
-  all_goals simp only [hg,decide_true,decide_false]
   all_goals simp only [step, FP.Structural.run, evalExpr, evalOp_unfold]
   all_goals cases hr : s.regs .nat [] "grid_n"
-  all_goals simp [FP.Structural.run,step,evalExpr,evalOp_unfold,hr,hg,numeric,FP.Structural.bop,
+  all_goals simp [FP.Structural.run,step,evalExpr,evalOp_unfold,hr,hg,numeric,numericEq,FP.Structural.bop,
     Nat.shiftLeft_eq,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm]
   all_goals unfold FP.Structural.bop
   all_goals congr 1
@@ -43,11 +60,13 @@ theorem site_safe {α : Type} [Inhabited α] (M : Algebra α) (bounds : RegionNa
     (mode : Mode) (p : Parameters) (s : State α) :
     Safety.stepSafe M bounds (originalSite mode p) s ∧
       Safety.stepSafe M bounds (shiftedSite mode p) s := by
-  simp only [originalSite,shiftedSite,source,typed,CandidateSource.source,CandidateSource.typed,
+  simp only [originalSite,shiftedSite,flagged,candidatePrefix,source,typed,originalKernel,CandidateSource.source,CandidateSource.typed,candidateKernel,
+    Bool.false_eq_true,if_false,if_true,
     ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
   by_cases hg : p.groupRows=8
   all_goals simp only [hg,decide_true,decide_false,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeOp_unfold,Safety.traceSafeList_cons,Safety.traceSafeList_nil,evalOp_unfold,
+    numericEq,Option.bind_some,bind,FP.Structural.bop,Broadcast.leftIndex,Broadcast.rightIndex,
     implies_true,and_true,true_and,Bool.false_eq_true,if_true,if_false]
 
 theorem run_cons {α : Type} [Inhabited α] (M : Algebra α)

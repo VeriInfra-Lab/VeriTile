@@ -11,8 +11,8 @@ set_option maxHeartbeats 2000000
 source execution and the initial output allocation. -/
 def tensorBlock (plans : PlanSelector)
     (p : Parameters) (mem : Memory) (m n c : Nat) : Word :=
-  let args := fun e : Fin p.BK => Expr.mul ((mem p.A (m*p.K + (c*p.BK+e.val))).read .real)
-    ((mem p.B (m*p.N*p.K+n*p.K+(c*p.BK+e.val))).read .real)
+  let args := fun e : Fin p.BK => Expr.mul ((mem p.A (m*p.K + (c*p.BK+e.val))).read .fp32)
+    ((mem p.B (m*p.N*p.K+n*p.K+(c*p.BK+e.val))).read .fp32)
   treeValue args (plans p.BK args).tree
 
 def tensorValue (plans : PlanSelector)
@@ -36,7 +36,7 @@ theorem scheduled_readback (plans : PlanSelector)
     (valid : ∀ k ∈ jobs, k < gridCount p) (present : pid ∈ jobs) :
     scheduledInitialMemory plans p initial jobs mem p.output
       (outputOffset p (programState p initial initial.mem pid) i) =
-      Cell.mk .real (accumulated plans p (programState p initial initial.mem pid)
+      Cell.mk .fp32 (accumulated plans p (programState p initial initial.mem pid)
         (p.K / p.BK) i) := by
   classical
   induction jobs generalizing mem with
@@ -63,7 +63,7 @@ theorem complete_tensor_readback (plans : PlanSelector)
     (p : Parameters) (initial : State Word) (hBM : 0 < p.BM) (hBN : 0 < p.BN)
     (hM : p.BM ∣ p.M) (hN : p.BN ∣ p.N) (m : Fin p.M) (n : Fin p.N) :
     completeInitialMemory plans p initial p.output (m.val*p.N+n.val) =
-      Cell.mk .real (tensorValue plans p initial.mem m.val n.val (p.K/p.BK)) := by
+      Cell.mk .fp32 (tensorValue plans p initial.mem m.val n.val (p.K/p.BK)) := by
   obtain ⟨pm,pn,i,j,hm,hn⟩ := complete_output_coverage p hBM hBN hM hN m n
   obtain ⟨hp,hpm,hpn⟩ := coordinates_cover p pm pn
   let lane : TileIndex [p.BM,p.BN] := (i,j,PUnit.unit)

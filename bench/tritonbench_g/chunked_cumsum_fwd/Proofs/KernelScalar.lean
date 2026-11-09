@@ -48,9 +48,9 @@ def interpret (M : NativeModel α) : Term α → α
   | .unary (some .fp32) .exp x => M.exp (interpret M x)
   | .unary (some .fp32) .log x => M.log (interpret M x)
   | .binary (some .fp32) .real .add (.cast (some .fp32) .fp32 .real x)
-      (.cast (some .fp32) .real .real bias) =>
+      (.cast (some .fp32) .fp32 .real bias) =>
       let x := M.cast .fp32 .real (interpret M x)
-      let bias := M.cast .real .real (interpret M bias)
+      let bias := M.cast .fp32 .real (interpret M bias)
       if M.biasReverse then M.add bias x else M.add x bias
   | .binary (some .fp32) .real .add (.literal (some .fp32) .real one)
       (.unary (some .fp32) .exp x) => M.add (M.exp (interpret M x)) (M.literal one)
@@ -113,7 +113,7 @@ def primitives (M : NativeModel α) (c : Geometry) (plan : PrefixPlan c.BH c.BC)
 def referencePrepared (M : NativeModel α) (hasBias useSoftplus : Bool) (lower upper : α)
     (active : Bool) (x bias : α) : α :=
   let x := M.cast .fp32 .real x
-  let bias := M.cast .real .real bias
+  let bias := M.cast .fp32 .real bias
   let x := if hasBias then (if M.biasReverse then M.add bias x else M.add x bias) else x
   let x := if useSoftplus then
     if M.lessEqual x (M.literal 20.0) then M.log (M.add (M.exp x) (M.literal 1.0)) else x

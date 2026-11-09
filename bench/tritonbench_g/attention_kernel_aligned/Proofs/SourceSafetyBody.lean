@@ -17,7 +17,7 @@ theorem score_safe (A : Algebra α) (P : Primitives α) (p : Parameters)
     traceSafeList (backend A P) bounds (scorePart p)
       (current.setReg "start_n" .nat [] (fun _ => c*p.blockN)) := by
   have nonzero : p.blockN≠0 := by omega
-  simp [scorePart,body,source,typedSurface,ComputeKernel.surfaceBody,traceSafeList_unfold,
+  simp [scorePart,body,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,traceSafeList_unfold,
     stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,numeric,backend,
     h.memory,h.start,h.qoffset,h.ooffset,h.boffset,h.brows,h.bias,h.query,h.keyPtr,h.valuePtr,
@@ -33,7 +33,7 @@ theorem tail_safe (A : Algebra α) (P : Primitives α) (p : Parameters)
     traceSafeList (backend A P) bounds (tailPart p) s := by
   apply pure_safe
   intro stmt member current
-  simp only [tailPart,body,source,typedSurface,ComputeKernel.surfaceBody,
+  simp only [tailPart,body,source,typedSurface,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.originalBF16Kernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyHalfKernel,VeriTile.Bench.Repairs.AttentionKernelAligned.Pasted.earlyBF16Kernel,ComputeKernel.surfaceBody,
     List.drop,List.head?_cons,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl <;>
     simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]

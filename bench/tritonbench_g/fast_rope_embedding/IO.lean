@@ -54,15 +54,15 @@ def memory (A : Type) (r : Request) (row group : Nat) : MemoryIO A where
   scratchMask := fun i => Fin.elim0 i
 
 def invocation (op : Operations A) (r : Request) (qStride cosineStride sineStride : Nat)
-    (backward : Bool) (row group : Nat) : Invocation A where
-  kernel := KernelInterface.rawSource r qStride cosineStride sineStride backward
+    (backward : Bool) (row group : Nat) (fast : Bool := Bool.true) : Invocation A where
+  kernel := KernelInterface.rawSource r qStride cosineStride sineStride backward fast
   backend := op.backend
   pids := fun ax => if ax = 0 then row else if ax = 1 then group else 0
 
 def programIO (op : Operations A) (r : Request) (qStride cosineStride sineStride : Nat)
-    (backward : Bool) (row group : Nat) : ProgramIO A A :=
+    (backward : Bool) (row group : Nat) (fast : Bool := Bool.true) : ProgramIO A A :=
   { memory A r row group with
-    schedule := fun _ => [invocation op r qStride cosineStride sineStride backward row group]
+    schedule := fun _ => [invocation op r qStride cosineStride sineStride backward row group fast]
     encode := id
     observe := fun _ _ => id }
 
@@ -114,9 +114,9 @@ def outputEquiv (r : Request) : Interface.Outputs ℝ r ≃ (Fin r.heads → Fin
 
 
 def view (r : Request) (qStride cosineStride sineStride : Nat)
-    (backward : Bool) (row group : Nat) :
+    (backward : Bool) (row group : Nat) (fast : Bool := Bool.true) :
     LogicalProgramIO ℝ ℝ (Inputs r) (Fin r.heads → Fin (2*r.half) → ℝ) where
-  core := Interface.programIO ideal r qStride cosineStride sineStride backward row group
+  core := Interface.programIO ideal r qStride cosineStride sineStride backward row group fast
   inputs := inputEquiv r
   outputs := outputEquiv r
 

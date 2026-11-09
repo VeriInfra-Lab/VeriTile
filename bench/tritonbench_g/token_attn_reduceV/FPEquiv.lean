@@ -1,5 +1,6 @@
 import bench.tritonbench_g.token_attn_reduceV.Proofs.AffineEquivalence
 import bench.tritonbench_g.token_attn_reduceV.Proofs.Native
+import VeriTile.Triton.Float.ClosedStructuralAudit
 
 namespace VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv
 open VeriTile Triton FP.Structural TokenAttnReduceV
@@ -28,6 +29,8 @@ specification affine_address_equiv (R : Native.Reductions) (p : Parameters)
   ProgramIO.Implementation.of_equivalentOn _
     (AffineEquivalence.equivalent Native.algebra (Native.reduction R) p B H counts work order separate unique)
 
+set_option maxHeartbeats 4000000 in
+#print_fp_assumptions affine_address_equiv closed_structural
 #axiomsClean affine_address_equiv
 end
 end VeriTile.Bench.Repairs.TokenAttnReduceVGridYChecked.FPEquiv

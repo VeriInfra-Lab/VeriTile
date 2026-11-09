@@ -25,9 +25,9 @@ theorem graph (rest : Algebra Expr) (profile : KernelProfile.Selector) (p : Para
     have eq : o=(0 : Fin 1) := Subsingleton.elim _ _
     subst o
     change mapCell id (final.mem p.output (j.1.val*p.N+j.2.1.val))=
-      Cell.mk .real (graphTarget profile p vals (0 : Fin 1) j)
+      Cell.mk .fp32 (graphTarget profile p vals (0 : Fin 1) j)
     rw [IOResults.output profile p initial final separate hBM hBN hM hN hm j.1 j.2.1]
-    apply congrArg (Cell.mk .real)
+    apply congrArg (Cell.mk .fp32)
     exact IOResults.tensor_formula (KernelProfile.toPlans profile) p (fun _ _ => id) vals initial.mem
       (fun m k => hin (0 : Fin 2) (m,k,()) trivial)
       (fun m n k => hin (1 : Fin 2) (m,n,k,()) trivial) j.1 j.2.1 _ (by rfl)
@@ -55,9 +55,9 @@ theorem real (decode : ValueProofs.Word → ℝ) (rest : Algebra Expr)
     subst o
     change mapCell (fun e => SourceGraph.realValue decode (SourceGraph.contract e))
         (mapCell id (final.mem p.output (j.1.val*p.N+j.2.1.val))) =
-      Cell.mk .real (realTarget decode p vals (0 : Fin 1) j)
+      Cell.mk .fp32 (realTarget decode p vals (0 : Fin 1) j)
     rw [IOResults.output profile p initial final separate hBM hBN hM hN hm j.1 j.2.1]
-    apply congrArg (Cell.mk .real)
+    apply congrArg (Cell.mk .fp32)
     exact IOResults.real_formula decode profile p vals initial.mem
       (fun m k => hin (0 : Fin 2) (m,k,()) trivial)
       (fun m n k => hin (1 : Fin 2) (m,n,k,()) trivial) hK j.1 j.2.1
@@ -86,9 +86,9 @@ theorem native (cfg : FP.Config) (rest : Algebra Expr) (profile : KernelProfile.
       subst o
       change mapCell (fun e => SourceGraph.evaluate cfg (SourceGraph.contract e))
           (final.mem p.output (j.1.val*p.N+j.2.1.val))=
-        Cell.mk .real (nativeTarget cfg profile p vals (0 : Fin 1) j)
+        Cell.mk .fp32 (nativeTarget cfg profile p vals (0 : Fin 1) j)
       rw [IOResults.output profile p initial final separate hBM hBN hM hN hm j.1 j.2.1]
-      apply congrArg (fun e => Cell.mk .real (SourceGraph.evaluate cfg (SourceGraph.contract e)))
+      apply congrArg (fun e => Cell.mk .fp32 (SourceGraph.evaluate cfg (SourceGraph.contract e)))
       exact IOResults.tensor_formula (KernelProfile.toPlans profile) p Expr.input vals initial.mem
         (fun m k => hin (0 : Fin 2) (m,k,()) trivial)
         (fun m n k => hin (1 : Fin 2) (m,n,k,()) trivial) j.1 j.2.1 _ (by rfl)

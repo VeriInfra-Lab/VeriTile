@@ -56,7 +56,7 @@ include valid hz hb
 theorem a_bound (t : Nat) (ht : t<steps s c) (i : TileIndex [c.BM,c.BK])
     (enabled : s.K%(c.BK*c.S)=0 ∨
       register (preludeExecution M q s c hasBias initial).val .int [c.BK] "rk" (i.2.1,())<
-        (s.K-t*(c.BK*c.S) : Nat)) :
+        ((s.K:Int)-(t*(c.BK*c.S):Nat))) :
     (ap s c (preludeExecution M q s c hasBias initial).val t i).2 <
       bounds (ap s c (preludeExecution M q s c hasBias initial).val t i).1 := by
   have rk := prelude_rk M q s c hasBias initial
@@ -65,7 +65,7 @@ theorem a_bound (t : Nat) (ht : t<steps s c) (i : TileIndex [c.BM,c.BK])
     · exact even_active s c even t _ _ ht hz i.2.1.isLt
     · rw [rk] at mask
       have mask' : initial.pids 1*c.BK+i.2.1.val<s.K-t*(c.BK*c.S) := by
-        simpa only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt] using mask
+        simpa only [←Int.natCast_mul,←Int.natCast_add,nat_lt_signed_sub,Int.ofNat_lt] using mask
       exact (source_mask s c t _ _ ht hz i.2.1.isLt).mp mask'
   simp only [ap,prelude_a M q s c hasBias initial valid]
   have h := hb.a (row s c (initial.pids 0) i.1%s.M)
@@ -75,7 +75,7 @@ theorem a_bound (t : Nat) (ht : t<steps s c) (i : TileIndex [c.BM,c.BK])
 theorem b_bound (t : Nat) (ht : t<steps s c) (i : TileIndex [c.BK,c.BN])
     (enabled : s.K%(c.BK*c.S)=0 ∨
       register (preludeExecution M q s c hasBias initial).val .int [c.BK] "rk" (i.1,())<
-        (s.K-t*(c.BK*c.S) : Nat)) :
+        ((s.K:Int)-(t*(c.BK*c.S):Nat))) :
     (bp s c (preludeExecution M q s c hasBias initial).val t i).2 <
       bounds (bp s c (preludeExecution M q s c hasBias initial).val t i).1 := by
   have rk := prelude_rk M q s c hasBias initial
@@ -84,7 +84,7 @@ theorem b_bound (t : Nat) (ht : t<steps s c) (i : TileIndex [c.BK,c.BN])
     · exact even_active s c even t _ _ ht hz i.1.isLt
     · rw [rk] at mask
       have mask' : initial.pids 1*c.BK+i.1.val<s.K-t*(c.BK*c.S) := by
-        simpa only [←Int.natCast_mul,←Int.natCast_add,Int.ofNat_lt] using mask
+        simpa only [←Int.natCast_mul,←Int.natCast_add,nat_lt_signed_sub,Int.ofNat_lt] using mask
       exact (source_mask s c t _ _ ht hz i.1.isLt).mp mask'
   simp only [bp,prelude_b M q s c hasBias initial valid]
   have h := hb.b _ active (col s c (initial.pids 0) i.2.1%s.N)

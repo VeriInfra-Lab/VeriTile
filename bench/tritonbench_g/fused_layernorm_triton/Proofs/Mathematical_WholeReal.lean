@@ -18,7 +18,7 @@ def ideal (rest : Algebra ℝ) : Algebra ℝ :=
       | .div => a / b
       | _ => rest.binary p d op a b
     unary := fun p op a => match op with
-      | .rsqrt => 1 / Real.sqrt a
+      | .rsqrt | .libdeviceRsqrt => 1 / Real.sqrt a
       | _ => rest.unary p op a
     cast := fun _ _ _ x => x
     fromNat := fun _ n => n

@@ -24,10 +24,10 @@ private theorem pure_list_safe (rest : Algebra Word) (bounds : RegionName → Na
 
 private theorem middle_safe (rest : Algebra Word) (p : Parameters) (s : State Word)
     (bounds : RegionName → Nat) :
-    Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.drop 6 |>.take 19) s := by
+    Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.drop 7 |>.take 19) s := by
   apply pure_list_safe
   intro st member t
-  simp only [source,unscaled,ComputeKernel.surfaceBody,List.drop,List.take,
+  simp only [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel,ComputeKernel.surfaceBody,List.drop,List.take,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -37,48 +37,49 @@ private theorem load_safe (rest : Algebra Word) (p : Parameters) (s : State Word
     (bounds : RegionName → Nat)
     (input : ∀ i : Fin p.block,inputOffset p s i.val<p.count →
       inputOffset p s i.val<bounds p.input) :
-    Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.take 6) s := by
-  simp [source,unscaled,ComputeKernel.surfaceBody,List.take,
+    Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.take 7) s := by
+  simp [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel,ComputeKernel.surfaceBody,List.take,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,backend,numeric,FP.Structural.bop,natLt,
     numericLt,Region.cast,Option.bind,ComputeDType.eraseDType]
-  exact input
+  simpa only [SignedIndex.mul_nat,SignedIndex.add_nat,SignedIndex.lt_nat,
+    Int.toNat_natCast,inputOffset] using input
 
 private theorem prefix_run (rest : Algebra Word) (p : Parameters) (s : State Word) :
-    run (backend rest) ((source p).surfaceBody.take 25) s=some (signExecution rest p s).val := by
-  change run _ (((source p).surfaceBody.take 11)++
-    ((source p).surfaceBody.drop 11 |>.take 3)++
-    ((source p).surfaceBody.drop 14 |>.take 1)++
-    ((source p).surfaceBody.drop 15 |>.take 1)++
+    run (backend rest) ((source p).surfaceBody.take 26) s=some (signExecution rest p s).val := by
+  change run _ (((source p).surfaceBody.take 13)++
+    ((source p).surfaceBody.drop 13 |>.take 3)++
     ((source p).surfaceBody.drop 16 |>.take 1)++
-    ((source p).surfaceBody.drop 17 |>.take 5)++
-    ((source p).surfaceBody.drop 22 |>.take 3)) s=_
-  have load : run (backend rest) ((source p).surfaceBody.take 11) s=
+    ((source p).surfaceBody.drop 17 |>.take 1)++
+    ((source p).surfaceBody.drop 18 |>.take 5)++
+    ((source p).surfaceBody.drop 23 |>.take 3)) s=_
+  have load : run (backend rest) ((source p).surfaceBody.take 13) s=
       some (loadExecution rest p s).val := by
     simpa only [List.drop_zero] using (loadExecution rest p s).property
   simp only [run_append,load,(maskExecution rest p s).property,
-    (minusExecution rest p s).property,(addBiasExecution rest p s).property,
+    (addBiasExecution rest p s).property,
     (expExecution rest p s).property,(normalExecution rest p s).property,
     (signExecution rest p s).property,Option.bind_some]
 
 private theorem tail_safe (rest : Algebra Word) (p : Parameters) (s : State Word)
     (bounds : RegionName → Nat) (pid : Nat) (words : TileIndex [p.block*2] → Int)
-    (hw : s.regs .int [p.block*2] "result"=some words)
-    (hp : s.regs .nat [] "pid"=some (fun _ => pid))
-    (hc : s.regs .nat [] "n_elements_out"=some (fun _ => p.count*2))
+    (hw : s.regs .int [p.block*2] "__veritile_statement_jit_18"=some words)
+    (hp : s.regs .int [] "pid"=some (fun _ => (pid : Int)))
+    (hc : s.regs .int [] "n_elements_out"=some (fun _ => ((p.count*2 : Nat) : Int)))
     (output : ∀ j : Fin (p.block*2),pid*(p.block*2)+j.val<p.count*2 →
       pid*(p.block*2)+j.val<bounds p.output) :
-    Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.drop 25) s := by
-  simp [source,unscaled,ComputeKernel.surfaceBody,List.drop,
+    Safety.traceSafeList (backend rest) bounds ((source p).surfaceBody.drop 26) s := by
+  simp [source,unscaled,VeriTile.Bench.Repairs.Fp4ToBf16.Pasted.originalKernel,ComputeKernel.surfaceBody,List.drop,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,store,backend,hw,hp,hc,
     numeric,FP.Structural.bop,natLt,numericLt,ofFloat,toFloat,Region.cast,Option.bind,
     ComputeDType.eraseDType]
-  exact output
+  simpa only [SignedIndex.twice_nat,SignedIndex.mul_nat,SignedIndex.add_nat,
+    SignedIndex.lt_nat,Int.toNat_natCast] using output
 
 /-- Actual-source load and store safety; pure packed-integer conversion is
 checked structurally without re-expanding its established execution proof. -/
@@ -90,10 +91,10 @@ theorem source_safe (rest : Algebra Word) (p : Parameters) (s : State Word)
       outputOffset p s j<bounds p.output) :
     TraceSafe (backend rest) bounds (Kernels.source p) s := by
   change Safety.traceSafeList (backend rest) bounds (source p).surfaceBody s
-  rw [←List.take_append_drop 25 (source p).surfaceBody,Safety.traceSafeList_append]
+  rw [←List.take_append_drop 26 (source p).surfaceBody,Safety.traceSafeList_append]
   constructor
   · change Safety.traceSafeList (backend rest) bounds
-      (((source p).surfaceBody.take 6)++((source p).surfaceBody.drop 6 |>.take 19)) s
+      (((source p).surfaceBody.take 7)++((source p).surfaceBody.drop 7 |>.take 19)) s
     rw [Safety.traceSafeList_append]
     exact ⟨load_safe rest p s bounds input,fun t _ => middle_safe rest p t bounds⟩
   · intro t executed

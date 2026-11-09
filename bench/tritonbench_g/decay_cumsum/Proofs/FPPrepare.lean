@@ -37,10 +37,12 @@ theorem iteration (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (
   let last := lastValue M h p prog initial
   let qv := FPStep.prepareQValue M h (off h p prog n) scale u
   let kv := FPStep.prepareKValue M h (off h p prog n) last u
-  let pre := ((((u.setReg "_q" .real [h.BK] (fun i => M.fp32Load (raw h.BK "q" (off h p prog n) u i))).setReg
-    "_k" .real [h.BK] (fun i => M.fp32Load (raw h.BK "k" (off h p prog n) u i))).setReg
-    "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" (off h p prog n) u i))).setReg
-    "_q" .real [h.BK] qv).setReg "_k" .real [h.BK] kv
+  let pre := u.setReg "_q" .real [h.BK] (fun i => M.fp32Load (raw h.BK "q" (off h p prog n) u i))
+  let pre := pre.setReg "_k" .real [h.BK] (fun i => M.fp32Load (raw h.BK "k" (off h p prog n) u i))
+  let pre := pre.setReg "__veritile_load_0" .real [h.BK] (fun i => M.fp32Load (raw h.BK "g" (off h p prog n) u i))
+  let pre := pre.setReg "_g" .real [h.BK] (fun i => FPReference.gate M (raw h.BK "g" (off h p prog n) u i))
+  let pre := pre.setReg "_q" .real [h.BK] qv
+  let pre := pre.setReg "_k" .real [h.BK] kv
   let stores := scatter M h.BK "qg" (off h p prog n) qv (scatter M h.BK "kg" (off h p prog n) kv pre)
   let v := FPStep.prepareResult M h (off h p prog n) scale last u
   have qeq : qv=qValue M h p prog scale initial n := by
@@ -83,8 +85,8 @@ theorem iteration (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (
       exact inv.ko t (by omega) j
   · intro r o outside
     change stores.mem r o=initial.mem r o
-    exact (FPMemory.frame M h p prog ⟨n,hn⟩ "qg" ["qg","kg"] (by simp) qv _ r o outside).trans
-      ((FPMemory.frame M h p prog ⟨n,hn⟩ "kg" ["qg","kg"] (by simp) kv pre r o outside).trans (inv.frame r o outside))
+    exact (FPMemory.frame M h p prog ⟨n,hn⟩ "qg" ["qg","kg"] (by simp) qv _ Bool.true r o outside).trans
+      ((FPMemory.frame M h p prog ⟨n,hn⟩ "kg" ["qg","kg"] (by simp) kv pre Bool.true r o outside).trans (inv.frame r o outside))
 
 theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.span)
     (prog : Program h p) (scale : ℝ) (u : State α) :
@@ -102,22 +104,27 @@ theorem initial_holds (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.sp
 
 theorem bind_holds (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (scale : ℝ)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog scale initial n u) :
-    Holds M h p prog scale initial n (u.setReg "i" .nat [] (fun _ => n)) := by
+    Holds M h p prog scale initial n (u.setReg "i" .int [] (fun _ => Int.ofNat n)) := by
   refine ⟨inv.bound,?_,?_,?_,?_,?_,?_,?_,inv.reads,inv.qo,inv.ko,inv.frame⟩
   all_goals simp [inv.qPtr,inv.kPtr,inv.gPtr,inv.qoPtr,inv.koPtr,inv.mask,inv.last]
 
 theorem loop_executes (M : Algebra α) (h : Call) (p : Phase) (prog : Program h p) (scale : ℝ)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M h p prog scale initial n u) :
-    ∃ v, FP.Structural.range (engine M) "i" n p.span 1 (prepareBody h scale) u=some v ∧ Holds M h p prog scale initial p.span v := by
+    ∃ v, FP.Structural.rangeInt (engine M) "i" (Int.ofNat n) (Int.ofNat p.span) 1 (prepareBody h scale) u=some v ∧ Holds M h p prog scale initial p.span v := by
   by_cases hn : n<p.span
-  · obtain ⟨v,he,hv⟩ := iteration M h p prog scale initial n (u.setReg "i" .nat [] (fun _ => n)) hn (bind_holds M h p prog scale initial n u inv)
+  · obtain ⟨v,he,hv⟩ := iteration M h p prog scale initial n (u.setReg "i" .int [] (fun _ => Int.ofNat n)) hn (bind_holds M h p prog scale initial n u inv)
     obtain ⟨w,hw,hf⟩ := loop_executes M h p prog scale initial (n+1) v hv
     refine ⟨w,?_,hf⟩
-    rw [FP.Structural.range]
-    simpa [hn,he] using hw
+    rw [FP.Structural.rangeInt]
+    have lt : Int.ofNat n<Int.ofNat p.span := by simp only [Int.ofNat_eq_natCast]; omega
+    have inc : Int.ofNat n+1=Int.ofNat (n+1) := by simp only [Int.ofNat_eq_natCast]; omega
+    simpa only [Nat.one_ne_zero,if_false,lt,if_true,he,bind,Option.bind_some,Nat.cast_one,inc] using hw
   · have bound := inv.bound
     have eq : n=p.span := by omega
-    refine ⟨u,FP.Structural.range_done _ _ _ _ _ _ _ (by omega),by simpa [eq] using inv⟩
+    refine ⟨u,?_,by simpa [eq] using inv⟩
+    rw [FP.Structural.rangeInt]
+    have done : ¬Int.ofNat n<Int.ofNat p.span := by simp only [Int.ofNat_eq_natCast]; omega
+    simp only [Nat.one_ne_zero,if_false,done]
 termination_by p.span-n
 
 theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.span) (prog : Program h p)
@@ -129,7 +136,7 @@ theorem source_correct (M : Algebra α) (h : Call) (p : Phase) (positive : 0<p.s
   obtain ⟨v,he,inv⟩ := loop_executes M h p prog scale u 0 (FPPrefix.initial M .prepare h p prog u) (initial_holds M h p positive prog scale u)
   refine ⟨v,?_,fun t j => inv.qo t.val t.isLt j,fun t j => inv.ko t.val t.isLt j,inv.frame⟩
   change run (engine M) (Kernels.source .prepare h p scale).surfaceBody u=some v
-  rw [FPProgram.source_body,run_append,FPPrefix.source_init,FPPrefix.executes M .prepare h p prog u hf hc hr]
+  rw [FPProgram.source_body,run_append,FPPrefix.source_init,FPPrefix.executes M .prepare h p prog u hf hc hr (Or.inr positive)]
   simpa [FPProgram.loopCode,FPOps.prepare_body,run,step,FP.Structural.evalOp] using he
 
 #axiomsClean source_correct

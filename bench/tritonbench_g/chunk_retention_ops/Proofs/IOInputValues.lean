@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention_ops.Formula
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Support.Formula
 import bench.tritonbench_g.chunk_retention_ops.Proofs.IOReadLocality
 
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.PublicIO

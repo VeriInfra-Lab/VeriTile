@@ -13,11 +13,11 @@ set_option linter.unusedSimpArgs false
 The explicit source conversion is retained until its Real semantics is evaluated. -/
 def realKernel (swapped : Bool) (a b : RegionName) (n B : Nat) : ComputeKernel :=
   let source := if swapped then VeriTile.Bench.Repairs.CosineCompute.indexCommutedKernel a b n B
-    else VeriTile.Bench.Repairs.CosineCompute.kernel a b n B
+    else VeriTile.Bench.Repairs.CosineCompute.sourceKernel a b n B
   let k := source.toAlgKernel
   ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
-attribute [local simp] VeriTile.Bench.Repairs.CosineCompute.kernel
+attribute [local simp] VeriTile.Bench.Repairs.CosineCompute.sourceKernel
   VeriTile.Bench.Repairs.CosineCompute.indexCommutedKernel Region.cast
   ComputeKernel.toAlgorithm? ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
   ComputeStmt.toAlgorithm? Except.bind bind ComputeDType.eraseDType

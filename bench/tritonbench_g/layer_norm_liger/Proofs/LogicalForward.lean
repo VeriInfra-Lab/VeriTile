@@ -9,9 +9,9 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
 def rowX (p : Forward.Parameters) (s : State ℝ) (i : Nat) :=
-  (s.mem p.x (s.pids 0*p.xStride+i)).read .fp32
-def weight (p : Forward.Parameters) (s : State ℝ) (i : Nat) := (s.mem p.weight i).read .fp32
-def bias (p : Forward.Parameters) (s : State ℝ) (i : Nat) := (s.mem p.bias i).read .fp32
+  (s.mem p.x (s.pids 0*p.xStride+i)).read .real
+def weight (p : Forward.Parameters) (s : State ℝ) (i : Nat) := (s.mem p.weight i).read .real
+def bias (p : Forward.Parameters) (s : State ℝ) (i : Nat) := (s.mem p.bias i).read .real
 
 theorem forward_mean (rest : Algebra ℝ) (p : Forward.Parameters) (s : State ℝ) (hb : p.columns ≤ p.block) :
     Forward.meanValue (algebra rest) sumPrimitive p s = mean p.columns (rowX p s) := by
@@ -66,11 +66,11 @@ population-normalization target at every logical lane. -/
 theorem forward_exec (rest : Algebra ℝ) (p : Forward.Parameters) (s : State ℝ)
     (hb : p.columns ≤ p.block) :
     ∃ t, FP.Structural.exec
-      (VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.withSum (algebra rest) sumPrimitive)
+      (VeriTile.Bench.Repairs.LayerNormLiger.withSum (algebra rest) sumPrimitive)
       (Forward.kernel p) s = some t ∧
       ∀ i : TileIndex [p.block], i.1.val < p.columns →
         t.mem p.y (Forward.outputOffset p s i) =
-          .mk .fp32 (y p.columns p.epsilon (rowX p s) (weight p s) (bias p s) i.1.val) := by
+          .mk .real (y p.columns p.epsilon (rowX p s) (weight p s) (bias p s) i.1.val) := by
   obtain ⟨t,ht,hm⟩ := Forward.complete_run (algebra rest) sumPrimitive p s
   refine ⟨t,ht,?_⟩
   intro i hi

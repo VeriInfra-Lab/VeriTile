@@ -19,7 +19,7 @@ theorem suffix_safe (a : Arithmetic α) (native : Bool) (p : Parameters)
   have hv := backed.value slot lo hi
   cases native <;> cases en : p.evenN
   all_goals
-    simp [suffix,loopBody,compiledBody,body,source,declared,en,
+    simp [suffix,loopBody,compiledBody,body,source,declared,originalKernel,quotientRemainderKernel,en,
       scoreFmaNode,denominatorFmaNode,accScaleNode,carryNode,fp,ref1,ref2,same1,same2,causalMask,
       ComputeKernel.surfaceBody,
       AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
@@ -41,7 +41,7 @@ theorem epilogue_safe (a : Arithmetic α) (p : Parameters)
     (h : Runtime a p initial carry current)
     (bounds : RegionName→Nat) (backed : AccessBounds p initial bounds) :
     Safety.traceSafeList a.model bounds (epilogue p) current := by
-  simp [epilogue,source,declared,ComputeKernel.surfaceBody,
+  simp [epilogue,source,declared,originalKernel,quotientRemainderKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

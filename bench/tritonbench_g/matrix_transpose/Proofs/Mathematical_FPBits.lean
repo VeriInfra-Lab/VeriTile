@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_transpose.Sources.Mathematical_Kernels
+import bench.tritonbench_g.matrix_transpose.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.Structural
 import VeriTile.Meta.StatementAudit
 
@@ -59,7 +59,7 @@ theorem execute {α : Type} [Inhabited α] (M : Algebra α)
     (v : Bool) (p : Parameters) (s : State α) :
     exec M (source v p) s = some (execution p s) := by
   cases v <;>
-    simp [source, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.source, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedSource, ComputeKernel.surfaceBody, exec, run, step, evalExpr, evalOp, store,
+    simp [source, typedKernel, VeriTile.Bench.Repairs.MatrixTranspose.sourceKernel, VeriTile.Bench.Repairs.MatrixTranspose.indexCommutedKernel, ComputeKernel.surfaceBody, exec, run, step, evalExpr, evalOp, store,
       execution, inputOffset, outputOffset, outputValue, State.setReg, bop, numeric,
       transposeValues, Broadcast.leftIndex, Broadcast.rightIndex,
       TileShape.insertAxis, TileShape.dropInsertedIndex, Region.cast, Nat.mul_comm]

@@ -6,7 +6,7 @@ to decide whether the requested theorems were proved.
 
 ## Setup
 
-Use Linux with Landlock support and a working systemd user service. Install
+Use Linux with Landlock ABI v4 or newer and a working systemd user service. Install
 Go 1.24+, the project's Lean toolchain, Python 3, and ripgrep (`rg`).
 The Claude Code `lean4` plugin is needed only for agent-driven proof attempts
 through `scripts/prove.sh`; the artifact and bench audits do not need it.
@@ -26,6 +26,12 @@ its lockfile's lean4export revision, and landrun commit
 Lean. The landrun pin preserves the CLI argument handling expected by this
 comparator version. `COMPARATOR_BIN` may specify another compatible official comparator
 executable; `landrun` and `lean4export` must be on `PATH`.
+
+The prerequisite check uses comparator's `--best-effort` filesystem settings
+and separately requires strict Landlock TCP mediation. This supports ABI v4
+while keeping filesystem and network isolation mandatory. Run the checks from
+the host shell when an enclosing workspace sandbox denies access to the
+systemd user bus.
 
 For the pinned Lean 4.29 checker, the installer backports the upstream
 [string-literal replay fix](https://github.com/leanprover/lean4/commit/94e0a0e4f6f4c3fa207aa7738fdd198067b4b3de).
@@ -111,7 +117,7 @@ documents and verifies generated reference pages. It does not fetch external
 URLs. Edit references under `documents/`, then run
 `python3 site/scripts/sync-docs.py` to regenerate the website copies.
 
-`python3 scripts/spec_sheet.py` exports the current reviewed public readers to
+`python3 scripts/spec_sheet.py` exports the current selected public declarations to
 ignored `Logs/spec-sheets/`. Use `--out DIR` to change the output location or
 pass Lean files to print individual cards. Full source paths distinguish
 nested/repaired revisions. Generated cards are presentation aids; their lexical
@@ -183,7 +189,7 @@ the selected shard together.
 
 ```bash
 python3 scripts/check_comparator.py --library
-python3 scripts/check_comparator.py --file bench/examples/VectorAdd/Correct.lean --trust
+python3 scripts/check_comparator.py --file bench/examples/VectorAdd/RealCorrect.lean --trust
 python3 scripts/test_check_comparator.py
 ```
 

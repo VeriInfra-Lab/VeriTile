@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize_int4.Kernels
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Grid
 import bench.tritonbench_g.matmul_kernel.Proofs.Geometry
 namespace VeriTile.Bench.Repairs.MatmulDequantizeInt4

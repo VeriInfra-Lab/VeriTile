@@ -7,14 +7,14 @@ set_option maxRecDepth 25000
 set_option linter.unusedSimpArgs false
 
 def original (isGemma : Bool) (Y X W r dW : RegionName) (YR XR WR RR DWR N B : Nat) (eps : ℝ) : Kernel :=
-  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource Y X W r dW YR XR WR RR DWR N B eps isGemma).eraseDType.toAlgKernel
+  (VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel Y X W r dW YR XR WR RR DWR N B eps isGemma).eraseDType.toAlgKernel
 
 theorem flatten_ok (isGemma : Bool) (Y X W r dW : RegionName) (YR XR WR RR DWR N B : Nat) (eps : ℝ) :
     (original isGemma Y X W r dW YR XR WR RR DWR N B eps).FlattenOk := by
   cases isGemma
-  all_goals simp [Kernel.FlattenOk,StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def,original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  all_goals simp [Kernel.FlattenOk,StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def,original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -25,9 +25,9 @@ theorem flatten_ok (isGemma : Bool) (Y X W r dW : RegionName) (YR XR WR RR DWR N
 theorem executes (isGemma : Bool) (Y X W r dW : RegionName) (YR XR WR RR DWR N B : Nat) (eps : ℝ) (u : BlockState) :
     ∃ v, exec (original isGemma Y X W r dW YR XR WR RR DWR N B eps) u=some v := by
   cases isGemma
-  all_goals simp [original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+  all_goals simp [original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -46,9 +46,9 @@ theorem frame (isGemma : Bool) (Y X W r dW : RegionName) (YR XR WR RR DWR N B : 
     v.mem q o=u.mem q o := by
   cases isGemma
   all_goals
-    simp [original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    simp [original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
@@ -72,9 +72,9 @@ theorem trace_safe (isGemma : Bool) (Y X W r dW : RegionName) (YR XR WR RR DWR N
     Kernel.TraceSafe bounds (original isGemma Y X W r dW YR XR WR RR DWR N B eps) u := by
   cases isGemma
   all_goals
-    simp [Kernel.TraceSafe,original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientSource,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeSource,
-    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeSource, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
+    simp [Kernel.TraceSafe,original,VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.inputGradientKernel,ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.regularRuntimeKernel,
+    VeriTile.Bench.Repairs.FastRmsLayernorm.Kernels.gemmaRuntimeKernel, ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,

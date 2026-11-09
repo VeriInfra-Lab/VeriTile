@@ -97,7 +97,7 @@ theorem wordSpec_output_tag {α : Type} (M : Algebra α) (e : Encoding)
     · exact ⟨_, rfl⟩
     · exact initialTag o
 
-#specNonCircular wordSpec avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel,runPrefix,runGrid,FP.Structural.exec,reference,resultValue]
+#specNonCircular wordSpec avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.sourceKernel,runPrefix,runGrid,FP.Structural.exec,reference,resultValue]
 #axiomsClean withInputWords_encoded
 #axiomsClean separated_output_preserved
 #axiomsClean reference_refines

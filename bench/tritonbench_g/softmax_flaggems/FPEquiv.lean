@@ -8,7 +8,7 @@ noncomputable section
 
 /-- The actual repaired finite-seed forward source and its pre-existing
 address candidate, including inner/noninner and one/multiple-tile branches.
-Only natural pointer multiplication changes. Full native IO observations,
+Only signed integer address multiplication changes. Full native IO observations,
 all words, aliases and consumer reductions remain in Misc/NativeCorrect.lean. -/
 specification source_forward (X Y : RegionName) (d : Dimensions) (c : LaunchConfig) :
     forwardOriginal X Y d c ≡[assumptions] forwardAddressCommuted X Y d c :=

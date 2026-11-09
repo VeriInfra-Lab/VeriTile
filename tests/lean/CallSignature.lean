@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Triton.Float.Erasure
+import VeriTile.Triton.Float.Structural
 import VeriTile.Triton.Semantics.Step
 import VeriTile.Meta.StatementAudit
 
@@ -56,6 +57,83 @@ theorem actual_argument (Y : RegionName) (gain : ℝ) (s : BlockState) :
     MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,ComputeDType.eraseDType,
     VeriTile.Triton.eraseDType,Except.bind,bind,eraseDType_float,
     exec,stepStmts,stepStmt,evalOp.eq_def,Tile.bop,Tile.cop]
+
+def copySignature : Triton.CallSignature where
+  pointers := [("metadata",.i32),("X",.fp32),("Y",.fp32)]
+
+def copyAfterCast (metadata X Y : RegionName) : ComputeKernel :=
+  with_triton_signature copySignature in triton {
+    index = tl.cast(tl.load(metadata), tl.int64)
+    value = tl.load(X + index)
+    tl.store(Y + index, value)
+  }
+
+/-- A functional cast must read the declared integer cell, and storing an
+already-FP32 load introduces no additional numerical callback. -/
+theorem integer_load_and_identity_store (metadata X Y : RegionName) :
+    copyAfterCast metadata X Y = (triton {
+      tl.region metadata = tl.int32, X = tl.float32, Y = tl.float32
+      __veritile_load_0 = tl.load(metadata)
+      index = __veritile_load_0.to(tl.int64)
+      value = tl.load(X + index)
+      tl.store(Y + index, value)
+    }) := rfl
+
+def byteSignature : Triton.CallSignature where
+  pointers := [("X",.u8),("Y",.u8)]
+
+def copyByte (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature byteSignature in triton {
+    value = tl.load(X)
+    tl.store(Y, value)
+  }
+
+/-- The Nat carrier does not certify an eight-bit range: its destination
+conversion must remain even when both source and destination use that carrier. -/
+theorem byte_store_keeps_narrowing (X Y : RegionName) :
+    copyByte X Y = (triton {
+      tl.region X = tl.uint8, Y = tl.uint8
+      value = tl.load(X)
+      tl.store(Y, value.to(tl.uint8))
+    }) := rfl
+
+def fp32CopySignature : Triton.CallSignature where
+  pointers := [("X",.fp32),("Y",.fp32)]
+
+def inlineCopy (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature fp32CopySignature in triton {
+    tl.store(Y, tl.load(X))
+  }
+
+/-- A nested load has the same FP32 storage interpretation as an assigned
+load; the source spelling must not erase its input rounding boundary. -/
+theorem nested_load_keeps_storage {α : Type} [Inhabited α]
+    (M : FP.Structural.Algebra α) (X Y : RegionName) (s : FP.Structural.State α) :
+    ∃ t, FP.Structural.exec M (inlineCopy X Y) s = some t ∧
+      t.mem Y 0 = FP.Structural.Cell.mk .real (M.fp32Load ((s.mem X 0).read .real)) := by
+  simp [inlineCopy,FP.Structural.exec,FP.Structural.run,FP.Structural.step,
+    FP.Structural.evalExpr,FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
+    FP.Structural.store,FP.Structural.evalOffsets,ComputeKernel.surfaceBody,
+    ComputeDType.eraseDType,Region.cast,Option.bind]
+
+def signedIndexSignature : Triton.CallSignature where
+  pointers := [("Y",.fp32)]
+  constexpr := ["BASE"]
+
+def signedIndex (Y : RegionName) (BASE : Nat) : ComputeKernel :=
+  with_triton_signature signedIndexSignature in triton {
+    linear = tl.cast(tl.program_id(0), tl.int64) + BASE
+    tl.store(Y + linear, tl.full([], 0.0, dtype=tl.float32))
+  }
+
+/-- Repairing functional load casts must not change signed inference for
+an enclosing arithmetic expression such as a grid-base calculation. -/
+theorem signed_cast_in_arithmetic (Y : RegionName) (BASE : Nat) :
+    signedIndex Y BASE = (triton {
+      tl.region Y = tl.float32
+      linear = tl.cast(tl.program_id(0), tl.int64) + BASE
+      tl.store(Y + linear, tl.full([], 0.0, dtype=tl.float32))
+    }) := rfl
 
 /-- error: pointer parameter X is missing from the call signature -/
 #guard_msgs in

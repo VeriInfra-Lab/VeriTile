@@ -15,6 +15,7 @@ specification fold_stride_equiv {α : Type} [Inhabited α]
   PerAddressProgramIO.Implementation.of_equivalentOnCells (FoldStrideIO.variant x t o rest lanes)
     (FoldStrideIO.equivalent x geometry t member o rest lanes complete)
 
+#print_fp_assumptions fold_stride_equiv
 #axiomsClean fold_stride_equiv
 #guard_msgs (drop info) in
 #auditModuleAxioms

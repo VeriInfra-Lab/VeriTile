@@ -15,8 +15,8 @@ set_option linter.unusedSimpArgs false
 theorem store_safe (s : BlockState) (BM BN chunk : Nat) (bounds : RegionBounds)
     (ptrs : Tile .ptr [BM, BN]) (rows : Fin BM → Nat) (columns : Fin BN → Nat)
     (hp : s.regs .ptr [BM, BN] "out_ptrs" = some ptrs)
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns i : Int))))
     (hb : ∀ i j, rows i < chunk → columns j < chunk →
       (ptrs.data (i,j,PUnit.unit)).2 < bounds (ptrs.data (i,j,PUnit.unit)).1) :
     Stmt.TraceSafe bounds (RealStore.code BM BN chunk) s := by
@@ -27,11 +27,11 @@ theorem store_safe (s : BlockState) (BM BN chunk : Nat) (bounds : RegionBounds)
 
 theorem safe (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
     (pb pc ph pm pn base : Nat) (carry : Fin BM → Fin BN → ℝ) (bounds : RegionBounds)
-    (hb : s.regs .nat [] "pid_b" = some (Tile.scalar pb))
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
-    (hh : s.regs .nat [] "pid_h" = some (Tile.scalar ph))
-    (hm : s.regs .nat [] "pid_m" = some (Tile.scalar pm))
-    (hn : s.regs .nat [] "pid_n" = some (Tile.scalar pn))
+    (hb : s.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
+    (hh : s.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)))
+    (hm : s.regs .int [] "pid_m" = some (Tile.scalar (pm : Int)))
+    (hn : s.regs .int [] "pid_n" = some (Tile.scalar (pn : Int)))
     (hp : p.hasSeq = Bool.true → s.regs .ptr [] "seq_idx_ptr" = some (Tile.scalar (Region.cast p.Seq,base)))
     (ha : s.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j)))
     (hrow : p.hasSeq → ∀ i, rows BM pm i < min p.chunk (p.seqlen - pc * p.chunk) →
@@ -46,20 +46,20 @@ theorem safe (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
   let v := values r BM BN p pc base (rows BM pm) (columns BN pn) carry
   let t := afterSequence r BM BN p pc base (rows BM pm) (columns BN pn) carry
   let u := outputPrepared t BM BN p pb pc ph (rows BM pm) (columns BN pn) v
-  have hb' : r.regs .nat [] "pid_b" = some (Tile.scalar pb) := by
+  have hb' : r.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)) := by
     simpa [r, refreshed, BmmChunkBwd.RealFinish.refreshed] using hb
-  have hc' : r.regs .nat [] "pid_c" = some (Tile.scalar pc) := by
+  have hc' : r.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)) := by
     simpa [r, refreshed, BmmChunkBwd.RealFinish.refreshed] using hc
-  have hh' : r.regs .nat [] "pid_h" = some (Tile.scalar ph) := by
+  have hh' : r.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)) := by
     simpa [r, refreshed, BmmChunkBwd.RealFinish.refreshed] using hh
   have hp' : p.hasSeq = Bool.true → r.regs .ptr [] "seq_idx_ptr" = some (Tile.scalar (Region.cast p.Seq,base)) := by
     intro hs
     simpa [r, refreshed, BmmChunkBwd.RealFinish.refreshed] using hp hs
   have ha' : r.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (carry i j)) := by
     simpa [r, refreshed, BmmChunkBwd.RealFinish.refreshed] using ha
-  have hr' : r.regs .nat [BM] "offs_m" = some (Tile.vec (rows BM pm)) := by
+  have hr' : r.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (rows BM pm i : Int))) := by
     simp [r, refreshed, BmmChunkBwd.RealFinish.refreshed]
-  have hn' : r.regs .nat [BN] "offs_n" = some (Tile.vec (columns BN pn)) := by
+  have hn' : r.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (columns BN pn i : Int))) := by
     simp [r, refreshed, BmmChunkBwd.RealFinish.refreshed]
   have hrefresh := BmmChunkBwd.RealFinish.refresh_executes s BM BN pm pn hm hn
   have hbranch := sequence_branch r BM BN p pc base (rows BM pm) (columns BN pn) carry hc' hp' hr' hn' ha'
@@ -69,11 +69,11 @@ theorem safe (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
     after_sequence_fixed r BM BN p pc base (rows BM pm) (columns BN pn) carry dtype shape name hnm
   have hv : t.regs .real [BM, BN] "acc" = some (Tile.mat fun i j => some (v i j)) :=
     after_sequence_acc r BM BN p pc base (rows BM pm) (columns BN pn) carry ha'
-  have htb := (hfixed .nat [] "pid_b" (by decide)).trans hb'
-  have htc := (hfixed .nat [] "pid_c" (by decide)).trans hc'
-  have hth := (hfixed .nat [] "pid_h" (by decide)).trans hh'
-  have htr := (hfixed .nat [BM] "offs_m" (by decide)).trans hr'
-  have htn := (hfixed .nat [BN] "offs_n" (by decide)).trans hn'
+  have htb := (hfixed .int [] "pid_b" (by decide)).trans hb'
+  have htc := (hfixed .int [] "pid_c" (by decide)).trans hc'
+  have hth := (hfixed .int [] "pid_h" (by decide)).trans hh'
+  have htr := (hfixed .int [BM] "offs_m" (by decide)).trans hr'
+  have htn := (hfixed .int [BN] "offs_n" (by decide)).trans hn'
   have heout := output_preparation t BM BN p pb pc ph (rows BM pm) (columns BN pn) v htb htc hth htr htn hv
   have hsbranch : Stmt.TraceSafe bounds (.ifThen (.constBool p.hasSeq) (RealSequence.code BM BN p)) r := by
     rw [Stmt.TraceSafe]

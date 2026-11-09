@@ -1,4 +1,5 @@
 import bench.tritonbench_g.chunk_retention_ops.Proofs.KernelNativeResults
+import bench.tritonbench_g.chunk_retention_ops.Proofs.SignedTailLength
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelNative
 open VeriTile Triton FP.Structural
 open KernelBackward (PID Carry)
@@ -15,9 +16,10 @@ theorem backward_factor (ops : Ops Word) (literal : ℝ→Word) (laws : S.Litera
     (c : Shape) (pid : PID) (n : Nat) :
     S.lower (sharedOps ops) literal (KernelBackward.factor model (parameters c) pid n)=
       decay ops c pid.z (c.length (c.chunks-1-n)) := by
-  change ops.exp2 (ops.mul (ops.integer (c.length (c.chunks-1-n)))
+  change ops.exp2 (ops.mul (ops.integer
+    (min (64 : Int) ((c.T : Int)-((c.chunks-1-n : Nat) : Int)*64)))
     (S.lower (sharedOps ops) literal (KernelBackward.logRate model (parameters c) pid)))=_
-  rw [rate_eq ops literal laws]
+  rw [signed_tail_length,rate_eq ops literal laws]
   rfl
 
 theorem backward_initial (isa : ISA) (literal : ℝ→Word) (laws : S.LiteralLaws (sharedOps (wordOps isa)) literal)

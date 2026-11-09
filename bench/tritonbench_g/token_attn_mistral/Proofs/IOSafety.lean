@@ -89,11 +89,12 @@ theorem schedule (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     change work[j]=pid at hj
     subst pid
     constructor
-    · apply AccessSafety.complete
-      exact bounds_congr p _ _ bounds (grid_bounds M R p work counts vals bounds hb s f j) rfl rfl
+    · exact AccessSafety.complete M R p _ bounds
+        (bounds_congr p _ _ bounds (grid_bounds M R p work counts vals bounds hb s f j) rfl rfl)
+        ((f.valid j).congr rfl rfl)
     · intro t ran
       exact ih (fun pid hp=>member pid (by simp [hp])) t
-        (f.congr (IOExecution.launch_agree M R p work[j] s t separate ran))
+        (f.congr (IOExecution.launch_agree M R p work[j] s t separate ran (f.valid j)))
 
 #axiomsClean schedule
 end

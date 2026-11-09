@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_shrink_kernel.Sources.Direct_FPValues
+import bench.tritonbench_g.bgmv_shrink_kernel.Proofs.Sources.Direct_FPValues
 
 namespace VeriTile.Bench.Repairs.BgmvShrinkKernel.Direct.AtomicScatter
 open VeriTile.Triton FP.Structural

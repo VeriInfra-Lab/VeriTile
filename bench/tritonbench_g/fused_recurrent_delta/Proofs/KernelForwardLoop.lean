@@ -45,7 +45,7 @@ theorem iteration (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv 
 
 theorem bind_holds (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M s f scale bh iv initial n u) :
-    Holds M s f scale bh iv initial n (u.setReg "_i" .nat [] (fun _ => n)) := by
+    Holds M s f scale bh iv initial n (u.setReg "_" .nat [] (fun _ => n)) := by
   refine ⟨inv.bound,?_,?_,inv.memory⟩
   · rcases inv.regs with ⟨hq,hk,hv,ho,hb,hmk,hmv,hh⟩
     refine ⟨?_,?_,?_,?_,?_,?_,?_,?_⟩
@@ -56,11 +56,11 @@ theorem bind_holds (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv
 
 theorem executes (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial : State α) (n : Nat) (u : State α) (inv : Holds M s f scale bh iv initial n u) :
-    ∃ v,FP.Structural.range (engine M) "_i" n s.T 1 (first .forward s f scale).body u=some v ∧
+    ∃ v,FP.Structural.range (engine M) "_" n s.T 1 (first .forward s f scale).body u=some v ∧
       Holds M s f scale bh iv initial s.T v := by
   by_cases inside : n<s.T
   · obtain ⟨v,he,hv⟩ := iteration M s f scale bh iv initial n
-      (u.setReg "_i" .nat [] (fun _ => n)) inside (bind_holds M s f scale bh iv initial n u inv)
+      (u.setReg "_" .nat [] (fun _ => n)) inside (bind_holds M s f scale bh iv initial n u inv)
     obtain ⟨w,hw,hf⟩ := executes M s f scale bh iv initial (n+1) v hv
     refine ⟨w,?_,hf⟩
     rw [FP.Structural.range]

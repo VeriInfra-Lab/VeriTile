@@ -10,53 +10,66 @@ variable {F I H : Type} [Inhabited F]
 
 theorem range_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8DequantMatmul.Ops I F H)
     (zero : carrier.decode ops.izero=0) (plans : Plans) (rowScale : Precision)
-    (p : Parameters) (initial current : State F) (t : Nat) (ht : t≤p.steps)
+    (p : Parameters) (initial current : State F) (t : Nat) (ht : t≤(KernelGemm.tripCount p))
     (h : Invariant M carrier ops plans rowScale p initial t current)
     (bounds : RegionName→Nat) (hb : Bounds p initial bounds) :
-    IntegerDot.rangeSafe M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans)
-      bounds "k" t p.steps 1 (body p) current := by
-  have aux : ∀ n t (current : State F),p.steps-t=n → t≤p.steps →
+    IntegerDot.rangeIntSafe M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans)
+      bounds "k" (t : Int) (KernelGemm.tripCount p : Int) 1 (body p) current := by
+  have aux : ∀ n t (current : State F),(KernelGemm.tripCount p)-t=n → t≤(KernelGemm.tripCount p) →
       Invariant M carrier ops plans rowScale p initial t current →
-      IntegerDot.rangeSafe M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans)
-        bounds "k" t p.steps 1 (body p) current := by
+      IntegerDot.rangeIntSafe M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans)
+        bounds "k" (t : Int) (KernelGemm.tripCount p : Int) 1 (body p) current := by
     intro n
     induction n using Nat.strong_induction_on with
     | h n ih=>
       intro t current hn ht invariant
-      rw [IntegerDot.rangeSafe_unfold]
-      by_cases active : t<p.steps
-      · rw [if_pos ⟨by decide,active⟩]
+      rw [IntegerDot.rangeIntSafe_unfold]
+      by_cases active : t<(KernelGemm.tripCount p)
+      · rw [if_pos (by exact_mod_cast And.intro (by decide : 0<(1 : Nat)) active)]
         refine ⟨body_safe M carrier ops zero plans rowScale p initial current t invariant bounds hb,?_⟩
         rw [SharedInteger.run_eq,(bodyExecution M carrier ops plans rowScale p initial current t invariant).property]
-        exact ih (p.steps-(t+1)) (by omega) (t+1) _ rfl (by omega)
+        change IntegerDot.rangeIntSafe M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans) bounds "k" ((t+1 : Nat) : Int) (KernelGemm.tripCount p : Int) 1 (body p) _
+        exact ih (KernelGemm.tripCount p-(t+1)) (by omega) (t+1) _ rfl (by omega)
           (bodyInvariant M carrier ops plans rowScale p initial current t invariant)
-      · rw [if_neg (by simpa using active)]
+      · rw [if_neg (by intro both;exact active (Int.ofNat_lt.mp both.2))]
         trivial
   exact aux _ t current rfl ht h
+
+private theorem actual_limit_safe (M : Algebra F) (bounds : RegionName→Nat)
+    (p : Parameters) (state : State F) : Safety.safeOp M none bounds state (stop p) := by
+  simp only [stop,iteration,source,KernelSource.gemmHalfHalfKernel,gemmHalfHalfKernel,
+    ComputeKernel.surfaceBody,List.getElem?_cons_succ,List.getElem?_cons_zero,Option.getD_some]
+  simp [Safety.safeOp_unfold]
 
 /-- Complete original source, including every actual K-loop successor and
 both final branches. No access-safety premise enters a public numerical law. -/
 theorem source_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8DequantMatmul.Ops I F H)
     (zero : carrier.decode ops.izero=0) (plans : Plans) (rowScale output : Precision)
-    (p : Parameters) (initial : State F) (bounds : RegionName→Nat) (hb : Bounds p initial bounds) :
+    (p : Parameters) (initial : State F) (bounds : RegionName→Nat) (hb : Bounds p initial bounds) (valid : firstRow p initial≤blocksM p) :
     IntegerDot.TraceSafe M (SharedInteger.arithmetic carrier ops zero plans) (SharedInteger.context plans)
       bounds (I32Safe.Gemm.source rowScale output p) initial := by
   unfold IntegerDot.TraceSafe
   rw [I32Safe.Gemm.source_identity,source_decomposition,List.append_assoc,IntegerDot.traceSafeList_append]
-  refine ⟨prelude_safe M carrier ops zero plans rowScale output p initial bounds hb,?_⟩
+  refine ⟨prelude_safe M carrier ops zero plans rowScale output p initial bounds hb valid,?_⟩
   intro base ran
   rw [SharedInteger.run_eq,(preludeExecution M carrier ops plans rowScale output p initial).property] at ran
   cases Option.some.inj ran
-  have inv:=preludeInvariant M carrier ops plans rowScale output p initial
+  have inv:=preludeInvariant M carrier ops plans rowScale output p initial valid
   rw [List.singleton_append,IntegerDot.traceSafeList_cons]
   constructor
-  · rw [IntegerDot.stepSafe_unfold]
-    exact range_safe M carrier ops zero plans rowScale p initial _ 0 (Nat.zero_le _) inv bounds hb
+  · rw [iteration_shape,IntegerDot.stepSafe_unfold]
+    have evalZero : evalOp M none (Op.castNatToInt (Op.constNat 0)) (preludeExecution M carrier ops plans rowScale output p initial).val=some (fun _=>(0 : Int)) := rfl
+    have evalOne : evalOp M none (Op.constNat 1) (preludeExecution M carrier ops plans rowScale output p initial).val=some (fun _=>(1 : Nat)) := rfl
+    refine ⟨?_,actual_limit_safe M bounds p _,?_,?_⟩
+    · simp [Safety.safeOp_unfold]
+    · simp [Safety.safeOp_unfold]
+    · rw [evalZero,stop_eval,evalOne]
+      exact range_safe M carrier ops zero plans rowScale p initial _ 0 (Nat.zero_le _) inv bounds hb
   · intro final ran
-    simp only [IntegerDot.step_unfold] at ran
-    rw [SharedInteger.range_eq] at ran
+    rw [SharedInteger.step_eq,iteration_step] at ran
     obtain ⟨mid,executed,invariant⟩:=loopExecution M carrier ops plans rowScale p initial _ 0 (Nat.zero_le _) inv
-    rw [executed] at ran
+    have completed : KernelExecution.rangeInt M carrier ops plans "k" 0 (KernelGemm.tripCount p : Int) 1 (body p) (preludeExecution M carrier ops plans rowScale output p initial).val=some mid := executed
+    rw [completed] at ran
     cases Option.some.inj ran
     exact epilogue_safe M carrier ops zero plans rowScale output p initial _ invariant bounds hb
 
@@ -114,6 +127,7 @@ theorem invocation_safe (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8
   rw [Gemm.initial_eq]
   exact source_safe M carrier ops zero plans rowScale output _ _ bounds
     (bounds_of_io s c rowScale output columnMajor xs bounds bounded p base)
+    (Grid.group_valid s c columnMajor base _ _ p.1.isLt)
 
 #axiomsClean source_safe
 #axiomsClean bounds_of_io

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.token_attn_reduceV.Proofs.Mathematical_FPTypedSource
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 import bench.tritonbench_g.isfinite_kernel.Proofs.Mathematical_MemoryProjection
 namespace VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages
 open VeriTile.Triton FP.Structural

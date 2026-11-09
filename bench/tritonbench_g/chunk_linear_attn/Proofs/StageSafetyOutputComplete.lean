@@ -35,20 +35,13 @@ theorem output_source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameter
   have ready := outputEntry_ready M D p scale s
   obtain ⟨mid, loopRan, midReady, midValues⟩ :=
     outputLoop M D p scale pid s.mem start.val ready.1 ready.2
-  have h0 : (outputParts p scale).start = .constNat 0 := rfl
-  have hn : (outputParts p scale).stop = .div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat p.K) (.constNat p.BK)) (.constNat 1))
-      (.constNat p.BK) := rfl
-  have h1 : (outputParts p scale).stride = .constNat 1 := rfl
-  let loop := ComputeStmt.forRangeDyn "i_k" (outputParts p scale).start (outputParts p scale).stop
-    (outputParts p scale).stride (outputParts p scale).body
+  let loop := ComputeStmt.forRange "i_k" 0 (keyBlocks p) 1 (outputParts p scale).body
   have loopStep : step (engine (withDot M D)) loop start.val = some mid := by
-    simpa [loop,step,h0,hn,h1,evalOp_unfold,Option.bind,numeric,bop,keyBlocks] using loopRan
+    simpa only [loop,step] using loopRan
   have loopSafe : Safety.stepSafe (engine (withDot M D)) bounds loop start.val := by
     have safe := output_range_safe M D p scale bounds pid s.mem start.val ready.1 _ ready.2
       capacity head time
-    simpa [loop,Safety.stepSafe_unfold,Safety.safeOp_unfold,h0,hn,h1,evalOp_unfold,
-      Option.bind,numeric,bop,keyBlocks] using safe
+    simpa only [loop,Safety.stepSafe_unfold] using safe
   unfold TraceSafe
   rw [output_parts, List.append_assoc, Safety.traceSafeList_append]
   refine ⟨output_entry_safe M D p scale bounds s, ?_⟩

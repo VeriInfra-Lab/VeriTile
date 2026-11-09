@@ -1,4 +1,4 @@
-import bench.tritonbench_g.spinning_lock_reduction.Sources.Mathematical_Source
+import bench.tritonbench_g.spinning_lock_reduction.Proofs.Sources.Mathematical_Source
 
 namespace VeriTile.Bench.TritonBenchG.SpinningLock
 theorem cas11_returns_old_and_preserves_bits (old : I32) : cas11 old = (old, old) := by

@@ -10,14 +10,14 @@ noncomputable section
 set_option linter.unusedSimpArgs false
 
 theorem safe (swapped : Bool) (s : BlockState) (BM BN : Nat) (p : RealProgram.Parameters)
-    (pb pc ph length : Nat) (rows : Fin BM → Nat) (columns : Fin BN → Nat) (bounds : RegionBounds)
-    (hb : s.regs .nat [] "pid_b" = some (Tile.scalar pb))
-    (hc : s.regs .nat [] "pid_c" = some (Tile.scalar pc))
-    (hh : s.regs .nat [] "pid_h" = some (Tile.scalar ph))
-    (hr : s.regs .nat [BM] "offs_m" = some (Tile.vec rows))
-    (hn : s.regs .nat [BN] "offs_n" = some (Tile.vec columns))
-    (hl : s.regs .nat [] "chunk_size_limit" = some (Tile.scalar length))
-    (hbound : ∀ i j, rows i < length → columns j < p.K →
+    (pb pc ph : Nat) (length : Int) (rows : Fin BM → Nat) (columns : Fin BN → Nat) (bounds : RegionBounds)
+    (hb : s.regs .int [] "pid_b" = some (Tile.scalar (pb : Int)))
+    (hc : s.regs .int [] "pid_c" = some (Tile.scalar (pc : Int)))
+    (hh : s.regs .int [] "pid_h" = some (Tile.scalar (ph : Int)))
+    (hr : s.regs .int [BM] "offs_m" = some (Tile.vec fun i => (rows i : Int)))
+    (hn : s.regs .int [BN] "offs_n" = some (Tile.vec fun j => (columns j : Int)))
+    (hl : s.regs .int [] "chunk_size_limit" = some (Tile.scalar length))
+    (hbound : ∀ i j, rows i < length.toNat → columns j < p.K →
       RealResidual.baseValue p.chunk p.rBatch p.rRow p.rHead pb pc ph +
         (rows i * p.rRow + columns j * p.rColumn) < bounds p.Res) :
     Stmt.TraceSafeList bounds (RealResidual.residual swapped BM BN p) s := by

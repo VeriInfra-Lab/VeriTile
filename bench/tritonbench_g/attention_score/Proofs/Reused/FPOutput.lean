@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_score.Proofs.Reused.FPLoop
-import bench.tritonbench_g.kcache_copy_triton.Sources.Mathematical_TypedCopy
+import bench.tritonbench_g.kcache_copy_triton.Proofs.Sources.Mathematical_TypedCopy
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.Reused.FPOutput
 open VeriTile Triton FP.Structural FP.ProfiledRewrite FPEngine FPContext
@@ -26,7 +26,7 @@ def executes (M : Algebra α) (dot : Dot α) (B D : Nat) (p : RealSource.Paramet
     {t : State α // run (engine (withDot M dot)) (parts B D p).after current=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,TypedSource.original,
+  simp [parts,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,
     ComputeKernel.surfaceBody,Source.intRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

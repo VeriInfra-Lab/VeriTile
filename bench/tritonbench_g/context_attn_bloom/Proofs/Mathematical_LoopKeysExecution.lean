@@ -29,9 +29,9 @@ theorem executes (p : Layout) (r : Regions) (sn req last : Int) (kvHead : Nat) (
     (hsn : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hr : u.regs .int [] "cur_batch_req_idx" = some (Tile.scalar req))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hk : u.regs .nat [] "cur_kv_head" = some (Tile.scalar kvHead))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val))) :
+    (hk : u.regs .int [] "cur_kv_head" = some (Tile.scalar kvHead))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val))) :
     stepStmts (keys p r) u = some (prepared p r sn req last kvHead u) := by
   rw [LoopKeysProgram.source]
   have hz : (0.0 : ℝ) = 0 := by norm_num

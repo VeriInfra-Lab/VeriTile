@@ -10,7 +10,7 @@ open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₁
 
 attribute [local simp] Except.bind bind ComputeDType.eraseDType
-  VeriTile.Bench.Repairs.AddValue.Contiguous.kernel ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
+  VeriTile.Bench.Repairs.AddValue.Contiguous.sourceKernel ComputeKernel.toAlgKernel ComputeKernel.toAlgorithm? ComputeKernel.surfaceBody ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm? ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? Region.cast
 
 /-- Algorithm-layer correctness for `puzzle1_kernel`.
 

@@ -10,11 +10,11 @@ set_option maxRecDepth 16000
 set_option linter.unusedSimpArgs false
 
 def keyLogicOffset {α} [Inhabited α] (p : Parameters) (s : State α) (k : Nat) : Nat :=
-  s.pids 1*p.logicHeadStride+(sequenceStart p s+k)*p.logicSequenceStride
+  ((s.pids 1*p.logicHeadStride : Nat)+(sequenceStart p s+(k : Int))*p.logicSequenceStride : Int).toNat
 
 def keyValueOffset {α} [Inhabited α] (p : Parameters) (s : State α) (k : Nat) (d : Fin p.dimensions) : Nat :=
   s.pids 1*p.valueHeadStride+d.val*p.valueDimStride+
-    ((s.mem (Region.cast p.locations) (locationBase p s+k*p.locationSequenceStride)).read .int *
+    ((s.mem (Region.cast p.locations) ((locationBase p s+k*p.locationSequenceStride).toNat)).read .int *
       (p.valueBatchStride : Int)).toNat
 
 /-- Only actual input reads are related to logical real inputs. No recurrence,
@@ -23,20 +23,20 @@ has no finiteness requirement. -/
 structure Inputs (p : Parameters) (s : State (WithBot ℝ))
     (q : Nat → WithBot ℝ) (v : Nat → Fin p.dimensions → ℝ) : Prop where
   logits : ∀ k, k < sequenceLength p s →
-    (s.mem p.logics (keyLogicOffset p s k)).read .fp32=q k
+    (s.mem p.logics (keyLogicOffset p s k)).read .real=q k
   values : ∀ k, k < sequenceLength p s → ∀ d,
-    (s.mem p.values (keyValueOffset p s k d)).read .fp32=↑(v k d)
+    (s.mem p.values (keyValueOffset p s k d)).read .real=↑(v k d)
 
 theorem logits_closed (p : Parameters) (s : State (WithBot ℝ))
     (q : Nat → WithBot ℝ) (v : Nat → Fin p.dimensions → ℝ) (input : Inputs p s q v)
     (cur : Nat) (i : TileIndex [p.tokens]) :
     logits model p s cur i=qlane (sequenceLength p s) p.tokens q cur i.1 := by
   change (if cur+i.1.val < sequenceLength p s then
-    (s.mem p.logics (logicOffset p s cur i.1)).read .fp32 else (⊥ : WithBot ℝ))=_
+    (s.mem p.logics (logicOffset p s cur i.1)).read .real else (⊥ : WithBot ℝ))=_
   unfold qlane
   by_cases h : cur+i.1.val < sequenceLength p s
   · rw [if_pos h,if_pos h]
-    simpa only [logicOffset,keyLogicOffset,Nat.add_assoc] using input.logits (cur+i.1.val) h
+    simpa only [logicOffset,keyLogicOffset,Int.natCast_add,Int.add_assoc] using input.logits (cur+i.1.val) h
   · rw [if_neg h,if_neg h]
 
 
@@ -45,7 +45,7 @@ theorem values_closed (p : Parameters) (s : State (WithBot ℝ))
     (cur : Nat) (i : TileIndex [p.tokens,p.dimensions]) :
     values model p s cur i=↑(if cur+i.1.val < sequenceLength p s then v (cur+i.1.val) i.2.1 else 0) := by
   change (if cur+i.1.val < sequenceLength p s then
-    (s.mem p.values (valueOffset p s cur i)).read .fp32 else (↑(0.0:ℝ) : WithBot ℝ))=_
+    (s.mem p.values (valueOffset p s cur i)).read .real else (↑(0.0:ℝ) : WithBot ℝ))=_
   by_cases h : cur+i.1.val < sequenceLength p s
   · rw [if_pos h,if_pos h]
     simpa only [valueOffset,keyValueOffset,location,active,if_pos h] using input.values (cur+i.1.val) h i.2.1

@@ -26,7 +26,7 @@ def reversePrimitives (c : Geometry) (p : Primitives α c) : Primitives α c :=
            scan_support := by intro x; simpa only [reverseMul] using p.scan_support x }
 
 def candidateKernel (c : Geometry) (hasBias useSoftplus : Bool) : ComputeKernel :=
-  scaleFirst "dt" "rate" "bias" "out" "sum" c.batches c.sequence c.heads c.chunk
+  scaleFirstKernel "dt" "rate" "bias" "out" "sum" c.batches c.sequence c.heads c.chunk
     c.dtBatch c.dtTime c.dtHead c.rateHead c.biasHead
     c.layout.outBatch c.layout.outChunk c.layout.outHead c.layout.outColumn
     c.layout.sumBatch c.layout.sumChunk c.layout.sumHead c.layout.sumColumn
@@ -73,7 +73,7 @@ theorem before_steps [Inhabited α] (M : Algebra α) (c : Geometry)
     FP.Structural.step (engine (reverseMul M)) st s = FP.Structural.step (engine M) st s := by
   cases hasBias <;> cases useSoftplus
   all_goals
-    simp [before, Source.prefixBefore, kernel, source, ComputeKernel.surfaceBody]
+    simp [before, Source.prefixBefore, kernel, sourceKernel, ComputeKernel.surfaceBody]
     repeat' apply And.intro
     all_goals intro s
     all_goals simp [run, FP.Structural.step, evalExpr, evalComputeOp, evalOp_unfold,
@@ -85,7 +85,7 @@ theorem after_steps [Inhabited α] (M : Algebra α) (c : Geometry)
     FP.Structural.step (engine (reverseMul M)) st s = FP.Structural.step (engine M) st s := by
   cases hasBias <;> cases useSoftplus
   all_goals
-    simp [after, before, Source.prefixBefore, kernel, source, ComputeKernel.surfaceBody]
+    simp [after, before, Source.prefixBefore, kernel, sourceKernel, ComputeKernel.surfaceBody]
     repeat' apply And.intro
     all_goals intro s
     all_goals simp [run, FP.Structural.step, evalExpr, evalComputeOp, evalOp_unfold,

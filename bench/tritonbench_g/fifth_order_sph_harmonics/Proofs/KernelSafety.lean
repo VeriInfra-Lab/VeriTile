@@ -8,6 +8,13 @@ set_option maxHeartbeats 40000000
 set_option maxRecDepth 64000
 set_option linter.unusedSimpArgs false
 
+private theorem cast_add_literal (a b : Nat) :
+    (a : Int) + (OfNat.ofNat b : Int) = ((a + b : Nat) : Int) := by rfl
+private theorem cast_mul_literal (a b : Nat) :
+    (a : Int) * (OfNat.ofNat b : Int) = ((a * b : Nat) : Int) := by rfl
+private theorem cast_literal_mul (a b : Nat) :
+    (OfNat.ofNat a : Int) * (b : Int) = ((a * b : Nat) : Int) := by rfl
+
 private theorem fold_regs {α ι : Type} (xs : List ι)
     (active : ι → Prop) [DecidablePred active] (r : RegionName)
     (off : ι → Nat) (v : ι → Cell α) (s : State α) :
@@ -27,13 +34,15 @@ theorem forward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     TraceSafe M bounds (forwardKernel p) s := by
   simp (config := {maxSteps := 8000000}) [TraceSafe, forwardKernel, Original.kernel,
     VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.kernel,
-    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source, forwardParameters,
+    VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.source, forwardPastedKernel, forwardParameters,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
     Safety.maskActive_unfold, step, evalExpr, evalComputeOp, evalOp_unfold,
     State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     numeric, numericLt, natLt, bop, Option.bind, fold_regs]
+  simp only [cast_add_literal (b := 1), cast_add_literal (b := 2), cast_add_literal (b := 3), cast_add_literal (b := 4), cast_add_literal (b := 5), cast_add_literal (b := 6), cast_add_literal (b := 7), cast_add_literal (b := 8), cast_add_literal (b := 9), cast_add_literal (b := 10), cast_mul_literal (b := 3), cast_literal_mul (a := 2), cast_literal_mul (a := 3), cast_literal_mul (a := 4), cast_literal_mul (a := 5), cast_literal_mul (a := 6), cast_literal_mul (a := 7), cast_literal_mul (a := 8), cast_literal_mul (a := 9), cast_literal_mul (a := 10),
+    ← Nat.cast_add, ← Nat.cast_mul, Int.toNat_natCast, Int.ofNat_lt]
   have hc (c : Fin 3) (a : Fin p.blockSize)
       (active : a.val*3+p.blockSize*3*s.pids 0+c.val < 3*p.rows) :
       a.val*3+p.blockSize*3*s.pids 0+c.val < bounds coordinateRegion := by
@@ -59,13 +68,15 @@ theorem backward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
       r*p.upstreamRowStride+(p.columnOffset+c.val)*p.upstreamColStride < bounds upstreamRegion)
     (gradient : ∀ r, r < p.rows → ∀ c : Fin 3, r*3+c.val < bounds gradientRegion) :
     TraceSafe M bounds (backwardKernel p) s := by
-  simp (config := {maxSteps := 8000000}) [TraceSafe, backwardKernel, backwardSource,
+  simp (config := {maxSteps := 8000000}) [TraceSafe, backwardKernel, backwardSource,backwardPastedKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
     Safety.maskActive_unfold, step, evalExpr, evalComputeOp, evalOp_unfold,
     State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     numeric, numericLt, natLt, bop, Option.bind, fold_regs]
+  simp only [cast_add_literal (b := 1), cast_add_literal (b := 2), cast_add_literal (b := 3), cast_add_literal (b := 4), cast_add_literal (b := 5), cast_add_literal (b := 6), cast_add_literal (b := 7), cast_add_literal (b := 8), cast_add_literal (b := 9), cast_add_literal (b := 10), cast_mul_literal (b := 3), cast_literal_mul (a := 2), cast_literal_mul (a := 3), cast_literal_mul (a := 4), cast_literal_mul (a := 5), cast_literal_mul (a := 6), cast_literal_mul (a := 7), cast_literal_mul (a := 8), cast_literal_mul (a := 9), cast_literal_mul (a := 10),
+    ← Nat.cast_add, ← Nat.cast_mul, Int.toNat_natCast, Int.ofNat_lt]
   have bounded (region : RegionName)
       (h : ∀ r, r < p.rows → ∀ c : Fin 3, r*3+c.val < bounds region)
       (c : Fin 3) (a : Fin p.blockSize)

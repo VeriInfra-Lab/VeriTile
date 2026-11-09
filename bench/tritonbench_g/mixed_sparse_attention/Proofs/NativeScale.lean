@@ -9,9 +9,9 @@ set_option maxHeartbeats 8000000
 literal coefficient, before the query load and query narrowing. -/
 theorem scale_source_node (c : Config) :
     (activeBody c)[16]? = some (ComputeStmt.assign .real [] "qk_scale"
-      (.compute (.alg .fp32 (.mul .real .nil (.full [] (.const c.scale)) (.const 1.44269504))))) := by
+      (.compute (.alg .fp32 (.mul .real .nil (.const c.scale) (.const 1.44269504))))) := by
   cases hs : c.storage <;>
-    simp [activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.source,TypedSource.BF16.source,
+    simp [activeBody,parsedActiveBody,parsedKernel,TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,
       ComputeKernel.surfaceBody,hs]
 
 /-- Native tensor inputs are actual FP32 words, not arbitrary staged syntax. -/

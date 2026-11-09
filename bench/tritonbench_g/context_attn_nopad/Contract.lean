@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_nopad.Tensor
+import bench.tritonbench_g.context_attn_nopad.Proofs.Support.Tensor
 
 /-! Public contract entry: actual ordinary CUDA FP32 Tensor/storage API laws,
 INT32 metadata from the common original byte heap, and the unchanged checked

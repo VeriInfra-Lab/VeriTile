@@ -80,6 +80,15 @@ theorem mul_ref (t : BlockState) (nm : RegName) (val c : Nat)
   simp only [evalOp_ref, evalOp_constNat, hr, Option.bind_eq_bind, Option.bind_some]
   rfl
 
+theorem mul_ref_product (t : BlockState) (nm : RegName) (val a b : Nat)
+    (hr : t.regs .nat [] nm = some (Tile.scalar val)) :
+    evalOp (Op.mul .nat Broadcast.nil (Op.ref .nat [] nm)
+      (Op.mul .nat Broadcast.nil (Op.constNat a) (Op.constNat b))) t =
+        some (Tile.scalar (val*(a*b))) := by
+  rw [evalOp_mul]
+  simp only [evalOp_ref,evalOp_mul,evalOp_constNat,hr,Option.bind_eq_bind,Option.bind_some]
+  rfl
+
 theorem add_nat (t : BlockState) (a b : Op .nat []) (va vb : Nat)
     (ha : evalOp a t = some (Tile.scalar va))
     (hb : evalOp b t = some (Tile.scalar vb)) :
@@ -223,7 +232,7 @@ theorem executes (s : BlockState) (p : Layout) (l : Launch) (r : Regions)
       (l.head * p.s_h_h + l.time * (p.K * p.s_h_t)) (c * p.BV) (l.key * p.BK)
       (add_nat _ _ _ (l.head * p.s_h_h) (l.time * (p.K * p.s_h_t))
         (mul_ref _ "i_bh" l.head p.s_h_h (by simp [hib]))
-        (mul_ref _ "i_t" l.time (p.K * p.s_h_t) (by simp [hit])))
+        (mul_ref_product _ "i_t" l.time p.K p.s_h_t (by simp [hit])))
       (mul_ref _ "i_v" c p.BV (by simp [hiv]))
       (mul_ref _ "i_k" l.key p.BK (by simp [hik]))))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -237,7 +246,7 @@ theorem executes (s : BlockState) (p : Layout) (l : Launch) (r : Regions)
       (l.head * p.s_h_h + l.time * (p.K * p.s_h_t)) (c * p.BV) (l.key * p.BK)
       (add_nat _ _ _ (l.head * p.s_h_h) (l.time * (p.K * p.s_h_t))
         (mul_ref _ "i_bh" l.head p.s_h_h (by simp [hib]))
-        (mul_ref _ "i_t" l.time (p.K * p.s_h_t) (by simp [hit])))
+        (mul_ref_product _ "i_t" l.time p.K p.s_h_t (by simp [hit])))
       (mul_ref _ "i_v" c p.BV (by simp [hiv]))
       (mul_ref _ "i_k" l.key p.BK (by simp [hik]))))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some

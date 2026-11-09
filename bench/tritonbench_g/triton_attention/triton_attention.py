@@ -425,3 +425,140 @@ class _attention_compatibility(torch.autograd.Function):
 
 
 attention_compatibility = _attention_compatibility.apply
+
+
+
+
+
+
+
+@triton.jit
+def _bwd_preprocess_shifted(
+    Out, DO, L,
+    NewDO, Delta,
+    BLOCK_M: tl.constexpr, D_HEAD: tl.constexpr,
+):
+    tl.static_assert(BLOCK_M == 128)
+    off_m = (tl.program_id(0) << 7) + tl.arange(0, BLOCK_M)
+    off_n = tl.arange(0, D_HEAD)
+    # load
+    o = tl.load(Out + off_m[:, None] * D_HEAD + off_n[None, :]).to(tl.float32)
+    do = tl.load(DO + off_m[:, None] * D_HEAD + off_n[None, :]).to(tl.float32)
+    denom = tl.load(L + off_m).to(tl.float32)
+    # compute
+    do = do / denom[:, None]
+    delta = tl.sum(o * do, axis=1)
+    # write-back
+    tl.store(NewDO + off_m[:, None] * D_HEAD + off_n[None, :], do)
+    tl.store(Delta + off_m, delta)
+
+
+
+
+
+
+
+
+class _attention_candidate(torch.autograd.Function):
+
+    @staticmethod
+    def forward(ctx, q, k, v, sm_scale):
+        return _attention_candidate._forward(ctx, q, k, v, sm_scale, allow_fp16=False)
+
+    @staticmethod
+    def _forward(ctx, q, k, v, sm_scale, *, allow_fp16):
+        sm_scale = _validate_inputs(q, k, v, sm_scale, allow_fp16=allow_fp16)
+        BLOCK = 128
+        # shape constraints
+        Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]
+        assert Lq == Lk and Lk == Lv
+        assert Lk in {16, 32, 64, 128}
+        o = torch.empty_like(q)
+        grid = (triton.cdiv(q.shape[2], BLOCK), q.shape[0] * q.shape[1], 1)
+        L = torch.empty(
+            (q.shape[0] * q.shape[1], q.shape[2]),
+            device=q.device,
+            dtype=torch.float32)
+        m = torch.empty(
+            (q.shape[0] * q.shape[1], q.shape[2]),
+            device=q.device,
+            dtype=torch.float32)
+        num_warps = 4 if Lk <= 64 else 8
+        D0 = q.shape[0] * q.shape[1] * q.shape[2]
+        _pointer_contract((q, k, v, o, L, m), q.numel())
+        with torch.cuda.device(q.device):
+            _fwd_kernel[grid](
+                q, k, v, sm_scale,
+                L, m,
+                o,
+                q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+                k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+                v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+                o.stride(0), o.stride(1), o.stride(2), o.stride(3),
+                q.shape[0], q.shape[1], q.shape[2], D0,
+                BLOCK_M=BLOCK, BLOCK_N=BLOCK,
+                BLOCK_DMODEL=Lk, num_warps=num_warps,
+                num_stages=2,
+            )
+
+        ctx.save_for_backward(q, k, v, o, L, m)
+        ctx.grid = grid
+        ctx.sm_scale = sm_scale
+        ctx.BLOCK_DMODEL = Lk
+        return o
+
+    @staticmethod
+    def backward(ctx, do):
+        BLOCK = 128
+        q, k, v, o, l, m = ctx.saved_tensors
+        if type(do) is not torch.Tensor:
+            raise TypeError("incoming gradient must be a tensor")
+        if not (do.layout == torch.strided and do.shape == o.shape and
+                do.device == o.device and do.dtype == o.dtype and
+                not do.is_conj() and not do.is_neg()):
+            raise ValueError("incoming gradient must match output shape/device/dtype with resolved bits")
+        do = do.contiguous()
+        dq = torch.zeros_like(q, dtype=torch.float32)
+        dk = torch.empty_like(k)
+        dv = torch.empty_like(v)
+        do_scaled = torch.empty_like(do)
+        delta = torch.empty_like(l)
+        D0 = q.shape[0] * q.shape[1] * q.shape[2]
+        _pointer_contract((q, k, v, o, l, m, do, dq, dk, dv, do_scaled, delta), q.numel())
+        with torch.cuda.device(q.device):
+            _bwd_preprocess_shifted[(ctx.grid[0] * ctx.grid[1], )](
+                o, do, l,
+                do_scaled, delta,
+                BLOCK_M=BLOCK, D_HEAD=ctx.BLOCK_DMODEL,
+            )
+            _bwd_kernel[(ctx.grid[1],)](
+                q, k, v, ctx.sm_scale,
+                o, do_scaled,
+                dq, dk, dv,
+                l, m,
+                delta,
+                q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+                k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+                v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+                q.shape[0], q.shape[1], q.shape[2], D0,
+                ctx.grid[0],
+                BLOCK_M=BLOCK, BLOCK_N=BLOCK,
+                BLOCK_DMODEL=ctx.BLOCK_DMODEL, num_warps=8,
+                num_stages=1,
+            )
+        return dq, dk, dv, None
+
+
+attention_candidate = _attention_candidate.apply
+
+
+class _attention_compatibility_candidate(torch.autograd.Function):
+    """Retained FP16 compatibility path; the checked native theorem selects FP32."""
+    @staticmethod
+    def forward(ctx, q, k, v, sm_scale):
+        return _attention_candidate._forward(ctx, q, k, v, sm_scale, allow_fp16=True)
+
+    backward = staticmethod(_attention_candidate.backward)
+
+
+attention_compatibility_candidate = _attention_compatibility_candidate.apply

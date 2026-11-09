@@ -38,7 +38,7 @@ theorem complete (shape : Shape) (valid : shape.Valid) (epsilon : ℝ)
   rw [rowSum,input row col hr hc,weight col hc]
   rfl
 
-#specNonCircular formula avoiding [source,Runtime.value,Runtime.run,FP.Structural.exec]
+#specNonCircular formula avoiding [sourceKernel,Runtime.value,Runtime.run,FP.Structural.exec]
 #axiomsClean complete
 #guard_msgs (drop info) in
 #auditModuleAxioms

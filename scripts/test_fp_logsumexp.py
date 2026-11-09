@@ -12,10 +12,10 @@ class LogSumExpFPTests(unittest.TestCase):
     def setUpClass(cls):
         result = subprocess.run(
             ['lake', 'build', 'bench.examples.StableLogSumExp.FPEquiv',
-             'bench.examples.StableLogSumExp.Correct',
+             'bench.examples.StableLogSumExp.RealCorrect',
              'bench.examples.StableLogSumExp.Proofs.Unconditional',
              'VeriTile.Meta.StatementAudit',
-             'bench.examples.LogExp.Correct', 'bench.examples.LogExp.FPEquiv',
+             'bench.examples.LogExp.RealCorrect', 'bench.examples.LogExp.FPEquiv',
              'VeriTile.Triton.Float.LogExpCounterexample'],
             cwd=ROOT, text=True, capture_output=True, timeout=300)
         if result.returncode:
@@ -34,7 +34,7 @@ class LogSumExpFPTests(unittest.TestCase):
     def test_original_sources_and_real_spec_independence(self):
         output = self.check_lean('''
 import bench.examples.StableLogSumExp.Proofs.FP
-import bench.examples.StableLogSumExp.Correct
+import bench.examples.StableLogSumExp.RealCorrect
 open VeriTile Triton VeriTile.Bench.Examples
 example (B : Nat) :
     (StableLogSumExpCorrect.directIO B).kernel =
@@ -49,7 +49,7 @@ example (x y : RegionName) (B : Nat) :
 ''')
         self.assertEqual(output, '')
         self.check_lean('''
-import bench.examples.StableLogSumExp.Correct
+import bench.examples.StableLogSumExp.RealCorrect
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
@@ -154,7 +154,7 @@ specification opaque_candidate
 
     def test_log_exp_shared_sources_and_independent_proofs(self):
         self.check_lean('''
-import bench.examples.LogExp.Correct
+import bench.examples.LogExp.RealCorrect
 import bench.examples.LogExp.FPEquiv
 open VeriTile Triton Bench.Examples.LogExp
 example (x y : RegionName) (B : Nat) :

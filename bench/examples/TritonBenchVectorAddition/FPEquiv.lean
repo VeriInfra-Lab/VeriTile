@@ -1,3 +1,5 @@
+import bench.examples.TritonBenchVectorAddition.IO
+import bench.examples.TritonBenchVectorAddition.Contract
 import bench.examples.TritonBenchVectorAddition.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -12,8 +14,6 @@ namespace VeriTile.Bench.Examples.TritonBenchVectorAdditionFPEquiv
 open VeriTile.Bench.Examples.TritonBenchVectorAddition.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Finite operands after the original common prefix. -/
 def additionSite (nElements blockSize : Nat) : Site where
@@ -33,8 +33,8 @@ def optimized (nElements blockSize : Nat) : Program :=
 including all registers and memory; failed surrounding executions also agree. -/
 specification vector_addition_equiv (nElements blockSize : Nat) :
     original nElements blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized nElements blockSize := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions vector_addition_equiv
 #guard_msgs (drop info) in

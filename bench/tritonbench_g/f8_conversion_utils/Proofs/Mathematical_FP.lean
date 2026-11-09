@@ -1,4 +1,4 @@
-import bench.tritonbench_g.f8_conversion_utils.Sources.Mathematical_Kernels
+import bench.tritonbench_g.f8_conversion_utils.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.destindex_copy.Proofs.Mathematical_IndexRewrite
 namespace VeriTile.Bench.TritonBenchG.F8ConversionUtils.FPProof
 open VeriTile Triton FP.ProfiledRewrite TypedSource
@@ -18,11 +18,11 @@ def toFP8Program (input : Input) (format : Format) (swapped : Bool) (Y X : Regio
 
 theorem to_half_equivalent (format : Format) (Y X : RegionName) (N B : Nat) :
     toHalfProgram format Bool.false Y X N B ≡[assumptions] toHalfProgram format Bool.true Y X N B := by
-  cases format <;> equiv_decompose <;> fp_prove
+  cases format <;> split_equiv <;> solve_fp
 
 theorem to_fp8_equivalent (input : Input) (format : Format) (Y X : RegionName) (N B : Nat) :
     toFP8Program input format Bool.false Y X N B ≡[assumptions] toFP8Program input format Bool.true Y X N B := by
-  cases input <;> cases format <;> equiv_decompose <;> fp_prove
+  cases input <;> cases format <;> split_equiv <;> solve_fp
 
 #print_fp_assumptions to_half_equivalent
 #print_fp_assumptions to_fp8_equivalent

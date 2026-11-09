@@ -13,22 +13,51 @@ set_option linter.unusedSimpArgs false
 
 def zeroUndef (u : BlockState) : BlockState := {u with undef := fun _ _ => 0}
 
-def Holds (initial : BlockState) (h : Call) (c : Config) (row f : Nat)
-    (a : Nat → ℝ) (q : Nat) (u : BlockState) : Prop :=
-  VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.Holds (zeroUndef initial)
-    (layout h c) (launch row f) h.input h.output a q (zeroUndef u)
+/-- The source stores signed indices; the mathematical suffix invariant keeps
+its independent natural coordinates, connected here by exact register values. -/
+structure Holds (initial : BlockState) (h : Call) (c : Config) (row f : Nat)
+    (a : Nat → ℝ) (q : Nat) (u : BlockState) : Prop where
+  undef : (zeroUndef u).undef = (zeroUndef initial).undef
+  count_le : q ≤ Geometry.chunks h c
+  feature : u.regs .int [] "i_s" = some (Tile.scalar (f:Int))
+  head : u.regs .int [] "i_bh" = some (Tile.scalar (row:Int))
+  triangular : u.regs .real [c.BT,c.BT] "m_s" =
+    some (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealMath.upperTriTile c.BT)
+  accumulated : u.regs .real [BS] "b_z" =
+    some (Tile.vec fun j => some (carry (layout h c) (launch row f) a (fun _ => 0) q j))
+  input : ∀ off, (zeroUndef u).readMem h.input off = a off
+  output : ∀ (t : Nat) (j : Fin BS),
+    VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.active (layout h c) (launch row f) t j.val → q*c.BT ≤ t →
+    u.mem h.output (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.address (layout h c) (launch row f) t j.val) =
+      MemCell.real (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.expected (layout h c) (launch row f) a (fun _ => 0) t j)
+  frame : BlockState.WriteWithin
+    (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.footprint (layout h c) (launch row f) h.output) initial u
+
+def modelState (row f : Nat) (u : BlockState) : BlockState :=
+  ((zeroUndef u).setReg "i_s" .nat [] (Tile.scalar f)).setReg "i_bh" .nat [] (Tile.scalar row)
+
+theorem toModel (initial : BlockState) (h : Call) (c : Config) (row f : Nat)
+    (a : Nat → ℝ) (q : Nat) (u : BlockState) (inv : Holds initial h c row f a q u) :
+    VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.Holds (zeroUndef initial)
+      (layout h c) (launch row f) h.input h.output a q (modelState row f u) := by
+  refine ⟨rfl,inv.count_le,?_,?_,?_,?_,?_,inv.output,inv.frame⟩
+  · simp [modelState,launch]
+  · simp [modelState,launch]
+  · simpa [modelState] using inv.triangular
+  · simpa [modelState,zeroUndef,layout] using inv.accumulated
+  · simpa [modelState] using inv.input
 
 theorem transfer (initial : BlockState) (h : Call) (c : Config) (row f : Nat)
     (a : Nat → ℝ) (q : Nat) (u v : BlockState)
     (hu : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.Holds (zeroUndef initial)
       (layout h c) (launch row f) h.input h.output a q u)
     (mem : u.mem=v.mem)
-    (feature : u.regs .nat [] "i_s"=v.regs .nat [] "i_s")
-    (head : u.regs .nat [] "i_bh"=v.regs .nat [] "i_bh")
+    (feature : v.regs .int [] "i_s"=some (Tile.scalar (f:Int)))
+    (head : v.regs .int [] "i_bh"=some (Tile.scalar (row:Int)))
     (triangular : u.regs .real [c.BT,c.BT] "m_s"=v.regs .real [c.BT,c.BT] "m_s")
     (accumulated : u.regs .real [BS] "b_z"=v.regs .real [BS] "b_z") :
     Holds initial h c row f a q v := by
-  refine ⟨rfl,hu.count_le,feature ▸ hu.feature,head ▸ hu.head,
+  refine ⟨rfl,hu.count_le,feature,head,
     triangular ▸ hu.triangular,accumulated ▸ hu.accumulated,?_,?_,?_⟩
   · intro off
     simpa only [zeroUndef,BlockState.readMem,←mem] using hu.input off
@@ -57,12 +86,12 @@ theorem scatter_mem (p : VeriTile.Bench.TritonBenchG.ReversedCumsum.RealProgram.
     · exact ih u v mem
 
 theorem result_mem (h : Call) (c : Config) (row q f : Nat) (a : Nat → ℝ)
-    (acc : Fin BS → ℝ) (u : BlockState) :
+    (acc : Fin BS → ℝ) (u v : BlockState) (mem : u.mem=v.mem) :
     (VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.result (layout h c) (launch row f)
-      h.input h.output a (fun _ => 0) q acc (zeroUndef u)).mem=
-    (RealStep.result h c row q f a acc u).mem := by
+      h.input h.output a (fun _ => 0) q acc u).mem=
+    (RealStep.result h c row q f a acc v).mem := by
   apply scatter_mem
-  rfl
+  exact mem
 
 theorem noCollision (h : Call) (c : Config) (row f : Nat) : NoCollision (layout h c) (launch row f) := by
   intro t u i j ht hu eq
@@ -89,22 +118,24 @@ theorem iteration (initial : BlockState) (h : Call) (c : Config) (row : Nat)
     (by intro off; simpa [entry,Holds,zeroUndef] using inv.input off)
     (by simpa [entry,Holds,zeroUndef,layout] using inv.triangular)
     (by simpa [entry,Holds,zeroUndef,acc] using inv.accumulated)
+  have modelInv := toModel initial h c row f.val a (q+1) u inv
+  let modelEntry := (modelState row f.val u).setReg "i_t" .int [] (Tile.scalar (q:Int))
   obtain ⟨old,oldExec,oldInv⟩ := VeriTile.Bench.TritonBenchG.ReversedCumsum.RealLoop.iteration
     (zeroUndef initial) (layout h c) (launch row f.val) h.input h.output a distinct positive
-    (noCollision h c row f.val) q (zeroUndef u) hq inv
+    (noCollision h c row f.val) q (modelState row f.val u) hq modelInv
   have oldHe := VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.executes (layout h c) (launch row f.val)
-    h.input h.output a (fun _ => 0) q acc (zeroUndef entry) (fun _ => rfl)
-    (by simpa [entry,zeroUndef] using inv.feature) (by simpa [entry,zeroUndef] using inv.head)
-    (by simp [entry,zeroUndef]) (by intro off; simpa [entry,zeroUndef] using inv.input off)
-    (by simpa [entry,zeroUndef] using inv.triangular) (by simpa [entry,zeroUndef,acc] using inv.accumulated)
+    h.input h.output a (fun _ => 0) q acc modelEntry (fun _ => rfl)
+    (by simp [modelEntry,modelState,launch]) (by simp [modelEntry,modelState,launch])
+    (by simp [modelEntry]) (by intro off; simpa [modelEntry,modelState] using inv.input off)
+    (by simpa [modelEntry,modelState] using inv.triangular) (by simpa [modelEntry,modelState,zeroUndef,acc] using inv.accumulated)
   have same : old=VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.result (layout h c) (launch row f.val)
-      h.input h.output a (fun _ => 0) q acc (zeroUndef entry) := Option.some.inj (oldExec.symm.trans oldHe)
+      h.input h.output a (fun _ => 0) q acc modelEntry := Option.some.inj (oldExec.symm.trans oldHe)
   subst old
-  refine ⟨v,he,transfer initial h c row f.val a q _ v oldInv (result_mem h c row q f.val a acc entry) ?_ ?_ ?_ ?_⟩
+  refine ⟨v,he,transfer initial h c row f.val a q _ v oldInv (result_mem h c row q f.val a acc modelEntry entry rfl) ?_ ?_ ?_ ?_⟩
   all_goals simp [v,RealStep.result,RealStep.beforeStore,RealStep.indexed,
     VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.result,
     VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.scatter,
-    VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.beforeStore,zeroUndef,layout]
+    VeriTile.Bench.TritonBenchG.ReversedCumsum.RealStep.beforeStore,modelEntry,modelState,entry,zeroUndef,layout,inv.feature,inv.head]
 
 #print axioms iteration
 end

@@ -1,4 +1,4 @@
-import bench.examples.OnlineSoftmax.Kernels
+import bench.examples.OnlineSoftmax.Proofs.RealSource
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
@@ -15,11 +15,21 @@ import VeriTile.Triton.Memory.TraceProofs
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
 namespace VeriTile.Bench.Examples.OnlineSoftmax.Memory
-open VeriTile Triton TraceProofs Kernels
+open VeriTile Triton TraceProofs RealSource
 
 set_option maxHeartbeats 3200000
 
 set_option linter.unusedSimpArgs false
+
+attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType FloatDType.toTileDType
+attribute [local simp] RealSource.stableSoftmaxKernel RealSource.onlineSoftmaxKernel
+  Kernels.stableSoftmaxKernel Kernels.onlineSoftmaxKernel
 
 private def loopBody (x : RegionName) (N : Nat) : List Stmt :=
   match ((onlineNormalizerKernel x "y" N).toAlgKernel.body[3]? : Option Stmt) with
@@ -29,6 +39,16 @@ private def loopBody (x : RegionName) (N : Nat) : List Stmt :=
 private theorem body_pid (x : RegionName) (N : Nat) (s t : BlockState)
     (h : stepStmts (loopBody x N) s = some t) :
     t.regs .nat [] "pid" = s.regs .nat [] "pid" := by
+  simp only [loopBody, onlineNormalizerKernel] at h
+  simp only [RealSource.stableSoftmaxKernel, RealSource.onlineSoftmaxKernel,
+    Kernels.stableSoftmaxKernel, Kernels.onlineSoftmaxKernel,
+    ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+    Except.bind, bind] at h
   obtain ⟨s1, h1, h⟩ := cons_inv h
   obtain ⟨v1, _, rfl⟩ := assign_inv h1
   obtain ⟨s2, h2, h⟩ := cons_inv h
@@ -45,6 +65,16 @@ private theorem body_safe (x : RegionName) (N pid i : Nat) (hi : i < N)
     (bounds : RegionBounds) (hx : pid * N + N ≤ bounds x) (s : BlockState)
     (hp : s.regs .nat [] "pid" = some (Tile.scalar pid)) :
     Stmt.TraceSafeList bounds (loopBody x N) (s.setReg "i" .nat [] (Tile.scalar i)) := by
+  simp only [loopBody, onlineNormalizerKernel]
+  simp only [RealSource.stableSoftmaxKernel, RealSource.onlineSoftmaxKernel,
+    Kernels.stableSoftmaxKernel, Kernels.onlineSoftmaxKernel,
+    ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+    Except.bind, bind]
   apply assign_cons
   · simp only [Op.SafeAt.eq_def, and_true, true_and]
     apply region_safe (offsets := Tile.scalar (pid * N + i))
@@ -77,6 +107,15 @@ theorem traceSafe (x y : RegionName) (N : Nat) (bounds : RegionBounds) (s : Bloc
     (hx : s.pid * N + N ≤ bounds x) (hy : s.pid * N + N ≤ bounds y) :
     Kernel.TraceSafe bounds (onlineSoftmaxKernel x y N).toAlgKernel s := by
   change Stmt.TraceSafeList bounds _ s
+  simp only [RealSource.stableSoftmaxKernel, RealSource.onlineSoftmaxKernel,
+    Kernels.stableSoftmaxKernel, Kernels.onlineSoftmaxKernel,
+    ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+    Except.bind, bind]
   apply assign_eval_cons (by simp [Op.SafeAt.eq_def])
   intro value hv
   simp [evalOp.eq_def, BlockState.setReg, Tile.bop, Tile.vec,
@@ -86,7 +125,11 @@ theorem traceSafe (x y : RegionName) (N : Nat) (bounds : RegionBounds) (s : Bloc
   intro m
   apply assign_cons (by simp [Op.SafeAt.eq_def])
   intro l
-  refine Stmt.TraceSafeList.cons_intro (loop_safe_all x N s.pid bounds hx _ (by simp [BlockState.setReg])) ?_
+  refine Stmt.TraceSafeList.cons_intro ?_ ?_
+  · simpa [loopBody, onlineNormalizerKernel] using
+      (loop_safe_all x N s.pid bounds hx
+        (((s.setReg "pid" .nat [] (Tile.scalar s.pid)).setReg "m" .real [] m).setReg "l" .real [] l)
+        (by simp [BlockState.setReg]))
   intro q hq
   have hpid : q.pids 0 = s.pids 0 := by simpa using stepStmt_pid hq
   apply assign_eval_cons (by simp [Op.SafeAt.eq_def])
@@ -122,14 +165,26 @@ theorem traceSafe (x y : RegionName) (N : Nat) (bounds : RegionBounds) (s : Bloc
 theorem flattenOk (x y : RegionName) (N : Nat) :
     (onlineSoftmaxKernel x y N).toAlgKernel.FlattenOk := by
   simp [Kernel.FlattenOk, onlineSoftmaxKernel, ComputeKernel.toAlgKernel,
-    ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeStmt.toAlgorithm?,
+    ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end VeriTile.Bench.Examples.OnlineSoftmax.Memory
 
 namespace VeriTile.Bench.Examples.OnlineSoftmax
-open VeriTile.Bench.Examples.OnlineSoftmax.Kernels
+open VeriTile.Triton
+attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
+  ComputeKernel.toAlgKernel ComputeKernel.fromKernelBody ComputeStmt.listToAlgorithm?
+  ComputeStmt.toAlgorithm? ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  Kernel.eraseDType Stmt.eraseDTypeList Stmt.eraseDType Op.eraseDType.eq_def
+  MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
+  VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
+  IntegralDType.eraseDType ComputeDType.eraseDType FloatDType.toTileDType
+attribute [local simp] RealSource.stableSoftmaxKernel RealSource.onlineSoftmaxKernel
+  Kernels.stableSoftmaxKernel Kernels.onlineSoftmaxKernel
+
+open VeriTile.Bench.Examples.OnlineSoftmax.RealSource
 open VeriTile.Triton VeriTile.Triton.TiledSoftmax
 open VeriTile.Examples
 
@@ -459,24 +514,34 @@ theorem online_normalizer_run
     have hpid : stepStmt (.assign .nat [] "pid" (.programId 0)) s
                   = some (s.setReg "pid" .nat [] (Tile.scalar s.pid)) := by
       simp [stepStmt]
-    have hm0 : stepStmt (.assign .real [] "m" .negInf)
+    have hm0 : stepStmt (.assign .real [] "m" (.full [] .negInf))
                   (s.setReg "pid" .nat [] (Tile.scalar s.pid))
                 = some ((s.setReg "pid" .nat [] (Tile.scalar s.pid)).setReg
                     "m" .real [] (Tile.scalar (⊥ : WithBot ℝ))) := by
       simp [stepStmt]
       rfl
-    have hl0 : stepStmt (.assign .real [] "l" (.const 0))
+    have hl0 : stepStmt (.assign .real [] "l" (.full [] (.const 0)))
                   ((s.setReg "pid" .nat [] (Tile.scalar s.pid)).setReg
                     "m" .real [] (Tile.scalar (⊥ : WithBot ℝ)))
                 = some s0 := by
       simp [stepStmt, s0]
       rfl
     -- Chain the pre-loop assignments and the loop statement explicitly.
-    show stepStmts (onlineNormalizerKernel xReg yReg N).body s = some sLoop
+    simp only [onlineNormalizerKernel]
+    simp only [RealSource.stableSoftmaxKernel, RealSource.onlineSoftmaxKernel,
+    Kernels.stableSoftmaxKernel, Kernels.onlineSoftmaxKernel,
+    ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+    Except.bind, bind]
+    show stepStmts _ s = some sLoop
     show stepStmts
         [ .assign .nat [] "pid" (.programId 0)
-        , .assign .real [] "m" .negInf
-        , .assign .real [] "l" (.const 0)
+        , .assign .real [] "m" (.full [] .negInf)
+        , .assign .real [] "l" (.full [] (.const 0))
         , .forLoop "i" N (onlineSoftmaxLoopBody xReg N) ] s = some sLoop
     rw [stepStmts.cons_some hpid]
     rw [stepStmts.cons_some hm0]
@@ -692,6 +757,15 @@ theorem batchSoftmax_traceSafe (xReg yReg : RegionName)
       ((batchSoftmaxKernel xReg yReg B).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe batchSoftmaxKernel
+  simp only [RealSource.stableSoftmaxKernel, RealSource.onlineSoftmaxKernel,
+    Kernels.stableSoftmaxKernel, Kernels.onlineSoftmaxKernel,
+    ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+    Except.bind, bind]
   -- statement 1: pid := program_id(0)
   refine Stmt.TraceSafeList.cons_intro (by simp [Stmt.TraceSafe, Op.SafeAt]) ?_
   intro s1 hs1
@@ -766,7 +840,16 @@ theorem online_output_run (N : Nat) (hN : 0 < N)
   refine ⟨b, ?_, ?_, ?_⟩
   · have hbody : (onlineSoftmaxKernel "x" "y" N).toAlgKernel.body =
         (onlineNormalizerKernel "x" "y" N).toAlgKernel.body ++
-          (onlineSoftmaxKernel "x" "y" N).toAlgKernel.body.drop 4 := rfl
+          (onlineSoftmaxKernel "x" "y" N).toAlgKernel.body.drop 4 := by
+            simp [onlineNormalizerKernel, RealSource.stableSoftmaxKernel, RealSource.onlineSoftmaxKernel,
+    Kernels.stableSoftmaxKernel, Kernels.onlineSoftmaxKernel,
+    ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.fromKernelBody, ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+    MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType,
+    NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+    Except.bind, bind]
     change stepStmts _ s = some b
     rw [hbody]
     exact (stepStmts.append_some ha).trans hb

@@ -1,3 +1,5 @@
+import bench.examples.RowWiseSum.IO
+import bench.examples.RowWiseSum.Contract
 import bench.examples.RowWiseSum.Kernels
 import bench.examples.RowWiseSum.Proofs.FP
 import VeriTile.Triton.DSL
@@ -19,28 +21,7 @@ open FP.Guarded FP.ReductionSchedule FP.ScalarReduction
 
 set_option maxHeartbeats 1600000
 
-def originalIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseSumKernel "x" "y" nCol B
-  inp := "x"
-  out := "y"
-  Bin := B
-  Bout := 1
-  read := fun pid => pid * nCol
-  write := id
-
-def reversedIO (nCol B : Nat) : KernelIO₁ :=
-  (originalIO nCol B).withKernel (reversedKernel "x" "y" nCol B)
-
-/-- Explicit paths check the intermediate operands used in both tree
-normalizations, including padding. They impose no experiment-size restriction. -/
-def domain (nCol B : Nat) (plans : Schedules) : FP.GuardExpression.Condition :=
-  let p := plan B plans
-  let q := reindex p (Fin.revPerm : Equiv.Perm (Fin B))
-  FP.GuardExpression.Requirements.all
-    (((normalize p.tree).operands ++ (normalize q.tree).operands).map fun t =>
-      .guard .finite (value (FP.GuardExpression.algebra FP.GuardExpression.MemoryInput)
-        (inputExpression nCol B) (FP.ScalarArithmetic.zero
-          (FP.GuardExpression.algebra FP.GuardExpression.MemoryInput)) t))
+open scoped VeriTile.Spec
 
 def original (nCol B : Nat) : FP.Kernel₁ where
   io := originalIO nCol B
@@ -50,10 +31,6 @@ def original (nCol B : Nat) : FP.Kernel₁ where
 
 def reversed (nCol B : Nat) : FP.Kernel₁ :=
   { original nCol B with io := reversedIO nCol B }
-
-abbrev Rules := FP.ScalarArithmetic.Rules
-
-open scoped VeriTile.Spec
 
 /-- Reversal uses strictly certified scalar commutation together with the
 admitted association and zero rules used by tree normalization. Every

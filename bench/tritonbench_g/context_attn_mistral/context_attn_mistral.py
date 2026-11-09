@@ -195,3 +195,133 @@ def context_attention_fwd_repaired(q, k, v, o, b_start_loc, b_seq_len, max_input
             BLOCK_M=128, BLOCK_DMODEL=dim, BLOCK_N=128,
             num_warps=4 if dim <= 64 else 8, num_stages=1,
         )
+
+
+# Existing Lean candidates; see candidate-provenance.json.
+
+@triton.jit
+def _fwd_kernel_block_start_reused(Q, K, V, sm_scale, B_Start_Loc, B_Seqlen, Out, stride_qbs, stride_qh, stride_qd, stride_kbs, stride_kh, stride_kd, stride_vbs, stride_vh, stride_vd, stride_obs, stride_oh, stride_od, kv_group_num, sliding_window, BLOCK_M: tl.constexpr, BLOCK_DMODEL: tl.constexpr, BLOCK_N: tl.constexpr):
+    cur_batch = tl.program_id(0).to(tl.int64)
+    cur_head = tl.program_id(1).to(tl.int64)
+    start_m = tl.program_id(2).to(tl.int64)
+    cur_kv_head = cur_head // kv_group_num
+    cur_batch_seq_len = tl.load(B_Seqlen + cur_batch).to(tl.int64)
+    cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch).to(tl.int64)
+    block_start_loc = BLOCK_M * start_m
+    offs_n = tl.arange(0, BLOCK_N).to(tl.int64)
+    offs_d = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    offs_m = block_start_loc + tl.arange(0, BLOCK_M).to(tl.int64)
+    off_q = (cur_batch_in_all_start_index + offs_m[:, None]) * stride_qbs + cur_head * stride_qh + offs_d[None, :] * stride_qd
+    off_k = offs_n[None, :] * stride_kbs + cur_kv_head * stride_kh + offs_d[:, None] * stride_kd
+    off_v = offs_n[:, None] * stride_vbs + cur_kv_head * stride_vh + offs_d[None, :] * stride_vd
+    q = tl.load(Q + off_q, mask=offs_m[:, None] < cur_batch_seq_len, other=0.0)
+    k_ptrs = K + off_k
+    v_ptrs = V + off_v
+    m_i = tl.zeros([BLOCK_M], dtype=tl.float32) - float('inf')
+    l_i = tl.zeros([BLOCK_M], dtype=tl.float32)
+    acc = tl.zeros([BLOCK_M, BLOCK_DMODEL], dtype=tl.float32)
+    block_mask = tl.where(block_start_loc < cur_batch_seq_len, 1, 0)
+    for start_n in range(0, block_mask * (start_m + 1) * BLOCK_M, BLOCK_N):
+        start_n = tl.multiple_of(start_n, BLOCK_N)
+        k = tl.load(k_ptrs + (cur_batch_in_all_start_index + start_n) * stride_kbs, mask=start_n + offs_n[None, :] < cur_batch_seq_len, other=0.0)
+        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)
+        qk += tl.dot(q, k)
+        qk *= sm_scale
+        qk = tl.where(offs_m[:, None] >= start_n + offs_n[None, :], qk, -1000000000.0)
+        qk = tl.where(offs_m[:, None] - (start_n + offs_n[None, :]) < sliding_window, qk, -1000000000.0)
+        m_ij = tl.max(qk, 1)
+        m_ij = tl.where(m_ij == -1000000000.0, 0.0, m_ij)
+        p = tl.exp(qk - m_ij[:, None])
+        l_ij = tl.sum(p, 1)
+        m_i_new = tl.maximum(m_i, m_ij)
+        alpha = tl.exp(m_i - m_i_new)
+        beta = tl.exp(m_ij - m_i_new)
+        l_i_new = alpha * l_i + beta * l_ij
+        l_i_new = tl.where(l_i_new == 0.0, 1e-09, l_i_new)
+        p_scale = beta / l_i_new
+        p = p * p_scale[:, None]
+        acc_scale = l_i / l_i_new * alpha
+        acc = acc * acc_scale[:, None]
+        v = tl.load(v_ptrs + (cur_batch_in_all_start_index + start_n) * stride_vbs, mask=start_n + offs_n[:, None] < cur_batch_seq_len, other=0.0)
+        p = p.to(v.dtype)
+        acc += tl.dot(p, v)
+        l_i = l_i_new
+        m_i = m_i_new
+    off_o = (cur_batch_in_all_start_index + offs_m[:, None]) * stride_obs + cur_head * stride_oh + offs_d[None, :] * stride_od
+    out_ptrs = Out + off_o
+    tl.store(out_ptrs, acc, mask=offs_m[:, None] < cur_batch_seq_len)
+    return
+
+@triton.jit
+def _fwd_kernel_scale_first(Q, K, V, sm_scale, B_Start_Loc, B_Seqlen, Out, stride_qbs, stride_qh, stride_qd, stride_kbs, stride_kh, stride_kd, stride_vbs, stride_vh, stride_vd, stride_obs, stride_oh, stride_od, kv_group_num, sliding_window, BLOCK_M: tl.constexpr, BLOCK_DMODEL: tl.constexpr, BLOCK_N: tl.constexpr):
+    cur_batch = tl.program_id(0).to(tl.int64)
+    cur_head = tl.program_id(1).to(tl.int64)
+    start_m = tl.program_id(2).to(tl.int64)
+    cur_kv_head = cur_head // kv_group_num
+    cur_batch_seq_len = tl.load(B_Seqlen + cur_batch).to(tl.int64)
+    cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch).to(tl.int64)
+    block_start_loc = BLOCK_M * start_m
+    offs_n = tl.arange(0, BLOCK_N).to(tl.int64)
+    offs_d = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M).to(tl.int64)
+    off_q = (cur_batch_in_all_start_index + offs_m[:, None]) * stride_qbs + cur_head * stride_qh + offs_d[None, :] * stride_qd
+    off_k = offs_n[None, :] * stride_kbs + cur_kv_head * stride_kh + offs_d[:, None] * stride_kd
+    off_v = offs_n[:, None] * stride_vbs + cur_kv_head * stride_vh + offs_d[None, :] * stride_vd
+    q = tl.load(Q + off_q, mask=offs_m[:, None] < cur_batch_seq_len, other=0.0)
+    k_ptrs = K + off_k
+    v_ptrs = V + off_v
+    m_i = tl.zeros([BLOCK_M], dtype=tl.float32) - float('inf')
+    l_i = tl.zeros([BLOCK_M], dtype=tl.float32)
+    acc = tl.zeros([BLOCK_M, BLOCK_DMODEL], dtype=tl.float32)
+    block_mask = tl.where(block_start_loc < cur_batch_seq_len, 1, 0)
+    for start_n in range(0, block_mask * (start_m + 1) * BLOCK_M, BLOCK_N):
+        start_n = tl.multiple_of(start_n, BLOCK_N)
+        k = tl.load(k_ptrs + (cur_batch_in_all_start_index + start_n) * stride_kbs, mask=start_n + offs_n[None, :] < cur_batch_seq_len, other=0.0)
+        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)
+        qk += tl.dot(q, k)
+        qk = sm_scale * qk
+        qk = tl.where(offs_m[:, None] >= start_n + offs_n[None, :], qk, -1000000000.0)
+        qk = tl.where(offs_m[:, None] - (start_n + offs_n[None, :]) < sliding_window, qk, -1000000000.0)
+        m_ij = tl.max(qk, 1)
+        m_ij = tl.where(m_ij == -1000000000.0, 0.0, m_ij)
+        p = tl.exp(qk - m_ij[:, None])
+        l_ij = tl.sum(p, 1)
+        m_i_new = tl.maximum(m_i, m_ij)
+        alpha = tl.exp(m_i - m_i_new)
+        beta = tl.exp(m_ij - m_i_new)
+        l_i_new = alpha * l_i + beta * l_ij
+        l_i_new = tl.where(l_i_new == 0.0, 1e-09, l_i_new)
+        p_scale = beta / l_i_new
+        p = p * p_scale[:, None]
+        acc_scale = l_i / l_i_new * alpha
+        acc = acc * acc_scale[:, None]
+        v = tl.load(v_ptrs + (cur_batch_in_all_start_index + start_n) * stride_vbs, mask=start_n + offs_n[:, None] < cur_batch_seq_len, other=0.0)
+        p = p.to(v.dtype)
+        acc += tl.dot(p, v)
+        l_i = l_i_new
+        m_i = m_i_new
+    off_o = (cur_batch_in_all_start_index + offs_m[:, None]) * stride_obs + cur_head * stride_oh + offs_d[None, :] * stride_od
+    out_ptrs = Out + off_o
+    tl.store(out_ptrs, acc, mask=offs_m[:, None] < cur_batch_seq_len)
+    return
+
+
+@torch.no_grad()
+def context_attention_fwd_block_start_reused(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+    """Checked packed FP32 Mistral context attention; mutates o, returns None."""
+    if not _checked_arguments(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+        return
+    dim, heads, kvheads = (q.shape[2], q.shape[1], k.shape[1])
+    window = min(max(sliding_window, 0), (1 << 63) - 1)
+    with torch.cuda.device(q.device):
+        _fwd_kernel_block_start_reused[b_seq_len.numel(), heads, triton.cdiv(max_input_len, 128)](q, k, v, 1.0 / dim ** 0.5, b_start_loc, b_seq_len, o, heads * dim, dim, 1, kvheads * dim, dim, 1, kvheads * dim, dim, 1, heads * dim, dim, 1, kv_group_num=heads // kvheads, sliding_window=window, BLOCK_M=128, BLOCK_DMODEL=dim, BLOCK_N=128, num_warps=4 if dim <= 64 else 8, num_stages=1)
+
+@torch.no_grad()
+def context_attention_fwd_scale_first(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+    """Checked packed FP32 Mistral context attention; mutates o, returns None."""
+    if not _checked_arguments(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):
+        return
+    dim, heads, kvheads = (q.shape[2], q.shape[1], k.shape[1])
+    window = min(max(sliding_window, 0), (1 << 63) - 1)
+    with torch.cuda.device(q.device):
+        _fwd_kernel_scale_first[b_seq_len.numel(), heads, triton.cdiv(max_input_len, 128)](q, k, v, 1.0 / dim ** 0.5, b_start_loc, b_seq_len, o, heads * dim, dim, 1, kvheads * dim, dim, 1, kvheads * dim, dim, 1, heads * dim, dim, 1, kv_group_num=heads // kvheads, sliding_window=window, BLOCK_M=128, BLOCK_DMODEL=dim, BLOCK_N=128, num_warps=4 if dim <= 64 else 8, num_stages=1)

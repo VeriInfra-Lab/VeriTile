@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.Sources.Kernels
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.Sources.Kernels
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.Core
 import VeriTile.Triton.Float.Structural
 
@@ -36,12 +36,12 @@ def accumulate {I F H : Type} [Inhabited F]
   let xs ← evalOp M none left s
   let ys ← evalOp M none right s
   let previous ← evalOp M none old s
-  let pm ← s.regs .nat [] "pid_m"
-  let pn ← s.regs .nat [] "pid_n"
-  let iteration ← s.regs .nat [] "k"
+  let pm ← s.regs .int [] "pid_m"
+  let pn ← s.regs .int [] "pid_n"
+  let iteration ← s.regs .int [] "k"
   return fun i => carrier.decode <|
-    (plans k (pm PUnit.unit*m+i.1.val) (pn PUnit.unit*n+i.2.1.val)
-      (s.pids 1) (iteration PUnit.unit)).eval ops
+    (plans k ((pm PUnit.unit).toNat*m+i.1.val) ((pn PUnit.unit).toNat*n+i.2.1.val)
+      (s.pids 1) (iteration PUnit.unit).toNat).eval ops
       (fun j => BitVec.ofInt 8 (xs (i.1,j,PUnit.unit)))
       (fun j => BitVec.ofInt 8 (ys (j,i.2.1,PUnit.unit)))
       (carrier.encode (previous i))
@@ -102,6 +102,11 @@ def step {I F H : Type} [Inhabited F]
     (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8DequantMatmul.Ops I F H)
     (plans : Plans) : ComputeStmt → State F → Option (State F)
   | .forRange idx start stop stride body, s => range M carrier ops plans idx start stop stride body s
+  | .forRangeInt idx start stop stride body, s => do
+      let a ← evalOp M none start s
+      let b ← evalOp M none stop s
+      let d ← evalOp M none stride s
+      rangeInt M carrier ops plans idx (a PUnit.unit) (b PUnit.unit) (d PUnit.unit) body s
   | .ifThenElse cond yes no, s => do
       let choice ← evalOp M none cond s
       if choice PUnit.unit then run M carrier ops plans yes s else run M carrier ops plans no s
@@ -132,6 +137,18 @@ def range {I F H : Type} [Inhabited F]
     else some s
 termination_by (sizeOf body + 1, stop - start)
 decreasing_by all_goals (simp_wf; omega)
+
+def rangeInt {I F H : Type} [Inhabited F]
+    (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int8DequantMatmul.Ops I F H)
+    (plans : Plans) (idx : RegName) (start stop : Int) (stride : Nat) (body : List ComputeStmt)
+    (s : State F) : Option (State F) :=
+  if 0 < stride ∧ start < stop then do
+    let t ← run M carrier ops plans body (s.setReg idx .int [] (fun _ => start))
+    rangeInt M carrier ops plans idx (start+stride) stop stride body t
+  else some s
+termination_by (sizeOf body + 1, (stop - start).toNat)
+decreasing_by all_goals (simp_wf; omega)
+
 end
 
 def exec {I F H : Type} [Inhabited F]

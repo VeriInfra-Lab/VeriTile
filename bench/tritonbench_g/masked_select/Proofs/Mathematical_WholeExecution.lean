@@ -12,7 +12,7 @@ structure Reads {α : Type} (p : Parameters) (s : State α)
     (input : Nat → α) (mask : Nat → Bool) : Prop where
   payload : ∀ i, i < p.size → s.mem p.input i = .mk .real (input i)
   selection : ∀ i, i < p.size → s.mem p.selection.cast i = .mk .bool (mask i)
-  cumulative : ∀ i, i < p.size → s.mem p.prefixSum.cast i = .mk .nat (count mask (i + 1))
+  cumulative : ∀ i, i < p.size → s.mem p.prefixSum.cast i = .mk .int (count mask (i + 1))
 
 def Separate (p : Parameters) : Prop :=
   p.input ≠ p.output ∧ p.selection.cast ≠ p.output ∧ p.prefixSum.cast ≠ p.output
@@ -58,7 +58,8 @@ theorem offset_selected {α : Type} [Inhabited α] (p : Parameters) (s : State �
   have ha := (active_iff p s input mask h i).mp hi
   unfold outputOffset
   rw [h.cumulative _ ha.2, Cell.read_same]
-  exact (inclusive_selected mask ha.1).1
+  have hc := inclusive_selected mask ha.1
+  omega
 
 theorem prefix_injective {α : Type} [Inhabited α] (p : Parameters) (s : State α)
     (input : Nat → α) (mask : Nat → Bool) (h : Reads p s input mask) :

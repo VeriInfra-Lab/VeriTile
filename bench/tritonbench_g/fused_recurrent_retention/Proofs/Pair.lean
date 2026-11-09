@@ -26,7 +26,7 @@ def kernel (right : Bool) (mode : Mode) (p : Layout) (seed final : Bool) : Compu
   | Bool.true,.forward => forward p forwardRegions seed final
   | Bool.true,.backward => backward p backwardRegions seed final
 
-private def prefixLength (mode : Mode) : Nat := match mode with | .forward => 9 | .backward => 10
+private def prefixLength (mode : Mode) : Nat := match mode with | .forward => 7 | .backward => 8
 
 private def mask (right : Bool) (p : Layout) : ComputeStmt :=
   let index : Op .nat [p.BK] := .add .nat .scalarL

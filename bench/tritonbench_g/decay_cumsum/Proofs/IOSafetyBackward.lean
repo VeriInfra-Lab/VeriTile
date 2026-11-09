@@ -17,7 +17,7 @@ theorem backward_control_safe (M : Algebra α) (h : Call) (p : Phase) (n : Nat)
     (bounds : RegionName → Nat) (hb : ∀ j, addr j<bounds "g") :
     Safety.traceSafeList (engine M) bounds (FPBackwardControl.firstCode h p) u := by
   simp (config := { maxSteps := 600000 }) [FPBackwardControl.firstCode,reverseIndex,assign32,
-    gateOp,loadOp,pointerOp,maskOp,lastGate,refOp,
+    gateLoadCode,dataLoadCode,loadOp,pointerOp,maskOp,lastGate,refOp,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -53,8 +53,8 @@ theorem backward_control_safe (M : Algebra α) (h : Call) (p : Phase) (n : Nat)
   have bko := hb "dko" (by simp [inputRegions,outputRegions])
   have bdg := hb "dg" (by simp [inputRegions,outputRegions])
   simp (config := { maxSteps := 1000000 }) [backwardArithmetic,dataLoadCode,assign32,
-    gateOp,loadOp,pointerOp,maskOp,gatedOp,differenceGatedOp,addOp,gradientOp,
-    refOp,storeCode,retreatCode,
+    gateLoadCode,dataLoadCode,loadOp,pointerOp,maskOp,gatedOp,differenceGatedOp,addOp,gradientOp,
+    refOp,storeCode,directStoreCode,retreatCode,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

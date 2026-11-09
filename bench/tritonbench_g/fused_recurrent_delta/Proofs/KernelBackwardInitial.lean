@@ -8,6 +8,11 @@ set_option maxHeartbeats 20000000
 set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
+private theorem scaled_pred (a T : Nat) : a*T+T-1=a*T+(T-1) := by
+  cases T with
+  | zero=>simp
+  | succ n=>omega
+
 structure Static (s : Shape) (bh iv : Nat) (u : State α) : Prop where
   head : u.regs .nat [] "i_bh"=some (fun _ => bh)
   key : u.regs .nat [] "i_k"=some (fun _ => 0)
@@ -25,12 +30,12 @@ theorem registers (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ)
     constructor
     all_goals
       simp [KernelPrefix.backward,KernelBackwardReference.input,KernelReference.add,KernelReference.zero,
-        KernelReference.read,KernelReference.cast,hv,hk,hh,keyPtr,valPtr,betaPtr,dbetaPtr,plane,keyMask,valMask,
+        KernelReference.read,KernelReference.loaded,KernelReference.cast,hv,hk,hh,keyPtr,valPtr,betaPtr,dbetaPtr,plane,keyMask,valMask,
         keyAddress,valAddress,betaAddress,stateAddress,State.setReg,FP.Structural.bop,
         Broadcast.leftIndex,Broadcast.rightIndex,TileShape.dropInsertedIndex,Nat.add_assoc]
   all_goals funext i
   all_goals simp [FP.Structural.bop,keyPtr,valPtr,betaPtr,dbetaPtr,plane,keyMask,valMask,
-    keyAddress,valAddress,betaAddress,Broadcast.leftIndex,Broadcast.rightIndex,Nat.add_assoc]
+    keyAddress,valAddress,betaAddress,Broadcast.leftIndex,Broadcast.rightIndex,Nat.add_assoc,scaled_pred]
 
 theorem static (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat) (u : State α)
     (hv : u.pids 0=iv) (hk : u.pids 1=0) (hh : u.pids 2=bh) :

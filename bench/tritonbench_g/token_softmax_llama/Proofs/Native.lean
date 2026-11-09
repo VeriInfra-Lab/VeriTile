@@ -27,8 +27,8 @@ def inject : (d : TileDType)→Value Word d→Value Node d
 def entry (m : Memory Word) : Memory Node := fun r o =>
   match m r o with | .mk d v => .mk d (inject d v)
 
-@[simp] theorem read_nat (m : Memory Word) (r : RegionName) (o : Nat) :
-    ((entry m) r o).read .nat=(m r o).read .nat := by
+@[simp] theorem read_int (m : Memory Word) (r : RegionName) (o : Nat) :
+    ((entry m) r o).read .int=(m r o).read .int := by
   unfold entry
   cases m r o with | mk d v => cases d <;> rfl
 @[simp] theorem read_fp32 (m : Memory Word) (r : RegionName) (o : Nat) :
@@ -41,7 +41,7 @@ def entry (m : Memory Word) : Memory Node := fun r o =>
     startIndex p (state (entry m) pid)=startIndex p (state m pid) := by simp [startIndex,state]
 
 def rowInput (p : Parameters) (m : Memory Word) (pid : PID) (i : Nat) : Word :=
-  (m p.input (pid.2*p.inputHeadStride+(startIndex p (state m pid)+i)*p.inputTokenStride)).read .fp32
+  (m p.input (((pid.2 : Int)*p.inputHeadStride+(startIndex p (state m pid)+i)*p.inputTokenStride).toNat)).read .fp32
 
 /-- Independent ordered register/shuffle/shared-memory graph. The selected
 V is the actual compilation's sizePerThread. Default fusion is preserved;

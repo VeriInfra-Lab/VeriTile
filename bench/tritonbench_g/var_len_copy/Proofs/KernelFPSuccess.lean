@@ -47,7 +47,7 @@ theorem body_run (M : Algebra α) (os ol ns : Region .int) (src dst : RegionName
     run M (body Bool.false os ol ns src dst B) s = some
       (scatter (B := B) (s.setReg "v" .real [B] (copied M (B := B) s src length oldStart current))
         dst length newStart current (copied M (B := B) s src length oldStart current)) := by
-  simp [body,Source.kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [body,Source.kernel,Source.bodyKernel,Source.commutedBodyPastedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,h.lengthReg,h.oldReg,h.newReg,h.oldOffset,h.newOffset,hI,
     numeric,numericLt,bop,Broadcast.leftIndex,Broadcast.rightIndex,
     store,copied,scatter,Region.cast,Option.bind,ComputeDType.eraseDType]
@@ -88,8 +88,11 @@ theorem loop_success (M : Algebra α) (os ol ns : Region .int) (src dst : Region
 
 def prefixState (B : Nat) (os ol ns : Region .int) (s : State α) : State α :=
   let t := s.setReg "a_id" .int [] (fun _ => s.pids 0)
+  let t := t.setReg "__veritile_load_0" .int [] (fun _ => (s.mem ol.cast (s.pids 0)).read .int)
   let t := t.setReg "length" .int [] (fun _ => (s.mem ol.cast (s.pids 0)).read .int)
+  let t := t.setReg "__veritile_load_1" .int [] (fun _ => (s.mem os.cast (s.pids 0)).read .int)
   let t := t.setReg "old_start" .int [] (fun _ => (s.mem os.cast (s.pids 0)).read .int)
+  let t := t.setReg "__veritile_load_2" .int [] (fun _ => (s.mem ns.cast (s.pids 0)).read .int)
   let t := t.setReg "new_start" .int [] (fun _ => (s.mem ns.cast (s.pids 0)).read .int)
   let t := t.setReg "old_offset" .int [B] (fun i => (i.1.val : Int))
   t.setReg "new_offset" .int [B] (fun i => (i.1.val : Int))
@@ -97,7 +100,7 @@ def prefixState (B : Nat) (os ol ns : Region .int) (s : State α) : State α :=
 theorem prefix_run (M : Algebra α) (os ol ns : Region .int) (src dst : RegionName)
     (B : Nat) (s : State α) :
     run M (prefixBody os ol ns src dst B) s = some (prefixState B os ol ns s) := by
-  simp [prefixBody,Source.kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prefixBody,Source.kernel,Source.bodyKernel,Source.commutedBodyPastedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,Region.cast,prefixState]
 
 theorem source_success (M : Algebra α) (os ol ns : Region .int) (src dst : RegionName)

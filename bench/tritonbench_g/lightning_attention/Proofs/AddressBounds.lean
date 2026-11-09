@@ -1,5 +1,5 @@
 import bench.tritonbench_g.lightning_attention.Proofs.HostMetadata
-import bench.tritonbench_g.chunk_linear_attn.Physical
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Physical
 namespace VeriTile.Bench.Repairs.LightningAttention.Host
 open VeriTile Triton
 set_option maxHeartbeats 6000000

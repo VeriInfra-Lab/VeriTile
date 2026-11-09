@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Kernels
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Support.KernelEntryAdapters
 
 /-! Source-only grid coordinates used by both independent semantic layers. -/
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.Geometry

@@ -21,7 +21,7 @@ structure Program where
 
 def Program.source (p : Program) : ComputeKernel :=
   if p.candidate then commutedKernel p.storage "grad" "data" "mask" p.n p.alpha
-  else kernel p.storage "grad" "data" "mask" p.n p.alpha
+  else sourceKernel p.storage "grad" "data" "mask" p.n p.alpha
 
 /-- Both complete sources must succeed and agree on every typed memory cell.
 The leaf condition binds loaded FP32 words; it excludes no bit patterns. -/

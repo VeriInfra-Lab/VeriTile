@@ -30,10 +30,10 @@ def cell {casts kind} : BoundSource.Binding casts kind → MidWord kind.format �
   | .integer k _ => fun word => JITInteger.cell k (word.cast (Formats.format_width k).symm)
 
 def first {casts kind} (binding : BoundSource.Binding casts kind) (c : GlobalConfig) (index64 : Bool) :=
-  JITSource.stage1 BoundSource.X BoundSource.V BoundSource.I (dtype binding) c.block index64
+  JITSource.stage1Kernel BoundSource.X BoundSource.V BoundSource.I (dtype binding) c.block index64
 
 def second {casts kind} (binding : BoundSource.Binding casts kind) (c : GlobalConfig) :=
-  JITSource.stage2 BoundSource.V BoundSource.I BoundSource.O (dtype binding) c.midBlock
+  JITSource.stage2Kernel BoundSource.V BoundSource.I BoundSource.O (dtype binding) c.midBlock
 end
 end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITBinding
 
@@ -113,8 +113,8 @@ def realSchedule (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
     (X V : RegionName) (I O : Region .int) (c : GlobalConfig) (index64 : Bool) :
     List (Invocation Math.Value) :=
   (List.range c.blocks).map (firstLaunch (TypedReal.backend rest)
-    (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size 0) ++
-  [secondLaunch (TypedReal.backend rest) (JITSource.stage2 V I O (JITStage1.floatingType kind) c.midBlock) c.blocks]
+    (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) c.block index64) c.size 0) ++
+  [secondLaunch (TypedReal.backend rest) (JITSource.stage2Kernel V I O (JITStage1.floatingType kind) c.midBlock) c.blocks]
 
 /-- Active input, scalar INT64 output, and both complete first-grid scratch
 windows. Original arbitrary region names and permitted aliases are retained. -/
@@ -207,7 +207,7 @@ noncomputable section
 
 def launch (rest : Algebra Word) (c : DimConfig) (index64 : Bool) (job : Nat × Nat) : Invocation Word :=
   JITIO.dimensionLaunch (Typed.backend rest)
-    (JITSource.dimension BoundSource.X BoundSource.O 128 128 index64)
+    (JITSource.dimensionKernel BoundSource.X BoundSource.O 128 128 index64)
     c.outer c.extent c.inner 0 (job.1*c.inner+job.2)
 
 end
@@ -233,7 +233,7 @@ over the entire reduced axis; only active output rows are writable. -/
   scratchWrite := fun i => Fin.elim0 i
   scratchMask := fun i => Fin.elim0 i
   schedule := fun _ => [dimensionLaunch (TypedReal.backend rest)
-    (JITSource.dimension X O BM BN index64) M N K base pid]
+    (JITSource.dimensionKernel X O BM BN index64) M N K base pid]
   encode := fun x => (x : Math.Value)
   observe := fun _ _ _ => 0
 

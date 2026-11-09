@@ -50,7 +50,7 @@ inductive Unary where
   | neg (dtype : FloatDType)
   | abs (dtype : FloatDType)
   | exp | libdeviceExp | libdeviceLog | libdeviceExpm1 | libdeviceLog1p | libdeviceTanh
-  | exp2 | log | log2 | sigmoid | sqrt | rsqrt | tanh
+  | exp2 | log | log2 | sigmoid | sqrt | rsqrt | libdeviceRsqrt | tanh
   | sin | cos | tan | atan | cosh | sinh | erf
   /-- Minimum with a positive-infinite right operand; preserves FP behavior. -/
   | minPosInf
@@ -191,6 +191,10 @@ structure Algebra (α : Type) where
   No comparison/select, negated-maximum, NaN or zero-tie law is assumed. -/
   minimum : Option ComputeDType → FloatDType → Option (α → α → α) :=
     fun _ _ => none
+
+  /-- Source `tl.div_rn`, supplied independently from ordinary division.
+  Missing support fails even when the result tile is empty. -/
+  divRN : Option (α → α → α) := none
 
 /-- Interpret explicit zero padding in the access channel.
 Floating zero is interpreted by the algebra, never by the carrier's arbitrary
@@ -578,6 +582,7 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .sigmoid a, s => return (M.unary p .sigmoid) ∘ (← evalOp M p a s)
   | .sqrt a, s => return (M.unary p .sqrt) ∘ (← evalOp M p a s)
   | .rsqrt a, s => return (M.unary p .rsqrt) ∘ (← evalOp M p a s)
+  | .libdeviceRsqrt a, s => return (M.unary p .libdeviceRsqrt) ∘ (← evalOp M p a s)
   | .tanh a, s => return (M.unary p .tanh) ∘ (← evalOp M p a s)
   | .sin a, s => return (M.unary p .sin) ∘ (← evalOp M p a s)
   | .cos a, s => return (M.unary p .cos) ∘ (← evalOp M p a s)
@@ -707,6 +712,11 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
         M.reduceMaxTyped p dtype axis keepDims v
       else none
   | .castRealToInt8 .., _ => none
+  | .divRN bc a b, s => do
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      let f ← M.divRN
+      pure (bop f bc va vb)
   | .floorDiv h bc a b, s =>
       return bop (integralFloorDiv h) bc (← evalOp M p a s) (← evalOp M p b s)
   | .mod h bc a b, s =>

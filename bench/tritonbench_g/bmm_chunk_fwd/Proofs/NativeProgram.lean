@@ -19,7 +19,7 @@ def Block {α : Type} [Inhabited α] (o : FPSuccess.Ops α) (h : Host.Call) (c :
     (NativeControl.active h c p=Bool.true → ∃ prepared terminal final,
       FP.Structural.run (engine o.algebra) (FPSuccess.parts h c).before entry=some prepared ∧
       StateAt h c (coordinates h c p) 0 prepared ∧
-      range (engine o.algebra) "k" 0 (Host.cdiv h.shape.K c.K) 1 (FPSuccess.parts h c).body prepared=some terminal ∧
+      rangeInt (engine o.algebra) "k" 0 (Host.cdiv h.shape.K c.K) 1 (FPSuccess.parts h c).body prepared=some terminal ∧
       NativeLoop.run (engine o.algebra) (FPSuccess.parts h c).body (Host.cdiv h.shape.K c.K)
         0 (NativeControl.ceil h.shape.K c.K) prepared=some terminal ∧
       StateAt h c (coordinates h c p) (Host.cdiv h.shape.K c.K) terminal ∧
@@ -41,14 +41,24 @@ theorem block {α : Type} [Inhabited α] (o : FPSuccess.Ops α) (h : Host.Call) 
     NativeLoop.source_iterations o h c hc metadata.sizes _ prepared hstate ha hb
   obtain ⟨final,hpost,_,_⟩ := SourceAccess.epilogue o h c _ _ terminal hterminal ha hb
   refine ⟨prepared,terminal,final,hsetup,hstate,hrange,hnative,hterminal,hpost,?_⟩
-  have hs : evalOp (engine o.algebra) none (FPSuccess.parts h c).start prepared=some (fun _ => (0 : Nat)) := by
+  have hs : evalOp (engine o.algebra) none (FPSuccess.parts h c).start prepared=some (fun _ => (0 : Int)) := by
     simp only [FPSuccess.parts,FPSuccess.branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
-  have he : evalOp (engine o.algebra) none (FPSuccess.parts h c).stop prepared=some (fun _ => Host.cdiv h.shape.K c.K) := by
-    simp only [FPSuccess.parts,FPSuccess.branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
+  have he : evalOp (engine o.algebra) none (FPSuccess.parts h c).stop prepared=some (fun _ => (Host.cdiv h.shape.K c.K : Int)) := by
+    have bound_source : (FPSuccess.parts h c).stop =
+        Op.truncDiv .nil (.add .int .nil (.castNatToInt (.constNat h.shape.K))
+          (.sub .int .nil (.constInt (Int.ofNat c.K)) (.constInt 1)))
+          (.constInt (Int.ofNat c.K)) := by
+      cases ha : h.aStorage <;> cases hb : h.bStorage <;>
+        simp only [FPSuccess.parts,FPSuccess.branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+    rw [bound_source,FP.Structural.eval_truncDiv]
+    simp [FP.Structural.evalOp_unfold,FP.Structural.numeric,FP.Structural.bop,
+      Option.bind,ControlArithmetic.cdiv_signed_int,Host.cdiv]
+    funext i
+    exact ControlArithmetic.cdiv_signed_int h.shape.K c.K
   have hd : evalOp (engine o.algebra) none (FPSuccess.parts h c).stride prepared=some (fun _ => (1 : Nat)) := by
     simp only [FPSuccess.parts,FPSuccess.branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize]; rfl
   have hloop : step (engine o.algebra)
-      (.forRangeDyn "k" (FPSuccess.parts h c).start (FPSuccess.parts h c).stop (FPSuccess.parts h c).stride (FPSuccess.parts h c).body)
+      (.forRangeInt "k" (FPSuccess.parts h c).start (FPSuccess.parts h c).stop (FPSuccess.parts h c).stride (FPSuccess.parts h c).body)
       prepared=some terminal := by
     simpa only [step,hs,he,hd,Option.bind_some] using hrange
   change FP.Structural.run _ (Kernels.source h c).surfaceBody _=some final
@@ -72,7 +82,7 @@ structure Certificate {α : Type} [Inhabited α] (o : FPSuccess.Ops α)
   aPointers : ∀ p q i e, aWord h c (coordinates h c p) q i e=BitVec.ofNat 64 (aOffset h c (coordinates h c p) q i e)
   bPointers : ∀ p q e j, bWord h c (coordinates h c p) q e j=BitVec.ofNat 64 (bOffset h c (coordinates h c p) q e j)
   loads : ∀ p q s, StateAt h c (coordinates h c p) q s →
-    ∃ t, FP.Structural.run (engine o.algebra) (FPSuccess.parts h c).body (s.setReg "k" .nat [] (fun _ => q))=some t ∧
+    ∃ t, FP.Structural.run (engine o.algebra) (FPSuccess.parts h c).body (s.setReg "k" .int [] (fun _ => q))=some t ∧
       t.regs .real [c.M,c.K] "a"=some (fun i => SourceAccess.aValue o h c (coordinates h c p) q s i.1 i.2.1) ∧
       t.regs .real [c.K,c.N] "b"=some (fun i => SourceAccess.bValue o h c (coordinates h c p) q s i.1 i.2.1)
   seqOut : ∀ p q s, StateAt h c (coordinates h c p) q s →
@@ -106,7 +116,7 @@ structure Certificate {α : Type} [Inhabited α] (o : FPSuccess.Ops α)
     NativeControl.ceil h.shape.K c.K=BitVec.ofNat 64 (Host.cdiv h.shape.K c.K)
   steps : ∀ p q s, StateAt h c (coordinates h c p) q s →
     ∃ t, FP.Structural.run (engine o.algebra) (FPSuccess.parts h c).body
-      (s.setReg "k" .nat [] (fun _ => q))=some t ∧ StateAt h c (coordinates h c p) (q+1) t ∧ t.mem=s.mem
+      (s.setReg "k" .int [] (fun _ => q))=some t ∧ StateAt h c (coordinates h c p) (q+1) t ∧ t.mem=s.mem
   outMaskExact : ∀ p (i : Fin c.M) (j : Fin c.N),
     NativeAccess.outMask h c p i j=SourceAccess.outMask h c (coordinates h c p) i j
   seqMaskExact : ∀ p (i : Fin c.M) (j : Fin c.N),

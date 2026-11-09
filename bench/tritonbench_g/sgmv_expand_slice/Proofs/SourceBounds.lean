@@ -33,7 +33,7 @@ theorem eval_stop {α : Type} [Inhabited α] (M : Algebra α)
   have hp : ¬ (p.inner : Int)+16 < 1 := by omega
   simp [SourceParts.loopParts,SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,
     SourceParts.thenBody,SourceParts.outer,Source.intRange?,kernel,primaryHalf,sourceFace,
-    sourceHalfSingle323232,ComputeKernel.surfaceBody,evalOp_unfold,Option.bind,
+    sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,ComputeKernel.surfaceBody,evalOp_unfold,Option.bind,
     numeric,bop,numericLt,integralFloorDiv,integralMod,hk,hp,SourceBody.signed_block_count]
 
 theorem loop_step {α : Type} [Inhabited α] (M : Algebra α) (dot : SourceBody.DotImplementation α)

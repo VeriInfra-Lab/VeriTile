@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.RealIO
+import bench.tritonbench_g.attention_score.Proofs.Support.RealIO
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.RealInterface.Proof
 open VeriTile Triton Reused Geometry Physical

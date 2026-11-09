@@ -15,26 +15,37 @@ def source (fp8 outputFP8 : Bool) (p : Arguments) : ComputeKernel :=
   TypedSource.kernel fp8 outputFP8 {p with BM:=16,BN:=64,BK:=64}
 
 def prelude (fp8 outputFP8 : Bool) (p : Arguments) :=
-  (source fp8 outputFP8 p).surfaceBody.take 12
+  (source fp8 outputFP8 p).surfaceBody.take 24
 def body (fp8 outputFP8 : Bool) (p : Arguments) : List ComputeStmt :=
-  match ((source fp8 outputFP8 p).surfaceBody[12]? : Option ComputeStmt) with
-  | some (.forRangeDyn _ _ _ _ statements) => statements
+  match ((source fp8 outputFP8 p).surfaceBody[24]? : Option ComputeStmt) with
+  | some (.forRangeInt _ _ _ _ statements) => statements
   | _ => []
 def epilogue (fp8 outputFP8 : Bool) (p : Arguments) :=
-  (source fp8 outputFP8 p).surfaceBody.drop 13
+  (source fp8 outputFP8 p).surfaceBody.drop 25
 
-def countExpr (p : Arguments) : Op .nat [] :=
-  .div .nat .nil (.sub .nat .nil
-    (.add .nat .nil (.constNat p.K) (.constNat 64)) (.constNat 1)) (.constNat 64)
+def startExpr (p : Arguments) : Op .int [] :=
+  match ((source Bool.false Bool.false p).surfaceBody[24]? : Option ComputeStmt) with
+  | some (.forRangeInt _ start _ _ _) => start
+  | _ => .constInt 0
+
+def countExpr (p : Arguments) : Op .int [] :=
+  match ((source Bool.false Bool.false p).surfaceBody[24]? : Option ComputeStmt) with
+  | some (.forRangeInt _ _ stop _ _) => stop
+  | _ => .constInt 0
+
+def strideExpr (p : Arguments) : Op .nat [] :=
+  match ((source Bool.false Bool.false p).surfaceBody[24]? : Option ComputeStmt) with
+  | some (.forRangeInt _ _ _ stride _) => stride
+  | _ => .constNat 0
 
 theorem partition (fp8 outputFP8 : Bool) (p : Arguments) :
     (source fp8 outputFP8 p).surfaceBody=prelude fp8 outputFP8 p ++
-      [.forRangeDyn "step" (.constNat 0) (countExpr p) (.constNat 1)
+      [.forRangeInt "step" (startExpr p) (countExpr p) (strideExpr p)
         (body fp8 outputFP8 p)] ++ epilogue fp8 outputFP8 p := by
   cases fp8 <;> cases outputFP8 <;> rfl
 
 theorem source_length (fp8 outputFP8 : Bool) (p : Arguments) :
-    (source fp8 outputFP8 p).surfaceBody.length=22 := by
+    (source fp8 outputFP8 p).surfaceBody.length=34 := by
   cases fp8 <;> cases outputFP8 <;> rfl
 
 #axiomsClean partition

@@ -12,7 +12,7 @@ class SoftmaxStableFPTests(unittest.TestCase):
     def setUpClass(cls):
         result = subprocess.run(
             ['lake', 'build', 'bench.examples.SoftmaxStable.Proofs.FP',
-             'bench.examples.SoftmaxStable.Correct', 'VeriTile.Meta.StatementAudit'],
+             'bench.examples.SoftmaxStable.RealCorrect', 'VeriTile.Meta.StatementAudit'],
             cwd=ROOT, text=True, capture_output=True, timeout=300)
         if result.returncode:
             raise AssertionError(result.stdout + result.stderr)
@@ -30,7 +30,7 @@ class SoftmaxStableFPTests(unittest.TestCase):
     def test_original_sources_and_real_spec_independence(self):
         output = self.check_lean('''
 import bench.examples.SoftmaxStable.Proofs.FP
-import bench.examples.SoftmaxStable.Correct
+import bench.examples.SoftmaxStable.RealCorrect
 open VeriTile Triton VeriTile.Bench.Examples
 example (B : Nat) :
     (SoftmaxStableCorrect.naiveIO B).kernel =

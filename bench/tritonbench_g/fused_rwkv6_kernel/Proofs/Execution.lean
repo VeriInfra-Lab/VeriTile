@@ -12,18 +12,19 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 def parts (c : Shape) : Triton.Source.DynamicRange :=
-  (Triton.Source.dynamicRange? (kernel c).surfaceBody "_i").getD
+  (Triton.Source.dynamicRange? (kernel c).surfaceBody "_").getD
     ⟨[],.constNat 0,.constNat 0,.constNat 0,[],[]⟩
 
 theorem source_body (c : Shape) : (kernel c).surfaceBody=
-    (parts c).before++[.forRange "_i" 0 c.T 1 (parts c).body]++(parts c).after := by
+    (parts c).before++[.forRange "_" 0 c.T 1 (parts c).body]++(parts c).after := by
   rfl
 
 /-- Exact scalar operations after reading the FP32 storage channel, including
 the explicit source cast. No arithmetic identity, finite-value assumption or compiler law. -/
 def ops (M : Algebra α) : Ops α where
   zero := M.literal (some .fp32) .real 0
-  loadCast := M.cast (some .fp32) .real .real
+  loadCast := fun x => M.cast (some .fp32) .real .real (M.fp32Load x)
+  seedLoadCast := M.cast (some .fp32) .real .real
   storeCast := M.cast (some .fp32) .real .real
   add := M.binary (some .fp32) .real .add
   mul := M.binary (some .fp32) .real .mul
@@ -89,20 +90,20 @@ def bias (M : Algebra α) (c : Shape) (s : State α) : Values α .real [c.BK] :=
 
 def entry (M : Algebra α) (c : Shape) (s : State α) :
     {t : State α // run (engine M) (parts c).before s=some t} := by
-  by_cases hi : c.initial=Bool.true
+  by_cases hr : c.reverse=Bool.true <;> by_cases hi : c.initial=Bool.true
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [parts,kernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
+    simp [parts,kernel,originalKernel,ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,
     Option.map,Option.getD,run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralMod,numericLt,natLt,
-    bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,hi]
+    bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,hi,hr]
     rfl
 
 @[simp] theorem entry_mem (M : Algebra α) (c : Shape) (s : State α) :
     (entry M c s).val.mem=s.mem := by
-  by_cases hi : c.initial=Bool.true <;> simp [entry,hi]
+  by_cases hr : c.reverse=Bool.true <;> by_cases hi : c.initial=Bool.true <;> simp [entry,hi,hr]
 
 end
 end VeriTile.Bench.Repairs.FusedRwkv6KernelScalarABIChecked.Source

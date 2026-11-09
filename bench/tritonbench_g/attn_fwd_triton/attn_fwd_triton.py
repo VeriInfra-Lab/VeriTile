@@ -177,3 +177,101 @@ def forward_repaired(q, k, v, q_scale, k_scale):
             num_warps=8,  
             num_stages=3)
     return o
+
+
+# Separate repair candidate; original SHA256: de0fb466adb7844b34f53e44225c25411faad342e4192e8f9d5bbe71f154df12
+
+
+
+@triton.jit
+def _attn_fwd_repaired_candidate(Q, K, V, Q_scale, K_scale, Out,
+              stride_qz, stride_qh, stride_qm, stride_qk,
+              stride_kz, stride_kh, stride_kn, stride_kk,
+              stride_vz, stride_vh, stride_vk, stride_vn,
+              stride_oz, stride_oh, stride_om, stride_on,
+              Z, H, N_CTX,
+              HEAD_DIM: tl.constexpr,
+              BLOCK_DMODEL: tl.constexpr,
+              BLOCK_M: tl.constexpr,
+              BLOCK_N: tl.constexpr,
+              STAGE: tl.constexpr):
+    n_ctx = tl.cast(N_CTX, tl.int64)
+    stride_kn64 = tl.cast(stride_kn, tl.int64)
+    stride_vk64 = tl.cast(stride_vk, tl.int64)
+    start_m = tl.program_id(0).to(tl.int64)
+    off_hz = tl.program_id(1).to(tl.int64)
+
+    off_z = off_hz // H
+    off_h = off_hz - (off_hz // H) * H
+    qvk_offset = off_z.to(tl.int64) * stride_qz + off_h.to(tl.int64) * stride_qh
+    k_offset = off_z * stride_kz + off_h * stride_kh
+    v_offset = off_z * stride_vz + off_h * stride_vh
+    o_offset = off_z * stride_oz + off_h * stride_oh
+    q_scale_offset = off_hz * tl.cdiv(n_ctx, BLOCK_M)
+    k_scale_offset = off_hz * tl.cdiv(n_ctx, BLOCK_N)
+
+    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_n = tl.arange(0, BLOCK_N).to(tl.int64)
+    offs_k = tl.arange(0, BLOCK_DMODEL).to(tl.int64)
+    Q_ptrs = Q + qvk_offset + offs_m[:, None] * stride_qm + offs_k[None, :] * stride_qk
+    Q_scale_ptr = Q_scale + q_scale_offset + start_m
+    K_ptrs = K + k_offset + offs_k[:, None] * stride_kk + offs_n[None, :] * stride_kn
+    K_scale_ptr = K_scale + k_scale_offset
+    V_ptrs = V + v_offset + offs_n[:, None] * stride_vk + offs_k[None, :] * stride_vn
+    O_block_ptr = Out + o_offset + offs_m[:, None] * stride_om + offs_k[None, :] * stride_on
+    m_i = tl.zeros([BLOCK_M], dtype=tl.float32) - float("inf")
+    l_i = tl.zeros([BLOCK_M], dtype=tl.float32) + 1.0
+    acc = tl.zeros([BLOCK_M, BLOCK_DMODEL], dtype=tl.float32)
+    q = tl.load(Q_ptrs, mask=(offs_m[:, None] < n_ctx) & ((tl.arange(0, BLOCK_DMODEL) < HEAD_DIM)[None, :]), other=0)
+    q_scale = tl.load(Q_scale_ptr)
+    acc, l_i, m_i = _attn_fwd_inner_repaired(acc, l_i, m_i, q, q_scale, K_ptrs, K_scale_ptr, V_ptrs,
+                                    start_m, stride_kn64, stride_vk64, BLOCK_DMODEL,
+                                    BLOCK_M, HEAD_DIM, BLOCK_N,
+                                    4 - STAGE, offs_m, offs_n, n_ctx)
+    acc, l_i, _ = _attn_fwd_inner_repaired(acc, l_i, m_i, q, q_scale, K_ptrs, K_scale_ptr, V_ptrs,
+                                  start_m, stride_kn64, stride_vk64, BLOCK_DMODEL,
+                                  BLOCK_M, HEAD_DIM, BLOCK_N,
+                                  2, offs_m, offs_n, n_ctx)
+    acc = acc / l_i[:, None]
+    tl.store(O_block_ptr, acc.to(Out.type.element_ty), mask=(offs_m[:, None] < n_ctx) & ((tl.arange(0, BLOCK_DMODEL) < HEAD_DIM)[None, :]))
+
+
+
+
+
+def forward_repaired_candidate(q, k, v, q_scale, k_scale):
+    _input_contract(q, k, v, q_scale, k_scale)
+    BLOCK_M = 128
+    BLOCK_N = 64
+    assert q.ndim == k.ndim == v.ndim == 4
+    assert q.shape == k.shape == v.shape
+    assert q.device == k.device == v.device == q_scale.device == k_scale.device
+    HEAD_DIM_Q, HEAD_DIM_K = q.shape[-1], k.shape[-1]
+    HEAD_DIM_V = v.shape[-1]
+    assert HEAD_DIM_Q == HEAD_DIM_K and HEAD_DIM_K == HEAD_DIM_V
+    o = torch.empty_like(q, dtype=torch.bfloat16)
+    # Preserve the original unused workspace allocation and its API outcome.
+    M = torch.empty((q.shape[0], q.shape[1], q.shape[2]), device=q.device, dtype=torch.float32)
+    if q.numel() == 0:
+        return o
+    assert q_scale.numel() >= q.shape[0] * q.shape[1] * triton.cdiv(q.shape[2], BLOCK_M)
+    assert k_scale.numel() >= q.shape[0] * q.shape[1] * triton.cdiv(q.shape[2], BLOCK_N)
+    _launch_contract(q, k, v, q_scale, k_scale, o)
+    stage = 3
+
+    grid = (triton.cdiv(q.shape[2], BLOCK_M), q.shape[0] * q.shape[1], 1)
+    with torch.cuda.device(q.device):
+        _attn_fwd_repaired_candidate[grid](
+            q, k, v, q_scale, k_scale, o,
+            q.stride(0), q.stride(1), q.stride(2), q.stride(3),
+            k.stride(0), k.stride(1), k.stride(2), k.stride(3),
+            v.stride(0), v.stride(1), v.stride(2), v.stride(3),
+            o.stride(0), o.stride(1), o.stride(2), o.stride(3),
+            q.shape[0], q.shape[1],
+            N_CTX=q.shape[2],
+            BLOCK_M=BLOCK_M, BLOCK_N=BLOCK_N, HEAD_DIM=HEAD_DIM_K,
+            BLOCK_DMODEL=max(16, triton.next_power_of_2(HEAD_DIM_K)),
+            STAGE=stage,
+            num_warps=8,
+            num_stages=3)
+    return o

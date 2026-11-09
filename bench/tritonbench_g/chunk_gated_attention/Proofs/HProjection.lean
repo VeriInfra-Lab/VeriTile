@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_gated_attention.Sources.Kernels
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHProgram
+import bench.tritonbench_g.chunk_gated_attention.Kernels
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealHProgram
 import VeriTile.Triton.Float.Erasure
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.HSource
 open VeriTile.Triton
@@ -32,7 +32,7 @@ def projection (p : Parameters) (r : RealHProgram.Regions)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [kernel,h,NativeSource.hOriginalTyped,NativeSource.hBody,NativeSource.hSumLeftTyped,
+    simp only [kernel,h,NativeSource.hOriginalTyped,NativeSource.hKernel,NativeSource.hSumLeftTyped,
       NativeSource.hSumLeftBody,ComputeKernel.withScalarArguments,ScalarArgument.integer,
       ScalarArgument.statement,ComputeKernel.surfaceBody,ComputeKernel.toAlgorithm?,
       ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,

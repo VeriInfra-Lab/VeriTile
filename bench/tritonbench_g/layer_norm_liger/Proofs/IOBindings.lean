@@ -4,7 +4,7 @@ import bench.tritonbench_g.layer_norm_liger.Proofs.Frame
 
 namespace VeriTile.Bench.Repairs.LayerNormLiger.LayerIO
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 variable {α : Type} [Inhabited α]
 set_option linter.unusedSimpArgs false

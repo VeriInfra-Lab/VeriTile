@@ -30,8 +30,8 @@ theorem inputs {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (n c
     (positive : 0<p.count) :
     GatherInput p initial n capacity (fun q => (CacheIO.row M p n capacity xs q).toNat)
       (CacheIO.payload M p n capacity xs) := by
-  obtain ⟨shape,width,cacheDistinct,rowsDistinct,capacityBound,rows⟩ := domain positive
-  refine ⟨shape,width,cacheDistinct,rowsDistinct,?_,fun q hq => (rows q hq).2,capacityBound,?_⟩
+  obtain ⟨shape,width,cacheDistinct,rowsDistinct,capacityBound,payloadBound,rows⟩ := domain positive
+  refine ⟨shape,width,cacheDistinct,rowsDistinct,?_,fun q hq => (rows q hq).2,capacityBound,?_,payloadBound⟩
   · intro q hq
     rw [Int.toNat_of_nonneg (rows q hq).1]
     have pin := cells (0 : Fin 2) (⟨q,hq⟩,PUnit.unit) positive
@@ -91,7 +91,7 @@ theorem safe_grid {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     let job : Invocation α := {kernel:=source p,backend:=M,pids:=fun ax => if ax=0 then k else 0}
     have h := run_input M p s n capacity rows cache (input positive) k
     have hi : GatherInput p (job.initial (runTiles M p s k)) n capacity rows cache := by
-      refine ⟨h.shape,h.width,h.distinctCache,h.distinctRows,?_,h.rowBound,h.capacityBound,?_⟩
+      refine ⟨h.shape,h.width,h.distinctCache,h.distinctRows,?_,h.rowBound,h.capacityBound,?_,h.payloadBound⟩
       · intro q hq
         simpa only [Invocation.initial_mem] using h.table q hq
       · intro q hq

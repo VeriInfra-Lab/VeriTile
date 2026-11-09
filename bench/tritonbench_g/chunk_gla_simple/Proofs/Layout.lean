@@ -1,6 +1,6 @@
-import bench.tritonbench_g.chunk_gla_simple.Sources.Mathematical_RealFlat
+import VeriTile.Triton.Float.Structural
+import bench.tritonbench_g.chunk_gla_simple.Proofs.Sources.Mathematical_RealFlat
 import VeriTile.Triton.Launch
-import bench.tritonbench_g.chunk_gla_simple.Sources.PhysicalDirect
 import bench.tritonbench_g.chunk_gla_simple.Proofs.Geometry
 
 /-! Host tensor/layout binding. The output is fresh, contiguous and FP32. The

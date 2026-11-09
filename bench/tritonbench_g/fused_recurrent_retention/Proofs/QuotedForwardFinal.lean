@@ -27,8 +27,8 @@ theorem forward_final_values {α : Type} [Inhabited α] (a : Arithmetic α)
       (Program.forwardParts (layout s b) forwardRegions seed final).after current =
       some (forwardFinalResult a s b initial current seed final pid) := by
   cases final <;>
-    simp [Program.forwardParts,Program.forward,Surface.forward,
-      ComputeKernel.surfaceBody,Source.dynamicRange?,run,step,FP.Structural.evalExpr,
+    simp [Program.forwardParts,Program.forward,Surface.forward,Surface.forwardKernel,
+      ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
       evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,
       FP.Structural.store,Region.cast,layout,forwardRegions,Staged.algebra,
       h.keyId,h.valueId,h.headId,h.maskKV,h.carry,forwardFinalResult,

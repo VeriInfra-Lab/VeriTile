@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_retention.AddressSource
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.Support.AddressSource
 import bench.tritonbench_g.fused_recurrent_retention.Proofs.Backward
 namespace VeriTile.Bench.Repairs.FusedRecurrentRetention
 noncomputable section

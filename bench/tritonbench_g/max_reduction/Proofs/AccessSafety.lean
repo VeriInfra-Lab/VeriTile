@@ -16,7 +16,7 @@ theorem stage (e : Source.Engine α) (second candidate : Bool) (inp out : Region
     (ho : stageOutput second (s.pids 0)<bounds out) :
     TraceSafe e.algebra bounds (stageSource second candidate inp out N B) s := by
   cases second <;> cases candidate <;>
-    simp [stageSource,stage1, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, stage1Commuted,stage2, stage2Complement, TraceSafe,
+    simp [stageSource,stage1Kernel, VeriTile.Bench.Repairs.MaxReduction.stage1Kernel, VeriTile.Bench.Repairs.MaxReduction.stage1CommutedKernel, VeriTile.Bench.Repairs.MaxReduction.stage2Kernel, VeriTile.Bench.Repairs.MaxReduction.stage2ComplementKernel, VeriTile.Bench.Repairs.MaxReduction.dimensionKernel, VeriTile.Bench.Repairs.MaxReduction.dimensionCommutedKernel, stage1CommutedKernel,stage2Kernel, stage2ComplementKernel, TraceSafe,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -24,6 +24,7 @@ theorem stage (e : Source.Engine α) (second candidate : Bool) (inp out : Region
       ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,
       Source.Engine.algebra,Source.reduceWith,TileShape.axisDim,hb,State.setReg,
       Nat.mul_comm,Nat.not_le,stageStart,stageOutput] at *
+  all_goals try simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt, Nat.mul_comm] at *
   all_goals exact ⟨hi,ho⟩
 
 theorem dimension (e : Source.Engine α) (candidate : Bool) (inp ov oi : RegionName)
@@ -33,9 +34,9 @@ theorem dimension (e : Source.Engine α) (candidate : Bool) (inp ov oi : RegionN
     (hv : ∀ i : Fin BM,s.pids 0*BM+i.val<M → (s.pids 0*BM+i.val)*K+s.pids 1<bounds ov)
     (hx : ∀ i : Fin BM,s.pids 0*BM+i.val<M → (s.pids 0*BM+i.val)*K+s.pids 1<bounds oi) :
     TraceSafe e.algebra bounds
-      (if candidate then dimensionCommuted inp ov oi M N K BM BN else MaxReduction.dimension inp ov oi M N K BM BN) s := by
+      (if candidate then dimensionCommutedKernel inp ov oi M N K BM BN else MaxReduction.dimensionKernel inp ov oi M N K BM BN) s := by
   cases candidate <;>
-    simp [MaxReduction.dimension,dimensionCommuted, VeriTile.Bench.Repairs.MaxReduction.stage1, VeriTile.Bench.Repairs.MaxReduction.stage1Commuted, VeriTile.Bench.Repairs.MaxReduction.stage2, VeriTile.Bench.Repairs.MaxReduction.stage2Complement, VeriTile.Bench.Repairs.MaxReduction.dimension, VeriTile.Bench.Repairs.MaxReduction.dimensionCommuted, TraceSafe,ComputeKernel.surfaceBody,
+    simp [MaxReduction.dimensionKernel,dimensionCommutedKernel, VeriTile.Bench.Repairs.MaxReduction.stage1Kernel, VeriTile.Bench.Repairs.MaxReduction.stage1CommutedKernel, VeriTile.Bench.Repairs.MaxReduction.stage2Kernel, VeriTile.Bench.Repairs.MaxReduction.stage2ComplementKernel, VeriTile.Bench.Repairs.MaxReduction.dimensionKernel, VeriTile.Bench.Repairs.MaxReduction.dimensionCommutedKernel, TraceSafe,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -43,6 +44,7 @@ theorem dimension (e : Source.Engine α) (candidate : Bool) (inp ov oi : RegionN
       ComputeDType.eraseDType,numeric,bop,natLt,natLe,numericLt,numericLe,Region.cast,
       Source.Engine.algebra,Source.reduceWith,Source.indexedWith,TileShape.axisDim,
       TileShape.insertAxisIndex,toFloat,ofFloat,hn,Nat.ne_of_gt hn,State.setReg,Nat.mul_comm] at *
+  all_goals try simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt, Nat.mul_comm] at *
   all_goals exact ⟨hi,hv,hx⟩
 
 #axiomsClean stage

@@ -17,15 +17,15 @@ theorem trace {α : Type} [Inhabited α] (rest : Algebra α) (p : Layout)
       s.pids 0 * p.BI + i.val < bounds p.index)
     (inputs : ∀ i, TypedGather.active p s i → TypedGather.inputOffset p s i < bounds p.source)
     (outputs : ∀ i, TypedGather.active p s i → TypedGather.outputOffset p s i < bounds p.output) :
-    FP.Structural.TraceSafe (copyBackend rest) bounds (kernel p) s := by
-  simp (config := { maxSteps := 500000 }) [FP.Structural.TraceSafe, kernel,
+    FP.Structural.TraceSafe (copyBackend rest) bounds (sourceKernel p) s := by
+  simp (config := { maxSteps := 500000 }) [FP.Structural.TraceSafe, sourceKernel,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
     Safety.maskActive_unfold, step, evalExpr, evalComputeOp, evalOp_unfold,
-    evalOffsets, evalDeltas, Option.bind, copyBackend, natLt, ComputeDType.eraseDType,
+    evalOffsets, evalDeltas, Option.bind, copyBackend, natLt, numericLt, ComputeDType.eraseDType,
     numeric, bop, ofFloat, toFloat, Region.cast, FP.Structural.store,
-    State.setReg, TileShape.dropInsertedIndex, Broadcast.leftIndex, Broadcast.rightIndex]
+    State.setReg, -Nat.cast_mul, -Nat.cast_add, ←Int.natCast_mul, ←Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt, TileShape.dropInsertedIndex, Broadcast.leftIndex, Broadcast.rightIndex]
   refine ⟨indices, ?_, ?_⟩
   · intro i j hi hj
     simpa [TypedGather.inputOffset, TypedGather.row, TypedGather.indexOffset,

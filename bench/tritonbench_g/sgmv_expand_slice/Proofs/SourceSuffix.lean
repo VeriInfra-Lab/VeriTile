@@ -93,7 +93,7 @@ theorem suffix_run {α : Type} [Inhabited α] (M : Algebra α)
   rcases abi with ⟨input,weight,output,starts,lengths,adapters,add⟩
   cases weight <;> cases output <;> cases add <;>
     simp [SourceParts.suffix,SourceParts.active,SourceParts.afterTile,SourceParts.afterLength,
-      SourceParts.thenBody,SourceParts.outer,kernel,sourceFace,sourceHalfSingle323232,
+      SourceParts.thenBody,SourceParts.outer,kernel,sourceFace,sourceHalfSingle323232,Pasted.originalKernel,Pasted.candidateKernel,
       sourceHalfHalf323232,sourceHalfBfloat323232,sourceBfloatSingle323232,
       sourceBfloatHalf323232,sourceBfloatBfloat323232,ComputeKernel.surfaceBody,
       ScalarFormat.dtype,LowFormat.scalar,run,step,evalExpr,evalComputeOp,evalOp_unfold,

@@ -26,10 +26,10 @@ private theorem references_eq (M : Algebra α) (p : Parameters) (sep : Separated
   have prod_eq : products M p s = products M p t := by
     funext i
     simp only [products, queryValue, keyValue, queryOffset, keyOffset, keyLocation,
-      active, windowIndex, length, token, hp, hq, hk, hl, hn]
+      active, windowIndex, length, lengthWord, token, hp, hq, hk, hl, hn]
   refine ⟨?_, ?_, ?_⟩
   all_goals funext i
-  all_goals simp only [active, windowIndex, length, token, outputOffset, score,
+  all_goals simp only [active, windowIndex, length, lengthWord, token, outputOffset, score,
     products, queryValue, keyValue, queryOffset, keyOffset, keyLocation,
     hp, hq, hk, hl, hs, hn, prod_eq]
 
@@ -40,7 +40,7 @@ private theorem start_reads (p : Parameters) (g : Whole.Grid) (i : Program)
 def Post (M : Program → Algebra α) (p : Parameters) (g : Whole.Grid) (jobs : List Program)
     (s t : State α) : Prop :=
   (∀ a ∈ jobs, ∀ i, active p (start g a s) i →
-    t.mem p.output (outputOffset p (start g a s) i) = .mk .fp32 (score (M a) p (start g a s) i)) ∧
+    t.mem p.output (outputOffset p (start g a s) i) = .mk .real (score (M a) p (start g a s) i)) ∧
   (∀ r o, Outside p g jobs s r o → t.mem r o = s.mem r o)
 
 def runPrograms (M : Program → Algebra α) (p : Parameters) (g : Whole.Grid) :

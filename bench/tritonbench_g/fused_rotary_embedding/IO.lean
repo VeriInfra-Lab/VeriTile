@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.LogicalProgramIO
 import Mathlib.Logic.Equiv.Fin.Basic
-import bench.tritonbench_g.fused_rotary_embedding.InvocationIO
+import bench.tritonbench_g.fused_rotary_embedding.Proofs.Support.InvocationIO
 import bench.tritonbench_g.fused_rotary_embedding.Proofs.Logical
 
 namespace VeriTile.Bench.Repairs.FusedRotaryEmbeddingTileChecked.PublicIO

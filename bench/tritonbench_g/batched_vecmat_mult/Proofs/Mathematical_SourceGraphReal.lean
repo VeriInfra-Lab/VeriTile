@@ -30,8 +30,8 @@ K element and no execution, output-memory or assumed accumulator equation. -/
 def realTensorExpected (decode : ValueProofs.Word → ℝ) (p : Parameters)
     (mem : Memory) (m n count : Nat) : ℝ :=
   ∑ c : Fin count, ∑ e : Fin p.BK,
-    realValue decode ((mem p.A (m*p.K+(c.val*p.BK+e.val))).read .real) *
-    realValue decode ((mem p.B (m*p.N*p.K+n*p.K+(c.val*p.BK+e.val))).read .real)
+    realValue decode ((mem p.A (m*p.K+(c.val*p.BK+e.val))).read .fp32) *
+    realValue decode ((mem p.B (m*p.N*p.K+n*p.K+(c.val*p.BK+e.val))).read .fp32)
 
 theorem selected_graph_real_correct (decode : ValueProofs.Word → ℝ) (plans : PlanSelector)
     (p : Parameters) (mem : Memory) (m n count : Nat) :

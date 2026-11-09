@@ -97,7 +97,7 @@ theorem loss_scalar (p : Parameters) (initial : State (WithBot ℝ))
       KernelNative.sumValue,KernelNative.sumTile,Source.sum,
       Source.loadedLogits,Source.column,Source.maximum,Source.unary,
       KernelNative.lseValue,KernelNative.lseTile,KernelNative.maxValue,KernelNative.maxTile,
-      KernelNative.logits,scalarMemory,Source.Cell.read,algebra,lanes,RealSource.algebra,
+      KernelNative.logits,KernelNative.loadedLogits,scalarMemory,Source.Cell.read,algebra,lanes,RealSource.algebra,
       RuntimeArgs.fp,RuntimeArgs.classes,abi.smoothing,abi.squareScale,abi.totalClasses,arguments] <;> rfl
 
 /-- The same bridge for one backward lane. It contains no execution or
@@ -112,7 +112,7 @@ theorem gradient_scalar (p : Parameters) (initial : State (WithBot ℝ))
     by_cases ignored : KernelNative.target p initial=p.ignored
     all_goals
       simp [KernelNative.gradientValue,KernelNative.inputLSE,KernelNative.inputUpstream,
-        Source.backwardValues,hs,ignored,← target_scalar,KernelNative.logits,
+        Source.backwardValues,hs,ignored,← target_scalar,KernelNative.logits,KernelNative.loadedLogits,
         Source.loadedLogits,Source.column,Source.load,Source.logitAddress,
         Source.fp,Source.nat,Source.binary,Source.unary,
         scalarMemory,Source.Cell.read,algebra,RealSource.algebra,

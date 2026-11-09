@@ -26,7 +26,7 @@ theorem real_source_inputs (c : Host.Call) (counts : Fin c.batch → Nat) (work 
     have hk' : k < counts b := by simpa [len] using hk
     have value := source_logit (fun _ => RealModel.model) id c (fun _ _ _ => id) counts work
       xs s bound b h k (0 : Fin 64) (by simpa using hk')
-    simpa only [RealModel.keyLogicOffset,logicOffset,Fin.val_zero,Nat.add_zero,id_eq] using value
+    simpa only [RealModel.keyLogicOffset,logicOffset,Fin.val_zero,Nat.add_zero,Int.natCast_zero,Int.add_zero,id_eq] using value
   · intro k hk d
     have hk' : k < counts b := by simpa [len] using hk
     have value := source_value (fun _ => RealModel.model) id c (fun _ _ _ => id) counts work
@@ -38,7 +38,7 @@ theorem real_source_inputs (c : Host.Call) (counts : Fin c.batch → Nat) (work 
       rfl
     apply Eq.trans (b := valueAt xs b h k d) _ coe
     simpa only [RealModel.keyValueOffset,valueOffset,location,active,Fin.val_zero,
-      Nat.add_zero,if_pos hk,id_eq] using value
+      Nat.add_zero,Int.natCast_zero,Int.add_zero,if_pos hk,id_eq] using value
 
 theorem row_mathematical (c : Host.Call) (counts : Fin c.batch → Nat) (work : List Host.Job)
     (xs : Inputs (WithBot ℝ) c counts) (s : State (WithBot ℝ))
@@ -75,10 +75,10 @@ theorem real_implements (c : Host.Call) (counts : Fin c.batch → Nat)
   subst port
   have result := out (0 : Fin 1) i active
   change mapCell id (t.mem "Out" (Host.address c ⟨i.1.val,i.2.1.val⟩ i.2.2.1.val))=
-    .mk .fp32 (↑(RealModel.target (counts i.1) (logitAt xs i.1 i.2.1)
+    .mk .real (↑(RealModel.target (counts i.1) (logitAt xs i.1 i.2.1)
       (fun k => (valueAt xs i.1 i.2.1 k i.2.2.1).unbotD 0)))
   change mapCell id (t.mem "Out" (Host.address c ⟨i.1.val,i.2.1.val⟩ i.2.2.1.val))=
-    .mk .fp32 (rawRow (fun _ => RealModel.model) id c counts xs i.1 i.2.1 i.2.2.1) at result
+    .mk .real (rawRow (fun _ => RealModel.model) id c counts xs i.1 i.2.1 i.2.2.1) at result
   rw [row_mathematical c counts work xs s bound domain] at result
   exact result
 

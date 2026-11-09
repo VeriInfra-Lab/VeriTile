@@ -126,25 +126,25 @@ theorem candidate_implements (cfg : FP.Config) (base : NativeModel (FP.Value .fp
       · change mapCell (interpret M) (v.mem "out"
           (packed c j.1.val j.2.1.val j.2.2.1.val j.2.2.2.1.val)) = _
         rw [(hvalues _ _ _ _ j.1.isLt j.2.1.isLt j.2.2.1.isLt j.2.2.2.1.isLt).1]
-        change Cell.mk .real (interpret M (logicalPrepared c
+        change Cell.mk .fp32 (M.cast .real .fp32 (interpret M (logicalPrepared c
           (reversePrimitives c (primitives M c plan)) hasBias useSoftplus
-          (.input lower) (.input upper) s j.1.val j.2.1.val j.2.2.1.val j.2.2.2.1.val)) = _
+          (.input lower) (.input upper) s j.1.val j.2.1.val j.2.2.1.val j.2.2.2.1.val))) = _
         rw [reverse_prepared]
-        exact congrArg (Cell.mk .real)
+        exact congrArg (fun x => Cell.mk .fp32 (M.cast .real .fp32 x))
           (preparation M c plan hasBias useSoftplus lower upper values s hin
             _ _ _ _ j.1.isLt)
       · change mapCell (interpret M) (v.mem "sum"
           (packed c j.1.val j.2.1.val j.2.2.1.val j.2.2.2.1.val)) = _
         rw [(hvalues _ _ _ _ j.1.isLt j.2.1.isLt j.2.2.1.isLt j.2.2.2.1.isLt).2]
         have hj : j.2.2.2.1.val < c.BC := lt_of_lt_of_le j.2.2.2.1.isLt c.chunk_le_BC
-        change Cell.mk .real (interpret M (logicalCumulative c
+        change Cell.mk .fp32 (M.cast .real .fp32 (interpret M (logicalCumulative c
           (reversePrimitives c (primitives M c plan)) hasBias useSoftplus
           (.input lower) (.input upper) s j.1.val j.2.1.val j.2.2.1.val
-            ⟨j.2.2.2.1.val,hj⟩)) = Cell.mk .real
-          (if h : j.2.2.2.1.val < c.BC then cumulativeValue M c plan (Interface.logicalInputs c values)
-            hasBias useSoftplus lower upper j.1.val j.2.1.val j.2.2.1.val ⟨j.2.2.2.1.val,h⟩ else default)
+            ⟨j.2.2.2.1.val,hj⟩))) = Cell.mk .fp32
+          (M.cast .real .fp32 (if h : j.2.2.2.1.val < c.BC then cumulativeValue M c plan (Interface.logicalInputs c values)
+            hasBias useSoftplus lower upper j.1.val j.2.1.val j.2.2.1.val ⟨j.2.2.2.1.val,h⟩ else default))
         rw [dif_pos hj]
-        exact congrArg (Cell.mk .real)
+        exact congrArg (fun x => Cell.mk .fp32 (M.cast .real .fp32 x))
           ((reverse_cumulative cfg base c plan hasBias useSoftplus (.input lower) (.input upper)
             s j.1.val j.2.1.val j.2.2.1.val ⟨j.2.2.2.1.val,hj⟩).trans
             (cumulative M c plan hasBias useSoftplus lower upper values s hin

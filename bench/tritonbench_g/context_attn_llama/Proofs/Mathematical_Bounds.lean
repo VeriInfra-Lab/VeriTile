@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_llama.Sources.Mathematical_Formula
+import bench.tritonbench_g.context_attn_llama.Proofs.Sources.Mathematical_Formula
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnLlama.Bounds

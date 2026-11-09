@@ -24,7 +24,7 @@ theorem registers (M : Algebra α) (c : Shape) (s : SeedStrides) (seed : Bool)
     v.regs .ptr [64,16] "S"=some (ptr "S" (off c p (c.N-2) 0)) ∧
     v.regs .ptr [64,16] "DI"=some (ptr "DI" (off c p (c.N-2) 0)) ∧
     v.regs .ptr [64,16] "DS"=some (ptr "DS" (off c p (c.N-1) 0)) ∧
-    v.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gate c p 0)) ∧
+    v.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gate c p 0)) ∧
     v.regs .ptr [] "DG"=some (fun _ : TileIndex [] => (("DG" : RegionName),gradient c p 0)) ∧
     v.regs .real [64,16] "Dacc"=some (fun _ => KernelReference.zero M) := by
   simp [KernelPrefix.backward,ptr,off,gate,gradient,address,layout,launch,gateAddress,gradientAddress,

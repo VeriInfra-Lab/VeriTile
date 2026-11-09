@@ -37,6 +37,7 @@ theorem scalar_real (N B : Nat) (eps : ℝ) (xs dys : Nat → ℝ) (i : Nat) (co
   dsimp only [Tile.scalar,Tile.variance]
   rw [L2NormTriton1.RealExecution.variance_real N B xs cover,dot_real N B xs dys cover]
   simp only [algebra,L2NormTriton1.RealExecution.algebra,formula]
+  simp only [id_eq]
   ring
 
 /-- Reuse the unchanged original independent mathematical helper. -/

@@ -3,6 +3,7 @@ import bench.tritonbench_g.bmm_chunk_fwd.Proofs.NativeControl
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.NativeControl
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.BmmChunkFwd
+open FPSuccess
 noncomputable section
 
 theorem control_values (h : Host.Call) (c : Host.Config) (hc : c∈Host.configurations)
@@ -39,11 +40,11 @@ def active (h : Host.Call) (c : Host.Config) (p : Geometry.PID h c) : Bool :=
   !h.causal || (n h c p*BitVec.ofNat 64 c.N).slt ((m h c p+1)*BitVec.ofNat 64 c.M)
 
 def Controls {α : Type} (h : Host.Call) (c : Host.Config) (p : Geometry.PID h c) (t : State α) : Prop :=
-  t.regs .nat [] "pid_b"=some (fun _ => (b h c p).toNat) ∧
-  t.regs .nat [] "pid_c"=some (fun _ => (ch h c p).toNat) ∧
-  t.regs .nat [] "pid_h"=some (fun _ => (head h c p).toNat) ∧
-  t.regs .nat [] "pid_m"=some (fun _ => (m h c p).toNat) ∧
-  t.regs .nat [] "pid_n"=some (fun _ => (n h c p).toNat)
+  t.regs .int [] "pid_b"=some (fun _ => ((b h c p).toNat : Int)) ∧
+  t.regs .int [] "pid_c"=some (fun _ => ((ch h c p).toNat : Int)) ∧
+  t.regs .int [] "pid_h"=some (fun _ => ((head h c p).toNat : Int)) ∧
+  t.regs .int [] "pid_m"=some (fun _ => ((m h c p).toNat : Int)) ∧
+  t.regs .int [] "pid_n"=some (fun _ => ((n h c p).toNat : Int))
 
 /-- The actual source prologue executes with exactly the native signed-cast,
 signed quotient/remainder and ceil controls. Its evaluated causal guard agrees
@@ -72,10 +73,19 @@ theorem source_loop_stop {α : Type} [Inhabited α] (o : FPSuccess.Ops α)
     (h : Host.Call) (c : Host.Config) (hc : c∈Host.configurations)
     (metadata : Metadata h c) (p : Geometry.PID h c) (s : State α) :
     evalOp (engine o.algebra) none (FPSuccess.parts h c).stop s=
-      some (fun _ => (ceil h.shape.K c.K).toNat) := by
+      some (fun _ => ((ceil h.shape.K c.K).toNat : Int)) := by
   rw [(control_values h c hc metadata p).2.2.2.2.2]
-  cases ha : h.aStorage <;> cases hb : h.bStorage <;>
-    simp only [FPSuccess.parts,FPSuccess.branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+  have bound_source : (parts h c).stop =
+      Op.truncDiv .nil (.add .int .nil (.castNatToInt (.constNat h.shape.K))
+        (.sub .int .nil (.constInt (Int.ofNat c.K)) (.constInt 1)))
+        (.constInt (Int.ofNat c.K)) := by
+    cases ha : h.aStorage <;> cases hb : h.bStorage <;>
+      simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+  rw [bound_source,FP.Structural.eval_truncDiv]
+  simp [FP.Structural.evalOp_unfold,FP.Structural.numeric,FP.Structural.bop,
+    Option.bind,ControlArithmetic.cdiv_signed_int,Host.cdiv]
+  funext i
+  exact ControlArithmetic.cdiv_signed_int h.shape.K c.K
 
 #axiomsClean source_prologue
 #axiomsClean source_loop_stop

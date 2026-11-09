@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_matmul_quantization.ProducerPairIO
+import bench.tritonbench_g.int8_matmul_quantization.Proofs.Support.ProducerPairIO
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.ProducerIndices
 
 namespace VeriTile.Bench.Repairs.Int8MatmulQuantization.I32Safe.ProducerIndicesIO

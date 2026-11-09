@@ -88,7 +88,7 @@ theorem block_local (engine : Engine A) (f g : Nat → A) (scale : A)
 theorem block_exec [Inhabited A] (engine : Engine A) (x z : RegionName)
     (D B : Nat) (hasScale : Bool) (scale : A) (s : State A)
     (hB : 0<B) (parameter : s.regs .real [] "scale"=some (fun _ => scale)) :
-    ∃ final,FP.Structural.exec engine.algebra (rowBlock x z D B hasScale) s=some final ∧
+    ∃ final,FP.Structural.exec engine.algebra (rowBlockKernel x z D B hasScale) s=some final ∧
       final.mem=(s.write z (Source.outputAddress (s.pids 0) (s.pids 1) D B)
         (.mk .real (blockValue engine (fun i => (s.mem x i).read .real) scale
           (s.pids 0) (s.pids 1) D B hasScale))).mem := by

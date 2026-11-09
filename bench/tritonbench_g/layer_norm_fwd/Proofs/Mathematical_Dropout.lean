@@ -67,29 +67,29 @@ theorem dropoutValueOp_eval (seed : Int) (block : Nat) (p : ℝ)
 
 def dropoutMaskStmt (mask : RegionName) (N block : Nat) : Stmt :=
   .store .bool [block]
-    (.region mask.cast (.add .nat .scalarL
-      (.mul .nat .nil (.ref .nat [] "row") (.constNat N))
-      (.ref .nat [block] "cols")))
-    (.ref .bool [block] "keep_mask")
+    (.region mask.cast (maskOffsets N block))
+    (boolStoreValue block)
     (.mask (.lt .nat .scalarR (.ref .nat [block] "cols") (.constNat N)))
 
 theorem dropoutMaskStmt_exec (mask : RegionName) (row N block : Nat)
     (seed : Int) (p : ℝ) (s : BlockState)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hkeep : s.regs .bool [block] "keep_mask" = some (keepTile seed p block)) :
     stepStmt (dropoutMaskStmt mask N block) s =
       some (Memory.scatter mask (row*N) N block
         (fun col => MemCell.of .bool (Formula.keep seed p col)) s) := by
-  simp [dropoutMaskStmt, stepStmt, evalOp_ref, evalOp_lt, evalOp_add, evalOp_mul,
+  simp [dropoutMaskStmt,maskOffsets,boolStoreValue,Op.boolToInt, stepStmt,evalOp.eq_def, evalOp_ref, evalOp_lt, evalOp_add, evalOp_mul,
     evalOp_constNat, hrow, hcols, hkeep, Tile.bop, Tile.cop,
     ComparableDType.lt, NumericDType.add, NumericDType.mul, keepTile,
     Memory.scatter_fold, Memory.bool_store, Region.cast]
+  all_goals simp only [←Nat.cast_mul,←Nat.cast_add,Int.toNat_natCast]
+  all_goals first | rfl | (congr 2; funext acc i; split <;> simp_all [Op.boolToInt,ComparableDType.ne])
 
 theorem dropoutPhase_exec (enabled storeMask : Bool) (seeds mask : RegionName)
     (row N block : Nat) (p : ℝ) (values : Fin block → ℝ) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hx : s.regs .real [block] "x" = some (realTile values)) :
     stepStmts (dropoutPhase enabled storeMask seeds mask N block p) s =

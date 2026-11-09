@@ -24,15 +24,22 @@ theorem run_if {α : Type} [Inhabited α] (M : Algebra α)
   simp [FP.Structural.run,FP.Structural.step,Option.bind_assoc]
 
 def splitBody (s : Shape) : List ComputeStmt :=
-  ((continuation s).drop 4).flatMap (branchBody Bool.false)
+  ((continuation s).drop (TypedExecution.indicesCount s)).flatMap (branchBody Bool.false)
 def interleavedBody (s : Shape) : List ComputeStmt :=
-  ((continuation s).drop 4).flatMap (branchBody Bool.true)
+  ((continuation s).drop (TypedExecution.indicesCount s)).flatMap (branchBody Bool.true)
+
+theorem continuation_tail_code (s : Shape) :
+    (continuation s).drop (indicesCount s) =
+      [.ifThenElse (.boolNot (.constBool s.interleaved))
+        (splitBody s) (interleavedBody s)] := by
+  cases ht : s.offsetTensor <;>
+    simp only [continuation,splitBody,interleavedBody,kernel,KernelSource.source,
+      KernelSource.source64_64,indicesCount,ht,Bool.false_eq_true,if_false,if_true]
+  all_goals rfl
 
 theorem continuation_tail {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
-    (u : State α) : run M ((continuation s).drop 4) u = run M (payload s) u := by
-  change run M [.ifThenElse (.boolNot (.constBool s.interleaved))
-    (splitBody s) (interleavedBody s)] u = _
-  rw [run_if_not]
+    (u : State α) : run M ((continuation s).drop (indicesCount s)) u = run M (payload s) u := by
+  rw [continuation_tail_code,run_if_not]
   cases hi : s.interleaved <;>
     simp only [hi, Bool.false_eq_true, if_false, if_true]
   all_goals simp only [payload,splitBody,interleavedBody,hi]
@@ -45,24 +52,35 @@ def guard (s : Shape) : Op .bool [] :=
 
 theorem source_tail (s : Shape) :
     (kernel s Bool.true Bool.true).surfaceBody.drop 6 =
-      [.ifThen (guard s) (continuation s)] := by rfl
+      [.ifThen (guard s) (continuation s)] := by
+  cases ht : s.offsetTensor <;>
+    simp only [guard,guardOf,continuation,kernel,KernelSource.source,
+      KernelSource.source64_64,ht,Bool.false_eq_true,if_false,if_true]
+  all_goals rfl
 
 theorem guard_eval {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (initial : State α) :
     evalOp M none (guard s) (setup M s Bool.true Bool.true initial).val =
       some (fun _ => decide (((initial.pids 0*s.blockM : Nat) : Int) <
         ProgramModel.sequenceLength s initial)) := by
-  by_cases hv : s.varlen = Bool.true
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true
   all_goals
     simp [guard,guardOf,kernel,KernelSource.source,KernelSource.source64_64,
-      ComputeKernel.surfaceBody,setup,hv,evalOp_unfold,numeric,numericLe,bop,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.originalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.opsOriginalScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.candidateScalarKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorTensorKernel,
+      VeriTile.Bench.Repairs.RotaryTransformTileChecked.xorScalarKernel,ComputeKernel.withScalarArguments,ScalarArgument.statement,ScalarArgument.integer,TypedExecution.indicesCount,ComputeKernel.surfaceBody,setup,hv,ht,evalOp_unfold,numeric,numericLe,bop,
       ProgramModel.sequenceLength,Int.natCast_mul]
     funext i
     simp only [← decide_not,not_le,lt_sub_iff_add_lt]
 
 theorem setup_mem {α : Type} [Inhabited α] (M : Algebra α) (s : Shape)
     (initial : State α) : (setup M s Bool.true Bool.true initial).val.mem=initial.mem := by
-  by_cases hv : s.varlen = Bool.true <;> simp [setup,hv]
+  by_cases hv : s.varlen = Bool.true <;> by_cases ht : s.offsetTensor = Bool.true <;> simp [setup,hv,ht]
 
 #axiomsClean kernel_carrier
 #axiomsClean continuation_tail

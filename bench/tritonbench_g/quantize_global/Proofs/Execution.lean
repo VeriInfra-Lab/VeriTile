@@ -130,7 +130,7 @@ theorem whole_grid [Inhabited α] (rest : Algebra α) (a : Scalar α)
   · simp [patch,complete,hi,schedule_covers p.n trials nonempty i hi]
   · simp [patch,complete,hi]
 
-#specNonCircular complete avoiding [execute,executeProgram,source,kernel]
+#specNonCircular complete avoiding [execute,executeProgram,sourceKernel,kernel]
 #axiomsClean whole_grid
 #axiomsClean program_result
 end

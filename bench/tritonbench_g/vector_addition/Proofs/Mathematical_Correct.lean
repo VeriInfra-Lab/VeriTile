@@ -1,4 +1,4 @@
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Kernels
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Kernels
 import bench.tritonbench_g.vector_addition.Proofs.Mathematical_Real
 import VeriTile.Meta.StatementAudit
 

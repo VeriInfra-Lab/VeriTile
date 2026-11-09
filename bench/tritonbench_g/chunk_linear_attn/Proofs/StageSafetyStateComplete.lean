@@ -1,4 +1,5 @@
 import bench.tritonbench_g.chunk_linear_attn.Proofs.StageSafetyState
+import bench.tritonbench_g.chunk_linear_attn.Proofs.SignedRangeSafety
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.StageSafety
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
@@ -15,7 +16,7 @@ theorem state_body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters) 
     (head : pid.z < p.B * p.H) :
     Safety.traceSafeList (engine (withDot M D)) bounds
       (stateParts p scale rev seed final).body
-      (s.setReg (loopName rev) .nat [] (fun _ => n)) := by
+      (stateIndex p rev n s) := by
   have split : (stateParts p scale rev seed final).body =
       stateStorePrefix p scale rev seed final ++ stateUpdateSuffix p scale rev seed final :=
     (List.take_append_drop _ _).symm
@@ -25,8 +26,8 @@ theorem state_body_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters) 
   let start := stateStoreExecution M D p scale rev seed final pid input s n h ctx carry
   have same : start.val = t := Option.some.inj (start.property.symm.trans ran)
   subst t
-  have ready := stateStore_ready M D p scale rev seed final pid input s n h ctx carry
-  have pointers := stateStore_pointers M D p scale rev seed final pid input s n h ctx carry
+  have ready := stateStore_ready M D p scale rev seed final pid input s n h ctx carry active
+  have pointers := stateStore_pointers M D p scale rev seed final pid input s n h ctx carry active
   exact state_update_safe M D p scale rev seed final bounds pid input start.val ready.1 n
     pointers capacity head
 
@@ -41,24 +42,52 @@ theorem state_loop_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters) 
   have bodySafe : ∀ n, n < p.NT → ∀ t, invariant n t →
       Safety.traceSafeList (engine (withDot M D)) bounds
         (stateParts p scale rev seed final).body
-        (t.setReg (loopName rev) .nat [] (fun _ => n)) := by
+        (stateIndex p rev n t) := by
     intro n active t ⟨ready, values, carry⟩
     exact state_body_safe M D p scale rev seed final bounds pid input t ready values carry n
       active capacity head
   have preserved : ∀ n, n < p.NT → ∀ t, invariant n t → ∀ u,
       run (engine (withDot M D)) (stateParts p scale rev seed final).body
-        (t.setReg (loopName rev) .nat [] (fun _ => n)) = some u → invariant (n + 1) u := by
-    intro n _ t ⟨ready, values, carry⟩ u ran
+        (stateIndex p rev n t) = some u → invariant (n + 1) u := by
+    intro n active t ⟨ready, values, carry⟩ u ran
     obtain ⟨actual, executed, nextReady, nextCarry, _⟩ :=
-      stateStep M D p scale rev seed final pid input t n values ready carry
+      stateStep M D p scale rev seed final pid input t n values ready carry active
     have same := Option.some.inj (executed.symm.trans ran)
     subst u
     exact ⟨nextReady, _, nextCarry⟩
-  have safe := Safety.rangeSafe_of_invariant (engine (withDot M D)) bounds
-    (loopName rev) p.NT 1 (stateParts p scale rev seed final).body invariant
-    bodySafe preserved 0 s ⟨ctx, h, carry⟩
-  cases rev <;> simpa [stateLoopStmt, Safety.stepSafe_unfold, Safety.safeOp_unfold,
-    evalOp_unfold] using safe
+  cases rev with
+  | «false» =>
+    have safe := Safety.rangeSafe_of_invariant (engine (withDot M D)) bounds
+      "i_t" p.NT 1 (stateParts p scale Bool.false seed final).body invariant
+      (by intro n hn t ht; simpa only [stateIndex,Bool.false_eq_true,if_false] using bodySafe n hn t ht)
+      (by intro n hn t ht u ran; exact preserved n hn t ht u ran)
+      0 s ⟨ctx, h, carry⟩
+    simpa [stateLoopStmt, Safety.stepSafe_unfold, Safety.safeOp_unfold,
+      evalOp_unfold] using safe
+  | «true» =>
+    have safe := SignedRange.clock_safe (engine (withDot M D)) bounds "__rev_i_t"
+      (stateParts p scale Bool.true seed final).body (1-(p.NT : Int)) p.NT invariant
+      (by
+        intro n hn t ht
+        simpa [stateIndex,add_comm,add_left_comm,add_assoc,sub_eq_add_neg] using bodySafe n hn t ht)
+      (by
+        intro n hn t ht u ran
+        apply preserved n hn t ht u
+        simpa [stateIndex,add_comm,add_left_comm,add_assoc,sub_eq_add_neg] using ran)
+      0 (Nat.zero_le _) s ⟨ctx,h,carry⟩
+    have first : (stateIntParts p scale seed final).start =
+        .sub .int .nil (.constInt 0) (.sub .int .nil (.constInt (Int.ofNat p.NT)) (.constInt 1)) := rfl
+    have last : (stateIntParts p scale seed final).stop = .constInt 1 := rfl
+    have stride : (stateIntParts p scale seed final).stride = .constNat 1 := rfl
+    simp only [stateLoopStmt,↓reduceIte,Safety.stepSafe_unfold,first,last,stride,
+      Safety.safeOp_unfold,evalOp_unfold,numeric,bop,Option.bind,Option.bind_some,
+      true_and,and_true]
+    have beginEq : (0 : Int)-((p.NT : Int)-1)=(1-(p.NT : Int))+(0 : Nat) := by omega
+    have endEq : (1-(p.NT : Int))+(p.NT : Int)=1 := by omega
+    change Safety.rangeIntSafe (engine (withDot M D)) bounds "__rev_i_t"
+      (0-((p.NT : Int)-1)) 1 1 (stateIntParts p scale seed final).body s
+    rw [beginEq]
+    simpa only [endEq] using safe
 
 /-- Complete actual forward/reverse state source, including optional loads,
 every loop iteration and optional final store, for arbitrary backing memory. -/
@@ -71,9 +100,6 @@ theorem state_source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
   have ready := stateEntry_ready M D p scale rev seed final s
   obtain ⟨mid, loopRan, midReady, midCarry, _⟩ :=
     stateLoop M D p scale rev seed final pid s.mem start.val ready.1 ready.2
-  have loopStep : step (engine (withDot M D)) (stateLoopStmt p scale rev seed final) start.val =
-      some mid := by
-    cases rev <;> simpa [stateLoopStmt, step, evalOp_unfold, loopName, Option.bind] using loopRan
   unfold TraceSafe
   rw [state_parts, List.append_assoc, Safety.traceSafeList_append]
   refine ⟨state_entry_safe M D p scale rev seed final bounds s capacity head, ?_⟩
@@ -82,7 +108,7 @@ theorem state_source_safe (M : Algebra α) (D : DotPrimitive α) (p : Parameters
   subst t
   apply Safety.traceSafeList_cons_of_step
     (state_loop_safe M D p scale rev seed final bounds pid s.mem start.val ready.1
-      _ ready.2 capacity head) loopStep
+      _ ready.2 capacity head) loopRan
   exact state_finish_safe M D p scale rev seed final bounds pid s.mem mid midReady capacity head
 
 #axiomsClean state_body_safe

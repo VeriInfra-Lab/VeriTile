@@ -93,7 +93,7 @@ def prefixExecution (M : Algebra Word) (D : DotAcc Word)
   by_cases hno : p.noGroups = Bool.true <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [loopPrefix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,ComputeKernel.surfaceBody,
+     simp [loopPrefix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode,FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,ComputeKernel.surfaceBody,
        run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
        bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
        FloatDType.numericDType,FloatDType.toTileDType,

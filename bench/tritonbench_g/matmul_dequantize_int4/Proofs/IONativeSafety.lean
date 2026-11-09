@@ -26,7 +26,7 @@ theorem prefix_safe (M : Algebra Word) (D : FPCompiled.DotAcc Word) (p : Paramet
   by_cases hno : p.noGroups=Bool.true
   all_goals
     simp only [scaleOffset,zeroOffset,groupIndex,hno,if_true,if_false,Bool.false_eq_true] at hs hz
-    simp [TraceSafe,prefixKernel,FPFused.loopPrefix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,
+    simp [TraceSafe,prefixKernel,FPFused.loopPrefix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode,FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,
       ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
       Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
       FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
@@ -42,7 +42,7 @@ theorem prefix_safe (M : Algebra Word) (D : FPCompiled.DotAcc Word) (p : Paramet
 
 theorem suffix_safe (M : Algebra Word) (p : Parameters)
     (bounds : RegionName → Nat) (s : State Word) : TraceSafe M bounds (suffixKernel p) s := by
-  simp [TraceSafe,suffixKernel,FPFused.suffix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,
+  simp [TraceSafe,suffixKernel,FPFused.suffix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode,FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
@@ -51,7 +51,7 @@ theorem epilogue_safe (M : Algebra Word) (D : FPCompiled.DotAcc Word) (p : Param
     (h : FPFused.Invariant M D p initial (steps p) current)
     (access : IOBounds.Accesses p initial bounds) :
     TraceSafe (FPCompiled.backend M D) bounds (epilogueKernel p) current := by
-  simp [TraceSafe,epilogueKernel,FPCompiled.epilogue,FPCompiled.source,FPCompiled.typed,
+  simp [TraceSafe,epilogueKernel,FPCompiled.epilogue,FPCompiled.source,FPCompiled.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode,FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     FP.Structural.run,FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,

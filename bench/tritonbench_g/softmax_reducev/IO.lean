@@ -14,21 +14,26 @@ theorem count_le_capacity {B : Nat} (counts : Fin B → Nat) (b : Fin B) :
     counts b ≤ capacity counts := Finset.le_sup (Finset.mem_univ b)
 
 def inputs (c : Host.Call) (counts : Fin c.batch → Nat) : List IOChannel :=
-  [⟨.nat,[c.batch],"Lengths"⟩,
-   ⟨.nat,[c.batch],"Starts"⟩,
+  [⟨.int,[c.batch],"Lengths"⟩,
+   ⟨.int,[c.batch],"Starts"⟩,
    ⟨.int,[c.batch,capacity counts],"Locations"⟩,
-   ⟨.fp32,[c.batch,c.heads,capacity counts],"Logics"⟩,
-   ⟨.fp32,[c.batch,c.heads,capacity counts,c.dimensions],"V"⟩]
+   ⟨.real,[c.batch,c.heads,capacity counts],"Logics"⟩,
+   ⟨.real,[c.batch,c.heads,capacity counts,c.dimensions],"V"⟩]
 def outputs (c : Host.Call) : List IOChannel :=
-  [⟨.fp32,[c.batch,c.heads,c.dimensions],"Out"⟩]
+  [⟨.real,[c.batch,c.heads,c.dimensions],"Out"⟩]
 abbrev Inputs (A : Type) (c : Host.Call) (counts : Fin c.batch → Nat) :=
   ChannelValues A (inputs c counts)
 abbrev Outputs (A : Type) (c : Host.Call) := ChannelValues A (outputs c)
 
-def length {c : Host.Call} {counts : Fin c.batch → Nat}
-    (xs : Inputs A c counts) (b : Fin c.batch) : Nat := xs ⟨0,by simp [inputs]⟩ (b,())
-def start {c : Host.Call} {counts : Fin c.batch → Nat}
-    (xs : Inputs A c counts) (b : Fin c.batch) : Nat := xs ⟨1,by simp [inputs]⟩ (b,())
+def lengthWord {c : Host.Call} {counts : Fin c.batch → Nat}
+    (xs : Inputs A c counts) (b : Fin c.batch) : Int := xs ⟨0,by simp [inputs]⟩ (b,())
+def startWord {c : Host.Call} {counts : Fin c.batch → Nat}
+    (xs : Inputs A c counts) (b : Fin c.batch) : Int := xs ⟨1,by simp [inputs]⟩ (b,())
+def length {c : Host.Call} {counts : Fin c.batch → Nat} (xs : Inputs A c counts) (b : Fin c.batch) : Nat :=
+  (lengthWord xs b).toNat
+def start {c : Host.Call} {counts : Fin c.batch → Nat} (xs : Inputs A c counts) (b : Fin c.batch) : Nat :=
+  (startWord xs b).toNat
+
 def page {c : Host.Call} {counts : Fin c.batch → Nat}
     (xs : Inputs A c counts) (b : Fin c.batch) (k : Fin (capacity counts)) : Int :=
   xs ⟨2,by simp [inputs]⟩ (b,k,())
@@ -40,16 +45,25 @@ def value {c : Host.Call} {counts : Fin c.batch → Nat}
     (k : Fin (capacity counts)) (d : Fin c.dimensions) : A :=
   xs ⟨4,by simp [inputs]⟩ (b,h,k,d,())
 
+/-- Nonnegative length/start values were implicit in the old Nat channels.
+Keep them explicit on the actual signed words. No maximum-length or signed
+page-index guard is added to the existing public domain. -/
+structure SignedMetadata (c : Host.Call) (counts : Fin c.batch → Nat)
+    (lengths starts : Fin c.batch → Int) : Prop where
+  length : ∀ b,0<c.heads → lengths b=(counts b : Int)
+  start : ∀ b,0<c.heads → 0 ≤ starts b
+
 def LengthsMatch {c : Host.Call} {counts : Fin c.batch → Nat} (xs : Inputs A c counts) : Prop :=
-  ∀ b, 0 < c.heads → length xs b=counts b
+  SignedMetadata c counts (lengthWord xs) (startWord xs)
+
 
 def read (c : Host.Call) (counts : Fin c.batch → Nat)
     (port : Fin (inputs c counts).length) (xs : Inputs A c counts) :
     TileIndex (inputs c counts)[port].shape → Nat :=
   match port with
   | ⟨0,_⟩ | ⟨1,_⟩ => fun j => j.1.val
-  | ⟨2,_⟩ => fun j => j.1.val*c.maximum+(c.maximum-counts j.1)+j.2.1.val
-  | ⟨3,_⟩ => fun j => j.2.1.val*c.tokens+(start xs j.1+j.2.2.1.val)
+  | ⟨2,_⟩ => fun j => ((j.1.val*c.maximum : Nat)+((c.maximum : Int)-(counts j.1 : Int))+(j.2.1.val : Int)).toNat
+  | ⟨3,_⟩ => fun j => ((j.2.1.val*c.tokens : Nat)+(startWord xs j.1+j.2.2.1.val) : Int).toNat
   | ⟨4,_⟩ => fun j => j.2.1.val*c.dimensions+j.2.2.2.1.val+
       (page xs j.1 j.2.2.1*(c.heads*c.dimensions : Nat)).toNat
   | ⟨k+5,hp⟩ => False.elim (by simp [inputs] at hp)
@@ -120,17 +134,22 @@ def nativeIO (profiles : Host.Job → NativeGraph.Profile) (ops : NativeGraph.In
 /-- Typed logical inputs retain the full padded capacity, not only live keys.
 Lengths, starts and signed page values remain independent input channels. -/
 structure LogicalInputs (A : Type) (c : Host.Call) (counts : Fin c.batch → Nat) where
-  lengths : Fin c.batch → Nat
-  starts : Fin c.batch → Nat
+  lengthWords : Fin c.batch → Int
+  startWords : Fin c.batch → Int
   pages : Fin c.batch → Fin (capacity counts) → Int
   logits : Fin c.batch → Fin c.heads → Fin (capacity counts) → A
   values : Fin c.batch → Fin c.heads → Fin (capacity counts) → Fin c.dimensions → A
 
+def LogicalInputs.lengths {A : Type} {c : Host.Call} {counts : Fin c.batch → Nat}
+    (xs : LogicalInputs A c counts) (b : Fin c.batch) : Nat := (xs.lengthWords b).toNat
+def LogicalInputs.starts {A : Type} {c : Host.Call} {counts : Fin c.batch → Nat}
+    (xs : LogicalInputs A c counts) (b : Fin c.batch) : Nat := (xs.startWords b).toNat
+
 def logicalInputs (A : Type) (c : Host.Call) (counts : Fin c.batch → Nat) :
     Inputs A c counts ≃ LogicalInputs A c counts where
-  toFun := fun xs => ⟨length xs,start xs,page xs,logit xs,value xs⟩
-  invFun := fun xs => Fin.cases (fun j => xs.lengths j.1)
-    (Fin.cases (fun j => xs.starts j.1) (Fin.cases (fun j => xs.pages j.1 j.2.1)
+  toFun := fun xs => ⟨lengthWord xs,startWord xs,page xs,logit xs,value xs⟩
+  invFun := fun xs => Fin.cases (fun j => xs.lengthWords j.1)
+    (Fin.cases (fun j => xs.startWords j.1) (Fin.cases (fun j => xs.pages j.1 j.2.1)
       (Fin.cases (fun j => xs.logits j.1 j.2.1 j.2.2.1)
         (Fin.cases (fun j => xs.values j.1 j.2.1 j.2.2.1 j.2.2.2.1) (fun i => i.elim0)))))
   left_inv := by intro xs; funext port j; fin_cases port <;> rfl
@@ -138,7 +157,7 @@ def logicalInputs (A : Type) (c : Host.Call) (counts : Fin c.batch → Nat) :
 
 def logicalOutputs (A : Type) (c : Host.Call) : Outputs A c ≃
     (Fin c.batch → Fin c.heads → Fin c.dimensions → A) :=
-  (ChannelValues.singleEquiv A _).trans (Values.tensor3Equiv A .fp32 _ _ _)
+  (ChannelValues.singleEquiv A _).trans (Values.tensor3Equiv A .real _ _ _)
 
 def LogicalInputs.logitAt [Inhabited A] {c : Host.Call} {counts : Fin c.batch → Nat}
     (xs : LogicalInputs A c counts) (b : Fin c.batch) (h : Fin c.heads) (k : Nat) : A :=
@@ -151,7 +170,7 @@ def LogicalInputs.valueAt [Inhabited A] {c : Host.Call} {counts : Fin c.batch �
 
 def LogicalRealDomain {c : Host.Call} {counts : Fin c.batch → Nat}
     (xs : LogicalInputs (WithBot ℝ) c counts) : Prop :=
-  (∀ b, 0<c.heads → xs.lengths b=counts b) ∧
+  SignedMetadata c counts xs.lengthWords xs.startWords ∧
   (∀ b h, ∃ k, k<counts b ∧ xs.logitAt b h k≠⊥) ∧
   (∀ b h k, k<counts b → ∀ d, xs.valueAt b h k d≠⊥)
 

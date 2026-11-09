@@ -26,7 +26,7 @@ attribute [local irreducible] FP.mul FP.round toSigned totalSigned
 
 theorem epilogueMemory (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
     (p : Parameters) (initial current : State Word)
-    (h : Invariant p initial p.steps current) :
+    (h : OutputReady p initial current) :
     (epilogueExecution rest cfg u p initial current h).val.mem = (written cfg u p initial).mem := by
   simp +contextual [epilogueExecution, written, masked_scatter_memory, h.memory,
     active, outputOffset, outputRow, outputColumn, expected, scaled,
@@ -34,30 +34,33 @@ theorem epilogueMemory (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word
     and_assoc, and_comm, and_left_comm]
 
 theorem executionMemory (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
-    (p : Parameters) (initial : State Word) :
+    (p : Parameters) (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (cover : p.inner≤p.steps*p.blockInner) (initial : State Word) :
     ∃ final, FP.Structural.exec (backend rest cfg u) (source p) initial = some final ∧
       final.mem = (written cfg u p initial).mem := by
   let start := preludeExecution rest cfg u p initial
-  obtain ⟨mid, hm, hi⟩ := loopExecution rest cfg u p initial start.val 0 (by omega)
+  obtain ⟨mid, hm, hi⟩ := loopExecution rest cfg u p heven cover initial start.val 0 (by omega)
     (preludeInvariant rest cfg u p initial)
   let finish := epilogueExecution rest cfg u p initial mid hi
   refine ⟨finish.val, ?_, epilogueMemory rest cfg u p initial mid hi⟩
   change run (backend rest cfg u) (source p).surfaceBody initial = some finish.val
-  rw [show (source p).surfaceBody = prelude p ++ [.forRange "j" 0 p.steps 1 (body p)] ++ epilogue p from rfl,
+  rw [show (source p).surfaceBody = prelude p ++ [Revision001.ScaledWord.statement p] ++ epilogue p from rfl,
     run_append, run_append, start.property]
   have hsingle (s : State Word) :
-      run (backend rest cfg u) [.forRange "j" 0 p.steps 1 (body p)] s =
-        FP.Structural.range (backend rest cfg u) "j" 0 p.steps 1 (body p) s := by simp [run,step]
+      run (backend rest cfg u) [Revision001.ScaledWord.statement p] s =
+        FP.Structural.rangeInt (backend rest cfg u) "__rev_k" (Revision001.ScaledWord.mirror p 0) 0 p.blockInner (body p) s := by
+    simpa [run] using Revision001.ScaledWord.statement_step (backend rest cfg u) p s
   simp only [Option.bind_some, hsingle, hm]
   exact finish.property
 
 theorem correctness (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word → Int)
-    (p : Parameters) (initial : State Word)
+    (p : Parameters) (heven : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (cover : p.inner≤p.steps*p.blockInner) (initial : State Word)
     (hw : ∀ i j, active p initial i → active p initial j →
       outputOffset p initial i = outputOffset p initial j → i = j) :
     ∃ final, FP.Structural.exec (backend rest cfg u) (source p) initial = some final ∧
       Post p initial final (expected cfg u p initial) := by
-  obtain ⟨final,he,hm⟩ := executionMemory rest cfg u p initial
+  obtain ⟨final,he,hm⟩ := executionMemory rest cfg u p heven cover initial
   refine ⟨final,he,?_,?_⟩
   · intro i hi
     rw [hm]
@@ -94,7 +97,7 @@ theorem single_logical (rest : Algebra Word) (cfg : FP.Config) (u : Nat → Word
     intro i j hi hj he
     apply Geometry.offset_injective (geometry p) hgeo pid i j hi hj
     simpa only [s,offset_at] using he
-  obtain ⟨final,he,hread,hframe⟩ := correctness rest cfg u p s hw
+  obtain ⟨final,he,hread,hframe⟩ := correctness rest cfg u p heven hcover s hw
   refine ⟨final,he,?_,?_⟩
   · intro x hx
     obtain ⟨i,hr,hc⟩ := hx

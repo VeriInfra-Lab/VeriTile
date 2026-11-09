@@ -17,7 +17,7 @@ def HalfSigns (M : Algebra α) : Prop :=
   M.binary (some .fp32) .real .mul (scalar32 M 0.5) (scalar32 M (-1.0)) = scalar32 M (-0.5)
 
 def segment (p : Parameters) (start count : Nat) : List ComputeStmt :=
-  ((biasFoldSource p).surfaceBody.drop start).take count
+  ((biasFoldKernel p).surfaceBody.drop start).take count
 
 theorem unchanged_prefix (p : Parameters) : segment p 0 16 = Revision002.segment p 0 16 := rfl
 
@@ -32,7 +32,7 @@ theorem registers_run (M : Algebra α) (signs : HalfSigns M)
     cases test
     · exact signs.2
     · exact signs.1
-  simp [segment,biasFoldSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+  simp [segment,biasFoldKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     Model.backend,Option.bind,numericLt,numericLe,bop,numeric,ofFloat,toFloat,
     registers,reduced,classified,quotient,normalized,clipped,biased,quantized,ComputeDType.eraseDType,choice]
   all_goals
@@ -53,11 +53,11 @@ theorem early_run (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
 
 theorem source_run (M : Algebra α) (signs : HalfSigns M) (ops : Model.Primitives α)
     (p : Parameters) (positive : 0<p.width) (entry : State α) :
-    FP.Structural.exec (Model.backend M ops) (biasFoldSource p) entry =
+    FP.Structural.exec (Model.backend M ops) (biasFoldKernel p) entry =
       some (finalState M ops p positive entry) := by
-  have parts : (biasFoldSource p).surfaceBody = segment p 0 16 ++ segment p 16 5 ++
+  have parts : (biasFoldKernel p).surfaceBody = segment p 0 16 ++ segment p 16 5 ++
     Revision002.segment p 21 2 := rfl
-  change run (Model.backend M ops) (biasFoldSource p).surfaceBody entry = _
+  change run (Model.backend M ops) (biasFoldKernel p).surfaceBody entry = _
   rw [parts]
   simp only [run_append,early_run M ops p positive,registers_run M signs,
     stores_run,Option.bind_some]
@@ -67,7 +67,7 @@ theorem middle_safe (M : Algebra α) (ops : Model.Primitives α) (p : Parameters
     Safety.traceSafeList (Model.backend M ops) bounds (segment p 8 13) s := by
   apply SourceSafety.trace_from_steps
   intro st member t
-  simp only [segment,biasFoldSource,ComputeKernel.surfaceBody,List.drop,List.take,
+  simp only [segment,biasFoldKernel,ComputeKernel.surfaceBody,List.drop,List.take,
     List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   all_goals
@@ -81,8 +81,8 @@ theorem source_safe (M : Algebra α) (signs : HalfSigns M) (ops : Model.Primitiv
     (input : ∀ i, Model.active p s i → Model.offset p s i < bounds xRegion)
     (output : ∀ i, Model.active p s i → Model.offset p s i < bounds outRegion)
     (scale : Model.group p s < bounds scaleRegion) :
-    TraceSafe (Model.backend M ops) bounds (biasFoldSource p) s := by
-  have parts : (biasFoldSource p).surfaceBody = Revision002.segment p 0 8 ++
+    TraceSafe (Model.backend M ops) bounds (biasFoldKernel p) s := by
+  have parts : (biasFoldKernel p).surfaceBody = Revision002.segment p 0 8 ++
     segment p 8 13 ++ Revision002.segment p 21 2 := rfl
   have middle : run (Model.backend M ops) (segment p 8 13) (addressed M p s) =
       some (registers M ops p positive s) := by

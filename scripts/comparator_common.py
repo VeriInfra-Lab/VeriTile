@@ -40,6 +40,9 @@ def snapshot_project(root, destination, libraries=("ComparatorChallenge", "Compa
     with lakefile.open('a') as output:
         for library in libraries:
             output.write(f'\n[[lean_lib]]\nname = "{library}"\n')
+            # Replayed sources include the same deeply recursive proofs as
+            # TritonBenchGFinal, whose compiler workers use a 64 MiB stack.
+            output.write('weakLeanArgs = ["--tstack=65536"]\n')
             if submodules:
                 output.write(f'globs = ["{library}.+"]\n')
     return hashes
@@ -84,8 +87,15 @@ def require_tools():
         ('systemd AF_UNIX restriction',
          ['systemd-run', '--user', '--pipe', '--wait', '--collect',
           '--property=RestrictAddressFamilies=~AF_UNIX', 'true']),
-        ('Landlock sandbox',
-         ['landrun', '--rox', '/', shutil.which('true') or '/usr/bin/true']),
+        # Comparator itself uses --best-effort: ABI v4 has its filesystem and
+        # TCP controls, while device-ioctl mediation arrives with ABI v5.
+        ('Landlock filesystem sandbox',
+         ['landrun', '--best-effort', '--rox', '/', shutil.which('true') or '/usr/bin/true']),
+        # Require TCP mediation strictly. A best-effort probe alone could also
+        # succeed on an older kernel without enforcing network restrictions.
+        ('Landlock TCP sandbox',
+         ['landrun', '--unrestricted-filesystem', '--rox', '/',
+          shutil.which('true') or '/usr/bin/true']),
     ]
     failures = []
     for label, command in probes:

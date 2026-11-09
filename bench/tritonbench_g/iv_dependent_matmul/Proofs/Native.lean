@@ -1,5 +1,5 @@
 import bench.tritonbench_g.iv_dependent_matmul.Proofs.SourceDefinitions
-import bench.tritonbench_g.iv_dependent_matmul.Sources.Index64
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.Index64
 
 /-! Actual 64-bit source expressions and pointer-register transitions. The
 projection below proves ABI casts, signed division/remainder/comparisons,

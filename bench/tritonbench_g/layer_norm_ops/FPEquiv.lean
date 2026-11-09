@@ -28,6 +28,8 @@ specification backward_row_start_reused_equiv {α : Type} [Inhabited α]
     backwardOriginal M p pid ≡[[]] backwardRowStartReused M p pid :=
   PairEquivalence.backward M p pid admissible
 
+#print_fp_assumptions forward_mask_reused_equiv
+#print_fp_assumptions backward_row_start_reused_equiv
 #axiomsClean forward_mask_reused_equiv
 #axiomsClean backward_row_start_reused_equiv
 #guard_msgs (drop info) in

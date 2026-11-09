@@ -1,11 +1,10 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.Output
-import bench.tritonbench_g.attn_fwd_causal.Proofs.Mathematical_RealAccessSafety
-
+import bench.tritonbench_g.attn_fwd_triton.Proofs.Support.All
 /-! Local active-address bounds for the exact repaired masked loads/store.
 No bound is demanded for inactive pointer lanes. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.AccessSafety
 open VeriTile.Triton Memory
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 noncomputable section
 set_option maxHeartbeats 800000

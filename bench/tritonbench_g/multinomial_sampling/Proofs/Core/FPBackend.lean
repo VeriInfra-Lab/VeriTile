@@ -8,6 +8,8 @@ established by the explicit score conversion and RNG. -/
 structure Primitives (α : Type) where
   zero : Option ComputeDType → FloatDType → α
   cast : Option ComputeDType → FloatDType → FloatDType → α → α
+  /-- Actual FP32 storage read, before the explicit source cast; no law is imposed. -/
+  load32 : α → α
   bits32 : Float32Bits → α
   add : α → α → α
   sub : α → α → α
@@ -24,6 +26,7 @@ noncomputable def backend {α : Type} (rest : Algebra α) (P : Primitives α) : 
     literal := fun p d _ => P.zero p d
     cast := P.cast
     fp32Bits := P.bits32
+    fp32Load := P.load32
     binary := fun p d op x y => match op with
       | .add => P.add x y | .sub => P.sub x y | _ => rest.binary p d op x y
     compareLt := fun _ _ => some P.lt

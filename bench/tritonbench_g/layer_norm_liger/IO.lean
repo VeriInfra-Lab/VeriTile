@@ -5,14 +5,14 @@ import VeriTile.Triton.Float.LogicalProgramIO
 
 namespace VeriTile.Bench.Repairs.LayerNormLiger.LayerIO
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 set_option autoImplicit false
 
 def fInputs (p : Forward.Parameters) : List IOChannel :=
-  [⟨.fp32,[p.block],p.x⟩,⟨.fp32,[p.block],p.weight⟩,⟨.fp32,[p.block],p.bias⟩]
+  [⟨.real,[p.block],p.x⟩,⟨.real,[p.block],p.weight⟩,⟨.real,[p.block],p.bias⟩]
 def fOutputs (p : Forward.Parameters) : List IOChannel :=
-  [⟨.fp32,[p.block],p.y⟩,⟨.fp32,[],p.mean⟩,⟨.fp32,[],p.rstd⟩]
+  [⟨.real,[p.block],p.y⟩,⟨.real,[],p.mean⟩,⟨.real,[],p.rstd⟩]
 
 /-- Actual row strides, column masks and both unmasked scalar statistics stores.
 Region aliases are retained rather than rejected by the native interface. -/
@@ -78,10 +78,10 @@ def last (p : Backward.Parameters) (pid : Nat) := min ((pid+1)*p.rowsPerProgram)
 def rowMask (p : Backward.Parameters) (pid row : Nat) : Prop := first p pid≤row ∧ row<last p pid
 
 def bInputs (p : Backward.Parameters) : List IOChannel :=
-  [⟨.fp32,[p.rows,p.block],p.x⟩,⟨.fp32,[p.block],p.weight⟩,
-   ⟨.fp32,[p.rows,p.block],p.dy⟩,⟨.fp32,[p.rows],p.mean⟩,⟨.fp32,[p.rows],p.rstd⟩]
+  [⟨.real,[p.rows,p.block],p.x⟩,⟨.real,[p.block],p.weight⟩,
+   ⟨.real,[p.rows,p.block],p.dy⟩,⟨.real,[p.rows],p.mean⟩,⟨.real,[p.rows],p.rstd⟩]
 def bOutputs (p : Backward.Parameters) : List IOChannel :=
-  [⟨.fp32,[p.rows,p.block],p.dx⟩,⟨.fp32,[p.block],p.dw⟩,⟨.fp32,[p.block],p.db⟩]
+  [⟨.real,[p.rows,p.block],p.dx⟩,⟨.real,[p.block],p.dw⟩,⟨.real,[p.block],p.db⟩]
 
 /-- Only the executed row interval is read/written; empty loops still write
 both partial-gradient vectors. All native region/stride aliases remain legal. -/

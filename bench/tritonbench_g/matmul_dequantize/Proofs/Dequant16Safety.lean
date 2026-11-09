@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize.Sources.Mathematical_FPDequant
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Mathematical_FPDequant
 import VeriTile.Triton.Float.StructuralSafety
 
 namespace VeriTile.Bench.Repairs.MatmulDequantize.Dequant16Access
@@ -21,7 +21,7 @@ structure Bounds (p : Parameters) (s : State A) (bounds : RegionName → Nat) : 
 original quotation is in its declared region. Inactive lanes need no storage. -/
 theorem source_safe (M : Algebra A) (p : Parameters) (s : State A)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) : TraceSafe M bounds (source p) s := by
-  simp [TraceSafe,source,typed,
+  simp [TraceSafe,source,typed,VeriTile.Bench.TritonBenchG.MatmulDequantInt4.Body.dequantizeKernel,
     ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeOp_unfold,Safety.safeCompute_unfold,
     Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,

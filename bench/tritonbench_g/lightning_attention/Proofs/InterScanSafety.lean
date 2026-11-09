@@ -109,13 +109,13 @@ theorem reverseScan (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
 theorem inter (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (hbalance : p.NC*p.CB=p.BT) (s : State α)
     (bounds : RegionName → Nat) (backed : HeadBounds p (s.pids 0) bounds) :
-    TraceSafe (engine (withDot M D)) bounds (KernelOnly.inter p) s := by
+    TraceSafe (engine (withDot M D)) bounds (KernelOnly.interKernel p) s := by
   let start := interFEntry M D p s
   have hstart := interFEntry_ready M D p s
   obtain ⟨q,hq,hqc,hqm⟩ := interForwardScan M D p (s.pids 0) s.mem start.val hstart
   let reset := interREntry M D p (s.pids 0) _ _ s.mem _ q hqc
   have hreset := interREntry_ready M D p (s.pids 0) _ _ s.mem _ q hqc
-  change Safety.traceSafeList _ _ (KernelOnly.inter p).surfaceBody s
+  change Safety.traceSafeList _ _ (KernelOnly.interKernel p).surfaceBody s
   rw [inter_parts]
   apply append _ bounds _ _ s start.val (forwardEntry M D p s bounds) start.property
   apply append _ bounds _ _ start.val q

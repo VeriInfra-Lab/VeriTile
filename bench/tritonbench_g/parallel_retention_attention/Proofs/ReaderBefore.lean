@@ -74,14 +74,14 @@ def backwardFormula (s : Shape) (tile : Tile) (xs : ChannelValues ℝ (PublicIO.
 
 
 theorem forward (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) :
     Spec.Real (forwardIO p s tile ⊨ forwardFormula s tile) :=
-  PublicIO.forward_real p s tile valid
+  PublicIO.forward_real p s tile shape valid
 
 theorem backward (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) (keyPositive : 0<s.BK) (valuePositive : 0<s.BV) :
     Spec.Real (backwardIO p s tile ⊨ backwardFormula s tile) :=
-  PublicIO.backward_real p s tile valid keyPositive valuePositive
+  PublicIO.backward_real p s tile shape valid keyPositive valuePositive
 
 end
 end VeriTile.Bench.Repairs.ParallelRetentionAttention.ReaderBefore

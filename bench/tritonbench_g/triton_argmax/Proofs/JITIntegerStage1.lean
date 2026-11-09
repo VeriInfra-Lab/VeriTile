@@ -54,10 +54,10 @@ theorem source_run (kind : Formats.IntegerKind) (p : ScalarBinding.IntegerPrimit
     (rest : Algebra Word) (s : State Word) (X V : RegionName) (I : Region .int)
     (size block base : Nat) (index64 : Bool) (positive : 0 < block) :
     ∃ t, exec (backend kind p rest)
-      (JITSource.stage1 X V I (sourceType kind) block index64) (JITStage1.arguments s size base) = some t ∧
+      (JITSource.stage1Kernel X V I (sourceType kind) block index64) (JITStage1.arguments s size base) = some t ∧
       t.mem = (written kind p s X V I size block base positive).mem := by
   cases kind <;> cases index64 <;>
-    simp [sourceType, JITSource.stage1, JITStage1.arguments, ComputeKernel.surfaceBody,
+    simp [sourceType, JITSource.stage1Kernel, JITStage1.arguments, ComputeKernel.surfaceBody,
       FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
       ComputeDType.eraseDType, backend, Typed.backend, VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.indexed,
       VeriTile.Bench.TritonBenchG.TritonArgmax.DimBackend.normalize,

@@ -17,7 +17,7 @@ def memory {α : Type} [Inhabited α] (M : Algebra α) (layout : Strides) (N B r
 
 theorem sourceRun_mem {α : Type} [Inhabited α] (M : Algebra α) (layout : Strides) (N B row : Nat)
     (eps : α) (s : State α) : (sourceRun M layout N B row eps s).val.mem=memory M layout N B row eps s := by
-  simp only [sourceRun,state14,scatter_mem,memory,state13,state12,state11,state10,
+  simp only [sourceRun,state5LoadX,state10LoadDY,state14,scatter_mem,memory,state13,state12,state11,state10,
     state9,state8,state7,state6,state5,state4,state3,state2,state1,state0,rowState,State.setReg_mem]
   congr 1
   funext mem i

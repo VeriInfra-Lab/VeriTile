@@ -59,7 +59,7 @@ theorem scatter_readback {α : Type} (c : Geometry) (l : Launch) (hl : c.valid l
     (r : RegionName) (value : TileIndex [c.BH,c.BC] → α) (mem : RegionName → Nat → Cell α)
     (target : TileIndex [c.BH,c.BC]) (active : activeOutput c.layout l target.1.val target.2.1.val) :
     scatter c l r value mem r (outAddress c.layout l target.1.val target.2.1.val) =
-      .mk .real (value target) := by
+      .mk .fp32 (value target) := by
   have unique : ∀ i : TileIndex [c.BH,c.BC], activeOutput c.layout l i.1.val i.2.1.val →
       outAddress c.layout l i.1.val i.2.1.val = outAddress c.layout l target.1.val target.2.1.val →
       i = target := by
@@ -88,7 +88,7 @@ def logicalPrepared {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α
   if h < c.heads ∧ j < c.chunk ∧ k*c.chunk+j < c.sequence then
     prepare c p hasBias useSoftplus lower upper Bool.true
       ((s.mem "dt" (b*c.dtBatch+(k*c.chunk+j)*c.dtTime+h*c.dtHead)).read .fp32)
-      ((s.mem "bias" (h*c.biasHead)).read .real)
+      ((s.mem "bias" (h*c.biasHead)).read .fp32)
   else p.model.literal (some .fp32) .real 0.0
 
 def logicalRate {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α c)
@@ -156,12 +156,12 @@ theorem tile_values {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α
     (i : TileIndex [c.BH,c.BC]) (active : activeOutput c.layout l i.1.val i.2.1.val) :
     (sourceRun c p hasBias useSoftplus lower upper l s).val.mem
       "out" (outAddress c.layout l i.1.val i.2.1.val) =
-        .mk .real (logicalPrepared c p hasBias useSoftplus lower upper s
-          l.batch (head c.layout l i.1.val) l.chunk i.2.1.val) ∧
+        .mk .fp32 (p.model.cast (some .fp32) .real .fp32 (logicalPrepared c p hasBias useSoftplus lower upper s
+          l.batch (head c.layout l i.1.val) l.chunk i.2.1.val)) ∧
     (sourceRun c p hasBias useSoftplus lower upper l s).val.mem
       "sum" (outAddress c.layout l i.1.val i.2.1.val) =
-        .mk .real (logicalCumulative c p hasBias useSoftplus lower upper s
-          l.batch (head c.layout l i.1.val) l.chunk i.2.1) := by
+        .mk .fp32 (p.model.cast (some .fp32) .real .fp32 (logicalCumulative c p hasBias useSoftplus lower upper s
+          l.batch (head c.layout l i.1.val) l.chunk i.2.1)) := by
   have hh : head c.layout l i.1.val < c.heads := active.1
   have hrow : (⟨head c.layout l i.1.val%c.BH,Nat.mod_lt _ c.headPositive⟩ : Fin c.BH) = i.1 := by
     apply Fin.ext
@@ -175,6 +175,7 @@ theorem tile_values {α : Type} [Inhabited α] (c : Geometry) (p : Primitives α
     congr 1
     unfold logicalCumulative
     rw [hrow]
+    congr 1
     congr 1
     funext t
     rw [prepared_logical c p hasBias useSoftplus lower upper l hl]

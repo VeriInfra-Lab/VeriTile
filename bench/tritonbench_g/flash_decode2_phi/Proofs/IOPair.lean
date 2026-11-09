@@ -1,4 +1,4 @@
-import bench.tritonbench_g.flash_decode2_phi.PairIO
+import bench.tritonbench_g.flash_decode2_phi.Proofs.Support.PairIO
 import bench.tritonbench_g.flash_decode2_phi.Proofs.SourcePair
 import bench.tritonbench_g.flash_decode2_phi.Proofs.NativeIO
 

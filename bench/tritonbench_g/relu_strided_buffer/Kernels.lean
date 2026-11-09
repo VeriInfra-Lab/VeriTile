@@ -1,115 +1,147 @@
-import VeriTile.Triton.DSL
+import bench.tritonbench_g.relu_strided_buffer.Proofs.Support.SourceTypes
+import VeriTile.Triton.DSL.SignedRankOneBlockPointers
 
-/-! Readable FP32 source for the two original constexpr branches. Rank-one
-block pointers are lowered to their signed cell formula and logical mask.
-The complete signed sum is formed before conversion to a memory cell index;
-negative strides and arbitrary bounded storage offsets remain supported.
-`DTYPE` is fixed FP32, including the pointer-element casts and zero conversion.
-The candidate folds only the unused integer tile count. -/
 namespace VeriTile.Bench.Repairs.ReluStridedBuffer
-open Lean VeriTile.Triton
+open VeriTile.Triton
+noncomputable section
+set_option maxHeartbeats 4000000
+set_option maxRecDepth 24000
 
-structure View where
-  region : RegionName
-  base : Int
-  stride : Int
-structure Parameters where
-  input : View
-  output : View
-  n : Nat
-  B : Nat
-  tiles : Nat
-  oneTile : Bool
+/-- Copied original unary JIT body, shared by both callers. -/
+def reluForwardSource : PureJitFunction := with_triton_params (x) constexpr_args [] in triton {
+    return tl.where(x > 0, x, 0)
+}
+
+/-- Selected FP32 pointer storage; source scalars and constexprs come from the invocation. -/
+def signature : CallSignature where
+  pointers := []
+  floatingPointers := [("in0_ptr",.fp32),("out0_ptr",.fp32)]
+  scalars := [("in0_stride0",.integer),("out0_stride0",.integer),("s0",.integer),
+    ("num_tasks",.integer),("tiles_per_cta",.integer)]
+  constexpr := ["in0_stride_order0","out0_stride_order0","tile_size0","one_tile_per_cta"]
+  readPorts := ["in0_ptr"]
+  writePorts := ["out0_ptr"]
+
+def candidateSignature : CallSignature where
+  pointers := []
+  floatingPointers := [("in0_ptr",.fp32),("out0_ptr",.fp32)]
+  scalars := [("in0_stride0",.integer),("out0_stride0",.integer),("s0",.integer),
+    ("num_tasks",.integer),("tiles_per_cta",.integer)]
+  constexpr := ["in0_stride_order0","out0_stride_order0","tile_size0","one_tile_per_cta","folded_num_tiles0"]
+  readPorts := ["in0_ptr"]
+  writePorts := ["out0_ptr"]
+
+def originalKernel (in0_ptr out0_ptr : RegionName) (input_base output_base in0_stride0 out0_stride0 : Int)
+    (s0 num_tasks tiles_per_cta tile_size0 : Nat) (one_tile_per_cta : Bool) : ComputeKernel :=
+  let in0_stride_order0 : Nat := 0
+  let out0_stride_order0 : Nat := 0
+  with_triton_call signature call_args [in0_stride0 := in0_stride0,out0_stride0 := out0_stride0,
+    s0 := s0,num_tasks := num_tasks,tiles_per_cta := tiles_per_cta]
+    signed_pointer_offsets [in0_ptr := input_base,out0_ptr := output_base]
+    pure_functions [relu_forward := reluForwardSource] in triton {
+    pid = tl.program_id(0)
+    num_tiles0 = tl.cdiv(s0, tile_size0)
+    if one_tile_per_cta: # monolitic kernel style
+        tile_id = pid
+        # pid multi index recontruction: we use c ordering, right axes changes fastest
+        tile_id0 = tile_id
+
+        # tile offsets
+        offset0 = tile_id0 * tile_size0
+        # loads
+        in0_bptr = tl.make_block_ptr(in0_ptr, (s0,), (in0_stride0,), (offset0,), (tile_size0,), order=(in0_stride_order0,))
+        in0 = tl.load(in0_bptr, boundary_check=(in0_stride_order0,)).to(in0_ptr.type.element_ty) # workaround the bug on bool, we should use the original pointer's dtype(instead of block pointer's)
+
+        # compute
+        out0 = relu_forward(in0)
+
+        # stores, note that store to block pointer does not automatically cast the value to the pointer's dtype
+        out0_bptr = tl.make_block_ptr(out0_ptr, (s0,), (out0_stride0,), (offset0,), (tile_size0,), order=(out0_stride_order0,))
+        tl.store(out0_bptr, out0.to(out0_bptr.type.element_ty), boundary_check=(out0_stride_order0,))
+    else: # grid-stride-loop style kernel
+        num_ctas = tl.num_programs(0)
+        for j in range(0, tiles_per_cta):
+            tile_id = pid + j * num_ctas
+            # pid multi index recontruction: we use c ordering, right axes changes fastest
+            tile_id0 = tile_id
+
+            # tile offsets
+            offset0 = tile_id0 * tile_size0
+            # loads
+            in0_bptr = tl.make_block_ptr(in0_ptr, (s0,), (in0_stride0,), (offset0,), (tile_size0,), order=(in0_stride_order0,))
+            in0 = tl.load(in0_bptr, boundary_check=(in0_stride_order0,)).to(in0_ptr.type.element_ty) # workaround the bug on bool, we should use the original pointer's dtype(instead of block pointer's)
+
+            # compute
+            out0 = relu_forward(in0)
+
+            # stores, note that store to block pointer does not automatically cast the value to the pointer's dtype
+            out0_bptr = tl.make_block_ptr(out0_ptr, (s0,), (out0_stride0,), (offset0,), (tile_size0,), order=(out0_stride_order0,))
+            tl.store(out0_bptr, out0.to(out0_bptr.type.element_ty), boundary_check=(out0_stride_order0,))
+  }
+
+def candidateKernel (in0_ptr out0_ptr : RegionName) (input_base output_base in0_stride0 out0_stride0 : Int)
+    (s0 num_tasks tiles_per_cta tile_size0 : Nat) (one_tile_per_cta : Bool) (folded_num_tiles0 : Nat) : ComputeKernel :=
+  let in0_stride_order0 : Nat := 0
+  let out0_stride_order0 : Nat := 0
+  with_triton_call candidateSignature call_args [in0_stride0 := in0_stride0,out0_stride0 := out0_stride0,
+    s0 := s0,num_tasks := num_tasks,tiles_per_cta := tiles_per_cta]
+    signed_pointer_offsets [in0_ptr := input_base,out0_ptr := output_base]
+    pure_functions [relu_forward := reluForwardSource] in triton {
+    pid = tl.program_id(0)
+    num_tiles0 = folded_num_tiles0
+    if one_tile_per_cta: # monolitic kernel style
+        tile_id = pid
+        # pid multi index recontruction: we use c ordering, right axes changes fastest
+        tile_id0 = tile_id
+
+        # tile offsets
+        offset0 = tile_id0 * tile_size0
+        # loads
+        in0_bptr = tl.make_block_ptr(in0_ptr, (s0,), (in0_stride0,), (offset0,), (tile_size0,), order=(in0_stride_order0,))
+        in0 = tl.load(in0_bptr, boundary_check=(in0_stride_order0,)).to(in0_ptr.type.element_ty) # workaround the bug on bool, we should use the original pointer's dtype(instead of block pointer's)
+
+        # compute
+        out0 = relu_forward(in0)
+
+        # stores, note that store to block pointer does not automatically cast the value to the pointer's dtype
+        out0_bptr = tl.make_block_ptr(out0_ptr, (s0,), (out0_stride0,), (offset0,), (tile_size0,), order=(out0_stride_order0,))
+        tl.store(out0_bptr, out0.to(out0_bptr.type.element_ty), boundary_check=(out0_stride_order0,))
+    else: # grid-stride-loop style kernel
+        num_ctas = tl.num_programs(0)
+        for j in range(0, tiles_per_cta):
+            tile_id = pid + j * num_ctas
+            # pid multi index recontruction: we use c ordering, right axes changes fastest
+            tile_id0 = tile_id
+
+            # tile offsets
+            offset0 = tile_id0 * tile_size0
+            # loads
+            in0_bptr = tl.make_block_ptr(in0_ptr, (s0,), (in0_stride0,), (offset0,), (tile_size0,), order=(in0_stride_order0,))
+            in0 = tl.load(in0_bptr, boundary_check=(in0_stride_order0,)).to(in0_ptr.type.element_ty) # workaround the bug on bool, we should use the original pointer's dtype(instead of block pointer's)
+
+            # compute
+            out0 = relu_forward(in0)
+
+            # stores, note that store to block pointer does not automatically cast the value to the pointer's dtype
+            out0_bptr = tl.make_block_ptr(out0_ptr, (s0,), (out0_stride0,), (offset0,), (tile_size0,), order=(out0_stride_order0,))
+            tl.store(out0_bptr, out0.to(out0_bptr.type.element_ty), boundary_check=(out0_stride_order0,))
+  }
 
 def oneTileKernel (c : Parameters) : ComputeKernel :=
-  let dtype : FloatDType := .fp32
-  let input_region := c.input.region
-  let output_region := c.output.region
-  triton {
-    pid = tl.program_id(0)
-    num_tiles0 = tl.cdiv($(c.n), $(c.B))
-    tile_id = pid
-    tile_id0 = tile_id
-    offset0 = tile_id0 * $(c.B)
-    in0_bptr = $((c.input.base : Int)) +
-      (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.input.stride : Int))
-    in0 = (tl.load(input_region + in0_bptr,
-      mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n), dtype=DTYPE)).to(DTYPE)
-    out0 = tl.where(in0 > tl.cast(0.0, DTYPE), in0, tl.cast(0.0, DTYPE))
-    out0_bptr = $((c.output.base : Int)) +
-      (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.output.stride : Int))
-    tl.store(output_region + out0_bptr, (out0).to(DTYPE),
-      mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n))
-  }
+  originalKernel c.input.region c.output.region c.input.base c.output.base c.input.stride c.output.stride
+    c.n c.n c.tiles c.B Bool.true
 
 def gridStrideKernel (c : Parameters) : ComputeKernel :=
-  let dtype : FloatDType := .fp32
-  let input_region := c.input.region
-  let output_region := c.output.region
-  triton {
-    pid = tl.program_id(0)
-    num_tiles0 = tl.cdiv($(c.n), $(c.B))
-    num_ctas = tl.num_programs(0)
-    for j in range($(0), $(c.tiles)) {
-      tile_id = pid + j * num_ctas
-      tile_id0 = tile_id
-      offset0 = tile_id0 * $(c.B)
-      in0_bptr = $((c.input.base : Int)) +
-        (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.input.stride : Int))
-      in0 = (tl.load(input_region + in0_bptr,
-        mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n), dtype=DTYPE)).to(DTYPE)
-      out0 = tl.where(in0 > tl.cast(0.0, DTYPE), in0, tl.cast(0.0, DTYPE))
-      out0_bptr = $((c.output.base : Int)) +
-        (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.output.stride : Int))
-      tl.store(output_region + out0_bptr, (out0).to(DTYPE),
-        mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n))
-    }
-  }
+  originalKernel c.input.region c.output.region c.input.base c.output.base c.input.stride c.output.stride
+    c.n c.n c.tiles c.B Bool.false
 
 def oneTileFolded (c : Parameters) : ComputeKernel :=
-  let dtype : FloatDType := .fp32
-  let input_region := c.input.region
-  let output_region := c.output.region
-  triton {
-    pid = tl.program_id(0)
-    num_tiles0 = $((c.n + c.B - 1) / c.B)
-    tile_id = pid
-    tile_id0 = tile_id
-    offset0 = tile_id0 * $(c.B)
-    in0_bptr = $((c.input.base : Int)) +
-      (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.input.stride : Int))
-    in0 = (tl.load(input_region + in0_bptr,
-      mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n), dtype=DTYPE)).to(DTYPE)
-    out0 = tl.where(in0 > tl.cast(0.0, DTYPE), in0, tl.cast(0.0, DTYPE))
-    out0_bptr = $((c.output.base : Int)) +
-      (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.output.stride : Int))
-    tl.store(output_region + out0_bptr, (out0).to(DTYPE),
-      mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n))
-  }
+  candidateKernel c.input.region c.output.region c.input.base c.output.base c.input.stride c.output.stride
+    c.n c.n c.tiles c.B Bool.true ((c.n+c.B-1)/c.B)
 
 def gridStrideFolded (c : Parameters) : ComputeKernel :=
-  let dtype : FloatDType := .fp32
-  let input_region := c.input.region
-  let output_region := c.output.region
-  triton {
-    pid = tl.program_id(0)
-    num_tiles0 = $((c.n + c.B - 1) / c.B)
-    num_ctas = tl.num_programs(0)
-    for j in range($(0), $(c.tiles)) {
-      tile_id = pid + j * num_ctas
-      tile_id0 = tile_id
-      offset0 = tile_id0 * $(c.B)
-      in0_bptr = $((c.input.base : Int)) +
-        (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.input.stride : Int))
-      in0 = (tl.load(input_region + in0_bptr,
-        mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n), dtype=DTYPE)).to(DTYPE)
-      out0 = tl.where(in0 > tl.cast(0.0, DTYPE), in0, tl.cast(0.0, DTYPE))
-      out0_bptr = $((c.output.base : Int)) +
-        (offset0 + tl.arange(0, $(c.B))).to(tl.int64) * $((c.output.stride : Int))
-      tl.store(output_region + out0_bptr, (out0).to(DTYPE),
-        mask=(offset0 + tl.arange(0, $(c.B))) < $(c.n))
-    }
-  }
+  candidateKernel c.input.region c.output.region c.input.base c.output.base c.input.stride c.output.stride
+    c.n c.n c.tiles c.B Bool.false ((c.n+c.B-1)/c.B)
 
 def kernel (c : Parameters) : ComputeKernel :=
   if c.oneTile then oneTileKernel c else gridStrideKernel c
@@ -117,4 +149,5 @@ def kernel (c : Parameters) : ComputeKernel :=
 def foldedKernel (c : Parameters) : ComputeKernel :=
   if c.oneTile then oneTileFolded c else gridStrideFolded c
 
+end
 end VeriTile.Bench.Repairs.ReluStridedBuffer

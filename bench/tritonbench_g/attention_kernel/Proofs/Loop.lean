@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_kernel.Proofs.Values
-import bench.tritonbench_g.parallel_attention.Sources.Mathematical_FPRange
+import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 namespace VeriTile.Bench.Repairs.AttentionKernel.Whole001.Source
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)
@@ -37,6 +37,8 @@ theorem entry_bounds (M : Algebra α) (dot : Dot α) (p : Parameters) (s : State
     (entry M dot p s).val.regs .nat [] "hi"=some (fun _=>p.length) := by
   rcases p with ⟨storage,Q,K,V,Bias,Out,q,k,v,bias,o,batches,heads,length,dim,bm,bn,scale⟩
   cases storage <;> simp [entry,entryAs]
+  all_goals funext i
+  all_goals rfl
 
 #specNonCircular accumulated avoiding [run,FP.Structural.exec,bodyExec,loopExec]
 #guard_msgs (drop info) in

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_emb_nopad.PairIO
+import bench.tritonbench_g.rotary_emb_nopad.Proofs.Support.PairIO
 import bench.tritonbench_g.rotary_emb_nopad.Proofs.UncachedInterface
 import bench.tritonbench_g.rotary_emb_nopad.Proofs.CachedInterface
 

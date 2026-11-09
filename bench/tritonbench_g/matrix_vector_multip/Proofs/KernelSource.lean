@@ -1,6 +1,6 @@
 import bench.tritonbench_g.matrix_vector_multip.Kernels
 import bench.tritonbench_g.matrix_vector_multip.Proofs.SourceReadback
-import bench.tritonbench_g.matrix_vector_multip.Sources.Bounds
+import bench.tritonbench_g.matrix_vector_multip.Proofs.Sources.Bounds
 
 namespace VeriTile.Bench.Repairs.MatrixVectorMultip.KernelSource
 open VeriTile.Triton FP.Structural

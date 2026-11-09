@@ -17,7 +17,7 @@ def backward_run {α : Type} [Inhabited α] (M : Algebra α)
   all_goals
     refine ⟨?_, ?_⟩
     swap
-    simp (maxSteps := 300000) [backward,ComputeKernel.surfaceBody,run,step,stepAlg,
+    simp (maxSteps := 300000) [backward,backwardTypedKernel,ComputeKernel.surfaceBody,run,step,stepAlg,
       FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,bop,numericLt,numericLe,natLt,natLe,ofFloat,toFloat,
@@ -30,7 +30,7 @@ def forward_run {α : Type} [Inhabited α] (M : Algebra α)
     (Y X Mask : RegionName) (ym yn xm xn sm K D : Nat) (hD : 0<D)
     (log : Bool) (mode : Forward.MaskMode) (causal : Bool) (s : State α) :
     {t : State α // run (engine M)
-      (forward Y X Mask ym yn xm xn sm K D log mode.python causal Bool.false).surfaceBody s=some t} :=
+      (forwardKernel Y X Mask ym yn xm xn sm K D log mode.python causal Bool.false).surfaceBody s=some t} :=
   Forward.TypedTotal.fp32_source_run M Y X Mask ym yn xm xn sm K D hD log mode causal Bool.false s
 
 theorem backward_frame {α : Type} [Inhabited α] (M : Algebra α)
@@ -67,10 +67,11 @@ theorem backward_future {α : Type} [Inhabited α] (M : Algebra α)
     (s : State α) (i : Fin D) (written : i.val<K) (future : s.pids 1 < i.val) :
     (backward_run M Dst G O bm bn gm gn om on K D log Bool.true s).val.mem Dst
       (s.pids 0*bm+s.pids 1*bn+i.val)=
-      Cell.mk .real (M.cast (some .fp32) .real .real (M.literal (some .fp32) .real 0)) := by
+      Cell.mk .real (M.literal (some .fp32) .real 0) := by
   cases log
   all_goals
     dsimp only [backward_run]
+    simp only [←Int.natCast_mul,←Int.natCast_add,Int.toNat_natCast]
     rw [State.masked_scatter_readback (shape := [D]) Dst
       (fun j => s.pids 0*bm+s.pids 1*bn+j.1.val) _ (fun j => j.1.val<K) _
       (i,PUnit.unit) written

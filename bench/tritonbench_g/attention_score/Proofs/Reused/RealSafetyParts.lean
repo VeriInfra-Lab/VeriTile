@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealLoop
-import bench.tritonbench_g.attention_fwd_triton3.Sources.Mathematical_RealRegisterSafety
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.Sources.Mathematical_RealRegisterSafety
 
 /-! Access safety of one complete query iteration. The source's selected load
 mode determines active Q lanes, while M lanes are active only below N.

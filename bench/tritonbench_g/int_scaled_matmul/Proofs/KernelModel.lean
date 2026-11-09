@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int_scaled_matmul.Kernels
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Support.KernelEntryAdapters
 import bench.tritonbench_g.int_scaled_matmul.Proofs.CheckedNative
 
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.KernelModel

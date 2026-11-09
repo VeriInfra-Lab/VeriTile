@@ -30,6 +30,7 @@ globs = [
   # FlashAttention2), and the multi-file FlashAttention1 stack (relocation
   # pending).
   "VeriTile.Examples.Common",
+  "VeriTile.Examples.ErasedProjection",
   "VeriTile.Examples.AttentionForwardClosedForm",
   "VeriTile.Examples.FlashAttention1",
   "VeriTile.Examples.FlashAttention1.+",
@@ -139,7 +140,7 @@ globs = [
 name = "TritonBenchSpecExamples"
 globs = ["bench.examples.+"]
 roots = [
-  "bench.examples.TritonBenchVectorAddition.Correct",
+  "bench.examples.TritonBenchVectorAddition.RealCorrect",
   "bench.examples.TritonBenchVectorAddition.FPEquiv",
 ]
 
@@ -177,6 +178,7 @@ globs = [
 [[lean_lib]]
 name = "TritonBenchGFinal"
 globs = ["bench.tritonbench_g.+"]
+weakLeanArgs = ["--tstack=65536"]
 
 [[lean_lib]]
 name = "FinalRegressions"

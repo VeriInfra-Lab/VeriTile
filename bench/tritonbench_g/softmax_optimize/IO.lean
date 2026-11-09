@@ -10,7 +10,7 @@ open VeriTile.Triton
 noncomputable section
 
 def io (Y X : RegionName) (M N : Nat) : UKernelIO where
-  kernel := (kernel Y X M N (Config.tile N)).eraseDType
+  kernel := (sourceKernel Y X M N (Config.tile N)).eraseDType
   projection := by
     simp only [ComputeKernel.eraseDType, Source.projects,
       ComputeKernel.toAlgorithm?_fromKernelBody, ComputeKernel.toAlgKernel_fromKernelBody]

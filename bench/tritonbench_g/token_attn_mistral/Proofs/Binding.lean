@@ -32,17 +32,45 @@ theorem visited_lane (p : Parameters) (n : Nat) (aligned : n%p.block=0)
 
 structure Facts (p : Parameters) (work : List Grid.PID) (counts : Fin work.length → Nat)
     (x : Ports.Logical α work.length (Ports.span p work counts) p.width) (m : Grid.Memory α) : Prop where
-  sequence : ∀ j,(m p.length.cast (work[j].1*p.sequenceStride)).read .nat=x.sequence j
-  start : ∀ j,(m p.start.cast (work[j].1*p.attentionStartStride)).read .nat=x.start j
-  request : ∀ j,(m p.request.cast (work[j].1*p.requestStride)).read .nat=x.request j
-  attention : ∀ j,(m p.attentionLength.cast (work[j].1*p.attentionLengthStride)).read .nat=counts j
+  sequenceWord : ∀ j,(m p.length.cast (work[j].1*p.sequenceStride)).read .int=x.sequenceWord j
+  startWord : ∀ j,(m p.start.cast (work[j].1*p.attentionStartStride)).read .int=x.startWord j
+  requestWord : ∀ j,(m p.request.cast (work[j].1*p.requestStride)).read .int=x.requestWord j
+  attentionWord : ∀ j,(m p.attentionLength.cast (work[j].1*p.attentionLengthStride)).read .int=(counts j : Int)
   probability : ∀ j n,0<p.block → n.val<counts j →
     (m p.prob (work[j].2*p.probHeadStride+(x.start j+n.val)*p.probTokenStride)).read .fp32=x.probability j n
-  tokens : ∀ j n,Ports.visited p (counts j) n.val → n.val+Ports.window p x j<x.sequence j →
-    (m p.tokens.cast (x.request j*p.requestBatchStride+(Ports.window p x j+n.val)*p.requestTokenStride)).read .nat=x.token j n
+  tokenWord : ∀ j n,Ports.visited p (counts j) n.val → n.val+Ports.window p x j<x.sequence j →
+    (m p.tokens.cast (x.request j*p.requestBatchStride+(Ports.window p x j+n.val)*p.requestTokenStride)).read .int=x.tokenWord j n
   value : ∀ j n,Ports.visited p (counts j) n.val → n.val+Ports.window p x j<x.sequence j → ∀ d,
     (m p.value (work[j].2/p.kvGroup*p.valueHeadStride+d.val*p.valueDimStride+
       x.token j n*p.valueBatchStride)).read .fp32=x.value j n d
+  domain : Ports.Admissible p counts x
+
+section Projections
+variable {p : Parameters} {work : List Grid.PID} {counts : Fin work.length → Nat}
+  {x : Ports.Logical α work.length (Ports.span p work counts) p.width} {m : Grid.Memory α}
+
+theorem Facts.sequence (f : Facts p work counts x m) (j : Fin work.length) :
+    ((m p.length.cast (work[j].1*p.sequenceStride)).read .int).toNat = x.sequence j :=
+  congrArg Int.toNat (f.sequenceWord j)
+
+theorem Facts.start (f : Facts p work counts x m) (j : Fin work.length) :
+    ((m p.start.cast (work[j].1*p.attentionStartStride)).read .int).toNat = x.start j :=
+  congrArg Int.toNat (f.startWord j)
+
+theorem Facts.request (f : Facts p work counts x m) (j : Fin work.length) :
+    ((m p.request.cast (work[j].1*p.requestStride)).read .int).toNat = x.request j :=
+  congrArg Int.toNat (f.requestWord j)
+
+theorem Facts.attention (f : Facts p work counts x m) (j : Fin work.length) :
+    ((m p.attentionLength.cast (work[j].1*p.attentionLengthStride)).read .int).toNat=counts j := by
+  simpa only [Int.toNat_natCast] using congrArg Int.toNat (f.attentionWord j)
+
+theorem Facts.tokens (f : Facts p work counts x m) (j : Fin work.length)
+    (n : Fin (Ports.span p work counts)) (visited : Ports.visited p (counts j) n.val)
+    (live : n.val+Ports.window p x j<x.sequence j) :
+    ((m p.tokens.cast (x.request j*p.requestBatchStride+(Ports.window p x j+n.val)*p.requestTokenStride)).read .int).toNat=x.token j n :=
+  congrArg Int.toNat (f.tokenWord j n visited live)
+end Projections
 
  theorem facts (M : Algebra α) (R : SumPrimitive α) (p : Parameters)
     (work : List Grid.PID) (counts : Fin work.length → Nat) (vals : Ports.Values α p work counts)
@@ -61,7 +89,7 @@ structure Facts (p : Parameters) (work : List Grid.PID) (counts : Fin work.lengt
       bound ⟨2,by simp [IO.program,Ports.memory,Ports.inputs]⟩ (j,()) (by change True; trivial)
   · intro j
     have h := bound ⟨3,by simp [IO.program,Ports.memory,Ports.inputs]⟩ (j,()) (by change True; trivial)
-    have hc := domain j
+    have hc := domain.attention j
     simpa [IO.program,Ports.memory,Ports.inputs,Ports.logical,mapValue,id_eq] using h.trans hc
   · intro j n pos live
     simpa [IO.program,Ports.memory,Ports.inputs,Ports.logical,mapValue,id_eq] using
@@ -72,6 +100,8 @@ structure Facts (p : Parameters) (work : List Grid.PID) (counts : Fin work.lengt
   · intro j n visited live d
     simpa [IO.program,Ports.memory,Ports.inputs,Ports.logical,mapValue,id_eq] using
       bound ⟨6,by simp [IO.program,Ports.memory,Ports.inputs]⟩ (j,n,d,()) (by simpa [IO.program,Ports.memory,Ports.inputs,Ports.outputs,Fin.cases] using And.intro visited live)
+  · exact domain
+
 
  theorem Facts.congr {p : Parameters} {work : List Grid.PID} {counts : Fin work.length → Nat}
     {x : Ports.Logical α work.length (Ports.span p work counts) p.width} {a b : Grid.Memory α}
@@ -83,14 +113,15 @@ structure Facts (p : Parameters) (work : List Grid.PID) (counts : Fin work.lengt
   have hs := agree p.start.cast (by simp [Grid.Reads])
   have hl := agree p.length.cast (by simp [Grid.Reads])
   have ha := agree p.attentionLength.cast (by simp [Grid.Reads])
-  constructor <;> simp only [hp,hv,ht,hr,hs,hl,ha]
-  · exact f.sequence
-  · exact f.start
-  · exact f.request
-  · exact f.attention
+  constructor <;> try simp only [hp,hv,ht,hr,hs,hl,ha]
+  · exact f.sequenceWord
+  · exact f.startWord
+  · exact f.requestWord
+  · exact f.attentionWord
   · exact f.probability
-  · exact f.tokens
+  · exact f.tokenWord
   · exact f.value
+  · exact f.domain
 
 end
 end VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.Binding

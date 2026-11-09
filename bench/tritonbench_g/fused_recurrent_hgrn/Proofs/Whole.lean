@@ -15,12 +15,12 @@ def BackwardRegion (BH T D : Nat) (r : RegionName) (a : Nat) : Prop :=
 
 theorem forward_grid (p : Ops α) (input : Input α) (BH T D BD : Nat) (hBD : 0 < BD)
     (U S : Bool) (s : State α) (h : Inputs s input T D) :
-    ∃ q, gridRun p (forward T D BD U S).surfaceBody (programs BH D BD) s=some q ∧
+    ∃ q, gridRun p (forwardKernel T D BD U S).surfaceBody (programs BH D BD) s=some q ∧
       Inputs q input T D ∧ Saved p q input U BH T D ∧
       (S=Bool.true → ∀ bh, bh < BH → ∀ d, d < D →
         q.mem "ht" (stateAddr bh D d)=.mk .real (state p U input bh d T)) ∧
       (∀ r a, ¬ ForwardRegion BH T D S r a → q.mem r a=s.mem r a) := by
-  obtain ⟨q,he,hq,hv,hf⟩ := grid_run_complete p (forward T D BD U S).surfaceBody
+  obtain ⟨q,he,hq,hv,hf⟩ := grid_run_complete p (forwardKernel T D BD U S).surfaceBody
     (programs BH D BD) (fun s => Inputs s input T D) (fWrites T D BD S)
     (forwardTarget p input U T D) (fun id _ s h => forward_program p input T D BD U S id s h) s h
   refine ⟨q,he,hq,?_,?_,?_⟩
@@ -54,10 +54,10 @@ def Gradients (p : Ops α) (s : State α) (input : Input α) (U V : Bool) (BH T 
 
 theorem backward_grid (p : Ops α) (input : Input α) (BH T D BD : Nat) (hBD : 0 < BD)
     (U V : Bool) (s : State α) (h : Inputs s input T D) (hs : Saved p s input U BH T D) :
-    ∃ q, gridRun p (backward T D BD U V).surfaceBody (programs BH D BD) s=some q ∧
+    ∃ q, gridRun p (backwardKernel T D BD U V).surfaceBody (programs BH D BD) s=some q ∧
       Inputs q input T D ∧ Saved p q input U BH T D ∧ Gradients p q input U V BH T D ∧
       (∀ r a, ¬ BackwardRegion BH T D r a → q.mem r a=s.mem r a) := by
-  obtain ⟨q,he,hq,hv,hf⟩ := grid_run_complete p (backward T D BD U V).surfaceBody
+  obtain ⟨q,he,hq,hv,hf⟩ := grid_run_complete p (backwardKernel T D BD U V).surfaceBody
     (programs BH D BD) (fun s => Inputs s input T D ∧ Saved p s input U BH T D)
     (bWrites T D BD) (backwardTarget p input U V T D)
     (fun id hid s h => backward_program p input BH T D BD U V id
@@ -86,8 +86,8 @@ No execution success or output identity appears among the assumptions. -/
 theorem whole_result (p : Ops α) (input : Input α) (BH T D BDF BDB : Nat)
     (hF : 0 < BDF) (hB : 0 < BDB) (U S V : Bool) (s : State α) (h : Inputs s input T D) :
     ∃ f b,
-      gridRun p (forward T D BDF U S).surfaceBody (programs BH D BDF) s=some f ∧
-      gridRun p (backward T D BDB U V).surfaceBody (programs BH D BDB) f=some b ∧
+      gridRun p (forwardKernel T D BDF U S).surfaceBody (programs BH D BDF) s=some f ∧
+      gridRun p (backwardKernel T D BDB U V).surfaceBody (programs BH D BDB) f=some b ∧
       Saved p b input U BH T D ∧ Gradients p b input U V BH T D ∧
       (S=Bool.true → ∀ bh, bh < BH → ∀ d, d < D →
         b.mem "ht" (stateAddr bh D d)=.mk .real (state p U input bh d T)) ∧

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_dequant_matmul.ReuseIO
+import bench.tritonbench_g.int8_dequant_matmul.Proofs.Support.ReuseIO
 
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul.ScalarCast.ReuseIO
 open VeriTile Triton FP.Structural

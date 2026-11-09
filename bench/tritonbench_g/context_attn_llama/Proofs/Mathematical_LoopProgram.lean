@@ -6,7 +6,7 @@ set_option maxHeartbeats 4000000
 set_option maxRecDepth 10000
 set_option linter.unusedSimpArgs false
 
-def lanes (p : Layout) : Op .nat [p.BN] := .ref .nat [p.BN] "offs_n"
+def lanes (p : Layout) : Op .int [p.BN] := .ref .int [p.BN] "offs_n"
 def keyView (p : Layout) := Op.expandDim ⟨0,by simp⟩ (lanes p)
 def keyChannel (p : Layout) := Op.expandDim ⟨1,by simp⟩ (dimensions p)
 def valueView (p : Layout) := Op.expandDim ⟨1,by simp⟩ (lanes p)
@@ -14,11 +14,11 @@ def valueChannel (p : Layout) := dimView p
 
 def pageIndex (p : Layout) : Op .int [p.BN] :=
   .add .int .scalarL
-    (.mul .int .nil (Op.constNat p.reqRow).castNatToInt (z "cur_batch_req_idx"))
-    (.mul .int .scalarL (Op.constNat p.reqToken).castNatToInt
-      (.add .int .scalarL (z "start_n") (lanes p).castNatToInt))
+    (.mul .int .nil (.castNatToInt (.constNat p.reqRow)) (z "cur_batch_req_idx"))
+    (.mul .int .scalarL (.castNatToInt (.constNat p.reqToken))
+      (.add .int .scalarL (z "start_n") (lanes p)))
 def pageMask (p : Layout) : Op .bool [p.BN] :=
-  .lt .int .scalarR (.add .int .scalarL (z "start_n") (lanes p).castNatToInt)
+  .lt .int .scalarR (.add .int .scalarL (z "start_n") (lanes p))
     (z "block_end_loc")
 def pageLanes (p : Layout) : Op .int [p.BN] := .ref .int [p.BN] "kv_loc"
 def pageKeyView (p : Layout) := Op.expandDim ⟨0,by simp⟩ (pageLanes p)
@@ -27,13 +27,13 @@ def pageValueView (p : Layout) := Op.expandDim ⟨1,by simp⟩ (pageLanes p)
 def keyOffsets (p : Layout) : Op .int [p.D,p.BN] :=
   .add .int Broadcast.nil.consR.consL
     (.add .int .scalarR
-      (.mul .int .scalarR (pageKeyView p) (Op.constNat p.kRow).castNatToInt)
-      (Op.mul .nat .nil (n "cur_kv_head") (.constNat p.kHead)).castNatToInt)
-    (Op.mul .nat .scalarR (keyChannel p) (.constNat p.kDim)).castNatToInt
+      (.mul .int .scalarR (pageKeyView p) (Op.constInt p.kRow))
+      (Op.mul .int .nil (z "cur_kv_head") (.constInt p.kHead)))
+    (Op.mul .int .scalarR (keyChannel p) (.constInt p.kDim))
 
 def keyMask (p : Layout) : Op .bool [p.D,p.BN] :=
   .remap [p.D,p.BN] (fun x => (⟨0,by decide⟩,x.2.1,PUnit.unit))
-    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (keyView p).castNatToInt)
+    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (keyView p))
       (z "block_end_loc"))
 
 def keys (p : Layout) (r : Regions) : List Stmt :=
@@ -48,8 +48,8 @@ def keys (p : Layout) (r : Regions) : List Stmt :=
 
 def causalMask (p : Layout) : Op .bool [p.BM,p.BN] :=
   .ge .int Broadcast.nil.consL.consR
-    (.add .int .scalarR (rowView p).castNatToInt (z "prompt_cache_len"))
-    (.add .int .scalarL (z "start_n") (keyView p).castNatToInt)
+    (.add .int .scalarR (rowView p) (z "prompt_cache_len"))
+    (.add .int .scalarL (z "start_n") (keyView p))
 
 def scaling (p : Layout) (swapped : Bool) (scale : ℝ) : Op .real [p.BM,p.BN] :=
   if swapped then .mul .real .scalarL (.const scale) (.ref .real [p.BM,p.BN] "qk")
@@ -60,7 +60,7 @@ def scores (p : Layout) (swapped : Bool) (scale : ℝ) : List Stmt :=
      (.ref .real [p.BM,p.D] "q") (.ref .real [p.D,p.BN] "k")),
    .assign .bool [p.BM,p.BN] "mask" (causalMask p),
    .assign .real [p.BM,p.BN] "qk" (.where (.ref .bool [p.BM,p.BN] "mask")
-     (scaling p swapped scale) (.broadcast (.const (-10e7 : ℝ)) [p.BM,p.BN]))]
+     (scaling p swapped scale) (.broadcast (.const (-100000000.0 : ℝ)) [p.BM,p.BN]))]
 
 def vec (p : Layout) (name : RegName) : Op .real [p.BM] := .ref .real [p.BM] name
 def mat (p : Layout) (name : RegName) : Op .real [p.BM,p.BN] := .ref .real [p.BM,p.BN] name
@@ -81,13 +81,13 @@ def stats (p : Layout) : List Stmt :=
 def valueOffsets (p : Layout) : Op .int [p.BN,p.D] :=
   .add .int Broadcast.nil.consL.consR
     (.add .int .scalarR
-      (.mul .int .scalarR (pageValueView p) (Op.constNat p.vRow).castNatToInt)
-      (Op.mul .nat .nil (n "cur_kv_head") (.constNat p.vHead)).castNatToInt)
-    (Op.mul .nat .scalarR (valueChannel p) (.constNat p.vDim)).castNatToInt
+      (.mul .int .scalarR (pageValueView p) (Op.constInt p.vRow))
+      (Op.mul .int .nil (z "cur_kv_head") (.constInt p.vHead)))
+    (Op.mul .int .scalarR (valueChannel p) (.constInt p.vDim))
 
 def valueMask (p : Layout) : Op .bool [p.BN,p.D] :=
   .remap [p.BN,p.D] (Broadcast.leftIndex Broadcast.nil.consL.consSame)
-    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (valueView p).castNatToInt)
+    (.lt .int .scalarR (.add .int .scalarL (z "start_n") (valueView p))
       (z "block_end_loc"))
 
 def values (p : Layout) (r : Regions) : List Stmt :=
@@ -107,7 +107,9 @@ def body (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) : List Stmt :
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     body p r swapped scale = keys p r ++ scores p swapped scale ++ stats p ++ values p r := by
   cases swapped
-  all_goals simp only [body,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,VeriTile.Bench.TritonBenchG.ContextAttnLlama.scaleFirst,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.scaleFirst,ComputeKernel.surfaceBody,
+  all_goals simp only [body,lower,parts,mathematical,kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.original,
+    VeriTile.Bench.Repairs.ContextAttnLlama.originalKernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.scaleFirst,VeriTile.Bench.Repairs.ContextAttnLlama.SelectedSource.scaleFirst,
+    VeriTile.Bench.Repairs.ContextAttnLlama.scaleFirstKernel,ComputeKernel.surfaceBody,
     Bool.false_eq_true,↓reduceIte,String.reduceEq,Option.map,Option.getD,Except.toOption,
     Source.intRange?,Source.prefixBefore,List.length_cons,List.length_nil,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

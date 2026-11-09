@@ -45,7 +45,7 @@ def preludeExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   by_cases hno : p.noGroups = Bool.true <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [prelude, source, FPTyped.matmul4Typed, ComputeKernel.surfaceBody,
+     simp [prelude, source, FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel, ComputeKernel.surfaceBody,
        run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
        bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
        FloatDType.numericDType, FloatDType.toTileDType,
@@ -87,7 +87,7 @@ def bodyExecution {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)
   by_cases hno : p.noGroups = Bool.true <;>
     (refine ⟨?_, ?_⟩
      swap
-     simp [body, source, FPTyped.matmul4Typed, ComputeKernel.surfaceBody,
+     simp [body, source, FPTyped.matmul4Typed,VeriTile.Bench.TritonBenchG.MatmulDequantize.Body.original_matmul4_kernel, ComputeKernel.surfaceBody,
        run, step, evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, store, numeric,
        bop, natLt, numericEq, ComputeDType.eraseDType, ofFloat, toFloat,
        FloatDType.numericDType, FloatDType.toTileDType,

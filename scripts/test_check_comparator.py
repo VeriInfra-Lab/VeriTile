@@ -3,7 +3,9 @@ import json
 import os
 from pathlib import Path
 import shutil
+import socket
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -11,6 +13,65 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ComparatorGateTests(unittest.TestCase):
+    def test_kernel_isolation_denies_writes_tcp_and_unix_sockets(self):
+        filesystem = '''
+from pathlib import Path
+import sys
+try:
+    Path(sys.argv[1]).write_text("changed")
+except PermissionError:
+    print("filesystem denied")
+else:
+    raise SystemExit("read-only filesystem allowed a write")
+'''
+        tcp = '''
+import socket
+import sys
+for operation, port in [("bind", 0), ("connect", int(sys.argv[1]))]:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as connection:
+        connection.settimeout(2)
+        try:
+            getattr(connection, operation)(("127.0.0.1", port))
+        except PermissionError:
+            continue
+        raise SystemExit("TCP " + operation + " was allowed")
+print("TCP denied")
+'''
+        unix = '''
+import errno
+import socket
+try:
+    connection = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+except OSError as error:
+    if error.errno != errno.EAFNOSUPPORT:
+        raise
+    print("AF_UNIX denied")
+else:
+    connection.close()
+    raise SystemExit("AF_UNIX was allowed")
+'''
+        with tempfile.TemporaryDirectory(prefix='veritile-isolation-test-') as temp, \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener, \
+                socket.socket(socket.AF_UNIX, socket.SOCK_STREAM):
+            marker = Path(temp) / 'read-only.txt'
+            marker.write_text('original')
+            listener.bind(('127.0.0.1', 0))
+            listener.listen(1)
+            landlock = ['landrun', '--best-effort', '--rox', '/', sys.executable, '-c']
+            probes = [
+                ('filesystem denied', landlock + [filesystem, str(marker)]),
+                ('TCP denied', landlock + [tcp, str(listener.getsockname()[1])]),
+                ('AF_UNIX denied', ['systemd-run', '--user', '--pipe', '--wait', '--collect',
+                                   '--property=RestrictAddressFamilies=~AF_UNIX',
+                                   sys.executable, '-c', unix]),
+            ]
+            for expected, command in probes:
+                with self.subTest(control=expected):
+                    result = subprocess.run(command, text=True, capture_output=True, timeout=30)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertEqual(result.stdout.strip(), expected)
+            self.assertEqual(marker.read_text(), 'original')
+
     def project(self, root, source):
         (root / 'scripts' / 'bench').mkdir(parents=True)
         (root / 'bench/tritonbench_g/fixture').mkdir(parents=True)

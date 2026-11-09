@@ -28,7 +28,7 @@ def forwardResult (M : Algebra α) (c : Shape) (off target : Fin 64 → Fin 16 �
   let value := forwardValue M off gate carry u
   let written := scatter "O" .real target (fun i => M.cast (some .fp32) .real .real (value i))
     (forwardPre M off gate carry u)
-  ((written.setReg "D" .ptr [] (fun _ => (("D" : RegionName),gate+1))).setReg "S" .ptr [64,16]
+  ((written.setReg "d" .ptr [] (fun _ => (("D" : RegionName),gate+1))).setReg "S" .ptr [64,16]
     (ptr "S" (fun e j => off e j+c.K*c.V))).setReg "O" .ptr [64,16]
       (ptr "O" (fun e j => target e j+c.K*c.V))
 
@@ -36,7 +36,7 @@ theorem forward (M : Algebra α) (c : Shape) (off target : Fin 64 → Fin 16 →
     (gate : Nat) (carry : Lane → α) (u : State α)
     (hs : u.regs .ptr [64,16] "S"=some (ptr "S" off))
     (ho : u.regs .ptr [64,16] "O"=some (ptr "O" target))
-    (hd : u.regs .ptr [] "D"=some (fun _ : TileIndex [] => (("D" : RegionName),gate)))
+    (hd : u.regs .ptr [] "d"=some (fun _ : TileIndex [] => (("D" : RegionName),gate)))
     (ha : u.regs .real [64,16] "acc"=some carry) :
     run (engine M) (forwardBody c) u=some (forwardResult M c off target gate carry u) := by
   simp (config := {maxSteps:=150000}) [forwardBody,loadScalar,loadMatrix,assign32,storeMatrix,advance,

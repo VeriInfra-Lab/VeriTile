@@ -1,7 +1,7 @@
 import VeriTile.Triton.Memory.LogicalIO
-import bench.tritonbench_g.rotary_transform_ops.XorSource
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.XorSource
 import bench.tritonbench_g.rotary_transform_ops.Proofs.TypedGrid
-import bench.tritonbench_g.rotary_transform_ops.Spec
+import bench.tritonbench_g.rotary_transform_ops.Proofs.Support.Spec
 import VeriTile.Triton.Float.ReadProgramEquivalence
 
 /-! Logical tensor channels for the complete original rotary grid. Source

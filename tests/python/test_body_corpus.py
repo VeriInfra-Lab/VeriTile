@@ -64,6 +64,19 @@ class BodyCorpusTests(unittest.TestCase):
         self.assertEqual(result["counts"]["uncovered_selected_jit_functions"], 1)
         self.assertEqual(result["tasks"][0]["uncovered_selected_jits"][0]["function"], "second")
 
+    def test_pasted_body_is_discovered_without_a_task_json(self):
+        (self.directory / 'jit-correspondence.json').unlink()
+        result = scan(self.root)
+        self.assertTrue(result['complete'])
+        self.assertEqual(len(result['tasks'][0]['checked_pairs']), 1)
+        self.assertFalse((self.directory / 'jit-correspondence.json').exists())
+
+    def test_no_json_discovery_still_rejects_a_mismatched_body(self):
+        (self.directory / 'jit-correspondence.json').unlink()
+        self.write('bench/tritonbench_g/sample/Kernels.lean', LEAN.replace('tl.arange(0, B)', 'tl.arange(1, B)'))
+        with self.assertRaisesRegex(ValueError, 'No exact source pair'):
+            scan(self.root)
+
     def test_broken_pair_is_an_error_even_when_other_stages_are_pending(self):
         self.write("bench/tritonbench_g/sample/Kernels.lean", LEAN.replace("tl.arange(0, B)", "tl.arange(1, B)"))
         with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
@@ -72,6 +85,64 @@ class BodyCorpusTests(unittest.TestCase):
     def test_duplicate_mapping_cannot_cover_another_stage(self):
         self.manifest([self.record, self.record])
         with self.assertRaisesRegex(ValueError, "reused"):
+            scan(self.root)
+
+    def typed_variants(self):
+        second = LEAN.replace('callSignature', 'byteSignature').replace('def body ', 'def byteBody ')
+        second = second.replace('("x_ptr",.fp32)', '("x_ptr",.fp16)')
+        self.write("bench/tritonbench_g/sample/Kernels.lean", LEAN + second)
+        half = {**self.record, "invocation_variant": "single_storage"}
+        byte = {**self.record, "invocation_variant": "half_storage",
+                "lean_definition": "byteBody", "signature_definition": "byteSignature",
+                "expected_signature": {**self.record["expected_signature"],
+                    "pointers": [["x_ptr", "fp16"], ["out_ptr", "fp32"]]}}
+        return half, byte
+
+    def test_distinct_typed_invocations_still_cover_only_their_original_function(self):
+        self.manifest(self.typed_variants())
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(len(result["tasks"][0]["checked_pairs"]), 2)
+        self.write("bench/tritonbench_g/sample/source.py", PYTHON + PYTHON.replace('first(', 'second('))
+        result = scan(self.root)
+        self.assertFalse(result["complete"])
+        self.assertEqual(result["counts"]["uncovered_selected_jit_functions"], 1)
+
+    def test_distinct_closed_constexpr_invocations_are_checked(self):
+        first = LEAN.replace('(B : Nat)', '').replace('  with_triton_signature',
+                                                        '  let B : Nat := 8\n  with_triton_signature')
+        second = first.replace('def body ', 'def secondBody ').replace('let B : Nat := 8', 'let B : Nat := 16')
+        second = second[second.index('def secondBody '):]
+        self.write("bench/tritonbench_g/sample/Kernels.lean", first + second)
+        records = [{**self.record, "invocation_variant": "width8", "expected_constexpr_bindings": {"B": "8"}},
+                   {**self.record, "invocation_variant": "width16", "lean_definition": "secondBody",
+                    "expected_constexpr_bindings": {"B": "16"}}]
+        self.manifest(records)
+        self.assertTrue(scan(self.root)["complete"])
+        records[1]["expected_constexpr_bindings"] = {"B": "32"}
+        self.manifest(records)
+        with self.assertRaisesRegex(ValueError, "closed constexpr binding"):
+            scan(self.root)
+
+    def test_duplicate_invocation_labels_are_rejected(self):
+        first, second = self.typed_variants()
+        self.manifest([first, {**second, "invocation_variant": first["invocation_variant"]}])
+        with self.assertRaisesRegex(ValueError, "reused"):
+            scan(self.root)
+
+    def test_renamed_identical_invocation_is_rejected(self):
+        first, second = self.typed_variants()
+        self.manifest([first, {**second, "expected_signature": first["expected_signature"]}])
+        with self.assertRaisesRegex(ValueError, "distinct typed"):
+            scan(self.root)
+
+    def test_each_invocation_body_must_match(self):
+        self.manifest(self.typed_variants())
+        text = (self.directory / "Kernels.lean").read_text()
+        start = text.index("def byteBody ")
+        self.write("bench/tritonbench_g/sample/Kernels.lean",
+                   text[:start] + text[start:].replace("tl.arange(0, B)", "tl.arange(1, B)"))
+        with self.assertRaisesRegex(ValueError, "correspondence mismatch"):
             scan(self.root)
 
     def test_unchanged_candidate_stage_can_share_lean_source(self):

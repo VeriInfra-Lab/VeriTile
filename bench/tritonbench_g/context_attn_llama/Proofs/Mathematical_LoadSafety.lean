@@ -10,7 +10,7 @@ theorem gather_safe (p : Layout) (r : Regions) (sn req last : Int) (u : BlockSta
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hr : u.regs .int [] "cur_batch_req_idx" = some (Tile.scalar req))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hb : ∀ j : Fin p.BN, sn+j.val < last → (p.reqRow*req+p.reqToken*(sn+j.val)).toNat < bounds r.pages) :
     ((Op.load .int (.region r.pages (pageIndex p).castIntToNat) (.maskOther (pageMask p) (.broadcast (.constInt 0) [p.BN])))).SafeAt bounds u := by
   apply SafeOps.maskedLoad (dtype := .int) (Region.cast r.pages) _ _ _ bounds u
@@ -32,9 +32,9 @@ theorem key_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hr : u.regs .int [] "cur_batch_req_idx" = some (Tile.scalar req))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar last))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (ht : ∀ j : Fin p.BN, sn+j.val < last → (p.reqRow*req+p.reqToken*(sn+j.val)).toNat < bounds r.pages)
     (hk : ∀ (d : Fin p.D) (j : Fin p.BN), sn+j.val < last →
       (KeysExecution.address p head (KeysExecution.pages p r req sn last u j.val) d.val).toNat < bounds r.key) :
@@ -49,7 +49,7 @@ theorem key_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
     simp [pageIndex,pageMask,lanes,z,s1,pages,KeysExecution.pages,evalOp.eq_def,hs,hr,hl,hn,
       Tile.vec,Tile.scalar,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex,Option.bind,-Tile.scalar_eta]
   have h3 : evalOp (keyOffsets p) s2 = some off := by
-    simp [keyOffsets,pageKeyView,pageLanes,keyChannel,dimensions,n,s2,s1,off,pages,KeysExecution.address,evalOp.eq_def,hh,hd,
+    simp [keyOffsets,pageKeyView,pageLanes,keyChannel,dimensions,n,z,s2,s1,off,pages,KeysExecution.address,evalOp.eq_def,hh,hd,
       Tile.mat,Tile.vec,Tile.scalar,Tile.remap,tile_elementwise,Broadcast.leftIndex,Broadcast.rightIndex,
       Option.bind,Nat.cast_mul,-Tile.scalar_eta]
   unfold keys
@@ -62,7 +62,7 @@ theorem key_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
       (by simpa [s1] using hl) (by simpa [s1] using hn) ht
   change Stmt.TraceSafeList bounds _ s2
   rw [TraceProofs.cons_of_run_iff (stepStmt_assign_eq_some h3)]
-  refine ⟨by simp [Stmt.TraceSafe,keyOffsets,pageKeyView,pageLanes,keyChannel,dimensions,n,Op.SafeAt.eq_def],?_⟩
+  refine ⟨by simp [Stmt.TraceSafe,keyOffsets,pageKeyView,pageLanes,keyChannel,dimensions,n,z,Op.SafeAt.eq_def],?_⟩
   change Stmt.TraceSafeList bounds _ s3
   apply TraceProofs.assign_cons
   · apply SafeOps.maskedLoad r.key _ _ _ bounds s3
@@ -85,11 +85,11 @@ theorem key_safe (p : Layout) (r : Regions) (sn req last : Int) (head : Nat)
 theorem value_safe (p : Layout) (r : Regions) (head : Nat) (pages : Fin p.BN → Int) (sn limit : Int)
     (u : BlockState) (bounds : RegionBounds)
     (hpages : u.regs .int [p.BN] "kv_loc" = some (Tile.vec pages))
-    (hh : u.regs .nat [] "cur_kv_head" = some (Tile.scalar head))
+    (hh : u.regs .int [] "cur_kv_head" = some (Tile.scalar head))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hl : u.regs .int [] "block_end_loc" = some (Tile.scalar limit))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
-    (hd : u.regs .nat [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hd : u.regs .int [p.D] "offs_d" = some (Tile.vec (fun d => d.val)))
     (hbound : ∀ (j : Fin p.BN) (d : Fin p.D), sn+j.val < limit →
       (ValuesExecution.address p head pages j d).toNat < bounds r.value) :
     Stmt.TraceSafeList bounds (values p r) u := by

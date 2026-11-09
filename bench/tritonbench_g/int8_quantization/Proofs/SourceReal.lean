@@ -57,7 +57,7 @@ def blockMaximum (p : Parameters) (entry : State ℝ) : ℝ :=
 
 def FiniteDomain (p : Parameters) (entry : State ℝ) : Prop :=
   ∀ i,Model.active p entry i → |RealSpec.factor p.query p.channels*raw p entry i|≤
-    340282346638528859811704183484516925440
+    340282346638528860000000000000000000000
 
 theorem transformed_ideal (rest : Algebra ℝ) (p : Parameters) (entry : State ℝ)
     (factor : p.factor=RealSpec.factor p.query p.channels) :
@@ -67,7 +67,7 @@ theorem transformed_ideal (rest : Algebra ℝ) (p : Parameters) (entry : State �
     norm_num [transformed,loaded,algebra,scalar32,ideal,raw,query,active,factor,RealSpec.factor,mul_comm]
 
 theorem ideal_finite (p : Parameters) (entry : State ℝ) (finite : FiniteDomain p entry)
-    (i : Lane p) : |ideal p entry i|≤340282346638528859811704183484516925440 := by
+    (i : Lane p) : |ideal p entry i|≤340282346638528860000000000000000000000 := by
   by_cases active : Model.active p entry i
   · simpa [ideal,active] using finite i active
   · norm_num [ideal,active]

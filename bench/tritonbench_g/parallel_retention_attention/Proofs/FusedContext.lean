@@ -70,6 +70,34 @@ theorem range_context (M : Algebra α) (a b : List ComputeStmt) (h : CodeEq M a 
 termination_by stop-cur
 decreasing_by all_goals omega
 
+theorem rangeInt_context (M : Algebra α) (a b : List ComputeStmt) (h : CodeEq M a b)
+    (idx : RegName) (cur stop : Int) (stride : Nat) (s : State α) :
+    FP.Structural.rangeInt M idx cur stop stride a s=FP.Structural.rangeInt M idx cur stop stride b s ∧
+    ∀ cap,Safety.rangeIntSafe M cap idx cur stop stride a s ↔
+      Safety.rangeIntSafe M cap idx cur stop stride b s := by
+  by_cases hz : stride=0
+  · constructor
+    · rw [FP.Structural.rangeInt,FP.Structural.rangeInt]; simp only [hz,if_true]
+    · intro cap; rw [Safety.rangeIntSafe,Safety.rangeIntSafe]; simp only [hz,if_true]
+  by_cases hl : cur<stop
+  · constructor
+    · rw [FP.Structural.rangeInt,FP.Structural.rangeInt]
+      simp only [hz,hl,if_false,if_true,h.run]
+      cases he : FP.Structural.run M b (s.setReg idx .int [] (fun _=>cur)) with
+      | none=>rfl
+      | some t=>exact (rangeInt_context M a b h idx (cur+stride) stop stride t).1
+    · intro cap
+      rw [Safety.rangeIntSafe,Safety.rangeIntSafe]
+      simp only [hz,hl,if_false,if_true,h.run]
+      cases he : FP.Structural.run M b (s.setReg idx .int [] (fun _=>cur)) with
+      | none=>exact and_congr (h.safe cap _) Iff.rfl
+      | some t=>exact and_congr (h.safe cap _) ((rangeInt_context M a b h idx (cur+stride) stop stride t).2 cap)
+  · constructor
+    · rw [FP.Structural.rangeInt,FP.Structural.rangeInt]; simp only [hz,hl,if_false]
+    · intro cap; rw [Safety.rangeIntSafe,Safety.rangeIntSafe]; simp only [hz,hl,if_false]
+termination_by (stop-cur).toNat
+decreasing_by all_goals omega
+
 theorem static_context {M : Algebra α} {a b : List ComputeStmt} (h : CodeEq M a b)
     (idx : RegName) (first last stride : Nat) :
     StmtEq M (.forRange idx first last stride a) (.forRange idx first last stride b) := by
@@ -91,6 +119,19 @@ theorem dynamic_context {M : Algebra α} {a b : List ComputeStmt} (h : CodeEq M 
     simp only [Safety.stepSafe_unfold]
     cases evalOp M none first s <;> cases evalOp M none last s <;> cases evalOp M none stride s <;>
       simp [(range_context M a b h idx _ _ _ s).2 cap]
+
+theorem signed_context {M : Algebra α} {a b : List ComputeStmt} (h : CodeEq M a b)
+    (idx : RegName) (first last : Op .int []) (stride : Op .nat []) :
+    StmtEq M (.forRangeInt idx first last stride a) (.forRangeInt idx first last stride b) := by
+  constructor
+  · intro s
+    simp only [step]
+    cases evalOp M none first s <;> cases evalOp M none last s <;> cases evalOp M none stride s <;>
+      simp [Option.bind,(rangeInt_context M a b h idx _ _ _ s).1]
+  · intro cap s
+    simp only [Safety.stepSafe_unfold]
+    cases evalOp M none first s <;> cases evalOp M none last s <;> cases evalOp M none stride s <;>
+      simp [(rangeInt_context M a b h idx _ _ _ s).2 cap]
 
 theorem conditional_context {M : Algebra α} {a b : List ComputeStmt} (h : CodeEq M a b)
     (cond : Op .bool []) : StmtEq M (.ifThen cond a) (.ifThen cond b) := by

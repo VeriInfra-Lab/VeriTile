@@ -17,7 +17,7 @@ def pointer (N B : Nat) (name : RegName) : Op .nat [B] :=
 
 def stmt (y : RegionName) (N B : Nat) (valueName offsetName : RegName) : ComputeStmt :=
   .store .real [B] (.region y (pointer N B offsetName))
-    (.compute (.alg .fp32 (.castFloat .real .real (.ref .real [B] valueName))))
+    (.compute (.alg .fp32 (.ref .real [B] valueName)))
     (.mask (.lt .int .scalarR (.ref .int [B] offsetName) (.castNatToInt (.constNat N))))
 
 def body (y : RegionName) (N B : Nat) : List ComputeStmt := [
@@ -41,7 +41,7 @@ theorem step_exec {α : Type} [Inhabited α] (M : Algebra α) (y : RegionName)
     (hv : s.regs .real [B] valueName = some values)
     (ho : s.regs .int [B] offsetName = some (offsets pid B f.val)) :
     step M (stmt y N B valueName offsetName) s =
-      some (field y N pid B f (fun i => M.cast (some .fp32) .real .real (values i)) s) := by
+      some (field y N pid B f (fun i => values i) s) := by
   simp [stmt,pointer,step,evalExpr,evalComputeOp,evalOp_unfold,hv,ho,store,
     numeric,numericLt,bop,ofFloat,toFloat,Region.cast,offsets,ComputeDType.eraseDType,Option.bind]
   unfold field
@@ -67,8 +67,8 @@ theorem exec {α : Type} [Inhabited α] (M : Algebra α) (y : RegionName)
     (hv : ∀ f,s.regs .real [B] (fieldName f) = some (values f))
     (ho : ∀ f,s.regs .int [B] (offsetName f) = some (offsets pid B f.val)) :
     run M (body y N B) s = some (result y N pid B
-      (fun f i => M.cast (some .fp32) .real .real (values f i)) s) := by
-  let v := fun f i => M.cast (some .fp32) .real .real (values f i)
+      (fun f i => values f i) s) := by
+  let v := fun f i => values f i
   let s0 := field y N pid B 0 (v 0) s
   let s1 := field y N pid B 1 (v 1) s0
   let s2 := field y N pid B 2 (v 2) s1

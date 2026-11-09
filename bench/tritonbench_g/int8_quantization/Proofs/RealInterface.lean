@@ -32,7 +32,7 @@ theorem finite_eq (rest : Algebra ℝ) (p : Parameters) (values : Inputs ℝ p)
     have hx := finite (lane,PUnit.unit) active
     have eq := raw_eq rest p values s h w hw (lane,PUnit.unit) active
     exact (congrArg (fun x : ℝ => |RealSpec.factor p.query p.channels*x| ≤
-      340282346638528859811704183484516925440) eq).mp hx
+      340282346638528860000000000000000000000) eq).mp hx
   · intro finite i active
     rw [raw_eq rest p values s h w hw i active]
     exact finite i.1 active

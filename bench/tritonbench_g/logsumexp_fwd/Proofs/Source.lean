@@ -31,13 +31,13 @@ theorem row_exec [Inhabited A] (M : Algebra A) (equal : A → A → Bool)
     (comparisons : ∀ p d,M.compareEq p d=some equal)
     (x z : RegionName) (D B : Nat) (hasScale : Bool) (scale : A)
     (s : State A) (hB : 0<B) (parameter : s.regs .real [] "scale"=some (fun _ => scale)) :
-    ∃ final,FP.Structural.exec M (rowBlock x z D B hasScale) s=some final ∧
+    ∃ final,FP.Structural.exec M (rowBlockKernel x z D B hasScale) s=some final ∧
       final.mem=(s.write z (outputAddress (s.pids 0) (s.pids 1) D B)
         (.mk .real (rowValue M equal (fun i => (s.mem x i).read .real) scale
           (s.pids 0) (s.pids 1) D B hasScale))).mem := by
   have hsum : 1≤D+B := by omega
   cases hasScale
-  all_goals simp [rowBlock,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,evalExpr,
+  all_goals simp [rowBlockKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,store,Option.bind,ComputeDType.eraseDType,
     numeric,bop,natLt,numericLt,numericEq,Region.cast,rowValue,inputAddress,outputAddress,
     TileShape.allIndices,TileShape.axisDim,hB,State.write,State.setReg,parameter,comparisons]

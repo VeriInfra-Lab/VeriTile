@@ -5,7 +5,7 @@ context. Formal device/stream observations refer to that effective owning
 device; leaving the context restores the ambient caller device. -/
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Host
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum softwareSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive softwareSum)
 noncomputable section
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000
@@ -27,7 +27,7 @@ structure Scalar (α : Type) where
   castFP32 : α → α
 
 def column {α : Type} [Inhabited α] (s : State α) (input : Matrix) (col : Nat) : Fin input.rows → α :=
-  fun row => (s.mem input.region (row.val*input.stride+col)).read .fp32
+  fun row => (s.mem input.region (row.val*input.stride+col)).read .real
 
 def sumValue {α : Type} [Inhabited α] (ops : Scalar α) (input : Matrix)
     (plan : ReductionPlan.Plan input.rows) (s : State α) (col : Nat) : α :=
@@ -38,12 +38,12 @@ one actual (PID,column) cell in the input tensor descriptor. -/
 def axisSum {α : Type} [Inhabited α] (ops : Scalar α) (input : Matrix)
     (plan : ReductionPlan.Plan input.rows) (output : RegionName) (s : State α) : State α :=
   (TileShape.allIndices [input.columns]).foldl (fun t i =>
-    if True then t.write output i.1.val (.mk .fp32 (sumValue ops input plan s i.1.val)) else t) s
+    if True then t.write output i.1.val (.mk .real (sumValue ops input plan s i.1.val)) else t) s
 
 theorem axisSum_read {α : Type} [Inhabited α] (ops : Scalar α) (input : Matrix)
     (plan : ReductionPlan.Plan input.rows) (output : RegionName) (s : State α)
     (i : Fin input.columns) :
-    (axisSum ops input plan output s).mem output i.val=.mk .fp32 (sumValue ops input plan s i.val) := by
+    (axisSum ops input plan output s).mem output i.val=.mk .real (sumValue ops input plan s i.val) := by
   unfold axisSum
   apply State.masked_scatter_readback (shape := [input.columns]) (active := fun _ => True)
     (i := (i,PUnit.unit))
@@ -84,7 +84,7 @@ theorem finish_dw {α : Type} [Inhabited α] (ops : Scalar α) (p : Backward.Par
     (dw db : RegionName) (shape : List Nat) (s : State α) (hne : dw≠db)
     (i : Fin p.columns) :
     (finish ops p programs pw pb dw db shape s).state.mem dw i.val=
-      .mk .fp32 (sumValue ops (partialDW p programs) pw s i.val) := by
+      .mk .real (sumValue ops (partialDW p programs) pw s i.val) := by
   unfold finish
   rw [axisSum_frame _ _ _ _ _ _ _ hne]
   exact axisSum_read ops (partialDW p programs) pw dw s i
@@ -94,7 +94,7 @@ theorem finish_db {α : Type} [Inhabited α] (ops : Scalar α) (p : Backward.Par
     (dw db : RegionName) (shape : List Nat) (s : State α) (hfresh : p.db≠dw)
     (i : Fin p.columns) :
     (finish ops p programs pw pb dw db shape s).state.mem db i.val=
-      .mk .fp32 (sumValue ops (partialDB p programs) pb s i.val) := by
+      .mk .real (sumValue ops (partialDB p programs) pb s i.val) := by
   unfold finish
   rw [axisSum_read]
   congr 1

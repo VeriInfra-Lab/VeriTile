@@ -30,14 +30,14 @@ theorem loop_success (p : Layout) (r : Regions) (scale : ℝ)
   have hstop : evalOp (M.withDefaultPrecision .fp32) none (parts p r scale).stop s =
       some (fun _ => (m PUnit.unit : Int) * e PUnit.unit) := by
     change evalOp (M.withDefaultPrecision .fp32) none
-      (.mul .int .nil (.castNatToInt (.ref .nat [] "block_mask"))
+      (.mul .int .nil (.ref .int [] "block_mask")
         (.ref .int [] "block_end_loc")) s = _
     simp only [evalOp_unfold,hm,he,Option.bind,numeric]
     rfl
   simpa only [step,hstart,hstride,hstop,Option.bind_some] using ht
 
-/-- The actual typed epilogue produces values with the opaque division and cast
-callbacks. Its only writes are exactly the source's active output lanes. -/
+/-- The actual typed epilogue produces values with the opaque division
+callback. Its only writes are exactly the source's active output lanes. -/
 theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
     (M : Algebra α) (initial s : State α) (hs : Ready p s)
     (hc : Controls p r initial s) :
@@ -47,16 +47,15 @@ theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases Option.isSome_iff_exists.mp h9 with ⟨l,h9⟩
   rcases Option.isSome_iff_exists.mp h10 with ⟨a,h10⟩
   rcases hc with ⟨hs,hh,hm,hd,hl⟩
-  refine ⟨(fun i => M.cast (some .fp32) .real .real
-    (M.binary (some .fp32) .real .div (a i) (l (i.1,PUnit.unit)))),?_⟩
-  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,
+  refine ⟨(fun i => M.binary (some .fp32) .real .div (a i) (l (i.1,PUnit.unit))),?_⟩
+  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,VeriTile.Bench.Repairs.ContextAttnFwd.SelectedSource.original,VeriTile.Bench.Repairs.ContextAttnFwd.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?]
   simp (config := {maxSteps := 100000}) [run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,natLt,ofFloat,toFloat,Region.cast,
-    h9,h10,hs,hh,hm,hd,hl,store,scatter,active,offset,row,bop,
+    h9,h10,hs,hh,hm,hd,hl,Nat.cast_mul,Nat.cast_add,store,scatter,active,offset,row,bop,
     Broadcast.leftIndex,Broadcast.rightIndex]
   apply masked_fold_mem_congr
   rfl

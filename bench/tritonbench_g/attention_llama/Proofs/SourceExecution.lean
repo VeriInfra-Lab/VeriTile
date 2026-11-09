@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_llama.Sources.Kernels
+import bench.tritonbench_g.attention_llama.Proofs.Sources.Kernels
 import bench.tritonbench_g.attention_llama.Proofs.Mathematical_RealKernel
 
 /-! Local extension of the existing complete source execution proof. The

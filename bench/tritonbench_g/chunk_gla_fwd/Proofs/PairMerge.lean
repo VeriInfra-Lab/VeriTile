@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gla_fwd.Kernels
+import bench.tritonbench_g.chunk_gla_fwd.Proofs.SourceSites
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
@@ -19,11 +19,9 @@ def requirements (kernel : ComputeKernel) (BC : Nat) : List Site :=
   (do
     let branch ← Source.conditional? kernel.surfaceBody (fun body => (Source.dynamicRange? body "i_k").isSome)
     let loop ← Source.dynamicRange? branch.yes "i_k"
+    let inner ← SourceSites.loadedAddition BC loop.body "b_A"
     return Site.branch branch.before branch.condition Bool.true
-      (.range loop.before "i_k" loop.start loop.stop loop.stride loop.body
-        (.addFP32 (Source.prefixBefore loop.body "b_A") [BC,BC]
-          (.ref .real [BC,BC] "b_A")
-          (.load .real (.blockPtr (.ref .blockPtr [BC,BC] "p_A") [0,1]) .none .zero)))).toList
+      (.range loop.before "i_k" loop.start loop.stop loop.stride loop.body inner)).toList
 
 def originalProgram (dtype : FloatDType) (A A2 : RegionName) (T BT BC NK : Nat) : Program where
   kernel := TypedMerge.original dtype A A2 T BT BC NK
@@ -35,7 +33,7 @@ def loadFirstProgram (dtype : FloatDType) (A A2 : RegionName) (T BT BC NK : Nat)
 theorem merge_equiv (dtype : FloatDType) (A A2 : RegionName) (T BT BC NK : Nat)
     (R : Spec.Assumptions FP.GuardedFragment) :
     originalProgram dtype A A2 T BT BC NK ≡[R] loadFirstProgram dtype A A2 T BT BC NK := by
-  equiv_decompose; fp_prove
+  split_equiv; solve_fp
 
 #print_fp_assumptions merge_equiv
 #guard_msgs (drop info) in

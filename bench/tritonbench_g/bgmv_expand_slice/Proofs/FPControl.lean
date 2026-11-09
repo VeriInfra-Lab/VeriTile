@@ -1,4 +1,4 @@
-import bench.tritonbench_g.bgmv_expand_slice.Sources.FPProgram
+import bench.tritonbench_g.bgmv_expand_slice.Proofs.Sources.FPProgram
 
 namespace VeriTile.Bench.Repairs.BgmvExpandSlice.FPControl
 open VeriTile.Triton FP.Structural

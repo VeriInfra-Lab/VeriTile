@@ -1,4 +1,5 @@
 import bench.tritonbench_g.bmm_optimized.Proofs.PairIO
+import VeriTile.Triton.Float.ClosedStructuralAudit
 
 /-! Full original/integer-CSE program equivalence under the retained live-FMA
 interpretation. The candidate exposes a shared quotient in group remainder
@@ -25,6 +26,7 @@ specification quotient_remainder_equiv {A : Type} [Inhabited A]
   exact ProgramIO.Implementation.of_equivalent (PairIO.candidate s c p rest ps)
     (PairIO.equivalent s c p rest ps order)
 
+#print_fp_assumptions quotient_remainder_equiv closed_structural
 #axiomsClean quotient_remainder_equiv
 end
 end VeriTile.Bench.Repairs.BmmOptimizedGridAxesChecked.Equivalence

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.BackwardExecution
 import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.Reference
 import bench.tritonbench_g.fifth_order_sph_harmonics.Proofs.Mathematical_TypedReadback
 
@@ -8,38 +9,10 @@ set_option maxHeartbeats 40000000
 set_option maxRecDepth 64000
 set_option linter.unusedSimpArgs false
 
-private theorem fold_regs {α ι : Type} (xs : List ι)
-    (active : ι → Prop) [DecidablePred active] (r : RegionName)
-    (off : ι → Nat) (v : ι → Cell α) (s : State α) :
-    (xs.foldl (fun t i => if active i then t.write r (off i) (v i) else t) s).regs = s.regs := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i xs ih => simp only [List.foldl_cons, ih]; split <;> rfl
-
-private theorem fold_pids {α ι : Type} (xs : List ι)
-    (active : ι → Prop) [DecidablePred active] (r : RegionName)
-    (off : ι → Nat) (v : ι → Cell α) (s : State α) :
-    (xs.foldl (fun t i => if active i then t.write r (off i) (v i) else t) s).pids = s.pids := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i xs ih => simp only [List.foldl_cons, ih]; split <;> rfl
-
 /-- Complete direct forward execution at the checked output width and column offset. -/
 def forward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     {t : State α // FP.Structural.exec M (forwardKernel p) s = some t} :=
   VeriTile.Bench.TritonBenchG.FifthOrderSphHarmonics.TypedFP.execution M (forwardParameters p) s
-
-/-- The complete repaired backward source executes all loads, polynomial
-operations, original-zero accumulation and three stores. -/
-def backward {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
-    {t : State α // FP.Structural.exec M (backwardKernel p) s = some t} := by
-  refine ⟨?_, ?_⟩
-  swap
-  simp (config := {maxSteps := 8000000}) [backwardKernel, backwardSource, FP.Structural.exec,
-    ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
-    State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
-    numeric, numericLt, natLt, bop, Option.bind, fold_regs, fold_pids]
-  try rfl
 
 def coordinateOffset {α : Type} (p : Parameters) (s : State α)
     (i : TileIndex [p.blockSize]) : Nat := i.1.val*3+p.blockSize*3*s.pids 0
@@ -96,12 +69,21 @@ private theorem fold_memory {α ι : Type} (l : List ι) (r : RegionName)
       funext r' o
       simp [hi]
 
+private theorem cast_add_literal (a b : Nat) :
+    (a : Int) + (OfNat.ofNat b : Int) = ((a + b : Nat) : Int) := by rfl
+private theorem cast_mul_literal (a b : Nat) :
+    (a : Int) * (OfNat.ofNat b : Int) = ((a * b : Nat) : Int) := by rfl
+private theorem cast_literal_mul (a b : Nat) :
+    (OfNat.ofNat a : Int) * (b : Int) = ((a * b : Nat) : Int) := by rfl
+
 theorem backward_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     (backward M p s).val.mem=(written M p s).mem := by
   simp (config := {maxSteps := 8000000}) [backward, written, channelWrite,
     List.finRange_succ, List.foldl_map, fold_memory, backwardValue, Reference.backwardValues,
     load, maskedLoad, coordinateOffset, upstreamOffset, logicalOffset, bop, Region.cast]
   try rfl
+  all_goals simp only [cast_add_literal (b := 1), cast_add_literal (b := 2), cast_add_literal (b := 3), cast_add_literal (b := 4), cast_add_literal (b := 5), cast_add_literal (b := 6), cast_add_literal (b := 7), cast_add_literal (b := 8), cast_add_literal (b := 9), cast_add_literal (b := 10), cast_mul_literal (b := 3), cast_literal_mul (a := 2), cast_literal_mul (a := 3), cast_literal_mul (a := 4), cast_literal_mul (a := 5), cast_literal_mul (a := 6), cast_literal_mul (a := 7), cast_literal_mul (a := 8), cast_literal_mul (a := 9), cast_literal_mul (a := 10),
+    ← Nat.cast_add, ← Nat.cast_mul, Int.toNat_natCast, Int.ofNat_lt]
 
 #axiomsClean forward
 #axiomsClean backward

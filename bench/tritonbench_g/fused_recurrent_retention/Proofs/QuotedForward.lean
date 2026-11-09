@@ -29,7 +29,7 @@ theorem forward_full_values {α : Type} [Inhabited α] (a : Arithmetic α)
   change run (Staged.algebra a plans) (Program.forward (layout s b) forwardRegions seed final).surfaceBody initial = _
   rw [Program.forward_split,run_append,run_append,he]
   simp only [Option.bind_some,run,step,bind]
-  change ((range (Staged.algebra a plans) "_t" 0 s.T 1
+  change ((range (Staged.algebra a plans) "_" 0 s.T 1
     (Program.forwardParts (layout s b) forwardRegions seed final).body entry).bind
     (fun u => some u)).bind
     (fun u => run (Staged.algebra a plans)

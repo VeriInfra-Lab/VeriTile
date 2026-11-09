@@ -23,9 +23,11 @@ theorem prefix_safe (M : Algebra α) (kind : Kind) (h : Call) (p : Phase)
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
       step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-      hf,hc,hr,State.setReg,engine,numeric,natLt,bop,integralFloorDiv,ComputeDType.eraseDType,
+      hf,hc,hr,State.setReg,engine,numeric,numericLt,natLt,bop,integralFloorDiv,ComputeDType.eraseDType,
       Broadcast.leftIndex,Broadcast.rightIndex,Region.cast]
   intro j
+  have castLast : (↑(prog.chunk*p.span+p.span):Int)-1=↑(prog.chunk*p.span+p.span-1) := by omega
+  simp only [Int.ofNat_eq_natCast,←Int.natCast_mul,←Int.natCast_add,castLast,Int.toNat_natCast]
   convert hg j using 1 <;> simp only [off,last,Nat.add_mul]
   all_goals ring
 

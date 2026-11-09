@@ -1,4 +1,4 @@
-import bench.tritonbench_g.quantize_global.Sources.Mathematical_Kernels
+import bench.tritonbench_g.quantize_global.Proofs.Sources.Mathematical_Kernels
 
 namespace QuantizeGlobalFinite
 theorem footprint_membership (c : Config) (pids : List Nat) (i : Nat) :
