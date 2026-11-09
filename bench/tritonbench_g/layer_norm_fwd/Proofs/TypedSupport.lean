@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ScatterProjection
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Domain
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Triton.Semantics.TileOps
@@ -17,12 +18,9 @@ whose inactive accesses retain unspecified values. -/
 @[simp] theorem masked_scatter_regs {α ι : Type} (s : State α) (items : List ι)
     (address : ι → RegionName × Nat) (active : ι → Bool) (value : ι → Cell α) :
     (items.foldl (fun t i => if active i then
-      t.write (address i).1 (address i).2 (value i) else t) s).regs = s.regs := by
-  induction items generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    simp only [List.foldl_cons, ih]
-    split <;> rfl
+      t.write (address i).1 (address i).2 (value i) else t) s).regs = s.regs :=
+  State.fold_writes_regs items (fun i => active i = Bool.true)
+    (fun i => (address i).1) (fun i => (address i).2) value s
 
 /-- The same register frame after the evaluator simplifies a boolean mask
 to its proposition. Separate region/offset functions match actual stores. -/
@@ -30,20 +28,12 @@ to its proposition. Separate region/offset functions match actual stores. -/
     (region : ι → RegionName) (offset : ι → Nat) (active : ι → Prop)
     [DecidablePred active] (value : ι → Cell α) :
     (items.foldl (fun t i => if active i then
-      t.write (region i) (offset i) (value i) else t) s).regs = s.regs := by
-  induction items generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    simp only [List.foldl_cons, ih]
-    split <;> rfl
+      t.write (region i) (offset i) (value i) else t) s).regs = s.regs :=
+  State.fold_writes_regs items active region offset value s
 
 @[simp] theorem scatter_regs {α ι : Type} (s : State α) (items : List ι)
     (region : ι → RegionName) (offset : ι → Nat) (value : ι → Cell α) :
     (items.foldl (fun t i => t.write (region i) (offset i) (value i)) s).regs = s.regs := by
-  induction items generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    rw [List.foldl_cons, ih]
-    rfl
+  simpa only [if_true] using State.fold_writes_regs items (fun _ => True) region offset value s
 
 end VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSupport

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ScatterProjection
 import bench.tritonbench_g.layernorm_fwd_triton.Proofs.Mathematical_FPAccumulate
 namespace VeriTile.Bench.TritonBenchG.LayernormFwdTriton.FPStages
 open VeriTile.Triton FP.Structural
@@ -11,10 +12,8 @@ set_option linter.unusedSimpArgs false
 @[simp] theorem fold_writes_undef {α ι : Type} (xs : List ι)
     (active : ι → Prop) [DecidablePred active] (r : ι → RegionName) (o : ι → Nat)
     (v : ι → Cell α) (s : State α) :
-    (xs.foldl (fun t i => if active i then t.write (r i) (o i) (v i) else t) s).undef = s.undef := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i xs ih => simp only [List.foldl_cons, ih]; split <;> rfl
+    (xs.foldl (fun t i => if active i then t.write (r i) (o i) (v i) else t) s).undef = s.undef :=
+  State.fold_writes_undef xs active r o v s
 
 def scatter {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s t : State α)
     (off : Nat) : State α :=

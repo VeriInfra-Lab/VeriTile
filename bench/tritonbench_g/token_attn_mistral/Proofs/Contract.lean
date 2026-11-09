@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.ScatterProjection
 import bench.tritonbench_g.token_attn_mistral.Proofs.Execution
 namespace VeriTile.Bench.Repairs.TokenAttnMistral
 open VeriTile.Triton FP.Structural
@@ -10,11 +11,7 @@ theorem fold_write_memory {α ι : Type} (xs : List ι) (region : ι → RegionN
     (offset : ι → Nat) (v : ι → Cell α) (s : State α) :
     (xs.foldl (fun t i => t.write (region i) (offset i) (v i)) s).mem =
     xs.foldl (fun mem i => fun r o => if r = region i ∧ o = offset i then v i else mem r o) s.mem := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i xs ih =>
-    rw [List.foldl_cons, ih]
-    rfl
+  simpa only [if_true] using State.fold_writes_mem xs (fun _ => True) region offset v s
 
 theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α) (R : SumPrimitive α)
     (p : Parameters) (s t : State α) (h : Ready p s t (accumulated M R p s)) :
