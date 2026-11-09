@@ -1,28 +1,22 @@
-import VeriTile.Meta.StatementAudit
-import VeriTile.Triton.Float.CountConversionLaws
-import VeriTile.Triton.Float.Kernel
-import bench.examples.Welford.Kernels
-import bench.examples.Welford.Proofs.FP
+import VeriTile.Triton.Float.WelfordConditions
 
-/-! The public entries state their row-size and reduction-plan conditions. The FP domain below records the existing Welford operation requirements. -/
+/-! Welford's FP input domain uses the actual row addresses and FP32 sum tree. -/
 
-namespace VeriTile.Bench.Examples.WelfordFPEquiv
+namespace VeriTile.Bench.Examples
+open VeriTile Triton
+open _root_.VeriTile.Triton.FP.Equational (ReductionPlan Schedules)
 
-open VeriTile.Bench.Examples.Welford.Kernels
+namespace WelfordFPComparison
+def rowPlan (plans : Schedules) (N : Nat) : ReductionPlan N :=
+  plans (some .fp32) [N] ⟨0, by simp⟩ Bool.false PUnit.unit
+end WelfordFPComparison
 
-open VeriTile Triton FP.Structural FP.CountConversion
-
-open WelfordFPContract WelfordFPExecution
-
-open _root_.VeriTile.Triton.FP.Equational (ReductionPlan)
-
-open scoped VeriTile.Spec
-
+namespace WelfordFPContract
+open FP.GuardExpression
 open WelfordFPComparison (rowPlan)
 
-open _root_.VeriTile.Triton.FP.Equational (Schedules)
-
-open FP.GuardExpression
+def rowExpressions (x : RegionName) (stride : Nat) (i : Nat) : Expr MemoryInput :=
+  .fp32Load (.input ⟨x, fun pid => pid * stride + i, .real⟩)
 
 /-- The numerical proof domain contains initialization, each iteration, and
 both normalization paths for all three statistics. Dimensions stay symbolic. -/
@@ -31,4 +25,10 @@ def requirements (x : RegionName) (N stride : Nat) (empty : ReductionPlan 0)
   FP.WelfordConditions.complete (FP.GuardExpression.algebra MemoryInput)
     (rowExpressions x stride) empty (rowPlan plans N)
 
-end VeriTile.Bench.Examples.WelfordFPEquiv
+end WelfordFPContract
+
+namespace WelfordFPEquiv
+abbrev requirements := WelfordFPContract.requirements
+end WelfordFPEquiv
+
+end VeriTile.Bench.Examples
