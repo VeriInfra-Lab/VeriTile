@@ -6,19 +6,8 @@ open VeriTile.Triton FP.Structural FP.ProfiledRewrite
 
 @[spec_rule] theorem signed_index_product_commutes {α : Type} [Inhabited α] (M : Algebra α)
     (s : State α) (before : List ComputeStmt) (a b : Op .int []) :
-    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) := by
-  intro t _
-  change (evalOp (engine M) none a t >>= fun x =>
-    evalOp (engine M) none b t >>= fun y => some (bop Int.mul .nil x y)) =
-    (evalOp (engine M) none b t >>= fun y =>
-    evalOp (engine M) none a t >>= fun x => some (bop Int.mul .nil y x))
-  cases ha : evalOp (engine M) none a t <;>
-    cases hb : evalOp (engine M) none b t
-  all_goals first
-    | rfl
-    | apply congrArg some
-      funext i
-      exact Int.mul_comm _ _
+    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) :=
+  FP.ProfiledRewrite.op_int_mul_comm M s before a b
 
 
 
