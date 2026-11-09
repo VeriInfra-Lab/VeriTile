@@ -1,5 +1,5 @@
 {
-  "fingerprint": "974343d4d407154459066e9858c8a438a3080a45e104724890f243ac900e10f4",
+  "fingerprint": "05ceca1eae103c56f8e2f72cf66aad6b699687672c75b6b54d1b9ac061ee19c6",
   "leanVersion": "Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)",
   "source": "bench/examples/VectorAdd/RealCorrect.lean",
   "x": [
