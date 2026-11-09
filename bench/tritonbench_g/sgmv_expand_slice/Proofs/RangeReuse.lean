@@ -1,8 +1,9 @@
+import VeriTile.Triton.Float.RangeInduction
 import bench.tritonbench_g.parallel_attention.Proofs.Sources.Mathematical_FPRange
 
 namespace VeriTile.Bench.Repairs.SgmvExpandSlice.RangeReuse
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange range_values)
+open VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages (foldRange)
 noncomputable section
 set_option maxHeartbeats 2000000
 
@@ -46,8 +47,7 @@ theorem rangeInt_eq_range {α : Type} [Inhabited α] (M : Algebra α) (name : Re
 termination_by stop-cur
 decreasing_by omega
 
-/-- Reuse of the unchanged original full loop induction theorem. The new
-source's signed K-block loop must still supply its actual one-body theorem. -/
+/-- The signed K-block loop supplies the one-body theorem for shared range induction. -/
 theorem range_values_int {α β : Type} [Inhabited α] (M : Algebra α)
     (name : RegName) (body : List ComputeStmt) (update : Nat → β → β)
     (I : Nat → β → State α → Prop) (Done : β → State α → Prop)
@@ -58,12 +58,12 @@ theorem range_values_int {α β : Type} [Inhabited α] (M : Algebra α)
     (hdone : ∀ n a t, I n a t → Done a t) (h : I cur initial s) :
     ∃ final, rangeInt M name (cur : Int) (stop : Int) stride body s = some final ∧
       Done (foldRange update cur stop stride initial) final := by
-  rw [rangeInt_eq_range]
-  apply range_values M name (signedBody name body) update I Done cur stop stride initial s
-  · intro n a t ht hn
-    simpa only [signedBody_run] using hstep n a t ht hn
-  · exact hdone
-  · exact h
+  refine FP.Structural.rangeInt_fold M name body update I Done cur (stop : Int) stride initial s
+    (fun n a => foldRange update n stop stride a) ?_ ?_ hdone h
+  · simp only [Int.toNat_natCast]
+    intro n a
+    simpa only [dite_eq_ite] using foldRange.eq_def update n stop stride a
+  · simpa only [Int.toNat_natCast] using hstep
 
 #axiomsClean setReg_shadow
 #axiomsClean signedBody_run
