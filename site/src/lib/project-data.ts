@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
+import { coverage } from './coverage-data';
 import demoRecord from './vector-add-record.json';
 
 // The documented dev script and CI build both run from site/.
@@ -16,9 +17,9 @@ export const corpus = {
   totalDirectories: ports.length,
 };
 
-const vectorAddSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/Correct.lean'), 'utf8')
+const vectorAddSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/RealCorrect.lean'), 'utf8')
   + '\n' + readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/Kernels.lean'), 'utf8');
-const kernelMatch = vectorAddSource.match(/def addKernel [^\n]* := (triton \{[\s\S]*?\n\})/);
+const kernelMatch = vectorAddSource.match(/def addKernel [\s\S]*?\b(triton \{[\s\S]*?\n  \})/);
 const contractMatch = vectorAddSource.match(/specification add_kernel_correctness[^\n]*\n\s*(.+) := by/);
 const proofMatch = vectorAddSource.match(/(specification add_kernel_correctness[^\n]*\n[\s\S]*?)(?=\n\nsection Optimized)/);
 if (!kernelMatch || !contractMatch || !proofMatch) {
@@ -29,31 +30,16 @@ export const vectorAddKernel = kernelMatch[1];
 export const vectorAddContract = contractMatch[1];
 export const vectorAddProof = proofMatch[1];
 
-const pythonSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/vector_add.py'), 'utf8');
-const pythonMatch = pythonSource.match(/@triton.jit\n(def add_kernel[^\n]*\n[\s\S]*)/);
+const pythonSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/VectorAdd.py'), 'utf8');
+const pythonMatch = pythonSource.match(/@triton\.jit\n(def add_kernel\([^\n]*\n(?:    [^\n]+\n)+)/);
 if (!pythonMatch) throw new Error('Homepage Python excerpt changed. Update its selector.');
-// Show only the aligned, unmasked kernel bodies. Match display names so readers
-// can compare operations directly; the verified kernel and demo stay verbatim.
-function comparisonBody(lines: string[], aliases: Record<string, string>): string {
-  return lines
-    .filter((line) => !line.trim().startsWith('#'))
-    .map((line) => line.trim()
-      .replace(/\b[A-Za-z_]\w*\b/g, (name) => Object.hasOwn(aliases, name) ? aliases[name] : name)
-      .replace(/^(\w+)\s*(:?=)\s*/, (_, name: string, operator: string) => `${name.padEnd(7)} ${operator} `))
-    .join('\n');
-}
+// The unmasked source bodies use the same names and operations.
 export const vectorAddBodies = {
-  python: comparisonBody(pythonMatch[1].trimEnd().split('\n').slice(1), { BLOCK_SIZE: 'B' }),
-  lean: comparisonBody(vectorAddKernel.split('\n').slice(1, -1), {
-    blockSize: 'B', offs: 'offsets', xReg: 'x_ptr', yReg: 'y_ptr', outReg: 'out_ptr', out: 'output',
-  }),
+  python: pythonMatch[1].trimEnd().split('\n').slice(1).map((line) => line.trim()).join('\n'),
+  lean: vectorAddKernel.split('\n').slice(1, -1).map((line) => line.trim()).join('\n'),
 };
 
-const review = JSON.parse(readFileSync(resolve(repositoryRoot, 'validation/contracts.json'), 'utf8'));
-export const proofInventory = {
-  statements: new Set(review.tasks.flatMap((task: { readers: { path: string; specifications: { name: string }[] }[] }) =>
-    task.readers.flatMap((reader) => reader.specifications.map((spec) => `${reader.path}:${spec.name}`)))).size,
-};
+export const proofInventory = { statements: coverage.rows.length };
 
 // Fail the site build if recorded Lean results no longer match this checkout.
 function leanFiles(directory: string): string[] {
@@ -64,8 +50,8 @@ function leanFiles(directory: string): string[] {
 }
 const recordInputs = [
   'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
-  'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/Correct.lean',
-  'bench/examples/VectorAdd/Kernels.lean',
+  'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/RealCorrect.lean',
+  'bench/examples/VectorAdd/Kernels.lean', 'bench/examples/VectorAdd/IO.lean',
   'bench/examples/VectorAdd/Proofs/Real.lean',
   ...leanFiles('VeriTile'),
 ].sort();
@@ -83,4 +69,4 @@ export const leanToolchain = readFileSync(resolve(repositoryRoot, 'lean-toolchai
 export const quickStart = `git clone https://github.com/VeriInfra-Lab/VeriTile.git
 cd VeriTile
 lake build
-lake env lean bench/examples/VectorAdd/Correct.lean`;
+lake env lean bench/examples/VectorAdd/RealCorrect.lean`;

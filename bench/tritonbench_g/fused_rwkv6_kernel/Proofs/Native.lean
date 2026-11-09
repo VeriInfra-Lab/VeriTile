@@ -35,7 +35,7 @@ def topology : Term → Topology
   | .mul x y => .mul (topology x) (topology y)
   | .exp x => .exp (topology x)
 
-def sourceOps : Ops Term := ⟨.zero,.load32,.store32,.add,.mul,.exp⟩
+def sourceOps : Ops Term := ⟨.zero,.load32,.store32,.add,.mul,.exp,.load32⟩
 inductive Contraction where
   | separate | left | right
   deriving DecidableEq, Repr

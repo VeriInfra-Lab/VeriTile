@@ -68,14 +68,14 @@ theorem iteration_safe (h : Call) (c : Config) (row : Nat)
     (hout : ∀ t,t<h.T → h.outputStrides.address h.H row t<bounds h.output)
     (j : Int) (u : BlockState) (hj : j<1) (start : (-j).toNat*c.BT<h.T)
     (hr : u.regs .int [] "__rev_i_t"=some (Tile.scalar j))
-    (hh : u.regs .nat [] "i_bh"=some (Tile.scalar row)) :
+    (hh : u.regs .int [] "i_bh"=some (Tile.scalar (row:Int))) :
     Stmt.TraceSafeList bounds (loopBody h c) u := by
   unfold loopBody
   rw [cons_of_run (stepStmt_assign_eq_some (RealStep.index_eval j u hj hr))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [cons_of_run (stepStmt_assign_eq_some (RealValues.start_eval c (-j).toNat _ (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,startOp,Op.SafeAt],?_⟩
-  rw [cons_of_run (stepStmt_assign_eq_some (show evalOp (.arange c.BT) _=some (lanes c) from by simpa [lanes,Tile.vec] using evalOp_arange c.BT _))]
+  rw [cons_of_run (stepStmt_assign_eq_some (show evalOp (.castNatToInt (.arange c.BT)) _=some (lanes c) from by simp [evalOp.eq_def,lanes,Tile.vec]))]
   refine ⟨by simp [Stmt.TraceSafe,Op.SafeAt],?_⟩
   rw [cons_of_run (stepStmt_assign_eq_some (active_eval h c (-j).toNat _ start (by simp) (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,activeOp,Op.SafeAt],?_⟩
@@ -86,6 +86,8 @@ theorem iteration_safe (h : Call) (c : Config) (row : Nat)
   rw [cons_of_run (stepStmt_assign_eq_some (pointer_eval h c row (-j).toNat h.output h.outputStrides _ (by simp [hh]) (by simp)))]
   refine ⟨by simp [Stmt.TraceSafe,pointerOp,baseOp,Op.SafeAt,Op.SafeAt.eq_def],?_⟩
   apply assign_cons (load_safe h c row (-j).toNat bounds _ start (by simp) (by simp) hin)
+  intro raw
+  apply assign_cons (by simp [Op.SafeAt,Op.SafeAt.eq_def])
   intro bs
   apply assign_cons
   · simp [Op.SafeAt,Op.SafeAt.eq_def]
@@ -134,7 +136,7 @@ theorem source_safe (h : Call) (layout : Geometry.OutputLayout h) (c : Config)
     (positive : 0<c.BT) (u : BlockState) (hr : u.pids 0<h.B*h.H) (bounds : RegionBounds)
     (hin : ∀ t,t<h.T → h.inputStrides.address h.H (u.pids 0) t<bounds h.input)
     (hout : ∀ t,t<h.T → h.outputStrides.address h.H (u.pids 0) t<bounds h.output) :
-    Kernel.TraceSafe bounds (Kernels.source h c).eraseDType.toAlgKernel u := by
+    Kernel.TraceSafe bounds (Kernels.sourceKernel h c).eraseDType.toAlgKernel u := by
   rw [Kernel.TraceSafe,source_body,body]
   apply TraceProofs.append_safe
   · apply TraceProofs.all_safe

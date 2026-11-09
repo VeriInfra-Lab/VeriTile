@@ -1,13 +1,16 @@
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.SignedArithmetic
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.SignedRange
 import bench.tritonbench_g.iv_dependent_matmul.Proofs.RealModel
-import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_Schedules
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.Mathematical_Schedules
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmulDotShape.RealExecution
 open VeriTile.Triton FP.Structural
+open TritonBenchG.IvDependentMatmul.SourceArithmetic
 open TritonBenchG.IvDependentMatmul FPValue
 open TritonBenchG.ParallelAttention.FPStages (foldRange range_values)
 noncomputable section
 set_option maxHeartbeats 16000000
-set_option maxRecDepth 40000
+set_option maxRecDepth 4000
 set_option linter.unusedSimpArgs false
 
 theorem fold_memory_congr {ι : Type} (l : List ι) (output : RegionName) (offset : ι → Nat)
@@ -31,9 +34,9 @@ structure Ready (p : Parameters) (s t : State ℝ) (a : Accumulator p) : Prop wh
   mem : t.mem=s.mem
   pids : t.pids=s.pids
   undef : t.undef=s.undef
-  pm : t.regs .nat [] "pid_m"=some (fun _ => rowBlock p s)
-  pn : t.regs .nat [] "pid_n"=some (fun _ => colBlock p s)
-  offk : t.regs .nat [p.blockInner] "offs_k"=some (fun i => i.1.val)
+  pm : t.regs .int [] "pid_m"=some (fun _ => (rowBlock p s : Int))
+  pn : t.regs .int [] "pid_n"=some (fun _ => (colBlock p s : Int))
+  offk : t.regs .int [p.blockInner] "offs_k"=some (fun i => (i.1.val : Int))
   aptr : t.regs .ptr [p.blockRows,p.blockInner] "a_ptr"=some (aPointer p s)
   bptr : t.regs .ptr [p.blockInner,p.blockColumns] "b_ptr"=some (bPointer p s)
   acc : t.regs .real [p.blockRows,p.blockColumns] "accumulator"=some a
@@ -41,37 +44,41 @@ structure Ready (p : Parameters) (s t : State ℝ) (a : Accumulator p) : Prop wh
 theorem prologue_run (rest : Algebra ℝ) (p : Parameters) (s : State ℝ) :
     ∃ t, run (backend rest) (prologue p) s=some t ∧
       Ready p s t (fun _ => 0) := by
-  simp [prologue,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, prologue,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,backend,
     sumDot]
-  constructor <;> simp [State.setReg,rowBlock,colBlock,columnsGrid,aPointer,bPointer,aBase,bBase,row,col,bop]
+  constructor <;> simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, State.setReg,rowBlock,colBlock,columnsGrid,aPointer,bPointer,aBase,bBase,row,col,bop]
   all_goals funext i
-  all_goals simp [aPointer,bPointer,aBase,bBase,row,col,rowBlock,colBlock,columnsGrid,bop]
+  all_goals simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, aPointer,bPointer,aBase,bBase,row,col,rowBlock,colBlock,columnsGrid,bop]
+  all_goals simp only [nat_not_negative, if_false, mod_nat_pulled, ← Int.emod_def,
+    ← Int.natCast_ediv, ← Int.natCast_emod, ← Int.natCast_mul, ← Int.natCast_add,
+    Int.toNat_natCast]
 
 theorem body_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State ℝ) (cur : Nat) (a : Accumulator p)
     (h : Ready p s t a) :
-    ∃ u, run (backend rest) (body g p) (t.setReg "k" .nat [] (fun _ => cur))=some u ∧
+    ∃ u, run (backend rest) (body g p) (t.setReg "k" .int [] (fun _ => (cur : Int)))=some u ∧
       Ready p s u (update g p s cur a) := by
   cases g <;>
-    simp [body,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, body,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,fusedTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
       integralFloorDiv,integralMod,Region.cast,ofFloat,toFloat,State.setReg,
       h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,backend,
       sumDot]
   all_goals constructor
-  all_goals simp [State.setReg,h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,
+  all_goals simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, State.setReg,h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,
     update,aValues,bValues,aPointer,bPointer,aBase,bBase,aOffset,bOffset,bop,ofFloat,toFloat,Region.cast]
   all_goals try dsimp [aValues,bValues,aOffset,bOffset,aBase,bBase]
-  all_goals simp [show (0.0 : ℝ)=0 by norm_num,sumDot,bop]
+  all_goals simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, show (0.0 : ℝ)=0 by norm_num,sumDot,bop]
   all_goals funext i
-  all_goals simp [aValues,bValues,aOffset,bOffset,aBase,bBase,ite_mul,mul_ite,bop]
+  all_goals simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, aValues,bValues,aOffset,bOffset,aBase,bBase,ite_mul,mul_ite,bop]
+  all_goals simp only [← Int.natCast_mul, Int.toNat_natCast]
 
 theorem loop_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State ℝ) (cur : Nat) (a : Accumulator p)
     (h : Ready p s t a) :
-    ∃ u, FP.Structural.range (backend rest) "k" cur (count p) 1 (body g p) t=some u ∧
+    ∃ u, FP.Structural.rangeInt (backend rest) "k" (cur : Int) (count p : Int) 1 (body g p) t=some u ∧
       Ready p s u (foldRange (update g p s) cur (count p) 1 a) := by
-  apply range_values (backend rest) "k" (body g p)
+  apply FPValue.rangeInt_values (backend rest) "k" (body g p)
     (update g p s) (fun _ a u => Ready p s u a)
     (fun a u => Ready p s u a) cur (count p) 1 a t
   · intro n a u hu _
@@ -82,11 +89,12 @@ theorem loop_run (rest : Algebra ℝ) (g : Graph) (p : Parameters) (s t : State 
 
 theorem suffix_run (rest : Algebra ℝ) (p : Parameters) (s t : State ℝ) (a : Accumulator p) (h : Ready p s t a) :
     ∃ u, run (backend rest) (suffix p) t=some u ∧ u.mem=(written p s a).mem := by
-  simp [suffix,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [-Nat.cast_add,-Nat.cast_mul, nat_not_negative, ceil_nat, mod_nat, mask_nat, suffix,source,typed,commonView,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.quotation,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.prefixLength,VeriTile.Bench.TritonBenchG.IvDependentMatmul.Kernels.Schedule.name,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.originalKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.nativeKernel,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadSource,VeriTile.Bench.Repairs.IvDependentMatmulDotShape.Kernel.preLoadNative,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,State.setReg,store,h.mem,h.pids,h.undef,h.pm,h.pn,h.offk,h.aptr,h.bptr,h.acc,
     backend,sumDot]
-  simp only [written,active,outputOffset,outputValues,decide_eq_true_eq,Bool.and_eq_true]
+  simp only [← Int.natCast_mul, ← Int.natCast_add, Int.toNat_natCast, Int.ofNat_lt]
+  simp only [written,active,outputOffset,outputValues,row,col,decide_eq_true_eq,Bool.and_eq_true]
   apply fold_memory_congr
   rfl
 

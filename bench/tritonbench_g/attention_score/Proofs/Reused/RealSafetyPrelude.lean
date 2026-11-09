@@ -22,12 +22,14 @@ theorem correct (bounds : RegionBounds) (s : BlockState) (Q K M : RegionName)
       sqz sqh sqm sqk skz skh skn skk evenN) s := by
   let code := RealProgram.prelude Q K M scale H HK N RN NK B D
     sqz sqh sqm sqk skz skh skn skk evenN
-  let before := RealPrefix.beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
+  let before := [.assign .real [] "sm_scale" (.const scale)] ++ RealPrefix.beforeKey Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk
   let after := RealPrefix.afterKey B D N scale evenN
-  have hsplit : code = before ++ after := RealPrefix.prelude_shape Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk scale evenN
+  have hsplit : code = before ++ after := by
+    simpa only [code,before,after,List.append_assoc] using
+      RealPrefix.prelude_shape Q K M H HK N RN NK B D sqz sqh sqm sqk skz skh skn skk scale evenN
   have hs : Stmt.TraceSafeList bounds before s := by
     apply list_safe
-    simp only [before, RealPrefix.beforeKey,
+    simp only [before, RealPrefix.beforeKey,List.cons_append,List.nil_append,
       List.forall_mem_cons, List.not_mem_nil, false_implies, forall_const, and_true,
       assign_iff, dynamic_offsets_safe]
     simp [Op.SafeAt.eq_def]

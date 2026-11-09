@@ -318,9 +318,9 @@ private def pairState : State ℚ where
   undef := fun d _ _ => defaultValue d
 
 private theorem pair_row (stride : Nat) :
-    WelfordFPContract.rowValues pairState "x" stride = pairValues := by
+    WelfordFPContract.rowValues ordinaryCountModel pairState "x" stride = pairValues := by
   funext i
-  simp [WelfordFPContract.rowValues, pairState]
+  simp [WelfordFPContract.rowValues, pairState, ordinaryCountModel, model]
 
 -- The public syntactic contract is satisfiable for every batch schedule,
 -- including a different padding count from the prefix plan. Its proof uses
@@ -343,7 +343,8 @@ theorem reified_contract_checks_later_samples (plans : FP.Equational.Schedules) 
   have hi := ((WelfordFPContract.requirements_holds
     ordinaryCountModel boundedDomain badRowState "x" 2 2 emptyPlan plans).mp h).1
   have hx := (hi.steps 1 (by decide) (by decide)).step.input
-  norm_num [boundedDomain, WelfordFPContract.rowValues, badRowState, pairState] at hx
+  norm_num [boundedDomain, WelfordFPContract.rowValues, badRowState, pairState,
+    ordinaryCountModel, model] at hx
 
 #axiomsClean WelfordFPContract.requirements_holds
 #axiomsClean WelfordFPContract.original_runs_under_count

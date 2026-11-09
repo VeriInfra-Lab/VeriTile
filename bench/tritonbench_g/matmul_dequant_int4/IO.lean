@@ -1,9 +1,9 @@
-import bench.tritonbench_g.matmul_dequant_int4.Kernels
-import bench.tritonbench_g.matmul_dequant_int4.DSL
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Support.KernelEntryAdapters
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Support.DSL
 import bench.tritonbench_g.matmul_dequant_int4.Proofs.Grid
 import VeriTile.Triton.Float.ProgramIO
 import VeriTile.Triton.Float.ProgramEquivalence
-import bench.tritonbench_g.matmul_dequant_int4.Spec
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Support.Spec
 import VeriTile.Triton.Float.LogicalProgramIO
 
 

@@ -86,7 +86,7 @@ theorem result (rest : Algebra ℝ)
     · exact Or.inl same
 theorem single_safe (rest : Algebra ℝ)
     (p : ScaledWord.Parameters)
-    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner)
+    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner) (cover : p.inner≤p.steps*p.blockInner)
     (nonempty : 0<p.rows ∧ 0<p.columns) (bounds : RegionName → Nat)
     (ha : ∀ r k,r<p.rows → k<p.inner →
       r*p.inputRowStride+k*p.inputInnerStride<bounds p.input)
@@ -98,7 +98,7 @@ theorem single_safe (rest : Algebra ℝ)
     (initial : State ℝ) :
     TraceSafe (RealScaled.backend rest)
       bounds (ScaledWord.source p) initial := by
-  apply RealScaledSafety.complete
+  apply RealScaledSafety.complete rest p even cover
   · intro k hk i live
     have inner := ScaledIO.active_inner p even k hk i.2.1 live
     have bound := ha (RealScaled.inputRow p initial i.1) (k*p.blockInner+i.2.1.val)
@@ -118,7 +118,7 @@ theorem single_safe (rest : Algebra ℝ)
 
 theorem schedule_safe (rest : Algebra ℝ)
     (p : ScaledWord.Parameters) (geometry : Geometry.Valid (ScaledWord.geometry p))
-    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner) (bounds : RegionName → Nat)
+    (even : p.even=Bool.true → p.inner=p.steps*p.blockInner) (cover : p.inner≤p.steps*p.blockInner) (bounds : RegionName → Nat)
     (ha : ∀ r k,r<p.rows → k<p.inner →
       r*p.inputRowStride+k*p.inputInnerStride<bounds p.input)
     (hb : ∀ k c,k<p.inner → c<p.columns →
@@ -133,7 +133,7 @@ theorem schedule_safe (rest : Algebra ℝ)
   | nil => trivial
   | cons pid pids ih =>
     refine ⟨?_,fun next _ => ih (fun q hq => reached q (by simp [hq])) next⟩
-    exact single_safe rest p even
+    exact single_safe rest p even cover
       (ScaledIO.reached_nonempty p geometry pid (reached pid (by simp))) bounds ha hb hs ho
       (GridExecution.atProgram initial pid)
 
@@ -145,7 +145,7 @@ theorem complete (rest : Algebra ℝ)
   apply ProgramIO.Implements.intro
   · intro vals bounds hbound initial _
     by_cases live : 0<p.rows ∧ 0<p.columns
-    · apply schedule_safe rest p geometry even bounds
+    · apply schedule_safe rest p geometry even cover bounds
       · intro r k hr hk
         exact hbound.2.1 (0 : Fin 3) (⟨r,hr⟩,⟨k,hk⟩,PUnit.unit) live
       · intro k c hk hc

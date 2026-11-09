@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention.PairIO
+import bench.tritonbench_g.chunk_retention.Proofs.Support.PairIO
 import bench.tritonbench_g.chunk_retention.Proofs.ScaleFirstObservation
 import bench.tritonbench_g.chunk_retention.Proofs.ScaleFirstStageSafety
 import bench.tritonbench_g.chunk_retention.Proofs.PublicCorrectness

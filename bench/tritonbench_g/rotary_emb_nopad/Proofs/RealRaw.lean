@@ -13,7 +13,7 @@ independent split-half formula is a*c-b*s / a*s+b*c, using the entry-memory
 coefficient pair. GQA leaders own K; the complete memory frame is retained. -/
 theorem rotary_raw_uncached_correct (rest : Algebra ℝ) (g : KernelInterface.Geometry)
     (heads : ∀ key,0<g.request.heads key) (s : State ℝ) :
-    Spec.Real (∃ t,exec (Typed.algebra rest realOps) (Kernels.uncached (Typed.uLayout g.request)) s=some t ∧
+    Spec.Real (∃ t,exec (Typed.algebra rest realOps) (Kernels.uncachedKernel (Typed.uLayout g.request)) s=some t ∧
       t.mem=(Typed.uTarget realOps g.request s).mem ∧
       (∀ key odd i,Typed.ULive g.request s key i →
         t.mem (Typed.uRegion (Typed.uLayout g.request) key) (Typed.uOffset (Typed.uLayout g.request) s key odd i)=
@@ -28,7 +28,7 @@ theorem rotary_raw_cached_correct (rest : Algebra ℝ) (g : KernelInterface.Geom
     (token : s.pids 1<g.tokens)
     (past : 0≤Typed.cPast (Typed.cLayout g.request) s)
     (block : 0≤Typed.cBlock (Typed.cLayout g.request) s) :
-    Spec.Real (∃ t,exec (Typed.algebra rest realOps) (Kernels.cached (Typed.cLayout g.request)) s=some t ∧
+    Spec.Real (∃ t,exec (Typed.algebra rest realOps) (Kernels.cachedKernel (Typed.cLayout g.request)) s=some t ∧
       t.mem=(Typed.cReference realOps (Typed.cLayout g.request) s).mem ∧
       (∀ key odd i,s.pids 0<g.request.qHeads → Typed.cActive (Typed.cLayout g.request) s key i →
         t.mem (Typed.cRegion (Typed.cLayout g.request) key) (Typed.cOffset (Typed.cLayout g.request) s key odd i)=
@@ -38,8 +38,8 @@ theorem rotary_raw_cached_correct (rest : Algebra ℝ) (g : KernelInterface.Geom
   Typed.cached_raw_successful rest realOps g.request s token past block
 
 
-#specNonCircular Typed.uValue avoiding [Kernels.uncached,Typed.uncachedExecution]
-#specNonCircular Typed.cValue avoiding [Kernels.cached,Typed.cachedExecution]
+#specNonCircular Typed.uValue avoiding [Kernels.uncachedKernel,Typed.uncachedExecution]
+#specNonCircular Typed.cValue avoiding [Kernels.cachedKernel,Typed.cachedExecution]
 #axiomsClean rotary_raw_uncached_correct
 #axiomsClean rotary_raw_cached_correct
 #guard_msgs (drop info) in

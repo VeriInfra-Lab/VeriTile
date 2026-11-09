@@ -1,4 +1,4 @@
-import bench.tritonbench_g.flash_attn.PairIO
+import bench.tritonbench_g.flash_attn.Proofs.Support.PairIO
 import bench.tritonbench_g.flash_attn.Proofs.IndexPair
 import bench.tritonbench_g.flash_attn.Proofs.IONative
 

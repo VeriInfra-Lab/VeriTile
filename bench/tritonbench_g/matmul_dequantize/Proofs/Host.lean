@@ -48,7 +48,7 @@ def first (a : Arguments) (c : FirstConfig) : First.Parameters :=
 def second (a : Arguments) : FPTypedSecond.Parameters :=
   ⟨a.a.region,a.c.region,a.s.region,a.q.region,a.z.region,a.M,a.N,a.K,
    a.a.rowStride,a.a.columnStride,a.q.rowStride,a.q.columnStride,a.c.rowStride,a.c.columnStride,
-   a.s.rowStride,a.s.columnStride,a.z.rowStride,a.z.columnStride,a.group,64,128,32,8,(a.K+31)/32⟩
+   a.s.rowStride,a.s.columnStride,a.z.rowStride,a.z.columnStride,a.group,64,128,32,8⟩
 def dequant16 (a : Arguments) : D16.Parameters :=
   ⟨a.q.region,a.s.region,a.z.region,a.d.region,a.K,a.N,a.group,
    a.q.rowStride,a.q.columnStride,a.s.rowStride,a.s.columnStride,a.z.rowStride,a.z.columnStride,

@@ -36,8 +36,8 @@ theorem batch_bound (g : Geometry) (row : Nat) (hr : row<g.B*g.H) : row/g.H<g.B 
 theorem length_binding {α β : Type} [Inhabited β] (A : Algebra β)
     (g : Geometry) (order : List Nat) (encode : α→β) (observe : β→α)
     (xs : Inputs α g) (s : State β) (pins : (decodeIO A g order encode observe).InputBinding xs s)
-    (b : Nat) (hb : b<g.B) : (s.mem "L" b).read .nat=lengths xs b := by
-  simpa [lengths,hb,mapValue] using pins (2 : Fin 3) (⟨b,hb⟩,PUnit.unit) trivial
+    (b : Nat) (hb : b<g.B) : ((s.mem "L" b).read .int).toNat=lengths xs b := by
+  simpa [lengths,hb,mapValue] using congrArg Int.toNat (pins (2 : Fin 3) (⟨b,hb⟩,PUnit.unit) trivial)
 
 theorem count_binding {α β : Type} [Inhabited β] (A : Algebra β)
     (g : Geometry) (order : List Nat) (encode : α→β) (observe : β→α)

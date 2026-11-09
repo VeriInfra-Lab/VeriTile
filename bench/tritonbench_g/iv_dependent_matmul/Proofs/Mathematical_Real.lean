@@ -1,4 +1,4 @@
-import bench.tritonbench_g.iv_dependent_matmul.Sources.Mathematical_Host
+import bench.tritonbench_g.iv_dependent_matmul.Proofs.Sources.Mathematical_Host
 
 namespace VeriTile.Bench.TritonBenchG.IvDependentMatmul.RealTarget
 open VeriTile.Triton FP.Structural FPValue Kernels Whole

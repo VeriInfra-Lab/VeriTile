@@ -168,7 +168,7 @@ def main():
         print(json.dumps(data, ensure_ascii=False))
     else:
         print(f'{len(data["rows"])} selected public specifications; '
-              f'{len({r["port"] for r in data["rows"]})} final task reviews checked.')
+              f'{len({r["port"] for r in data["rows"]})} selected tasks.')
 
 
 if __name__ == '__main__':

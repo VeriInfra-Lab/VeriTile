@@ -4,7 +4,7 @@ import VeriTile.Triton.Float.Structural
 
 namespace VeriTile.Bench.Repairs.L2NormBwd.Tile
 theorem full_body_length (s : Strides) (N B : Nat) :
-    (source s N B).surfaceBody.length=14 := by rfl
+    (source s N B).surfaceBody.length=16 := by rfl
 
 #axiomsClean full_body_length
 #guard_msgs (drop info) in
@@ -15,7 +15,7 @@ noncomputable section
 
 def loaded {α : Type} (M : Algebra α) (N B : Nat) (xs : Nat → α) (i : Fin B) : α :=
   M.cast (some .fp32) .real .real
-    (if i.val<N then xs i.val else M.literal (some .fp32) .real 0)
+    (M.fp32Load (if i.val<N then xs i.val else M.literal (some .fp32) .real 0))
 
 def masked {α : Type} (M : Algebra α) (N B : Nat) (xs : Nat → α) (i : Fin B) : α :=
   if i.val<N then loaded M N B xs i else M.literal (some .fp32) .real 0
@@ -29,8 +29,8 @@ def productSum {α : Type} (M : Algebra α) (N B : Nat) (xs ys : Nat → α) : �
 /-- Source recurrence only: every padding lane, both reductions, epsilon uses,
 reciprocals and operand order stay explicit. This is not the Real target. -/
 def scalar {α : Type} (M : Algebra α) (N B : Nat) (eps : α) (xs dys : Nat → α) (i : Nat) : α :=
-  let x := M.cast (some .fp32) .real .real (xs i)
-  let dy := M.cast (some .fp32) .real .real (dys i)
+  let x := M.cast (some .fp32) .real .real (M.fp32Load (xs i))
+  let dy := M.cast (some .fp32) .real .real (M.fp32Load (dys i))
   let q := M.binary (some .fp32) .real .add (productSum M N B xs xs) eps
   let rstd := M.binary (some .fp32) .real .div (M.literal (some .fp32) .real 1)
     (M.unary (some .fp32) .sqrt q)

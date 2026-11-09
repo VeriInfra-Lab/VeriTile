@@ -19,7 +19,7 @@ def scalarBase {α : Type} (M : Algebra α) (base : ℝ) : α :=
 No floating law or source-level output summary is assumed. -/
 def scalarResult {α : Type} (M : Algebra α) (base : ℝ) (raw : α) : α :=
   M.cast none .real .fp32 (M.binary (some .fp32) .real .pow
-    (scalarBase M base) (M.cast (some .fp32) .fp32 .real raw))
+    (scalarBase M base) (M.cast (some .fp32) .fp32 .real (M.cast none .fp32 .fp32 raw)))
 
 def writeCell {α : Type} (mem : Memory α) (r : RegionName) (a : Nat) (v : Cell α) : Memory α :=
   fun r' a' => if r' = r ∧ a' = a then v else mem r' a'
@@ -40,7 +40,7 @@ def rawValues {α : Type} [Inhabited α] (c : Config) (T : Nat) (s : State α) :
 
 def inputValues {α : Type} [Inhabited α] (M : Algebra α) (c : Config)
     (T : Nat) (s : State α) : Values α .real [c.B] :=
-  fun i => M.cast (some .fp32) .fp32 .real (rawValues c T s i)
+  fun i => M.cast (some .fp32) .fp32 .real (M.cast none .fp32 .fp32 (rawValues c T s i))
 
 def selectedValues {α : Type} [Inhabited α] (M : Algebra α) (c : Config) (T : Nat) (s : State α) : Values α .real [c.B] :=
   fun i => M.binary (some .fp32) .real .pow (scalarBase M c.base) (inputValues M c T s i)

@@ -8,7 +8,7 @@ noncomputable section
 Assigned alpha retains its source default-precision tag; native resolution
 fixes it to FP32. The constexpr3*beta is folded before conversion. -/
 def scalar (M : Algebra α) (ch : Channel) (a b dc : α) : α :=
-  let a := M.cast (some .fp32) .real .real a
+  let a := M.cast (some .fp32) .real .real (M.fp32Load a)
   let b := M.fp32Load b
   let dc := M.fp32Load dc
   let lit := M.literal (some .fp32) .real

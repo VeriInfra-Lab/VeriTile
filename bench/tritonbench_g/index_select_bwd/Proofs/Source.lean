@@ -28,11 +28,11 @@ def expected {α : Type} [Inhabited α] (M : Algebra α) (p : Launch) (s : State
 
 /-- Constructed complete typed execution, not an assumed launch result. -/
 def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Launch) (s : State α) :
-    {t : State α // FP.Structural.exec (backend M) (kernel p) s=some t} := by
+    {t : State α // FP.Structural.exec (backend M) (sourceKernel p) s=some t} := by
   rcases p with ⟨dst,inp,count,stride,block⟩
   refine ⟨?_,?_⟩
   swap
-  simp [kernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
+  simp [sourceKernel,FP.Structural.exec,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     Option.bind,backend,numericLt,natLt,bop,numeric,store,Region.cast,
     ComputeDType.eraseDType,ofFloat,toFloat]

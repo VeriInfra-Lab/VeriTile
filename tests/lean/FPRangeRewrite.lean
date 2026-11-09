@@ -35,8 +35,8 @@ private def program (swapped : Bool) (stop : Nat) : Program where
 
 theorem loop_add_commute (R : FP.ScalarArithmetic.Rules) (stop : Nat) :
     program false stop ≡[R] program true stop := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by loop_add_commute:
 ---
@@ -66,8 +66,8 @@ private def paddedProgram (swapped : Bool) (stop : Nat) : Program :=
 -- positions in the proof or the domain. The actual prefix remains checked.
 theorem loop_with_inserted_statements (R : FP.ScalarArithmetic.Rules) (stop : Nat) :
     paddedProgram false stop ≡[R] paddedProgram true stop := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 private def nestedProgram (swapped : Bool) (outer innerStop : Nat) : Program where
   kernel := .mk [] [] [.forRangeDyn "j" (.constNat 0) (.constNat outer)
@@ -79,8 +79,8 @@ private def nestedProgram (swapped : Bool) (outer innerStop : Nat) : Program whe
 
 theorem nested_ranges (R : FP.ScalarArithmetic.Rules) (outer innerStop : Nat) :
     nestedProgram false outer innerStop ≡[R] nestedProgram true outer innerStop := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by nested_ranges:
 ---
@@ -99,32 +99,32 @@ example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program false 2 with domain := [] } : Program) ≡[R]
         ({ program true 2 with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- An entry-state check is insufficient for later iterations.
   fail_if_success
     have : ({ program false 2 with domain := [inner] } : Program) ≡[R]
         ({ program true 2 with domain := [inner] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- Retain the same signature so failure must come from the different bound.
   fail_if_success
     have : program false 2 ≡[R]
         ({ program true 3 with domain := [loopSite 2] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   -- A guard with the wrong per-iteration prefix cannot be borrowed.
   fail_if_success
     have : ({ paddedProgram false 2 with domain := [loopSite 2] } : Program) ≡[R]
         ({ paddedProgram true 2 with domain := [loopSite 2] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 example : program false 2 ≡[([] : Spec.Assumptions FP.GuardedFragment)]
     program true 2 := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 private def model : Algebra Nat where
   literal := fun _ _ _ => 1
@@ -203,8 +203,8 @@ private def scaledProgram (fp64 keepCast swapped : Bool) : Program where
 
 theorem explicit_cast_preserved (R : FP.ScalarArithmetic.Rules) :
     scaledProgram false true false ≡[R] scaledProgram false true true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by explicit_cast_preserved:
 ---
@@ -221,12 +221,12 @@ set_option linter.unusedVariables false in
 example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : scaledProgram false true false ≡[R] scaledProgram false false true := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : scaledProgram false true false ≡[R] scaledProgram true true true := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 #guard_msgs (drop info) in

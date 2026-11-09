@@ -110,8 +110,8 @@ theorem unscaled_source_memory (rest : Algebra Word) (x : Launch) (s : State Wor
   refine ⟨finish.val,?_,BlockWord.epilogueMemory rest p s middle hi⟩
   change run (BlockWord.backend rest) (BlockWord.source p).surfaceBody s=some finish.val
   rw [BlockWord.source_decomposition,run_append,run_append,start.property]
-  have singleton (t : State Word) : run (BlockWord.backend rest) [.forRange "k" 0 p.inner p.blockInner (BlockWord.body p)] t =
-      FP.Structural.range (BlockWord.backend rest) "k" 0 p.inner p.blockInner (BlockWord.body p) t := by simp [run,step]
+  have singleton (t : State Word) : run (BlockWord.backend rest) [.forRangeDyn "k" (.constNat 0) (.constNat p.inner) (.constNat p.blockInner) (BlockWord.body p)] t =
+      FP.Structural.range (BlockWord.backend rest) "k" 0 p.inner p.blockInner (BlockWord.body p) t := by simp [run,step,evalOp_unfold]
   simp only [Nat.zero_mul] at hm
   simp only [Option.bind_some,singleton,hm]
   exact finish.property
@@ -132,7 +132,11 @@ theorem scaled_program_source (rest : Algebra Word) (cfg : FP.Config) (u : Nat �
     ∃ actual typed,scaledProgram cfg u x scale s=some actual ∧
       FP.Structural.exec (ScaledWord.backend rest cfg u) (ScaledWord.source (scaledParameters x scale)) s=some typed ∧
       actual.mem=typed.mem := by
-  obtain ⟨typed,he,hm⟩ := TotalScaled.executionMemory rest cfg u (scaledParameters x scale) s
+  obtain ⟨typed,he,hm⟩ := TotalScaled.executionMemory rest cfg u (scaledParameters x scale) (by
+      intro he
+      change decide (x.K%x.config.blockK=0)=Bool.true at he
+      exact LogicalSum.ceil_exact _ _ (Contract.positive_tiles x.config legal).2.2.1 (of_decide_eq_true he))
+    (LogicalSum.ceil_cover x.K x.config.blockK (Contract.positive_tiles x.config legal).2.2.1) s
   refine ⟨TotalScaled.written cfg u (scaledParameters x scale) s,typed,?_,he,hm.symm⟩
   rw [scaledProgram,program_eq x legal env Bool.true s hp,scaled_written cfg u x scale legal env s hp]
 

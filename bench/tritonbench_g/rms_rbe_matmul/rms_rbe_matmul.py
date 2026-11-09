@@ -218,3 +218,146 @@ def rms_matmul_rbe_wrapper(x: torch.Tensor, weight: torch.Tensor, rms_w: torch.T
                 RBE_EPILOGUE=use_rbe, HEAD_DIM=head_dim, THETA=10000., EPS=1e-6,
                 BLOCK_SIZE_M=16, BLOCK_SIZE_N=64, BLOCK_SIZE_K=64, num_stages=4, num_warps=4)
         return out.view(batch, M, n_heads, head_dim)
+
+
+
+
+
+
+
+
+@triton.jit
+def rms_matmul_rbe_candidate(
+        x_ptr, w_ptr, rms_w_ptr, out_ptr,
+        M, N, K,
+        stride_x_batch, stride_x_m, stride_x_k,
+        stride_w_k, stride_w_n,
+        stride_rms_w,
+        stride_out_batch, stride_out_m, stride_out_n,
+        start_token_position,
+        USE_FP8: tl.constexpr,
+        RBE_EPILOGUE: tl.constexpr,
+        THETA: tl.constexpr,
+        EPS: tl.constexpr,
+        HEAD_DIM: tl.constexpr,
+        BLOCK_SIZE_M: tl.constexpr, BLOCK_SIZE_N: tl.constexpr, BLOCK_SIZE_K: tl.constexpr,
+):
+    """
+    Prologue: RMS
+    Epilogue: nothing or Rotary embeddings
+    c = ROBE((rms(a) * rms_w) @ b)
+    """
+    M = tl.cast(M, tl.int64)
+    N = tl.cast(N, tl.int64)
+    K = tl.cast(K, tl.int64)
+    stride_x_batch = tl.cast(stride_x_batch, tl.int64)
+    stride_x_m = tl.cast(stride_x_m, tl.int64)
+    stride_x_k = tl.cast(stride_x_k, tl.int64)
+    stride_w_k = tl.cast(stride_w_k, tl.int64)
+    stride_w_n = tl.cast(stride_w_n, tl.int64)
+    stride_rms_w = tl.cast(stride_rms_w, tl.int64)
+    stride_out_batch = tl.cast(stride_out_batch, tl.int64)
+    stride_out_m = tl.cast(stride_out_m, tl.int64)
+    stride_out_n = tl.cast(stride_out_n, tl.int64)
+    pid_batch = tl.program_id(axis=0).to(tl.int64)
+    pid = tl.program_id(axis=1).to(tl.int64)
+    pid_m = pid // (N // BLOCK_SIZE_N + (N % BLOCK_SIZE_N != 0))
+    pid_n = pid % (N // BLOCK_SIZE_N + (N % BLOCK_SIZE_N != 0))
+
+    offs_m = (pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)) % M
+    offs_n = (pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)) % N
+    offs_k = tl.arange(0, BLOCK_SIZE_K).to(tl.int64)
+    x_ptrs = x_ptr + (pid_batch * stride_x_batch + offs_m[:, None] * stride_x_m + offs_k[None, :] * stride_x_k)
+    w_ptrs = w_ptr + (offs_k[:, None] * stride_w_k + offs_n[None, :] * stride_w_n)
+    accumulator = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)
+    rms_w_ptrs = rms_w_ptr + tl.arange(0, BLOCK_SIZE_K).to(tl.int64)[None, :] * stride_rms_w
+    x_sum = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_K), dtype=tl.float32)
+    for step in range(0, (K // BLOCK_SIZE_K + (K % BLOCK_SIZE_K != 0))):
+        x = tl.load(x_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        x_sum += tl.extra.cuda.libdevice.pow(x.to(tl.float32), 2)
+        rms_w = tl.load(rms_w_ptrs, mask=offs_k[None, :] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            rms_w = rms_w.to(tl.float8e5, bitcast=True)
+            rms_w = rms_w.to(tl.float16)
+        x = x * rms_w
+        w = tl.load(w_ptrs, mask=offs_k[:, None] < K - step * BLOCK_SIZE_K, other=0.0)
+        if USE_FP8:
+            w = w.to(tl.float8e5, bitcast=True)
+            w = w.to(tl.float32)
+            w = w.to(tl.float16)
+        w = w.to(x.dtype)
+        accumulator += tl.dot(x, w)
+        x_ptrs += BLOCK_SIZE_K * stride_x_k
+        w_ptrs += BLOCK_SIZE_K * stride_w_k
+        rms_w_ptrs += BLOCK_SIZE_K * stride_rms_w
+    x_mean = tl.sum(x_sum, axis=1) / K + EPS
+    x_norm = tl.math.rsqrt(x_mean)
+    accumulator = accumulator * x_norm[:, None]
+
+    # Rotate normalized FP32 pairs before the source's sole output cast.
+    if RBE_EPILOGUE:
+        real, imag = tl.split(tl.reshape(accumulator, (BLOCK_SIZE_M, BLOCK_SIZE_N // 2, 2)))
+        pair_n = pid_n * BLOCK_SIZE_N + 2 * tl.arange(0, BLOCK_SIZE_N // 2).to(tl.int64)
+        row_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+        exponent = (pair_n % HEAD_DIM).to(tl.float32) / HEAD_DIM
+        frequency = tl.extra.cuda.libdevice.pow(THETA, exponent)
+        position = tl.cast(start_token_position, tl.int64) + row_m
+        angle = position.to(tl.float32)[:, None] / frequency[None, :]
+        cosine = tl.cos(angle)
+        sine = tl.sin(angle)
+        rotated_real = real * cosine - imag * sine
+        rotated_imag = real * sine + imag * cosine
+        accumulator = tl.reshape(tl.join(rotated_real, rotated_imag), (BLOCK_SIZE_M, BLOCK_SIZE_N))
+
+    offs_m = BLOCK_SIZE_M * pid_m + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+    offs_n = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+    out_ptrs = out_ptr + (
+                pid_batch * stride_out_batch + offs_m[:, None] * stride_out_m + offs_n[None, :] * stride_out_n)
+    out_mask = (offs_m[:, None] < M) & (offs_n[None, :] < N)
+
+    tl.store(out_ptrs, accumulator, mask=out_mask)
+
+
+
+
+
+
+
+
+def rms_matmul_rbe_wrapper_candidate(x: torch.Tensor, weight: torch.Tensor, rms_w: torch.Tensor,
+                           use_rbe: bool, start_pos: int, n_heads: int, head_dim: int):
+    _checked_tensor(x, "x", (torch.float32,))
+    _checked_tensor(weight, "weight", (torch.float16, torch.int8))
+    _checked_tensor(rms_w, "rms_w", (torch.float32, torch.float16, torch.int8))
+    if x.device != weight.device or x.device != rms_w.device:
+        raise ValueError("inputs must share the input CUDA device")
+    if type(use_rbe) is not bool:
+        raise TypeError("use_rbe must be bool")
+    if x.ndim != 3 or weight.ndim != 2:
+        raise ValueError("input/projection ranks are incompatible")
+    batch, M, K = x.shape
+    N, K_W = weight.shape
+    _checked_scalars(start_pos, n_heads, head_dim, batch, M, use_rbe, 1e-6, 10000.)
+    if K == 0 or K_W != K or rms_w.shape != (K,) or N != n_heads * head_dim:
+        raise ValueError("RMS/projection/head dimensions are incompatible")
+    reads = (x, weight, rms_w)
+    if any((a.dtype != b.dtype or a.untyped_storage().data_ptr() != b.untyped_storage().data_ptr())
+           and _overlaps(a, b) for i, a in enumerate(reads) for b in reads[i + 1:]):
+        raise ValueError("overlapping input backings must share a base pointer and dtype")
+    if batch and M and (batch > (1 << 31) - 1 or triton.cdiv(M, 16) * triton.cdiv(N, 64) > 65535):
+        raise ValueError("nonempty launch grid exceeds CUDA axis limits")
+    with torch.cuda.device(x.device):
+        if rms_w.dtype != weight.dtype:
+            rms_w = rms_w.to(weight.dtype)
+        weight_t = weight.t()
+        out = torch.empty((batch, M, N), dtype=weight.dtype, device=x.device)
+        if batch and M:
+            out_ptr = triton.reinterpret(out, tl.float8e5 if out.dtype == torch.int8 else tl.float16)
+            rms_matmul_rbe_candidate[(batch, triton.cdiv(M, 16) * triton.cdiv(N, 64))](
+                x_ptr=x, w_ptr=weight_t, rms_w_ptr=rms_w, out_ptr=out_ptr, M=M, N=N, K=K,
+                stride_x_batch=M*K, stride_x_m=K, stride_x_k=1, stride_w_k=1, stride_w_n=K,
+                stride_rms_w=1, stride_out_batch=M*N, stride_out_m=N, stride_out_n=1,
+                start_token_position=start_pos, USE_FP8=weight.dtype == torch.int8,
+                RBE_EPILOGUE=use_rbe, HEAD_DIM=head_dim, THETA=10000., EPS=1e-6,
+                BLOCK_SIZE_M=16, BLOCK_SIZE_N=64, BLOCK_SIZE_K=64, num_stages=4, num_warps=4)
+        return out.view(batch, M, n_heads, head_dim)

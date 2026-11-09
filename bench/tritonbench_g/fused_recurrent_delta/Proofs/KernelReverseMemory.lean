@@ -36,7 +36,7 @@ theorem readonly (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv :
 theorem input_current (M : Algebra α) (s : Shape) (f : Flags) (scale : ℝ) (bh iv : Nat)
     (initial u : State α) (n : Nat) (same : u.mem=(memory M s f scale bh iv initial n).mem) :
     KernelBackwardReference.input M s f bh iv u=KernelBackwardReference.input M s f bh iv initial := by
-  simp only [KernelBackwardReference.input,KernelReference.read,same,
+  simp only [KernelBackwardReference.input,KernelReference.read,KernelReference.loaded,same,
     readonly M s f scale bh iv initial n "k" _ (by decide) (by decide) (by decide),
     readonly M s f scale bh iv initial n "q" _ (by decide) (by decide) (by decide),
     readonly M s f scale bh iv initial n "v" _ (by decide) (by decide) (by decide),

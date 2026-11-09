@@ -14,7 +14,7 @@ theorem forward_prologue_safe (p : Ops α) (s : State α) (T D BD : Nat)
     (hh : U=Bool.true → ∀ j, lane s BD j<D → slot s D BD j<bounds "h0") :
     Safety.traceSafeList (algebra p) bounds (forwardPrologue T D BD U) s := by
   cases U <;>
-    simp [forwardPrologue,forward,ComputeKernel.surfaceBody,
+    simp [forwardPrologue,forwardKernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -34,7 +34,7 @@ theorem forward_body_safe (p : Ops α) (s : State α) (T D BD t : Nat)
     (bg : ∀ j, lane s BD j<D → row s t T D BD j<bounds "g")
     (bo : ∀ j, lane s BD j<D → row s t T D BD j<bounds "o") :
     Safety.traceSafeList (algebra p) bounds (forwardBody D BD) s := by
-  simp [forwardBody,forward,ComputeKernel.surfaceBody,
+  simp [forwardBody,forwardKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -53,7 +53,7 @@ theorem forward_epilogue_safe (p : Ops α) (s : State α) (T D BD : Nat)
     (bh : S=Bool.true → ∀ j, lane s BD j<D → slot s D BD j<bounds "ht") :
     Safety.traceSafeList (algebra p) bounds (forwardEpilogue T D BD S) s := by
   cases S <;>
-    simp [forwardEpilogue,forward,ComputeKernel.surfaceBody,
+    simp [forwardEpilogue,forwardKernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -67,7 +67,7 @@ theorem backward_prologue_safe (p : Ops α) (s : State α) (T D BD : Nat)
     (hh : V=Bool.true → ∀ j, lane s BD j<D → slot s D BD j<bounds "dht") :
     Safety.traceSafeList (algebra p) bounds (backwardPrologue T D BD V) s := by
   cases V <;>
-    simp [backwardPrologue,backward,ComputeKernel.surfaceBody,
+    simp [backwardPrologue,backwardKernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -92,7 +92,7 @@ theorem backward_body_safe (p : Ops α) (s : State α) (T D BD n : Nat) (U : Boo
     Safety.traceSafeList (algebra p) bounds (backwardBody T D BD U) s := by
   have hrow : 0<T-1-n → s.pids 1*T+(T-1-n)-1=s.pids 1*T+(T-1-n-1) := by omega
   cases U <;> by_cases hi : 0<T-1-n <;>
-    simp [backwardBody,backward,ComputeKernel.surfaceBody,
+    simp [backwardBody,backwardKernel,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

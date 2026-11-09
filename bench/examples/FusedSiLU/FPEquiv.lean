@@ -1,3 +1,5 @@
+import bench.examples.FusedSiLU.IO
+import bench.examples.FusedSiLU.Contract
 import bench.examples.FusedSiLU.Kernels
 import bench.examples.FusedSiLU.Proofs.FP
 import VeriTile.Triton.DSL
@@ -15,31 +17,6 @@ open VeriTile Triton
 open FP.Structural
 
 set_option maxHeartbeats 1200000
-
-def unfusedIO (B : Nat) : KernelIO₃ where
-  kernel := unfusedSiLUKernel "x" "gate" "residual" "z" "silu" "out" B
-  in1 := "x"
-  in2 := "gate"
-  in3 := "residual"
-  out := "out"
-  B1 := B
-  B2 := B
-  B3 := B
-  Bout := B
-  read1 := fun pid => pid * B
-  read2 := fun pid => pid * B
-  read3 := fun pid => pid * B
-  write := fun pid => pid * B
-  scratch := [{ buf := "z", win := fun pid => pid * B, len := B },
-    { buf := "silu", win := fun pid => pid * B, len := B }]
-
-def fusedIO (B : Nat) : KernelIO₃ :=
-  { (unfusedIO B).withKernel (fusedSiLUKernel "x" "gate" "residual" "out" B) with
-    scratch := [] }
-
-/-- Fusion preserves the same opaque numerical call tree, so no numerical
-identity is assumed in this example. -/
-def R : Spec.Assumptions ComputeStmt := []
 
 open scoped VeriTile.Spec
 

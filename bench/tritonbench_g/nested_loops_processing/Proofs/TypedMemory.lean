@@ -101,8 +101,8 @@ theorem loaded_cells (count cols shift : Nat) (s : State α) :
   · simp [loaded, offsets, inputTile, h]
 
 theorem final_offsets (count cols : Nat) (s : State α) :
-    (finalState count cols s).regs .nat [2,2] "a_offsets" = some (offsets cols 28) ∧
-    (finalState count cols s).regs .nat [2,2] "c_offsets" = some (offsets cols 48) := by
+    (finalState count cols s).regs .int [2,2] "a_offsets" = some (signedOffsets (offsets cols 28)) ∧
+    (finalState count cols s).regs .int [2,2] "c_offsets" = some (signedOffsets (offsets cols 48)) := by
   simp [finalState, outerLoopState, outerState, middleLoopState, middleState,
     middlePrefixState, innerLoopState, innerState, prefixState,
     advances, bump_offsets, initialA_offsets, initialC_offsets]

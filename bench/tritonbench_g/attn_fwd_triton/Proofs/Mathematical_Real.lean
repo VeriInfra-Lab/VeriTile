@@ -6,7 +6,7 @@ independent weighted-sum formula and every cell outside active output writes. -/
 namespace VeriTile.Bench.TritonBenchG.AttnFwdTriton.RealProofs
 open VeriTile.Triton
 noncomputable section
-abbrev Parameters := AttnFwdCausal.RealContract.Parameters
+abbrev Parameters := AttnFwdTritonSupport.RealContract.Parameters
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequant_int4.Kernels
+import bench.tritonbench_g.matmul_dequant_int4.Proofs.Support.KernelEntryAdapters
 import VeriTile.Torch.Tensor
 
 namespace VeriTile.Bench.Repairs.MatmulDequantInt4GridYChecked.Tensor

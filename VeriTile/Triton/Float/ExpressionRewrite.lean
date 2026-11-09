@@ -3,7 +3,7 @@ import VeriTile.Triton.Float.ProfiledRewrite
 /-! Composing admitted rewrites inside profiled expressions. Each relation is
 checked after the actual common source prefix. Congruence preserves operand
 order, dtype, eager branch evaluation and failure; it supplies no floating law.
-Import this module with RewriteTactics to use these lemmas through fp_prove. -/
+Import this module with RewriteTactics to use these lemmas through solve_fp. -/
 namespace VeriTile.Triton.FP.ProfiledRewrite
 open Structural Guarded
 
@@ -16,6 +16,24 @@ def OpEquivalent {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
 @[spec_rule] theorem op_refl {α : Type} [Inhabited α] (M : Algebra α)
     (s : State α) (before : List ComputeStmt) (a : Op dtype shape) :
     OpEquivalent M s before a a := fun _ _ => rfl
+
+/-- Exact multiplication commutation in the signed index projection. Both
+operand evaluations and every failure are retained; this uses no floating law. -/
+@[spec_rule] theorem op_int_mul_comm {α : Type} [Inhabited α] (M : Algebra α)
+    (s : State α) (before : List ComputeStmt) (a b : Op .int []) :
+    OpEquivalent M s before (.mul .int .nil a b) (.mul .int .nil b a) := by
+  intro t _
+  change (Structural.evalOp (engine M) none a t >>= fun x =>
+    Structural.evalOp (engine M) none b t >>= fun y => some (bop Int.mul .nil x y)) =
+    (Structural.evalOp (engine M) none b t >>= fun y =>
+    Structural.evalOp (engine M) none a t >>= fun x => some (bop Int.mul .nil y x))
+  cases ha : Structural.evalOp (engine M) none a t <;>
+    cases hb : Structural.evalOp (engine M) none b t
+  all_goals first
+    | rfl
+    | apply congrArg some
+      funext i
+      exact Int.mul_comm _ _
 
 /-- Changing a block pointer's base by an equal integer expression preserves
 its offsets, layout and evaluation failure. This supplies no floating law. -/

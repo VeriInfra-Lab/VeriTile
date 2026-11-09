@@ -34,14 +34,38 @@ def capacities (a : Arguments) : RegionBounds := fun r =>
   else if r="cumsum" then a.capacity 6 else 0
 
 /-- Entry read binding for immutable roles. These are input observations,
-not execution/output assumptions. Natural channels decode admitted int32. -/
+not execution/output assumptions. Actual signed cells are bound to the observed int32 words. Nonnegative
+logical values are derived separately from the checked window contract. -/
 structure ReadOnlyBinding (a : Arguments) (input : Inputs ℝ) (s : BlockState) : Prop where
   presence : ∀ b,s.readMem "presence" b=input.presence b
   frequency : ∀ b,s.readMem "frequency" b=input.frequency b
   repetition : ∀ b,s.readMem "repetition" b=input.repetition b
-  ids : ∀ k,s.readMemValue .nat "ids" k=a.token k
-  counts : ∀ k,s.readMemValue .nat "counts" k=a.count k
-  cumsum : ∀ b,s.readMemValue .nat "cumsum" b=a.start b
+  ids : ∀ k,s.readMemValue .int "ids" k= (a.ids k).toInt
+  counts : ∀ k,s.readMemValue .int "counts" k= (a.counts k).toInt
+  cumsum : ∀ b,s.readMemValue .int "cumsum" b= (a.cumsum b).toInt
+
+theorem ReadOnlyBinding.start (binding : ReadOnlyBinding a input s)
+    (h : InputContract a) (b : Nat) (hb : b<a.batches) :
+    s.readMemValue .int "cumsum" b=(a.start b : Int) := by
+  rw [binding.cumsum,Arguments.start,Int.toNat_of_nonneg (h.windows b hb).1]
+
+theorem ReadOnlyBinding.stop (binding : ReadOnlyBinding a input s)
+    (h : InputContract a) (b : Nat) (hb : b<a.batches) :
+    s.readMemValue .int "cumsum" (b+1)=(a.stop b : Int) := by
+  have hw := h.windows b hb
+  rw [binding.cumsum,Arguments.stop,Int.toNat_of_nonneg (le_trans hw.1 hw.2.1)]
+
+theorem ReadOnlyBinding.token (binding : ReadOnlyBinding a input s)
+    (h : InputContract a) (b k : Nat) (hb : b<a.batches)
+    (hs : a.start b≤k) (he : k<a.stop b) :
+    s.readMemValue .int "ids" k=(a.token k : Int) := by
+  rw [binding.ids,Arguments.token,Int.toNat_of_nonneg ((h.windows b hb).2.2.2.2.1 k hs he).1]
+
+theorem ReadOnlyBinding.count (binding : ReadOnlyBinding a input s)
+    (h : InputContract a) (b k : Nat) (hb : b<a.batches)
+    (hs : a.start b≤k) (he : k<a.stop b) :
+    s.readMemValue .int "counts" k=(a.count k : Int) := by
+  rw [binding.counts,Arguments.count,Int.toNat_of_nonneg ((h.windows b hb).2.2.2.2.1 k hs he).2.2]
 
 /-- All scalar loads and active metadata/logit loads and stores are bounded
 for this actual source AST. Bounds are derived from the wrapper contract. -/
@@ -57,7 +81,7 @@ theorem source_traceSafe (a : Arguments) (h : InputContract a) (input : Inputs �
     "logits" "presence" "frequency" "repetition" "ids" "counts" "cumsum"
     a.vocab 1 a.block (capacities a) (programState a s b) (a.start b) (a.stop b)
     (fun j => a.token (a.start b+j.val))
-    (binding.cumsum b) (binding.cumsum (b+1)) (fun _ _ => binding.ids _)
+    (binding.start h b hb) (binding.stop h b hb) (fun _ hj => binding.token h b _ hb (by omega) hj)
   · simpa [programState,capacities] using (lt_of_lt_of_le hb p)
   · simpa [programState,capacities] using (lt_of_lt_of_le hb f)
   · simpa [programState,capacities] using (lt_of_lt_of_le hb r)
@@ -94,8 +118,9 @@ theorem program_run (a : Arguments) (h : InputContract a) (input : Inputs ℝ)
     a.vocab 1 a.block (programState a s b) (input.presence b) (input.frequency b)
     (input.repetition b) (a.start b) (a.stop b) ids counts xs
     (binding.presence b) (binding.frequency b) (binding.repetition b)
-    (binding.cumsum b) (binding.cumsum (b+1))
-    (by intro j _; exact binding.ids _) (by intro j _; exact binding.counts _)
+    (binding.start h b hb) (binding.stop h b hb)
+    (by intro j hj; exact binding.token h b _ hb (by omega) hj)
+    (by intro j hj; exact binding.count h b _ hb (by omega) hj)
     (by intro j _; rfl)
   have injective : ∀ j k : Fin a.block,a.start b+j.val<a.stop b → a.start b+k.val<a.stop b →
       b*a.vocab+ids j=b*a.vocab+ids k → j=k := by

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.token_attn_mistral.Ports
+import bench.tritonbench_g.token_attn_mistral.Proofs.Support.Ports
 import bench.tritonbench_g.token_attn_mistral.Proofs.Native
 
 namespace VeriTile.Bench.Repairs.TokenAttnMistralGridYChecked.Reference

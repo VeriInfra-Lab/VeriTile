@@ -15,7 +15,7 @@ theorem implements (m : Model α) (stride M N G B group : Nat)
   intro vals _ bounds boundsOK initial binding
   have safe : ScheduleSafe bounds ((Grouped.io m stride M N G B group observe).schedule vals) initial := by
     change ScheduleSafe bounds [job m
-      (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group] initial
+      (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group] initial
     rw [scheduleSafe_singleton]
     apply SourceSafety.Grouped.source_safe m
     · intro row hr j hj
@@ -35,7 +35,7 @@ theorem implements (m : Model α) (stride M N G B group : Nat)
     · intro j hj
       exact boundsOK.1.2.2.1 (2 : Fin 3) (j,()) hj
   let start := (job m
-    (TypedSource.groupedBackward "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group).initial initial
+    (TypedSource.groupedBackwardKernel "DX" "DY" "DW" "DB" "X" "W" "Mean" "Rstd" stride M N G B) group).initial initial
   have inputs : GroupedValues.Inputs start stride M N B
       (Grouped.x vals) (Grouped.dy vals) (Grouped.w vals) (Grouped.mean vals) (Grouped.inverse vals) := by
     constructor

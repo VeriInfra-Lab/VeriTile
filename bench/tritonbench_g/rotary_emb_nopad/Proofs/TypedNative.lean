@@ -75,9 +75,9 @@ theorem c_target_graph (p : Native.Instructions) (r : Request) (s : State Native
   simp only [cReference,cGraphTarget,cBranch,cGraphBranch,values]
   rfl
 
-#specNonCircular splitGraph avoiding [Kernels.uncached,Kernels.cached,uncachedExecution,cachedExecution]
-#specNonCircular uGraphTarget avoiding [Kernels.uncached,uncachedExecution,uReference,uTarget]
-#specNonCircular cGraphTarget avoiding [Kernels.cached,cachedExecution,cReference]
+#specNonCircular splitGraph avoiding [Kernels.uncachedKernel,Kernels.cachedKernel,uncachedExecution,cachedExecution]
+#specNonCircular uGraphTarget avoiding [Kernels.uncachedKernel,uncachedExecution,uReference,uTarget]
+#specNonCircular cGraphTarget avoiding [Kernels.cachedKernel,cachedExecution,cReference]
 #axiomsClean u_target_graph
 #axiomsClean c_target_graph
 end

@@ -1,3 +1,4 @@
+import bench.tritonbench_g.parallel_retention_attention.Proofs.HelperLaunchBounds
 import bench.tritonbench_g.parallel_retention_attention.Proofs.KernelForwardResult
 import bench.tritonbench_g.parallel_retention_attention.Proofs.KernelQueryResult
 import bench.tritonbench_g.parallel_retention_attention.Proofs.KernelBackwardResult
@@ -75,19 +76,21 @@ theorem queryMemory_inputs (s : Shape) (tile : Tile) (state : State (Expr α))
   exact storeTile_frame _ _ _ _ _ _ _ _ _ _ different
 
 theorem forward_exec (s : Shape) (b : Bases) (m : Memory α) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) :
     ∃ final, FP.Structural.exec (withDot algebra dots) (FPStages.forwardKernel (config s 128))
       (initial s b m tile)=some final ∧
       ∀ i : TileIndex [128,s.BV],tile.chunk*128+i.1.val<s.T → tile.value*s.BV+i.2.1.val<s.DV →
         final.mem "o" (forwardAddress s tile i)=
           .mk .real (FPStages.forwardValues algebra dots (config s 128) (initial s b m tile) i) := by
   obtain ⟨final,run,mem⟩ := FPStages.forward_fp32 algebra dots (config s 128) (initial s b m tile)
+    (launch_index_bounds s tile 128 shape valid (Or.inr rfl) _ rfl rfl)
   refine ⟨final,run,?_⟩
   intro i hr hc
   rw [mem,forwardMemory_eq s b m tile valid]
   exact storeTile_read _ _ _ _ _ _ _ _ i hr hc
 
-theorem backward_exec (s : Shape) (b : Bases) (m : Memory α) (tile : Tile) :
+theorem backward_exec (s : Shape) (b : Bases) (m : Memory α) (tile : Tile)
+    (shape : ShapeContract s) (valid : ProgramDomain s 64 tile) :
     ∃ final, FP.Structural.exec (withDot algebra dots) (FPBackward.source (backwardConfig s tile) "dq")
       (initial s b m tile)=some final ∧
       (∀ i : TileIndex [64,s.BK],tile.chunk*64+i.1.val<s.T → tile.key*s.BK+i.2.1.val<s.DK →
@@ -107,7 +110,16 @@ theorem backward_exec (s : Shape) (b : Bases) (m : Memory α) (tile : Tile) :
     apply backwardValues_inputs
     all_goals apply queryMemory_inputs
     all_goals simp [backwardConfig,config]
+  have decoded:=grid_decode s 64 tile valid
+  have indices : Caller.Indices (backwardConfig s tile) before := by
+    constructor
+    · rfl
+    · rfl
+    · exact decoded.2.1
+    · exact decoded.2.2
+    · rfl
   obtain ⟨final,run,mem⟩ := FPBackward.backward_fp32 algebra dots (backwardConfig s tile) "dq" before
+    indices (helper_launch_bounds s tile shape valid) (by change 0<32;decide)
   have resultMemory : final.mem=(backwardOutputMemory algebra (backwardConfig s tile) afterQuery
       (FPStages.backwardValues algebra dots (backwardConfig s tile) before)).mem := by
     change final.mem=(backwardOutputMemory algebra (backwardConfig s tile) afterQuery

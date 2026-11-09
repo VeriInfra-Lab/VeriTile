@@ -29,7 +29,7 @@ private theorem suffix_head (M : Algebra α) (D : DotPrimitive α) (c : ForwardC
     Safety.traceSafeList (withDot M D) bounds ((forwardSuffix c).take 2) s := by
   apply pure_list
   intro st hs t
-  simp [forwardSuffix,forwardKernel,forwardSource,ComputeKernel.surfaceBody] at hs
+  simp [forwardSuffix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody] at hs
   rcases hs with rfl|rfl
   all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals try simp only [safeBlockPtr2]
@@ -43,12 +43,12 @@ theorem forward_suffix (M : Algebra α) (D : DotPrimitive α) (c : ForwardConfig
   rw [←List.take_append_drop 2 (forwardSuffix c),Safety.traceSafeList_append]
   refine ⟨suffix_head M D c bounds t,?_⟩
   intro u ran
-  simp [forwardSuffix,forwardKernel,forwardSource,ComputeKernel.surfaceBody,run,step,
+  simp [forwardSuffix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,Option.bind,ComputeDType.eraseDType,
     numeric,bop,Region.cast,withDot,h.head,h.chunk,h.keyBlock,h.valueBlock] at ran
   subst u
   by_cases hv : s.pids 0 % ((c.V+c.BV-1)/c.BV) = 0
-  all_goals simp [hv,numericEq,forwardSuffix,forwardKernel,forwardSource,ComputeKernel.surfaceBody,
+  all_goals simp [hv,numericEq,forwardSuffix,forwardKernel,forwardSource,forwardPastedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,trace_singleton,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe,Safety.maskActive,
     step,evalExpr,evalComputeOp,evalOp_unfold,boundaryZero,Option.bind,ComputeDType.eraseDType,store,

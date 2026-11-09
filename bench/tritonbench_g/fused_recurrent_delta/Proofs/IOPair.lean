@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_delta.PairIO
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.Support.PairIO
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.RuntimeCorrect
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.SourcePair
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.KernelNativeCarrier

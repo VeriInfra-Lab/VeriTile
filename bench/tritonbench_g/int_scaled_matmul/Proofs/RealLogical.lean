@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int_scaled_matmul.Proofs.RealInteger
-import bench.tritonbench_g.int_scaled_matmul.Sources.LogicalSum
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.LogicalSum
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.RealScaled
 open VeriTile.Triton FP.Structural FP.IntegerConversion Revision001
 noncomputable section

@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_gated_attention.Proofs.CumulativeRealExecution
 import VeriTile.Triton.Memory.Integer
-import bench.tritonbench_g.chunk_gated_attention.Sources.Mathematical_RealHAccessSafety
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Sources.Mathematical_RealHAccessSafety
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.CumulativeSource.Real
 open VeriTile.Triton
 open VeriTile.Bench.Repairs.ChunkGatedAttention
@@ -57,6 +57,9 @@ theorem suffix_safe (p : Parameters) (s o : RegionName) (bounds : RegionBounds) 
       VeriTile.Bench.TritonBenchG.ChunkCumsumVector.RealStep.pointer,
       RealHPointers.matrixPointer] using active_input_pointer p s o initial
   intro bs
+  apply TraceProofs.assign_cons
+  · simp [Op.SafeAt,Op.SafeAt.eq_def]
+  intro bsCopy
   apply TraceProofs.assign_cons
   · simp [Op.SafeAt,Op.SafeAt.eq_def]
   intro bo

@@ -13,13 +13,13 @@ set_option linter.unusedSimpArgs false
 def scaleState (enabled : Bool) (rowscale : RegionName) (M row block : Nat)
     (values : Fin block → ℝ) (s : BlockState) : BlockState :=
   if enabled then
-    (s.setReg "rowscale" .real [] (Tile.scalar (some (s.readMem rowscale (M+row))))).setReg
+    ((s.setReg "__veritile_load_3" .real [] (Tile.scalar (some (s.readMem rowscale (M+row))))).setReg "rowscale" .real [] (Tile.scalar (some (s.readMem rowscale (M+row))))).setReg
       "x1" .real [block] (Execution.realTile (fun j => values j * s.readMem rowscale (M+row)))
   else s
 
 theorem scalePhase_exec (enabled : Bool) (rowscale : RegionName) (M row block : Nat)
     (values : Fin block → ℝ) (s : BlockState)
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hx : s.regs .real [block] "x1" = some (Execution.realTile values)) :
     stepStmts (scalePhase enabled rowscale M block) s =
       some (scaleState enabled rowscale M row block values s) := by
@@ -31,7 +31,7 @@ theorem scalePhase_exec (enabled : Bool) (rowscale : RegionName) (M row block : 
       hrow, hx, Execution.realTile, Tile.bop, NumericDType.mul, NumericDType.add]
 
 def loadedState (r : Regions) (start N block : Nat) (s : BlockState) : BlockState :=
-  s.setReg "x1" .real [block] (Execution.realTile (rowValues r.x1 start N block s))
+  (s.setReg "__veritile_load_2" .real [block] (Execution.realTile (rowValues r.x1 start N block s))).setReg "x1" .real [block] (Execution.realTile (rowValues r.x1 start N block s))
 
 def scaledValues (f : Flags) (r : Regions) (M row start N block : Nat)
     (s : BlockState) : Fin block → ℝ :=
@@ -81,11 +81,12 @@ theorem droppedState_x1 (f : Flags) (r : Regions) (M row start N block : Nat)
 
 theorem droppedState_regs (f : Flags) (r : Regions) (M row start N block : Nat)
     (p : ℝ) (s : BlockState) (dtype : TileDType) (shape : TileShape) (name : RegName)
-    (hx1 : name ≠ "x1") (hrs : name ≠ "rowscale") (hkeep : name ≠ "keep_mask") :
+    (hx1 : name ≠ "x1") (hrs : name ≠ "rowscale") (hkeep : name ≠ "keep_mask")
+    (hl2 : name ≠ "__veritile_load_2" := by first | assumption | decide) (hl3 : name ≠ "__veritile_load_3" := by first | assumption | decide) :
     (droppedState f r M row start N block p s).regs dtype shape name = s.regs dtype shape name := by
   cases hs : f.rowscale <;> cases hd : f.dropout <;> cases hm : f.dropoutMask
   all_goals simp [droppedState, dropoutState, dropoutBase, scaledState,
-    scaleState, loadedState, hs, hd, hm, hx1, hrs, hkeep]
+    scaleState, loadedState, hs, hd, hm, hx1, hrs, hkeep,hl2,hl3]
 
 theorem addStmt_exec (name : RegName) (block : Nat) (x values : Fin block → ℝ)
     (s : BlockState)
@@ -105,15 +106,19 @@ theorem secondBody_exec (f : Flags) (r : Regions) (M row start N block : Nat)
     (p : ℝ) (x : Fin block → ℝ) (s : BlockState)
     (hBlock : Random.ArangeSizeDomain block)
     (hptr : s.regs .ptr [] "X1" = some (Tile.scalar (r.x1, start)))
-    (hrow : s.regs .nat [] "row" = some (Tile.scalar row))
+    (hrow : s.regs .int [] "row" = some (Tile.scalar row))
     (hcols : s.regs .nat [block] "cols" = some (Tile.vec (fun j => j.val)))
     (hx : s.regs .real [block] "x" = some (Execution.realTile x)) :
     stepStmts (secondBody f r M N block p) s =
       some (bodyState f r M row start N block p x s) := by
-  have hl : stepStmts [.assign .real [block] "x1" (rowLoadOp "X1" N block)] s =
+  have hl : stepStmts
+      [.assign .real [block] "__veritile_load_2" (rowLoadOp "X1" N block),
+       .assign .real [block] "x1" (.ref .real [block] "__veritile_load_2")] s =
       some (loadedState r start N block s) := by
-    rw [exec_single]
-    exact stepStmt_assign_eq_some (rowLoadOp_eval "X1" r.x1 start N block s hptr hcols)
+    rw [stepStmts.cons_some (stepStmt_assign_eq_some
+      (name := "__veritile_load_2") (rowLoadOp_eval "X1" r.x1 start N block s hptr hcols))]
+    simp [stepStmts,stepStmt,evalOp.eq_def,loadedState]
+
   have hs := scalePhase_exec f.rowscale r.rowscale M row block
     (rowValues r.x1 start N block s) (loadedState r start N block s)
     (by simpa [loadedState] using hrow) (by simp [loadedState])
@@ -127,7 +132,7 @@ theorem secondBody_exec (f : Flags) (r : Regions) (M row start N block : Nat)
   have ha := addStmt_exec "x1" block x (streamValues f r M row start N block p s)
     (droppedState f r M row start N block p s)
     (by rw [droppedState_regs f r M row start N block p s .real [block] "x"
-      (by decide) (by decide) (by decide)]; exact hx)
+      (by decide) (by decide) (by decide) (by decide) (by decide)]; exact hx)
     (droppedState_x1 f r M row start N block p s)
   simp only [secondBody, ProgramRewrite.append, hl, Option.bind_some]
   rw [hs, Option.bind_some]

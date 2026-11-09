@@ -1,6 +1,6 @@
-import bench.tritonbench_g.matmul_triton_autotune.Kernels
+import bench.tritonbench_g.matmul_triton_autotune.Proofs.Support.SourceBindings
 import VeriTile.Triton.Float.ScalarBackend
-import bench.tritonbench_g.quantize_kv_transform.Sources.Mathematical_MixedBits
+import bench.tritonbench_g.quantize_kv_transform.Proofs.Sources.Mathematical_MixedBits
 
 /-! Concrete scalar FP32 and FP16 semantics, plus fixed instruction atoms for
 the pinned SM80 TF32 MMA and gfx942 XF32 MFMA profiles. These atoms expose the

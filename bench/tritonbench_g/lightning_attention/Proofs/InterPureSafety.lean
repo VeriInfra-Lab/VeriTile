@@ -11,7 +11,7 @@ variable {α : Type} [Inhabited α]
 theorem forwardEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine (withDot M D)) bounds (interForwardParts p).before s := by
-  simp [interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -24,7 +24,7 @@ theorem reverseEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (s : State α) (ctx : InterFReady p head row1 row2 input carry s)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine (withDot M D)) bounds (interReverseParts p).before s := by
-  simp [interReverseParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interReverseParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -36,7 +36,7 @@ theorem reverseEntry (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
 theorem deltaInit (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine (withDot M D)) bounds (interFDeltaParts p).before s := by
-  simp [interFDeltaParts,interFQueryParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interFDeltaParts,interFQueryParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -49,7 +49,7 @@ theorem carryFinish (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine (withDot M D)) bounds (interFDeltaParts p).after s := by
   simp only [InterFDelta] at ha
-  simp [interFDeltaParts,interFQueryParts,interForwardParts,inter,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
+  simp [interFDeltaParts,interFQueryParts,interForwardParts,interKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -59,7 +59,7 @@ theorem carryFinish (M : Algebra α) (D : DotPrimitive α) (p : Parameters)
 theorem reverseDeltaInit (M : Algebra α) (D : DotPrimitive α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine (withDot M D)) bounds (interRDeltaParts p).before s := by
-  simp [interRDeltaParts,interRUpdateParts,interReverseParts,inter,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interRDeltaParts,interRUpdateParts,interReverseParts,interKernel,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,
@@ -72,7 +72,7 @@ theorem reverseCarryFinish (M : Algebra α) (D : DotPrimitive α) (p : Parameter
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine (withDot M D)) bounds (interRDeltaParts p).after s := by
   simp only [InterRDelta] at ha
-  simp [interRDeltaParts,interRUpdateParts,interReverseParts,inter,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
+  simp [interRDeltaParts,interRUpdateParts,interReverseParts,interKernel,ComputeKernel.surfaceBody,interForwardParts,Source.dynamicRange?,Source.intRange?,Option.map,Option.getD,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
     Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     Tile.bop,Broadcast.leftIndex,Broadcast.rightIndex,

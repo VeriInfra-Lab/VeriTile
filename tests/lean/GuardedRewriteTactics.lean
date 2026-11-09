@@ -31,8 +31,8 @@ private def program (extra : List ComputeStmt) (a b : Bool) : Program :=
 -- the same register. The second guard refers to the intermediate program.
 theorem two_sites (R : ScalarArithmetic.Rules) :
     program [padding] false false ≡[R] program [padding] true true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by two_sites:
 ---
@@ -59,8 +59,8 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program [] false false with domain := [] } : Program) ≡[R]
         ({ program [] true true with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 private def wrongSite (name : RegName) (occurrence : Nat) : Site :=
@@ -70,18 +70,18 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program [] false false with domain := [wrongSite "out" 0] } : Program) ≡[R]
         ({ program [] true false with domain := [wrongSite "out" 0] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ program [] false false with domain := [wrongSite "missing" 0] } : Program) ≡[R]
         ({ program [] true false with domain := [wrongSite "missing" 0] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ program [] false false with domain := [wrongSite "x" 0] } : Program) ≡[R]
         ({ program [] true false with domain := [wrongSite "x" 0] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- A fp32 atom supplies neither fp64 commutation nor a changed store.
@@ -90,14 +90,14 @@ example (R : ScalarArithmetic.Rules) : True := by
     have : (⟨.mk ["x", "y"] [] [add false], sites []⟩ : Program) ≡[R]
         (⟨.mk ["x", "y"] [] [.assign .real [4] "out" (.compute (.alg .fp64
           (.add .real (.consSame .nil) (operand "y") (operand "x"))))], sites []⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : (⟨.mk ["x", "y"] ["out"] [write], []⟩ : Program) ≡[R]
         (⟨.mk ["x", "y"] ["out"] [.store .real [4] (.region "out" (.arange 4))
           (.alg (operand "x")) .none], []⟩ : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- Signatures, list alignment and atom admission remain proof obligations.
@@ -105,18 +105,18 @@ example (R : ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : program [] false false ≡[R]
         ({ program [] true true with kernel := .mk ["different"] ["out"] (code [] true true) } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : program [] false false ≡[R] program [padding] true true := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- Strict commutation keeps the same site guards with an empty empirical table.
 example : program [] false false ≡[([] : Spec.Assumptions GuardedFragment)]
     program [] true true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 end GuardedRewriteTacticTests

@@ -36,11 +36,11 @@ def entry (p : Parameters) (words : State Word) : State Compiler.Term where
       .leaf region offset ((words.mem region offset).read .real) := by simp [entry,typed]
 
 def forwardLSE (R : Compiler.Reductions) (p : Parameters) (words : State Word) (chunk : Nat) : Compiler.Term :=
-  KernelModel.cast (Compiler.algebra R) (lseValue (Compiler.algebra R) p (entry p words) chunk)
+  lseValue (Compiler.algebra R) p (entry p words) chunk
 def fullLoss (R : Compiler.Reductions) (p : Parameters) (words : State Word) : Compiler.Term :=
-  KernelModel.cast (Compiler.algebra R) (forwardLoss (Compiler.algebra R) p (entry p words))
+  forwardLoss (Compiler.algebra R) p (entry p words)
 def partialLoss (R : Compiler.Reductions) (p : Parameters) (words : State Word) : Compiler.Term :=
-  KernelModel.cast (Compiler.algebra R) (chunkLoss (Compiler.algebra R) p (entry p words))
+  chunkLoss (Compiler.algebra R) p (entry p words)
 def backwardLane (R : Compiler.Reductions) (p : Parameters) (words : State Word) (lane : Fin p.block) : Compiler.Term :=
   gradientValue (Compiler.algebra R) p (entry p words) lane
 

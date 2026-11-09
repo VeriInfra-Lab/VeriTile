@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_dequantize_int4.Whole
+import bench.tritonbench_g.matmul_dequantize_int4.Proofs.Support.Whole
 import VeriTile.Torch.FP32
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeInt4.Checked

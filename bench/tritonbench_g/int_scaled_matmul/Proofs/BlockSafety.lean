@@ -36,7 +36,12 @@ theorem prelude_safe (M : Algebra α) (p : Parameters)
   dsimp only [prelude,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,List.take] at member
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateKernel,
+    ComputeKernel.surfaceBody,List.take] at member
   simp only [List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with (rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl)
   all_goals simp [Safety.stepSafe,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
@@ -59,7 +64,12 @@ theorem body_safe (M : Algebra α) (p : Parameters)
     simp [body,originalBody,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
       VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
       VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-      VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+      VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateKernel,
+    ComputeKernel.surfaceBody,
       List.mem_cons,List.not_mem_nil,or_false] at member
     rcases member with (rfl | rfl | rfl)
     all_goals simp [Safety.stepSafe,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
@@ -68,7 +78,12 @@ theorem body_safe (M : Algebra α) (p : Parameters)
   simp [body,originalBody,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,singleton_safe,Safety.traceSafeList,Safety.stepSafe,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateKernel,
+    ComputeKernel.surfaceBody,singleton_safe,Safety.traceSafeList,Safety.stepSafe,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,
     Safety.safeMask,Safety.addressSafe,Safety.maskActive,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,FP.Structural.eval_intToSigned,
@@ -93,7 +108,12 @@ theorem epilogue_safe (M : Algebra α) (p : Parameters)
   simp [epilogue,original,int_scaled_matmul_matmul_surface,VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaled,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.unscaledSource,
     VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaled,
-    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,ComputeKernel.surfaceBody,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Kernels.scaledSource,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.unscaledCandidateKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledKernel,
+    VeriTile.Bench.Repairs.IntScaledMatmul.Body.scaledCandidateKernel,
+    ComputeKernel.surfaceBody,
     singleton_safe,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress,Safety.safeMask,
     Safety.addressSafe,Safety.maskActive,FP.Structural.step,evalExpr,evalComputeOp,
@@ -162,11 +182,11 @@ theorem complete (M : Algebra α) (p : Parameters) (positive : 0<p.blockInner)
     cases hs
     rw [singleton_safe]
     rw [Safety.stepSafe]
-    simpa only [Nat.zero_mul] using
+    simpa only [Nat.zero_mul,Safety.safeOp_unfold,evalOp_unfold,true_and] using
       loop_safe M p positive bounds initial start.val 0 (by omega) startInv ha hb
   · intro final hf
     rw [run_append,start.property] at hf
-    simp only [Option.bind_some,run,step,executed] at hf
+    simp [run,step,evalOp_unfold,bind,pure,executed] at hf
     cases hf
     exact epilogue_safe M p bounds initial mid midInv ho
 

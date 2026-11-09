@@ -27,7 +27,7 @@ theorem backwardOuterStartExecution (rest : Algebra α) (P : Primitives α) (p :
     (initial current : State α) (c : Nat) (mem : Memory α) (h : BackwardEntryInvariant p initial c mem current) :
     run (backend rest P) ((backwardOuterBody p).take 12) (current.setReg "start_n" .nat [] (fun _ => c))=
       some (backwardOuterStartResult P p initial current c mem) := by
-  simp [backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp,numeric,evalOffsets,backend,backwardOuterStartResult,
     h.hz,h.z,h.h,h.strideZ,h.strideH,h.dqBase,h.keyPtr,h.valuePtr,h.memory,h.undef,
     backwardPointer,backwardHeadRow,backwardByteBase,backwardInnerInitial,backwardRead,backwardOffset,

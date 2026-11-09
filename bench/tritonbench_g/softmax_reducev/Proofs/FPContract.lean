@@ -20,7 +20,7 @@ theorem suffix_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (s t : State α) (a : Accumulator α p.dimensions) (h : Ready p s t a) :
     ∃ final, run M (suffix p) t = some final ∧
       final.mem = (written p s (outputValues M p a)).mem := by
-  simp [suffix,source,typed,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [suffix,source,typedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,
     Region.cast,ofFloat,toFloat,store,State.setReg,
     h.batch,h.head,h.dimensions,h.output,h.normalizer,written,outputOffset,outputValues]
@@ -34,7 +34,8 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
     ∃ final, FP.Structural.exec M (source p) s = some final ∧
       final.mem = (written p s (outputValues M p (finalAccumulator M p s))).mem := by
   obtain ⟨a,ha,har⟩ := prefix_run M p s
-  obtain ⟨b,hb,hbr⟩ := loop_run M p s a 0 (sequenceLength p s) p.tokens _ har hN
+  obtain ⟨b,hb,hbr⟩ := loop_run M p s a 0 (sequenceWord p s) p.tokens _ har hN
+  simp only [Nat.cast_zero] at hb
   obtain ⟨final,hf,hm⟩ := suffix_run M p s b _ hbr
   refine ⟨final,?_,hm⟩
   change run M (source p).surfaceBody s = _
@@ -44,7 +45,7 @@ theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α) (p : Parame
   simpa only [bind,pure,Option.bind,hb] using hf
 
 def Post {α : Type} (p : Parameters) (s final : State α) (v : Index p → α) : Prop :=
-  (∀ i, final.mem p.output (outputOffset p s i) = .mk .fp32 (v i)) ∧
+  (∀ i, final.mem p.output (outputOffset p s i) = .mk .real (v i)) ∧
   (∀ r o, (r ≠ p.output ∨ ∀ i, o ≠ outputOffset p s i) → final.mem r o = s.mem r o)
 
 theorem correctness {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)

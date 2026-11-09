@@ -17,11 +17,11 @@ def scalarStmt (name : RegName) (word : Float32Bits) : ComputeStmt :=
     (.alg .uint32 (.constNat word.bits.toNat))))
 
 def scalarBody (lower upper : Float32Bits) : List ComputeStmt :=
-  [scalarStmt "lower_arg" lower, scalarStmt "upper_arg" upper]
+  [scalarStmt "from_" lower, scalarStmt "to" upper]
 
 def scalarState {α : Type} (M : Algebra α) (lower upper : Float32Bits) (s : State α) : State α :=
-  (s.setReg "lower_arg" .real [] (fun _ => M.fp32Bits lower)).setReg
-    "upper_arg" .real [] (fun _ => M.fp32Bits upper)
+  (s.setReg "from_" .real [] (fun _ => M.fp32Bits lower)).setReg
+    "to" .real [] (fun _ => M.fp32Bits upper)
 
 theorem scalar_exec {α : Type} [Inhabited α] (M : Algebra α)
     (lower upper : Float32Bits) (s : State α) :
@@ -70,7 +70,7 @@ theorem wrapped_add (offset : Int) (index : Nat) :
 
 theorem index_exec {α : Type} [Inhabited α] (M : Algebra α)
     (swapped : Bool) (offset : Int) (B : Nat) (s : State α)
-    (hb : s.regs .nat [] "BLOCK_arg" = some (fun _ => B))
+    (hb : s.regs .nat [] "BLOCK" = some (fun _ => B))
     (hlo : s.regs .nat [] "c0" = some (fun _ => (BitVec.ofInt 32 offset).toNat)) :
     run M (indexBody swapped B) s = some (preparedState offset B s) := by
   have hi : step M (KernelSource.indexStmt swapped B) (widened B s) =

@@ -25,10 +25,10 @@ theorem firstStream_value {α : Type} [Inhabited α] (A : Algebra α) (cmp : Com
   have hu := hv.1
   simp at hu
   cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hm : f.dropoutMask
-  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [firstStream,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,hsc,hd,hm] at ht
   all_goals subst t
   all_goals try dsimp only [_root_.VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.streamValues,
@@ -56,10 +56,10 @@ theorem secondInput_value {α : Type} [Inhabited α] (A : Algebra α) (cmp : Com
   have hu := hv.1
   simp at hu
   cases hxf : f.x1 <;> cases hsc : f.rowscale <;> cases hd : f.dropout <;> cases hm : f.dropoutMask
-  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [secondInput,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,integralMod,FP.Structural.bop,natLt,
-    numericLt,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,cmp.available,seed_valid,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hu,ho,hxf,hsc,hd,hm] at ht
   all_goals subst t
   all_goals simp [_root_.VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.TypedSource.streamValues,
@@ -78,10 +78,10 @@ theorem residual_value {α : Type} [Inhabited α] (A : Algebra α)
       (raw A s r.residual (row*stride.residual) N j.1.val) else v j) := by
   rcases hs with ⟨hrow,hcols,hy,hx1,hres,hresout,hy1,_⟩
   cases hrflag : f.residual <;> cases hoflag : f.residualOut
-  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,
+  all_goals simp [residual,repaired,original,ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel,
     run,step,store,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,ComputeDType.eraseDType,numeric,FP.Structural.bop,natLt,
-    numericLt,Region.cast,Random.i32ArangeSize,
+    numericLt,numericEq,Region.cast,Random.i32ArangeSize,
     hrow,hcols,hy,hx1,hres,hresout,hy1,hx,hrflag,hoflag] at ht
   all_goals subst t
   all_goals simp [op,raw,hrflag,hoflag,ofFloat,toFloat,hx]

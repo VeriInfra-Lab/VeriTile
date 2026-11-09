@@ -12,10 +12,10 @@ variable {α : Type} [Inhabited α]
 
 def kernel (c : Config) : ComputeKernel :=
   match c.storage with
-  | .fp16=>TypedSource.FP16.fusedMask c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
+  | .fp16=>TypedSource.FP16.fusedMaskKernel c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
     c.sqz c.sqh c.sqm c.sqk c.skz c.skh c.skn c.skk c.svz c.svh c.svn c.svk
     c.soz c.soh c.som c.sok c.Z c.H c.T c.NR c.NS c.NV c.BM c.BN c.BD
-  | .bf16=>TypedSource.BF16.fusedMask c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
+  | .bf16=>TypedSource.BF16.fusedMaskKernel c.q c.k c.v c.seq c.scale c.blocks c.offsets c.counts c.columns c.out
     c.sqz c.sqh c.sqm c.sqk c.skz c.skh c.skn c.skk c.svz c.svh c.svn c.svk
     c.soz c.soh c.som c.sok c.Z c.H c.T c.NR c.NS c.NV c.BM c.BN c.BD
 
@@ -39,11 +39,11 @@ theorem overwrite (s : State α) (n : RegName) (d : TileDType) (sh : TileShape)
   split <;> simp_all
 
 theorem local_run (M : Algebra α) (c : Config) (s : State α) :
-    run M ((columnBody c).drop 5 |>.take 2) s = run M ((column c).drop 5 |>.take 1) s := by
+    run M ((columnBody c).drop 7 |>.take 2) s = run M ((column c).drop 7 |>.take 1) s := by
   cases hs : c.storage
   all_goals
     simp [column,columnBody,active,activeBody,parsedActiveBody,parsedKernel,kernel,hs,
-      TypedSource.FP16.source,TypedSource.BF16.source,TypedSource.FP16.fusedMask,TypedSource.BF16.fusedMask,
+      TypedSource.FP16.sourceKernel,TypedSource.BF16.sourceKernel,TypedSource.FP16.fusedMaskKernel,TypedSource.BF16.fusedMaskKernel,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,
       Option.bind,ComputeDType.eraseDType]
   all_goals

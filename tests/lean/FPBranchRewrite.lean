@@ -24,13 +24,13 @@ private def program (selected swapped : Bool) : Program where
 
 theorem then_arm (R : FP.ScalarArithmetic.Rules) :
     program true false ≡[R] program true true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 theorem else_arm (R : FP.ScalarArithmetic.Rules) :
     program false false ≡[R] program false true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 /-- info: FP assumptions used by then_arm:
 ---
@@ -50,8 +50,8 @@ private def nestedProgram (swapped : Bool) : Program where
 
 theorem nested_arms (R : FP.ScalarArithmetic.Rules) :
     nestedProgram false ≡[R] nestedProgram true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 -- An absent guard, the wrong arm, or a guard before a different prefix cannot
 -- justify the rewrite. Keep matching signatures so these test the proof path.
@@ -60,18 +60,18 @@ example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ program true false with domain := [] } : Program) ≡[R]
         ({ program true true with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ program true false with domain := [.branch [padding] condition false inner] } : Program) ≡[R]
         ({ program true true with domain := [.branch [padding] condition false inner] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ program true false with domain := [.branch [] condition true inner] } : Program) ≡[R]
         ({ program true true with domain := [.branch [] condition true inner] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 theorem inactive_arm_needs_no_guard {α : Type} [Inhabited α] (M : Algebra α)
@@ -108,8 +108,8 @@ private def singleArmProgram (swapped : Bool) : Program where
 
 theorem one_arm (R : FP.ScalarArithmetic.Rules) :
     singleArmProgram false ≡[R] singleArmProgram true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 private def loopedSingleArm (swapped : Bool) : Program where
   kernel := .mk [] [] [padding, .ifThen condition
@@ -119,21 +119,21 @@ private def loopedSingleArm (swapped : Bool) : Program where
 
 theorem one_arm_with_loop (R : FP.ScalarArithmetic.Rules) :
     loopedSingleArm false ≡[R] loopedSingleArm true := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 set_option linter.unusedVariables false in
 example (R : FP.ScalarArithmetic.Rules) : True := by
   fail_if_success
     have : ({ singleArmProgram false with domain := [] } : Program) ≡[R]
         ({ singleArmProgram true with domain := [] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : ({ singleArmProgram false with domain := [.branch [padding] condition false inner] } : Program) ≡[R]
         ({ singleArmProgram true with domain := [.branch [padding] condition false inner] } : Program) := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 theorem one_arm_missing_condition_preserves_failure {α : Type} [Inhabited α]

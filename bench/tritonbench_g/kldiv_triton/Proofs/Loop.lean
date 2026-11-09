@@ -81,7 +81,7 @@ def sourceRun {α : Type} [Inhabited α] (m : Model α) (s : State α)
   have h := iterate_runs m sy st so (s.pids 0*sy) (s.pids 0*st) (s.pids 0*so)
     N B flag reduction positive (rounds N B) 0 initial (by omega)
     (by simpa [outputBase] using initial_header s sy st so B)
-  simp only [forwardSource, forwardTemplate, ComputeKernel.surfaceBody, List.drop,
+  simp only [forwardSource, forwardTemplateKernel, ComputeKernel.surfaceBody, List.drop,
     run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
     Option.bind_eq_bind, Option.bind, Option.pure_def]
   change (rangeInt m.alg "i" 0 (N : Int) B (forwardBody sy st so N B flag reduction) initial).bind

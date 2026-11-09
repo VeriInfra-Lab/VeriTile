@@ -8,7 +8,7 @@ namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.Preparation
 open VeriTile.Triton Memory
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealTiles (finite)
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 noncomputable section
 set_option maxHeartbeats 800000
 set_option linter.unusedSimpArgs false

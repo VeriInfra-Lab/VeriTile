@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.Sources.AlgorithmProjection
+import bench.tritonbench_g.attention_score.Proofs.Sources.AlgorithmProjection
 import bench.tritonbench_g.attention_score.Proofs.Reused.RealExpressions
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Triton.Semantics.ProgramRewrite
@@ -36,7 +36,7 @@ def body (BN BD N_CTX : Nat) (offset size : Int)
           [Stmt.assign TileDType.bool [BN, BN] "mask"
               (Op.boolAnd (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
                 (Op.ge ComparableDType.int Broadcast.scalarR (Op.ref TileDType.int [BN, BN] "dist")
-                  (Op.castNatToInt (Op.constNat 0)))
+                  (Op.constInt 0))
                 (Op.lt ComparableDType.int Broadcast.scalarR (Op.ref TileDType.int [BN, BN] "dist")
                   (Op.constInt size)))]],
     Stmt.assign TileDType.real [BN, BN] "qk"
@@ -98,7 +98,7 @@ theorem original_arithmetic :
   subst BM
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
   rw [loopBody_erased]
-  simp only [TypedSource.original,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [TypedSource.original,TypedSource.originalKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     loopBody?,Option.map,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]
@@ -116,7 +116,7 @@ theorem candidate_arithmetic :
   subst BM
   rw [SourceAlgorithm.erased_body _ (SourceAlgorithm.projection _ ⟨_, rfl⟩)]
   rw [loopBody_erased]
-  simp only [TypedSource.scalarLeft,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+  simp only [TypedSource.scalarLeft,TypedSource.scalarLeftKernel,TypedSource.scaleArgument,ComputeKernel.withScalarArguments,ComputeKernel.surfaceBody,ScalarArgument.statement,List.map_cons,List.map_nil,List.cons_append,List.nil_append,ComputeDType.eraseDType,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
     ComputeKernel.surfaceBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,
     loopBody?,Option.map,List.drop_succ_cons,List.drop_zero,List.take_succ_cons,List.take_zero]

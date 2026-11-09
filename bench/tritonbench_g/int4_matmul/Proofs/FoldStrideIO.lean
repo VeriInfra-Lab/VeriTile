@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int4_matmul.PairIO
+import bench.tritonbench_g.int4_matmul.Proofs.Support.PairIO
 import bench.tritonbench_g.int4_matmul.Proofs.FoldStride
 
 namespace VeriTile.Bench.Repairs.Int4Matmul.FoldStrideIO

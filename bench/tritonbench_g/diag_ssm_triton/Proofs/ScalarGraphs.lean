@@ -1,4 +1,4 @@
-import bench.tritonbench_g.diag_ssm_triton.Kernels
+import bench.tritonbench_g.diag_ssm_triton.Proofs.Support.KernelEntryAdapters
 import VeriTile.Triton.Float.ScalarOps
 
 /-! Optional scalar graph interpretations retained from the earlier byte/host

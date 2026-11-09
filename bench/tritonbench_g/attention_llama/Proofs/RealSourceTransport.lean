@@ -39,7 +39,7 @@ private theorem source_relation (c : Source.Config) (scale : ℝ) :
   cases hf : c.fp8
   all_goals
     simp only [Source.kernel,literalSource,hf,Bool.false_eq_true,ite_false,ite_true,
-      TypedSource.half,TypedSource.bytes,
+      TypedSource.half,TypedSource.bytes,halfKernel,bytesKernel,
       AttentionLlama.TypedSource.repaired,AttentionLlama.TypedSource.repairedFP8,
       ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,

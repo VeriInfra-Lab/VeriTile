@@ -13,7 +13,7 @@ The original all-word domain and arbitrary complete token permutation remain. -/
 specification address_early_equiv (a : Arithmetic) (rest : Algebra Word) (p : Parameters)
     (width : 0 < p.width) (headCover : p.heads ≤ p.height) (colCover : p.columns ≤ p.width)
     (count : Nat) (order : List Nat) (coverage : order.Perm (List.range count)) :
-    Pair.original a rest p count order ≡[[]] Pair.addressEarly a rest p count order :=
+    Pair.original a rest p count order ≡[[]] Pair.addressEarlyKernel a rest p count order :=
   ProgramIO.Implementation.of_equivalentOn (Pair.variant (backend a rest) p count order)
     (Pair.equivalent a rest p width headCover colCover count order coverage)
 

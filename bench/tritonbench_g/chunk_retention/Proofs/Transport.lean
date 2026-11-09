@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention.Sources.Source
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.Source
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001
 noncomputable section

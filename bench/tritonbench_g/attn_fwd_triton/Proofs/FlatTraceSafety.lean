@@ -1,12 +1,13 @@
 import bench.tritonbench_g.attn_fwd_triton.Proofs.FlatPrologue
-import bench.tritonbench_g.attn_fwd_triton.Proofs.FlatSource
+import bench.tritonbench_g.attn_fwd_triton.Proofs.ActualAssembly
+import bench.tritonbench_g.attn_fwd_triton.Proofs.ActualHelperSafety
 import bench.tritonbench_g.attn_fwd_triton.Proofs.TraceSafety
 
 /-! Bounded traces for the actual shared-memory translation. The only memory
 premises are the six ordinary role windows; read-only overlap is allowed. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.FlatTraceSafety
 open VeriTile.Triton Memory Relocation AccessSafety
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealAccess
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealRegisterSafety
 noncomputable section
@@ -48,27 +49,37 @@ theorem safe (A : FlatAlloc) (bounds : RegionBounds) (s : BlockState) (p : Param
     Stmt.TraceSafeList bounds (A.flattenStmts (Verified.code 128 64 BD p reciprocal)) s := by
   let c := config A (Coordinates.configuration s p)
   have hp : ViewBounds.Program c := ⟨hp.batch,hp.head,hp.row⟩
-  let diagonal := decide (p.stage=2)
-  have hb1 : SafetyLoop.Bounds bounds c 64 BD (FirstSetup.firstLower c.startM 128 diagonal)
-      (FirstSetup.firstUpper c.startM 128 p.context diagonal) := by
+  have window (second : Bool) : SafetyLoop.Bounds bounds c 64 BD
+      (ActualSetup.lower c second) (ActualSetup.upper c second) := by
     apply ViewBounds.loop_bounds bounds c BD _ _ hv hp
-    cases hd : diagonal
-    · exact Nat.le_of_lt hp.row
+    simp only [ActualSetup.upper]
+    split
     · exact Nat.min_le_right _ _
-  have hb2 := ViewBounds.loop_bounds bounds c BD (c.startM*128) (min ((c.startM+1)*128) p.context) hv hp (Nat.min_le_right _ _)
-  obtain ⟨sp,hpstep,hfixed,hcarry,hcaller,hout,hpf⟩ := FlatPrologue.executes A s p 128 64 BD
-  have hpsafe := prologue_safe A bounds s p 128 64 BD
-    (ViewBounds.query bounds c BD hv hp) (ViewBounds.query_scale bounds c hv hp)
-  have hlsafe := SafetyMiddle.safe bounds s sp c 128 64 BD diagonal (Initialization.initial 128 BD)
-    (by omega) hfixed hcarry hcaller hb1 hb2
-  obtain ⟨sl,hlstep,hlfixed,hlcarry,hlf⟩ := TwoLoops.executes s sp c 128 64 BD diagonal (Initialization.initial 128 BD)
-    (by omega) hfixed hcarry hcaller
-  have hop : sl.regs .ptr [128,BD] "O_block_ptr" = some (outputPointer c 128 BD) :=
-    (hlf.regs _ _ "O_block_ptr" (by decide)).trans hout
-  rw [FlatSource.body,List.append_assoc]
+    · exact Nat.le_of_lt hp.row
+  obtain ⟨sp,hpstep,hfixed,hcarry,hcaller,hout,hpf⟩ := ActualPrologue.executes A s p BD
+  have hpsafe : Stmt.TraceSafeList bounds (ActualPrologue.code A p BD) s := by
+    rw [ActualPrologue.code_eq]
+    exact prologue_safe A bounds s p 128 64 BD
+      (ViewBounds.query bounds c BD hv hp) (ViewBounds.query_scale bounds c hv hp)
+  have hs1 := ActualHelperSafety.call_safe bounds s sp c BD Bool.false
+    (Initialization.initial 128 BD) (window Bool.false) hfixed hcarry hcaller
+  obtain ⟨a,first,afixed,acarry,aframe⟩ := ActualCall.executes s sp c BD Bool.false
+    (Initialization.initial 128 BD) hfixed hcarry hcaller
+  have hs2 := ActualHelperSafety.call_safe bounds s a c BD Bool.true
+    (ActualCall.result s c BD Bool.false (Initialization.initial 128 BD)) (window Bool.true)
+    afixed acarry (ActualMiddle.caller_frame hcaller aframe)
+  obtain ⟨sl,second,lfixed,lcarry,lframe⟩ := ActualCall.executes s a c BD Bool.true
+    (ActualCall.result s c BD Bool.false (Initialization.initial 128 BD))
+    afixed acarry (ActualMiddle.caller_frame hcaller aframe)
+  have hop : sl.regs .ptr [128,BD] "O_block_ptr"=some (outputPointer c 128 BD) :=
+    ((aframe.trans lframe).regs _ _ "O_block_ptr" (by decide)).trans hout
+  change Stmt.TraceSafeList bounds (A.flattenStmts (Verified.code 128 64 BD p Bool.false)) s
+  rw [ActualAssembly.flat,List.append_assoc,List.append_assoc]
   apply append_of_run hpsafe hpstep
-  apply append_of_run hlsafe hlstep
-  exact TraceSafety.epilogue_safe bounds sl c 128 BD reciprocal hop hlfixed.rows hlfixed.context
+  apply append_of_run hs1 first
+  apply append_of_run hs2 second
+  rw [ActualTail.source]
+  exact TraceSafety.epilogue_safe bounds sl c 128 BD Bool.false hop lfixed.rows lfixed.context
     (ViewBounds.output bounds c BD hv hp)
 
 #guard_msgs (drop info) in

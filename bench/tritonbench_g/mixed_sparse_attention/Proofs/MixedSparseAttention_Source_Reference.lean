@@ -56,16 +56,16 @@ instance {α : Type} [Inhabited α] (c : Config) (s : State α) (ph : Bool) (n :
 def keyValues {α : Type} [Inhabited α] (M : Algebra α) (c : Config) (s : State α)
     (columnPhase : Bool) (start : Nat) : TileIndex [c.BD,c.BN] → α := fun i =>
   M.cast none .real c.storage.float
-    (if keyActive c s columnPhase start i.2.1 then
+    (M.fp32Load (if keyActive c s columnPhase start i.2.1 then
       (s.mem c.k (keyValueBase c s+i.1.val*c.skk+columnValues c s columnPhase start i.2.1*c.skn)).read .real
-     else M.literal (some .fp32) .real 0.0)
+     else M.literal (some .fp32) .real 0.0))
 
 def valueValues {α : Type} [Inhabited α] (M : Algebra α) (c : Config) (s : State α)
     (columnPhase : Bool) (start : Nat) : TileIndex [c.BN,c.BD] → α := fun i =>
   M.cast none .real c.storage.float
-    (if keyActive c s columnPhase start i.1 then
+    (M.fp32Load (if keyActive c s columnPhase start i.1 then
       (s.mem c.v (keyValueBase c s+i.2.1.val*c.svk+columnValues c s columnPhase start i.1*c.svn)).read .real
-     else M.literal (some .fp32) .real 0.0)
+     else M.literal (some .fp32) .real 0.0))
 
 structure Accumulator (α : Type) (BM BD : Nat) where
   maximum : TileIndex [BM] → α

@@ -85,7 +85,7 @@ theorem iteration (s₀ : BlockState) (p : Layout) (l : Launch) (r : RealStep.Re
   all_goals simp [RealStep.result, ← partial_succ]
 
 def statement (p : Layout) (r : RealStep.Regions) : Stmt :=
-  .forRangeDyn "i_v" (.constNat 0) (cbdStopOp p.V p.BV) (.constNat 1) (RealStep.code p r)
+  .forLoop "i_v" (blocks p) (RealStep.code p r)
 
 theorem stop_eval (s : BlockState) (p : Layout) :
     evalOp (cbdStopOp p.V p.BV) s = some (Tile.scalar (blocks p)) := by
@@ -112,19 +112,10 @@ theorem executes (s₀ : BlockState) (p : Layout) (l : Launch) (r : RealStep.Reg
     (hs : s₀.regs .real [p.BT, p.BT] "b_ds" = some (cbdZero [p.BT, p.BT]))
     (hg : s₀.regs .real [1] "b_dg_last" = some (cbdZero [1])) :
     ∃ t, stepStmt (statement p r) s₀ = some t ∧ Holds s₀ p l a (blocks p) t := by
-  have resolve : stepStmt (statement p r) s₀ =
-      stepForRangeAux "i_v" 0 (blocks p) 1 (RealStep.code p r) s₀ := by
-    simp only [statement, stepForRangeAux.forRangeDyn_unfold, stop_eval,
-      evalOp_constNat, bind, Option.bind_some]
-    rfl
-  rw [resolve]
-  obtain ⟨final, t, he, hf, ht⟩ := forRangeAux_inv
-    (idx := "i_v") (stop := blocks p) (step := 1) (P := Holds s₀ p l a)
-    (by decide) (fun c s hc h => iteration s₀ p l r a hu hmv hmh hmo hmd hik hit hib c s hc h)
-    0 s₀ (initial s₀ p l a hq hk hs hg)
-  have hfinal : final = blocks p := Nat.le_antisymm ht.count_le hf
-  subst final
-  exact ⟨t, he, ht⟩
+  rw [statement,stepForLoopAux.forLoop_unfold]
+  exact forLoopAux_inv
+    (fun c state hc ready => iteration s₀ p l r a hu hmv hmh hmo hmd hik hit hib c state hc ready)
+    0 (Nat.zero_le _) s₀ (initial s₀ p l a hq hk hs hg)
 
 /-- The four completed carries have the independent sums over all V values.
 There is no `V ≤ BV` assumption and no requirement that V divide BV. -/

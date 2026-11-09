@@ -80,7 +80,8 @@ theorem destination64_selected (mask : Nat → Bool) (n i : Nat)
   · exact selected_strict mask hm hi
 
 /-- A zero prefix yields native -1. It implies the lane is unselected, so
-the source's store mask is false; the Nat interpreter's saturation is inert. -/
+the source's store mask is false. Address projection occurs only
+after the signed subtraction; no negative destination is accessed. -/
 theorem zero_prefix_masked (mask : Nat → Bool) (i : Nat) (h : count mask (i + 1) = 0) :
     mask i = Bool.false ∧ (destination64 mask i).toInt = -1 := by
   constructor

@@ -7,12 +7,11 @@ open VeriTile.Bench.Repairs.RopeEmbedding
 noncomputable section
 set_option maxHeartbeats 5000000
 
-def rawParameters (r : Request) (qStride cosineStride sineStride : Nat) : Source.Parameters :=
-  ⟨"Q","C","S",qStride,cosineStride,sineStride,r.sequence,r.dimension,r.heads,r.block⟩
+def rawParameters (r : Request) (qStride cosineStride sineStride : Nat) (fast : Bool := Bool.true) : Source.Parameters :=
+  ⟨"Q","C","S",qStride,cosineStride,sineStride,r.sequence,r.dimension,r.heads,r.block,fast⟩
 
-def rawSource (r : Request) (qStride cosineStride sineStride : Nat) (backward : Bool) : ComputeKernel :=
-  Kernels.rope "Q" "C" "S" qStride cosineStride sineStride
-    r.sequence r.dimension r.heads r.block backward
+def rawSource (r : Request) (qStride cosineStride sineStride : Nat) (backward : Bool) (fast : Bool := Bool.true) : ComputeKernel :=
+  Source.source (rawParameters r qStride cosineStride sineStride fast) backward
 
 /-- The existing complete source proof factored over raw state and scalar ABI.
 Only the active row product is constrained, preserving arbitrary singleton strides. -/
@@ -20,14 +19,14 @@ theorem executes {α : Type} [Inhabited α] (op : Operations α)
     (r : Request) (qStride cosineStride sineStride : Nat) (backward : Bool)
     (s : State α) (row group : Nat) (launch : r.Launched row group)
     (strideEq : row*qStride=row*(r.heads*r.dimension))
-    (cosineEq : cosineStride=r.half) (sineEq : sineStride=r.half) :
-    ∃ final, FP.Structural.exec op.backend (rawSource r qStride cosineStride sineStride backward)
+    (cosineEq : cosineStride=r.half) (sineEq : sineStride=r.half) (fast : Bool := Bool.true) :
+    ∃ final, FP.Structural.exec op.backend (rawSource r qStride cosineStride sineStride backward fast)
         (programState s row group)=some final ∧
       Kernel.Post r row group s final (fun h col=>scalarResult op r backward
         (fun o=>(s.mem "Q" o).read .real) (fun o=>(s.mem "C" o).read .real)
         (fun o=>(s.mem "S" o).read .real) row h col) := by
   have gh := group_head r group launch.2.2
-  obtain ⟨final,he,hv,hf⟩ := Source.complete_correctness op.backend (rawParameters r qStride cosineStride sineStride) backward
+  obtain ⟨final,he,hv,hf⟩ := Source.complete_correctness op.backend (rawParameters r qStride cosineStride sineStride fast) backward
     (programState s row group) (by simpa [programState,rawParameters] using Nat.le_of_lt gh)
   have values : ∀ h,group*4≤h → h<min (group*4+4) r.heads → ∀ side (i : Lane r),i.1.val<r.half →
       final.mem "Q" (Source.offset (parameters r) row h side i)=.mk .real

@@ -115,7 +115,7 @@ def _reservation_module():
     from torch.utils.cpp_extension import load
     return load(
         name="veritile_uniform_sampling_reservation_v1",
-        sources=[str(Path(__file__).with_name("reserve_philox.cpp"))],
+        sources=[str(Path(__file__).parent / "Proofs" / "Native" / "reserve_philox.cpp")],
         extra_cflags=["-O2"], with_cuda=False, verbose=False,
     )
 

@@ -46,7 +46,7 @@ def regions {α : Type} (p : Prepared α) : Wrapper.Inputs :=
 /-- Ordinary binding of the actual prepared Tensor to typed memory. It states
 only where the input values reside after successful API preparation. -/
 def Resident {α : Type} (s : State α) (t : Tensor α) : Prop :=
-  ∀ i, i < t.metadata.numel → s.mem t.region i = .mk .fp32 (t.logical i)
+  ∀ i, i < t.metadata.numel → s.mem t.region i = .mk .real (t.logical i)
 
 structure Ready {α : Type} (s : State α) (p : Prepared α) : Prop where
   x : Resident s p.x
@@ -109,7 +109,7 @@ theorem complete {α : Type} (lib : Library α) (laws : Laws lib) (x w b dy : Te
 The original ensure_contiguous preparation is not replaced by a new copy policy. -/
 theorem input_cells {α : Type} (s : State α) (x w b dy : Tensor α) (p : Prepared α)
     (h : Result x w b dy p) (ready : Ready s p) (rank : 0 < x.metadata.shape.length) :
-    ∀ i, i < x.metadata.numel → s.mem (regions p).x i = .mk .fp32 (x.logical i) := by
+    ∀ i, i < x.metadata.numel → s.mem (regions p).x i = .mk .real (x.logical i) := by
   intro i hi
   have size : p.x.metadata.numel = x.metadata.numel := by
     simp only [TensorMetadata.numel,h.xShape,List.prod_cons,List.prod_nil,Nat.mul_one]

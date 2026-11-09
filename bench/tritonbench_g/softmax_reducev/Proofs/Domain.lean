@@ -6,7 +6,14 @@ noncomputable section
 set_option maxHeartbeats 1000000
 
 def pageOffset (c : Call) (x : Input α) (j : Job) (k : Nat) :=
-  j.batch*c.maximum+(c.maximum-x.counts j.batch)+k
+  ((j.batch*c.maximum : Nat)+((c.maximum : Int)-x.counts j.batch)+(k : Int)).toNat
+
+theorem pageOffset_eq (c : Call) (x : Input α) (j : Job) (k : Nat)
+    (h : x.counts j.batch ≤ c.maximum) :
+    pageOffset c x j k=j.batch*c.maximum+(c.maximum-x.counts j.batch)+k := by
+  unfold pageOffset
+  rw [←Int.natCast_sub h]
+  simp only [←Int.natCast_add,Int.toNat_natCast]
 
 def logicAddress (c : Call) (x : Input α) (j : Job) (k : Nat) :=
   j.head*c.tokens+x.starts j.batch+k
@@ -41,7 +48,7 @@ theorem active_addresses (c : Call) (x : Input α) (valid : Admissible c x)
     address c j d < c.batch*c.heads*c.dimensions := by
   have range := valid.lengths j.batch hj.1
   refine ⟨?_,?_,?_,?_⟩
-  · simpa [pageOffset,Nat.add_assoc] using flat_lt j.batch (c.maximum-x.counts j.batch+k) c.batch c.maximum hj.1 (by omega)
+  · simpa [pageOffset_eq c x j k range.2.1,Nat.add_assoc] using flat_lt j.batch (c.maximum-x.counts j.batch+k) c.batch c.maximum hj.1 (by omega)
   · simpa [logicAddress,Nat.add_assoc] using flat_lt j.head (x.starts j.batch+k) c.heads c.tokens hj.2 (by omega)
   · exact flat_lt _ _ _ _ (flat_lt _ _ _ _ (valid.pages j hj k hk) hj.2) hd
   · exact flat_lt _ _ _ _ (flat_lt _ _ _ _ hj.1 hj.2) hd
@@ -67,7 +74,8 @@ theorem padded_int32 (c : Call) (x : Input α) (valid : Admissible c x)
   have logicbase := Nat.mul_le_mul_right c.tokens (Nat.succ_le_of_lt hj.2)
   simp only [Nat.succ_mul] at pagebase logicbase
   have := valid.maximum_width;have := valid.locations_width;have := valid.logits_width
-  unfold pageOffset logicAddress
+  rw [pageOffset_eq c x j (cur+lane) range.2.1]
+  unfold logicAddress
   omega
 
 #axiomsClean active_addresses

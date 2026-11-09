@@ -35,7 +35,7 @@ def prefixState {α : Type} (A : Algebra α) (X Mean : RegionName) (M N : Nat)
 theorem prefix_runs {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionName)
     (M N : Nat) (s : State α) :
     run A (codePrefix X Mean M N) s = some (prefixState A X Mean M N (s.pids 0) s) := by
-  simp [codePrefix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [codePrefix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,
     Region.cast,prefixState,Option.bind]
   congr 10 <;> (first | rfl | (funext i; simp [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex]))
@@ -52,9 +52,9 @@ def Context {α : Type} (X Mean : RegionName) (M N pid : Nat) (memory : RegionNa
 def chunk {α : Type} [Inhabited α] (A : Algebra α) (X : RegionName) (M N pid off : Nat)
     (memory : RegionName → Nat → Cell α) : Acc α :=
   fun i => A.cast (some .fp32) .real .real
-    (if pid*8+i.1.val<M ∧ off+i.2.1.val<N then
+    (A.fp32Load (if pid*8+i.1.val<M ∧ off+i.2.1.val<N then
       (memory X ((pid*8+i.1.val)*N+(off+i.2.1.val))).read .real
-     else A.literal (some .fp32) .real 0)
+     else A.literal (some .fp32) .real 0))
 
 def nextAcc {α : Type} [Inhabited α] (A : Algebra α) (X : RegionName)
     (M N pid off : Nat) (memory : RegionName → Nat → Cell α) (acc : Acc α) : Acc α :=
@@ -67,6 +67,10 @@ def bodyState {α : Type} [Inhabited α] (A : Algebra α) (X : RegionName)
   let s := s.setReg "col_mask" .bool [1,8] (fun i => decide (off+i.2.1.val<N))
   let s := s.setReg "mask" .bool [8,8]
     (fun i => decide (pid*8+i.1.val<M) && decide (off+i.2.1.val<N))
+  let s := s.setReg "__veritile_load_0" .real [8,8] (fun i => A.fp32Load
+    (if pid*8+i.1.val<M ∧ off+i.2.1.val<N then
+      (memory X ((pid*8+i.1.val)*N+(off+i.2.1.val))).read .real
+     else A.literal (some .fp32) .real 0))
   let s := s.setReg "a" .real [8,8] (chunk A X M N pid off memory)
   s.setReg "_mean" .real [8,8] (nextAcc A X M N pid off memory acc)
 
@@ -76,7 +80,7 @@ theorem body_runs {α : Type} [Inhabited α] (A : Algebra α) (X Mean : RegionNa
     run A (body N) (s.setReg "off" .nat [] (fun _ => off)) =
       some (bodyState A X M N pid off memory acc s) := by
   rcases ctx with ⟨hX,hMean,hRow,hAcc,hMem⟩
-  simp [body,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [body,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,
     Region.cast,bodyState,chunk,nextAcc,Option.bind,hX,hMean,hRow,hAcc,hMem]
   simp [ComputeDType.eraseDType,ofFloat,toFloat,hAcc,Option.bind,chunk,nextAcc]
@@ -128,7 +132,7 @@ theorem prefix_context {α : Type} [Inhabited α] (A : Algebra α) (X Mean : Reg
 def meanValues {α : Type} (A : Algebra α) (N : Nat) (acc : Acc α) : Values α .real [8] :=
   fun i => A.binary (some .fp32) .real .div
     (A.reduceSum (some .fp32) ⟨1,by simp⟩ Bool.false acc i)
-    (A.literal (some .fp32) .real (N:ℝ))
+    (A.fromNat (some .fp32) N)
 
 def suffixState {α : Type} (A : Algebra α) (Mean : RegionName) (M N pid : Nat)
     (acc : Acc α) (s : State α) : State α :=
@@ -143,7 +147,7 @@ theorem suffix_runs {α : Type} [Inhabited α] (A : Algebra α) (X Mean : Region
     (ctx : Context X Mean M N pid memory acc s) :
     run A (suffix N) s = some (suffixState A Mean M N pid acc s) := by
   rcases ctx with ⟨hX,hMean,hRow,hAcc,hMem⟩
-  simp [suffix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSource,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+  simp [suffix,source,typedKernel, VeriTile.Bench.Repairs.MeanReduction.sourceKernel, VeriTile.Bench.Repairs.MeanReduction.indexCommutedSourcePastedKernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
     FP.Structural.evalOp_unfold,numeric,numericLt,natLt,FP.Structural.bop,store,
     Region.cast,suffixState,meanValues,Option.bind,hMean,hRow,hAcc]
   simp [ComputeDType.eraseDType,Option.bind,hMean,hRow,meanValues]

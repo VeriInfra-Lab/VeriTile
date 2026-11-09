@@ -14,8 +14,12 @@ def add (M : Algebra α) : α → α → α := M.binary (some .fp32) .real .add
 def sub (M : Algebra α) : α → α → α := M.binary (some .fp32) .real .sub
 def mul (M : Algebra α) : α → α → α := M.binary (some .fp32) .real .mul
 def exp2 (M : Algebra α) : α → α := M.unary (some .fp32) .exp2
-def gate (M : Algebra α) : α → α := M.cast (some .fp32) .real .real
-def stored (M : Algebra α) (value : α) : Cell α := .mk .real (M.cast (some .fp32) .real .real value)
+def gate (M : Algebra α) (value : α) : α :=
+  M.cast (some .fp32) .real .real (M.fp32Load value)
+/-- The source has an explicit destination cast on scan/preparation outputs;
+plain backward dq/dk stores retain the computed FP32 payload directly. -/
+def stored (M : Algebra α) (value : α) (explicitCast : Bool := Bool.true) : Cell α :=
+  .mk .real (if explicitCast then M.cast (some .fp32) .real .real value else value)
 
 def forwardCarry (M : Algebra α) (g : Nat → α) : Nat → α
   | 0 => zero M

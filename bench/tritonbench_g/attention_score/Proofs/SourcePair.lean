@@ -1,4 +1,4 @@
-import bench.tritonbench_g.attention_score.PairIO
+import bench.tritonbench_g.attention_score.Proofs.Support.PairIO
 
 namespace VeriTile.Bench.Repairs.AttentionScoreTileChecked.SourcePair
 open VeriTile Triton FP.Structural FP.ProfiledRewrite Reused Geometry
@@ -14,8 +14,8 @@ theorem equivalent (c : Shape) (offset size : Int) (scale : ℝ) (window complem
     (R : FP.ScalarArithmetic.Rules) :
     original c offset size scale window complement ≡[R]
       scalarLeft c offset size scale window complement := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #axiomsClean equivalent
 end

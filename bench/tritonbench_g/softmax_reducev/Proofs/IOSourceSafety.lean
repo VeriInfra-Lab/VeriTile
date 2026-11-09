@@ -15,7 +15,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
   lengths : s.pids 0 < bounds p.lengths.name
   starts : s.pids 0 < bounds p.starts.name
   locations : ∀ start (i : Fin p.tokens), active p s start i →
-    locationBase p s + (start+i.val)*p.locationSequenceStride < bounds p.locations.name
+    (locationBase p s + (start+i.val)*p.locationSequenceStride).toNat < bounds p.locations.name
   logics : ∀ start (i : Fin p.tokens), active p s start i →
     logicOffset p s start i < bounds p.logics
   values : ∀ start (i : TileIndex [p.tokens,p.dimensions]), active p s start i.1 →
@@ -25,7 +25,7 @@ structure Bounds (p : Parameters) (s : State α) (bounds : RegionName → Nat) :
 theorem prelude_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList M bounds (prelude p) s := by
-  simp [prelude,source,typed,ComputeKernel.surfaceBody,
+  simp [prelude,source,typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -37,29 +37,29 @@ theorem body_safe (M : Algebra α) (p : Parameters) (s t : State α)
     (start : Nat) (a : Accumulator α p.dimensions) (h : Ready p s t a)
     (hN : 0 < p.tokens) (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList M bounds (loopBody p)
-      (t.setReg "start_n" .nat [] (fun _ => start)) := by
-  simp (maxSteps := 500000) [loopBody,source,typed,ComputeKernel.surfaceBody,
+      (t.setReg "start_n" .int [] (fun _ => (start : Int))) := by
+  simp (maxSteps := 500000) [loopBody,source,typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,numeric,numericLe,natLe,numericLt,natLt,bop,ofFloat,toFloat,
     TileShape.axisDim,Region.cast,State.setReg,h.mem,h.pids,h.undef,h.batch,h.head,
-    h.seqlen,h.start,h.lanes,h.dimensions,h.locbase,h.valueptr,h.maximum,h.normalizer,h.output,hN]
+    h.seqlen,h.start,h.lanes,h.dimensions,h.locbase,h.valueptr,h.maximum,h.normalizer,h.output,hN,active,sequenceLength,Int.natCast_add,Int.natCast_mul]
   refine ⟨?_,?_,?_⟩
   · intro i hi
-    exact hb.locations start i hi
+    simpa [active,sequenceLength,Int.natCast_add,Int.natCast_mul] using hb.locations start i (by simpa [active,sequenceLength] using hi)
   · intro i hi
-    exact hb.logics start i hi
+    simpa [active,sequenceLength,logicOffset,Int.natCast_add,Int.natCast_mul] using hb.logics start i (by simpa [active,sequenceLength] using hi)
   · intro i d hi
-    simpa [valueOffset,valuePointer,location,active,hi,bop,Region.cast] using
-      hb.values start (i,d,()) hi
+    simpa [valueOffset,valuePointer,location,active,sequenceLength,hi,bop,Region.cast,Int.natCast_add,Int.natCast_mul] using
+      hb.values start (i,d,()) (by simpa [active,sequenceLength] using hi)
 
 theorem suffix_safe (M : Algebra α) (p : Parameters) (s t : State α)
     (a : Accumulator α p.dimensions) (h : Ready p s t a)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) :
     Safety.traceSafeList M bounds (suffix p) t := by
-  simp [suffix,source,typed,ComputeKernel.surfaceBody,
+  simp [suffix,source,typedKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -72,19 +72,22 @@ theorem suffix_safe (M : Algebra α) (p : Parameters) (s t : State α)
   · split <;> trivial
 
 theorem range_safe (M : Algebra α) (p : Parameters) (s : State α)
-    (bounds : RegionName → Nat) (hb : Bounds p s bounds) (hN : 0 < p.tokens)
+    (bounds : RegionName → Nat) (hb : Bounds p s bounds) (hN : 0<p.tokens)
     (cur : Nat) (t : State α) (a : Accumulator α p.dimensions) (h : Ready p s t a) :
-    Safety.rangeSafe M bounds "start_n" cur (sequenceLength p s) p.tokens (loopBody p) t := by
-  rw [Safety.rangeSafe_unfold]
-  simp only [Nat.ne_of_gt hN,↓reduceIte]
-  split
-  · refine ⟨body_safe M p s t cur a h hN bounds hb,?_⟩
+    Safety.rangeIntSafe M bounds "start_n" cur (sequenceWord p s) p.tokens (loopBody p) t := by
+  rw [Safety.rangeIntSafe_unfold]
+  simp only [Nat.ne_of_gt hN,if_false]
+  by_cases live : cur<sequenceLength p s
+  · have hi : (cur : Int)<sequenceWord p s := by unfold sequenceLength at live; omega
+    simp only [hi,if_true]
+    refine ⟨body_safe M p s t cur a h hN bounds hb,?_⟩
     obtain ⟨u,hu,hr⟩ := body_run M p s t cur a h hN
     rw [hu]
-    exact range_safe M p s bounds hb hN (cur+p.tokens) u _ hr
-  · trivial
+    simpa only [Nat.cast_add] using range_safe M p s bounds hb hN (cur+p.tokens) u _ hr
+  · have hi : ¬(cur : Int)<sequenceWord p s := by unfold sequenceLength at live; omega
+    simp [hi]
 termination_by sequenceLength p s-cur
-decreasing_by omega
+ decreasing_by omega
 
 theorem source_safe (M : Algebra α) (p : Parameters) (s : State α)
     (bounds : RegionName → Nat) (hb : Bounds p s bounds) (hN : 0 < p.tokens) :
@@ -98,7 +101,8 @@ theorem source_safe (M : Algebra α) (p : Parameters) (s : State α)
   obtain ⟨u,hu,hr⟩ := prefix_run M p s
   have eq : u=t := Option.some.inj (hu.symm.trans ht)
   subst u
-  obtain ⟨v,hv,vr⟩ := loop_run M p s t 0 (sequenceLength p s) p.tokens _ hr hN
+  obtain ⟨v,hv,vr⟩ := loop_run M p s t 0 (sequenceWord p s) p.tokens _ hr hN
+  simp only [Nat.cast_zero] at hv
   apply Safety.traceSafeList_cons_of_step (t := v)
   · simp only [Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,
       hr.seqlen,Option.bind,Option.bind_some,true_and]

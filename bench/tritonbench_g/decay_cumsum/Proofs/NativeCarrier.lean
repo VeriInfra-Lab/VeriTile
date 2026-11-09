@@ -26,6 +26,13 @@ def load (x : Node) : Node := ⟨x.value,.loaded,none⟩
 The stored copy does not mutate the original register's provenance. -/
 def cast (x : Node) : Node := ⟨x.value,.gate,none⟩
 def storedWord (x : Word) : Cell Node := .mk .real ⟨x,.gate,none⟩
+/-- The copied backward source stores dq/dk directly. These proof-only tags
+record the payload provenance; the word observation ignores the tag. -/
+def outputWord (kind : Kind) (span : Nat) (r : RegionName) (t : Nat) (x : Word) : Cell Node :=
+  .mk .real ⟨x,match kind with
+    | .forward | .prepare => .gate
+    | .backward => if r="dqo" then .dq else if r="dko" then .dk
+        else if r="dg" then .gate else if span-t=0 then .initialZero else .reverseCarry,none⟩
 
 def literal (scale : Word) (x : ℝ) : Node :=
   if x=0 then ⟨positiveZero,.initialZero,none⟩

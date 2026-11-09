@@ -15,25 +15,25 @@ theorem source_parts (s y gx gy : RegionName) (length batch dim B : Nat) :
       ComplexBackwardLoads.source gy length batch dim B ++
       ComplexBackwardPrevious.source s y batch dim B ++ ComplexBackwardUpdate.source gx B := by
   simp [ComplexBackwardLoads.source,ComplexBackwardPrevious.source,
-    ComplexBackwardUpdate.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
+    ComplexBackwardUpdate.source,ComplexBackwardSource.body,Erasure.complexBackward,TypedSource.complexBackward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.complexBackwardKernel,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.complexBackwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
     ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
     VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
-    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList.eq_def,Stmt.eraseDType.eq_def,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
     ComparableDType.eraseDType,IntegralDType.eraseDType,
     Op.eraseDType.eq_def,VeriTile.Triton.eraseDType,FloatDType.toTileDType,
     Except.bind,bind]
 
-theorem body_step (s y gx gy : RegionName) (length batch dim B k : Nat) (u : BlockState)
+theorem body_step (s y gx gy : RegionName) (length batch dim B k : Nat) (u : BlockState) (bound : k<length)
     (col : TileIndex [B] → Nat) (mask : TileIndex [B] → Bool)
     (carry acc transition : TileIndex [B] → ℂ)
-    (hi : u.regs .nat [] "i" = some (Tile.scalar k))
+    (hi : u.regs .int [] "i" = some (Tile.scalar (k : Int)))
     (h : Registers u col mask carry acc transition) :
     stepStmts (ComplexBackwardSource.body s y gx gy length batch dim B) u =
       some (result u s y gx gy batch dim (length-1-k) col mask carry acc transition) := by
@@ -42,7 +42,7 @@ theorem body_step (s y gx gy : RegionName) (length batch dim B k : Nat) (u : Blo
   let up := ComplexBackwardPrevious.result ul s y batch dim t col mask
   let g := fun j => starRingEnd ℂ (input u gy (offset batch dim t col) mask j)
   let prev := previous u s y batch dim t col mask
-  have hl := ComplexBackwardLoads.step gy length batch dim B k u col mask hi h.columns h.active
+  have hl := ComplexBackwardLoads.step gy length batch dim B k u bound col mask hi h.columns h.active
   have hp := ComplexBackwardPrevious.step s y batch dim B t ul col mask
     (by simp [ul,ComplexBackwardLoads.result])
     (by simpa [ul,ComplexBackwardLoads.result] using h.columns)

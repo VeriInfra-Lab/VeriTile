@@ -74,6 +74,8 @@ theorem output_row (capacity : prediction.numel≤target.numel) (mode : f.trace.
   dsimp only [params] at read ⊢
   rw [read]
   change FPGraph.row M f.trace.cols (blockSize f.trace.cols) flag eps _ _=_
+  unfold FPGraph.row
+  apply congrArg (M.cast (some .fp32) .real .real)
   apply FPGraph.accumulate_congr
   · intro col hc
     apply f.prediction_read

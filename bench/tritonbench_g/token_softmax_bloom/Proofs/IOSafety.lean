@@ -23,12 +23,12 @@ theorem one (M : Algebra β) (p : Parameters) (positive : 0 < p.width)
   · exact bounded.2.1
   · intro i active
     rw [hc] at active
-    change pid.2*p.inputHeadStride+ _ < _
+    change (((pid.2 : Int)*p.inputHeadStride)+_).toNat < _
     rw [hs]
     exact bounded.2.2.1 i active
   · intro i active
     rw [hc] at active
-    change pid.2*p.outputHeadStride+ _ < _
+    change (((pid.2 : Int)*p.outputHeadStride)+_).toNat < _
     rw [hs]
     exact bounded.2.2.2 i active
 

@@ -18,7 +18,7 @@ theorem body_fp32 (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
     ∃ t, ∃ a : Values Expr .real [c.M,c.K], ∃ b : Values Expr .real [c.K,c.N],
       ∃ carry : Values Expr .real [c.M,c.N],
       run (engine (backend rest c).algebra) (parts h c).body
-        (s.setReg "k" .nat [] (fun _ => index))=some t ∧
+        (s.setReg "k" .int [] (fun _ => index))=some t ∧
       s.regs .real [c.M,c.N] "acc"=some carry ∧
       t.regs .real [c.M,c.K] "a"=some a ∧ t.regs .real [c.K,c.N] "b"=some b ∧
       t.regs .real [c.M,c.N] "acc"=some (fun i =>
@@ -36,8 +36,8 @@ theorem body_fp32 (rest : Algebra Expr) (h : Host.Call) (c : Host.Config)
   obtain ⟨v9,h9⟩ := Option.isSome_iff_exists.mp h9
   obtain ⟨v10,h10⟩ := Option.isSome_iff_exists.mp h10
   obtain ⟨v11,h11⟩ := Option.isSome_iff_exists.mp h11
-  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-    ha,hb,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+  simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+    ha,hb,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
     Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
     numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,

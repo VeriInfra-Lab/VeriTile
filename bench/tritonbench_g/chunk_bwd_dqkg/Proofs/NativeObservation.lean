@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.NativeImplements
 import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.TypedWholeSafety
-import bench.tritonbench_g.chunk_bwd_dqkg.NativeTarget
+import bench.tritonbench_g.chunk_bwd_dqkg.Proofs.Support.NativeTarget
 
 namespace VeriTile.Bench.Repairs.ChunkBwdDqkg.NativeObservation
 open VeriTile Triton FP.Structural Whole KernelNativeCarrier AddressBounds

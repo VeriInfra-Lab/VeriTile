@@ -22,7 +22,7 @@ def bodyExec (M : Algebra α) (dot : Dot α) (p : Parameters)
     simp only [TypedSource.Storage.float,TypedSource.Storage.tile,FloatDType.toTileDType,ofFloat,id_eq] at hquery hbias
     refine ⟨?_,?_⟩
     swap
-    simp [parts,partsAs,kernel,kernelAs,TypedSource.repaired,TypedSource.FP16.repaired,TypedSource.BF16.repaired,
+    simp [parts,partsAs,kernel,kernelAs,TypedSource.repaired,TypedSource.FP16.repaired,TypedSource.originalKernel,TypedSource.queryEarlyKernel,TypedSource.Storage.float,TypedSource.BF16.repaired,
     ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Triton.Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

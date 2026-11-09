@@ -22,7 +22,6 @@ structure Stable (N B : Nat) (initial current : BlockState) : Prop where
   mem : current.mem = initial.mem
   undef : current.undef = initial.undef
   pidReg : current.regs .int [] "pid_m" = some (Tile.scalar (initial.pid : Int))
-  colsReg : current.regs .int [] "cols" = some (Tile.scalar (N : Int))
   previousReg : current.regs .int [] "prev_multiple" = some (Tile.scalar (Config.previous N B : Int))
 
 structure Invariant (X : RegionName) (N B : Nat) (initial : BlockState)
@@ -47,8 +46,6 @@ theorem stable_full {N B : Nat} {initial current : BlockState}
   · simpa only [fullState, updateState, prefixIntState, BlockState.setReg_ne_name,
       ne_eq, String.reduceEq, not_false_eq_true] using h.pidReg
   · simpa only [fullState, updateState, prefixIntState, BlockState.setReg_ne_name,
-      ne_eq, String.reduceEq, not_false_eq_true] using h.colsReg
-  · simpa only [fullState, updateState, prefixIntState, BlockState.setReg_ne_name,
       ne_eq, String.reduceEq, not_false_eq_true] using h.previousReg
 
 theorem stable_tail {N B : Nat} {initial current : BlockState}
@@ -61,8 +58,6 @@ theorem stable_tail {N B : Nat} {initial current : BlockState}
   · exact h.undef
   · simpa only [tailState, updateState, maskedPrefix, prefixIntState, BlockState.setReg_ne_name,
       ne_eq, String.reduceEq, not_false_eq_true] using h.pidReg
-  · simpa only [tailState, updateState, maskedPrefix, prefixIntState, BlockState.setReg_ne_name,
-      ne_eq, String.reduceEq, not_false_eq_true] using h.colsReg
   · simpa only [tailState, updateState, maskedPrefix, prefixIntState, BlockState.setReg_ne_name,
       ne_eq, String.reduceEq, not_false_eq_true] using h.previousReg
 
@@ -126,7 +121,7 @@ theorem full_step {N B count : Nat} {initial current : BlockState} (X : RegionNa
       Invariant X N B initial (count + 1) next := by
   refine ⟨fullState current X N B (count * B) initial.pid
     (maxima initial X N B count) (masses initial X N B count),
-    full_run _ _ _ _ _ _ _ _ h.pidReg h.colsReg h.m h.z, ?_⟩
+    full_run _ _ _ _ _ _ _ _ h.pidReg h.m h.z, ?_⟩
   have hv := full_advance h.toStable X count hN hc
   refine ⟨stable_full h.toStable _ _ _ _, ?_, ?_⟩
   · simp only [fullState, updateState, BlockState.setReg_ne_name, BlockState.setReg_same,
@@ -140,7 +135,7 @@ theorem tail_step {N B count : Nat} {initial current : BlockState} (X : RegionNa
       Invariant X N B initial (count + 1) next := by
   refine ⟨tailState current X N B (count * B) initial.pid
     (maxima initial X N B count) (masses initial X N B count),
-    tail_run _ _ _ _ _ _ _ _ h.pidReg h.colsReg h.m h.z, ?_⟩
+    tail_run _ _ _ _ _ _ _ _ h.pidReg h.m h.z, ?_⟩
   have hv := tail_advance h.toStable X count
   refine ⟨stable_tail h.toStable _ _ _ _, ?_, ?_⟩
   · simp only [tailState, updateState, BlockState.setReg_ne_name, BlockState.setReg_same,

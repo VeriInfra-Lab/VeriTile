@@ -20,13 +20,13 @@ theorem loadPair_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (con
     (hA : state.regs .ptr [c.BM,c.BK] "A"=some (ap s c base t))
     (hB : state.regs .ptr [c.BK,c.BN] "B"=some (bp s c base t))
     (hK : state.regs .int [c.BK] "rk"=some (register base .int [c.BK] "rk"))
-    (hR : unmasked=Bool.false → state.regs .nat [] "k_remaining"=some (fun _=>s.K-t*(c.BK*c.S)))
+    (hR : unmasked=Bool.false → state.regs .int [] "k_remaining"=some (fun _=>(s.K:Int)-(t*(c.BK*c.S):Nat)))
     (bounds : RegionName → Nat)
     (ha : ∀ i : TileIndex [c.BM,c.BK],
-      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.2.1,())<(s.K-t*(c.BK*c.S) : Nat)) →
+      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.2.1,())<((s.K:Int)-(t*(c.BK*c.S):Nat))) →
       (ap s c base t i).2<bounds (ap s c base t i).1)
     (hb : ∀ i : TileIndex [c.BK,c.BN],
-      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.1,())<(s.K-t*(c.BK*c.S) : Nat)) →
+      (unmasked=Bool.true ∨ register base .int [c.BK] "rk" (i.1,())<((s.K:Int)-(t*(c.BK*c.S):Nat))) →
       (bp s c base t i).2<bounds (bp s c base t i).1) :
     IntegerDot.traceSafeList M arithmetic context bounds (loadPair s c hasBias unmasked) state := by
   apply traceSafe_invariant M arithmetic context bounds (loadPair s c hasBias unmasked)
@@ -38,11 +38,11 @@ theorem loadPair_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (con
       (keep _ _ _ (by decide) (by decide)).trans hB
     have rk : current.regs .int [c.BK] "rk"=some (register base .int [c.BK] "rk") :=
       (keep _ _ _ (by decide) (by decide)).trans hK
-    have remaining : unmasked=Bool.false → current.regs .nat [] "k_remaining"=some (fun _=>s.K-t*(c.BK*c.S)) :=
+    have remaining : unmasked=Bool.false → current.regs .int [] "k_remaining"=some (fun _=>(s.K:Int)-(t*(c.BK*c.S):Nat)) :=
       fun h => (keep _ _ _ (by decide) (by decide)).trans (hR h)
     cases unmasked
     all_goals
-      simp [loadPair,loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
+      simp [loadPair,loadArm,body,source,TypedSource.kernel,TypedSource.sourceKernel,ComputeKernel.surfaceBody] at member
       rcases member with rfl|rfl
       all_goals
         simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
@@ -59,7 +59,7 @@ theorem loadPair_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (con
   · intro st member current next keep executed
     cases unmasked
     all_goals
-      simp [loadPair,loadArm,body,source,TypedSource.kernel,ComputeKernel.surfaceBody] at member
+      simp [loadPair,loadArm,body,source,TypedSource.kernel,TypedSource.sourceKernel,ComputeKernel.surfaceBody] at member
       rcases member with rfl|rfl
       all_goals
         simp only [IntegerDot.step,IntegerDot.arithmeticStep,FP.Structural.step] at executed
@@ -76,7 +76,7 @@ theorem body_tail_safe (M : Algebra α) (arithmetic : IntegerDot.Arithmetic) (co
     (s : Shape) (c : Config) (hasBias : Bool) (bounds : RegionName → Nat) (state : State α) :
     IntegerDot.traceSafeList M arithmetic context bounds ((body s c hasBias).drop 1) state := by
   apply traceSafe_of_pointwise
-  simp [body,source,TypedSource.kernel,ComputeKernel.surfaceBody]
+  simp [body,source,TypedSource.kernel,TypedSource.sourceKernel,ComputeKernel.surfaceBody]
   all_goals simp only [IntegerDot.stepSafe_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
   all_goals simp [Safety.safeOp_unfold]
 

@@ -35,13 +35,13 @@ def parameters (c : Call) : Parameters :=
 
 def launch {α} [Inhabited α] (c : Call) (x : Input α) (out : Nat → α) (j : Job) : State α :=
   { mem := fun r a =>
-      if r="Logics" then .mk .fp32 (x.logics a)
-      else if r="V" then .mk .fp32 (x.values a)
-      else if r="Out" then .mk .fp32 (out a)
+      if r="Logics" then .mk .real (x.logics a)
+      else if r="V" then .mk .real (x.values a)
+      else if r="Out" then .mk .real (out a)
       else if r="Locations" then .mk .int (Int.ofNat (x.pages a))
-      else if r="Starts" then .mk .nat (x.starts a)
-      else if r="Lengths" then .mk .nat (x.counts a)
-      else .mk .fp32 default
+      else if r="Starts" then .mk .int (Int.ofNat (x.starts a))
+      else if r="Lengths" then .mk .int (Int.ofNat (x.counts a))
+      else .mk .real default
     regs := fun _ _ _ => none
     pids := fun ax => if ax=0 then j.batch else if ax=1 then j.head else 0
     numPids := fun ax => if ax=0 then c.batch else if ax=1 then c.heads else 1
@@ -75,7 +75,7 @@ def row {α} [Inhabited α] (M : Algebra α) (c : Call) (x : Input α) (j : Job)
 def evaluate {α} [Inhabited α] (M : Algebra α) (c : Call) (x : Input α) (j : Job) (out : Nat → α) :
     Option (Nat → α) :=
   (FP.Structural.exec M (source (parameters c)) (launch c x out j)).map
-    (fun t a => (t.mem "Out" a).read .fp32)
+    (fun t a => (t.mem "Out" a).read .real)
 
 def Active (c : Call) (j : Job) (a : Nat) : Prop := ∃ d, d < c.dimensions ∧ a=address c j d
 
@@ -88,11 +88,11 @@ theorem source_law {α} [Inhabited α] (M : Algebra α) (c : Call) (x : Input α
     (j : Job) (s t : Nat → α) (run : evaluate M c x j s=some t) :
     (∀ d, d < c.dimensions → t (address c j d)=row M c x j d) ∧ Frame c [j] s t := by
   obtain ⟨u,exec,post⟩ := correctness M (parameters c) (launch c x s j) (by change 0 < 64; decide) (source_injective c x s j)
-  have result : (fun a => (u.mem "Out" a).read .fp32)=t := by simpa [evaluate,exec] using run
+  have result : (fun a => (u.mem "Out" a).read .real)=t := by simpa [evaluate,exec] using run
   subst t
   constructor
   · intro d hd
-    have value := congrArg (Cell.read .fp32) (post.1 ((⟨d,hd⟩ : Fin c.dimensions),()))
+    have value := congrArg (Cell.read .real) (post.1 ((⟨d,hd⟩ : Fin c.dimensions),()))
     rw [source_address] at value
     simpa [row,hd,accumulator_independent M c x s (fun _ => default) j] using value
   · intro a outside
@@ -100,14 +100,14 @@ theorem source_law {α} [Inhabited α] (M : Algebra α) (c : Call) (x : Input α
       intro d eq
       apply outside j (by simp)
       exact ⟨d.1.val,d.1.isLt,eq.trans (source_address c x s j d)⟩))
-    change (u.mem "Out" a).read .fp32=s a
+    change (u.mem "Out" a).read .real=s a
     rw [eq]
     simp [launch]
 
 theorem source_total {α} [Inhabited α] (M : Algebra α) (c : Call) (x : Input α)
     (j : Job) (s : Nat → α) : ∃ t, evaluate M c x j s=some t := by
   obtain ⟨u,run,_⟩ := execution_memory M (parameters c) (launch c x s j) (by change 0 < 64; decide)
-  exact ⟨(fun a => (u.mem "Out" a).read .fp32),by simp [evaluate,run]⟩
+  exact ⟨(fun a => (u.mem "Out" a).read .real),by simp [evaluate,run]⟩
 
 theorem flatten_injective (K h d h' d' : Nat) (hd : d < K) (hd' : d' < K)
     (same : h*K+d=h'*K+d') : h=h' ∧ d=d' := by

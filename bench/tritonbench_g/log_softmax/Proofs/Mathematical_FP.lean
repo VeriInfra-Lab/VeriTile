@@ -1,5 +1,5 @@
 import bench.tritonbench_g.log_softmax.Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 
 namespace VeriTile.Bench.TritonBenchG.LogSoftmax.FPProof
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
@@ -24,7 +24,7 @@ theorem prefix_run {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (indexStmt Bool.false R) (indexStmt Bool.true R)
   unfold indexStmt
   simp only [Bool.false_eq_true, ↓reduceIte]
-  fp_prove
+  solve_fp
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

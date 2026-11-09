@@ -4,7 +4,16 @@ namespace VeriTile.Bench.Repairs.LayerNormWelfold
 open VeriTile.Triton FP.Structural Reuse
 namespace Samples
 export VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole
-  (ideal advanceSamples sampleRecurrence recurrence_samples_perm collected_samples_range emitted_range)
+  (advanceSamples sampleRecurrence recurrence_samples_perm collected_samples_range emitted_range)
+
+/-- Mathematical projection of the actual storage read and device-library
+primitive. Floating equivalence uses the arbitrary backend independently. -/
+noncomputable def ideal (rest : Algebra ℝ) : Algebra ℝ :=
+  { VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.ideal rest with
+    fp32Load := id
+    unary := fun p op x => match op with
+      | .libdeviceRsqrt => 1 / Real.sqrt x
+      | _ => (VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.ideal rest).unary p op x }
 end Samples
 open Samples
 noncomputable section
@@ -17,7 +26,8 @@ theorem advance_real (rest : Algebra ℝ) (phase : Bool) (s : State ℝ)
     (X : RegionName) (D B k : Nat) (mean : ℝ) (samples : Fin B → List ℝ) (i : Fin B) :
     advance (ideal rest) phase s X D B k mean (fun j => ((samples j).map (contribution phase mean)).sum) i =
       ((advanceSamples s X D B k samples i).map (contribution phase mean)).sum := by
-  cases phase <;> simp only [advance,loaded,advanceSamples,contribution,ideal,zero]
+  cases phase <;> simp only [advance,loaded,advanceSamples,contribution,ideal,
+    VeriTile.Bench.TritonBenchG.FusedLayernormTriton.Whole.ideal,zero]
   all_goals split_ifs <;> simp_all [List.sum_append,pow_two,contribution]
 
 theorem recurrence_real (rest : Algebra ℝ) (phase : Bool) (s : State ℝ)

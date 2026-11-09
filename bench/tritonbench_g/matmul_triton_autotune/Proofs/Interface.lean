@@ -34,6 +34,7 @@ theorem schedule_safe (M : Algebra A) (D : FPValue.DotAcc A) (g : Geometry)
       change FP.Structural.TraceSafe (FPValue.backend M D) bounds
         (Source.kernel g.request.parameters) (instanceState g.request pid s)
       apply Source.source_safe
+      · exact Whole.source_geometry g.request pid s (valid pid (by simp))
       · intro q i active
         have row : FPValue.aRow g.request.parameters (instanceState g.request pid s) i.1 < g.rows :=
           Nat.mod_lt _ dims.1

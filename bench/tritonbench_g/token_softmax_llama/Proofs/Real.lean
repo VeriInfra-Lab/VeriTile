@@ -32,11 +32,11 @@ def algebra : Algebra Scalar where
 
 def input (p : Parameters) (s : State Scalar) (n : Nat) : ℝ :=
   WithBot.unbotD 0 ((s.mem p.input
-    (s.pids 1*p.inputHeadStride+(startIndex p s+n)*p.inputTokenStride)).read .fp32)
+    (((s.pids 1 : Int)*p.inputHeadStride+(startIndex p s+n)*p.inputTokenStride).toNat)).read .fp32)
 
 def NumericInput (p : Parameters) (s : State Scalar) :=
   ∀ n < count p s, ∃ x : ℝ,
-    (s.mem p.input (s.pids 1*p.inputHeadStride+(startIndex p s+n)*p.inputTokenStride)).read .fp32=some x
+    (s.mem p.input (((s.pids 1 : Int)*p.inputHeadStride+(startIndex p s+n)*p.inputTokenStride).toNat)).read .fp32=some x
 
 /-- Independent unpadded mathematical softmax: no kernel, graph, reduction
 tree, block width, output or execution is referenced in the target. -/

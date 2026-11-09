@@ -81,6 +81,15 @@ private partial def isNoneSyntax (stx : Syntax) : Bool :=
 private def isNoneExpr (e : TSyntax `tritonExpr) : Bool :=
   isNoneSyntax e.raw
 
+/-- A missing Python mask is exactly None (possibly parenthesized), never an
+arbitrary expression containing that token. -/
+private partial def isNoneMask (e : TSyntax `tritonExpr) : Bool :=
+  if e.raw.getKind == choiceKind then isNoneMask ⟨e.raw[0]⟩ else
+  match e with
+  | `(tritonExpr| None) => Bool.true
+  | `(tritonExpr| ($inner:tritonExpr)) => isNoneMask inner
+  | _ => Bool.false
+
 private def dtypeName : DInfo → String
   | .fp32Argument => "external fp32 argument"
   | .real => "real"
@@ -105,12 +114,14 @@ partial def expandLoad (expandExpr : ExprExpander)
     (positionalMask : Option (TSyntax `tritonExpr) := none) :
     MacroM EOut := do
   let mut maskTerm : Option (TSyntax `term × SInfo) := none
+  let mut maskSeen := positionalMask.isSome
   match positionalMask with
   | none => pure ()
   | some mask => do
-      let mask' ← expandExpr env mask
-      ensureDType .bool mask'.dtype "tl.load mask"
-      maskTerm := some (mask'.term, mask'.shape)
+      unless isNoneMask mask do
+        let mask' ← expandExpr env mask
+        ensureDType .bool mask'.dtype "tl.load mask"
+        maskTerm := some (mask'.term, mask'.shape)
   let mut otherSyntax : Option (TSyntax `tritonExpr) := none
   let mut dtype? : Option DInfo := none
   let mut boundaryCheck? : Option (TSyntax `term) := none
@@ -155,9 +166,12 @@ partial def expandLoad (expandExpr : ExprExpander)
     | `(tritonMemKwarg| $name:ident = $val:tritonExpr) =>
         match name.getId.getString! with
         | "mask"  =>
-            let val' ← expandExpr env val
-            ensureDType .bool val'.dtype "tl.load mask"
-            maskTerm := some (val'.term, val'.shape)
+            if maskSeen then Macro.throwError "tl.load: duplicate `mask=` argument"
+            maskSeen := Bool.true
+            unless isNoneMask val do
+              let val' ← expandExpr env val
+              ensureDType .bool val'.dtype "tl.load mask"
+              maskTerm := some (val'.term, val'.shape)
         | "other" =>
             otherSyntax := some val
         | "dtype" =>
@@ -301,12 +315,14 @@ partial def expandStore (expandExpr : ExprExpander)
     (positionalMask : Option (TSyntax `tritonExpr) := none) :
     MacroM StmtExpansion := do
   let mut maskTerm : Option (TSyntax `term × SInfo) := none
+  let mut maskSeen := positionalMask.isSome
   match positionalMask with
   | none => pure ()
   | some mask => do
-      let mask' ← expandExpr env mask
-      ensureDType .bool mask'.dtype "tl.store mask"
-      maskTerm := some (mask'.term, mask'.shape)
+      unless isNoneMask mask do
+        let mask' ← expandExpr env mask
+        ensureDType .bool mask'.dtype "tl.store mask"
+        maskTerm := some (mask'.term, mask'.shape)
   let mut dtype? : Option DInfo := none
   let mut boundaryCheck? : Option (TSyntax `term) := none
   let mut evictionPolicySeen := Bool.false
@@ -353,11 +369,13 @@ partial def expandStore (expandExpr : ExprExpander)
     | `(tritonMemKwarg| $name:ident = $kval:tritonExpr) =>
         match name.getId.getString! with
         | "mask"  =>
-            if maskTerm.isSome then
+            if maskSeen then
               Macro.throwError "tl.store: duplicate `mask=` kwarg"
-            let kval' ← expandExpr env kval
-            ensureDType .bool kval'.dtype "tl.store mask"
-            maskTerm := some (kval'.term, kval'.shape)
+            maskSeen := Bool.true
+            unless isNoneMask kval do
+              let kval' ← expandExpr env kval
+              ensureDType .bool kval'.dtype "tl.store mask"
+              maskTerm := some (kval'.term, kval'.shape)
         | "dtype" =>
             if dtype?.isSome then
               Macro.throwError "tl.store: duplicate `dtype=` kwarg"
@@ -380,6 +398,28 @@ partial def expandStore (expandExpr : ExprExpander)
     match v'.computeTerm with
     | some ce => pure ce
     | none => `(ComputeExpr.alg $v'.term)
+  let shapedValue (target : SInfo) (algValue : TSyntax `term) :
+      MacroM (TSyntax `term) := do
+    if v'.shape.eq target then return valueExpr
+    match v'.computeTerm with
+    | none => `(ComputeExpr.alg $algValue)
+    | some ce =>
+      match ce with
+      | `(ComputeExpr.alg $op) =>
+          let op ← coerceShape op v'.shape target "tl.store value"
+          `(ComputeExpr.alg $op)
+      | `(ComputeExpr.compute $op) =>
+          let shape ← target.term
+          if v'.shape.eq SInfo.scalar then
+            return ← `(ComputeExpr.compute (ComputeOp.full $shape $op))
+          match op with
+          | `(ComputeOp.alg $precision $value) =>
+              let value ← coerceShape value v'.shape target "tl.store value"
+              `(ComputeExpr.compute (ComputeOp.alg $precision $value))
+          | `(ComputeOp.full $_ $child) =>
+              `(ComputeExpr.compute (ComputeOp.full $shape $child))
+          | _ => Macro.throwError "tl.store: broadcasting this compute operation is unsupported"
+      | _ => Macro.throwError "tl.store: broadcasting this compute expression is unsupported"
   let storeDType := dtype?.getD v'.dtype
   unless storeDType == v'.dtype do
     Macro.throwError "tl.store: `dtype=` must match the value dtype"
@@ -391,10 +431,7 @@ partial def expandStore (expandExpr : ExprExpander)
     let vTerm ← coerceShape v'.term v'.shape p'.shape "tl.store value"
     let sh ← p'.shape.term
     let dt ← storeDType.term
-    let valueExpr' ←
-      match v'.computeTerm with
-      | some _ => pure valueExpr
-      | none => `(ComputeExpr.alg $vTerm)
+    let valueExpr' ← shapedValue p'.shape vTerm
     return (← `(Stmt.store $dt $sh (MemAccess.blockPtr $p'.term $boundaryCheck) $vTerm MaskOpt.none),
       ← `(ComputeStmt.store $dt $sh (MemAccess.blockPtr $p'.term $boundaryCheck) $valueExpr' MaskOpt.none),
       env, v'.computeTerm.isSome)
@@ -407,10 +444,7 @@ partial def expandStore (expandExpr : ExprExpander)
           let off := sp.offset
           let sh ← sp.shape.term
           let dt ← storeDType.term
-          let valueExpr' ←
-            match v'.computeTerm with
-            | some _ => pure valueExpr
-            | none => `(ComputeExpr.alg $vTerm)
+          let valueExpr' ← shapedValue sp.shape vTerm
           pure (← `(Stmt.store $dt $sh (MemAccess.region $r $off) $vTerm MaskOpt.none),
             ← `(ComputeStmt.store $dt $sh (MemAccess.region $r $off) $valueExpr' MaskOpt.none),
             env, v'.computeTerm.isSome)
@@ -420,10 +454,7 @@ partial def expandStore (expandExpr : ExprExpander)
             let vTerm ← coerceShape v'.term v'.shape p'.shape "tl.store value"
             let sh ← p'.shape.term
             let dt ← storeDType.term
-            let valueExpr' ←
-              match v'.computeTerm with
-              | some _ => pure valueExpr
-              | none => `(ComputeExpr.alg $vTerm)
+            let valueExpr' ← shapedValue p'.shape vTerm
             pure (← `(Stmt.store $dt $sh (MemAccess.blockPtr $p'.term ([] : List Nat)) $vTerm MaskOpt.none),
               ← `(ComputeStmt.store $dt $sh (MemAccess.blockPtr $p'.term ([] : List Nat)) $valueExpr' MaskOpt.none),
               env, v'.computeTerm.isSome)
@@ -432,10 +463,7 @@ partial def expandStore (expandExpr : ExprExpander)
             let vTerm ← coerceShape v'.term v'.shape p'.shape "tl.store value"
             let sh ← p'.shape.term
             let dt ← storeDType.term
-            let valueExpr' ←
-              match v'.computeTerm with
-              | some _ => pure valueExpr
-              | none => `(ComputeExpr.alg $vTerm)
+            let valueExpr' ← shapedValue p'.shape vTerm
             pure (← `(Stmt.store $dt $sh (MemAccess.ptr $p'.term) $vTerm MaskOpt.none),
               ← `(ComputeStmt.store $dt $sh (MemAccess.ptr $p'.term) $valueExpr' MaskOpt.none),
               env, v'.computeTerm.isSome)
@@ -448,10 +476,7 @@ partial def expandStore (expandExpr : ExprExpander)
           let off := sp.offset
           let sh ← sp.shape.term
           let dt ← storeDType.term
-          let valueExpr' ←
-            match v'.computeTerm with
-            | some _ => pure valueExpr
-            | none => `(ComputeExpr.alg $vTerm)
+          let valueExpr' ← shapedValue sp.shape vTerm
           pure (← `(Stmt.store $dt $sh (MemAccess.region $r $off) $vTerm (MaskOpt.mask $m')),
             ← `(ComputeStmt.store $dt $sh (MemAccess.region $r $off) $valueExpr' (MaskOpt.mask $m')),
             env, v'.computeTerm.isSome)
@@ -462,13 +487,10 @@ partial def expandStore (expandExpr : ExprExpander)
           let m' ← coerceShape m mShape p'.shape "tl.store mask"
           let sh ← p'.shape.term
           let dt ← storeDType.term
-          let valueExpr' ←
-            match v'.computeTerm with
-            | some _ => pure valueExpr
-            | none => `(ComputeExpr.alg $vTerm)
-            pure (← `(Stmt.store $dt $sh (MemAccess.ptr $p'.term) $vTerm (MaskOpt.mask $m')),
-              ← `(ComputeStmt.store $dt $sh (MemAccess.ptr $p'.term) $valueExpr' (MaskOpt.mask $m')),
-              env, v'.computeTerm.isSome)
+          let valueExpr' ← shapedValue p'.shape vTerm
+          pure (← `(Stmt.store $dt $sh (MemAccess.ptr $p'.term) $vTerm (MaskOpt.mask $m')),
+            ← `(ComputeStmt.store $dt $sh (MemAccess.ptr $p'.term) $valueExpr' (MaskOpt.mask $m')),
+            env, v'.computeTerm.isSome)
 
 partial def expandAtomicAdd (expandExpr : ExprExpander)
     (expandStaticPtrExpr : StaticPtrExpander) (env : Env)

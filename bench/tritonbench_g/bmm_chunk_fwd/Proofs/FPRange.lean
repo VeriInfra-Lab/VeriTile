@@ -10,30 +10,39 @@ set_option linter.unusedSimpArgs false
 
 theorem iterations {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config)
     (cur stop : Nat) (s : State α) (ready : Ready h c s) :
-    ∃ t, range (engine o.algebra) "k" cur stop 1 (parts h c).body s=some t ∧
+    ∃ t, rangeInt (engine o.algebra) "k" cur stop 1 (parts h c).body s=some t ∧
       Ready h c t ∧ t.mem=s.mem ∧ Fixed s t := by
   by_cases less : cur<stop
   · obtain ⟨mid,hm,hr,hmem,hfixed⟩ := body o h c s ready cur
     obtain ⟨t,ht,htr,htm,htfixed⟩ := iterations o h c (cur+1) stop mid hr
     refine ⟨t,?_,htr,htm.trans hmem,hfixed.trans htfixed⟩
-    rw [range,if_neg (by decide),if_pos less,hm]
+    rw [rangeInt_nat_step,if_neg (by decide),if_pos less,hm]
     exact ht
-  · exact ⟨s,by rw [range,if_neg (by decide),if_neg less],ready,rfl,Fixed.refl s⟩
+  · exact ⟨s,by rw [rangeInt_nat_step,if_neg (by decide),if_neg less],ready,rfl,Fixed.refl s⟩
 termination_by stop-cur
 
 theorem loop_success {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config)
     (s : State α) (ready : Ready h c s) :
     ∃ t, step (engine o.algebra)
-      (.forRangeDyn "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body) s=some t ∧
+      (.forRangeInt "k" (parts h c).start (parts h c).stop (parts h c).stride (parts h c).body) s=some t ∧
       Ready h c t ∧ t.mem=s.mem ∧ Fixed s t := by
   obtain ⟨t,ht,hr,hm,hfixed⟩ := iterations o h c 0 (Host.cdiv h.shape.K c.K) s ready
   refine ⟨t,?_,hr,hm,hfixed⟩
-  have hs : FP.Structural.evalOp (engine o.algebra) none (parts h c).start s=some (fun _ => (0 : Nat)) := by
+  have hs : FP.Structural.evalOp (engine o.algebra) none (parts h c).start s=some (fun _ => (0 : Int)) := by
     cases ha : h.aStorage <;> cases hb : h.bStorage <;>
       simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
-  have he : FP.Structural.evalOp (engine o.algebra) none (parts h c).stop s=some (fun _ => Host.cdiv h.shape.K c.K) := by
-    cases ha : h.aStorage <;> cases hb : h.bStorage <;>
-      simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+  have he : FP.Structural.evalOp (engine o.algebra) none (parts h c).stop s=some (fun _ => (Host.cdiv h.shape.K c.K : Int)) := by
+    have bound_source : (parts h c).stop =
+        Op.truncDiv .nil (.add .int .nil (.castNatToInt (.constNat h.shape.K))
+          (.sub .int .nil (.constInt (Int.ofNat c.K)) (.constInt 1)))
+          (.constInt (Int.ofNat c.K)) := by
+      cases ha : h.aStorage <;> cases hb : h.bStorage <;>
+        simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl
+    rw [bound_source,FP.Structural.eval_truncDiv]
+    simp [FP.Structural.evalOp_unfold,FP.Structural.numeric,FP.Structural.bop,
+      Option.bind,ControlArithmetic.cdiv_signed_int,Host.cdiv]
+    funext i
+    exact ControlArithmetic.cdiv_signed_int h.shape.K c.K
   have hd : FP.Structural.evalOp (engine o.algebra) none (parts h c).stride s=some (fun _ => (1 : Nat)) := by
     cases ha : h.aStorage <;> cases hb : h.bStorage <;>
       simp only [parts,branch,Kernels.source,Host.Call.kernel,ha,hb,TypedSource.specialize] <;> rfl

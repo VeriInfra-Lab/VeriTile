@@ -1,5 +1,5 @@
 import bench.tritonbench_g.int_scaled_matmul.Proofs.IntScaledMatmul_Revision001_Contract_Contract
-import bench.tritonbench_g.int_scaled_matmul.Sources.GroupedGrid
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GroupedGrid
 import Mathlib.Data.BitVec
 
 namespace VeriTile.Bench.Repairs.IntScaledMatmul.Revision001.FiniteIndex

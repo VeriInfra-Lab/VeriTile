@@ -34,7 +34,7 @@ def preguard (M : Algebra A) (reduction : Reduction A) (h : Call)
     run (machine M reduction) (prelude h) (entry h batch row s)=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [prelude,code,Surface.source,
+  simp [prelude,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,
     ComputeKernel.surfaceBody,run,step,FP.Structural.evalExpr,evalComputeOp,
     evalOp_unfold,Option.bind,entry,data,State.setReg,Cell.read_same,Region.cast]
   rfl
@@ -50,7 +50,7 @@ def preloop (M : Algebra A) (reduction : Reduction A) (h : Call)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [setup,active,code,Surface.source,
+    simp only [setup,castSetup,beforeCast,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [preguard]
@@ -76,7 +76,7 @@ def iteration (M : Algebra A) (reduction : Reduction A) (h : Call)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [body,active,code,Surface.source,
+    simp only [body,castYes,active,code,Surface.source,Kernels.source,Kernels.outputFirst,Pasted.originalKernel,Pasted.candidateKernel,
       ComputeKernel.surfaceBody,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     dsimp [firstEntry,preloop]
@@ -102,21 +102,25 @@ theorem iteration_memory (M : Algebra A) (reduction : Reduction A) (h : Call)
   have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
   have ptrCast : (N:Int)*K*slot+row*K=((N*K*slot+row*K:Nat):Int) := by push_cast; rfl
   have ptrToNat : ((N:Int)*K*slot+row*K).toNat=N*K*slot+row*K := by rw [ptrCast,Int.toNat_natCast]
+  have positive_new : ¬((N : Int)+((N : Int)-1)<0) := by change 0<N at positiveN; omega
+  have length_new : ((N : Int)+((N : Int)-1))/(N : Int)=1 := by
+    rw [show (N : Int)+((N : Int)-1)=(N : Int)+N-1 by omega]
+    exact length
   cases ev <;> cases adds
   all_goals
     simp (config := {maxSteps := 300000}) [iteration,firstEntry,preloop,preguard,
       machine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,numeric,
       integralFloorDiv,integralMod,numericLt,numericLe,numericEq,natLt,bop,
       State.setReg,Cell.read_same,ofFloat,toFloat,TileShape.axisDim,Region.cast,entry,data,metaRead,
-      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
+      Broadcast.leftIndex,Broadcast.rightIndex,←Int.natCast_ediv,length,length_cast,nonzero,positive_sum,positive_new,length_new,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul,
       result,sums,Direct.FPValues.products,loaded,weight,old,State.masked_scatter_eq_filter,Signed.Readback.active_lanes,Signed.Readback.active_lanes_zero,
       ptrToNat,Int.toNat_natCast]
     try simp only [State.masked_scatter_eq_filter,Signed.Readback.active_lanes_zero,List.foldl_cons,List.foldl_nil]
-    simp (config := {maxSteps := 100000}) [State.write,Direct.FPValues.products,loaded,weight,bop,Broadcast.leftIndex,Broadcast.rightIndex,ptrToNat,Nat.mul_comm,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
-    rw [Signed.Readback.active_lanes_zero]
+    simp (config := {maxSteps := 100000}) [State.write,Direct.FPValues.products,loaded,weight,bop,Broadcast.leftIndex,Broadcast.rightIndex,ptrToNat,Nat.mul_comm,length_cast,nonzero,positive_sum,positive_new,length_new,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
+    try rw [Signed.Readback.active_lanes_zero]
     simp only [List.foldl_cons,List.foldl_nil,State.write]
     unfold Direct.FPValues.products FP.Structural.bop
-    simp [loaded,weight,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,length_cast,nonzero,positive_sum,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
+    simp [loaded,weight,Broadcast.leftIndex,Broadcast.rightIndex,Nat.mul_comm,length_cast,nonzero,positive_sum,positive_new,length_new,←Int.natCast_add,←Int.natCast_mul,-Nat.cast_add,-Nat.cast_mul]
     try rfl
 
 /-- The single source iteration retains the original signed-length law. -/
@@ -127,12 +131,12 @@ theorem preloop_length (M : Algebra A) (reduction : Reduction A) (h : Call)
       some (fun _ => 1) := by
   have length := signed_length h positiveN
   rcases h with ⟨batches,adapters,N,K,columns,slice,BK,positive,covered,inside,ev,evExact,adds,ity,wty,oty⟩
-  have positive_sum : ¬((N:Int)+N<1) := by change 0<N at positiveN;omega
-  cases ev
-  all_goals
-    simp [preloop,integralFloorDiv]
-    funext i
-    simpa only [if_neg positive_sum] using length
+  have positive_new : ¬((N : Int)+((N : Int)-1)<0) := by change 0<N at positiveN; omega
+  have length_new : ((N : Int)+((N : Int)-1))/(N : Int)=1 := by
+    rw [show (N : Int)+((N : Int)-1)=(N : Int)+N-1 by omega]
+    exact length
+  cases ev <;> simp [preloop,integralFloorDiv,positive_new,length_new]
+
 
 theorem condition_eval (M : Algebra A) (R : Reduction A) (h : Call)
     (batch row : Nat) (s : State A) :
@@ -172,7 +176,7 @@ theorem source_executes (M : Algebra A) (R : Reduction A) (h : Call)
       apply Signed.Control.single
       apply Signed.Control.pass
       · simpa [sentinel] using condition_eval M R h p.batch p.row s
-      · rw [complete_active,run_append,(preloop M R h p.batch p.row slot s metadata).property,Option.bind_some]
+      · rw [active_run_decomposition,run_append,(preloop M R h p.batch p.row slot s metadata).property,Option.bind_some]
         apply Signed.Control.single
         apply Signed.Control.loop_one
         · exact preloop_length M R h p.batch p.row slot s metadata positiveN

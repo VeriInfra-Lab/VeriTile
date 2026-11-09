@@ -4,7 +4,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.Setup
 including the repaired context tail bound and independent pointer advances. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified.FirstSetup
 open VeriTile.Triton Memory Preparation
-open VeriTile.Bench.TritonBenchG.AttnFwdCausal
+open VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport
 open VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealScores (Frame)
 noncomputable section
 set_option maxHeartbeats 800000

@@ -37,9 +37,9 @@ theorem kernel_real (c : Host.Call) (m : Host.Memory (WithBot ℝ))
     (fun k d => values (valueAddress c x j k d.val))
     (real_inputs c x logics values normalizable j hj)
     (by change 0<64;decide)
-    (by simpa [FPValue.sequenceLength,Host.parameters,Host.launch,Region.cast] using positive)
+    (by simpa [FPValue.sequenceLength,FPValue.sequenceWord,Host.parameters,Host.launch,Region.cast] using positive)
     ((⟨d,hd⟩ : Fin c.dimensions),())
-  simpa only [Host.row,dif_pos hd,mathematical,FPValue.sequenceLength,
+  simpa only [Host.row,dif_pos hd,mathematical,FPValue.sequenceLength,FPValue.sequenceWord,
     Host.parameters,Host.launch,Region.cast,Cell.read_same,↓reduceIte,reduceCtorEq] using result
 
 #axiomsClean kernel_real

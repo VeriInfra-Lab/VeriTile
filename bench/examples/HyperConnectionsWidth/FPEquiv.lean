@@ -1,3 +1,6 @@
+import bench.examples.HyperConnectionsWidth.IO
+import bench.examples.HyperConnectionsWidth.Contract
+import VeriTile.Triton.Float.FP32ReferenceRewrite
 import bench.examples.HyperConnectionsWidth.Kernels
 import VeriTile.Triton.Float.GuardedRewrite
 import VeriTile.Triton.Float.RewriteTactics
@@ -15,8 +18,6 @@ namespace VeriTile.Bench.Examples.HyperConnectionsWidthFPEquiv
 open VeriTile.Bench.Examples.HyperConnectionsWidth.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Check the computed weight, including the division and exponential. -/
 def residualSite (tau : ℝ) : Site where
@@ -42,8 +43,8 @@ def optimized (tau : ℝ) : Program :=
 /-- Both product commutations use the shared strict FP32 theorem. -/
 specification mhc_width_equiv (tau : ℝ) :
     original tau ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions mhc_width_equiv
 #guard_msgs (drop info) in
@@ -58,7 +59,7 @@ def matrixResidualSite (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.S
 
 def matrixBranchSite (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Site :=
   .div (FP.ProfiledRewrite.prefixBefore
-    (matrixMiddle "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau).surfaceBody "z" 1)
+    (matrixMiddleKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau).surfaceBody "z" 1)
     S [T] (.ref .real [S, T] "h_pre_logits") tau
 
 def matrixOriginalProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Program where
@@ -67,14 +68,14 @@ def matrixOriginalProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrit
 
 def matrixOptimizedProgram (S T D numIters : Nat) (tau : ℝ) : FP.ProfiledRewrite.Program :=
   { matrixOriginalProgram S T D numIters tau with
-    kernel := matrixOptimized "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau }
+    kernel := matrixOptimizedKernel "res" "h_res" "h_pre" "res_mix" "branch_in" S T D numIters tau }
 
 /-- All dimensions and both full Sinkhorn loops remain in the source.
 The two matrix products retain their original operand order and backend. -/
 specification mhc_width_matrix_equiv (S T D numIters : Nat) (tau : ℝ) (R : Rules) :
     matrixOriginalProgram S T D numIters tau ≡[R] matrixOptimizedProgram S T D numIters tau := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions mhc_width_matrix_equiv
 #guard_msgs (drop info) in

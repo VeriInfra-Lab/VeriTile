@@ -69,10 +69,10 @@ variable {I F H : Type} [Inhabited F]
 
 def source (rowScale output : Precision) (p : Parameters) : ComputeKernel :=
   match rowScale, output with
-  | .half, .half => Source.gemmHalfHalf p
-  | .half, .single => Source.gemmHalfSingle p
-  | .single, .half => Source.gemmSingleHalf p
-  | .single, .single => Source.gemmSingleSingle p
+  | .half, .half => Source.gemmHalfHalfKernel p
+  | .half, .single => Source.gemmHalfSingleKernel p
+  | .single, .half => Source.gemmSingleHalfKernel p
+  | .single, .single => Source.gemmSingleSingleKernel p
 
 theorem source_identity (rowScale output : Precision) (p : Parameters) :
     source rowScale output p = KernelGemm.source rowScale output p := by
@@ -129,7 +129,8 @@ theorem program_complete (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int
     (half : M.atomicAdd .fp16 = some atomicHalf) (single : M.atomicAdd .real = some atomicSingle)
     (rowScale output : Precision) (p : Parameters) (input : Input F) (s : State F)
     (reads : Reads p rowScale input s)
-    (rowStride : p.outputRowStride = p.columns) (columnStride : p.outputColumnStride = 1) :
+    (rowStride : p.outputRowStride = p.columns) (columnStride : p.outputColumnStride = 1)
+    (valid : KernelGemm.firstRow p s ≤ KernelGemm.blocksM p) :
     ∃ final, KernelExecution.exec M carrier ops plans (source rowScale output p) s = some final ∧
       (∀ i : KernelGemm.CIndex p, KernelGemm.active p s i →
         final.mem p.output (KernelGemm.outputOffset p s i) =
@@ -139,7 +140,7 @@ theorem program_complete (M : Algebra F) (carrier : IntegerCarrier I) (ops : Int
         (region ≠ p.output ∨ ∀ i : KernelGemm.CIndex p, KernelGemm.active p s i → offset ≠ KernelGemm.outputOffset p s i) →
         final.mem region offset = s.mem region offset) := by
   obtain ⟨final, he, hm⟩ := KernelGemm.source_execution M carrier ops plans atomicHalf atomicSingle
-    half single rowScale output p s
+    half single rowScale output p s valid
   rw [written_target M carrier ops plans atomicHalf atomicSingle rowScale output p input s reads] at hm
   refine ⟨final, by simpa [source_identity] using he, ?_, ?_⟩
   · intro i hi

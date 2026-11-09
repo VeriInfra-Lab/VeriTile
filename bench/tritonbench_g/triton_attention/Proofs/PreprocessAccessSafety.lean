@@ -17,7 +17,7 @@ theorem preprocess_safe (rest : Algebra α) (P : Primitives α)
     (newGradient : ∀ i : PreLane p,preOffset p s i<bounds p.newGradient)
     (delta : ∀ i : PreRow p,preRow p s i<bounds p.delta) :
     TraceSafe (backend rest P) bounds (preSource p) s := by
-  simp [TraceSafe,preSource,preprocessTyped,ComputeKernel.surfaceBody,
+  simp [TraceSafe,preSource,preprocessTypedKernel,ComputeKernel.surfaceBody,
     AccessSafety.singleton_safe,AccessSafety.pair_safe,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

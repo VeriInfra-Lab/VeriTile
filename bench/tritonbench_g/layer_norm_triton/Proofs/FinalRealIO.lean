@@ -14,9 +14,9 @@ theorem implements (m : Model ℝ) (laws : SourceFinalReal.Laws m) (M N BN pid :
   intro vals _ bounds boundsOK initial binding
   obtain ⟨safe,t,ran,_,frame⟩ := FinalIO.implements m M N 32 BN pid (fun _ _ => id)
     vals trivial bounds boundsOK initial binding
-  let start := (job m (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N 32 BN) pid).initial initial
+  let start := (job m (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N 32 BN) pid).initial initial
   have executed : FP.Structural.exec (engine m)
-      (TypedSource.finalBackward "DW" "DB" "FINAL_DW" "FINAL_DB" M N 32 BN) start=some t := by
+      (TypedSource.finalBackwardKernel "DW" "DB" "FINAL_DW" "FINAL_DB" M N 32 BN) start=some t := by
     simpa only [Final.io,runSchedule_singleton] using ran
   have memory := SourceFinalGraph.source_refines m start M N 32 BN
   obtain ⟨u,hu,hm,values,_⟩ := SourceFinalResult.executes m start M N 32 BN

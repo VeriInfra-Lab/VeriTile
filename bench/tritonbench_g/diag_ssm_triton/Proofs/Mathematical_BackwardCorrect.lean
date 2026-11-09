@@ -1,4 +1,4 @@
-import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_BackwardProjection
+import bench.tritonbench_g.diag_ssm_triton.Proofs.FlatBackwardFinal
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_BackwardReference
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_Erasure
 import VeriTile.Triton.Semantics.ProgramRewrite
@@ -84,9 +84,21 @@ theorem original_correct (storage : Storage) (s_ptr lambda_ptr y_ptr grad_s_ptr 
     (RealReference.diagSsmBackwardKernelIO s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE) rfl
     (fun _ _ _ xs o t j => RealReference.diagSsmBackwardStreamSpec xs o t j)
     (RealReference.diag_ssm_backward_io_correctness .triv s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE hLength hGradXSNe hGradXYNe hGradXGradYNe hGradXLambdaNe hGradSGradXNe hGradLambdaGradXNe hGradLambdaGradSNe)
-  simpa only [Spec.Real,StreamGroupedEmitMasked3DKernelIO.Implements,originalIO,
-    RealReference.diagSsmBackwardKernelIO,BackwardProjection.typed_source_flat_exec,
-    BackwardReference.gradients_reference] using h
+  change StreamGroupedEmitMasked3DKernelIO.Implements _ _
+  intro A hd hregions hcoverage pid0 pid1 pid2 xs u hp0 hp1 hp2 hu hrbound hwbound hx
+  obtain ⟨v,he,ho,hf⟩ := h A hd hregions hcoverage pid0 pid1 pid2 xs u hp0 hp1 hp2 hu hrbound hwbound hx
+  let p : BackwardLayout := ⟨s_ptr,lambda_ptr,y_ptr,grad_s_ptr,grad_x_ptr,grad_lambda_ptr,grad_y_ptr,batch_size,dim,BLOCK_SIZE⟩
+  obtain ⟨a,b,ha,hb,obs⟩ := FlatBackwardFinal.runs_related A p length (A.flattenState u)
+  have bv : b=v := Option.some.inj (hb.symm.trans he)
+  subst b
+  refine ⟨a,?_,?_,?_⟩
+  · simpa only [exec,originalIO,FlatBackwardTransport.source,FlatAlloc.flattenKernel,
+      Erasure.backward_body] using ha
+  · intro o t j active
+    exact (obs.readMem_eq _ _).trans (by
+      simpa only [BackwardReference.gradients_reference] using ho o t j active)
+  · intro r o outside
+    exact (congrFun (congrFun obs.mem r) o).trans (hf r o outside)
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

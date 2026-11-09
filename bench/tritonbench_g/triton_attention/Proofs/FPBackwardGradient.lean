@@ -10,7 +10,7 @@ def backwardGradientResult (P : Primitives α) (p : BackwardParameters) (initial
     (c j : Nat) (outerMem : Memory α) (st : BackwardInner α p) : State α :=
   let key := backwardRead p initial outerMem p.k c
   let value := backwardRead p initial outerMem p.v c
-  let t := current.setReg "do_val" p.dtype.toTileDType [p.blockM,p.head] (backwardRead p initial st.mem p.gradient j)
+  let t := current.setReg "do" p.dtype.toTileDType [p.blockM,p.head] (backwardRead p initial st.mem p.gradient j)
   let t := t.setReg "dv" .real [p.blockM,p.head] (backwardInnerAdvance P p initial key value c j st).dv
   let t := t.setReg "Di" .fp32 [p.blockM] (fun i => (st.mem p.delta (backwardRowOffset p initial j i)).read .fp32)
   let t := t.setReg "dp" .real [p.blockM,p.blockM] (backwardDPInitial P p initial st.mem j)
@@ -25,7 +25,7 @@ theorem backwardGradientExecution (rest : Algebra α) (P : Primitives α) (p : B
       some (backwardWeights P p initial st.mem (backwardRead p initial outerMem p.k c) c j)) :
     run (backend rest P) (((backwardInnerBody p).drop 6).take 6) current=
       some (backwardGradientResult P p initial current c j outerMem st) := by
-  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTyped,ComputeKernel.surfaceBody,
+  simp [backwardInnerBody,backwardOuterBody,backwardSource,backwardTypedKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,numeric,backend,backwardGradientResult,
     h.dv,h.value,h.doPtr,h.deltaPtr,h.memory,h.undef,hr,hp,
     backwardPointer,backwardRead,backwardOffset,backwardRowOffset,

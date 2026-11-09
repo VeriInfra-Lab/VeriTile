@@ -16,7 +16,7 @@ theorem cell (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (cells : IOInputReads.DataCells s c hasBias vals initial)
     (selected : Selection s c) (plans : q.plans=selectedPlan s c selected)
     (valid : initial.pids 0<Geometry.count (geometry s c)) (hz : initial.pids 1<c.S)
-    (divisor : F) (hasDivisor : initial.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor))
+    (divisor : F) (hasDivisor : initial.regs .real [] "divfactor"=some (fun _=>.inl divisor))
     (final : State (Sum F H))
     (ran : execute (floating q) q s.M s.N (source s c hasBias) initial=some final)
     (x : MatrixCell s) :
@@ -59,7 +59,7 @@ theorem frame (q : IntegerModel I F H) [Inhabited (Sum F H)]
     (s : Shape) (c : Config) (hasBias : Bool)
     (vals : (IOLayout.memory F H s c hasBias).Inputs) (initial : State (Sum F H))
     (valid : initial.pids 0<Geometry.count (geometry s c))
-    (divisor : F) (hasDivisor : initial.regs .fp32 [] "divfactor"=some (fun _=>.inl divisor))
+    (divisor : F) (hasDivisor : initial.regs .real [] "divfactor"=some (fun _=>.inl divisor))
     (final : State (Sum F H))
     (ran : execute (floating q) q s.M s.N (source s c hasBias) initial=some final) :
     (IOLayout.memory F H s c hasBias).Frame vals initial final := by

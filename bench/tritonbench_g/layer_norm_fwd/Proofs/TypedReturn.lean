@@ -45,9 +45,9 @@ def oracle {α : Type} [Inhabited α] (A : Algebra α) (cmp : Comparisons A)
     y1 := if f.w1 then some (fun i j => Cell.mk .real
       (affineValue A f.b1 (normalizedValues A f.rms N eps (v i.val) (lane hN j))
         (raw A s r.weight1 0 N j.val) (raw A s r.bias1 0 N j.val))) else none
-    mean := if f.rms then none else some (fun i => Cell.mk .real (cast A (meanValue A N (v i.val))))
-    rstd := fun i => Cell.mk .real (cast A (rstdValue A f.rms N eps (v i.val)))
-    residual := if f.residualOut then (fun i j => Cell.mk .real (cast A (v i.val (lane hN j))))
+    mean := if f.rms then none else some (fun i => Cell.mk .real (meanValue A N (v i.val)))
+    rstd := fun i => Cell.mk .real (rstdValue A f.rms N eps (v i.val))
+    residual := if f.residualOut then (fun i j => Cell.mk .real (v i.val (lane hN j)))
       else (fun i j => s.mem r.x (i.val*stride.x+j.val))
     seeds := if f.dropout then some (fun i => s.mem r.seeds i.val) else none
     mask := if f.dropout && f.dropoutMask then

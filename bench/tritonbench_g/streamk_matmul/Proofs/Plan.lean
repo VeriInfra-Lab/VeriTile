@@ -1,4 +1,4 @@
-import bench.tritonbench_g.streamk_matmul.Sources.Foundation
+import bench.tritonbench_g.streamk_matmul.Proofs.Sources.Foundation
 import Mathlib.Tactic
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.StreamK.Whole001

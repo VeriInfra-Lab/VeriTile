@@ -1,3 +1,5 @@
+import bench.examples.FloatDTypeAdd.IO
+import bench.examples.FloatDTypeAdd.Contract
 import bench.examples.FloatDTypeAdd.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -13,11 +15,9 @@ open VeriTile.Bench.Examples.FloatDTypeAdd.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
 
-abbrev Rules := FP.ScalarArithmetic.Rules
-
 /-- Finite operands after the original common prefix. -/
 def additionSite (blockSize : Nat) : Site where
-  before := Source.prefixBefore (originalKernel blockSize).surfaceBody "out"
+  before := Source.prefixBefore (originalKernel blockSize).surfaceBody "output"
   shape := [blockSize]
   left := .ref .real [blockSize] "x"
   right := .ref .real [blockSize] "y"
@@ -33,8 +33,8 @@ def optimized (blockSize : Nat) : Program :=
 including all registers and memory; failed surrounding executions also agree. -/
 specification float_add_equiv (blockSize : Nat) :
     original blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized blockSize := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions float_add_equiv
 #guard_msgs (drop info) in

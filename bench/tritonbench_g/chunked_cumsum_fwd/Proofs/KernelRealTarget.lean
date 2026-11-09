@@ -51,6 +51,9 @@ def model (rev : Bool) (upper : UpperBound) : NativeModel ℝ :=
   | .finite _ => realModel rev
   | .posInf => { realModel rev with minimum := fun x _ => x }
 
+@[simp] theorem output_cast (rev : Bool) (upper : UpperBound) (x : ℝ) :
+    (model rev upper).cast .real .fp32 x = x := by cases upper <;> rfl
+
 theorem preparation (rev : Bool) (c : Geometry) (a : LogicalInputs ℝ)
     (hasBias softplus : Bool) (lower : ℝ) (upper : UpperBound) (b h k j : Nat) :
     preparedValue (model rev upper) c a hasBias softplus lower (upperWord upper) b h k j =

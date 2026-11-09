@@ -1,7 +1,7 @@
 import bench.tritonbench_g.layer_norm_liger.Proofs.BackwardContract
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Backward
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive withSum)
+open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (SumPrimitive)
 noncomputable section
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000
@@ -45,7 +45,6 @@ end
 end VeriTile.Bench.Repairs.LayerNormLiger.Backward
 namespace VeriTile.Bench.Repairs.LayerNormLiger.Logical
 open VeriTile.Triton FP.Structural
-open VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages (withSum)
 noncomputable section
 set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000
@@ -64,10 +63,10 @@ def rowDX (p : Backward.Parameters) (s : State ℝ) (row i : Nat) :=
 theorem reference_dw (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (fresh : FreshDX p) (hne : p.dw≠p.db) (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Backward.reference (algebra rest) sumPrimitive p s).mem p.dw (s.pids 0*p.dwStride+i.1.val) =
-      .mk .fp32 (groupDW p s i.1.val) := by
+      .mk .real (groupDW p s i.1.val) := by
   unfold Backward.reference
   rw [Backward.finish_dw _ _ _ _ hne i hi]
-  change Cell.mk .fp32 ((Backward.accumulated (algebra rest) sumPrimitive p s).dw i) = _
+  change Cell.mk .real ((Backward.accumulated (algebra rest) sumPrimitive p s).dw i) = _
   unfold Backward.accumulated
   rw [loop_dw rest p _ (saved p s) fresh (by intro r hr; rfl) _ _ i hi]
   simp [Backward.initial, Backward.zero, algebra, groupDW, saved]
@@ -75,10 +74,10 @@ theorem reference_dw (rest : Algebra ℝ) (p : Backward.Parameters) (s : State �
 theorem reference_db (rest : Algebra ℝ) (p : Backward.Parameters) (s : State ℝ)
     (fresh : FreshDX p) (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Backward.reference (algebra rest) sumPrimitive p s).mem p.db (s.pids 0*p.dbStride+i.1.val) =
-      .mk .fp32 (groupDB p s i.1.val) := by
+      .mk .real (groupDB p s i.1.val) := by
   unfold Backward.reference
   rw [Backward.finish_db _ _ _ _ i hi]
-  change Cell.mk .fp32 ((Backward.accumulated (algebra rest) sumPrimitive p s).db i) = _
+  change Cell.mk .real ((Backward.accumulated (algebra rest) sumPrimitive p s).db i) = _
   unfold Backward.accumulated
   rw [loop_db rest p _ (saved p s) fresh (by intro r hr; rfl) _ _ i hi]
   simp [Backward.initial, Backward.zero, algebra, groupDB, saved]
@@ -89,7 +88,7 @@ theorem reference_dx (rest : Algebra ℝ) (p : Backward.Parameters) (s : State �
     (row : Nat) (lo : Backward.start p s≤row) (hr : row<Backward.stop p s)
     (i : TileIndex [p.block]) (hi : i.1.val<p.columns) :
     (Backward.reference (algebra rest) sumPrimitive p s).mem p.dx (row*p.dxStride+i.1.val) =
-      .mk .fp32 (rowDX p s row i.1.val) := by
+      .mk .real (rowDX p s row i.1.val) := by
   unfold Backward.reference
   rw [Backward.finish_frame _ _ _ _ _ _ (Or.inl hxd) (Or.inl hxb)]
   exact loop_dx rest p _ (saved p s) fresh (by intro r hr; rfl) hb hs _ _ row lo hr i hi
@@ -101,11 +100,11 @@ theorem backward_exec (rest : Algebra ℝ) (p : Backward.Parameters) (s : State 
     (hb : p.columns≤p.block) (hs : p.columns≤p.dxStride) :
     ∃ t, FP.Structural.exec (withSum (algebra rest) sumPrimitive) (Backward.kernel p) s = some t ∧
       (∀ i : TileIndex [p.block], i.1.val<p.columns →
-        t.mem p.dw (s.pids 0*p.dwStride+i.1.val)=.mk .fp32 (groupDW p s i.1.val) ∧
-        t.mem p.db (s.pids 0*p.dbStride+i.1.val)=.mk .fp32 (groupDB p s i.1.val)) ∧
+        t.mem p.dw (s.pids 0*p.dwStride+i.1.val)=.mk .real (groupDW p s i.1.val) ∧
+        t.mem p.db (s.pids 0*p.dbStride+i.1.val)=.mk .real (groupDB p s i.1.val)) ∧
       (∀ row, Backward.start p s≤row → row<Backward.stop p s →
         ∀ i : TileIndex [p.block], i.1.val<p.columns →
-          t.mem p.dx (row*p.dxStride+i.1.val)=.mk .fp32 (rowDX p s row i.1.val)) := by
+          t.mem p.dx (row*p.dxStride+i.1.val)=.mk .real (rowDX p s row i.1.val)) := by
   obtain ⟨t,ht,hm⟩ := Backward.complete_run (algebra rest) sumPrimitive p s
   refine ⟨t,ht,?_,?_⟩
   · intro i hi

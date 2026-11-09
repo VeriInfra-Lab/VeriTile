@@ -1,4 +1,4 @@
-import bench.tritonbench_g.int8_dequant_matmul.Sources.Kernels
+import bench.tritonbench_g.int8_dequant_matmul.Proofs.Sources.Kernels
 import bench.tritonbench_g.int8_dequant_matmul.Proofs.Host
 
 namespace VeriTile.Bench.Repairs.Int8DequantMatmul.Source

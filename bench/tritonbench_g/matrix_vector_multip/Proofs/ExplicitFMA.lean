@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matrix_vector_multip.CandidateIO
+import bench.tritonbench_g.matrix_vector_multip.Proofs.Support.CandidateIO
 import bench.tritonbench_g.matrix_vector_multip.Proofs.SourceCandidateEqual
 import bench.tritonbench_g.matrix_vector_multip.Proofs.SourceCandidateSafety
 namespace VeriTile.Bench.Repairs.MatrixVectorMultip.ExplicitFMA

@@ -1,5 +1,5 @@
-import bench.tritonbench_g.lightning_attention.Sources.Kernels
-import bench.tritonbench_g.chunk_linear_attn.Model
+import bench.tritonbench_g.lightning_attention.Proofs.Sources.Kernels
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Model
 namespace VeriTile.Bench.Repairs.LightningAttention
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.Repairs.ChunkGlaFwd.FPOutput (DotPrimitive withDot)

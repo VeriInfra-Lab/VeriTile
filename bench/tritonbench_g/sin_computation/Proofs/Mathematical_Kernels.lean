@@ -7,7 +7,7 @@ namespace VeriTile.Bench.TritonBenchG.SinComputation
 open VeriTile.Triton
 
 def sin_kernel (X O : RegionName) (n B : Nat) : ComputeKernel :=
-  let k := (VeriTile.Bench.Repairs.SinComputation.Contiguous.kernel X O n B).toAlgKernel
+  let k := (VeriTile.Bench.Repairs.SinComputation.Contiguous.sourceKernel X O n B).toAlgKernel
   ComputeKernel.fromKernelBody k.inputs k.outputs k.body
 
 end VeriTile.Bench.TritonBenchG.SinComputation

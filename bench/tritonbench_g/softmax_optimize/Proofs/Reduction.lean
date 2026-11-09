@@ -1,5 +1,5 @@
 import bench.tritonbench_g.softmax_optimize.Proofs.FirstLoops
-import bench.tritonbench_g.softmax_optimize.Proofs.Mathematical_SignedPrevious
+import bench.tritonbench_g.softmax_optimize.Proofs.Previous
 
 namespace VeriTile.Bench.Repairs.SoftmaxOptimize.Reduction
 open VeriTile.Triton
@@ -7,53 +7,36 @@ open VeriTile.Bench.TritonBenchG.SoftmaxOptimize
 set_option maxHeartbeats 4000000
 noncomputable section
 
-theorem previous_eval (N B : Nat) (hN : 0 < N) (hB : 0 < B) (s : BlockState)
-    (hcols : s.regs .int [] "cols" = some (Tile.scalar (N : Int))) :
-    evalOp (Source.previousExpression B) s = some (Tile.scalar (Config.previous N B : Int)) := by
-  have he : evalOp (Source.previousExpression B) s =
-      evalOp (FullSource.previousExpression N B) s := by
-    simp only [Source.previousExpression, FullSource.previousExpression, FullSource.signedQuotient,
-      evalOp.eq_def, hcols, Option.bind_some, Option.bind_eq_bind]
-  rw [he, SignedTransport.previous_eval N B hN hB]
-  rfl
-
 def seedStatements (N B : Nat) : List Stmt :=
   [.assign .int [] "pid_m" (.castNatToInt (.programId 0)),
-   .assign .int [] "cols" (.constInt N),
    .assign .real [B] "m" (.full [B] .negInf),
-   .assign .real [B] "z" (.full [B] (.const 0)),
-   .assign .int [] "prev_multiple" (Source.previousExpression B)]
+   .assign .real [B] "z" (.full [B] (.const 0))] ++
+  Source.previousCall N B "__veritile_binary_jit_0" "__veritile_binary_jit_1" "__veritile_binary_jit_2"
 
 def seed (s : BlockState) (N B : Nat) : BlockState :=
-  ((((s.setReg "pid_m" .int [] (Tile.scalar (s.pid : Int))).setReg
-    "cols" .int [] (Tile.scalar (N : Int))).setReg
+  Previous.state (((s.setReg "pid_m" .int [] (Tile.scalar (s.pid : Int))).setReg
     "m" .real [B] ⟨fun _ => (⊥ : WithBot ℝ)⟩).setReg
-    "z" .real [B] ⟨fun _ => ((0 : ℝ) : WithBot ℝ)⟩).setReg
-    "prev_multiple" .int [] (Tile.scalar (Config.previous N B : Int))
+    "z" .real [B] ⟨fun _ => ((0 : ℝ) : WithBot ℝ)⟩) N B
+    "__veritile_binary_jit_0" "__veritile_binary_jit_1" "__veritile_binary_jit_2"
 
 theorem seed_run (s : BlockState) (N B : Nat) (hN : 0 < N) (hB : 0 < B) :
     stepStmts (seedStatements N B) s = some (seed s N B) := by
   unfold seedStatements
+  simp only [List.cons_append, List.nil_append]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := Tile.scalar (s.pid : Int)) (by simp only [evalOp.eq_def, Option.bind_some]; rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := Tile.scalar (N : Int))
-    (by simp only [evalOp.eq_def]))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := (⟨fun _ => (⊥ : WithBot ℝ)⟩ : Tile .real [B]))
     (by simp only [evalOp.eq_def, Option.bind_some]; rfl))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := (⟨fun _ => ((0 : ℝ) : WithBot ℝ)⟩ : Tile .real [B]))
     (by simp only [evalOp.eq_def, Option.bind_some]; rfl))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (previous_eval N B hN hB _
-    (by simp only [BlockState.setReg_ne_name, BlockState.setReg_same,
-      ne_eq, String.reduceEq, not_false_eq_true])))]
-  rw [stepStmts.nil]
-  rfl
+  exact Previous.run N B hN hB _ _ _ (by decide) _
 
 theorem seed_invariant (s : BlockState) (X : RegionName) (N B : Nat) :
     FirstPass.Invariant X N B s 0 (seed s N B) := by
-  refine ⟨⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_⟩, ?_, ?_⟩
-  all_goals simp only [seed, FirstPass.maxima, FirstPass.masses, Recurrence.laneAfter,
+  refine ⟨⟨rfl, rfl, rfl, rfl, ?_, ?_⟩, ?_, ?_⟩
+  all_goals simp only [seed, Previous.state, FirstPass.maxima, FirstPass.masses, Recurrence.laneAfter,
     List.range_zero, List.foldl_nil, Recurrence.realOperations,
     BlockState.setReg_ne_name, BlockState.setReg_same, ne_eq, String.reduceEq, not_false_eq_true]
 

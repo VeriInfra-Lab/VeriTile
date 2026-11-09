@@ -1,3 +1,4 @@
+import bench.tritonbench_g.diag_ssm_triton.Proofs.FlatBackwardFinal
 import bench.tritonbench_g.diag_ssm_triton.Proofs.Mathematical_ForwardProjection
 namespace VeriTile.Bench.TritonBenchG.DiagSsmTriton.BackwardProjection
 open VeriTile.Triton TypedSource
@@ -27,23 +28,11 @@ def loopBody (s y gx gy : RegionName) (length batch dim block : Nat) : List Stmt
 
 theorem real_source_body (s l y gs gx gl gy : RegionName) (length batch dim block : Nat) :
     (Erasure.backward Bool.false s l y gs gx gl gy length batch dim block).toAlgKernel.body =
-      prelude l batch dim block ++ [.forLoop "i" length (loopBody s y gx gy length batch dim block)] ++
-        RealReference.diagSsmBackwardPostLoop gs gl block := by
-  simp only [Erasure.backward,TypedSource.backward,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardTyped,VeriTile.Bench.Repairs.DiagSsmTriton.Kernels.backwardIndexCommuted,ComputeKernel.eraseDType,ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,
-    ComputeKernel.fromKernelBody,ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
-    Op.eraseDType.eq_def,MemAccess.eraseDType.eq_def,MaskOpt.eraseDType.eq_def,
-    VeriTile.Triton.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
-    IntegralDType.eraseDType,ComputeDType.eraseDType,Except.bind,bind, Bool.false_eq_true, reduceIte,
-    ComputeKernel.eraseDType, ComputeKernel.surfaceBody,
-    ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
-    ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-    Op.eraseDType, MemAccess.eraseDType, MaskOpt.eraseDType, NumericDType.eraseDType,
-    ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType,
-    VeriTile.Triton.eraseDType, List.map_cons, List.map_nil, Except.bind, bind]
-  try simp only [Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, FloatDType.toTileDType]
-  rfl
+      BackwardTransport.before ⟨s,l,y,gs,gx,gl,gy,batch,dim,block⟩ length ++
+        [.forRangeInt "i" (.constInt 0) (.castNatToInt (.constNat length)) (.constNat 1)
+          (BackwardTransport.body ⟨s,l,y,gs,gx,gl,gy,batch,dim,block⟩ length)] ++
+            BackwardFinal.after ⟨s,l,y,gs,gx,gl,gy,batch,dim,block⟩ length :=
+  BackwardFinal.source_code ⟨s,l,y,gs,gx,gl,gy,batch,dim,block⟩ length
 
 theorem previous_offset (batch dim block : Nat) (u : BlockState) :
     evalOp (previousOffset batch dim block) u =
@@ -143,25 +132,18 @@ theorem flat_loop_steps (A : FlatAlloc) (s y gx gy : RegionName)
 
 theorem real_source_flat_exec (A : FlatAlloc) (s l y gs gx gl gy : RegionName)
     (length batch dim block : Nat) (u : BlockState) :
-    exec (A.flattenKernel (Erasure.backward Bool.false s l y gs gx gl gy length batch dim block).toAlgKernel) u =
-      exec (A.flattenKernel (RealReference.diag_ssm_backward_kernel s l y gs gx gl gy length batch dim block).toAlgKernel) u := by
-  unfold exec FlatAlloc.flattenKernel
-  rw [real_source_body,RealReference.diag_ssm_backward_kernel_toAlg_body]
-  simp only [RealReference.diagSsmBackwardProjectedBody,FlatAlloc.flattenStmts_append,
-    ProgramRewrite.append,flat_prelude_steps]
-  congr 1
-  congr 1
-  funext v
-  simp only [FlatAlloc.flattenStmts,FlatAlloc.flattenStmt,stepStmts,
-    stepForLoopAux.forLoop_unfold,stepForRangeAux.forRange_unfold]
-  rw [loop_range "i" 0 length _ _ (flat_loop_steps A s y gx gy length batch dim block)]
+    (exec (A.flattenKernel (Erasure.backward Bool.false s l y gs gx gl gy length batch dim block).toAlgKernel) u).map BlockState.mem =
+      (exec (A.flattenKernel (RealReference.diag_ssm_backward_kernel s l y gs gx gl gy length batch dim block).toAlgKernel) u).map BlockState.mem := by
+  obtain ⟨a,b,ha,hb,obs⟩ := FlatBackwardFinal.runs_related A ⟨s,l,y,gs,gx,gl,gy,batch,dim,block⟩ length u
+  simp only [FlatBackwardTransport.source] at ha
+  simp only [ha,hb,Option.map_some,obs.mem]
 
 theorem typed_source_flat_exec (storage : Storage) (A : FlatAlloc) (s l y gs gx gl gy : RegionName)
     (length batch dim block : Nat) (u : BlockState) :
-    exec (A.flattenKernel (TypedSource.backward storage Bool.false s l y gs gx gl gy length batch dim block).eraseDType.toAlgKernel) u =
-      exec (A.flattenKernel (RealReference.diag_ssm_backward_kernel s l y gs gx gl gy length batch dim block).toAlgKernel) u := by
-  have h := real_source_flat_exec A s l y gs gx gl gy length batch dim block u
-  simpa only [exec,FlatAlloc.flattenKernel,Erasure.backward_body] using h
+    (exec (A.flattenKernel (TypedSource.backward storage Bool.false s l y gs gx gl gy length batch dim block).eraseDType.toAlgKernel) u).map BlockState.mem =
+      (exec (A.flattenKernel (RealReference.diag_ssm_backward_kernel s l y gs gx gl gy length batch dim block).toAlgKernel) u).map BlockState.mem := by
+  simpa only [exec,FlatAlloc.flattenKernel,Erasure.backward_body] using
+    real_source_flat_exec A s l y gs gx gl gy length batch dim block u
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

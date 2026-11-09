@@ -33,7 +33,11 @@ theorem complete {α : Type} [Inhabited α] (A : Algebra α) (shape : Shape)
       intro row hr col hc equal
       have rowBound := (List.mem_range.mp (all.mem_iff.mp hr))
       change row<shape.rows at rowBound
-      have bound : row*shape.width+col<shape.rows*shape.width := by nlinarith
+      have bound : row*shape.width+col<shape.rows*shape.width := by
+        calc
+          row*shape.width+col < row*shape.width+shape.width := Nat.add_lt_add_left hc _
+          _ = (row+1)*shape.width := by rw [Nat.add_mul]; simp
+          _ ≤ shape.rows*shape.width := Nat.mul_le_mul_right _ (by omega)
       omega
 
 #axiomsClean complete

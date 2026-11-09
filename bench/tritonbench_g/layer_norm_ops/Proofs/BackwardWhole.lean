@@ -29,7 +29,7 @@ theorem postlude_run {α : Type} [Inhabited α] (M : Algebra α)
       u.mem = (finish M p (s.pids 0) a).mem := by
   cases hb : p.hasBias
   all_goals
-    simp [postlude, backwardKernel, backwardSource, ComputeKernel.surfaceBody, run, step, evalExpr,
+    simp [postlude, backwardKernel, backwardSourcePastedKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, evalOffsets, store, Option.bind, ComputeDType.eraseDType,
       FloatDType.toTileDType, FloatDType.numericDType, ofFloat, toFloat,
       numeric, FP.Structural.bop, numericLt, natLt, Region.cast, hb,

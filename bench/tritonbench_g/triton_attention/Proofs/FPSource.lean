@@ -1,1 +1,1 @@
-import bench.tritonbench_g.triton_attention.SourceKernels
+import bench.tritonbench_g.triton_attention.Kernels

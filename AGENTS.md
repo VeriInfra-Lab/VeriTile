@@ -1,21 +1,45 @@
 # 项目持久记忆
 
+## 题目目录结构
+
+新建或整理题目时，题目目录的顶层统一为以下七项：
+
+```text
+<task>/
+├── <task>.py
+├── Kernels.lean
+├── RealCorrect.lean
+├── FPEquiv.lean
+├── IO.lean
+├── Contract.lean
+└── Proofs/
+```
+
+- `<task>.py` 集中保存修复后的 Triton 原程序及已有的比较候选，用不同的函数名区分，并共用适用的 host 输入检查和调用逻辑。
+- `Kernels.lean` 保存可直接对照 Python 的实际 Triton 函数体。`IO.lean` 管理输入输出绑定、内存布局和调度，原程序与候选共用适用的接口。`Contract.lean` 写清输入前提和调用约束。
+- `RealCorrect.lean` 是实数数学正确性的公开入口，`FPEquiv.lean` 是原程序与候选等价性的公开入口。旧题的 `Correct.lean` 在迁移前可由工具识别，整理后使用唯一的 `RealCorrect.lean` 入口，并同步导入、清单和验证记录。
+- 题目专用的目标结果组装、执行引理、安全性及证明连接放进 `Proofs/`，按职责需要分子目录。题目说明可放在 `Proofs/README.md`，验收证据放在 `validation/`。跨题共用的定义放在实际共享入口或公共库。
+- 源码对照工具从 Python 和 Lean 源码发现函数配对。新整理的目录使用自动发现，已有 `jit-correspondence.json` 按原快照的验证状态迁移。
+
 ## Kernel 源码与文件职责
 
 - `Kernels.lean` 是实际原程序和已有候选的共享源码入口。优先直接写可逐行阅读的标准 `triton { ... }`；运行标量使用明确的参数声明与调用绑定，保留源码精度、转换、分支、mask 和运算顺序。
+- 可复用的原始函数体直接定义在题目的命名空间下，使用 `def <name>Source : SourceProcedure := with_triton_params (...) constexpr_args [...] in triton { ... }`。形参按 Python 函数头的顺序声明，`constexpr_args` 对应 `tl.constexpr`，需要符号化验证浮点 constexpr 时才填写块外的 `fp32_constants`。花括号内逐行保留 Python 函数体，包括注释、转换、索引、mask 和调用顺序。
+- 绑定后生成的 kernel 入口使用 `<name>Kernel`（或保留 Python 拼写的 `<name>_kernel`），显式写出 `ComputeKernel`。单独实例化使用 `instantiate_source_procedure`。从另一段 Triton 调用时，用块外的 `source_procedures` 将 Python 函数名绑定到同一份源码，并保留调用方的实际参数和顺序。只直接生成 kernel 的函数体可使用 `with_triton_call … in triton { ... }`。有返回值或特殊参数更新的 helper 保留原有语义类型，同样使用 `with_triton_params … in triton { ... }`。固定 ABI 及重绑定过程分别添加块外的 `signature profile` 和 `rebinding_signature profile`，外部函数用块外 `with_triton_imports [...]` 绑定。并发控制源码使用其控制语义入口。
+- 源码和 kernel 的名称应说明实际职责，原版和候选按同一约定命名。源码定义不再添加 `Bodies` 分组。主定理接到实际源码的实例；用于证明的程序分解和较一般的参数视图应有明确的等式或语义连接。
 - 不用任务自定义的整段源码生成宏、手写语句 AST、先赋占位值再删除语句、或 `take/drop/map` 等语句列表手术构造权威 kernel。已有这类写法列为源码可读性整理项；整理应证明新旧完整程序相等，或提供明确的语义连接，不能悄悄改变程序。
 - 必要的程序分解、AST 等式与重写证明仍可留在 `Proofs/`；不能把实际源码藏在 `Proofs/`，再让 `Kernels.lean` 反向导入它。多个题真正共享同一源码时可以明确引用共享的源码入口，不要求复制程序；真实多阶段程序的调度组合也不因存在组合而自动成为问题。
 - `IO.lean` 可独立存放逻辑张量与内存位置的对应、运行参数绑定及调用调度；`Contract.lean` 规定允许的输入及独立数学规格。IO 描述不能代替正确性证明，输入检查也不能代替 Tensor 与内存的连接证明。主定理必需的条件必须在主定理或其公开判断中明确出现。
-- 同一个具体 IO 接口只维护一份完整描述，放在题级 `IO.lean` 或明确的共享 IO 模块。`Correct.lean`、`FPEquiv.lean` 可留选择解释或程序的薄实例，不复制完整 read/write/mask/schedule；可复用的纯 IO 数据与 `Proofs/` 中的执行、安全及连接证明分开。真实不同的编码、通道、观察或调度可保留不同视图，说明差异；去重时保留完整定义的相等或语义连接证据，不扩大验收范围。
+- 同一个具体 IO 接口只维护一份完整描述，放在题级 `IO.lean` 或明确的共享 IO 模块。`RealCorrect.lean`、`FPEquiv.lean` 可留选择解释或程序的薄实例，不复制完整 read/write/mask/schedule；可复用的纯 IO 数据与 `Proofs/` 中的执行、安全及连接证明分开。真实不同的编码、通道、观察或调度可保留不同视图，说明差异；去重时保留完整定义的相等或语义连接证据，不扩大验收范围。
 - 同题的内存接口和供数学主入口使用的逻辑视图集中在 `IO.lean`，可用 `IO`、`Logical` 等内部命名空间分层；不再仅因属于逻辑视图就另拆 `LogicalIO.lean`、`LogicalCoordinates.lean` 等文件。完整判断等价与执行连接证明仍放在 `Proofs/`；共享库中的通用 Logical IO 类型不受此题级文件约定影响。合并须保留原声明名称、定义体和完整判断，不能引入循环导入；真实不同阶段或编码仍可保留有明确理由的独立接口模块。
-- `Reference.lean` 等辅助模块也按实际职责检查：通道拼装与坐标适配归 `IO.lean`，主证明必需的有序公式与连接助手归 `Proofs/`，可选 native 结果及其专属适配归 `Misc/`。根据声明的实际使用区分必要与可选，不能仅因名字含 `native` 就移出主 FP 证明链。已有单一职责的独立数学模块可明确复用；兼容导入文件须保持为薄转发，不重新混装定义或增加验收任务。
+- `Reference.lean` 等辅助模块也按实际职责检查：通道拼装与坐标适配归 `IO.lean`，主证明必需的有序公式与连接助手归 `Proofs/`，可选 native 结果及其专属适配归 `Proofs/Misc/`。根据声明的实际使用区分必要与可选，不能仅因名字含 `native` 就移出主 FP 证明链。已有单一职责的独立数学模块可明确复用；兼容导入文件须保持为薄转发，不重新混装定义或增加验收任务。
 - 源码组织检查与整题证明完成分别记录。可读性问题不自动撤回已有严格证明；已有完整机器索引投影或精度绑定不能仅因采用抽象表示就记作新正确性缺陷。结构未整理完也不能宣称所有题已符合可读性标准。
 
 ## Real 与 FP 的证明路线
 
 ### 主入口的公式、前提与范围（2026-10-22）
 
-- `Correct.lean` 的主入口按 examples 使用 `Spec.Real (题级IO ⊨ fun 逻辑输入 输出索引 => 数学公式)`；有输入域、调度或多通道时保留对应的公开判断及其条件，不能为了统一符号删掉前提。`⊨` 只是相应 `Implements` 判断的记号，不改变其执行、安全、输出与 frame 含义。
+- `RealCorrect.lean` 的主入口按 examples 使用 `Spec.Real (题级IO ⊨ fun 逻辑输入 输出索引 => 数学公式)`；有输入域、调度或多通道时保留对应的公开判断及其条件，不能为了统一符号删掉前提。`⊨` 只是相应 `Implements` 判断的记号，不改变其执行、安全、输出与 frame 含义。
 - 单一矩阵输入、逐行输出等常规逻辑接口应直接展示 `xs row col`，不在主公式中暴露通道编号、扁平地址及其界限证明。逻辑坐标与既有 IO 的双射、调用调度放在 `IO.lean`，完整判断的等价连接放在 `Proofs/`；调度可由逻辑 IO 携带，但覆盖条件仍须公开。不能只换一个 `⊨` 符号，或为缩短入口丢掉输入、输出、执行、安全及 frame 条件。
 - 通用张量公式的逻辑接口应具有真实的数学输入、输出类型；仅给原 `ChannelValues`／扁平数组增加访问器或换名，不能代替具名张量与逻辑坐标。多输出、混合类型和多阶段可保留其真实结构，但通道拼装与 `Fin.cases` 编码归入 IO；相邻数学定义不能借此隐藏原始存储接口。
 - 逻辑视图必须保留全部原数据。存在任意 stride、别名或未使用后缀，无法直接与稠密张量双射时，可使用“具名数学数组 + 完整 backing + 两者连接等式”的图结构，并证明完整双射与旧新判断等价；不能把相互约束的视图说成任意独立输入。原接口已是 `Fin B → ℝ` 这类逻辑数组时，有限有效子行的嵌入可仅移到 IO 访问器，不强制新增记录或改变 `B` 域。
@@ -24,15 +48,15 @@
 - Python assertion、输入契约和定理条件要有明确对应；由现有 launch/configuration 推出的覆盖条件直接证明，不无端增加 Python 输入限制。通用内存绑定与访问界限可以由公开 IO 判断提供，不能用“IO 已定义”代替程序证明，也不把可选 Tensor/host 应用重新列为逐题必做。
 - `FPEquiv.lean` 检查实际原程序与候选、源精度与转换、计算顺序及规则域的连接；主结论保持 `original ≡[R] candidate`。不能用 native 公式、程序自比较、未经说明的窗口或漏分支结果代替完整的既定比较范围。
 - 扫描须逐题记录主目标、公开前提、完整范围、证明连接和数值依赖；分别标注展示修正与实质缺口。修改入口后针对性构建，批次集成后检查必要的联合导入和记录一致性。语法扫描、编译通过和既有清单上的完成状态都不能单独当作本轮语义检查通过的证据。
-- `python scripts/bench/final_inventory.py --check` 检查当前选定版本的入口、关键连接源码和逐题检查证据是否仍与记录一致；它是变更防护，不自动判断数学正确性，也不替代 Lean 检查或数值实验。
+- `python scripts/bench/final_inventory.py --check` 检查当前选定入口和源码导入。用 `--write PATH` 生成快照，再用 `--check --snapshot PATH` 检查构建和审计期间的源码变化。证明验收见逐题独立重放回执。
 
 用户于 2026-10-21 确认并进一步细化：
 
 > Real 类型的运算通过 Mathlib 完成证明。FP 数值规则区分具体模型下的严格证明与按数值标准实验准入的假设；kernel 复用这些规则，不重复展开底层数值证明。
 
-- `Correct.lean` 只承担独立的 Real 数学规格，通过 Mathlib 证明目标公式。
+- `RealCorrect.lean` 只承担独立的 Real 数学规格，通过 Mathlib 证明目标公式。
 - `FPEquiv.lean` 的主入口按 examples 写成两个实际 kernel 程序的 `original ≡[R] candidate`，明确显示比较的变换。单个源码实现有序 FP/native 公式的 `Implements`／`Observes` 结果是辅助结果，不能替代主等价结论。优先复用已有候选；尚无比较目标时如实记录，不能以自比较或另造无关候选凑格式。
-- 主证明必需的公式、索引及连接助手留在 `Proofs/`。可选的单源 FP/native 正确性、host 证明、Tensor 应用、候选正确性应用和审计入口统一放在 `Misc/`，例如 `Misc/NativeCorrect.lean`、`Misc/TensorBridge.lean`。可选入口可应用主定理；`Correct.lean`、`FPEquiv.lean` 及其 `Proofs/` 助手不依赖 `Misc/`。目录整理不新增逐题 FP32 正确性或 host 证明的验收要求。
+- 主证明必需的公式、索引及连接助手留在 `Proofs/`。可选的单源 FP/native 正确性、host 证明、Tensor 应用、候选正确性应用和审计入口放在 `Proofs/Misc/`，例如 `Proofs/Misc/NativeCorrect.lean`、`Proofs/Misc/TensorBridge.lean`。可选入口可应用主定理；`RealCorrect.lean`、`FPEquiv.lean` 及其必要的证明助手不依赖可选入口。目录整理不新增逐题 FP32 正确性或 host 证明的验收要求。
 - `FPEquiv` 保留有类型的 FP 运算原语及源码精度，数值改写依据明确的严格定理或数值假设。使用实验准入规则时，结论明确依赖规则集 `R` 及其适用条件。
 - kernel 调用具体 `FP.mul` 等模型并引用已证局部定理是允许的；不要求所有主定理再参数化成任意 opaque 运算。Opaque 是控制数值证明边界的方式，不是撤销已成立结果或强制重构的门槛。
 - 通用的严格数值定理（如具体浮点模型的乘法交换律）应提取到共享数值库，kernel 直接复用；任务专属的公式和索引引理留在 `Proofs/`。保留兼容别名以避免无关迁移，不重复解码、舍入和特殊值证明。

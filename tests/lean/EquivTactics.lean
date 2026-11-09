@@ -18,7 +18,7 @@ open scoped VeriTile.Spec
 theorem two_differences (R : Spec.Assumptions Nat)
     (ha : Spec.Derivation R [2] [3]) (hb : Spec.Derivation R [4] [5]) :
     [0, 2, 4, 9] ≡[R] [0, 3, 5, 9] := by
-  equiv_decompose
+  split_equiv
   · change Spec.Derivation R [2] [3]
     exact ha
   · change Spec.Derivation R [4] [5]
@@ -27,48 +27,48 @@ theorem two_differences (R : Spec.Assumptions Nat)
 theorem repeated_anchors (R : Spec.Assumptions Nat)
     (ha : Spec.Derivation R [2] [3]) (hb : Spec.Derivation R [4] [5]) :
     [0, 2, 0, 4, 0] ≡[R] [0, 3, 0, 5, 0] := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 theorem insertion (R : Spec.Assumptions Nat) (h : Spec.Derivation R [] [3, 4]) :
     [0, 9] ≡[R] [0, 3, 4, 9] := by
-  equiv_decompose
+  split_equiv
   change Spec.Derivation R [] [3, 4]
-  fp_prove
+  solve_fp
 
 theorem deletion (R : Spec.Assumptions Nat) (h : Spec.Derivation R [] [3, 4]) :
     [0, 3, 4, 9] ≡[R] [0, 9] := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 theorem intact_block (R : Spec.Assumptions Nat) (h : Spec.Derivation R [2, 4] [3, 5]) :
     [0, 2, 4, 9] ≡[R] [0, 3, 5, 9] := by
-  equiv_decompose (split := false)
+  split_equiv (split := false)
   change Spec.Derivation R [2, 4] [3, 5]
-  fp_prove
+  solve_fp
 
 theorem empty_identity (R : Spec.Assumptions Nat) : ([] : List Nat) ≡[R] [] := by
-  equiv_decompose
+  split_equiv
 
 theorem symbolic_identity (R : Spec.Assumptions Nat) (xs : List Nat) : xs ≡[R] xs := by
-  equiv_decompose
+  split_equiv
 
 theorem symbolic_obligation (R : Spec.Assumptions Nat) (xs ys : List Nat)
     (h : Spec.Derivation R xs ys) : xs ≡[R] ys := by
-  equiv_decompose
+  split_equiv
   change Spec.Derivation R xs ys
   exact h
 
 theorem transitive_reverse (R : Spec.Assumptions Nat)
     (h1 : Spec.Derivation R [2] [3]) (h2 : Spec.Derivation R [3] [4]) :
     Spec.Derivation R [4] [2] := by
-  fail_if_success fp_prove (maxSteps := 1)
-  fp_prove (maxSteps := 2)
+  fail_if_success solve_fp (maxSteps := 1)
+  solve_fp (maxSteps := 2)
 
 theorem contextual_search (R : Spec.Assumptions Nat)
     (h1 : Spec.Derivation R [2] [3]) (h2 : Spec.Derivation R [3] [4]) :
     Spec.Derivation R [8, 2, 9] [8, 4, 9] := by
-  fp_prove
+  solve_fp
 
 -- Explicit hints can discharge guards from local premises through another lemma.
 private theorem guarded_step (R : Spec.Assumptions Nat) (P Q : Prop)
@@ -78,12 +78,12 @@ private theorem guarded_step (R : Spec.Assumptions Nat) (P Q : Prop)
 theorem hinted_step (R : Spec.Assumptions Nat) (P Q : Prop)
     (h : P → Spec.Derivation R [2] [3]) (back : Q → P) (q : Q) :
     Spec.Derivation R [2] [3] := by
-  fp_prove [guarded_step]
+  solve_fp [guarded_step]
 
 theorem domain_is_required (R : Spec.Assumptions Nat) (P : Prop)
     (h : P → Spec.Derivation R [2] [3]) : True := by
   fail_if_success
-    have : Spec.Derivation R [2] [3] := by fp_prove
+    have : Spec.Derivation R [2] [3] := by solve_fp
   trivial
 
 -- A custom execution view ensures body equality never erases signature or
@@ -104,45 +104,45 @@ instance : Spec.ProgramSyntax Program where
 theorem metadata_preserved (R : Spec.Assumptions Nat) (a b c d : Nat)
     (ports : a = b) (context : c = d) (h : Spec.Derivation R [2] [3]) :
     (⟨a, c, [0, 2, 9]⟩ : Program) ≡[R] ⟨b, d, [0, 3, 9]⟩ := by
-  equiv_decompose
+  split_equiv
   · change a = b
     exact ports
   · change c = d
     exact context
   · change Spec.Derivation R [2] [3]
-    fp_prove
+    solve_fp
 
 theorem structural_view (R : Spec.Assumptions Nat) (h : Spec.Derivation R [2] [3]) :
     Spec.ProgramDerivation Eq R (⟨0, 0, [8, 2, 9]⟩ : Program) ⟨0, 0, [8, 3, 9]⟩ := by
-  equiv_decompose
-  fp_prove
+  split_equiv
+  solve_fp
 
 -- Failed attempts must not solve the goal, silently accept missing admissions,
 -- drop changed metadata, or discard insertions/deletions.
 theorem rejected_changes : True := by
   fail_if_success
     have : ([1] : List Nat) ≡[([] : Spec.Assumptions Nat)] [2] := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   fail_if_success
     have : ([] : List Nat) ≡[([] : Spec.Assumptions Nat)] [2] := by
-      equiv_decompose
-      fp_prove
+      split_equiv
+      solve_fp
   fail_if_success
     have : (⟨0, 0, [2]⟩ : Program) ≡[[]] ⟨1, 0, [2]⟩ := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   fail_if_success
     have : (⟨0, 0, [2]⟩ : Program) ≡[[]] ⟨0, 1, [2]⟩ := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- Merely having two-hop rewrites and cycles does not prove an unrelated goal.
 theorem bounded_failure (R : Spec.Assumptions Nat)
     (h : Spec.Derivation R [2] [3]) : True := by
   fail_if_success
-    have : Spec.Derivation R [2] [4] := by fp_prove
+    have : Spec.Derivation R [2] [4] := by solve_fp
   trivial
 
 open VeriTile.Bench.Examples
@@ -150,14 +150,14 @@ open VeriTile.Bench.Examples
 -- Imported atoms retain their guards when the syntax tactics compose them.
 open FP.ScalarArithmetic in
 theorem imported_fp_rule (R : Rules) : [lhs .addCommute] ≡[R] [rhs .addCommute] := by
-  equiv_decompose
-  fp_prove [admitted R .addCommute (by decide)]
+  split_equiv
+  solve_fp [admitted R .addCommute (by decide)]
 
 open FP.ScalarArithmetic in
 theorem two_fp_sites (R : Rules) :
     [lhs .mulCommute, lhs .mulCommute] ≡[R] [rhs .mulCommute, rhs .mulCommute] := by
-  equiv_decompose
-  all_goals fp_prove [admitted R .mulCommute (by decide)]
+  split_equiv
+  all_goals solve_fp [admitted R .mulCommute (by decide)]
 
 def add64 (B : Nat) : List ComputeStmt :=
   [.assign .real [B] "out" (.compute (.alg .fp64
@@ -167,30 +167,31 @@ open FP.ScalarArithmetic in
 theorem fp_precision_and_admission (R : Rules) : True := by
   fail_if_success
     have : Spec.Derivation R.assumptions [lhs .addCommute] [⟨guards .addCommute, add64 1, .real, none⟩] := by
-      fp_prove [admitted R .addCommute (by decide)]
+      solve_fp [admitted R .addCommute (by decide)]
   fail_if_success
     have : Spec.Derivation ([] : Spec.Assumptions FP.GuardedFragment)
         [lhs .addCommute] [rhs .addCommute] := by
-      fp_prove
+      solve_fp
   -- The guarded relation cannot be used as its unguarded version.
   fail_if_success
     have : Spec.Derivation R.assumptions
-        [⟨[], lhsCode .addCommute⟩] [⟨[], rhsCode .addCommute⟩] := by
-      fp_prove [admitted R .addCommute (by decide)]
+        [⟨[], lhsCode .addCommute, .real, none⟩]
+        [⟨[], rhsCode .addCommute, .real, none⟩] := by
+      solve_fp [admitted R .addCommute (by decide)]
   trivial
 
 theorem output_cast_retained (B : Nat) (R : FloatDTypeAddFPEquiv.Rules) : True := by
   fail_if_success
     have : FloatDTypeAddFPEquiv.original B ≡[R] VectorAddFPEquiv.optimized B := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 theorem active_mask_retained (n B : Nat) (R : FlatVectorAddFPEquiv.Rules) : True := by
   fail_if_success
     have : FlatVectorAddFPEquiv.original n B ≡[R] FlatVectorAddFPEquiv.optimized (n + 1) B := by
-      equiv_decompose
-      all_goals fp_prove
+      split_equiv
+      all_goals solve_fp
   trivial
 
 -- The unchanged printer reports the atom used by the generated proof.

@@ -28,7 +28,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : 
     {t : State α // FP.Structural.exec M (kernel p) s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := {maxSteps := 4000000}) [kernel, source, FP.Structural.exec,
+  simp (config := {maxSteps := 4000000}) [kernel, source, VeriTile.Bench.Repairs.FifthOrderSphHarmonics.forwardPastedKernel, FP.Structural.exec,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     State.setReg, store, ofFloat, toFloat, Region.cast, ComputeDType.eraseDType,
     numeric, numericLt, natLt, bop, Option.bind, fold_regs, fold_pids]

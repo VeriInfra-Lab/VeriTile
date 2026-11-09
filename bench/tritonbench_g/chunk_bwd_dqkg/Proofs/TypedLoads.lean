@@ -26,8 +26,8 @@ def values (M : Algebra α) (dot : Dot α) (c : Config) (s : State α)
   generalize hvdhist : Classical.choose ptrs.dhist = vdhist at hdhist
   refine ⟨?_,?_⟩
   swap
-  simp only [parts,kernel,TypedSource.original,TypedSource.specialize,TypedSource.Storage.dtype,
-    ComputeKernel.surfaceBody,Triton.Source.dynamicRange?,Option.map,Option.getD,
+  simp only [parts,kernel,TypedSource.original,TypedSource.originalKernel,TypedSource.Storage.dtype,
+    ComputeKernel.surfaceBody,Triton.Source.countedLoop?,Option.map,Option.getD,
     String.reduceEq,beq_self_eq_true,↓reduceIte,List.take,List.drop]
   simp only [run,step.eq_2,evalExpr,evalComputeOp]
   simp [evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,

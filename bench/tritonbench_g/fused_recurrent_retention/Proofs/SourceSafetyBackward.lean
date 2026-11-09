@@ -37,18 +37,16 @@ theorem backward_prefix_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) 
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardFirst (layout s b) backwardRegions seed final).before initial := by
   cases seed <;>
-    simp [Program.backwardFirst,Program.backward,Surface.backward,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+    simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,numericLt,
       natLt,integralMod,integralFloorDiv,Region.cast,hscale,layout,backwardRegions,
       Broadcast.leftIndex,Broadcast.rightIndex,ofFloat,toFloat]
-  constructor
-  · intro k v hk hv
-    simpa [seedOffset,layout,launch,ProgramId.key,ProgramId.value,Nat.add_assoc] using
-      hb.initial rfl k.val k.isLt v.val v.isLt hk hv
-  · split <;> trivial
+  intro k v hk hv
+  simpa [seedOffset,layout,launch,ProgramId.key,ProgramId.value,Nat.add_assoc] using
+    hb.initial rfl k.val k.isLt v.val v.isLt hk hv
 
 theorem backward_first_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (plans : Plans)
     (seed final : Bool) (initial current : State (Staged.Node α)) (pid : ProgramId) (t : Nat)
@@ -57,11 +55,11 @@ theorem backward_first_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardFirst (layout s b) backwardRegions seed final).body
       (current.setReg "i" .nat [] (fun _ => t)) := by
-  simp [Program.backwardFirst,Program.backward,Surface.backward,ComputeKernel.surfaceBody,
-    Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+  simp [Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
+    Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
+    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
     store,Region.cast,layout,backwardRegions,ofFloat,toFloat,
     h.scale,h.keyId,h.valueId,h.headId,h.localHead,h.beta,h.k,h.v,h.dout,h.dq,h.maskK,h.maskV,h.carry,
     Broadcast.leftIndex,Broadcast.rightIndex]
@@ -77,19 +75,17 @@ theorem backward_middle_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) 
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardSecond (layout s b) backwardRegions seed final).before current := by
   cases final <;>
-    simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,ComputeKernel.surfaceBody,
-      Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+    simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
+      Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-      step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
+      run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
       store,Region.cast,layout,backwardRegions,ofFloat,toFloat,integralFloorDiv,integralMod,
       h.scale,h.keyId,h.valueId,h.headId,h.localHead,h.beta,h.maskK,h.maskV,
       Broadcast.leftIndex,Broadcast.rightIndex]
-  constructor
-  · intro k v hk hv
-    simpa [finalOffset,layout,ProgramId.key,ProgramId.value,Nat.add_assoc] using
-      hb.final rfl k.val k.isLt v.val v.isLt hk hv
-  · split <;> trivial
+  intro k v hk hv
+  simpa [finalOffset,layout,ProgramId.key,ProgramId.value,Nat.add_assoc] using
+    hb.final rfl k.val k.isLt v.val v.isLt hk hv
 
 theorem backward_second_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) (plans : Plans)
     (seed final : Bool) (initial current : State (Staged.Node α)) (pid : ProgramId) (r : Nat)
@@ -97,12 +93,12 @@ theorem backward_second_safe (a : Arithmetic α) (s : Shape) (b : InputBuffers) 
     (bounds : RegionName → Nat) (hb : BackwardBounds s b pid seed final bounds) :
     Safety.traceSafeList (Staged.algebra a plans) bounds
       (Program.backwardSecond (layout s b) backwardRegions seed final).body
-      (current.setReg "_t" .nat [] (fun _ => r)) := by
-  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,ComputeKernel.surfaceBody,
-    Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
+      (current.setReg "_" .nat [] (fun _ => r)) := by
+  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,ComputeKernel.surfaceBody,
+    Source.dynamicRange?,Program.countedParts?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
-    step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
+    run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,bop,
     store,Region.cast,layout,backwardRegions,ofFloat,toFloat,
     h.scale,h.beta,h.q,h.k,h.v,h.dout,h.dk,h.dv,h.maskK,h.maskV,h.carry,
     Broadcast.leftIndex,Broadcast.rightIndex]

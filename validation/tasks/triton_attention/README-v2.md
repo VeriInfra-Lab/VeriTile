@@ -1,6 +1,6 @@
 # Scalar ABI bound attention revision
 
-Current selected public entries: [Contract.lean](../../../bench/tritonbench_g/triton_attention/Contract.lean), [Correct.lean](../../../bench/tritonbench_g/triton_attention/Correct.lean), [FPEquivBound.lean](../../../bench/tritonbench_g/triton_attention/FPEquiv.lean). The [contract review](../../contracts.json) records their current scope and assumptions.
+Current selected public entries: [Contract.lean](../../../bench/tritonbench_g/triton_attention/Contract.lean), [RealCorrect.lean](../../../bench/tritonbench_g/triton_attention/RealCorrect.lean), [FPEquivBound.lean](../../../bench/tritonbench_g/triton_attention/FPEquiv.lean). The [archived contract review](../../archive/contracts.json) records the scope and assumptions of the earlier review.
 
 ## Historical implementation and audit notes
 

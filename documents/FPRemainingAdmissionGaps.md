@@ -18,8 +18,8 @@ with no evidence artifact; the complete program proof explicitly depends on
 future local evidence/admission. See its
 [precision, applicability domain and experiment plan](../validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
-reclassified as numerical deferrals. Per-task formulas, domains, actual program pairs and proof scope are recorded in
-the [final contract review](../validation/contracts.json). Current build
+reclassified as numerical deferrals. The earlier review of per-task formulas, domains, actual program pairs and proof scope is preserved in
+the [historical contract review](../validation/archive/contracts.json). Current build
 and replay results are checked independently by CI.
 
 ## Available catalogue and actual use

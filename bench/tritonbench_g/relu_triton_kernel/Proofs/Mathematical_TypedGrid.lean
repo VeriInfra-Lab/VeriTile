@@ -26,7 +26,7 @@ theorem reference_frame {α : Type} [Inhabited α] (M : Algebra α)
   · omega
   · omega
 
-#specNonCircular reference avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.kernel, FP.Structural.exec]
+#specNonCircular reference avoiding [VeriTile.Bench.Repairs.ReluTritonKernel.sourceKernel, FP.Structural.exec]
 #axiomsClean reference_frame
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -1,6 +1,6 @@
 import VeriTile.Triton.Float.LogicalProgramIO
-import bench.tritonbench_g.int8_matmul_quantization.ProducerIO
-import bench.tritonbench_g.int8_matmul_quantization.GemmIO
+import bench.tritonbench_g.int8_matmul_quantization.IO
+import bench.tritonbench_g.int8_matmul_quantization.IO
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.ProducerIOResults
 import bench.tritonbench_g.int8_matmul_quantization.Proofs.GemmIOResults
 

@@ -69,6 +69,6 @@ theorem code_eq (a : Arithmetic) (rest : Algebra Word) (p : Parameters) (s : Sta
 #axiomsClean maximum_eq
 #axiomsClean scale_eq
 #axiomsClean code_eq
-#specNonCircular code avoiding [KernelSource.kernel, FP.Structural.exec, KernelExecution.execution]
+#specNonCircular code avoiding [KernelSource.sourceKernel, FP.Structural.exec, KernelExecution.execution]
 end
 end VeriTile.Bench.Repairs.QuantizeKvTransform.KernelNativeResult

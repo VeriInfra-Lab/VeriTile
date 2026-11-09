@@ -42,12 +42,13 @@ theorem mean_eval (s0 s : BlockState) (X Y : RegionName)
     (h : VarInv s0 X Y stride N B c eps s) :
     evalOp (.div .real .nil
       (.reduceSum (⟨0, by simp⟩ : Fin [B].length) Bool.false (.ref .real [B] "_var"))
-      (.const (N : ℝ))) s = some (Tile.scalar (some (meanSquare s0 X stride N))) := by
+      (.natToReal (.constNat N))) s = some (Tile.scalar (some (meanSquare s0 X stride N))) := by
   have hs := sum_eval s0 s X Y stride N B c eps h
   rw [accumulator_sum s0 X stride N B c hB hN] at hs
   simp only [evalOp_div, evalOp_const, Option.bind_eq_bind]
   erw [hs]
   simp only [Option.bind_some]
+  simp only [evalOp.eq_def,Option.bind_some]
   apply congrArg some
   ext idx
   rfl

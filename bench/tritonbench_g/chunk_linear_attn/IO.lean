@@ -1,7 +1,7 @@
-import bench.tritonbench_g.chunk_linear_attn.IOLayout
-import bench.tritonbench_g.chunk_linear_attn.ReductionIO
-import bench.tritonbench_g.chunk_linear_attn.Candidate
-import bench.tritonbench_g.chunk_linear_attn.Mathematical
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.IOLayout
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.ReductionIO
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Candidate
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.Mathematical
 import VeriTile.Triton.Float.LogicalProgramIO
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.IO

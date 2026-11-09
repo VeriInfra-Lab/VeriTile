@@ -22,7 +22,7 @@ theorem reverse_body_values {α : Type} [Inhabited α] (a : Arithmetic α)
     (h : BackwardSecondInvariant a s b initial final pid r current) :
     run (Staged.algebra a plans)
       (Program.backwardSecond (layout s b) backwardRegions seed final).body
-      (current.setReg "_t" .nat [] (fun _ => r)) =
+      (current.setReg "_" .nat [] (fun _ => r)) =
       some (reverseBodyResult a s b plans initial current final pid r) := by
   have htime : s.T-1-(s.T-1-r)=r := by omega
   have hk := reverseKey_at (layout s b) pid r
@@ -31,8 +31,8 @@ theorem reverse_body_values {α : Type} [Inhabited α] (a : Arithmetic α)
   have hdk := reverseGradient_at (layout s b) pid r
   have hdv := reverseOutput_at (layout s b) pid r
   simp only [layout] at hk hv hdo hdk hdv
-  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,
-    ComputeKernel.surfaceBody,Source.dynamicRange?,run,step,FP.Structural.evalExpr,
+  simp [Program.backwardSecond,Program.backwardFirst,Program.backward,Surface.backward,Surface.backwardKernel,
+    ComputeKernel.surfaceBody,Source.dynamicRange?,Program.countedParts?,run,step,FP.Structural.evalExpr,
     evalComputeOp,evalOp_unfold,Option.bind,ComputeDType.eraseDType,numeric,
     FP.Structural.store,Region.cast,layout,backwardRegions,Staged.algebra,
     h.scale,h.beta,h.q,h.k,h.v,h.dout,h.dk,h.dv,h.maskK,h.maskV,h.carry,

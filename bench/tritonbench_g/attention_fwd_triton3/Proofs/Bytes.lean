@@ -1,6 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Tensor
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.Physical
-import bench.tritonbench_g.lightning_attention.ByteCodec
+import bench.tritonbench_g.lightning_attention.Proofs.Support.ByteCodec
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.Bytes
 open VeriTile Triton

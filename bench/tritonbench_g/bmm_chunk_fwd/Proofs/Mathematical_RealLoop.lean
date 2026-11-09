@@ -12,6 +12,7 @@ noncomputable section
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
+attribute [local simp 2000] VeriTile.Triton.eval_truncDiv VeriTile.Triton.eval_truncMod
 
 def aPointers (s₀ : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters)
     (c : Nat) : Tile .ptr [BM, BK] :=
@@ -34,7 +35,7 @@ def carry (s₀ : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters)
     BmmChunkBwd.RealMath.partialSum p.K BK c (product s₀ BM BN p i j)
   else 0
 
-def writes : List RegName := ["k", "a", "b", "acc", "a_ptrs", "b_ptrs"]
+def writes : List RegName := ["k", "__veritile_load_0", "a", "__veritile_load_1", "b", "acc", "a_ptrs", "b_ptrs"]
 
 structure Holds (s₀ : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters)
     (c : Nat) (s : BlockState) : Prop where
@@ -103,21 +104,25 @@ theorem carry_succ (s₀ s : BlockState) (BM BN BK : Nat) (p : RealProgram.Param
 theorem iteration (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters)
     (c : Nat) (s : BlockState) (hc : c < BmmChunkBwd.RealMath.blocks p.K BK)
     (h : Holds s₀ BM BN BK p c s) :
-    ∃ t, stepStmts (RealLoads.code swapped BM BN BK p) (s.setReg "k" .nat [] (Tile.scalar c)) = some t ∧
+    ∃ t, stepStmts (RealLoads.code swapped BM BN BK p) (s.setReg "k" .int [] (Tile.scalar (c : Int))) = some t ∧
       Holds s₀ BM BN BK p (c + 1) t := by
-  let entry := s.setReg "k" .nat [] (Tile.scalar c)
-  have hr : entry.regs .nat [BM] "offs_m" = some (Tile.vec (RealSetup.rows s₀ BM BN p)) := by
-    have hv := h.fixed .nat [BM] "offs_m" (by decide)
+  let entry := s.setReg "k" .int [] (Tile.scalar (c : Int))
+  have hr : entry.regs .int [BM] "offs_m" = some (Tile.vec (fun i => (RealSetup.rows s₀ BM BN p i : Int))) := by
+    have hv := h.fixed .int [BM] "offs_m" (by decide)
     simpa [entry, RealSetup.result] using hv
-  have hn : entry.regs .nat [BN] "offs_n" = some (Tile.vec (RealSetup.columns s₀ BN p)) := by
-    have hv := h.fixed .nat [BN] "offs_n" (by decide)
+  have hn : entry.regs .int [BN] "offs_n" = some (Tile.vec (fun i => (RealSetup.columns s₀ BN p i : Int))) := by
+    have hv := h.fixed .int [BN] "offs_n" (by decide)
     simpa [entry, RealSetup.result] using hv
-  have hk : entry.regs .nat [BK] "offs_k" = some (Tile.vec Fin.val) := by
-    have hv := h.fixed .nat [BK] "offs_k" (by decide)
+  have hk : entry.regs .int [BK] "offs_k" = some (Tile.vec (fun i => (i.val : Int))) := by
+    have hv := h.fixed .int [BK] "offs_k" (by decide)
     simpa [entry, RealSetup.result] using hv
-  have hl : entry.regs .nat [] "chunk_size_limit" = some (Tile.scalar (RealSetup.limit s₀ p)) := by
-    have hv := h.fixed .nat [] "chunk_size_limit" (by decide)
-    simpa [entry, RealSetup.result] using hv
+  have hl : RealLoads.LimitAt entry (RealSetup.limit s₀ p) := by
+    refine ⟨RealSetup.signedLimit s₀ p, ?_, ?_⟩
+    · have hv := h.fixed .int [] "chunk_size_limit" (by decide)
+      simpa [entry,RealSetup.result] using hv
+    · simp only [RealSetup.signedLimit,RealSetup.limit,← Int.natCast_mul]
+      simp only [min_def]
+      split_ifs <;> omega
   have he := RealStep.executes swapped BM BN BK entry p (aPointers s₀ BM BN BK p c)
     (bPointers s₀ BN BK p c) (RealSetup.rows s₀ BM BN p) (RealSetup.columns s₀ BN p)
     (RealSetup.limit s₀ p) c (carry s₀ BM BN BK p c)
@@ -125,7 +130,7 @@ theorem iteration (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat) (p : Rea
     hr hn hk hl (by simp [entry]) (by simpa [entry] using h.acc)
   refine ⟨_, he, Nat.succ_le_of_lt hc, h.mem, h.undef, h.pids, h.numPids, ?_, ?_, ?_, ?_⟩
   · intro dtype shape name hname
-    have hx : name ∉ ["a", "b", "acc", "a_ptrs", "b_ptrs"] := by
+    have hx : name ∉ ["__veritile_load_0", "a", "__veritile_load_1", "b", "acc", "a_ptrs", "b_ptrs"] := by
       have hs := hname
       simp only [writes, List.mem_cons, not_or] at hs
       simpa only [List.mem_cons, not_or] using hs.2
@@ -147,27 +152,38 @@ theorem iteration (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat) (p : Rea
 
 /-- The source's dynamic contraction loop, with its actual register bound. -/
 def statement (swapped : Bool) (BM BN BK : Nat) (p : RealProgram.Parameters) : Stmt :=
-  .forRangeDyn "k" (.constNat 0) (RealProgram.loopBound p.K BK) (.constNat 1)
+  .forRangeInt "k" (.castNatToInt (.constNat 0)) (RealProgram.loopBound p.K BK) (.constNat 1)
     (RealLoads.code swapped BM BN BK p)
 
-theorem executes (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters) :
-    ∃ t, stepStmt (statement swapped BM BN BK p) (RealSetup.result s₀ BM BN BK p) = some t ∧
+theorem signed_iterations (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat)
+    (p : RealProgram.Parameters) (cur : Nat) (s : BlockState)
+    (h : Holds s₀ BM BN BK p cur s) :
+    ∃ t,stepForRangeIntAux "k" (cur : Int) (BmmChunkBwd.RealMath.blocks p.K BK : Int) 1
+      (RealLoads.code swapped BM BN BK p) s=some t ∧
       Holds s₀ BM BN BK p (BmmChunkBwd.RealMath.blocks p.K BK) t := by
-  have resolve : stepStmt (statement swapped BM BN BK p) (RealSetup.result s₀ BM BN BK p) =
-      stepForRangeAux "k" 0 (BmmChunkBwd.RealMath.blocks p.K BK) 1
-        (RealLoads.code swapped BM BN BK p) (RealSetup.result s₀ BM BN BK p) := by
-    simp only [statement, stepForRangeAux.forRangeDyn_unfold, RealProgram.loopBound,
-      evalOp.eq_def, RealSetup.chunk_limit, bind, Option.bind_some]
-    rfl
-  rw [resolve]
-  obtain ⟨final, t, he, hf, ht⟩ := forRangeAux_inv
-    (idx := "k") (stop := BmmChunkBwd.RealMath.blocks p.K BK) (step := 1)
-    (P := Holds s₀ BM BN BK p) (by decide)
-    (fun c s hc h => iteration swapped s₀ BM BN BK p c s hc h)
-    0 (RealSetup.result s₀ BM BN BK p) (initial s₀ BM BN BK p)
-  have final_eq : final = BmmChunkBwd.RealMath.blocks p.K BK := Nat.le_antisymm ht.count hf
-  subst final
-  exact ⟨t, he, ht⟩
+  by_cases less : cur<BmmChunkBwd.RealMath.blocks p.K BK
+  · obtain ⟨mid,hm,hs⟩ := iteration swapped s₀ BM BN BK p cur s less h
+    obtain ⟨t,ht,hfinal⟩ := signed_iterations swapped s₀ BM BN BK p (cur+1) mid hs
+    refine ⟨t,?_,hfinal⟩
+    rw [stepForRangeIntAux.step_lt (by decide) (by exact_mod_cast less),hm]
+    simpa only [Option.bind_some,Int.natCast_add,Int.natCast_one] using ht
+  · have eq : cur=BmmChunkBwd.RealMath.blocks p.K BK := by have := h.count;omega
+    exact ⟨s,stepForRangeIntAux.step_ge (by decide) (by omega),eq ▸ h⟩
+termination_by BmmChunkBwd.RealMath.blocks p.K BK-cur
+
+theorem executes (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters) :
+    ∃ t, stepStmt (statement swapped BM BN BK p) (RealSetup.result s₀ BM BN BK p)=some t ∧
+      Holds s₀ BM BN BK p (BmmChunkBwd.RealMath.blocks p.K BK) t := by
+  have stop_value : evalOp (RealProgram.loopBound p.K BK) (RealSetup.result s₀ BM BN BK p)=
+      some (Tile.scalar (BmmChunkBwd.RealMath.blocks p.K BK : Int)) := by
+    simp [RealProgram.loopBound,evalOp.eq_def,Tile.bop,Tile.scalar,
+      NumericDType.add,NumericDType.sub,bind,Option.bind,BmmChunkBwd.RealMath.blocks,-Tile.scalar_eta]
+  obtain ⟨t,he,hfinal⟩ := signed_iterations swapped s₀ BM BN BK p 0
+    (RealSetup.result s₀ BM BN BK p) (initial s₀ BM BN BK p)
+  refine ⟨t,?_,hfinal⟩
+  simp only [statement,stepForRangeIntAux.forRangeInt_unfold,stop_value,
+    evalOp.eq_def,Tile.scalar,bind,pure,Option.bind]
+  exact he
 
 /-- Reaa is a sum over the initial memory, including a partial last block. -/
 theorem full_sum (s₀ s : BlockState) (BM BN BK : Nat) (p : RealProgram.Parameters)
@@ -185,7 +201,7 @@ theorem prefix_executes (swapped : Bool) (s₀ : BlockState) (BM BN BK : Nat)
     (p : RealProgram.Parameters) :
     ∃ t, stepStmts
       (RealProgram.realPart (RealProgram.parts swapped BM BN BK p).before ++
-        [.forRangeDyn "k" (.constNat 0) (RealProgram.loopBound p.K BK) (.constNat 1)
+        [.forRangeInt "k" (.castNatToInt (.constNat 0)) (RealProgram.loopBound p.K BK) (.constNat 1)
           (RealProgram.realPart (RealProgram.parts swapped BM BN BK p).body)])
         (RealSetup.prologueResult s₀ BM BN p) = some t ∧
       Holds s₀ BM BN BK p (BmmChunkBwd.RealMath.blocks p.K BK) t := by

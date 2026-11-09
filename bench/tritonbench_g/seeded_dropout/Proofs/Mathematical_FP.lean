@@ -12,8 +12,8 @@ theorem prefix_run (storage : Storage) (kind : Random.IntegerType) (x y : Region
     FP.Structural.run M ((source storage kind Bool.false x y N p seed B hB).surfaceBody.take 4) u =
       FP.Structural.run M ((source storage kind Bool.true x y N p seed B hB).surfaceBody.take 4) u := by
   cases storage <;> cases kind
-  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
-    FP.Structural.evalExpr, FP.Structural.evalOp_unfold, FP.Structural.numeric]
+  all_goals simp [source,VeriTile.Bench.Repairs.SeededDropout.sourceFamily, VeriTile.Bench.Repairs.SeededDropout.rawSource, VeriTile.Bench.Repairs.SeededDropout.rawCandidate, VeriTile.Bench.Repairs.SeededDropout.runtimeKernel, VeriTile.Bench.Repairs.SeededDropout.runtimeCandidateKernel, VeriTile.Bench.Repairs.SeededDropout.packedSeed, VeriTile.Bench.Repairs.SeededDropout.probabilityArgument, ComputeKernel.withScalarArguments, ScalarArgument.fp32, ScalarArgument.statement, List.map_cons, List.map_nil, List.cons_append, List.nil_append, ComputeKernel.surfaceBody, FP.Structural.run, FP.Structural.step,
+    FP.Structural.evalExpr, FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold, FP.Structural.numeric]
   all_goals
     congr 1
     funext i

@@ -1,4 +1,5 @@
-import bench.tritonbench_g.parallel_attention.Kernels
+import bench.tritonbench_g.parallel_attention.Proofs.Support.ShellSyntax
+import bench.tritonbench_g.parallel_attention.Proofs.Support.CandidateSyntax
 import bench.tritonbench_g.parallel_attention.Proofs.IOScheduleSafety
 import bench.tritonbench_g.parallel_attention.Proofs.IOGraphGrid
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax

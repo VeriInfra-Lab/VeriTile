@@ -1,5 +1,5 @@
-import bench.tritonbench_g.bmm_optimized.Sources.SourceIndex
-import bench.tritonbench_g.bmm_optimized.Sources.Scatter
+import bench.tritonbench_g.bmm_optimized.Proofs.Sources.SourceIndex
+import bench.tritonbench_g.bmm_optimized.Proofs.Sources.Scatter
 namespace VeriTile.Bench.Repairs.BmmOptimized
 
 theorem source_ownership (s : Shape) (c : Config) (p q : Program)

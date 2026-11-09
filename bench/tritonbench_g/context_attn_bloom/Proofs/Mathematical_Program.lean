@@ -1,5 +1,5 @@
 import bench.tritonbench_g.context_attn_bloom.Proofs.Mathematical_Kernels
-import bench.tritonbench_g.context_attn_bloom.Sources.Mathematical_Math
+import bench.tritonbench_g.context_attn_bloom.Proofs.Sources.Mathematical_Math
 import VeriTile.Triton.Float.Erasure
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program
@@ -38,7 +38,7 @@ theorem storage_erasure (p : Layout) (r : Regions) (storage : Storage) (swapped 
     (kernel p r storage swapped scale).eraseDType.toAlgKernel.body =
       (mathematical p r swapped scale).eraseDType.toAlgKernel.body := by
   cases swapped <;> cases storage
-  all_goals simp only [kernel,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.TritonBenchG.ContextAttnBloom.scaleFirst,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageScaleFirst,
+  all_goals simp only [kernel,mathematical,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirstKernel,VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.TritonBenchG.ContextAttnBloom.scaleFirst,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirst32,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirstKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageScaleFirst,VeriTile.Bench.Repairs.ContextAttnBloomSource.scaleFirstKernel,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

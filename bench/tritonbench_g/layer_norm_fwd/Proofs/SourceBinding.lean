@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.Sources.Kernels
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Sources.Kernels
 import bench.tritonbench_g.layer_norm_fwd.Proofs.Mathematical_Source
 import VeriTile.Meta.StatementAudit
 

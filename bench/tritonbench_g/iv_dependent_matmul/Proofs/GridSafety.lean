@@ -3,6 +3,7 @@ import bench.tritonbench_g.iv_dependent_matmul.Proofs.Interface
 
 namespace VeriTile.Bench.Repairs.IvDependentMatmulDotShape.SourceSafety
 open VeriTile.Triton FP.Structural
+open TritonBenchG.IvDependentMatmul.SourceArithmetic
 open TritonBenchG.IvDependentMatmul FPValue Kernels Whole
 noncomputable section
 set_option maxHeartbeats 4000000
@@ -36,26 +37,26 @@ private theorem append_safe (M : Algebra α) (bounds : RegionName → Nat)
 private theorem range_safe (M : Algebra α) (bounds : RegionName → Nat)
     (idx : RegName) (body : List ComputeStmt) (stop : Nat) (P : Nat → State α → Prop)
     (one : ∀ i, i<stop → ∀ s, P i s → ∃ q,
-      run M body (s.setReg idx .nat [] (fun _ => i))=some q ∧ P (i+1) q)
+      run M body (s.setReg idx .int [] (fun _ => (i : Int)))=some q ∧ P (i+1) q)
     (safe : ∀ i, i<stop → ∀ s, P i s →
-      Safety.traceSafeList M bounds body (s.setReg idx .nat [] (fun _ => i)))
+      Safety.traceSafeList M bounds body (s.setReg idx .int [] (fun _ => (i : Int))))
     (s : State α) (start : Nat) (bound : start≤stop) (initial : P start s) :
-    Safety.rangeSafe M bounds idx start stop 1 body s := by
-  have go : ∀ n i, i+n=stop → ∀ s, P i s → Safety.rangeSafe M bounds idx i stop 1 body s := by
+    Safety.rangeIntSafe M bounds idx (start : Int) (stop : Int) 1 body s := by
+  have go : ∀ n i, i+n=stop → ∀ s, P i s → Safety.rangeIntSafe M bounds idx (i : Int) (stop : Int) 1 body s := by
     intro n
     induction n with
     | zero =>
       intro i hi s hs
       have eq : i=stop := by omega
       subst i
-      rw [Safety.rangeSafe_unfold]
+      rw [Safety.rangeIntSafe_unfold]
       simp
     | succ n ih =>
       intro i hi s hs
       have lt : i<stop := by omega
       obtain ⟨q,hq,hP⟩ := one i lt s hs
-      rw [Safety.rangeSafe_unfold]
-      simpa only [show ¬(1:Nat)=0 by omega,if_false,lt,if_true,hq] using
+      rw [Safety.rangeIntSafe_unfold]
+      simpa only [show ¬(1:Nat)=0 by omega,if_false,show (i : Int) < (stop : Int) by exact_mod_cast lt,if_true,hq,← Int.natCast_add] using
         And.intro (safe i lt s hs) (ih (i+1) (by omega) q hP)
   exact go (stop-start) start (by omega) s initial
 
@@ -72,13 +73,13 @@ theorem real_safe (rest : Algebra ℝ) (r : Request) (graph : Graph)
   let P := fun cur t => ∃ acc, RealExecution.ReadyAt r.schedule p s t cur acc
   have one : ∀ cur, cur<RealExecution.count p → ∀ u, P cur u → ∃ v,
       run (RealExecution.backend rest) (Kernels.body r.schedule graph p)
-        (u.setReg "k" .nat [] (fun _ => cur))=some v ∧ P (cur+1) v := by
+        (u.setReg "k" .int [] (fun _ => (cur : Int)))=some v ∧ P (cur+1) v := by
     intro cur _ u ⟨acc,h⟩
     obtain ⟨v,hv,hR⟩ := RealExecution.schedule_body_run rest r.schedule graph p s u cur acc h
     exact ⟨v,hv,_,hR⟩
   have safe : ∀ cur, cur<RealExecution.count p → ∀ u, P cur u →
       Safety.traceSafeList (RealExecution.backend rest) bounds (Kernels.body r.schedule graph p)
-        (u.setReg "k" .nat [] (fun _ => cur)) := by
+        (u.setReg "k" .int [] (fun _ => (cur : Int))) := by
     intro cur _ u ⟨acc,h⟩
     apply body_safe _ _ r.schedule graph p u cur (RealExecution.aBase p s) (RealExecution.bBase p s)
       h.1.aptr h.1.bptr h.1.offk
@@ -98,19 +99,18 @@ theorem real_safe (rest : Algebra ℝ) (r : Request) (graph : Graph)
     (RealExecution.count p) P one safe t 0 (by omega) ⟨_,htr⟩
   obtain ⟨u,hu,hur⟩ := RealExecution.schedule_loop_run rest r.schedule graph p s t 0 _ htr
   have ran : run (RealExecution.backend rest)
-      [.forRangeDyn "k" (.constNat 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t=some u := by
-    simp only [RealExecution.count] at hu
-    simp [run,step,stopOp,evalOp_unfold,numeric,bop,Option.bind,hu]
+      [.forRangeInt "k" (.constInt 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t=some u := by
+    rw [SourceArithmetic.loop_run (RealExecution.backend rest) p (Kernels.body r.schedule graph p) t]
+    exact hu
   have loopSafe : Safety.traceSafeList (RealExecution.backend rest) bounds
-      [.forRangeDyn "k" (.constNat 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t := by
+      [.forRangeInt "k" (.constInt 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t := by
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,stopOp,evalOp_unfold,numeric,bop,
+    · simpa [Safety.stepSafe_unfold,stopOp_safe (RealExecution.backend rest) bounds p t,Safety.safeOp_unfold,SourceArithmetic.stopOp_eval (RealExecution.backend rest) p t,evalOp_unfold,numeric,bop,
         Option.bind,RealExecution.count] using hs
     · intro v _; exact Safety.traceSafeList_nil _ _ _
   rw [Kernel.quotation_eq]
-  change Safety.traceSafeList _ bounds
-    ((prologueWithPointers r.schedule p ++ [.forRangeDyn "k" (.constNat 0) (stopOp p)
-      (.constNat 1) (Kernels.body r.schedule graph p)]) ++ FPValue.suffix p) s
+  change Safety.traceSafeList _ bounds (Kernels.source r.schedule graph p).surfaceBody s
+  rw [Kernels.source_split]
   apply append_safe _ _ _ _ _ _
     (append_safe _ _ _ _ _ _ (prologue_safe _ _ _ _ _) ht loopSafe)
     (by rw [run_append,ht];exact ran)
@@ -136,13 +136,13 @@ theorem native_safe (rest : Algebra Word) (cfg : FP.Config) (D : Dot) (F : DotAc
   let P := fun cur t => ∃ acc, Schedules.ReadyAt r.schedule p s t cur acc
   have one : ∀ cur, cur<FPValue.count p → ∀ u, P cur u → ∃ v,
       run (FPValue.backend rest cfg D F) (Kernels.body r.schedule graph p)
-        (u.setReg "k" .nat [] (fun _ => cur))=some v ∧ P (cur+1) v := by
+        (u.setReg "k" .int [] (fun _ => (cur : Int)))=some v ∧ P (cur+1) v := by
     intro cur _ u ⟨acc,h⟩
     obtain ⟨v,hv,hR⟩ := Schedules.body_run rest cfg D F r.schedule graph p s u cur acc h
     exact ⟨v,hv,_,hR⟩
   have safe : ∀ cur, cur<FPValue.count p → ∀ u, P cur u →
       Safety.traceSafeList (FPValue.backend rest cfg D F) bounds (Kernels.body r.schedule graph p)
-        (u.setReg "k" .nat [] (fun _ => cur)) := by
+        (u.setReg "k" .int [] (fun _ => (cur : Int))) := by
     intro cur _ u ⟨acc,h⟩
     apply body_safe _ _ r.schedule graph p u cur (FPValue.aBase p s) (FPValue.bBase p s)
       h.1.aptr h.1.bptr h.1.offk
@@ -162,19 +162,18 @@ theorem native_safe (rest : Algebra Word) (cfg : FP.Config) (D : Dot) (F : DotAc
     (FPValue.count p) P one safe t 0 (by omega) ⟨_,htr⟩
   obtain ⟨u,hu,hur⟩ := Schedules.loop_run rest cfg D F r.schedule graph p s t 0 _ htr
   have ran : run (FPValue.backend rest cfg D F)
-      [.forRangeDyn "k" (.constNat 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t=some u := by
-    simp only [FPValue.count] at hu
-    simp [run,step,stopOp,evalOp_unfold,numeric,bop,Option.bind,hu]
+      [.forRangeInt "k" (.constInt 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t=some u := by
+    rw [SourceArithmetic.loop_run (FPValue.backend rest cfg D F) p (Kernels.body r.schedule graph p) t]
+    exact hu
   have loopSafe : Safety.traceSafeList (FPValue.backend rest cfg D F) bounds
-      [.forRangeDyn "k" (.constNat 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t := by
+      [.forRangeInt "k" (.constInt 0) (stopOp p) (.constNat 1) (Kernels.body r.schedule graph p)] t := by
     apply Safety.traceSafeList_cons_intro
-    · simpa [Safety.stepSafe_unfold,Safety.safeOp_unfold,stopOp,evalOp_unfold,numeric,bop,
+    · simpa [Safety.stepSafe_unfold,stopOp_safe (FPValue.backend rest cfg D F) bounds p t,Safety.safeOp_unfold,SourceArithmetic.stopOp_eval (FPValue.backend rest cfg D F) p t,evalOp_unfold,numeric,bop,
         Option.bind,FPValue.count] using hs
     · intro v _; exact Safety.traceSafeList_nil _ _ _
   rw [Kernel.quotation_eq]
-  change Safety.traceSafeList _ bounds
-    ((prologueWithPointers r.schedule p ++ [.forRangeDyn "k" (.constNat 0) (stopOp p)
-      (.constNat 1) (Kernels.body r.schedule graph p)]) ++ FPValue.suffix p) s
+  change Safety.traceSafeList _ bounds (Kernels.source r.schedule graph p).surfaceBody s
+  rw [Kernels.source_split]
   apply append_safe _ _ _ _ _ _
     (append_safe _ _ _ _ _ _ (prologue_safe _ _ _ _ _) ht loopSafe)
     (by rw [run_append,ht];exact ran)

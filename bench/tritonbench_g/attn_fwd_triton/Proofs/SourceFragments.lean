@@ -5,7 +5,7 @@ import bench.tritonbench_g.attn_fwd_triton.Proofs.Mathematical_Real
 by the repair are references to the original helpers, not copied proofs. -/
 namespace VeriTile.Bench.Repairs.AttnFwdTriton.Verified
 open VeriTile.Triton
-abbrev Parameters := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealContract.Parameters
+abbrev Parameters := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealContract.Parameters
 set_option maxRecDepth 16000
 set_option maxHeartbeats 3000000
 set_option linter.unusedSimpArgs false
@@ -20,12 +20,12 @@ def source (BM BN BD : Nat) (p : Parameters) (_reciprocal : Bool) : ComputeKerne
     p.batches p.heads p.context p.headDim BM BN BD p.stage p.validStage
 
 def code (BM BN BD : Nat) (p : Parameters) (r : Bool) : List Stmt :=
-  ControlView.algorithm 32 6 (source BM BN BD p r).eraseDType.toAlgKernel.body
+  (source BM BN BD p r).eraseDType.toAlgKernel.body
 
-abbrev keyName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.keyName
-abbrev scaleName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.scaleName
-abbrev valueName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.valueName
-abbrev maskName := VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealPreparation.maskName
+abbrev keyName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.keyName
+abbrev scaleName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.scaleName
+abbrev valueName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealMemory.valueName
+abbrev maskName := VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealPreparation.maskName
 
 def wide (n : Nat) : Op .int [] := .castNatToInt (.constNat n)
 
@@ -84,12 +84,12 @@ def advance (BN BD : Nat) (second : Bool) : List Stmt :=
      (.castIntToNat (.mul .int .nil (wide BN) (.ref .int [] "stride_vk64"))))]
 
 def suffix (BM BN BD D : Nat) (second : Bool) : List Stmt :=
-  [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.probability BM BN] ++ VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.rescale BM BN BD ++
-    [valueLoad BN BD D second] ++ VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.accumulate BM BN BD ++ advance BN BD second
+  [VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.probability BM BN] ++ VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.rescale BM BN BD ++
+    [valueLoad BN BD D second] ++ VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.accumulate BM BN BD ++ advance BN BD second
 
 def flatIteration (BM BN BD D : Nat) (second diagonal : Bool) : List Stmt :=
-  loadPrefix BD BN D second ++ [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.score BM BN BD] ++ guard BM BN second diagonal ++
-    VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.center BM BN ++ suffix BM BN BD D second
+  loadPrefix BD BN D second ++ [VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.score BM BN BD] ++ guard BM BN second diagonal ++
+    VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealBody.center BM BN ++ suffix BM BN BD D second
 
 def sourceIteration (BM BN BD D : Nat) (second firstDiagonal : Bool) : List Stmt :=
   flatIteration BM BN BD D second (second || firstDiagonal)
@@ -98,8 +98,6 @@ def sourceIteration (BM BN BD D : Nat) (second firstDiagonal : Bool) : List Stmt
 def coordinates (BM BN BD : Nat) (p : Parameters) := (code BM BN BD p Bool.false).take 13
 def pointers (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 13).take 9
 def initialization (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 22).take 5
-def firstSetup (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 27).take 6
-def secondSetup (BM BN BD : Nat) (p : Parameters) := ((code BM BN BD p Bool.false).drop 34).take 6
 
 def loop (BM BN BD D : Nat) (second firstDiagonal : Bool) : Stmt :=
   .forRangeInt "start_n"
@@ -109,42 +107,13 @@ def loop (BM BN BD D : Nat) (second firstDiagonal : Bool) : Stmt :=
     (sourceIteration BM BN BD D second firstDiagonal)
 
 def epilogue (BM BD D : Nat) (_r : Bool) : List Stmt :=
-  [VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSource.normalization BM BD Bool.false,
+  [VeriTile.Bench.TritonBenchG.AttnFwdTritonSupport.RealSource.normalization BM BD Bool.false,
    .store .real [BM,BD] (.ptr (.ref .ptr [BM,BD] "O_block_ptr")) (.ref .real [BM,BD] "acc")
      (.mask (queryMask BM BD D))]
 
-/-- Every statement, both helper loops, and the complete store are included. -/
-theorem decomposition (BM BN BD : Nat) (p : Parameters) (r : Bool) :
-    code BM BN BD p r = coordinates BM BN BD p ++ pointers BM BN BD p ++ initialization BM BN BD p ++
-      firstSetup BM BN BD p ++ [loop BM BN BD p.headDim Bool.false (decide (p.stage=2))] ++
-      secondSetup BM BN BD p ++ [loop BM BN BD p.headDim Bool.true (decide (p.stage=2))] ++
-      epilogue BM BD p.headDim r := by
-  cases r <;> by_cases hd : p.stage=2
-  all_goals
-    simp only [hd,coordinates, pointers, initialization, firstSetup, secondSetup, code, source,
-      TypedSource.repaired,  Bool.false_eq_true, Bool.true_eq,
-      ↓reduceIte, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?,
-      ComputeKernel.surfaceBody, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
-      ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
-      Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
-      VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-      ComparableDType.eraseDType, IntegralDType.eraseDType, Except.bind, bind]
-    simp [hd,ControlView.algorithm,wide,maskExpr,loop, sourceIteration, flatIteration, loadPrefix, guard, tail, keyMask, valueMask,
-      queryMask, valueLoad, advance, suffix, epilogue, keyName, scaleName, valueName, maskName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.keyName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.scaleName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealMemory.valueName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealPreparation.maskName,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.score,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.scoreExpr,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.center,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.centerExpr,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.probability,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.rescale,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealBody.accumulate,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealSource.normalization,
-      VeriTile.Bench.TritonBenchG.AttnFwdCausal.RealExpressions.maskExpr]
+/- The old whole-program decomposition applied to manually inlined helpers.
+It has been removed. The mathematical iteration fragments above are proof
+views only; the actual hygienic helper connection is proved separately. -/
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

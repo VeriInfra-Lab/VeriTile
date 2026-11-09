@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_gated_attention.PairIO
+import bench.tritonbench_g.chunk_gated_attention.Proofs.Support.PairIO
 
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.KernelOnly.SourcePair
 open VeriTile Triton FP.ProfiledRewrite

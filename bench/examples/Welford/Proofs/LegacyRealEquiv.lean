@@ -1,4 +1,5 @@
 import bench.examples.Welford.Kernels
+import bench.examples.Welford.Proofs.Real
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Algebra.BigOperators.Field
@@ -11,70 +12,22 @@ import VeriTile.Examples.Common
 import VeriTile.Meta.StatementAudit
 
 /-!
-This file uses real intermediate arithmetic (with the stated cast semantics).
-The two-gates FP specification is in ../FPEquiv.lean.
+Auxiliary real-intermediate equivalence of the current two complete Welford
+sources, with their shared BF16 output rounding interpreted by `execR R`.
+The two-gates FP specification remains in ../FPEquiv.lean.
 
-# Welford variance: two-pass vs online — kernel equivalence `≡[R]`
+Both programs read one row at `pid * rowStride + [0, blockSize)` and write
+mean[0] and var[0]. The proofs establish termination, equality of both output
+cells and preservation of every other cell. The algorithm decompositions
+below are equal to the complete current sources, including the explicit count
+conversion and BF16 stores; they are proof helpers, not source implementations.
 
-Sources are in Kernels.lean. The proof below derives the real relation,
-checks termination and memory framing, and states the public specification.
-
-`twopassWelfordKernel` computes the row mean/variance with two `tl.sum` passes;
-`onlineWelfordKernel` uses Welford's one-pass recurrence inside a `for` loop.
-Like a real Triton kernel, both take a **`rowStride` argument** (stage 1 of
-the address-layout roadmap): the input row lives at `pid * rowStride + [0,
-blockSize)`.
-Both **store the mean and variance rounded to bf16** (`(·).to(tl.bfloat16)`); the
-reductions run in ℝ (no intermediate rounding). The load-bearing identity is that
-after processing all inputs the running `(M, S)` equals the two-pass `(μ, S)`
-(`welford_eq_two_pass`), so from the same state both kernels produce the same ℝ
-mean and variance, and the only rounding is the shared bf16 output stores, which
-quantize equal values identically.
-
-## The public result (bottom of file)
-
-The single public headline is **`welford_equiv`** — kernel equivalence on the
-shared one-input / **two-output** IO signature:
-
-    welfordTwoPassIO blockSize rowStride ≡[R] welfordOnlineIO blockSize rowStride
-
-`≡[R]` is the audit-once kernel-equivalence combinator (`KernelIO₁ₓ₂.Equiv`,
-`VeriTile.Triton.Memory.KernelSpec`), the `⊨`-grade form of the refinement
-surface, here in its one-input / two-output flavour: both kernels read the
-input row `[pid * rowStride, pid * rowStride + blockSize)` from `x` and write
-TWO one-cell outputs — the scalar mean at `mean[0]` and the scalar variance at
-`var[0]` (the stores are plain `tl.store(reg, …)` with no offset expression,
-so `write1 = write2 = fun _ => 0` and `Bout1 = Bout2 = 1`). Spelled out, the
-headline says: for **every** rounding model `R`, **every** disjoint flat
-placement of the three interface buffers `x`/`mean`/`var` (∀ base pointers,
-∀ buffer sizes), **every** program id whose row window and output cells land
-inside their buffers, and **every** launch state — **no input hypotheses at
-all**, not even loaded inputs: "equal inputs" is simply "the same `s₀`" —
-both translated pointer kernels terminate under `execR R`, **both output
-cells agree**, and each kernel leaves every cell outside the **union of the
-two one-cell output windows** `{mean[0], var[0]}` untouched (neither kernel
-stages anything through memory, so both scratch lists are empty and the
-scratch leg of the frame is vacuous).
-
-The statement mentions only the two IO signatures and the library equivalence
-surface — **no spec** (the `#stmtSurfaceSubset` gate below enforces this).
-Everything else — the loop invariant and the per-kernel cell-level memory
-characterizations that `hrun` reads **directly**, at the two output cells
-(value agreement, via `welford_eq_two_pass`) and everywhere else (the
-one-cell frames) — is scaffolding. The same characterizations also power the
-region-level refinement `welford_kernels_refinement_view`, which is **not**
-on the headline's proof path; it is kept (and audited) as the named
-`ComputeRefine.Refines` region-level story. The headline carries **no
-positivity hypothesis**: at `blockSize = 0` both recurrences degenerate to
-`0` (`welford_eq_two_pass_total`). The compositional pattern is
-`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean` (the `≡[R]` pilot).
-
-## The exact-ℝ surface
-
-There is no separate exact layer: the headline quantifies over **every**
-rounding model, and at `R := .triv` the `castTo` stores are inert
-(`execR_triv`), so the exact-ℝ equivalence is the headline's degeneration —
-no raw-store twin kernels needed.
+The public condition `blockSize < 2^64` preserves the value of the source's
+`tl.full((), blockSize, tl.uint64)` count before conversion. The empty row is
+included. This result interprets intermediate arithmetic over the reals and
+rounds the two BF16 output stores; it makes no claim of unconditional IEEE
+intermediate equivalence. Row-window bounds and disjoint flat placements are
+provided by the shared `KernelIO₁ₓ₂.Equiv` contract.
 -/
 
 namespace VeriTile.Bench.Examples.Welford
@@ -86,6 +39,30 @@ open VeriTile.Triton.TiledReduction.WelfordRec
 open VeriTile.Examples (InputRowLoadedAt inputLoadedAt_of_programTileView_loaded programTileView rowTileView inputRowLoadedAt_of_rowTileView_loaded
   onlineWelfordLoopBody onlineWelfordLoopBody_castFree InputLoadedAt scalarCellView)
 
+
+open VeriTile.Bench.Examples.WelfordCorrect
+private def nativeTwoStatements (x m v : RegionName) (N stride : Nat) : List Stmt :=
+  (twoPassStatements x m v N stride).take 9 ++
+  [.store .bf16 [] (.region m (.constNat 0))
+    (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "μ"))) .none,
+   .store .bf16 [] (.region v (.constNat 0))
+    (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "v"))) .none]
+
+@[simp] private theorem native_two_algorithm (x m v : RegionName) (N stride : Nat) :
+    (twopassWelfordKernel x m v N stride).toAlgKernel =
+      {inputs:=[x],outputs:=[m,v],body:=nativeTwoStatements x m v N stride} := by rfl
+
+private def nativeOnlineStatements (x m v : RegionName) (N stride : Nat) : List Stmt :=
+  (onlineStatements x m v N stride).take 5 ++
+  [.store .bf16 [] (.region m (.constNat 0))
+    (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [] "M"))) .none,
+   .store .bf16 [] (.region v (.constNat 0))
+    (.castFloat .real .bf16 (.withPrecision .real .fp32
+      (.div .real .nil (.ref .real [] "S") (.ref .real [] "count")))) .none]
+
+@[simp] private theorem native_online_algorithm (x m v : RegionName) (N stride : Nat) :
+    (onlineWelfordKernel x m v N stride).toAlgKernel =
+      {inputs:=[x],outputs:=[m,v],body:=nativeOnlineStatements x m v N stride} := by rfl
 
 /- Interface variables for the sections below — declared **once**, at namespace
 scope, so `Welford.lemmas`, `Welford.theorems` and `Welford.bridge` can all
@@ -236,6 +213,7 @@ private theorem twopass_execR_mem (R : RoundingModel)
     (xReg meanReg varReg : RegionName) (blockSize : Nat)
     (s lhs' : BlockState) (xs : Fin blockSize → ℝ)
     (h_x : InputRowLoadedAt s xReg rowStride blockSize xs)
+    (hWord : blockSize < 2^64)
     (h_mv : meanReg ≠ varReg)
     (hL : execR R (twopassWelfordKernel xReg meanReg varReg blockSize rowStride) s = some lhs')
     (r : RegionName) (o : Nat) :
@@ -243,10 +221,11 @@ private theorem twopass_execR_mem (R : RoundingModel)
       if r = varReg ∧ o = 0 then roundedCell R (twoPassS xs / blockSize)
       else if r = meanReg ∧ o = 0 then roundedCell R (twoPassMean xs)
       else s.mem r o := by
-  simp [execR, twopassWelfordKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
-    Tile.bop, Tile.natToReal, NumericDType.add,
+  have hmod : blockSize % 18446744073709551616 = blockSize := Nat.mod_eq_of_lt hWord
+  simp [execR, native_two_algorithm, nativeTwoStatements, twoPassStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
+    Tile.bop, Tile.natToReal, IntegralDType.mod, NumericDType.add,
     NumericDType.mul, NumericDType.sub, NumericDType.div,
-    ComputeExpr.toAlgorithm?, Tile.reduceSum, Tile.reduceSumDrop,
+    hmod, ComputeExpr.toAlgorithm?, Tile.reduceSum, Tile.reduceSumDrop,
     TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
     WithBot.realMul] at hL
   unfold InputRowLoadedAt at h_x
@@ -267,6 +246,7 @@ private theorem online_execR_mem (R : RoundingModel)
     (xReg meanReg varReg : RegionName) (blockSize : Nat)
     (s rhs' : BlockState) (xs : Fin blockSize → ℝ)
     (h_x : InputRowLoadedAt s xReg rowStride blockSize xs)
+    (hWord : blockSize < 2^64)
     (h_mv : meanReg ≠ varReg)
     (hR : execR R (onlineWelfordKernel xReg meanReg varReg blockSize rowStride) s = some rhs')
     (r : RegionName) (o : Nat) :
@@ -274,6 +254,7 @@ private theorem online_execR_mem (R : RoundingModel)
       if r = varReg ∧ o = 0 then roundedCell R (welfordS xs blockSize / blockSize)
       else if r = meanReg ∧ o = 0 then roundedCell R (welfordMean xs blockSize)
       else s.mem r o := by
+  have hmod : blockSize % 18446744073709551616 = blockSize := Nat.mod_eq_of_lt hWord
   let s0 :=
     ((s.setReg "pid" .nat [] (Tile.scalar (s.pids 0))).setReg
       "M" .real [] (Tile.scalar (some 0))).setReg
@@ -303,13 +284,14 @@ private theorem online_execR_mem (R : RoundingModel)
     rw [stepForLoopAuxR_castFree R (onlineWelfordLoopBody xReg rowStride)
       (onlineWelfordLoopBody_castFree R xReg rowStride) "i" 0 blockSize s0]
     simpa [stepForLoopAux.forLoop_unfold] using hLoop
-  simp [execR, onlineWelfordKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
-    Tile.bop, Tile.natToReal, ComputeExpr.toAlgorithm?] at hR
+  simp [execR, native_online_algorithm, nativeOnlineStatements, onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
+    Tile.bop, Tile.natToReal, IntegralDType.mod, hmod, ComputeExpr.toAlgorithm?] at hR
+  have hzero : (0.0 : ℝ) = 0 := by norm_num
+  simp only [hzero] at hR
   rw [show
       (((s.setReg "pid" .nat [] (Tile.scalar (s.pids 0))).setReg
         "M" .real [] (Tile.scalar (some 0))).setReg
         "S" .real [] (Tile.scalar (some 0))) = s0 from rfl] at hR
-  simp only [onlineWelfordLoopBody] at hLoopR
   rw [hLoopR] at hR
   simp [NumericDType.div, hM, hS] at hR
   subst hR
@@ -353,8 +335,8 @@ private theorem twopass_execR_isSome :
   | some s' => exact ⟨s', rfl⟩
   | none =>
       -- impossible: the straight-line body computes to `some _`
-      simp [execR, twopassWelfordKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
-        Tile.bop, Tile.natToReal, NumericDType.add,
+      simp [execR, native_two_algorithm, nativeTwoStatements, twoPassStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
+        Tile.bop, Tile.natToReal, IntegralDType.mod, NumericDType.add,
         NumericDType.mul, NumericDType.sub, NumericDType.div,
         ComputeExpr.toAlgorithm?, Tile.reduceSum, Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
@@ -393,13 +375,14 @@ private theorem online_execR_isSome (R : RoundingModel)
       (onlineWelfordLoopBody_castFree R xReg rowStride) "i" 0 blockSize s0]
     simpa [stepForLoopAux.forLoop_unfold] using hLoop
   rw [← Option.isSome_iff_exists]
-  simp [execR, onlineWelfordKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
-    Tile.bop, Tile.natToReal, ComputeExpr.toAlgorithm?]
+  simp [execR, native_online_algorithm, nativeOnlineStatements, onlineStatements, stepStmtsR, stepStmtR, evalOpR.eq_def,
+    Tile.bop, Tile.natToReal, IntegralDType.mod, ComputeExpr.toAlgorithm?]
+  have hzero : (0.0 : ℝ) = 0 := by norm_num
+  simp only [hzero]
   rw [show
       (((s.setReg "pid" .nat [] (Tile.scalar (s.pids 0))).setReg
         "M" .real [] (Tile.scalar (some 0))).setReg
         "S" .real [] (Tile.scalar (some 0))) = s0 from rfl]
-  simp only [onlineWelfordLoopBody] at hLoopR
   rw [hLoopR]
   simp [NumericDType.div, hM, hS]
 
@@ -423,6 +406,7 @@ compares only the two final memories, so it cannot supply the per-kernel
 frames against the initial state, and this view carries the `0 < blockSize` /
 loaded-row hypotheses the total obligation avoids. -/
 theorem welford_kernels_refinement_view
+    (hWord : blockSize < 2^64)
     (hin : TensorView.ViewsLoaded s
       [TensorView.slot (rowTileView s xReg rowStride blockSize) xs])
     (h_mv : meanReg ≠ varReg) :
@@ -437,8 +421,8 @@ theorem welford_kernels_refinement_view
   intro s0 lhs' rhs' hL hR hs0
   subst s0
   intro r _hr o
-  rw [twopass_execR_mem rowStride R xReg meanReg varReg blockSize s lhs' xs h_x h_mv hL r o,
-    online_execR_mem rowStride R xReg meanReg varReg blockSize s rhs' xs h_x h_mv hR r o]
+  rw [twopass_execR_mem rowStride R xReg meanReg varReg blockSize s lhs' xs h_x hWord h_mv hL r o,
+    online_execR_mem rowStride R xReg meanReg varReg blockSize s rhs' xs h_x hWord h_mv hR r o]
   by_cases hvar : r = varReg ∧ o = 0
   · simp only [if_pos hvar]
     rw [show twoPassS xs / (blockSize : ℝ) = welfordS xs blockSize / (blockSize : ℝ) from by
@@ -535,8 +519,8 @@ theorem twopass_flattenOk :
     ((twopassWelfordKernel xReg meanReg varReg blockSize rowStride
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [twopassWelfordKernel, ComputeKernel.toAlgKernel,
-    ComputeExpr.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
+  simp [native_two_algorithm, nativeTwoStatements, twoPassStatements,
+    onlineWelfordLoopBody, ComputeExpr.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
 /-- The online kernel (Welford `forLoop` included) sits inside the bridge's
@@ -545,8 +529,8 @@ theorem online_flattenOk :
     ((onlineWelfordKernel xReg meanReg varReg blockSize rowStride
       ).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [onlineWelfordKernel, ComputeKernel.toAlgKernel,
-    ComputeExpr.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
+  simp [native_online_algorithm, nativeOnlineStatements, onlineStatements,
+    onlineWelfordLoopBody, ComputeExpr.toAlgorithm?, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -560,6 +544,8 @@ theorem twopass_traceSafeR (bounds : RegionBounds)
       ((twopassWelfordKernel xReg meanReg varReg blockSize rowStride
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafeR
+  rw [native_two_algorithm]
+  simp only [nativeTwoStatements, twoPassStatements, List.take, List.cons_append, List.nil_append]
   -- pid := program_id(0)
   refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
   intro s1 hs1
@@ -586,6 +572,10 @@ theorem twopass_traceSafeR (bounds : RegionBounds)
         (by simp [BlockState.setReg]) xReg hxb⟩
   intro s3 hs3
   obtain ⟨v3, hv3, rfl⟩ := stepStmtR_assign_inv hs3
+  -- count := uint64(blockSize).to(float32)
+  refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) ?_
+  intro sc hsc
+  obtain ⟨vc, hvc, rfl⟩ := stepStmtR_assign_inv hsc
   -- s_x := sum(x)
   refine Stmt.TraceSafeListR.cons_intro
     (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) ?_
@@ -730,6 +720,8 @@ theorem online_traceSafeR (bounds : RegionBounds)
       ((onlineWelfordKernel xReg meanReg varReg blockSize rowStride
         ).toAlgKernel) s := by
   unfold Kernel.TraceSafeR
+  rw [native_online_algorithm]
+  simp only [nativeOnlineStatements, onlineStatements, List.take, List.cons_append, List.nil_append]
   -- pid := program_id(0)
   refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
   intro s1 hs1
@@ -751,6 +743,10 @@ theorem online_traceSafeR (bounds : RegionBounds)
     exact welfordLoop_traceSafeR xReg blockSize rowStride R bounds (s.pids 0)
       hxb blockSize 0 _ (by omega) (by simp [BlockState.setReg])
   intro s4 hs4
+  -- count := uint64(blockSize).to(float32)
+  refine Stmt.TraceSafeListR.cons_intro (by simp [Stmt.TraceSafeR, Op.SafeAtR.eq_def]) ?_
+  intro sc hsc
+  obtain ⟨vc, hvc, rfl⟩ := stepStmtR_assign_inv hsc
   -- store(meanReg, M.to(bf16))
   refine Stmt.TraceSafeListR.cons_intro ?_ ?_
   · simp only [Stmt.TraceSafeR, MemAccess.SafeAtR, MaskOpt.SafeAtR, Op.SafeAtR]
@@ -799,8 +795,8 @@ def welfordOnlineIO (blockSize rowStride : Nat) : KernelIO₁ₓ₂ :=
 
 /-- **The headline**: the two-pass Welford kernel is equivalent to the online
 (one-pass recurrence) kernel on their shared one-input / two-output IO
-signature, for **every** rounding model and **every** `blockSize`/`rowStride`
-— see the module docstring for the full contract `≡[R]` unfolds to (both
+signature, for **every** rounding model and admitted `blockSize`/`rowStride`
+— see the module docstring for the count bound and full contract `≡[R]` unfolds to (both
 kernels terminate from any state, the mean and variance cells agree, each
 frames outside the two one-cell output windows). Proof:
 `KernelIO₁ₓ₂.Equiv.intro` assembles the region-model equivalence —
@@ -809,7 +805,8 @@ memory characterizations glued by Welford's identity (`welford_eq_two_pass`,
 totalized at `blockSize = 0`), the frames are those same characterizations
 read everywhere outside the two output cells — with the flat-memory bridge side conditions
 (`FlattenOk` + `TraceSafeR` per kernel). -/
-specification welford_equiv (R : RoundingModel) (blockSize rowStride : Nat) :
+specification welford_equiv (R : RoundingModel) (blockSize rowStride : Nat)
+    (hWord : blockSize < 2^64) :
     welfordTwoPassIO blockSize rowStride ≡[R] welfordOnlineIO blockSize rowStride := by
   refine KernelIO₁ₓ₂.Equiv.intro _ _ ?_ ?_ ?_ ?_ ?_
   · -- FlattenOk, two-pass
@@ -841,9 +838,9 @@ specification welford_equiv (R : RoundingModel) (blockSize rowStride : Nat) :
       online_execR_isSome rowStride R ⟨"x"⟩ ⟨"mean"⟩ ⟨"var"⟩ blockSize s₀ _ h_x
     -- the per-kernel cell-level memory characterizations
     have hmem1 := twopass_execR_mem rowStride R ⟨"x"⟩ ⟨"mean"⟩ ⟨"var"⟩
-      blockSize s₀ s1 _ h_x h_mv hexec1
+      blockSize s₀ s1 _ h_x hWord h_mv hexec1
     have hmem2 := online_execR_mem rowStride R ⟨"x"⟩ ⟨"mean"⟩ ⟨"var"⟩
-      blockSize s₀ s2 _ h_x h_mv hexec2
+      blockSize s₀ s2 _ h_x hWord h_mv hexec2
     -- Welford's identity, totalized (no `0 < blockSize` needed)
     obtain ⟨hMeanEq, hSEq⟩ := welford_eq_two_pass_total (n := blockSize)
       (fun j => s₀.readMem ⟨"x"⟩ (s₀.pid * rowStride + j.val))

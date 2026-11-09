@@ -3,7 +3,7 @@ import bench.tritonbench_g.l2_norm_triton1.Proofs.Scalar
 
 namespace VeriTile.Bench.Repairs.L2NormTriton2
 open VeriTile.Triton
-theorem backward_length (N B : Nat) : (backward N B).surfaceBody.length=14 := by rfl
+theorem backward_length (N B : Nat) : (backward N B).surfaceBody.length=16 := by rfl
 
 theorem backward_io (N B : Nat) :
     (backward N B).inputs=["X","DY"] ∧ (backward N B).outputs=["DX"] := ⟨rfl,rfl⟩
@@ -29,11 +29,11 @@ def scalar {α : Type} (M : Algebra α) (N B : Nat) (eps : α) (xs dys : Nat →
     (i : Nat) : α :=
   let cast := M.cast (some .fp32) .real .real
   let bin := M.binary (some .fp32) .real
-  let shifted := bin .add (variance M N B xs) (cast eps)
+  let shifted := bin .add (variance M N B xs) eps
   let one := M.literal (some .fp32) .real 1
   let rstd := bin .div one (M.unary (some .fp32) .sqrt shifted)
-  bin .sub (bin .mul (cast (dys i)) rstd)
-    (bin .mul (bin .mul (bin .mul (dot M N B xs dys) (bin .div one shifted)) rstd) (cast (xs i)))
+  bin .sub (bin .mul (cast (M.fp32Load (dys i))) rstd)
+    (bin .mul (bin .mul (bin .mul (dot M N B xs dys) (bin .div one shifted)) rstd) (cast (M.fp32Load (xs i))))
 
 theorem dot_congr {α : Type} (M : Algebra α) (N B : Nat) (xs dys ys dzs : Nat → α)
     (hx : ∀ i,i<N → xs i=ys i) (hd : ∀ i,i<N → dys i=dzs i) :

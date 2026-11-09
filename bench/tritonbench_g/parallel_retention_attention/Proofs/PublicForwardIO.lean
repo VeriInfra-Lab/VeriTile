@@ -10,11 +10,11 @@ variable {α : Type}
 /-- Compose actual source access safety, source execution, observed values and
 the full cell frame into the shared IO judgment. -/
 theorem forward_implements (a : Scalar α) (p : DotTrees) (s : Shape) (tile : Tile)
-    (valid : ProgramDomain s 128 tile) :
+    (shape : ShapeContract s) (valid : ProgramDomain s 128 tile) :
     (forwardIO a p s tile).Implements (forwardFormula a p s tile) := by
   intro xs _ bounds bounded state binding
-  obtain ⟨final,ran,memory⟩ := forward_run s tile valid state
-  refine ⟨forward_schedule_safe a p s tile valid xs bounds bounded state,final,ran,?_,?_⟩
+  obtain ⟨final,ran,memory⟩ := forward_run s tile shape valid state
+  refine ⟨forward_schedule_safe a p s tile shape valid xs bounds bounded state,final,ran,?_,?_⟩
   · intro o i active
     fin_cases o
     change mapCell (evaluate a p) (final.mem "o" (forwardAddress s tile i)) =

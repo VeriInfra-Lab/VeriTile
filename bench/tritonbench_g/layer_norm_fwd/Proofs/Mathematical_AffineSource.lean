@@ -18,10 +18,18 @@ def coefficientOp (region : RegionName) (block : Nat) : Op .real [block] :=
   .load .real (.region region (.ref .nat [block] "cols"))
     (.mask (.ref .bool [block] "mask"))
 
+def privateWeight (name : RegName) : RegName :=
+  if name="w" then "__veritile_load_5" else "__veritile_load_7"
+def privateBias (name : RegName) : RegName :=
+  if name="b" then "__veritile_load_6" else "__veritile_load_8"
+
 def loadPhase (bias : Bool) (weightRegion biasRegion : RegionName)
     (weightName biasName : RegName) (block : Nat) : List Stmt :=
-  [.assign .real [block] weightName (coefficientOp weightRegion block),
-   .ifThen (.constBool bias) [.assign .real [block] biasName (coefficientOp biasRegion block)]]
+  [.assign .real [block] (privateWeight weightName) (coefficientOp weightRegion block),
+   .assign .real [block] weightName (.ref .real [block] (privateWeight weightName)),
+   .ifThen (.constBool bias)
+     [.assign .real [block] (privateBias biasName) (coefficientOp biasRegion block),
+      .assign .real [block] biasName (.ref .real [block] (privateBias biasName))]]
 
 def normalizedOp (rms : Bool) (block : Nat) : Op .real [block] :=
   .ite (.boolNot (.constBool rms))
@@ -66,7 +74,7 @@ theorem source_phase (f : Flags) (r : Regions) (stride : Strides)
     ComputeKernel.toAlgKernel_fromKernelBody]
   simp only [original, phase, maskStmt, loadPhase, coefficientOp, normalizedOp,
     outputPhase, valueOp, storeStmt, secondStmt,
-    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
+    ComputeKernel.surfaceBody,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawOriginal,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.originalKernel,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.rawIndexCommuted,VeriTile.Bench.Repairs.LayerNormFwdSelectedSource.indexCommutedKernel, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Except.bind, bind,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,

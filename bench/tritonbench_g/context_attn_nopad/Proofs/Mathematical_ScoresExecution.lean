@@ -11,8 +11,8 @@ def mask (p : Layout) (rows : Fin p.BM → Nat) (sn : Int) : Tile .bool [p.BM,p.
   Tile.mat (fun i j => decide (sn+j.val ≤ (rows i : Int)))
 
 theorem mask_eval (p : Layout) (rows : Fin p.BM → Nat) (sn : Int) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn)) :
     evalOp (causalMask p) u = some (mask p rows sn) := by
   simp [causalMask,mask,n,z,rowView,PreludeProgram.rows,keyView,lanes,evalOp.eq_def,hr,hn,hs,
@@ -50,8 +50,8 @@ theorem sentinel_eval (p : Layout) (u : BlockState) :
 theorem executes (p : Layout) (swapped : Bool) (scale : ℝ)
     (rows : Fin p.BM → Nat) (sn : Int)
     (q : Tile .real [p.BM,p.D]) (k : Tile .real [p.D,p.BN]) (u : BlockState)
-    (hr : u.regs .nat [p.BM] "offs_m" = some (Tile.vec rows))
-    (hn : u.regs .nat [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
+    (hr : u.regs .int [p.BM] "offs_m" = some (Tile.vec (fun i => (rows i : Int))))
+    (hn : u.regs .int [p.BN] "offs_n" = some (Tile.vec (fun j => j.val)))
     (hs : u.regs .int [] "start_n" = some (Tile.scalar sn))
     (hq : u.regs .real [p.BM,p.D] "q" = some q)
     (hk : u.regs .real [p.D,p.BN] "k" = some k) :

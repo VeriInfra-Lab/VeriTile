@@ -86,7 +86,7 @@ theorem iteration_safe (s : BlockState) (p : Layout) (l : Launch) (r : Regions)
       (l.head * p.s_h_h + l.time * (p.K * p.s_h_t)) (c * p.BV) (l.key * p.BK)
       (add_nat _ _ _ (l.head * p.s_h_h) (l.time * (p.K * p.s_h_t))
         (mul_ref _ "i_bh" l.head p.s_h_h (by simp [hib]))
-        (mul_ref _ "i_t" l.time (p.K * p.s_h_t) (by simp [hit])))
+        (mul_ref_product _ "i_t" l.time p.K p.s_h_t (by simp [hit])))
       (mul_ref _ "i_v" c p.BV (by simp [hiv]))
       (mul_ref _ "i_k" l.key p.BK (by simp [hik]))))]
   refine ⟨by simp [Stmt.TraceSafe, Op.SafeAt], ?_⟩
@@ -102,7 +102,7 @@ theorem iteration_safe (s : BlockState) (p : Layout) (l : Launch) (r : Regions)
       (l.head * p.s_h_h + l.time * (p.K * p.s_h_t)) (c * p.BV) (l.key * p.BK)
       (add_nat _ _ _ (l.head * p.s_h_h) (l.time * (p.K * p.s_h_t))
         (mul_ref _ "i_bh" l.head p.s_h_h (by simp [hib]))
-        (mul_ref _ "i_t" l.time (p.K * p.s_h_t) (by simp [hit])))
+        (mul_ref_product _ "i_t" l.time p.K p.s_h_t (by simp [hit])))
       (mul_ref _ "i_v" c p.BV (by simp [hiv]))
       (mul_ref _ "i_k" l.key p.BK (by simp [hik]))))]
   refine ⟨by simp [Stmt.TraceSafe, Op.SafeAt], ?_⟩
@@ -121,6 +121,25 @@ theorem iteration_safe (s : BlockState) (p : Layout) (l : Launch) (r : Regions)
 
 /-- Every reached iteration uses the same initial-array access windows.
 The invariant is the one already proved for the complete value loop. -/
+private theorem counted_safe {bounds : RegionBounds} {index : RegName} {stop : Nat}
+    {body : List Stmt} {P : Nat → BlockState → Prop}
+    (hsafe : ∀ i state, i<stop → P i state →
+      Stmt.TraceSafeList bounds body (state.setReg index .nat [] (Tile.scalar i)))
+    (hnext : ∀ i state next, i<stop → P i state →
+      stepStmts body (state.setReg index .nat [] (Tile.scalar i))=some next → P (i+1) next)
+    (cur : Nat) (state : BlockState) (ready : P cur state) :
+    Stmt.forLoopTraceSafe bounds index cur stop body state := by
+  rw [Stmt.forLoopTraceSafe]
+  by_cases active : cur<stop
+  · simp only [active,if_true]
+    refine ⟨hsafe cur state active ready,?_⟩
+    cases ran : stepStmts body (state.setReg index .nat [] (Tile.scalar cur)) with
+    | none => trivial
+    | some next => exact counted_safe hsafe hnext (cur+1) next (hnext cur state next active ready ran)
+  · simp [active]
+termination_by stop-cur
+decreasing_by omega
+
 theorem loop_safe (setup : BlockState) (p : Layout) (l : Launch) (r : Regions)
     (a : Inputs) (bounds : RegionBounds) (hb : Bounds p l r bounds)
     (hzero : setup.undef = fun _ _ => 0)
@@ -134,11 +153,7 @@ theorem loop_safe (setup : BlockState) (p : Layout) (l : Launch) (r : Regions)
     (hinit : RealLoop.Holds setup p l a 0 setup) :
     Stmt.TraceSafe bounds (RealLoop.statement p r) setup := by
   rw [RealLoop.statement, Stmt.TraceSafe]
-  have hs : (cbdStopOp p.V p.BV).SafeAt bounds setup := by
-    simp [cbdStopOp, Op.SafeAt]
-  simp only [Op.SafeAt, hs, true_and, evalOp_constNat,
-    RealLoop.stop_eval, bind, Option.bind_some, Tile.scalar]
-  apply TraceProofs.range_safe (P := RealLoop.Holds setup p l a)
+  apply counted_safe (P := RealLoop.Holds setup p l a)
   · intro c s _ hi
     apply iteration_safe _ p l r bounds hb c
     · simpa using (hi.fixed .nat [] "i_k" (by decide)).trans hik

@@ -14,7 +14,7 @@ theorem output (profile : KernelProfile.Selector) (p : Parameters)
     (hBM : 0<p.BM) (hBN : 0<p.BN) (hM : p.BM∣p.M) (hN : p.BN∣p.N)
     (memory : final.mem=SourceGraph.gridExpectedMemory (KernelProfile.toPlans profile) p initial)
     (m : Fin p.M) (n : Fin p.N) :
-    final.mem p.output (m.val*p.N+n.val)=Cell.mk .real
+    final.mem p.output (m.val*p.N+n.val)=Cell.mk .fp32
       (SourceGraph.tensorValue (KernelProfile.toPlans profile) p initial.mem m.val n.val (p.K/p.BK)) := by
   rw [memory,←SourceGraph.complete_initial_memory_eq_grid _ p initial separate]
   exact SourceGraph.complete_tensor_readback _ p initial hBM hBN hM hN m n
@@ -40,10 +40,10 @@ theorem tensor_formula {α : Type} (plans : SourceGraph.PlanSelector) (p : Param
     (encode : RegionName → Nat → α → Expr) (vals : ChannelValues α (inputs p))
     (mem : SourceGraph.Memory)
     (ha : ∀ (m : Fin p.M) (k : Fin p.K),
-      (mem p.A (m.val*p.K+k.val)).read .real=
+      (mem p.A (m.val*p.K+k.val)).read .fp32=
         encode p.A (m.val*p.K+k.val) (vals (0 : Fin 2) (m,k,())))
     (hb : ∀ (m : Fin p.M) (n : Fin p.N) (k : Fin p.K),
-      (mem p.B (m.val*p.N*p.K+n.val*p.K+k.val)).read .real=
+      (mem p.B (m.val*p.N*p.K+n.val*p.K+k.val)).read .fp32=
         encode p.B (m.val*p.N*p.K+n.val*p.K+k.val) (vals (1 : Fin 2) (m,n,k,())))
     (m : Fin p.M) (n : Fin p.N) (c : Nat) (hc : c≤p.K/p.BK) :
     SourceGraph.tensorValue plans p mem m.val n.val c=
@@ -55,8 +55,8 @@ theorem tensor_formula {α : Type} (plans : SourceGraph.PlanSelector) (p : Param
     congr 1
     unfold SourceGraph.tensorBlock block
     have eq : (fun k : Fin p.BK => Expr.mul
-        ((mem p.A (m.val*p.K+(c*p.BK+k.val))).read .real)
-        ((mem p.B (m.val*p.N*p.K+n.val*p.K+(c*p.BK+k.val))).read .real)) =
+        ((mem p.A (m.val*p.K+(c*p.BK+k.val))).read .fp32)
+        ((mem p.B (m.val*p.N*p.K+n.val*p.K+(c*p.BK+k.val))).read .fp32)) =
         (fun k : Fin p.BK => Expr.mul
           (aValue p encode vals m.val (c*p.BK+k.val))
           (bValue p encode vals m.val n.val (c*p.BK+k.val))) := by
@@ -69,9 +69,9 @@ theorem tensor_formula {α : Type} (plans : SourceGraph.PlanSelector) (p : Param
 theorem real_formula (decode : ValueProofs.Word → ℝ) (profile : KernelProfile.Selector)
     (p : Parameters) (vals : ChannelValues Expr (inputs p)) (mem : SourceGraph.Memory)
     (ha : ∀ (m : Fin p.M) (k : Fin p.K),
-      (mem p.A (m.val*p.K+k.val)).read .real=vals (0 : Fin 2) (m,k,()))
+      (mem p.A (m.val*p.K+k.val)).read .fp32=vals (0 : Fin 2) (m,k,()))
     (hb : ∀ (m : Fin p.M) (n : Fin p.N) (k : Fin p.K),
-      (mem p.B (m.val*p.N*p.K+n.val*p.K+k.val)).read .real=vals (1 : Fin 2) (m,n,k,()))
+      (mem p.B (m.val*p.N*p.K+n.val*p.K+k.val)).read .fp32=vals (1 : Fin 2) (m,n,k,()))
     (hK : p.BK∣p.K) (m : Fin p.M) (n : Fin p.N) :
     SourceGraph.realValue decode (SourceGraph.contract
       (SourceGraph.tensorValue (KernelProfile.toPlans profile) p mem m.val n.val (p.K/p.BK)))=

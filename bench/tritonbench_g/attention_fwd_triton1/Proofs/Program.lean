@@ -61,7 +61,7 @@ def body (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : List ComputeStmt 
 def code (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : List ComputeStmt :=
   [.assign .int [] "i_bh" (.alg (.castNatToInt (.programId 0))),
    .assign .real [c.D,c.D] "b_h" (.compute (.full [c.D,c.D] (.alg .fp32 (.const 0)))),
-   .forRangeDyn "i" (.constNat 0) (.constNat c.chunks) (.constNat 1)
+   .forRange "i" 0 c.chunks 1
      (body c scale storeFlag ifcond)]
 def kernel (c : Shape) (scale : ℝ) (storeFlag ifcond : Bool) : ComputeKernel :=
   source "q" "k" "v" "h" "o" c.headSize c.D 1 c.historyHead c.D c.T scale

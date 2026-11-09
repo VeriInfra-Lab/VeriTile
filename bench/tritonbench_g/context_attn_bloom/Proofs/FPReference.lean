@@ -1,8 +1,16 @@
+import VeriTile.Triton.Float.Integer
 import bench.tritonbench_g.context_attn_bloom.Proofs.FPGrid
 
 namespace VeriTile.Bench.Repairs.ContextAttnBloomWhole001.FPReference
 open VeriTile.Triton FP.Structural FPSuccess
 noncomputable section
+attribute [local simp 2000] FP.Structural.eval_truncDiv FP.Structural.eval_truncMod
+attribute [local simp 2000] VeriTile.Bench.Repairs.ContextAttnFwd.FPSuccess.signed_nat_address
+private theorem source_division (a b : Nat) : (a:Int).tdiv (b:Int)=((a/b:Nat):Int) := by
+  rw [Int.tdiv_eq_ediv_of_nonneg (Int.natCast_nonneg a)]
+  rfl
+attribute [local simp 2000] source_division
+
 set_option maxHeartbeats 16000000
 set_option maxRecDepth 40000
 set_option linter.unusedSimpArgs false
@@ -124,26 +132,25 @@ decreasing_by omega
 def output (p : Layout) (M : Algebra α) (dots : Dot α) (scale : ℝ)
     (a : Inputs α) : Values α .real [p.BM,p.D] :=
   let final := iterate p M dots scale a 0 ((blockMask p a : Int)*keyEnd p a) (initial p M)
-  fun i => M.cast (some .fp32) .real .real
-    (final.weighted i)
+  final.weighted
 
 /-- The exact loop live-register invariant connecting source to recurrence. -/
 def Matches (p : Layout) (M : Algebra α) (a : Inputs α) (acc : Acc p α) (s : State α) : Prop :=
-  s.regs .nat [] "cur_kv_head"=some (fun _ => a.kvHead) ∧
+  s.regs .int [] "cur_kv_head"=some (fun _ => (a.kvHead : Int)) ∧
   s.regs .int [] "cur_batch_req_idx"=some (fun _ => a.request) ∧
   s.regs .int [] "block_end_loc"=some (fun _ => keyEnd p a) ∧
-  s.regs .nat [p.BN] "offs_n"=some (fun i => i.1.val) ∧
-  s.regs .nat [p.D] "offs_d"=some (fun i => i.1.val) ∧
-  s.regs .nat [p.BM] "offs_m"=some (fun i => row p a i.1.val) ∧
+  s.regs .int [p.BN] "offs_n"=some (fun i => (i.1.val : Int)) ∧
+  s.regs .int [p.D] "offs_d"=some (fun i => (i.1.val : Int)) ∧
+  s.regs .int [p.BM] "offs_m"=some (fun i => (row p a i.1.val : Int)) ∧
   s.regs .int [] "prompt_cache_len"=some (fun _ => a.prompt) ∧
   s.regs .real [p.BM,p.D] "q"=some (queryTile p M a) ∧
   s.regs .real [p.BM] "m_i"=some acc.center ∧
   s.regs .real [p.BM] "l_i"=some acc.mass ∧
   s.regs .real [p.BM,p.D] "acc"=some acc.weighted ∧
   s.regs .int [] "cur_batch_in_all_start_index"=some (fun _ => a.start) ∧
-  s.regs .nat [] "cur_head"=some (fun _ => a.head) ∧
+  s.regs .int [] "cur_head"=some (fun _ => (a.head : Int)) ∧
   s.regs .int [] "cur_batch_seq_len"=some (fun _ => a.length) ∧
-  s.regs .nat [] "block_mask"=some (fun _ => blockMask p a)
+  s.regs .int [] "block_mask"=some (fun _ => (blockMask p a : Int))
 
 theorem matches_ready (p : Layout) (M : Algebra α) (a : Inputs α) (acc : Acc p α)
     (s : State α) (h : Matches p M a acc s) : Ready p s := by
@@ -155,18 +162,18 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α) (s : S
       Matches p M (inputs p r s) (initial p M) t ∧ t.mem=s.mem := by
   simp (config := {maxSteps := 500000}) [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,
-    ofFloat,toFloat,Region.cast,Matches,inputs,initial,keyEnd,blockMask,queryTile,row,bop]
+    ofFloat,toFloat,Region.cast,Matches,inputs,initial,keyEnd,blockMask,queryTile,row,bop,Nat.cast_add,Nat.cast_mul]
   simp [funext_iff,bop,Broadcast.leftIndex,Broadcast.rightIndex,queryTile,row]
   simp only [Int.mul_comm (p.BM : Int) (s.pids 2 : Int)]
   constructor
   · split_ifs with h
     · exact (min_eq_left (le_of_lt h)).symm
     · exact (min_eq_right (le_of_not_gt h)).symm
-  · rfl
+  · trivial
 
 
 theorem body (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
@@ -180,7 +187,7 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
   simp (config := {maxSteps := 1000000}) [parts,kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnBloom.Program.kernel,
-    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,ComputeKernel.surfaceBody,
+    VeriTile.Bench.TritonBenchG.ContextAttnBloom.original,VeriTile.Bench.Repairs.ContextAttnBloomSource.kernel,ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,VeriTile.Bench.Repairs.ContextAttnBloomSource.storageProfile,VeriTile.Bench.Repairs.ContextAttnBloomSource.originalKernel,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     ComputeDType.eraseDType,State.setReg,Algebra.withDefaultPrecision,
     resolvePrecision,numeric,numericLt,numericLe,natLt,natLe,integralFloorDiv,integralMod,

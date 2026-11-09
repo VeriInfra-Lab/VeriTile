@@ -1,4 +1,4 @@
-import bench.tritonbench_g.lightning_attention.Grid
+import bench.tritonbench_g.lightning_attention.Proofs.Support.Grid
 import VeriTile.Triton.Float.StructuralSafetyLoops
 
 namespace VeriTile.Bench.Repairs.LightningAttention.KernelOnly.SourceSafety

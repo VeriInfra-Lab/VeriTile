@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_leakyrelu.Sources.Mathematical_ContractedWhole
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.Sources.Mathematical_ContractedWhole
 import bench.tritonbench_g.matmul_leakyrelu.Proofs.Mathematical_RealAlgebra
 
 /-! Exact mathematical projection of the complete original host/grid.

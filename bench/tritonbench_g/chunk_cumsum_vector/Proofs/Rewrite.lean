@@ -70,8 +70,8 @@ No rule is used for inactive feature carries or for the unused final update. -/
     (h : Call) (layout : Geometry.OutputLayout h) (c : Config) (positive : 0<c.BT)
     (p : Geometry.Program h) (u : State α) (hf : u.pids 0=p.feature) (hr : u.pids 1=p.row)
     (finite : FiniteCarry M D h c p u) :
-    ∃ a b, FP.Structural.exec (machine M dot) (Kernels.source h c) u=some a ∧
-      FP.Structural.exec (machine M dot) (Kernels.sumLeft h c) u=some b ∧
+    ∃ a b, FP.Structural.exec (machine M dot) (Kernels.sourceKernel h c) u=some a ∧
+      FP.Structural.exec (machine M dot) (Kernels.sumLeftKernel h c) u=some b ∧
       a.mem=b.mem ∧ FPMemory.Frame h p u a ∧ FPMemory.Frame h p u b := by
   obtain ⟨a,ha,va,fa⟩ := FPExecution.source_correct M dot h layout c positive p u hf hr
   obtain ⟨b,hb,vb,fb⟩ := CandidateExecution.source_correct M dot h layout c positive p u hf hr

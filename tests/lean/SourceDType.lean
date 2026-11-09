@@ -41,6 +41,22 @@ def halfExpected (X V : RegionName) : ComputeKernel := triton {
 theorem half_keeps_store_rounding (X V : RegionName) :
     source X V .fp16 = halfExpected X V := rfl
 
+/-- FP8 storage remains floating and keeps its destination conversion. -/
+def e4Expected (X V : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32, V = tl.float8e4nv
+  value = tl.load(X)
+  p = V + $(0)
+  tl.store(p, (value).to(tl.float8e4nv))
+}
+def e5Expected (X V : RegionName) : ComputeKernel := triton {
+  tl.region X = tl.float32, V = tl.float8e5
+  value = tl.load(X)
+  p = V + $(0)
+  tl.store(p, (value).to(tl.float8e5))
+}
+theorem e4_keeps_floating_store (X V : RegionName) : source X V .f8e4 = e4Expected X V := rfl
+theorem e5_keeps_floating_store (X V : RegionName) : source X V .f8e5 = e5Expected X V := rfl
+
 def masked (X V : RegionName) : ComputeKernel := triton (dtype V := SourceDType.u8) {
   tl.region X = tl.float32
   tl.param n : tl.int64
@@ -123,6 +139,8 @@ def escapedLoopAlias (V : RegionName) : ComputeKernel := triton (dtype V := Sour
 }
 
 #axiomsClean integer_keeps_clamps_and_cast
+#axiomsClean e4_keeps_floating_store
+#axiomsClean e5_keeps_floating_store
 #axiomsClean half_keeps_store_rounding
 #axiomsClean both_arms_and_mask_keep_cast
 end VeriTile.Tests.SourceDType

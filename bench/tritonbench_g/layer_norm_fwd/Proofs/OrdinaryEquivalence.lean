@@ -1,4 +1,4 @@
-import bench.tritonbench_g.layer_norm_fwd.OrdinaryIO
+import bench.tritonbench_g.layer_norm_fwd.Proofs.Support.OrdinaryIO
 
 namespace VeriTile.Bench.Repairs.LayerNormFwdNonzeroTile.OrdinaryEquivalence
 open VeriTile.Triton FP.Structural

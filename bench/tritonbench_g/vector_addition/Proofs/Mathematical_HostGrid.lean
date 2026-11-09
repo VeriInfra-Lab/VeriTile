@@ -1,5 +1,5 @@
 import bench.tritonbench_g.vector_addition.Kernels
-import bench.tritonbench_g.vector_addition.Sources.Mathematical_Value
+import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Value
 
 /-! The wrapper's ceil-divided grid, with every program reading memory left
 by its predecessors. Distinct flat tile windows justify the final initial-

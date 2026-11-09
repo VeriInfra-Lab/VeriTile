@@ -1,4 +1,5 @@
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.IOByteNativeIteration
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.Prefix
 namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain.IOBytes
 open VeriTile.Triton FP.Structural
 noncomputable section
@@ -17,7 +18,7 @@ def iteration (a : Arithmetic α) (native fp8 outputFP8 : Bool) (p : Arguments) 
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : InputBytes fp8 p s)
     (regions : PointerRegions p v) (t : Nat) :
     {next : State α // run a.model (code native fp8 outputFP8 p)
-      (s.setReg "step" .nat [] (fun _=>t))=some next} := by
+      (s.setReg "step" .int [] (fun _=>t))=some next} := by
   cases native
   · exact sourceIteration a fp8 outputFP8 p s v h bytes regions t
   · exact nativeIteration a fp8 outputFP8 p s v h bytes regions t
@@ -40,7 +41,11 @@ theorem iteration_frame (a : Arithmetic α) (native fp8 outputFP8 : Bool) (p : A
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : InputBytes fp8 p s)
     (regions : PointerRegions p v) (t : Nat) :
     (iteration a native fp8 outputFP8 p s v h bytes regions t).val.mem=s.mem := by
-  cases native <;> cases fp8 <;> cases outputFP8 <;> rfl
+  have frame := assignments_frame a.model (code native fp8 outputFP8 p) (by
+    cases native <;> cases fp8 <;> cases outputFP8 <;> rfl)
+    (s.setReg "step" .int [] (fun _=>t)) _
+    (iteration a native fp8 outputFP8 p s v h bytes regions t).property
+  exact frame
 
 theorem iteration_header (a : Arithmetic α) (native fp8 outputFP8 : Bool) (p : Arguments) (s : State α)
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : InputBytes fp8 p s)
@@ -49,13 +54,21 @@ theorem iteration_header (a : Arithmetic α) (native fp8 outputFP8 : Bool) (p : 
   intro d sh name hn
   simp [headerNames] at hn
   rcases hn with rfl|rfl|rfl|rfl|rfl
-  all_goals cases native <;> cases fp8 <;> cases outputFP8 <;> simp [iteration,sourceIteration,nativeIteration]
+  all_goals
+    apply assignments_register a.model (code native fp8 outputFP8 p) _ _
+      (s.setReg "step" .int [] (fun _=>t)) _
+      (iteration a native fp8 outputFP8 p s v h bytes regions t).property d sh
+    cases native <;> cases fp8 <;> cases outputFP8 <;> rfl
 
 theorem iteration_pids (a : Arithmetic α) (native fp8 outputFP8 : Bool) (p : Arguments) (s : State α)
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : InputBytes fp8 p s)
     (regions : PointerRegions p v) (t : Nat) :
     (iteration a native fp8 outputFP8 p s v h bytes regions t).val.pids=s.pids := by
-  cases native <;> cases fp8 <;> cases outputFP8 <;> rfl
+  have unchanged := assignments_pids a.model (code native fp8 outputFP8 p) (by
+    cases native <;> cases fp8 <;> cases outputFP8 <;> rfl)
+    (s.setReg "step" .int [] (fun _=>t)) _
+    (iteration a native fp8 outputFP8 p s v h bytes regions t).property
+  exact unchanged
 
 #axiomsClean iteration_values
 #axiomsClean iteration_frame

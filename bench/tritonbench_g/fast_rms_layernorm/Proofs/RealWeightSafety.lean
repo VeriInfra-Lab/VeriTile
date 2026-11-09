@@ -15,14 +15,14 @@ structure Bounds (h : Call) (K pid : Nat) (bounds : RegionBounds) : Prop where
   output : ∀ j : Fin K,pid*K+j.val<h.cols → pid*K+j.val<bounds "dw"
 
 structure Ready (h : Call) (K pid : Nat) (u : BlockState) : Prop where
-  col : u.regs .nat [K] "col"=some (columns K pid)
+  col : u.regs .int [K] "col"=some (columns K pid)
   mask : u.regs .bool [K] "mask"=some (masks h K pid)
   acc : ∃ a : Fin K → ℝ,u.regs .real [K] "acc"=some (Tile.vec fun j => some (a j))
 
 theorem load_safe (h : Call) (K pid row : Nat) (r : RegionName) (bounds : RegionBounds)
-    (u : BlockState) (hc : u.regs .nat [K] "col"=some (columns K pid))
+    (u : BlockState) (hc : u.regs .int [K] "col"=some (columns K pid))
     (hm : u.regs .bool [K] "mask"=some (masks h K pid))
-    (hr : u.regs .nat [] "row"=some (Tile.scalar row))
+    (hr : u.regs .int [] "row"=some (Tile.scalar (row : Int)))
     (inside : ∀ j : Fin K,pid*K+j.val<h.cols → row*h.cols+(pid*K+j.val)<bounds r) :
     (loadOp h K r).SafeAt bounds u := by
   simp [loadOp,offsetOp,colOp,maskOp,Op.SafeAt.eq_def,MaskOpt.SafeAt,MemAccess.SafeAt,
@@ -32,24 +32,30 @@ theorem load_safe (h : Call) (K pid row : Nat) (r : RegionName) (bounds : Region
   exact inside
 
 theorem inverse_safe (row : Nat) (bounds : RegionBounds) (u : BlockState)
-    (hr : u.regs .nat [] "row"=some (Tile.scalar row)) (inside : row<bounds "r") :
-    (Op.load .real (.region "r" (.ref .nat [] "row")) .none).SafeAt bounds u := by
+    (hr : u.regs .int [] "row"=some (Tile.scalar (row : Int))) (inside : row<bounds "r") :
+    (Op.load .real (.region "r" (.castIntToNat (.ref .int [] "row"))) .none).SafeAt bounds u := by
   simp [Op.SafeAt.eq_def,MaskOpt.SafeAt,MemAccess.SafeAt,MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe,MaskOpt.Active,Op.PointerAddressesSafeOn,Op.MemorySafe,
     evalOp,evalOp.eq_def,hr,Option.bind,inside]
 
 theorem iteration_safe (h : Call) (K pid row : Nat) (bounds : RegionBounds) (u : BlockState)
     (ready : Ready h K pid u) (inside : Bounds h K pid bounds) (hr : row<h.rows) :
-    Stmt.TraceSafeList bounds (loopBody h K) (u.setReg "row" .nat [] (Tile.scalar row)) := by
+    Stmt.TraceSafeList bounds (loopBody h K) (u.setReg "row" .int [] (Tile.scalar (row : Int))) := by
   rw [(bindings h K).2.1]
   unfold body
   apply TraceProofs.assign_cons (load_safe h K pid row "dx" bounds _
     (by simp [ready.col]) (by simp [ready.mask]) (by simp) (inside.upstream row hr))
+  intro dyLoaded
+  apply TraceProofs.assign_cons (by simp [Op.SafeAt.eq_def,refOp])
   intro dy
   apply TraceProofs.assign_cons (load_safe h K pid row "x" bounds _
     (by simp [ready.col]) (by simp [ready.mask]) (by simp) (inside.input row hr))
+  intro xLoaded
+  apply TraceProofs.assign_cons (by simp [Op.SafeAt.eq_def,refOp])
   intro x
   apply TraceProofs.assign_cons (inverse_safe row bounds _ (by simp) (inside.saved row hr))
+  intro invLoaded
+  apply TraceProofs.assign_cons (by simp [Op.SafeAt.eq_def,refOp])
   intro inv
   obtain ⟨acc,ha⟩:=ready.acc
   cases mode : h.gemma
@@ -58,7 +64,7 @@ theorem iteration_safe (h : Call) (K pid row : Nat) (bounds : RegionBounds) (u :
       stepStmt,stepStmts,evalOp,evalOp.eq_def,Option.bind,Tile.bop,NumericDType.add,NumericDType.mul,ha]
 
 theorem next_ready (h : Call) (K pid row : Nat) (u v : BlockState) (ready : Ready h K pid u)
-    (run : stepStmts (loopBody h K) (u.setReg "row" .nat [] (Tile.scalar row))=some v) : Ready h K pid v := by
+    (run : stepStmts (loopBody h K) (u.setReg "row" .int [] (Tile.scalar (row : Int)))=some v) : Ready h K pid v := by
   obtain ⟨acc,ha⟩:=ready.acc
   obtain ⟨w,he,_,_,hc,hm,hacc⟩:=iteration h K pid row u acc ready.col ready.mask ha
   have same : w=v := Option.some.inj (he.symm.trans run)
@@ -67,8 +73,8 @@ theorem next_ready (h : Call) (K pid row : Nat) (u v : BlockState) (ready : Read
 
 theorem loop_safe (h : Call) (K pid : Nat) (bounds : RegionBounds) (u : BlockState)
     (ready : Ready h K pid u) (inside : Bounds h K pid bounds) :
-    Stmt.forRangeTraceSafe bounds "row" 0 h.rows 1 (loopBody h K) u := by
-  apply TraceProofs.range_safe (P:=fun _ s => Ready h K pid s)
+    Stmt.forRangeIntTraceSafe bounds "row" 0 h.rows 1 (loopBody h K) u := by
+  apply IndexProofs.range_safe (P:=fun _ s => Ready h K pid s)
     (fun row s hr ready => iteration_safe h K pid row bounds s ready inside hr)
     (fun row s t _ ready he => next_ready h K pid row s t ready he) 0 u ready
 

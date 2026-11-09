@@ -87,6 +87,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .sub _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mul _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .div _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
+  | .divRN _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .floorDiv _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mod _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .bitAnd _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
@@ -106,6 +107,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .sigmoid a => a.MemorySafe bounds
   | .sqrt a => a.MemorySafe bounds
   | .rsqrt a => a.MemorySafe bounds
+  | .libdeviceRsqrt a => a.MemorySafe bounds
   | .tanh a => a.MemorySafe bounds
   | .sin a => a.MemorySafe bounds
   | .cos a => a.MemorySafe bounds

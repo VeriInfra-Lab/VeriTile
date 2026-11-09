@@ -27,7 +27,7 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α)
   cases candidate <;> cases backward
   all_goals
     simp (config := {maxSteps:=500000}) [TraceSafe,selectedSource,source,indexCommutedSource,
-      forwardKernel,backwardKernel,forwardIndexCommuted,backwardIndexCommuted,
+      forwardKernel,backwardKernel,forwardIndexCommutedKernel,backwardIndexCommutedKernel,
       ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       safeAddress_unfold,safeMask_unfold,addressSafe_unfold,maskActive_unfold,

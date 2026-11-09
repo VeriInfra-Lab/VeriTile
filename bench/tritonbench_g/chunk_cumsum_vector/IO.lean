@@ -25,7 +25,7 @@ def original (M : Algebra α) (dot : DotBackend α) (D : FP.Guarded.Domain α)
     (fun xs => carryDomain M D h c p (xs (⟨0,by decide⟩ : Fin 1)))
 
 /-- Existing candidate swaps only the FP32 carry-add operands. -/
-def sumLeft (M : Algebra α) (dot : DotBackend α) (D : FP.Guarded.Domain α)
+def sumLeftKernel (M : Algebra α) (dot : DotBackend α) (D : FP.Guarded.Domain α)
     (h : Call) (c : Config) (p : Geometry.Program h) :=
   ProgramIO.Implementation.ofVariant (sumLeftVariant M dot h c p)
     (fun xs => carryDomain M D h c p (xs (⟨0,by decide⟩ : Fin 1)))
@@ -38,7 +38,7 @@ open VeriTile.Triton
 noncomputable section
 
 abbrev io (h : Call) (c : Config) (p : Geometry.Program h) : UKernelIO where
-  kernel := (Kernels.source h c).eraseDType
+  kernel := (Kernels.sourceKernel h c).eraseDType
   projection := sourceProjection h c
   nIn := 1
   nOut := 1

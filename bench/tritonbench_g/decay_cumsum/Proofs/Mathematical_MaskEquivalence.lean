@@ -1,5 +1,5 @@
-import bench.tritonbench_g.decay_cumsum.Sources.Mathematical_Kernels
-import bench.tritonbench_g.cache_transform_triton.Sources.Mathematical_IndexRewrite
+import bench.tritonbench_g.decay_cumsum.Proofs.Sources.Mathematical_Kernels
+import bench.tritonbench_g.cache_transform_triton.Proofs.Sources.Mathematical_IndexRewrite
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.MaskEquivalence
 open VeriTile Triton FP.Structural FP.ProfiledRewrite TypedSource
@@ -17,6 +17,16 @@ set_option maxRecDepth 20000
   simp only [FP.Structural.evalOp]
   rw [ha t ht, hb t ht]
 
+/-- Signed source comparisons preserve exact index rewrites. -/
+@[spec_rule] theorem op_int_lt {α : Type} [Inhabited α] (M : Algebra α)
+    (s : State α) (before : List ComputeStmt) (bc : Broadcast sa sb sh)
+    (a a' : Op .int sa) (b b' : Op .int sb)
+    (ha : OpEquivalent M s before a a') (hb : OpEquivalent M s before b b') :
+    OpEquivalent M s before (.lt .int bc a b) (.lt .int bc a' b') := by
+  intro t ht
+  simp only [FP.Structural.evalOp]
+  rw [ha t ht,hb t ht]
+
 def assumptions : Spec.Assumptions FP.GuardedFragment := []
 
 section
@@ -28,7 +38,7 @@ def forwardProgram (swapped : Bool) : Program where
 theorem forward_equiv :
     forwardProgram storage g g_o s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]
     forwardProgram storage g g_o s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true := by
-  cases storage <;> equiv_decompose <;> fp_prove
+  cases storage <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions forward_equiv
 
@@ -41,7 +51,7 @@ def prepareProgram (swapped : Bool) : Program where
 theorem prepare_equiv :
     prepareProgram source gate q k g qg kg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]
     prepareProgram source gate q k g qg kg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true := by
-  cases source <;> cases gate <;> equiv_decompose <;> fp_prove
+  cases source <;> cases gate <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions prepare_equiv
 
@@ -54,7 +64,7 @@ def backwardProgram (swapped : Bool) : Program where
 theorem backward_equiv :
     backwardProgram source gate dq_inner dq_inter dk_inner dk_inter q k g dg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.false ≡[assumptions]
     backwardProgram source gate dq_inner dq_inter dk_inner dk_inter q k g dg s_qk_h s_qk_t s_qk_d B H T BT BK DK scale Bool.true := by
-  cases source <;> cases gate <;> equiv_decompose <;> fp_prove
+  cases source <;> cases gate <;> split_equiv <;> solve_fp
 end
 #print_fp_assumptions backward_equiv
 

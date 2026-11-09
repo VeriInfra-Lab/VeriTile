@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_persistent_triton.Sources.Mathematical_Source
+import bench.tritonbench_g.matmul_persistent_triton.Proofs.Sources.Mathematical_Source
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Mathematical_ScheduleCoverage
 import bench.tritonbench_g.matmul_persistent_triton.Proofs.Mathematical_RealMath
 

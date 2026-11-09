@@ -1,5 +1,5 @@
 import bench.tritonbench_g.attention_fwd_triton1.Proofs.Arithmetic
-import bench.tritonbench_g.attention_fwd_triton1.Sources.Kernels
+import bench.tritonbench_g.attention_fwd_triton1.Proofs.Sources.Kernels
 
 namespace VeriTile.Bench.Repairs.AttentionFwdTriton1.Whole001
 noncomputable section

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_triton2.Sources.Parameters
+import bench.tritonbench_g.matmul_triton2.Proofs.Sources.Parameters
 import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly
@@ -12,7 +12,7 @@ def callSignature : CallSignature where
     ("stride_bn",.integer),("stride_cm",.integer),("stride_cn",.integer)]
   constexpr := ["BLOCK_SIZE_M","BLOCK_SIZE_N","BLOCK_SIZE_K","GROUP_SIZE_M"]
 
-def body (a_ptr b_ptr c_ptr : RegionName)
+def bodyKernel (a_ptr b_ptr c_ptr : RegionName)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     M = tl.cast(M, tl.uint64)
@@ -63,7 +63,7 @@ noncomputable def arguments (p : Core.Parameters) : List ScalarArgument :=
     ScalarArgument.integer "stride_bn" p.weightColumn,ScalarArgument.integer "stride_cm" p.outputRow,
     ScalarArgument.integer "stride_cn" p.outputColumn]
 noncomputable def source (p : Core.Parameters) : ComputeKernel :=
-  (body p.input p.weight p.output p.blockRows p.blockColumns p.blockInner p.groupRows).withScalarArguments (arguments p)
+  (bodyKernel p.input p.weight p.output p.blockRows p.blockColumns p.blockInner p.groupRows).withScalarArguments (arguments p)
 /-- Reuse the loop-invariant row/column comparisons. -/
 def maskHoistedBody (a_ptr b_ptr c_ptr : RegionName)
     (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) : ComputeKernel :=

@@ -1,5 +1,5 @@
 import bench.tritonbench_g.llama_ff_triton.Proofs.Logical
-import bench.tritonbench_g.int_scaled_matmul.Sources.GridExecution
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GridExecution
 
 namespace VeriTile.Bench.Repairs.LlamaFFScalarCast.Execution
 open VeriTile.Triton FP.Structural

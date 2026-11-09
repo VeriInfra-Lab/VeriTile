@@ -18,9 +18,9 @@ theorem native_first (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)
     (value : s.pids 0 + base < bounds V)
     (index : s.pids 0 + base < bounds (Region.cast I)) :
     TraceSafe (TypedScratch.backend round rest) bounds
-      (JITSource.stage1 X V I (JITStage1.floatingType kind) block index64) (JITStage1.arguments s size base) := by
+      (JITSource.stage1Kernel X V I (JITStage1.floatingType kind) block index64) (JITStage1.arguments s size base) := by
   cases kind <;> cases index64 <;>
-    simp [TraceSafe, JITStage1.floatingType, JITSource.stage1, JITStage1.arguments,
+    simp [TraceSafe, JITStage1.floatingType, JITSource.stage1Kernel, JITStage1.arguments,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
@@ -50,9 +50,9 @@ theorem integer_first (kind : Formats.IntegerKind) (primitives : ScalarBinding.I
     (value : s.pids 0 + base < bounds V)
     (index : s.pids 0 + base < bounds (Region.cast I)) :
     TraceSafe (JITInteger.backend kind primitives rest) bounds
-      (JITSource.stage1 X V I (JITInteger.sourceType kind) block index64) (JITStage1.arguments s size base) := by
+      (JITSource.stage1Kernel X V I (JITInteger.sourceType kind) block index64) (JITStage1.arguments s size base) := by
   cases kind <;> cases index64 <;>
-    simp [TraceSafe, JITInteger.sourceType, JITSource.stage1, JITStage1.arguments,
+    simp [TraceSafe, JITInteger.sourceType, JITSource.stage1Kernel, JITStage1.arguments,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
@@ -85,11 +85,11 @@ theorem native_second (kind : TypedScratch.Kind) (round : TypedScratch.Rounding)
     (selected : TypedScratch.secondIndex kind s V size block positive < bounds (Region.cast I))
     (output : 0 < bounds (Region.cast O)) :
     TraceSafe (TypedScratch.backend round rest) bounds
-      (JITSource.stage2 V I O (JITStage1.floatingType kind) block) (s.setReg "mid_size" .int [] (fun _ => (size : Int))) := by
+      (JITSource.stage2Kernel V I O (JITStage1.floatingType kind) block) (s.setReg "mid_size" .int [] (fun _ => (size : Int))) := by
   have pad16 : round.fp16 (4286578688#32) = (4286578688#32) := round.fp16Padding
   have padbf : round.bf16 (4286578688#32) = (4286578688#32) := round.bf16Padding
   cases kind <;>
-    simp [TraceSafe, JITStage1.floatingType, JITSource.stage2,
+    simp [TraceSafe, JITStage1.floatingType, JITSource.stage2Kernel,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
@@ -115,10 +115,10 @@ theorem integer_second (kind : Formats.IntegerKind) (rest : Algebra Word) (s : S
     (values : ∀ i, i < size → i < bounds V)
     (selected : JITInteger.secondIndex kind s V size block < bounds (Region.cast I))
     (output : 0 < bounds (Region.cast O)) :
-    TraceSafe rest bounds (JITSource.stage2 V I O (JITInteger.sourceType kind) block)
+    TraceSafe rest bounds (JITSource.stage2Kernel V I O (JITInteger.sourceType kind) block)
       (s.setReg "mid_size" .int [] (fun _ => (size : Int))) := by
   cases kind <;>
-    simp [TraceSafe, JITInteger.sourceType, JITSource.stage2,
+    simp [TraceSafe, JITInteger.sourceType, JITSource.stage2Kernel,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,

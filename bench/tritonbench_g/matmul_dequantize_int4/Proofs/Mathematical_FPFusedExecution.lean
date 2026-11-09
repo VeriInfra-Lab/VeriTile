@@ -41,7 +41,7 @@ def suffixExecution (M : Algebra Word) (D : DotAcc Word)
       (middleState M D p initial current k) = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [suffix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,ComputeKernel.surfaceBody,
+  simp [suffix,FPCompiled.body,FPCompiled.source,FPCompiled.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.lowerNative,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.carryNode,FPTyped.typed,VeriTile.Bench.TritonBenchG.MatmulDequantizeInt4.Source.originalKernel,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,
     bop,natLt,numericEq,ComputeDType.eraseDType,ofFloat,toFloat,
     FloatDType.numericDType,FloatDType.toTileDType,

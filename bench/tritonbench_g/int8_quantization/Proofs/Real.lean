@@ -20,6 +20,15 @@ def maxAbs : List ℝ → ℝ
 def factor (query : Bool) (channels : Nat) : ℝ :=
   if query then (Real.sqrt (channels : ℝ))⁻¹ * (144269504/100000000) else 1
 
+/-- The mathematical interpretation computes the Q factor from channels;
+there is no supplied factor premise at the public Real entry point. -/
+theorem factor_real (p : Parameters) :
+    ({p with compiled := ConstexprFloat.real} : Parameters).factor = factor p.query p.channels := by
+  cases h : p.query <;>
+    simp [Parameters.factor,factor,h,ConstexprFloat.eval,ConstexprFloat.real,factorTree]
+  rw [Real.rpow_neg (Nat.cast_nonneg p.channels),Real.sqrt_eq_rpow]
+  norm_num
+
 def target (query : Bool) (channels : Nat) (logicalBlock : List ℝ) : List Int × ℝ :=
   let xs := logicalBlock.map (fun x=> factor query channels*x)
   let m := maxAbs xs
@@ -129,6 +138,7 @@ theorem block_correct (query : Bool) (channels : Nat) (logicalBlock : List ℝ) 
     exact scalar_correct x _ (maxAbs_nonneg _) (abs_le_maxAbs _ x hx)
   · rfl
 
+#axiomsClean factor_real
 #axiomsClean bias_trunc
 #axiomsClean source_byte_exact
 #axiomsClean scalar_correct

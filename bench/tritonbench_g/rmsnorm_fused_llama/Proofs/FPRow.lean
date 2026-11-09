@@ -15,14 +15,14 @@ def div (A : Algebra α) := A.binary (some .fp32) .real .div
 def cast (A : Algebra α) := A.cast (some .fp32) .real .real
 def read (s : State α) (r : RegionName) (o : Nat) := (s.mem r o).read .real
 def xload (A : Algebra α) (s : State α) (X : RegionName) (row N k : Nat) :=
-  cast A (if k<N then read s X (row*N+k) else lit A 0)
+  cast A (A.fp32Load (if k<N then read s X (row*N+k) else lit A 0))
 def wload (A : Algebra α) (s : State α) (W : RegionName) (N k : Nat) :=
-  cast A (if k<N then read s W k else s.undef .real W k)
+  cast A (A.fp32Load (if k<N then read s W k else s.undef .real W k))
 def square (A : Algebra α) (s : State α) (X : RegionName) (row N B : Nat) : Values α .real [B] :=
   fun i => add A (lit A 0) (mul A (xload A s X row N i.1.val) (xload A s X row N i.1.val))
 def variance (A : Algebra α) (s : State α) (X : RegionName) (row N B : Nat) :=
   div A (A.reduceSum (some .fp32) (shape:=[B]) ⟨0,by simp⟩ Bool.false
-    (square A s X row N B) PUnit.unit) (lit A (N : ℝ))
+    (square A s X row N B) PUnit.unit) (A.fromNat (some .fp32) N)
 def rstd (A : Algebra α) (s : State α) (X : RegionName) (row N B : Nat) (eps : ℝ) :=
   div A (lit A 1) (A.unary (some .fp32) .sqrt (add A (variance A s X row N B) (lit A eps)))
 def value (A : Algebra α) (s : State α) (X W : RegionName) (row N B : Nat) (eps : ℝ) (k : Nat) :=

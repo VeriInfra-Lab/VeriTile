@@ -1,7 +1,7 @@
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Triton.Float.ExpressionRewrite
 import VeriTile.Meta.StatementAudit
-import bench.tritonbench_g.chunk_gated_attention.Sources.Kernels
+import bench.tritonbench_g.chunk_gated_attention.Kernels
 namespace VeriTile.Bench.Repairs.ChunkGatedAttention.CumulativeSourceFP
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open VeriTile.Bench.Repairs.ChunkGatedAttention
@@ -55,7 +55,7 @@ theorem equivalent :
     original dtype out_dtype input o head time feature T S BT BS BH base
       ≡[([] : Spec.Assumptions FP.GuardedFragment)]
     candidate dtype out_dtype input o head time feature T S BT BS BH base := by
-  equiv_decompose
+  split_equiv
   apply contextual_if_unconditional
   intro t
   change Contextual M t

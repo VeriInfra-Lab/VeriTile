@@ -12,7 +12,7 @@ def packed (strides coords : Fin 4 → Nat) (axes : List (Fin 4)) : Nat :=
 are deliberately ignored by the span comparison, just as in `_tensor`. -/
 def Guard (sizes strides : Fin 4 → Nat) : List (Fin 4) → Prop
   | []=>True
-  | i::is=>Guard sizes strides is ∧ (sizes i≤1 ∨ extent sizes strides is≤strides i)
+  | i::rest=>Guard sizes strides rest ∧ (sizes i≤1 ∨ extent sizes strides rest≤strides i)
 
 theorem packed_bound (sizes strides coords : Fin 4 → Nat) (axes : List (Fin 4))
     (hc : ∀ i∈axes,coords i<sizes i) : packed strides coords axes<extent sizes strides axes := by

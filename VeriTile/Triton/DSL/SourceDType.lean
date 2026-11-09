@@ -6,7 +6,7 @@ Runtime loads, casts, arithmetic, branches and stores remain in the quotation. -
 namespace VeriTile.Triton
 
 inductive SourceDType where
-  | fp16 | bf16 | fp32 | fp64
+  | fp16 | bf16 | fp32 | fp64 | f8e4 | f8e5
   | i8 | i16 | i32 | i64 | u8 | u16 | u32 | u64 | boolean
   deriving DecidableEq, Repr
 
@@ -27,6 +27,7 @@ abbrev Bindings := List (Name × Constant)
 
 def dtypeName : Triton.SourceDType → Name
   | .fp16 => `tl.float16 | .bf16 => `tl.bfloat16 | .fp32 => `tl.float32 | .fp64 => `tl.float64
+  | .f8e4 => `tl.float8e4nv | .f8e5 => `tl.float8e5
   | .i8 => `tl.int8 | .i16 => `tl.int16 | .i32 => `tl.int32 | .i64 => `tl.int64
   | .u8 => `tl.uint8 | .u16 => `tl.uint16 | .u32 => `tl.uint32 | .u64 => `tl.uint64
   | .boolean => `tl.int1
@@ -35,11 +36,11 @@ private def bits : Triton.SourceDType → Nat
   | .fp16 | .bf16 | .i16 | .u16 => 16
   | .fp32 | .i32 | .u32 => 32
   | .fp64 | .i64 | .u64 => 64
-  | .i8 | .u8 => 8
+  | .i8 | .u8 | .f8e4 | .f8e5 => 8
   | .boolean => 1
 
 private def floating : Triton.SourceDType → Bool
-  | .fp16 | .bf16 | .fp32 | .fp64 => Bool.true
+  | .fp16 | .bf16 | .fp32 | .fp64 | .f8e4 | .f8e5 => Bool.true
   | _ => Bool.false
 
 private def signed : Triton.SourceDType → Bool
@@ -230,9 +231,9 @@ partial def lowerStores (dtype : Triton.SourceDType) (aliases : List Name)
 
 macro_rules
   | `(triton (dtype $pointer:ident := $kind:term) { $stmts:tritonStmt* }) => do
-      let kinds : List Triton.SourceDType := [.fp16,.bf16,.fp32,.fp64,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
+      let kinds : List Triton.SourceDType := [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
       let constructors := [``Triton.SourceDType.fp16,``Triton.SourceDType.bf16,``Triton.SourceDType.fp32,
-        ``Triton.SourceDType.fp64,``Triton.SourceDType.i8,``Triton.SourceDType.i16,``Triton.SourceDType.i32,
+        ``Triton.SourceDType.fp64,``Triton.SourceDType.f8e4,``Triton.SourceDType.f8e5,``Triton.SourceDType.i8,``Triton.SourceDType.i16,``Triton.SourceDType.i32,
         ``Triton.SourceDType.i64,``Triton.SourceDType.u8,``Triton.SourceDType.u16,``Triton.SourceDType.u32,
         ``Triton.SourceDType.u64,``Triton.SourceDType.boolean]
       let mut alternatives : Array (TSyntax ``Lean.Parser.Term.matchAlt) := #[]

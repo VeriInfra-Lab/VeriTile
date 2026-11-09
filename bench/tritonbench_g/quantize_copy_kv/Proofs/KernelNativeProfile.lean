@@ -1,6 +1,6 @@
 import bench.tritonbench_g.quantize_copy_kv.Proofs.PtxSigned
 import bench.tritonbench_g.quantize_copy_kv.Proofs.KernelExecution
-import bench.tritonbench_g.quantize_kv_transform.Sources.Mathematical_MixedBits
+import bench.tritonbench_g.quantize_kv_transform.Proofs.Sources.Mathematical_MixedBits
 
 namespace VeriTile.Bench.Repairs.QuantizeCopyKv.KernelNativeProfile
 open VeriTile.Triton FP.Structural

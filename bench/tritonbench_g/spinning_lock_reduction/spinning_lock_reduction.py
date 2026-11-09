@@ -118,3 +118,71 @@ def spinning_lock(P, C, locks, num_sms, k, M, N, stride_cm, stride_cn, BLOCK_SIZ
             spinning_lock_kernel[grid](
                 P, C, locks, num_sms, k, M, N, stride_cm, stride_cn, BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_N=BLOCK_SIZE_N,
                 PHASE=phase, P_NEG=p_neg, C_NEG=c_neg, LOCK_NEG=lock_neg,)
+
+
+
+# Define the Triton kernel
+@triton.jit
+def spinning_lock_kernel_area(P, C, locks, num_sms, k, M, N, stride_cm, stride_cn, BLOCK_SIZE_M: tl.constexpr, BLOCK_SIZE_N: tl.constexpr, PHASE: tl.constexpr, P_NEG: tl.constexpr = False, C_NEG: tl.constexpr = False, LOCK_NEG: tl.constexpr = False):
+    pid = tl.program_id(0).to(tl.int64)
+    tl.static_assert(PHASE == 1 or PHASE == 2)
+    is_reducer = pid.to(tl.uint64) % tl.cast(k, tl.uint64) == 0
+    if (PHASE == 1 and is_reducer) or (PHASE == 2 and not is_reducer):
+        return
+    pid_m = pid // num_sms
+    pid_n = pid % num_sms
+
+    acc = tl.zeros((BLOCK_SIZE_M, BLOCK_SIZE_N), dtype=tl.float32)  # Assuming acc initialization
+
+    lock_ready = -1 if LOCK_NEG else 1
+
+    # Perform reduction for every kth pid
+    for iters in range(1, 10):
+        if is_reducer:
+            next_pid = pid + 1
+
+            while next_pid.to(tl.uint64) < pid.to(tl.uint64) + tl.cast(k, tl.uint64) and next_pid < num_sms:
+                while tl.atomic_cas(locks + next_pid, lock_ready, lock_ready) != lock_ready:
+                    pass
+
+                rm1 = tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+                rn1 = tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+                P_ = P + next_pid * (BLOCK_SIZE_M * BLOCK_SIZE_N) + rm1[:, None] * BLOCK_SIZE_N + rn1[None, :]
+                acc1 = tl.load(P_)
+                if P_NEG:
+                    acc1 = (acc1.to(tl.uint32, bitcast=True) ^ 0x80000000).to(tl.float32, bitcast=True)
+                acc += acc1
+
+                next_pid += 1
+
+        # Store results using temporary storage P for every k-1 pids
+        else:
+            rm1 = tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+            rn1 = tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+            P_ = P + pid * (BLOCK_SIZE_M * BLOCK_SIZE_N) + rm1[:, None] * BLOCK_SIZE_N + rn1[None, :]
+            tl.store(P_, (acc.to(tl.uint32, bitcast=True) ^ 0x80000000).to(tl.float32, bitcast=True) if P_NEG else acc)
+            tl.debug_barrier()
+            tl.atomic_xchg(locks + pid, lock_ready)
+
+        # Store final results in C
+        rm = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M).to(tl.int64)
+        rn = pid_n * BLOCK_SIZE_N + tl.arange(0, BLOCK_SIZE_N).to(tl.int64)
+        C_ = C + rm[:, None] * stride_cm + rn[None, :] * stride_cn
+        mask = (rm < M)[:, None] & (rn < N)[None, :]
+        tl.store(C_, (acc.to(tl.uint32, bitcast=True) ^ 0x80000000).to(tl.float32, bitcast=True) if C_NEG else acc, mask=mask)
+
+
+
+
+def spinning_lock_area(P, C, locks, num_sms, k, M, N, stride_cm, stride_cn, BLOCK_SIZE_M, BLOCK_SIZE_N):
+    _check_inputs(P, C, locks, num_sms, k, M, N, stride_cm, stride_cn, BLOCK_SIZE_M, BLOCK_SIZE_N)
+    grid = (num_sms,)
+    p_neg = P.is_neg()
+    c_neg = C.is_neg()
+    lock_neg = locks.is_neg()
+    # Same-stream launch ordering completes every producer before consumers run.
+    with torch.cuda.device(P.device):
+        for phase in (1, 2):
+            spinning_lock_kernel_area[grid](
+                P, C, locks, num_sms, k, M, N, stride_cm, stride_cn, BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_N=BLOCK_SIZE_N,
+                PHASE=phase, P_NEG=p_neg, C_NEG=c_neg, LOCK_NEG=lock_neg,)

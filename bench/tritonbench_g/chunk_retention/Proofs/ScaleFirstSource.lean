@@ -1,5 +1,5 @@
-import bench.tritonbench_g.chunk_retention.Sources.ForwardOResult
-import bench.tritonbench_g.chunk_retention.Sources.KernelStaging
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.ForwardOResult
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.KernelStaging
 
 namespace VeriTile.Bench.Repairs.ChunkRetention.Whole001.ScaleFirstSource
 open VeriTile Triton FP.Structural FP.ProfiledRewrite KernelModel ForwardOSource
@@ -11,7 +11,7 @@ set_option maxHeartbeats 16000000
 set_option linter.unusedSimpArgs false
 
 def kernel (c : Shape) (scale : ℝ) :=
-  Kernels.forwardOScaleFirst "q" "k" "v" "h" "o"
+  Kernels.forwardOScaleFirstKernel "q" "k" "v" "h" "o"
     (c.T*c.K) c.K 1 (c.T*c.V) c.V 1 (c.chunks*c.K*c.V) c.V
     scale c.H c.T c.K c.V 64 c.BK c.BV
 
@@ -33,7 +33,7 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,kernel,Kernels.forwardOScaleFirst,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp [parts,kernel,Kernels.forwardOScaleFirstKernel,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Source.prefixBefore,Option.map,Option.getD,run,step,evalExpr,evalComputeOp,evalOp_unfold,
     evalOffsets,boundaryZero,Option.bind,engine,withDot,Algebra.withDefaultPrecision,
     resolvePrecision,ComputeDType.eraseDType,numeric,integralFloorDiv,integralMod,KernelModel.signed_head_mod,Int.toNat_mul,Int.toNat_add,Int.toNat_natCast,
@@ -61,7 +61,7 @@ theorem body_eq (c : Shape) (scale : ℝ) :
     (parts c scale).body=(ForwardOSource.parts c scale).body := rfl
 
 theorem source_parts (c : Shape) (scale : ℝ) : (kernel c scale).surfaceBody = (parts c scale).before ++
-    [.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop (parts c scale).stride (parts c scale).body] ++
+    [.forRange "i_k" 0 c.keyBlocks 1 (parts c scale).body] ++
     (parts c scale).after := rfl
 
 theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
@@ -72,14 +72,8 @@ theorem source_memory (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale 
     (entryContext M D c scale s).1 (entryContext M D c scale s).2
   let finish := finishExecution M D c scale s mid hc ha
   refine ⟨finish.val,?_,finishMemory M D c scale s mid hc ha⟩
-  have hl : step (engine (withDot M D)) (.forRangeDyn "i_k" (parts c scale).start (parts c scale).stop
-      (parts c scale).stride (parts c scale).body) start.val=some mid := by
-    have h0 : (parts c scale).start = .constNat 0 := rfl
-    have hn : (parts c scale).stop = .div .nat .nil
-      (.sub .nat .nil (.add .nat .nil (.constNat c.K) (.constNat c.BK)) (.constNat 1)) (.constNat c.BK) := rfl
-    have h1 : (parts c scale).stride = .constNat 1 := rfl
-    simp only [step,h0,hn,h1,evalOp_unfold,Option.bind,Option.bind_some,numeric,bop]
-    exact hm
+  have hl : step (engine (withDot M D)) (.forRange "i_k" 0 c.keyBlocks 1 (parts c scale).body) start.val=some mid := by
+    simpa only [step] using hm
   change run (engine (withDot M D)) (kernel c scale).surfaceBody s=some finish.val
   rw [source_parts,List.append_assoc,run_append,before_eq,start.property]
   simp only [Option.bind_some,List.singleton_append,run,hl,bind,finish.property]

@@ -1,3 +1,5 @@
+import bench.examples.AdamUpdateGridLaunch.IO
+import bench.examples.AdamUpdateGridLaunch.Contract
 import bench.examples.AdamUpdateGridLaunch.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -13,8 +15,6 @@ namespace VeriTile.Bench.Examples.AdamUpdateGridLaunchFPEquiv
 open VeriTile.Bench.Examples.AdamUpdateGridLaunch.Kernels
 open VeriTile Triton FP.Structural FP.GuardedRewrite
 open scoped VeriTile.Spec
-
-abbrev Rules := FP.ScalarArithmetic.Rules
 
 /-- Finite operands after the original common prefix. -/
 def additionSite (lr wd beta1 beta2 : ℝ) (n B : Nat) : Site where
@@ -35,8 +35,8 @@ def optimized (lr wd beta1 beta2 : ℝ) (n B : Nat) : Program :=
 including all registers and memory; failed surrounding executions also agree. -/
 specification adam_update_equiv (lr wd beta1 beta2 : ℝ) (n B : Nat) :
     original lr wd beta1 beta2 n B ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized lr wd beta1 beta2 n B := by
-  equiv_decompose
-  all_goals fp_prove
+  split_equiv
+  all_goals solve_fp
 
 #print_fp_assumptions adam_update_equiv
 #guard_msgs (drop info) in

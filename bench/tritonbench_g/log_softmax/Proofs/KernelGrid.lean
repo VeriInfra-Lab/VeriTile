@@ -20,10 +20,10 @@ def positioned (s : State A) (p k : Nat) : State A :=
 
 def program (d : Direction) (candidate : Bool) (M N K BM C : Nat) : ComputeKernel :=
   match d,candidate with
-  | .forward,Bool.false => Source.forward "output" "input" M N K BM C
-  | .forward,Bool.true => Source.forwardCommuted "output" "input" M N K BM C
-  | .backward,Bool.false => Source.backward "input" "gradient" "output" M N K BM C
-  | .backward,Bool.true => Source.backwardCommuted "input" "gradient" "output" M N K BM C
+  | .forward,Bool.false => Source.forwardKernel "output" "input" M N K BM C
+  | .forward,Bool.true => Source.forwardCommutedKernel "output" "input" M N K BM C
+  | .backward,Bool.false => Source.backwardKernel "input" "gradient" "output" M N K BM C
+  | .backward,Bool.true => Source.backwardCommutedKernel "input" "gradient" "output" M N K BM C
 
 def coord (M N K BM C : Nat) (p : Nat × Nat) (i : TileIndex [BM,C]) : Option (Coord M N K) :=
   if h : Kernel.active M N K BM p.1 p.2 i then
@@ -86,7 +86,8 @@ theorem source_value [Inhabited A] (d : Direction) (e : Kernel.Engine A C)
 theorem address_active (M N K BM p k : Nat) (i : TileIndex [BM,C])
     (h : Kernel.active M N K BM p k i) :
     Kernel.address M N K BM p k i = offset N K (p*BM+i.1.val) i.2.1.val k := by
-  simp only [Kernel.address,offset,Nat.min_eq_left (show p*BM+i.1.val≤M-1 by exact Nat.le_pred_of_lt h.1),
+  rw [Kernel.address_nat M N K BM p k i (by have := h.1; omega) (by have := h.2.1; omega) (by have := h.2.2; omega)]
+  simp only [offset,Nat.min_eq_left (show p*BM+i.1.val≤M-1 by exact Nat.le_pred_of_lt h.1),
     Nat.min_eq_left (show i.2.1.val≤N-1 by exact Nat.le_pred_of_lt h.2.1),
     Nat.min_eq_left (show k≤K-1 by exact Nat.le_pred_of_lt h.2.2)]
 

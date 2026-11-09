@@ -61,10 +61,18 @@ def reverseBeforeStores [Inhabited α] (a : Arithmetic α) (s : Shape) (b : Inpu
     State (Staged.Node α) :=
   let x := inputs (layout s b) initial
   let t := s.T-1-r
+  let u := u.setReg "__veritile_load_4" .real [s.BV] (fun i =>
+    Staged.atom (valueLoad a s x.do_ pid.head t (pid.value s i.1.val)))
   let u := u.setReg "_do" .real [s.BV] (fun i => Staged.atom (valueLoad a s x.do_ pid.head t (pid.value s i.1.val)))
+  let u := u.setReg "__veritile_load_5" .real [s.BK] (fun i =>
+    Staged.atom (keyLoad a s x.q pid.head t (pid.key s i.1.val)))
   let u := u.setReg "_q" .real [s.BK] (fun i =>
     Staged.tagged .scaledQuery (a.mul (keyLoad a s x.q pid.head t (pid.key s i.1.val)) (a.scale s.DK)))
+  let u := u.setReg "__veritile_load_6" .real [s.BK] (fun i =>
+    Staged.atom (keyLoad a s x.k pid.head t (pid.key s i.1.val)))
   let u := u.setReg "_k" .real [s.BK] (fun i => Staged.atom (keyLoad a s x.k pid.head t (pid.key s i.1.val)))
+  let u := u.setReg "__veritile_load_7" .real [s.BV] (fun i =>
+    Staged.atom (valueLoad a s x.v pid.head t (pid.value s i.1.val)))
   let u := u.setReg "_v" .real [s.BV] (fun i => Staged.atom (valueLoad a s x.v pid.head t (pid.value s i.1.val)))
   let u := u.setReg "d_h" .real [s.BK,s.BV] (fun i =>
     Staged.tagged .reverseState (programAdjoint a s x final pid t i.1.val i.2.1.val))
@@ -89,7 +97,7 @@ def reverseScatter [Inhabited α] (a : Arithmetic α) (s : Shape) (b : InputBuff
 def reverseBodyResult [Inhabited α] (a : Arithmetic α) (s : Shape) (b : InputBuffers)
     (plans : Plans) (initial u : State (Staged.Node α)) (final : Bool) (pid : ProgramId) (r : Nat) :
     State (Staged.Node α) :=
-  let u := u.setReg "_t" .nat [] (fun _ => r)
+  let u := u.setReg "_" .nat [] (fun _ => r)
   let u := reverseScatter a s b plans initial final pid r
     (reverseBeforeStores a s b plans initial u final pid r)
   let u := u.setReg "p_do" .ptr [s.BV] (fun i : TileIndex [s.BV] => (("do" : RegionName),reverseDoOffset (layout s b) pid (r+1) i.1.val))

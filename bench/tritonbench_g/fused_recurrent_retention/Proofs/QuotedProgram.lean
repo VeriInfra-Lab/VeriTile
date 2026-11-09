@@ -1,6 +1,7 @@
-import bench.tritonbench_g.fused_recurrent_retention.SurfaceSource
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.Support.SurfaceSource
 import VeriTile.Triton.Float.ProfiledRewrite
 import VeriTile.Meta.StatementAudit
+import bench.tritonbench_g.triton_conv2d_fwd.Proofs.UnitRanges
 
 namespace VeriTile.Bench.Repairs.FusedRecurrentRetention.Quoted
 open VeriTile.Triton
@@ -64,21 +65,32 @@ def backward (p : Layout) (r : BackwardRegions) (hasSeed hasFinal : Bool) : Comp
     p.BK p.BV p.DK p.DV hasSeed hasFinal
 
 def forwardParts (p : Layout) (r : ForwardRegions) (hasSeed storeFinal : Bool) : Source.DynamicRange :=
-  (Source.dynamicRange? (forward p r hasSeed storeFinal).surfaceBody "_t").getD
+  (Source.dynamicRange? (forward p r hasSeed storeFinal).surfaceBody "_").getD
     ⟨[], .constNat 0, .constNat 0, .constNat 0, [], []⟩
 
 def backwardFirst (p : Layout) (r : BackwardRegions) (hasSeed hasFinal : Bool) : Source.DynamicRange :=
   (Source.dynamicRange? (backward p r hasSeed hasFinal).surfaceBody "i").getD
     ⟨[], .constNat 0, .constNat 0, .constNat 0, [], []⟩
 
+/-- Proof-only decomposition of the actual single-argument counted loop. -/
+def countedParts? (code : List ComputeStmt) (index : RegName) : Option Source.DynamicRange :=
+  match code with
+  | [] => none
+  | st::rest =>
+    match st with
+    | .forLoop name stop body =>
+      if name=index then some ⟨[],.constNat 0,.constNat stop,.constNat 1,body,rest⟩
+      else (countedParts? rest index).map fun part => {part with before:=st::part.before}
+    | _ => (countedParts? rest index).map fun part => {part with before:=st::part.before}
+
 def backwardSecond (p : Layout) (r : BackwardRegions) (hasSeed hasFinal : Bool) : Source.DynamicRange :=
-  (Source.dynamicRange? (backwardFirst p r hasSeed hasFinal).after "_t").getD
+  (countedParts? (backwardFirst p r hasSeed hasFinal).after "_").getD
     ⟨[], .constNat 0, .constNat 0, .constNat 0, [], []⟩
 
 theorem forward_split (p : Layout) (r : ForwardRegions) (hasSeed storeFinal : Bool) :
     (forward p r hasSeed storeFinal).surfaceBody =
       (forwardParts p r hasSeed storeFinal).before ++
-        [.forRange "_t" 0 p.T 1 (forwardParts p r hasSeed storeFinal).body] ++
+        [.forRange "_" 0 p.T 1 (forwardParts p r hasSeed storeFinal).body] ++
         (forwardParts p r hasSeed storeFinal).after := by rfl
 
 theorem backward_split (p : Layout) (r : BackwardRegions) (hasSeed hasFinal : Bool) :
@@ -86,7 +98,7 @@ theorem backward_split (p : Layout) (r : BackwardRegions) (hasSeed hasFinal : Bo
       (backwardFirst p r hasSeed hasFinal).before ++
         [.forRange "i" 0 p.T 1 (backwardFirst p r hasSeed hasFinal).body] ++
         (backwardSecond p r hasSeed hasFinal).before ++
-        [.forRange "_t" 0 p.T 1 (backwardSecond p r hasSeed hasFinal).body] := by rfl
+        [.forLoop "_" p.T (backwardSecond p r hasSeed hasFinal).body] := by rfl
 
 #axiomsClean forward_split
 #axiomsClean backward_split

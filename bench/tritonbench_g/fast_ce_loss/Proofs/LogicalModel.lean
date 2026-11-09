@@ -27,7 +27,7 @@ def forwardLoss (M : Algebra α) (p : Parameters) (x : Fin p.block → α)
 
 def chunkLoss (M : Algebra α) (p : Parameters) (label : Int) (target : α) : α :=
   if label = -100 then literal M 0 else
-    binary M .mul (literal M (-1)) (cast M (cap M p (forwardScale M p (cast M target))))
+    binary M .mul (literal M (-1)) (cast M (cap M p (forwardScale M p (cast M (M.fp32Load target)))))
 
 /-- The existing source-ordered derivative, including the literal ignored-row
 zero, actual FP32 loads and stores, and backward multiplication order. -/
@@ -41,8 +41,8 @@ def gradient (M : Algebra α) (p : Parameters) (col : Nat) (label : Int)
     binary M .mul (backwardScale M p corrected)
       (binary M .sub (literal M 1) (binary M .mul t t))
     else backwardScale M p corrected
-  cast M (if label = -100 then literal M 0 else
-    binary M .mul (M.fp32Load upstream) derivative)
+  if label = -100 then literal M 0 else
+    binary M .mul (M.fp32Load upstream) derivative
 
 variable [Inhabited α]
 

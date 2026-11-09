@@ -1,6 +1,6 @@
 import bench.tritonbench_g.chunk_retention_ops.Proofs.KernelGradientRealResults
-import bench.tritonbench_g.chunk_retention_ops.Sources.KernelGradientFrame
-import bench.tritonbench_g.chunk_retention_ops.Sources.RealBody
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.KernelGradientFrame
+import bench.tritonbench_g.chunk_retention_ops.Proofs.Sources.RealBody
 namespace VeriTile.Bench.Repairs.ChunkRetentionOps.Whole001.KernelReal
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open KernelBackward (PID)

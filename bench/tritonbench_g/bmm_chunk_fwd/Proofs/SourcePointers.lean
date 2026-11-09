@@ -1,4 +1,5 @@
-import bench.tritonbench_g.bmm_chunk_fwd.Proofs.NativeBridge
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.FPInputs
+import bench.tritonbench_g.bmm_chunk_fwd.Proofs.Geometry
 
 namespace VeriTile.Bench.Repairs.BmmChunkFwd.SourcePointers
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
@@ -22,11 +23,11 @@ def coordinates (h : Host.Call) (c : Host.Config) (p : Geometry.PID h c) : Coord
     Geometry.p0 p/Host.cdiv h.shape.chunk c.N,Geometry.p0 p%Host.cdiv h.shape.chunk c.N⟩
 
 def Controls {α : Type} (d : Coordinates) (s : State α) : Prop :=
-  s.regs .nat [] "pid_b"=some (fun _ => d.batch) ∧
-  s.regs .nat [] "pid_c"=some (fun _ => d.chunk) ∧
-  s.regs .nat [] "pid_h"=some (fun _ => d.head) ∧
-  s.regs .nat [] "pid_m"=some (fun _ => d.m) ∧
-  s.regs .nat [] "pid_n"=some (fun _ => d.n)
+  s.regs .int [] "pid_b"=some (fun _ => (d.batch : Int)) ∧
+  s.regs .int [] "pid_c"=some (fun _ => (d.chunk : Int)) ∧
+  s.regs .int [] "pid_h"=some (fun _ => (d.head : Int)) ∧
+  s.regs .int [] "pid_m"=some (fun _ => (d.m : Int)) ∧
+  s.regs .int [] "pid_n"=some (fun _ => (d.n : Int))
 
 theorem minimum (a b : Nat) : (if a<b then a else b)=min a b := by
   by_cases h : a<b
@@ -36,6 +37,9 @@ theorem minimum (a b : Nat) : (if a<b then a else b)=min a b := by
 def row (c : Host.Config) (d : Coordinates) (i : Nat) := d.m*c.M+i
 def col (c : Host.Config) (d : Coordinates) (i : Nat) := d.n*c.N+i
 def limit (h : Host.Call) (d : Coordinates) := min h.shape.chunk (h.shape.seqlen-d.chunk*h.shape.chunk)
+def signedLimit (h : Host.Call) (d : Coordinates) : Int :=
+  min (h.shape.chunk : Int) ((h.shape.seqlen : Int)-(d.chunk : Int)*h.shape.chunk)
+
 def aOffset (h : Host.Call) (c : Host.Config) (d : Coordinates) (q i e : Nat) :=
   FPGrid.inputOffset (Host.prepared h.shape h.aStrides) d.batch
     (d.chunk*h.shape.chunk+row c d i) d.head (q*c.K+e)
@@ -55,12 +59,12 @@ values after the final (possibly padded) advance when q equals the loop stop. -/
 def StateAt {α : Type} (h : Host.Call) (c : Host.Config) (d : Coordinates)
     (q : Nat) (s : State α) : Prop :=
   Controls d s ∧
-  s.regs .nat [c.M] "offs_m"=some (fun i => row c d i.1) ∧
-  s.regs .nat [c.N] "offs_n"=some (fun i => col c d i.1) ∧
-  s.regs .nat [c.K] "offs_k"=some (fun i => i.1.val) ∧
+  s.regs .int [c.M] "offs_m"=some (fun i => (row c d i.1 : Int)) ∧
+  s.regs .int [c.N] "offs_n"=some (fun i => (col c d i.1 : Int)) ∧
+  s.regs .int [c.K] "offs_k"=some (fun i => (i.1.val : Int)) ∧
   s.regs .ptr [c.M,c.K] "a_ptrs"=some (fun i => (h.A,aOffset h c d q i.1 i.2.1)) ∧
   s.regs .ptr [c.K,c.N] "b_ptrs"=some (fun i => (h.B,bOffset h c d q i.1 i.2.1)) ∧
-  s.regs .nat [] "chunk_size_limit"=some (fun _ => limit h d) ∧
+  s.regs .int [] "chunk_size_limit"=some (fun _ => signedLimit h d) ∧
   Has s .real [c.M,c.N] "acc" ∧
   (h.hasSeq=Bool.true → s.regs .ptr [] "seq_idx_ptr"=some (fun _ => (Region.cast h.Seq,seqBase h d)))
 
@@ -78,8 +82,8 @@ theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
   rcases hc with ⟨h0,h1,h2,h3,h4⟩
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -87,25 +91,27 @@ theorem setup {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.
       h0,h1,h2,h3,h4,aOffset,bOffset,FPGrid.inputOffset,row,col,limit,seqBase,
       Nat.add_mul,Nat.mul_add,Nat.mul_assoc,Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
   all_goals
-    repeat' constructor
+    repeat' apply And.intro
     all_goals
       funext i
-      simp [bop, minimum, Nat.add_mul,Nat.mul_add,Nat.mul_assoc,
+      simp only [FP.Structural.bop,FP.Structural.numericLt,Int.ofNat_eq_natCast,
+        decide_eq_true_eq,signedLimit,← min_def_lt]
+      try simp only [← Int.natCast_add,← Int.natCast_mul,Int.toNat_natCast]
+      all_goals simp [Nat.add_mul,Nat.mul_add,Nat.mul_assoc,
         Nat.add_assoc,Nat.add_comm,Nat.add_left_comm]
-      all_goals omega
 
 theorem body {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config)
     (d : Coordinates) (q : Nat) (s : State α) (hs : StateAt h c d q s)
     (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
     ∃ t, run (engine o.algebra) (parts h c).body
-      (s.setReg "k" .nat [] (fun _ => q))=some t ∧
+      (s.setReg "k" .int [] (fun _ => q))=some t ∧
       StateAt h c d (q+1) t ∧ t.mem=s.mem := by
   rcases hs with ⟨⟨h0,h1,h2,h3,h4⟩,h5,h6,h7,h8,h9,h10,h11,hseq⟩
   obtain ⟨acc,h11⟩ := Option.isSome_iff_exists.mp h11
   cases seq : h.hasSeq
   all_goals
-    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,
-      ha,hb,seq,Source.conditional?,Source.dynamicRange?,ComputeKernel.surfaceBody,
+    simp (config := {maxSteps := 400000}) [parts,branch,Kernels.source,Host.Call.kernel,TypedSource.specialize,VeriTile.Bench.Repairs.BmmChunkFwd.Kernels.mainSource,VeriTile.Bench.Repairs.BmmChunkFwd.originalKernel,
+      ha,hb,seq,Source.conditional?,Source.signedRange?,ComputeKernel.surfaceBody,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,Ops.algebra,ComputeDType.eraseDType,
       numeric,natLt,natLe,numericLt,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,
@@ -121,16 +127,16 @@ theorem body {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.C
 theorem iterations {α : Type} [Inhabited α] (o : Ops α) (h : Host.Call) (c : Host.Config)
     (d : Coordinates) (cur stop : Nat) (hc : cur≤stop) (s : State α)
     (hs : StateAt h c d cur s) (ha : h.aStorage=.fp32) (hb : h.bStorage=.fp32) :
-    ∃ t, range (engine o.algebra) "k" cur stop 1 (parts h c).body s=some t ∧
+    ∃ t, rangeInt (engine o.algebra) "k" cur stop 1 (parts h c).body s=some t ∧
       StateAt h c d stop t ∧ t.mem=s.mem := by
   by_cases less : cur<stop
   · obtain ⟨mid,hm,hr,hmem⟩ := body o h c d cur s hs ha hb
     obtain ⟨t,ht,htr,htm⟩ := iterations o h c d (cur+1) stop (by omega) mid hr ha hb
     refine ⟨t,?_,htr,htm.trans hmem⟩
-    rw [range,if_neg (by decide),if_pos less,hm]
+    rw [rangeInt_nat_step,if_neg (by decide),if_pos less,hm]
     exact ht
   · have eq : cur=stop := by omega
-    exact ⟨s,by rw [range,if_neg (by decide),if_neg less],eq ▸ hs,rfl⟩
+    exact ⟨s,by rw [rangeInt_nat_step,if_neg (by decide),if_neg less],eq ▸ hs,rfl⟩
 termination_by stop-cur
 
 #axiomsClean setup

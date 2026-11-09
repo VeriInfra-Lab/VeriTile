@@ -106,7 +106,7 @@ theorem executes (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ)
     ((f12345.registers .ptr [p.BN,p.D] "v_ptrs" (by decide)).trans hs.value_ptrs) hn5
     ((f12345.registers .int [] "cur_batch_in_all_start_index" (by decide)).trans hs.start)
     ((f12345.registers .int [] "cur_batch_seq_len" (by decide)).trans hs.sequence)
-    ((f12345.registers .nat [p.BN] "offs_n" (by decide)).trans hs.lanes)
+    ((f12345.registers .int [p.BN] "offs_n" (by decide)).trans hs.lanes)
   have f6 := Frames.values p r group start sn last s5
   have f123456 := then_frame f12345 f6
   have hv6 : s6.regs .real [p.BN,p.D] "v" = some vt := by

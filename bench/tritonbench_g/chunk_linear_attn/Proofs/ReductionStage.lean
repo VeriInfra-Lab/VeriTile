@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_linear_attn.ReductionIO
+import bench.tritonbench_g.chunk_linear_attn.Proofs.Support.ReductionIO
 
 namespace VeriTile.Bench.Repairs.ChunkLinearAttn.LibraryReduction
 open VeriTile Triton FP.Structural

@@ -71,6 +71,7 @@ theorem gather_input [Inhabited α] (r : Request) (h : InputContract r)
     (table : ∀ q,q<r.outputRows → s.mem p.rows q=.mk .int (rows q))
     (tableValues : 0<r.count → ∀ q,q<r.outputRows → rows q=(tableRows r.mode r.naturalLengths q : Int))
     (payload : ∀ o,o<capacity*(r.width*4) → s.mem p.cache o=.mk .nat (cache o))
+    (byteBounds : ∀ o,o<capacity*(r.width*4) → cache o<256)
     (valid : ValidLengths r.mode r.naturalLengths capacity)
     (extent : capacity*r.width*4<2^63) (positive : 0<p.count) :
     GatherInput p s r.outputRows capacity (tableRows r.mode r.naturalLengths) cache := by
@@ -80,7 +81,7 @@ theorem gather_input [Inhabited α] (r : Request) (h : InputContract r)
   have rowBytes : 0<r.width*4 := by
     rw [count,Request.count,Nat.mul_assoc] at positive
     exact Nat.pos_of_mul_pos_left positive
-  refine ⟨shape,by simpa only [width] using rowBytes,freshCache,freshRows,?_,?_,?_,?_⟩
+  refine ⟨shape,by simpa only [width] using rowBytes,freshCache,freshRows,?_,?_,?_,?_,?_⟩
   · intro q hq
     rw [table q hq,tableValues nonempty q hq]
   · intro q hq
@@ -90,11 +91,14 @@ theorem gather_input [Inhabited α] (r : Request) (h : InputContract r)
     rw [←Nat.mul_assoc] at bigger
     omega
   · simpa only [width] using payload
+  · simpa only [width] using byteBounds
 
 /-- Complete actual-source byte outputs for both kernels, successful execution
 and every tagged cell outside the two destination windows. -/
 theorem complete [Inhabited α] (M : Algebra α) (r : Request) (h : InputContract r)
     (cosBytes sinBytes : Nat → Nat) (cosRows sinRows : Nat → Int) (s : State α)
+    (cosByteBounds : ∀ o,o<r.cosRows*(r.width*4) → cosBytes o<256)
+    (sinByteBounds : ∀ o,o<r.sinRows*(r.width*4) → sinBytes o<256)
     (cosTableValues : 0<r.count → ∀ q,q<r.outputRows → cosRows q=(tableRows r.mode r.naturalLengths q : Int))
     (sinTableValues : 0<r.count → ∀ q,q<r.outputRows → sinRows q=(tableRows r.mode r.naturalLengths q : Int)) :
     let first := initial r cosBytes sinBytes cosRows sinRows s
@@ -110,13 +114,13 @@ theorem complete [Inhabited α] (M : Algebra α) (r : Request) (h : InputContrac
   have inputsCos : 0<(cosine r).count → GatherInput (cosine r) first r.outputRows r.cosRows
       (tableRows r.mode r.naturalLengths) cosBytes := by
     apply gather_input r h (cosine r) r.cosRows cosBytes cosRows first rfl rfl
-      (by simp [cosine,sine]) (by simp [cosine,sine]) _ cosTableValues _ valid.1 h.2.2.1
+      (by simp [cosine,sine]) (by simp [cosine,sine]) _ cosTableValues _ cosByteBounds valid.1 h.2.2.1
     · intro q hq; simp [first,initial,cosine]
     · intro o ho; simp [first,initial,cosine]
   have inputsSin : 0<(sine r).count → GatherInput (sine r) first r.outputRows r.sinRows
       (tableRows r.mode r.naturalLengths) sinBytes := by
     apply gather_input r h (sine r) r.sinRows sinBytes sinRows first rfl rfl
-      (by simp [cosine,sine]) (by simp [cosine,sine]) _ sinTableValues _ valid.2 h.2.2.2.1
+      (by simp [cosine,sine]) (by simp [cosine,sine]) _ sinTableValues _ sinByteBounds valid.2 h.2.2.2.1
     · intro q hq; simp [first,initial,sine]
     · intro o ho; simp [first,initial,sine]
   obtain ⟨hc,hs,hf⟩ := pair_correct M (cosine r) (sine r) first r.outputRows r.cosRows r.sinRows
@@ -127,7 +131,7 @@ theorem complete [Inhabited α] (M : Algebra α) (r : Request) (h : InputContrac
 #axiomsClean launch_success
 #axiomsClean pair_success
 #axiomsClean complete
-#specNonCircular mathematical avoiding [source,pair,initial,gather,pairGather]
+#specNonCircular mathematical avoiding [source,VeriTile.Bench.Repairs.CacheTransform.bodyKernel,pair,initial,gather,pairGather]
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end

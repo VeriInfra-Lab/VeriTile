@@ -1,4 +1,4 @@
-import bench.tritonbench_g.context_attn_fwd.NativeIO
+import bench.tritonbench_g.context_attn_fwd.Proofs.Support.NativeIO
 
 namespace VeriTile.Bench.Repairs.ContextAttnFwd.NativeArrayResults
 open VeriTile.Triton FP.Structural NativeFormula NativeArrayBridge

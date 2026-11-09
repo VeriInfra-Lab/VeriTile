@@ -15,13 +15,13 @@ def nativeBodyExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     (fp8 outputFP8 : Bool) (p : Arguments) (s : State α)
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : Int8Memory s) (t : Nat) :
     {next : State α // run a.model (selectedBody fp8 outputFP8 p)
-      (s.setReg "step" .nat [] (fun _ => t))=some next} := by
+      (s.setReg "step" .int [] (fun _ => t))=some next} := by
   cases fp8 <;> cases outputFP8
   all_goals
     refine ⟨?_,?_⟩
     swap
     simp [selectedBody,dotIndex,carryDotNode,fp,matrixRef,
-      body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,run,
+      body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,TypedSource.rmsKernel,ComputeKernel.surfaceBody,run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
       Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,

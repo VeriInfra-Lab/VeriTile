@@ -136,7 +136,7 @@ theorem value (p : Ops) (g : KernelInterface.Geometry) (words : RegionName → N
     eval (lower p) (schedule g) (Grid.value algebra (entry words other) Bool.false
       (g.B) (g.H) (g.S)
       (g.D) g.Q (g.D) row k) =
-    target p g (fun b => (other.mem "L" b).read .nat) (words "E")
+    target p g (fun b => ((other.mem "L" b).read .int).toNat) (words "E")
       (words "M") row (lane k) := by
   have hb : LengthBounds g (entry words other) := by
     simpa only [LengthBounds,entry,inputState,show ¬(("L" : RegionName)="E" ∨ "L"="M") by decide,if_false] using bounds

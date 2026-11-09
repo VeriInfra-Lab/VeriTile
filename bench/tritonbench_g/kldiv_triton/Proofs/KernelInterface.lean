@@ -1,6 +1,6 @@
 import bench.tritonbench_g.kldiv_triton.Proofs.ForwardIO
 import bench.tritonbench_g.kldiv_triton.Proofs.BackwardLoop
-import bench.tritonbench_g.int_scaled_matmul.Sources.GridExecution
+import bench.tritonbench_g.int_scaled_matmul.Proofs.Sources.GridExecution
 
 namespace VeriTile.Bench.Repairs.KldivTriton.Kernel.RawGrid
 open VeriTile.Triton FP.Structural

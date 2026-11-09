@@ -1,4 +1,4 @@
-import bench.tritonbench_g.chunk_retention.Sources.Whole
+import bench.tritonbench_g.chunk_retention.Proofs.Sources.Whole
 import bench.tritonbench_g.chunk_retention.Proofs.Transport
 import VeriTile.Triton.Float.ScalarOps
 

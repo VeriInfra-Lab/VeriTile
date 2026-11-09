@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_dequantize.Proofs.Mathematical_FPFirstComplete
-import bench.tritonbench_g.matmul_dequantize.Sources.Kernels
+import bench.tritonbench_g.matmul_dequantize.Proofs.Sources.Kernels
 import bench.tritonbench_g.matmul_dequantize.Proofs.Grid
 
 namespace VeriTile.Bench.Repairs.MatmulDequantizeWhole001.FirstGrid

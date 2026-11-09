@@ -31,7 +31,7 @@ theorem body_equal (p : Scalar α) (rest : Algebra α) (cfg : Source.Parameters)
   intro st member state
   cases dm : cfg.divM <;> cases dn : cfg.divN <;> cases dk : cfg.divK
   all_goals
-    simp only [Source.body,Source.parts,Source.kernel,VeriTile.Triton.Source.dynamicRange?,
+    simp only [Source.body,Source.parts,Source.kernel,Source.sourceKernel,Source.candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,
       ComputeKernel.surfaceBody,dm,dn,dk,Option.map,Option.getD,beq_self_eq_true,↓reduceIte,
       List.mem_cons,List.not_mem_nil,or_false] at member
     repeat' first
@@ -49,7 +49,7 @@ theorem prelude_equal (p : Scalar α) (rest : Algebra α) (cfg : Source.Paramete
       FP.Structural.run (engine p rest) (Source.prelude cfg) s := by
   cases dm : cfg.divM <;> cases dn : cfg.divN <;> cases dk : cfg.divK
   all_goals
-    simp only [Source.prelude,Source.parts,Source.kernel,VeriTile.Triton.Source.dynamicRange?,
+    simp only [Source.prelude,Source.parts,Source.kernel,Source.sourceKernel,Source.candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,
       ComputeKernel.surfaceBody,dm,dn,dk,Option.map,Option.getD,beq_self_eq_true,↓reduceIte,
       engine,Execution.run,Execution.step,Execution.localStep,FP.Structural.run,FP.Structural.step]
     rfl
@@ -61,7 +61,7 @@ theorem epilogue_equal (p : Scalar α) (rest : Algebra α) (cfg : Source.Paramet
       FP.Structural.run (engine p rest) (Source.epilogue cfg) s := by
   cases dm : cfg.divM <;> cases dn : cfg.divN <;> cases dk : cfg.divK
   all_goals
-    simp only [Source.epilogue,Source.parts,Source.kernel,VeriTile.Triton.Source.dynamicRange?,
+    simp only [Source.epilogue,Source.parts,Source.kernel,Source.sourceKernel,Source.candidateKernel,Bool.false_eq_true,Bool.true_eq,VeriTile.Triton.Source.dynamicRange?,
       ComputeKernel.surfaceBody,dm,dn,dk,Option.map,Option.getD,beq_self_eq_true,↓reduceIte,
       engine,Execution.run,Execution.step,Execution.localStep,FP.Structural.run,FP.Structural.step]
     rfl

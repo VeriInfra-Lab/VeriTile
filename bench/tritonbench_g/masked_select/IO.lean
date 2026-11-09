@@ -6,8 +6,8 @@ import VeriTile.Triton.Float.LogicalProgramIO
 
 /-! Public kernel input/output channels. Prepared prefix sums are explicit
 inputs, with their inclusive-count meaning stated as a logical domain. The
-kernel source remains FP32/Bool/Int64; Nat is the proven nonnegative prefix
-projection, and `.real` is the source interpreter's FP32 payload channel. -/
+kernel source remains FP32/Bool/Int64; .int is the signed prefix
+channel, and `.real` is the source interpreter's FP32 payload channel. -/
 namespace VeriTile.Bench.Repairs.MaskedSelect.IO
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.TritonBenchG.MaskedSelect TypedCopy Whole StableSelection
@@ -16,7 +16,7 @@ noncomputable section
 
 abbrev channels (p : Parameters) : List IOChannel :=
   [⟨.real, [p.size], p.input⟩, ⟨.bool, [p.size], p.selection.cast⟩,
-   ⟨.nat, [p.size], p.prefixSum.cast⟩]
+   ⟨.int, [p.size], p.prefixSum.cast⟩]
 abbrev Inputs (α : Type) (p : Parameters) := ChannelValues α (channels p)
 
 def payload {α : Type} [Inhabited α] {p : Parameters} (vals : Inputs α p) (i : Nat) : α :=
@@ -27,7 +27,7 @@ def mask {α : Type} {p : Parameters} (vals : Inputs α p) (i : Nat) : Bool :=
 
 /-- An input relation, independent of the source execution or output cells. -/
 def Prefixes {α : Type} (p : Parameters) (vals : Inputs α p) : Prop :=
-  ∀ i : Fin p.size, vals 2 (i, PUnit.unit) = count (mask vals) (i.val + 1)
+  ∀ i : Fin p.size, vals 2 (i, PUnit.unit) = (count (mask vals) (i.val + 1) : Int)
 
 /-- The actual selected source and complete one-dimensional launch ABI. -/
 def launch {α : Type} (rest : Algebra α) (p : Parameters) (pid : Nat) : Invocation α where
@@ -93,7 +93,7 @@ noncomputable section
 structure Inputs (p : Parameters) where
   payload : Fin p.size → ℝ
   mask : Fin p.size → Bool
-  inclusive : Fin p.size → Nat
+  inclusive : Fin p.size → Int
 
 def inputs (p : Parameters) : IO.Inputs ℝ p ≃ Inputs p where
   toFun := fun xs => ⟨(fun j => xs (0 : Fin 3) (j,())),
@@ -111,7 +111,7 @@ def Inputs.selected {p : Parameters} (xs : Inputs p) (i : Nat) : Bool :=
 
 /-- Exactly the original prepared prefix relation; wrapper preparation is external. -/
 def prefixes (p : Parameters) (xs : Inputs p) : Prop :=
-  ∀ i : Fin p.size, xs.inclusive i = count xs.selected (i.val+1)
+  ∀ i : Fin p.size, xs.inclusive i = (count xs.selected (i.val+1) : Int)
 
 /-- Capacity remains n; the original IO exposes only count(mask,n) active outputs. -/
 def view (rest : Algebra ℝ) (p : Parameters) (config : Config) :

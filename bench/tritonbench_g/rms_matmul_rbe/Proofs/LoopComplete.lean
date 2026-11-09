@@ -1,5 +1,6 @@
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.Loop
 import bench.tritonbench_g.rms_matmul_rbe.Proofs.NativeLoop
+import bench.tritonbench_g.rms_matmul_rbe.Proofs.Prefix
 
 namespace VeriTile.Bench.Repairs.RmsMatmulRbeScalarDomain
 open VeriTile.Triton FP.Structural
@@ -11,6 +12,9 @@ theorem body_pids {α : Type} [Inhabited α] (a : Arithmetic α)
     (fp8 outputFP8 : Bool) (p : Arguments) (s : State α)
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : Int8Memory s) (t : Nat) :
     (bodyExecution a fp8 outputFP8 p s v h bytes t).val.pids=s.pids := by
+  apply assignments_pids a.model (body fp8 outputFP8 p) _
+    (s.setReg "step" .int [] (fun _=>t)) _
+    (bodyExecution a fp8 outputFP8 p s v h bytes t).property
   cases fp8 <;> cases outputFP8 <;> rfl
 
 theorem loopExecutionFull {α : Type} [Inhabited α] (a : Arithmetic α)
@@ -18,13 +22,13 @@ theorem loopExecutionFull {α : Type} [Inhabited α] (a : Arithmetic α)
     (bytes : Int8Memory initial) (count cur : Nat) (current : State α)
     (bound : cur≤count) (same : current.mem=initial.mem)
     (h : LoopRegisters (loopValues a fp8 p initial v cur) current) :
-    ∃ final, range a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
+    ∃ final, rangeInt a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
       LoopRegisters (loopValues a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
       HeaderPreserved current final ∧ final.pids=current.pids := by
   have aux : ∀ left cur (current : State α),count-cur=left → cur≤count →
       current.mem=initial.mem →
       LoopRegisters (loopValues a fp8 p initial v cur) current →
-      ∃ final,range a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
+      ∃ final,rangeInt a.model "step" cur count 1 (body fp8 outputFP8 p) current=some final ∧
         LoopRegisters (loopValues a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
         HeaderPreserved current final ∧ final.pids=current.pids := by
     intro left
@@ -47,11 +51,11 @@ theorem loopExecutionFull {α : Type} [Inhabited α] (a : Arithmetic α)
         refine ⟨final,?_,hv,hf,HeaderPreserved.trans current next.val final
           (body_header a fp8 outputFP8 p current _ hr byteCurrent cur) hh,
           hp.trans (body_pids a fp8 outputFP8 p current _ hr byteCurrent cur)⟩
-        rw [range,if_neg (by decide),if_pos less,next.property]
+        rw [rangeInt,if_neg (by decide),if_pos (show (cur:Int)<(count:Int) by omega),next.property]
         exact he
       · have equal : cur=count := by omega
         subst cur
-        exact ⟨current,by rw [range,if_neg (by decide),if_neg (by omega)],hr,hm,
+        exact ⟨current,by rw [rangeInt,if_neg (by decide),if_neg (by omega)],hr,hm,
           HeaderPreserved.refl current,rfl⟩
   exact aux _ _ _ rfl bound same h
 
@@ -61,6 +65,9 @@ theorem native_body_pids {α : Type} [Inhabited α] (a : Arithmetic α)
     (fp8 outputFP8 : Bool) (p : Arguments) (s : State α)
     (v : LoopValues α) (h : LoopRegisters v s) (bytes : Int8Memory s) (t : Nat) :
     (nativeBodyExecution a fp8 outputFP8 p s v h bytes t).val.pids=s.pids := by
+  apply assignments_pids a.model (selectedBody fp8 outputFP8 p) _
+    (s.setReg "step" .int [] (fun _=>t)) _
+    (nativeBodyExecution a fp8 outputFP8 p s v h bytes t).property
   cases fp8 <;> cases outputFP8 <;> rfl
 
 theorem nativeLoopExecutionFull {α : Type} [Inhabited α] (a : Arithmetic α)
@@ -68,13 +75,13 @@ theorem nativeLoopExecutionFull {α : Type} [Inhabited α] (a : Arithmetic α)
     (bytes : Int8Memory initial) (count cur : Nat) (current : State α)
     (bound : cur≤count) (same : current.mem=initial.mem)
     (h : LoopRegisters (nativeLoopValues a fp8 p initial v cur) current) :
-    ∃ final, range a.model "step" cur count 1 (selectedBody fp8 outputFP8 p) current=some final ∧
+    ∃ final, rangeInt a.model "step" cur count 1 (selectedBody fp8 outputFP8 p) current=some final ∧
       LoopRegisters (nativeLoopValues a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
       HeaderPreserved current final ∧ final.pids=current.pids := by
   have aux : ∀ left cur (current : State α),count-cur=left → cur≤count →
       current.mem=initial.mem →
       LoopRegisters (nativeLoopValues a fp8 p initial v cur) current →
-      ∃ final,range a.model "step" cur count 1 (selectedBody fp8 outputFP8 p) current=some final ∧
+      ∃ final,rangeInt a.model "step" cur count 1 (selectedBody fp8 outputFP8 p) current=some final ∧
         LoopRegisters (nativeLoopValues a fp8 p initial v count) final ∧ final.mem=initial.mem ∧
         HeaderPreserved current final ∧ final.pids=current.pids := by
     intro left
@@ -97,11 +104,11 @@ theorem nativeLoopExecutionFull {α : Type} [Inhabited α] (a : Arithmetic α)
         refine ⟨final,?_,hv,hf,HeaderPreserved.trans current next.val final
           (native_body_header a fp8 outputFP8 p current _ hr byteCurrent cur) hh,
           hp.trans (native_body_pids a fp8 outputFP8 p current _ hr byteCurrent cur)⟩
-        rw [range,if_neg (by decide),if_pos less,next.property]
+        rw [rangeInt,if_neg (by decide),if_pos (show (cur:Int)<(count:Int) by omega),next.property]
         exact he
       · have equal : cur=count := by omega
         subst cur
-        exact ⟨current,by rw [range,if_neg (by decide),if_neg (by omega)],hr,hm,
+        exact ⟨current,by rw [rangeInt,if_neg (by decide),if_neg (by omega)],hr,hm,
           HeaderPreserved.refl current,rfl⟩
   exact aux _ _ _ rfl bound same h
 

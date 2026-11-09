@@ -14,12 +14,12 @@ theorem source_safe (M : Algebra α) [Inhabited α] (p : Parameters)
     (input : ∀ i, i<p.n → i<bounds p.x)
     (output : ∀ i, i<p.n → i<bounds p.output) (s : State α) :
     TraceSafe M bounds (candidateKernel p.x p.output p.n p.block) s := by
-  simp [TraceSafe,candidateKernel,ComputeKernel.surfaceBody,
+  simp [TraceSafe,candidateKernel,sourceKernel,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
-    State.setReg,numericLt,natLt,bop,Region.cast,
+    State.setReg,numeric,signed_offset,signed_mask,numericLt,natLt,bop,Region.cast,
     ComputeDType.eraseDType,Broadcast.leftIndex,Broadcast.rightIndex,
     input,output]
   refine ⟨fun i h=>input _ h,fun i h=>output _ h,?_⟩

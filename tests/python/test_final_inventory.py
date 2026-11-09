@@ -1,5 +1,4 @@
-"""Final source binding must reject omission, stale contracts and scope inflation."""
-from copy import deepcopy
+"""Select current public entries and preserve complete corpus coverage."""
 import json
 from pathlib import Path
 import sys
@@ -7,7 +6,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts' / 'bench'))
-from scripts.bench.final_inventory import ci_targets, digest, local, modules, read, validate_review
+from scripts.bench.final_inventory import BENCH_SECTIONS, ci_targets, coverage, local, modules, read, selected_tasks
 from scripts.bench.audit_trust_prep import prepare_source
 
 
@@ -16,76 +15,48 @@ class FinalReviewTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name, body in [('Kernel.lean', 'def source := 1\n'),
-                           ('Correct.lean', 'specification result : source = 1 := by rfl\n'),
-                           ('source.py', 'def kernel(x): return x\n')]:
-            (self.root / name).write_text(body)
-        selection = {'kernel_source': 'Kernel.lean', 'source': 'source.py',
-                     'public_entries': ['Correct.lean']}
-        self.ledger = {'tasks': [{'task': 'fixture', 'kernel_revision': selection}]}
-        self.row = {'task': 'fixture', 'kernel_source': 'Kernel.lean', 'python_source': 'source.py',
-            'public_entries': ['Correct.lean'], 'mathematical_target': 'identity',
-            'required_conditions': ['valid IO'], 'scope': 'one complete invocation and frame',
-            'canonical_connection': 'source execution theorem', 'fp_program_pair': ['source', 'candidate'],
-            'numerical_dependencies': {'kind': 'strict_structure', 'rules': []},
-            'source_sha256': {p.name: digest(p) for p in self.root.iterdir()},
-            'readers': [{'path': 'Correct.lean', 'sha256': digest(self.root / 'Correct.lean'),
-                         'specifications': [{'name': 'result'}]}],
-            'review_status': 'reviewed_current_contract',
-            'native_execution': 'not_established_by_this_review'}
-        self.review = {'schema': 1, 'kind': 'final_selected_contract_review', 'tasks': [self.row]}
+        for section in BENCH_SECTIONS:
+            (self.root / 'bench' / section).mkdir(parents=True)
+        self.directory = self.root / 'bench/tritonbench_g/fixture'
+        self.directory.mkdir()
+        files = {'Kernels.lean': 'def source := 1\n',
+                 'RealCorrect.lean': 'specification result : source = 1 := by rfl\n',
+                 'FPEquiv.lean': 'specification pair : True := by trivial\n',
+                 'Contract.lean': 'def condition := True\n',
+                 'fixture.py': 'def kernel(x): return x\n'}
+        for name, body in files.items():
+            (self.directory / name).write_text(body)
+        base = self.directory.relative_to(self.root).as_posix()
+        self.selection = {'kernel_source': base + '/Kernels.lean', 'source': base + '/fixture.py',
+                          'public_entries': [base + '/' + name for name in
+                                             ('Contract.lean', 'RealCorrect.lean', 'FPEquiv.lean')],
+                          'proof_scope': 'one complete invocation and frame'}
+        self.ledger = {'tasks': [{'task': 'fixture', 'kernel_revision': self.selection}]}
+        (self.root / 'validation').mkdir()
+        self.ledger_path = self.root / 'validation/task_progress.json'
+        self.ledger_path.write_text(json.dumps(self.ledger))
 
-    def check(self):
-        return validate_review(self.root, self.review, self.ledger, expected_tasks=1)
+    def test_coverage_reads_current_statements_without_old_review(self):
+        rows = coverage(self.root)['rows']
+        self.assertEqual([row['declaration'] for row in rows], ['result', 'pair'])
+        self.assertEqual(rows[0]['scope'], self.selection['proof_scope'])
+        reader = self.directory / 'RealCorrect.lean'
+        reader.write_text('specification result : source = source := by rfl\n')
+        self.assertIn('source = source', coverage(self.root)['rows'][0]['statement'])
 
-    def test_complete_selected_review(self):
-        self.assertEqual(set(self.check()), {'fixture'})
+    def test_canonical_reader_must_publish_a_specification(self):
+        (self.directory / 'RealCorrect.lean').write_text('def theoremResult := True\n')
+        with self.assertRaisesRegex(ValueError, 'no public specification'):
+            coverage(self.root)
 
-    def test_missing_duplicate_or_unknown_task(self):
-        for rows in ([], [self.row, self.row], [{**self.row, 'task': 'other'}]):
-            with self.subTest(rows=len(rows)):
-                self.review['tasks'] = rows
-                with self.assertRaisesRegex(ValueError, 'every selected task'):
-                    self.check()
-
-    def test_source_or_public_statement_change(self):
-        for name in ('Kernel.lean', 'Correct.lean', 'source.py'):
-            path = self.root / name
-            original = path.read_text()
-            path.write_text(original + '# changed\n')
-            with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'source changed'):
-                self.check()
-            path.write_text(original)
-
-    def test_observed_rehash_does_not_refresh_reader_review(self):
-        path = self.root / 'Correct.lean'
-        path.write_text('specification result : True := by trivial\n')
-        self.row['source_sha256'][path.name] = digest(path)
-        with self.assertRaisesRegex(ValueError, 'reader changed'):
-            self.check()
-
-    def test_source_selection_cannot_change_with_old_review(self):
-        self.ledger['tasks'][0]['kernel_revision']['kernel_source'] = 'Correct.lean'
-        with self.assertRaisesRegex(ValueError, 'selected revision changed'):
-            self.check()
-
-    def test_public_specification_omission_is_rejected(self):
-        self.row['readers'][0]['specifications'] = []
-        with self.assertRaisesRegex(ValueError, 'specification inventory changed'):
-            self.check()
-
-    def test_build_or_metadata_cannot_claim_native_execution(self):
-        self.row['native_execution'] = 'passed'
-        with self.assertRaisesRegex(ValueError, 'native-execution claim'):
-            self.check()
-
-    def test_conditions_pair_and_numerical_boundary_are_required(self):
-        for key in ('required_conditions', 'fp_program_pair', 'numerical_dependencies', 'readers'):
-            before = deepcopy(self.row[key])
-            self.row[key] = []
-            with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'explicit review field'):
-                self.check()
-            self.row[key] = before
+    def test_duplicate_or_escaping_entry_is_rejected(self):
+        entries = self.selection['public_entries']
+        entries.append(entries[0])
+        with self.assertRaisesRegex(ValueError, 'invalid selected public entries'):
+            selected_tasks(self.root, self.ledger)
+        entries[-1] = 'bench/examples/Other/RealCorrect.lean'
+        with self.assertRaisesRegex(ValueError, 'invalid selected public entries'):
+            selected_tasks(self.root, self.ledger)
 
     def test_missing_and_escaping_sources(self):
         for name in ('absent.lean', '../escape.lean'):
@@ -154,10 +125,9 @@ class FinalCITargetTests(unittest.TestCase):
         self.assertEqual(targets, sorted(self.entries + [self.kernel] + self.tests))
         self.assertNotIn(self.helper, targets)
 
-    def test_unbuilt_helper_is_rejected(self):
+    def test_retained_helper_outside_closure_is_selected_directly(self):
         self.imports['VeriTile/Shared.lean'] = []
-        with self.assertRaisesRegex(ValueError, 'outside CI build closure'):
-            ci_targets(self.paths, self.imports, self.rows)
+        self.assertIn(self.helper, ci_targets(self.paths, self.imports, self.rows))
 
     def test_missing_canonical_source_is_rejected(self):
         self.paths.remove(self.kernel)

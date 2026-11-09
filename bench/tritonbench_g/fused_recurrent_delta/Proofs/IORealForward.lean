@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fused_recurrent_delta.MathematicalIO
+import bench.tritonbench_g.fused_recurrent_delta.Proofs.Support.MathematicalIO
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.MathAgreement
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.IOResult
 import bench.tritonbench_g.fused_recurrent_delta.Proofs.KernelRealSource
