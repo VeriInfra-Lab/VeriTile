@@ -1,7 +1,7 @@
 import bench.tritonbench_g.vector_addition.Proofs.Support.Parameters
 import bench.tritonbench_g.vector_addition.Proofs.Sources.Mathematical_Kernels
 import VeriTile.Triton.Float.ScalarOps
-import VeriTile.Triton.Float.Structural
+import VeriTile.Triton.Float.MaskedScatter
 import VeriTile.Meta.StatementAudit
 
 /-! Complete original per-program execution in the structural scalar
@@ -39,12 +39,8 @@ theorem masked_scatter_memory {α ι : Type} (xs : List ι)
     (xs.foldl (fun t i => if active i then t.write region (off i) (value i)
       else t) s).mem =
       xs.foldl (fun mem i => if active i then fun r o =>
-        if r = region ∧ o = off i then value i else mem r o else mem) s.mem := by
-  induction xs generalizing s with
-  | nil => rfl
-  | cons i rest ih =>
-    simp only [List.foldl_cons, ih]
-    by_cases hi : active i <;> simp only [hi, ↓reduceIte] <;> rfl
+        if r = region ∧ o = off i then value i else mem r o else mem) s.mem :=
+  State.masked_scatter_memory xs active region off value s
 
 theorem expectedMemory_eq_scatter {α : Type} [Inhabited α] (M : Algebra α)
     (p : Parameters) (s : State α) :
