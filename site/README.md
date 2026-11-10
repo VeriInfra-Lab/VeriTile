@@ -174,7 +174,7 @@ The base prefix is currently hard-coded so the same Markdown serves dev
 Bench / scripts links should point to GitHub:
 
 ```markdown
-[`scripts/bench/check_ports.sh`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/scripts/bench/check_ports.sh)
+[`scripts/bench/check_ports.sh`](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/scripts/bench/check_ports.sh)
 ```
 
 ## Re-syncing from `documents/`
@@ -209,7 +209,7 @@ fragments; changes to theorem meanings still require documentation review.
 ## Deployment
 
 Pushing to `main` with changes under `site/**`, `documents/**`,
-`bench/tritonbench_g/**`, the Lean toolchain, or the vector-add showcase triggers
+the Lean toolchain, or the vector-add showcase triggers
 `.github/workflows/site.yml`, which runs `bun install` + `bun run build`
 and uploads `site/dist/` as a Pages artifact. First-time setup needs the
 repo's **Settings → Pages → Source** set to **"GitHub Actions"**; after
