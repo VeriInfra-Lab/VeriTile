@@ -368,6 +368,7 @@ globs = [
   "tests.lean.NestedReturns",
   "tests.lean.NoneMemoryMasks",
   "tests.lean.NonnegativeReadViews",
+  "tests.lean.OptimizedCoreRealExamples",
   "tests.lean.OptionalPointers",
   "tests.lean.OptionalStringConstants",
   "tests.lean.OptionalStringReference",
