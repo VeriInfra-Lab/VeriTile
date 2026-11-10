@@ -47,7 +47,7 @@ areas:
 
 - [Top-level README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/README.md)
   — quick-start + theorem-surface chooser.
-- [`bench/tritonbench_g/` README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/bench/tritonbench_g.md)
+- [`bench/tritonbench_g/` README](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/tritonbench_g.md)
   — bench layout, port checklist, kernel inventory.
 - [`scripts/` README](https://github.com/VeriInfra-Lab/VeriTile/blob/main/scripts/README.md)
   — what each script does and how CI uses them.

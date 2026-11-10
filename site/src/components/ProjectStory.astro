@@ -8,7 +8,7 @@ import { corpus, proofInventory, vectorAddBodies } from '../lib/project-data';
 const { docsBase, github } = Astro.props;
 const copy = homeStory;
 const themes = { light: 'github-light', dark: 'github-dark-dimmed' } as const;
-const source = (path: string) => path.startsWith('bench/tritonbench_g/')
+const source = (path: string) => /^(bench\/tritonbench_g|documents\/bench)\//.test(path)
   ? benchmarkSource(path)
   : `${github}/blob/main/${path}`;
 ---
