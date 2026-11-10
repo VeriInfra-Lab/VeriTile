@@ -94,6 +94,7 @@ jobs:
           python3 ../scripts/check_docs.py
           python3 -m unittest discover -s ../scripts -p 'test_check_docs.py'
           python3 -m unittest discover -s ../scripts -p 'test_spec_sheets.py'
+          python3 -m unittest discover -s ../scripts -p 'test_coverage_review.py'
 
       - name: Check recorded proof freshness
         run: |
