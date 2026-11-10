@@ -1,7 +1,0 @@
-{
-  "original": "rotary_transform.py",
-  "candidate": "rotary_transform_index_cse.py",
-  "original_sha256": "5df01dc0401afff355e13be26ea31b0ef6ec1f060974a6a700aea3714e95e9bf",
-  "candidate_sha256": "91625aa89ad0cb845ec253ee85e52e5030cac56cc9666fc9ae8fb9a00a3ce11b",
-  "relationship": "Materializes the existing Lean rk index CSE candidate. Only the interleaved coefficient index changes from tl.arange(0, BLOCK_K) // 2 to rk // 2, with JIT and host call renamed. All branches, casts, masks and floating operations remain."
-}

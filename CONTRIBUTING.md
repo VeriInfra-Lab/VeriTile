@@ -10,9 +10,9 @@ for corpus scope and theorem interfaces. Open a separate issue for a concrete
 regression or a scoped task that is ready for implementation.
 
 Start with [the code map](documents/CodeOrganization.md) and
-[the benchmark index](documents/bench/README.md). The selected source and public proof
+[the benchmark index](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/README.md). The selected source and public proof
 entries are recorded in `validation/task_progress.json`; the source
-and contract checks are described in [the validation guide](documents/bench/current_source_acceptance.md).
+and contract checks are described in [the validation guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md).
 
 Before submitting a structural or tooling change, run the relevant tests and:
 

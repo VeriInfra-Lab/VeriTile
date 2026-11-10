@@ -1,7 +1,0 @@
-{
-  "original": "attention_forward_triton.py",
-  "candidate": "attention_forward_triton_head_mask.py",
-  "original_sha256": "545872e280f84d19725d001872cee31bf0714f8aa520e1b5a17dbd09fec165b7",
-  "candidate_sha256": "6783b5d88c08564288deb84b12503683274de75d084816a64d216b3cb1df32aa",
-  "relationship": "Materializes the existing Lean head-mask hoist: derive head_mask after offs_k, pass it to the helper, and reuse it in all four source masks. Only JIT function/call names additionally change. All original host guards, launch configurations, dtype choices and complete original JIT bodies are retained."
-}

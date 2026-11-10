@@ -1,7 +1,0 @@
-{
-  "original": "chunk_bwd_dqkg.py",
-  "candidate": "chunk_bwd_dqkg_tail_bound.py",
-  "original_sha256": "7c2c6aef92283c9c3f9f4980291ab2367eaf6096436b5847c683a560335a1ac6",
-  "candidate_sha256": "3646604c25d9214fe09a3c189eb0a4242ce8b07690f5c495b5fb864823e478c4",
-  "relationship": "Materializes only the existing public tail-bound integer CSE. The single AST change replaces min(BT, T-i_t*BT)-1 with (min(i_t*BT+BT,T)-i_t*BT)-1. Every floating operation, cast, mask, store, runtime scale and host guard/dispatch is unchanged. The unused real-only dot-add reorder implementation is removed."
-}

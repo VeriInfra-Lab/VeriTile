@@ -1,12 +1,12 @@
-import { readFileSync, readdirSync } from 'node:fs';
-import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { coverage } from './coverage-data';
+import { benchmarkRoot, coverage } from './coverage-data';
 import demoRecord from './vector-add-record.json';
 
 // The documented dev script and CI build both run from site/.
 const repositoryRoot = resolve(process.cwd(), '..');
-const selection = JSON.parse(readFileSync(resolve(repositoryRoot, 'validation/task_progress.json'), 'utf8'));
+const selection = JSON.parse(readFileSync(resolve(benchmarkRoot, 'validation/task_progress.json'), 'utf8'));
 const ports = selection.tasks.map((task: { kernel_revision: { source?: string; kernel_source: string } }) => ({
   python: Boolean(task.kernel_revision.source), lean: Boolean(task.kernel_revision.kernel_source),
 }));
@@ -41,27 +41,11 @@ export const vectorAddBodies = {
 
 export const proofInventory = { statements: coverage.rows.length };
 
-// Fail the site build if recorded Lean results no longer match this checkout.
-function leanFiles(directory: string): string[] {
-  return readdirSync(resolve(repositoryRoot, directory), { withFileTypes: true }).flatMap((entry) => {
-    const path = `${directory}/${entry.name}`;
-    return entry.isDirectory() ? leanFiles(path) : entry.name.endsWith('.lean') ? [path] : [];
-  });
-}
-const recordInputs = [
-  'lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
-  'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/RealCorrect.lean',
-  'bench/examples/VectorAdd/Kernels.lean', 'bench/examples/VectorAdd/IO.lean',
-  'bench/examples/VectorAdd/Proofs/Real.lean',
-  ...leanFiles('VeriTile'),
-].sort();
-const fingerprint = createHash('sha256');
-for (const path of recordInputs) {
-  fingerprint.update(path + '\0');
-  fingerprint.update(readFileSync(resolve(repositoryRoot, path)));
-  fingerprint.update('\0');
-}
-if (fingerprint.digest('hex') !== demoRecord.fingerprint || demoRecord.variants[0].kernel !== vectorAddKernel) {
+// Use the recorder's freshness check during local and CI builds.
+execFileSync('python3', ['-B', 'site/scripts/record-home-demo.py', '--check'], {
+  cwd: repositoryRoot, stdio: ['ignore', 'ignore', 'inherit'],
+});
+if (demoRecord.variants[0].kernel !== vectorAddKernel) {
   throw new Error('Homepage Lean records are stale. Run lake build, then python3 site/scripts/record-home-demo.py.');
 }
 export const vectorAddDemo = demoRecord;

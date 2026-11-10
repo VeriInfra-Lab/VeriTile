@@ -9,7 +9,7 @@
 `Kernels.lean` 集中定义原始与优化 Triton kernel；`Correct.lean` 和
 `FPEquiv.lean` 分别给出实数正确性与浮点等价性证明，互不导入。
 
-[TritonBenchVectorAdditionRealCorrect.lean](../../bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
+[TritonBenchVectorAdditionRealCorrect.lean](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
 包含 kernel、IO 接口、`real_projection` 和实数正确性规格，不引入数值原子假设：
 
 ```lean
@@ -20,7 +20,7 @@ specification vector_addition_correct (nElements blockSize : Nat) :
 `⊨` 保留原 TritonBench 的完整内存规格：在有效 lane 上输出数学和，保证终止，
 并保持其他内存不变。该证明复用原来的 TritonBench 实数正确性定理。
 
-[TritonBenchVectorAdditionFPEquiv.lean](../../bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
+[TritonBenchVectorAdditionFPEquiv.lean](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
 直接定义原始 kernel 和交换加法操作数后的版本，并证明浮点等价性；不导入 correct 文件。
 `nElements` 和 `blockSize` 是任意符号参数，不与实验的尺寸或启动配置核对。
 两个 kernel 唯一的差异是 `output = x + y` 与 `output = y + x`：

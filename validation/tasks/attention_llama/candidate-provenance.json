@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "original": "attention_llama.py",
-  "original_sha256": "e5a00c93c3c1ec9665f39bd1b7c421f049bfe43974963253b848fe94551e78be",
-  "candidate": "attention_llama_carry_first.py",
-  "candidate_sha256": "56c55afa7c97cd4bdb311ecedee0bdc0f336fcd2d5cd4953b1fa5e3507231191",
-  "origin": "Materializes the existing carry-first normalizer candidate. Only l_curr = sum(p,1)+l_prev becomes l_curr = l_prev+sum(p,1), with matching kernel references. Host contract, ABI, dispatch, dtype paths and memory operations remain unchanged."
-}

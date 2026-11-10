@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "original": "triton_linear_activation.py",
-  "original_sha256": "271cfcf8614afc2747837dbf8902f3addc9a3a605a6c1a85063ae2b6c346f8a9",
-  "candidate": "triton_linear_activation_shifted.py",
-  "candidate_sha256": "da9ace5661bbaaca884a1f736390465f733b68baf9ff0097a063ced50639629b",
-  "transformation": "Existing checked-in conditional GROUP_M=8 width strength reduction: grid_n << 3; other GROUP_M retain GROUP_M * grid_n. All four helper definitions and all other executable kernel statements unchanged. Existing kernel_fma_shifted and linear_layer_shifted entry names are retained."
-}

@@ -15,8 +15,10 @@ Published in English, deployed to
 ```
 
 Requires [Bun](https://bun.sh) for dependency installation and Node.js 22.12+
-for Astro 7. Run from a complete repository checkout: the homepage reads
-the benchmark inventory and vector-add example at build time.
+for Astro 7. The homepage reads `VectorAdd` from this repository and the coverage
+report from the repository and commit in `src/lib/benchmark-source.json`. Check
+out that commit under `site/.benchmark`, or set `VERITILE_BENCHMARK_ROOT` to the
+absolute path of an existing checkout. The Website workflow prepares this checkout.
 
 The lockfile uses Astro 7 / Starlight 0.42 / Sharp 0.35. Compatible transitive
 overrides keep devalue, js-yaml, postcss-selector-parser, and smol-toml above

@@ -1,7 +1,0 @@
-{
-  "original": "chunk_gla_fwd.py",
-  "candidate": "chunk_gla_fwd_commuted.py",
-  "transformation": "Exactly the five existing operand swaps: inter carry/dot addition, intra and split scale multiplication, merge carry/load addition, and final output carry/dot addition. All host code and all other statements remain unchanged.",
-  "original_sha256": "3e983e484088f08c6d8690520227efc0a2d89a0fa0c4a7f4897879fa58faefb5",
-  "candidate_sha256": "8a518dce9d0fc41c9f61a291e9025723ec85538ed5078d445d964c7cdeb08215"
-}

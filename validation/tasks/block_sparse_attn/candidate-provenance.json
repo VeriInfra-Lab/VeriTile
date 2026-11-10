@@ -1,7 +1,0 @@
-{
-  "original": "block_sparse_attn.py",
-  "candidate": "block_sparse_attn_quotient_remainder.py",
-  "original_sha256": "f103646a18aadb536696840dc3e8014565d65d6f247a9ea9a7acd27efbdaf3b7",
-  "candidate_sha256": "3f5ae94dee81774dcee057f363af9dbe240bc1dc9a9dd51de4a3ef135680b54d",
-  "relationship": "Materializes the existing Lean quotient/remainder integer-address candidate. The sole Python AST change replaces off_bh % num_heads with off_bh - (off_bh // num_heads) * num_heads. Host dispatch, guards, pointer types, all masks/casts, CSR/static channel loops, scale binding and every numerical statement are unchanged."
-}

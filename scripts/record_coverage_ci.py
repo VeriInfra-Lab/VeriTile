@@ -8,7 +8,8 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'site/src/lib/coverage-ci.json'
-REPO = 'VeriInfra-Lab/VeriTile'
+SOURCE = ROOT / 'site/src/lib/benchmark-source.json'
+REPO = json.loads(SOURCE.read_text())['repository']
 
 
 def completed_record(run_id, run, jobs):
@@ -34,6 +35,8 @@ def main():
     jobs = json.loads(subprocess.check_output(
         ['gh', 'api', f'repos/{REPO}/actions/runs/{args.run_id}/jobs'], text=True))['jobs']
     data = completed_record(args.run_id, run, jobs)
+    if data['commit'] != json.loads(SOURCE.read_text())['revision']:
+        raise ValueError('The audit commit must match the website benchmark source lock.')
     OUTPUT.write_text(json.dumps(data, indent=2) + '\n')
     print(f'Recorded completed corpus audit {args.run_id} at {run["head_sha"]}.')
 

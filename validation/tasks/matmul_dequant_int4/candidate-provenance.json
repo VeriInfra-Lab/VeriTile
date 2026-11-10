@@ -1,7 +1,0 @@
-{
-  "original": "matmul_dequant_int4.py",
-  "candidate": "matmul_dequant_int4_unit_stride.py",
-  "original_sha256": "17de8be715084e9b1a6482bc3a8e02b3510103df720bb72d36e4b52686330f8e",
-  "candidate_sha256": "df2cab6c0b5dd9306c25ddbc94320cc472a4f8e781d35dfb3b6d06f247981181",
-  "relationship": "The existing candidate Python is unchanged. The standalone dequantizer removes only multiplication by the contiguous output column stride, under the existing public unit-stride premise. Both standalone 19-statement bodies are pasted literally. The unlaunched fused 32-statement body is identical in both Python files to the shared MatmulDequantizeInt4.Source.originalBody and is registered directly, without duplicating Lean source."
-}

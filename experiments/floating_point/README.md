@@ -323,7 +323,7 @@ rejected instead of silently merging different experiments.
 
 Correctness stays real-valued. Public equivalence stays `lhs ≡[R] rhs`;
 `#print_spec` exposes its atoms. The existing
-[TritonBench example](../../bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
+[TritonBench example](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
 proves conditional composition under one ADD-COMMUTE assumption.
 
 The published report can now be frozen into Lean with
@@ -336,8 +336,8 @@ alongside fp32 ADD-COMMUTE, retaining explicit evidence premises for both atoms.
 The resulting derivation does not claim a whole-reduction IEEE or statistical guarantee.
 
 The [worked example](EXAMPLE.md) has separate
-[real correctness](../../bench/examples/TritonBenchVectorAddition/RealCorrect.lean) and
-[FP equivalence](../../bench/examples/TritonBenchVectorAddition/FPEquiv.lean) files, each
+[real correctness](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean) and
+[FP equivalence](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean) files, each
 with sources shared through the sibling `Kernels.lean`. The FP file does not import the
 correctness example. It binds its fp32 ADD-COMMUTE row to the actual
 TritonBench vector_addition fragments with symbolic element count and block size.

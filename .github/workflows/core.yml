@@ -41,5 +41,5 @@ jobs:
         with:
           build-args: 'VeriTile VeriTileMath VeriTileFull'
       - uses: ./.github/actions/setup-comparator
-      - name: Replay library proofs
-        run: python3 scripts/check_comparator.py --library
+      - name: Replay library proofs and check the artifact contract
+        run: bash scripts/check-artifact.sh

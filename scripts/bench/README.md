@@ -72,6 +72,6 @@ CI audit runs daily at 04:00 Asia/Singapore or on manual dispatch.
 `check_ports.sh` without arguments forwards to the current corpus audit;
 named arguments select one task and all its retained Lean helpers.
 
-Shared records are in [validation](../../validation/). Legacy catalog APIs
+Shared records are in [validation](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/validation). Legacy catalog APIs
 consume explicitly supplied frozen packages and do not select the live
-benchmark implementation. See the [current workflow](../../documents/bench/current_source_acceptance.md).
+benchmark implementation. See the [current workflow](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md).

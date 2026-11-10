@@ -1,7 +1,0 @@
-{
-  "original": "decay_cumsum.py",
-  "candidate": "decay_cumsum_index_commuted.py",
-  "original_sha256": "8280a38504ba5e0d5fb398180cc30cb90230739a6ca545e2c455e1d6cc309974",
-  "candidate_sha256": "40ea356180108ec50b89fa84877cada08429d337acd2b684f0fa66d0d8b0d893",
-  "relationship": "Materializes the three existing mask-index candidates. Only i_k * BK in each lane mask is commuted to BK * i_k; JIT definitions and host references are consistently renamed. Every cast, loop, load/store, numerical operation, branch and final pointer update is preserved."
-}
