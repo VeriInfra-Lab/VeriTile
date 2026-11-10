@@ -15,14 +15,14 @@ open scoped VeriTile.Spec
 -- must not be mistaken for a successful FP equivalence.
 theorem stable_empty_fails {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
     FP.Structural.exec M (stableSoftmaxKernel "x" "y" 0) s = none := by
-  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, TileShape.axisDim, TileShape.eraseAxis, Region.cast]
 
 -- Source reads precede the store, so output aliasing does not invalidate
 -- either the typed output equation or the frame around the row.
 example {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (hB : 0 < B)
     (xs : Fin B → α) (s : State α)
-    (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * B + i.val)).read .real = xs i) :
+    (hx : ∀ i : Fin B, M.fp32Load ((s.mem "x" (s.pids 0 * B + i.val)).read .real) = xs i) :
     ∃ t, FP.Structural.exec M (stableSoftmaxKernel "x" "x" B) s = some t ∧
       (∀ i : Fin B, t.mem "x" (s.pids 0 * B + i.val) = .mk .bf16
         (normalizedValue M (shifted M xs) i)) ∧
@@ -136,7 +136,7 @@ private theorem naive_self (B : Nat) : IO₁Equiv (naiveIO "x" "y" B) (naiveIO "
   refine ⟨by simp [IO₁PrivateScratch, naiveIO], by simp [IO₁PrivateScratch, naiveIO], ?_⟩
   intro α _ M s
   obtain ⟨t, ht, _, hf⟩ := naive_run M "x" "y" B
-    (SoftmaxStableFPContract.rowValues s "x" B) s (fun _ => rfl)
+    (SoftmaxStableFPContract.rowValues M s "x" B) s (fun _ => rfl)
   exact ⟨t, t, ht, ht, fun _ => rfl, fun r o ho _ => hf r o ho, fun r o ho _ => hf r o ho⟩
 
 specification naive_self_spec (B : Nat) :

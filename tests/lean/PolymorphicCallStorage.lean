@@ -20,7 +20,7 @@ def explicitStorage (dtype out_dtype : FloatDType) (A B : RegionName) : ComputeK
     p = tl.make_block_ptr(base=A, shape=($(2)), strides=($(1)), offsets=($(0)), block_shape=($(2)), order=(0))
     q = tl.make_block_ptr(base=B, shape=($(2)), strides=($(1)), offsets=($(0)), block_shape=($(2)), order=(0))
     x = tl.load(p, boundary_check=([0] : List Nat))
-    tl.store(q, ((x).to(OUT_DTYPE)).to(OUT_DTYPE))
+    tl.store(q, x.to(OUT_DTYPE))
   }
 
 theorem complete_program (dtype out_dtype : FloatDType) (A B : RegionName) :
