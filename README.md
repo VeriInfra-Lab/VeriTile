@@ -266,7 +266,9 @@ verso/                     Slide deck / overview
   benchmarks/showcases and the GeLU/trust-report target are separate
 - `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
 - `lake build TritonBenchSpecExamples` — build all worked examples, including the independent real/FP pairs
-- `lake env lean bench/examples/VectorAdd/RealCorrect.lean` — quick example smoke check after building
+- `bash scripts/check-core-examples.sh` — check Python/Triton source correspondence and build
+  `RealCorrect` and `FPEquiv` for `VectorAdd` (addition), `RowWiseSum` (reduction order),
+  and `LogExp` (guarded numerical rewriting)
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
 - `scripts/bench/check_ports.sh` — current selected-corpus trust/replay; named arguments
