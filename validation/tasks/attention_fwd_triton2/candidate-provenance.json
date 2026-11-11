@@ -1,7 +1,0 @@
-{
-  "original": "attention_fwd_triton2.py",
-  "candidate": "attention_fwd_triton2_index_shift.py",
-  "original_sha256": "eb7192d0aaab5db92b98eba026b05eb728774263b5f3afecbd7270d9d84bc005",
-  "candidate_sha256": "02e998718c501855fe2370c5cb6a3d40e8c7b77cdc3e3146d0bf5eb78ed418ee",
-  "relationship": "Materializes the existing fixed BLOCK_M=128 integer index candidate: replace start_m * BLOCK_M by start_m << 7. The full helper remains unchanged. Only JIT function/call names additionally change. All original host guards, launch configurations, dtype choices and complete original JIT bodies are retained."
-}

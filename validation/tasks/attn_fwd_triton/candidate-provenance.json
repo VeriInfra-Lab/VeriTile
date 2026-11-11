@@ -1,7 +1,0 @@
-{
-  "original": "attn_fwd_triton.py",
-  "candidate": "attn_fwd_triton_quotient_remainder.py",
-  "transformation": "Change only the caller off_h integer remainder expression. Helper and host wrapper are unchanged; both legal stages and BF16 output remain.",
-  "original_sha256": "4c7fffad65029eec05d134de8884d723b00db104df54b47a37110e9e5b5d78c7",
-  "candidate_sha256": "a27d2069d70d6aa439fbfbfd8ad7ce770aca15a25c897cb11fb9e01700b743d6"
-}

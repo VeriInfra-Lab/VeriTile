@@ -21,7 +21,7 @@ lemmas, and new kernel transcriptions.
 | `verso/` | Independent presentation project and toolchain |
 | `Logs/` | Ignored generated output, including current specification cards |
 
-Use [the benchmark index](../documents/bench/README.md) for task selection and source,
+Use [the benchmark index](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/README.md) for task selection and source,
 library and corpus validation commands. `scripts/bench/lean_import_scan.py` owns the
 shared lexical import mask, while `scripts/spec_sheet.py` owns declaration
 extraction. The final inventory and source adapters import those same helpers.
@@ -142,7 +142,7 @@ launch orchestration and returned-Tensor identity are not per-task proof or
 acceptance requirements. Existing host proofs may remain optional helpers,
 under `Proofs/Misc/`, outside the current public kernel entries. This organization
 does not add FP32-correctness or host-proof acceptance requirements.
-See [`documents/bench/TODO.md`](../documents/bench/TODO.md).
+See [`documents/bench/TODO.md`](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/TODO.md).
 
 **Belongs here**:
 - The `triton { ... }` kernel transcription

@@ -15,7 +15,6 @@
   "SoftmaxReciprocal": "bench/examples/SoftmaxReciprocal/SoftmaxReciprocal.py",
   "SoftmaxStable": "bench/examples/SoftmaxStable/SoftmaxStable.py",
   "StableLogSumExp": "bench/examples/StableLogSumExp/StableLogSumExp.py",
-  "TritonBenchVectorAddition": "bench/examples/TritonBenchVectorAddition/TritonBenchVectorAddition.py",
   "VectorAdd": "bench/examples/VectorAdd/VectorAdd.py",
   "Welford": "bench/examples/Welford/Welford.py"
 }

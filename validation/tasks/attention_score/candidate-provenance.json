@@ -1,7 +1,0 @@
-{
-  "original": "attention_score.py",
-  "candidate": "attention_score_scalar_left.py",
-  "original_sha256": "01b60924cbd5d95928d0f043e534ed057267faf02309633b1bf32027b59381e6",
-  "candidate_sha256": "108489d662b733e9fa7dc266e0bea6470c0cdd39ee21b89895b41bb8ac5d5b7c",
-  "relationship": "Materializes the existing Lean scalar-left FP32 candidate; the only Python AST change is qk = qk * qk_scale to qk = qk_scale * qk. Host dispatch, input guards, casts, masks, dot precision and all other statements are unchanged."
-}

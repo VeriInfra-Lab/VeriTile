@@ -1,7 +1,0 @@
-{
-  "original": "matmul_dequantize.py",
-  "candidate": "matmul_dequantize_scalar_address.py",
-  "original_sha256": "8aead7bf90ca37c06d10382702dd47072db7614a55b33e0940c2a33da1f64283",
-  "candidate_sha256": "2d7a1cb11f03b6d017e611031138f88e22e2174b12b84ac4a5aedb2624c6eb1a",
-  "relationship": "Both existing Python files are unchanged. The candidate precomputes the GPTQ/S2 group extent with constexpr N and expands the standalone output address into scalar origins plus lane offsets. All three original/candidate stages are registered directly; the original standalone dequantizer shares the identical repaired body from matmul_dequant_int4. SPLIT_K, both store/atomic branches, masks, dtype conversions and the actual source loop bound remain in the pasted bodies. Existing launch configurations select SPLIT_K=1; loop counts are derived from K and the source block size."
-}

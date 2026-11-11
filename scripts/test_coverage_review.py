@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'scripts'))
 from scripts.bench import coverage_review as coverage
 from spec_sheet import split_statement, split_decls, body_of, hypotheses, make_sheet
-from record_coverage_ci import completed_record
+from record_coverage_ci import REPO, completed_record
 
 
 @dataclass
@@ -198,7 +198,7 @@ class CoverageReviewTests(unittest.TestCase):
     def test_only_completed_successful_corpus_runs_are_evidence(self):
         run = {'status': 'completed', 'conclusion': 'success',
                'path': '.github/workflows/bench-audit.yml', 'head_sha': 'a' * 40,
-               'html_url': 'https://github.com/VeriInfra-Lab/VeriTile/actions/runs/123'}
+               'html_url': f'https://github.com/{REPO}/actions/runs/123'}
         job = {'status': 'completed', 'conclusion': 'success',
                'completed_at': '2026-09-24T06:13:56Z'}
         self.assertEqual(completed_record(123, run, [job])['commit'], 'a' * 40)

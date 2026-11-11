@@ -112,10 +112,10 @@ inductive proof needs to handle a sub-range.
 Detailed semantics in
 [`documents/archive/ForLoopInvDesign.md`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/archive/ForLoopInvDesign.md)
 §4.1 / §4.2 / §4.3. The bench files
-[`DiagSsmTriton`](https://github.com/VeriInfra-Lab/VeriTile/tree/main/bench/tritonbench_g/diag_ssm_triton),
-[`MeanReduction`](https://github.com/VeriInfra-Lab/VeriTile/tree/main/bench/tritonbench_g/mean_reduction),
+[`DiagSsmTriton`](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/tritonbench_g/diag_ssm_triton),
+[`MeanReduction`](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/tritonbench_g/mean_reduction),
 and
-[`EmbeddingTritonKernel`](https://github.com/VeriInfra-Lab/VeriTile/tree/main/bench/tritonbench_g/embedding_triton_kernel)
+[`EmbeddingTritonKernel`](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/tritonbench_g/embedding_triton_kernel)
 all use the API in production and are good worked references.
 
 ## Single-iteration loops

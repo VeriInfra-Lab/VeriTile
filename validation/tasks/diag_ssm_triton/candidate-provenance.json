@@ -1,7 +1,0 @@
-{
-  "original": "diag_ssm_triton.py",
-  "candidate": "diag_ssm_triton_index_commuted.py",
-  "original_sha256": "f4093c767a2e53fed90c15415e37f58cb3843437a3c434ffaa2ec5e83982f340",
-  "candidate_sha256": "36eecb900459973770904d18abce642b7ead7abf6224d98b96a8990260b4f143",
-  "relationship": "Materializes the four existing integer column-index candidates: only tl.cast(tl.program_id(0), tl.int64) * BLOCK_SIZE becomes BLOCK_SIZE * tl.cast(tl.program_id(0), tl.int64). JIT definitions and their host references are consistently renamed. All floating operations, signed casts, reverse-time branches, signs, masks, complex tuple updates and stores remain unchanged."
-}

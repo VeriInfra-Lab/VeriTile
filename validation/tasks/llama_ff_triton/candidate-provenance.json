@@ -1,7 +1,0 @@
-{
-  "original": "llama_ff_triton.py",
-  "candidate": "llama_ff_index_commuted.py",
-  "original_sha256": "c603fead96e4e516f81824f1312d3fa80c2e999c2ad50883e9cb7b50d15d71eb",
-  "candidate_sha256": "4eb68e89c884b2a721e5a0e730d488646bbe121963cf8c3fd33f8fbd2072b6bd",
-  "relationship": "Reuses the unchanged checked-in Python index-commuted candidate. Its complete JIT differs from ff_llama only by signed-integer output-row multiplication order and function name. Both storage routes retain every cast, FP8 reinterpretation/conversion chain, mask and floating operation. The original host wrapper remains unchanged; the existing candidate file supplies the JIT body only."
-}

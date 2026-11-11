@@ -1,8 +1,8 @@
 # VeriTile MLSys 2027 投稿准备
 
 Planning snapshot: the metrics and dated evidence below describe the earlier
-source revisions linked in this note. Use the [current corpus guide](../documents/bench/current_source_acceptance.md)
-for present selection and the [archived contract review](../validation/archive/contracts.json) for the earlier proof scope.
+source revisions linked in this note. Use the [current corpus guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
+for present selection and the [archived contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json) for the earlier proof scope.
 
 更新日期：2026-10-01。时间安排使用新加坡时间。
 
@@ -196,7 +196,7 @@ Attention 案例应在 M2 中按完整计算范围、参数化程度和证明成
 
 当前开发环境没有 NVIDIA GPU。按用户安排，将运行配置、14 条 Triton 原子关系、checker 和结果导入推送到独立 dev 分支，由用户在 GPU 机器运行并回传完整结果目录。CPU 统计回归、解释器索引测试和离线编译不登记成 GPU 通过结果。
 
-**LLM 实验也不是默认主线。** [documents/bench/README.md](../documents/bench/README.md) 已记录旧 LLM proof-drafting benchmark 的退役，现有 `scripts/prove.py` 是单任务 agent-assisted proof wrapper。如果后续选择声称自动证明能力，需要另外建立固定任务、固定预算、独立判定、成功率与失败分析的实验；当前论文可以如实定位为人工辅助验证框架。
+**LLM 实验也不是默认主线。** [documents/bench/README.md](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/README.md) 已记录旧 LLM proof-drafting benchmark 的退役，现有 `scripts/prove.py` 是单任务 agent-assisted proof wrapper。如果后续选择声称自动证明能力，需要另外建立固定任务、固定预算、独立判定、成功率与失败分析的实验；当前论文可以如实定位为人工辅助验证框架。
 
 ## 建议排期与投稿信息
 

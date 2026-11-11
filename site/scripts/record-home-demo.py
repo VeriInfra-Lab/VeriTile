@@ -11,22 +11,38 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+
+from scripts.bench.final_inventory import modules
+
 SOURCE = ROOT / 'bench/examples/VectorAdd/RealCorrect.lean'
 KERNELS = ROOT / 'bench/examples/VectorAdd/Kernels.lean'
 IO = ROOT / 'bench/examples/VectorAdd/IO.lean'
 REAL_PROOFS = ROOT / 'bench/examples/VectorAdd/Proofs/Real.lean'
+PROOF_SOURCES = (KERNELS, REAL_PROOFS, IO, SOURCE)
 OUTPUT = ROOT / 'site/src/lib/vector-add-record.json'
 
 
 def fingerprint():
-    paths = [ROOT / p for p in ('lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
-                               'site/scripts/record-home-demo.py', 'bench/examples/VectorAdd/RealCorrect.lean',
-                               'bench/examples/VectorAdd/Kernels.lean', 'bench/examples/VectorAdd/IO.lean',
-                               'bench/examples/VectorAdd/Proofs/Real.lean')]
-    paths += list((ROOT / 'VeriTile').rglob('*.lean'))
+    paths = {ROOT / name for name in (
+        'lean-toolchain', 'lakefile.toml', 'lake-manifest.json', 'site/scripts/record-home-demo.py',
+    )}
+    # The toolchain and manifest pin imports provided outside the repository.
+    pending = list(PROOF_SOURCES)
+    while pending:
+        source = pending.pop()
+        if source in paths:
+            continue
+        paths.add(source)
+        for module in modules(source.read_text()):
+            dependency = ROOT.joinpath(*module.split('.')).with_suffix('.lean')
+            if dependency.is_file():
+                pending.append(dependency)
+
     digest = hashlib.sha256()
     for path in sorted(paths, key=lambda path: path.relative_to(ROOT).as_posix()):
         digest.update(path.relative_to(ROOT).as_posix().encode() + b'\0')
@@ -51,7 +67,7 @@ def main():
     # existing helpers while shadowing only addKernel would keep their proofs
     # attached to the unmodified kernel, invalidating the mutation check.
     imports, bodies = [], []
-    for path in (KERNELS, REAL_PROOFS, IO, SOURCE):
+    for path in PROOF_SOURCES:
         body = []
         for line in path.read_text().splitlines():
             if line.startswith('import '):
