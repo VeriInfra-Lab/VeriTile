@@ -26,7 +26,7 @@ jobs:
         with:
           build-args: >-
             VeriTile tests.lean.PythonBodyParsing tests.lean.DTypeResolution
-            tests.lean.ConditionalCast tests.lean.StatementAudit
+            tests.lean.ConditionalCast tests.lean.RegisterDTypeWhere tests.lean.StatementAudit
       - name: Check Triton sources and build Real and FP proofs
         run: bash scripts/check-core-examples.sh
 
