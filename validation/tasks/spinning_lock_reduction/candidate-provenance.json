@@ -1,7 +1,0 @@
-{
-  "original": "spinning_lock_reduction.py",
-  "candidate": "spinning_lock_reduction_area.py",
-  "original_sha256": "b6a41096433e567770b7aeb5285329128768478b601eeaa36b8ba7ac2c5befb5",
-  "candidate_sha256": "4ba6398a68c938a7efc0601cf759ff78d0d28414c2ed27e7acfea1071eb29270",
-  "transformation": "Reassociate only the two partial-tile area products before the live pid/next_pid multiply; rename the JIT and wrapper entrypoints and the launch caller. Retain every other module statement."
-}

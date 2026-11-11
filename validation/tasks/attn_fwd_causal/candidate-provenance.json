@@ -1,7 +1,0 @@
-{
-  "original": "attn_fwd_causal.py",
-  "candidate": "attn_fwd_causal_quotient_remainder.py",
-  "transformation": "Replace only the caller off_h remainder by its quotient/remainder identity; complete helper and host wrapper unchanged.",
-  "original_sha256": "f63d95347c1900586aa74bee93d5b726962a4d9474737a64f3b3154bf52a8f67",
-  "candidate_sha256": "13a7c14d6a9383aa01fd2716fff778b13d3a90c3e2762c5b3b10985296b1325a"
-}

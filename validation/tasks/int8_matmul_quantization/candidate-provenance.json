@@ -1,7 +1,0 @@
-{
-  "original": "int8_matmul_quantization.py",
-  "candidate": "int8_matmul_quantization_indices.py",
-  "original_sha256": "40f60586b85bd6abccd7fcf1c704d6c80e3b09badc9394aa3afc0d7a3ef2db99",
-  "candidate_sha256": "bb82edf1b5f9e7f51868704a881494b22901921cb092ae3753568816de30f045",
-  "transformation": "Remove only the producer row modulo and the two GEMM scale-load masks; rename both JIT entrypoints and their callers. The complete host and launch contract is retained."
-}

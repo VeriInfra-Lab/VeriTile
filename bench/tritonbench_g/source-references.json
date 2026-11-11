@@ -1,4 +1,0 @@
-{
-  "fast_ce_loss": "bench/tritonbench_g/fast_ce_loss/fast_ce_loss.py",
-  "cross_entropy_ops": "bench/tritonbench_g/cross_entropy_ops/cross_entropy_ops.py"
-}

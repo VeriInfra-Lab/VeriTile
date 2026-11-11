@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "original": "chunk_retention_ops.py",
-  "original_sha256": "cd9a80f852cfa6502a4be8ab4be723d6f6d49caa34088dff0f5544f8aa9c7d90",
-  "candidate": "chunk_retention_ops_scale_first.py",
-  "candidate_sha256": "210fc45639d3fccfa8e2eb4e0fadf035bbea843d3a9315e4b26af9fe75bfd28d",
-  "transformation": "Only commute the final forward-output multiplication, matching the existing Lean scale-first candidate. All other bodies and host code are unchanged."
-}

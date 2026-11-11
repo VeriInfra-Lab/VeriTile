@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "original": "lightning_attention.py",
-  "original_sha256": "e610983718f24e2c5bc0e79d0bbd6f2586bfd6b6968a640980538458f090bd32",
-  "candidate": "lightning_attention_reuse_offset.py",
-  "candidate_sha256": "a8317b23099b8971b648e1c1035aa1516f2da090513dbc7dbab78fffa6b27226",
-  "transformation": "In each of the three existing candidates, replace only o_offset = off_bh * n * e with o_offset = v_offset. Every other statement and all host code are unchanged."
-}

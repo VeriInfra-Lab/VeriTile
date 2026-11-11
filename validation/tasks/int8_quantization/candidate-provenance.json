@@ -1,7 +1,0 @@
-{
-  "original": "int8_quantization.py",
-  "candidate": "int8_quantization_bias_fold.py",
-  "transformation": "Replace only the per-lane product 0.5 * tl.where(normalized >= 0.0, 1.0, -1.0) with tl.where(normalized >= 0.0, 0.5, -0.5). Keep the repaired host wrapper and every other JIT statement unchanged.",
-  "original_sha256": "c7dad4381d4b2f5fa7124a6538b502d142dfb667d911097368999853df173a8a",
-  "candidate_sha256": "e6686027e9721af61b01903b47a607637b54a31fbd0d4f4c99edc8ca280a7b70"
-}

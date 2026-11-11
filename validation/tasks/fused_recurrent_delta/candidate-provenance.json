@@ -1,7 +1,0 @@
-{
-  "original": "fused_recurrent_delta.py",
-  "candidate": "fused_recurrent_delta_direct_output.py",
-  "transformation": "Remove only the identically zero i_k * B * H output-grid term in the forward JIT. The existing launch has a single key-grid program. Backward JIT and host wrapper are unchanged.",
-  "original_sha256": "41d896ade9b5f5d6a0a3fdc3843f36124c6417d426f590ecb35c024f104f8b53",
-  "candidate_sha256": "b4f8d9ef74ce012970f35657e9bbe94139da3f413547b84c6025922d4bda6e34"
-}

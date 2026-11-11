@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import checkedRun from './coverage-ci.json';
+import benchmark from './benchmark-source.json';
 
 type CorpusCheck = {
   schema: number; conclusion: string; commit: string; run_id: number;
@@ -8,8 +9,8 @@ type CorpusCheck = {
 };
 const recordedCheck = checkedRun as CorpusCheck | null;
 if (recordedCheck !== null && (recordedCheck.schema !== 1 || recordedCheck.conclusion !== 'success'
-    || !/^[0-9a-f]{40}$/.test(recordedCheck.commit)
-    || recordedCheck.url !== `https://github.com/VeriInfra-Lab/VeriTile/actions/runs/${recordedCheck.run_id}`)) {
+    || recordedCheck.commit !== benchmark.revision
+    || recordedCheck.url !== `https://github.com/${benchmark.repository}/actions/runs/${recordedCheck.run_id}`)) {
   throw new Error('Invalid recorded corpus-check evidence.');
 }
 export const corpusCheck = recordedCheck;
@@ -22,10 +23,18 @@ export type CoverageRow = {
   io: { name: string; kernel: string; definition: string }[]; issue: string;
 };
 
-// Read the current selected Lean declarations from the same source as the spec sheets.
+export const benchmarkRoot = resolve(process.cwd(), process.env.VERITILE_BENCHMARK_ROOT ?? '.benchmark');
+const actualRevision = execFileSync('git', ['rev-parse', 'HEAD'], {
+  cwd: benchmarkRoot, encoding: 'utf8',
+}).trim();
+if (actualRevision !== benchmark.revision) {
+  throw new Error(`Expected benchmark revision ${benchmark.revision}, found ${actualRevision}.`);
+}
+
+// Read selected Lean declarations and link back to the exact benchmark revision.
 export const coverage: { basis: string; rows: CoverageRow[] } = JSON.parse(
   execFileSync('python3', ['scripts/bench/coverage_review.py', '--json'], {
-    cwd: resolve(process.cwd(), '..'), encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
+    cwd: benchmarkRoot, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
   }),
 );
 
@@ -46,5 +55,5 @@ export const numericLabels: Record<string, string> = {
   abstract_rounding: 'Abstract cast/store rounding',
 };
 
-export const sourceLink = (path: string, line: number) =>
-  `https://github.com/VeriInfra-Lab/VeriTile/blob/main/${path}#L${line}`;
+export const sourceLink = (path: string, line?: number) =>
+  `https://github.com/${benchmark.repository}/blob/${benchmark.revision}/${path}${line ? `#L${line}` : ''}`;

@@ -1,8 +1,0 @@
-{
-  "original": "attention_fwd_triton3.py",
-  "candidate": "key_mask_cse.py",
-  "original_sha256": "a94b822399e83897356a39e5cac34e945b4a30f2d46ff83ab8ee3db2d5c66066",
-  "candidate_sha256": "3009bf701055efba786cdb64b1cce1800965593c6e13a71fb0eda466d943adab",
-  "scope": "The complete two repaired JIT functions; candidate host dispatch is supplied by the same reviewed caller ABI.",
-  "transformation": "Within the existing not-IS_EVEN_N branch, bind the key-tail predicate to key_mask, then reuse that same predicate in the later not-IS_EVEN_N probability mask. Rename both JIT functions and the helper call. Preserve every other source statement, cast, branch and memory operation."
-}
