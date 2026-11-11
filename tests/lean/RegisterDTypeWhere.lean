@@ -106,9 +106,22 @@ theorem direct_load_cast_target (input output : FloatDType) (X Y : RegionName) :
       | .assign dtype _ _ _ => dtype
       | _ => .bool) = some output.toTileDType := rfl
 
+def directPointerLoadCast (input output : FloatDType) (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({floatingPointers := [("X",input),("Y",output)]} : CallSignature) in triton {
+    converted = tl.load(X).to(Y.dtype.element_ty)
+  }
+
+/-- Pointer-element casts keep their existing typed lowering path. -/
+theorem direct_pointer_cast_target (input output : FloatDType) (X Y : RegionName) :
+    ((directPointerLoadCast input output X Y).surfaceBody.getLast?.map fun st =>
+      match st with
+      | .assign dtype _ _ _ => dtype
+      | _ => .bool) = some output.toTileDType := rfl
+
 #axiomsClean all_register_casts
 #axiomsClean where_preserves_fp64
 #axiomsClean mixed_half_where
 #axiomsClean direct_load_register_casts
 #axiomsClean direct_load_cast_target
+#axiomsClean direct_pointer_cast_target
 end VeriTile.Tests.RegisterDTypeWhere

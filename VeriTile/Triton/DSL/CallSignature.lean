@@ -110,9 +110,11 @@ private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : 
       if directLoadCast dt then return raw
       return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) => do
+      unless target.getId.eraseMacroScopes matches .str _ "dtype" do return raw
       let dtype : TSyntax `term := ⟨target.raw⟩
       return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dtype:term))).raw
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) => do
+      unless target.getId.eraseMacroScopes matches .str _ "dtype" do return raw
       let dtype : TSyntax `term := ⟨target.raw⟩
       return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dtype:term))).raw
   | `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)) => do
