@@ -15,10 +15,6 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'VeriTile/**'
-      - 'bench/tritonbench_g/**'
-      - 'scripts/bench/coverage_review.py'
-      - 'scripts/bench/final_inventory.py'
-      - 'validation/**'
       - 'scripts/spec_sheet.py'
       - 'bench/examples/**'
       - '.github/workflows/site.yml'
@@ -36,10 +32,6 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'VeriTile/**'
-      - 'bench/tritonbench_g/**'
-      - 'scripts/bench/coverage_review.py'
-      - 'scripts/bench/final_inventory.py'
-      - 'validation/**'
       - 'scripts/spec_sheet.py'
       - 'bench/examples/**'
       - '.github/workflows/site.yml'
@@ -63,6 +55,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read the benchmark source lock
+        id: benchmark
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          source = json.loads(Path('src/lib/benchmark-source.json').read_text())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              for key in ('repository', 'revision'):
+                  print(f'{key}={source[key]}', file=output)
+          PY
+
+      - name: Check out the benchmark source used for coverage
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.benchmark.outputs.repository }}
+          ref: ${{ steps.benchmark.outputs.revision }}
+          path: site/.benchmark
+          persist-credentials: false
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -82,12 +94,12 @@ jobs:
           python3 ../scripts/check_docs.py
           python3 -m unittest discover -s ../scripts -p 'test_check_docs.py'
           python3 -m unittest discover -s ../scripts -p 'test_spec_sheets.py'
-
-      - name: Check coverage review regressions
-        run: python3 -m unittest discover -s ../scripts -p 'test_coverage_review.py'
+          python3 -m unittest discover -s ../scripts -p 'test_coverage_review.py'
 
       - name: Check recorded proof freshness
-        run: python3 scripts/record-home-demo.py --check
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_record_home_demo.py'
+          python3 scripts/record-home-demo.py --check
 
       - name: Build site
         run: bun run build

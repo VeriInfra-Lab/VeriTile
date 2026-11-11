@@ -107,10 +107,10 @@ when reporting benchmark results. The previous benchmark setup used version
 
 ## Source and documentation tools
 
-`bash scripts/bench/audit_tritonbench_g.sh --source-only` is the shared source-check
-entry for local work and CI. It checks the final inventory, Python/Lean body
-correspondence and imported-challenge review without building or replaying
-proofs. The full and library-only proof gates are described below.
+`bash scripts/check-core-examples.sh` checks Python/Lean source correspondence
+and both Real and FP proof entries for VectorAdd, RowWiseSum, and LogExp.
+For corpus commands in this guide, use a checkout of
+[VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench) with its locked Lake dependencies.
 
 `python3 scripts/check_docs.py` checks local file links in all tracked Markdown
 documents and verifies generated reference pages. It does not fetch external
@@ -153,21 +153,10 @@ require the official comparator and the sandbox tools installed above. Missing
 tools, export failures, and comparator rejections fail the gate. CI installs
 the same pinned tools through `.github/actions/setup-comparator`.
 
-The Bench audit workflow checks the final source and contract inventory,
-builds/replays the library on pull requests and main pushes. Full corpus builds
-and replay, including all 334 benchmark interfaces, run daily at 04:00
-Asia/Singapore (20:00 UTC), and on manual runs with `full_audit=true` (the
-default). Each of the 64 corpus workers builds its complete dependencies, then
-checks axioms/specifications and runs official comparator replay. The exporter
-recursively includes the proof dependencies of each selected theorem.
-
-The daily run covers all 8,428 retained corpus modules, including helper
-theorems unused by public results. Its final gate requires the global job,
-draft build and all shards to succeed; failed, cancelled or skipped jobs fail
-it. PRs require the global gates and explicitly skip corpus/draft jobs. A PR
-pass does not claim an exhaustive per-module audit. Separate concurrency groups
-prevent PR or main pushes from cancelling a daily run. Before merging proof
-changes, run the complete applicable proof checks locally.
+The VeriTile workflow builds the library and the three worked examples on
+pull requests and main pushes. Its nightly or manual library audit runs the
+full artifact checker. VeriTileBench runs its full corpus build and comparator
+replay daily at 04:00 Asia/Singapore (20:00 UTC) and on manual dispatch.
 
 Local `scripts/bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
 corpus by default. To reproduce the CI stages separately:

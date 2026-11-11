@@ -1,7 +1,0 @@
-{
-  "original": "rbe_triton_transform.py",
-  "original_sha256": "97d336d7baa78cd4104f114d658760deb16a06f4bb56a68ff3c675ee339aa2fd",
-  "candidate": "rbe_triton_transform_mask_reuse.py",
-  "candidate_sha256": "30656a4997985bbba582a46feaad6dc527d333725e8628105b2292e4b570e82e",
-  "transformation": "Reuse exactly x_real_mask and x_imag_mask at the identical output coordinates. All helper, cast, floating, memory, host and entrypoint code otherwise identical."
-}

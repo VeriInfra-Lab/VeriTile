@@ -1,7 +1,0 @@
-{
-  "original": "matmul_dequantize_int4.py",
-  "candidate": "matmul_dequantize_int4_group_extent.py",
-  "original_sha256": "3ffe3eae0fa2022409cf3d868ffc071ffec1950d5971a815a55b279162505a57",
-  "candidate_sha256": "71349c4fedebab951392c56debebe9fa3bb018ae71c50734d13a06140e989238",
-  "relationship": "The existing Python group-extent candidate is unchanged: N is constexpr and num_pid_in_group is locally precomputed as GROUP_SIZE_M * triton.cdiv(N, BLOCK_SIZE_N). Both complete bodies are pasted verbatim. All 17 configurations, host dispatch, input guards, casts and masks remain unchanged. The native carry-dot graph is derived under the existing compiler realization contract, not claimed equal by an FP identity."
-}

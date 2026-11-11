@@ -109,6 +109,14 @@ private partial def normalizeRawBody (parserEnv : Environment) (raw : Syntax) : 
   | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($dt:tritonDType)) => do
       if directLoadCast dt then return raw
       return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dt:tritonDType))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) => do
+      unless target.getId.eraseMacroScopes matches .str _ "dtype" do return raw
+      let dtype : TSyntax `term := ⟨target.raw⟩
+      return (← `(tritonExpr| (tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dtype:term))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($target:ident)) => do
+      unless target.getId.eraseMacroScopes matches .str _ "dtype" do return raw
+      let dtype : TSyntax `term := ⟨target.raw⟩
+      return (← `(tritonExpr| (tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*)).to($dtype:term))).raw
   | `(tritonExpr| tl.cast($value:tritonExpr, $dtype:tritonDType)) => do
       unless integerDType dtype do return raw
       let some n := pythonIntegerLiteral? value

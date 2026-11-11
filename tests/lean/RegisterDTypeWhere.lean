@@ -1,4 +1,5 @@
 import VeriTile.Triton.DSL
+import VeriTile.Triton.DSL.CallSignature
 import VeriTile.Triton.Float.ProfiledSoundness
 import VeriTile.Meta.StatementAudit
 
@@ -78,7 +79,49 @@ theorem mixed_half_where (X Y : RegionName) :
         (.withPrecision .fp16 .fp32 (.ref .fp16 [] "x"))
         (.withPrecision .fp16 .fp32 (.castFloat .bf16 .fp16 (.ref .bf16 [] "y")))))) := rfl
 
+def directLoadCasts (input output : FloatDType) (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({floatingPointers := [("X",input),("Y",output)]} : CallSignature) in triton {
+    y = tl.load(Y)
+    plain = tl.load(X).to(y.dtype)
+    masked = tl.load(X, mask=True, other=0).to(y.dtype)
+    positional = tl.load(X, True, other=0).to(y.dtype)
+  }
+
+def groupedLoadCasts (input output : FloatDType) (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({floatingPointers := [("X",input),("Y",output)]} : CallSignature) in triton {
+    y = tl.load(Y)
+    plain = (tl.load(X)).to(y.dtype)
+    masked = (tl.load(X, mask=True, other=0)).to(y.dtype)
+    positional = (tl.load(X, True, other=0)).to(y.dtype)
+  }
+
+/-- Register-dtype casts after direct loads retain the complete typed program,
+including both mask spellings and the nested-load evaluation order. -/
+theorem direct_load_register_casts (input output : FloatDType) (X Y : RegionName) :
+    directLoadCasts input output X Y = groupedLoadCasts input output X Y := rfl
+
+theorem direct_load_cast_target (input output : FloatDType) (X Y : RegionName) :
+    ((directLoadCasts input output X Y).surfaceBody.getLast?.map fun st =>
+      match st with
+      | .assign dtype _ _ _ => dtype
+      | _ => .bool) = some output.toTileDType := rfl
+
+def directPointerLoadCast (input output : FloatDType) (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({floatingPointers := [("X",input),("Y",output)]} : CallSignature) in triton {
+    converted = tl.load(X).to(Y.dtype.element_ty)
+  }
+
+/-- Pointer-element casts keep their existing typed lowering path. -/
+theorem direct_pointer_cast_target (input output : FloatDType) (X Y : RegionName) :
+    ((directPointerLoadCast input output X Y).surfaceBody.getLast?.map fun st =>
+      match st with
+      | .assign dtype _ _ _ => dtype
+      | _ => .bool) = some output.toTileDType := rfl
+
 #axiomsClean all_register_casts
 #axiomsClean where_preserves_fp64
 #axiomsClean mixed_half_where
+#axiomsClean direct_load_register_casts
+#axiomsClean direct_load_cast_target
+#axiomsClean direct_pointer_cast_target
 end VeriTile.Tests.RegisterDTypeWhere

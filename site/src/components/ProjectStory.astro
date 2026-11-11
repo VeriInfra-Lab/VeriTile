@@ -3,11 +3,14 @@ import { Code } from 'astro:components';
 import KernelDemo from './KernelDemo.astro';
 import FlashAttentionExample from './FlashAttentionExample.astro';
 import { homeStory } from '../lib/home-story';
+import { sourceLink as benchmarkSource } from '../lib/coverage-data';
 import { corpus, proofInventory, vectorAddBodies } from '../lib/project-data';
 const { docsBase, github } = Astro.props;
 const copy = homeStory;
 const themes = { light: 'github-light', dark: 'github-dark-dimmed' } as const;
-const source = (path: string) => `${github}/blob/main/${path}`;
+const source = (path: string) => /^(bench\/tritonbench_g|documents\/bench)\//.test(path)
+  ? benchmarkSource(path)
+  : `${github}/blob/main/${path}`;
 ---
 
 <div class="vt-story">

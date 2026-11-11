@@ -1,7 +1,7 @@
 # Worked examples
 
 All 19 groups have checked Python `@triton.jit` bodies in the
-[body-source inventory](../../documents/bench/BodySourceCorrespondence.md).
+[body-source inventory](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/BodySourceCorrespondence.md).
 [Source provenance](SOURCE_PROVENANCE.md) identifies examples whose Python
 reference was authored from an independent mathematical specification.
 
@@ -69,7 +69,7 @@ required input/intermediate domains remain part of the FP statements.
 
 | Example | Transformation and existing proof scope |
 | --- | --- |
-| [TritonBenchVectorAddition](TritonBenchVectorAddition) | Masked TritonBench addition; strict FP32 addition commutation with `≡[[]]`. |
+| [TritonBenchVectorAddition](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/examples/TritonBenchVectorAddition) | Masked TritonBench addition; strict FP32 addition commutation with `≡[[]]`. |
 | [VectorAdd](VectorAdd) | Aligned addition; strict FP32 addition commutation with `≡[[]]`. |
 | [FlatVectorAdd](FlatVectorAdd) | Masked addition; strict FP32 addition commutation with `≡[[]]`. |
 | [FloatDTypeAdd](FloatDTypeAdd) | Explicitly typed addition; strict FP32 addition commutation with `≡[[]]`, preserving the output cast. |

@@ -22,6 +22,6 @@ Except for VectorAdd and TritonBenchVectorAddition, these native Python examples
 | SoftmaxReciprocal | [SoftmaxReciprocal.py](SoftmaxReciprocal/SoftmaxReciprocal.py) | New native Python from the independent mathematical specification |
 | SoftmaxStable | [SoftmaxStable.py](SoftmaxStable/SoftmaxStable.py) | New native Python from the independent mathematical specification |
 | StableLogSumExp | [StableLogSumExp.py](StableLogSumExp/StableLogSumExp.py) | New native Python from the independent mathematical specification |
-| TritonBenchVectorAddition | [TritonBenchVectorAddition.py](TritonBenchVectorAddition/TritonBenchVectorAddition.py) | Selected repaired TritonBench task source |
+| TritonBenchVectorAddition | [TritonBenchVectorAddition.py](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/TritonBenchVectorAddition.py) | Selected repaired TritonBench task source |
 | VectorAdd | [VectorAdd.py](VectorAdd/VectorAdd.py) | Retained historical Triton source |
 | Welford | [Welford.py](Welford/Welford.py) | New native Python from the independent mathematical specification |

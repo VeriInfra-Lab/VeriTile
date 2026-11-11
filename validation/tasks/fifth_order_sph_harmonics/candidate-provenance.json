@@ -1,7 +1,0 @@
-{
-  "original": "fifth_order_sph_harmonics.py",
-  "candidate": "fifth_order_sph_harmonics_powers_reuse.py",
-  "original_sha256": "f1060f3487cf89047e0e3d4ffcee9fa16671bc287233baefe75a847c53334377",
-  "candidate_sha256": "236d2f97c7ec39043fde9f7e6c8df855da3bd09bafd83bf7c873d57fa9a2864e",
-  "relationship": "Materializes the existing Lean powers-reuse candidate in Python. Only the order and right-hand sides of VAR power assignments change: powers 2,3,4,5 are built from the preceding power with the same left-associated multiplication tree. The original Python is unchanged. All constants (including unused ones), 29 repaired derivative coefficients, source INT64 casts, masks, strided upstream loads, old-gradient accumulation and stores are retained. Python function/call names are suffixed for the candidate; host guards and enable_fp_fusion=False are unchanged."
-}

@@ -9,22 +9,21 @@ directions and [coverage and known limitations](https://github.com/VeriInfra-Lab
 for corpus scope and theorem interfaces. Open a separate issue for a concrete
 regression or a scoped task that is ready for implementation.
 
-Start with [the code map](documents/CodeOrganization.md) and
-[the benchmark index](documents/bench/README.md). The selected source and public proof
-entries are recorded in `validation/task_progress.json`; the source
-and contract checks are described in [the validation guide](documents/bench/current_source_acceptance.md).
+Start with [the code map](documents/CodeOrganization.md). The benchmark
+sources, selections and proof records live in [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench).
 
 Before submitting a structural or tooling change, run the relevant tests and:
 
 ```sh
-bash scripts/bench/audit_tritonbench_g.sh --source-only
+lake build VeriTile
+bash scripts/check-core-examples.sh
 python3 scripts/check_docs.py
 ```
 
 Run the complete applicable Lean build and proof gates locally when changing
-proofs, kernels or their dependencies. Daily CI performs the exhaustive corpus
-audit; a source-only check does not establish proof acceptance. See
-[the verification tools](scripts/README.md) for comparator setup and scopes.
+proofs, kernels or their dependencies. See [the verification tools](scripts/README.md)
+for the library checks and [the benchmark validation guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
+for the daily corpus audit.
 
 Reference documents are maintained in `documents/`. Regenerate their website
 copies with `python3 site/scripts/sync-docs.py`. Put generated output in

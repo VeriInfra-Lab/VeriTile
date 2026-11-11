@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "source": "chunk_linear_attn.py",
-  "source_sha256": "f07c1d8c1248feac65d7dc441d222571882680366ce7120b4d1895e18b7b97f2",
-  "candidate": "chunk_linear_attn_hoisted.py",
-  "candidate_sha256": "d71aa13b8501c58ef566db9e9da49d328019ebfeacc426269bf98472b351bf68",
-  "change": "Preserve the existing candidate: hoist qk_head = i_bh * s_qk_h immediately before the forward output K loop and use it in exactly the Q and K block-pointer bases. Every other body and all host code are unchanged."
-}

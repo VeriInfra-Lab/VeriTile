@@ -139,7 +139,24 @@ else:
         self.assertTrue(any('a.b' in name for name in inventories[0]['theorems']))
 
     def test_module_header_and_private_imports_are_replayed(self):
-        source = (ROOT / 'bench/tritonbench_g/fast_layernorm/Proofs/Settings.lean').read_text()
+        source = '''module
+public import Init
+import all Init.Data.Nat.Power2.Basic
+
+public section
+namespace Settings
+theorem nextPower_covers (n : Nat) : n ≤ n.nextPowerOfTwo := by
+  apply go 1 (by decide)
+where
+  go (power : Nat) (positive : 0 < power) : n ≤ Nat.nextPowerOfTwo.go n power positive := by
+    unfold Nat.nextPowerOfTwo.go
+    split
+    · exact go (power * 2) (Nat.mul_pos positive (by decide))
+    · apply Nat.le_of_not_gt; assumption
+  termination_by n - power
+  decreasing_by simp_wf; apply Nat.nextPowerOfTwo_dec <;> assumption
+end Settings
+'''
         result, reports, inventories = self.run_check(
             source, script='scripts/bench/audit_trust.sh')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

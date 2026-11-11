@@ -54,7 +54,7 @@ that create deliberately invalid temporary benchmark directories.
 
 Use [CodeOrganization.md](documents/CodeOrganization.md) for the directory
 and dependency map, [ProofConventions.md](documents/ProofConventions.md) for
-Lean style, and [MAIN_THEOREM_CONVENTIONS.md](documents/bench/MAIN_THEOREM_CONVENTIONS.md)
+Lean style, and [MAIN_THEOREM_CONVENTIONS.md](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/MAIN_THEOREM_CONVENTIONS.md)
 for public theorem responsibilities. Task files may reuse explicit helpers;
 they are not isolated one-file transcriptions.
 

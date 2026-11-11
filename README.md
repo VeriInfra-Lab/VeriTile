@@ -30,8 +30,8 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   `R` bundles the rule table and admissions; experiment bookkeeping stays there.
   `#print_fp_assumptions name` lists only the atomic assumption names referenced
   by an FP proof, such as `add_commute`. The GPU runner and trusted-report
-  example are available, with separate [correctness](bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
-  and [FP equivalence](bench/examples/TritonBenchVectorAddition/FPEquiv.lean) specifications.
+  example are available, with separate [correctness](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
+  and [FP equivalence](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean) specifications.
   See [specification meanings](documents/CorrectnessSurfaces.md#two-public-specification-meanings).
 - **Narrow-float / rounding-model layer** (#1): an abstract `RoundingModel`
   (`round : FloatDType → ℝ → ℝ`, fields `round_real` (real-channel identity) and `round_idem` (idempotence)) threads a
@@ -45,8 +45,8 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   fused-vs-unfused SwiGLU showcase
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Examples**: 183 current TritonBench-G task directories, with proof
-  contracts for their selected repaired implementations. The [historical contract review](./validation/archive/contracts.json) preserves the earlier mathematical targets, implementation pairs, conditions and proof scope. See the
-  [current source inventory](./documents/bench/current_source_acceptance.md) for checked
+  contracts for their selected repaired implementations. The [historical contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json) preserves the earlier mathematical targets, implementation pairs, conditions and proof scope. See the
+  [current source inventory](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md) for checked
   inputs and reproduction commands. Additional examples include FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
 - **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
@@ -224,6 +224,10 @@ Task-oriented:
 
 ## Repository Layout
 
+[VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench) hosts TritonBench-G, the
+bug-detection and pretraining challenges, and their per-task validation records.
+It builds against a locked VeriTile revision.
+
 ```text
 VeriTile/
   Triton.lean              Umbrella prelude (`import VeriTile.Triton`)
@@ -242,13 +246,8 @@ VeriTile/
     Launch/                Grid-launch composition / write footprints
     Concurrency/           Grid-wide atomic-add correctness (above Launch)
   Examples/                Worked correctness/refinement proofs
-bench/tritonbench_g/       One current repaired implementation and public proof entries per task
 bench/examples/            Worked examples with source, Real and FP entry points
 tests/lean/               Lean regressions
-tests/python/             Python regressions
-bench/bug_detection/       65 independent bug-detection challenges
-bench/pretrain_kernels/    269 independent pretraining challenges
-validation/               Current selections, contract review and source fingerprints
 documents/                 Design notes, subset spec, surface guide
 documents/archive/         Historical design and implementation plans
 scripts/                   CI gate, kernel manifest, LLM proof wrapper
@@ -259,21 +258,19 @@ verso/                     Slide deck / overview
 
 ## Verification
 
-- `bash scripts/bench/audit_tritonbench_g.sh --source-only` — source membership, current
-  contract bindings, Python/Lean correspondence and imported-challenge review
 - `python3 scripts/check_docs.py` — tracked Markdown links and reference-copy freshness
 - `lake build` — build the default `VeriTile` library target; standalone
   benchmarks/showcases and the GeLU/trust-report target are separate
 - `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
 - `lake build TritonBenchSpecExamples` — build all worked examples, including the independent real/FP pairs
-- `lake env lean bench/examples/VectorAdd/RealCorrect.lean` — quick example smoke check after building
+- `bash scripts/check-core-examples.sh` — check Python/Triton source correspondence and build
+  `RealCorrect` and `FPEquiv` for `VectorAdd` (addition), `RowWiseSum` (reduction order),
+  and `LogExp` (guarded numerical rewriting)
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
-- `scripts/bench/check_ports.sh` — current selected-corpus trust/replay; named arguments
-  retain the legacy filename-based port interface
-- `scripts/bench/audit_tritonbench_g.sh` — the full final-corpus gate: source/contract inventory,
-  complete builds, library comparator and corpus trust/replay checks
-- `scripts/bench/audit_trust.sh --final-inventory` — trust gates and comparator replay for every retained corpus module
+- The VeriTile workflow runs the library and three Real/FP examples for each pull request.
+  It runs the full library and comparator audit nightly and on manual dispatch.
+  Run the separate benchmark audit with the release candidate pinned before tagging.
 
 ## Environment
 

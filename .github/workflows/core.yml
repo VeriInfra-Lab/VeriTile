@@ -1,0 +1,45 @@
+name: VeriTile
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    name: Library and worked examples
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-lean
+        with:
+          build-args: >-
+            VeriTile tests.lean.PythonBodyParsing tests.lean.DTypeResolution
+            tests.lean.ConditionalCast tests.lean.RegisterDTypeWhere tests.lean.StatementAudit
+      - name: Check Triton sources and build Real and FP proofs
+        run: bash scripts/check-core-examples.sh
+
+  audit:
+    name: Full library proof audit
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-lean
+        with:
+          build-args: 'VeriTile VeriTileMath VeriTileFull'
+      - uses: ./.github/actions/setup-comparator
+      - name: Replay library proofs and check the artifact contract
+        run: bash scripts/check-artifact.sh

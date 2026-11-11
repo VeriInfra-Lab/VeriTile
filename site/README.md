@@ -15,8 +15,10 @@ Published in English, deployed to
 ```
 
 Requires [Bun](https://bun.sh) for dependency installation and Node.js 22.12+
-for Astro 7. Run from a complete repository checkout: the homepage reads
-the benchmark inventory and vector-add example at build time.
+for Astro 7. The homepage reads `VectorAdd` from this repository and the coverage
+report from the repository and commit in `src/lib/benchmark-source.json`. Check
+out that commit under `site/.benchmark`, or set `VERITILE_BENCHMARK_ROOT` to the
+absolute path of an existing checkout. The Website workflow prepares this checkout.
 
 The lockfile uses Astro 7 / Starlight 0.42 / Sharp 0.35. Compatible transitive
 overrides keep devalue, js-yaml, postcss-selector-parser, and smol-toml above
@@ -172,7 +174,7 @@ The base prefix is currently hard-coded so the same Markdown serves dev
 Bench / scripts links should point to GitHub:
 
 ```markdown
-[`scripts/bench/check_ports.sh`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/scripts/bench/check_ports.sh)
+[`scripts/bench/check_ports.sh`](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/scripts/bench/check_ports.sh)
 ```
 
 ## Re-syncing from `documents/`
@@ -207,7 +209,7 @@ fragments; changes to theorem meanings still require documentation review.
 ## Deployment
 
 Pushing to `main` with changes under `site/**`, `documents/**`,
-`bench/tritonbench_g/**`, the Lean toolchain, or the vector-add showcase triggers
+the Lean toolchain, or the vector-add showcase triggers
 `.github/workflows/site.yml`, which runs `bun install` + `bun run build`
 and uploads `site/dist/` as a Pages artifact. First-time setup needs the
 repo's **Settings → Pages → Source** set to **"GitHub Actions"**; after

@@ -1,7 +1,0 @@
-{
-  "original": "streamk_matmul.py",
-  "candidate": "streamk_matmul_area.py",
-  "original_sha256": "be44f7890921b603557e046e69b740ee00190314ac9d8bbb417cff4dd8a1e977",
-  "candidate_sha256": "c42c2a6fc70811abe77c59d64f89c7d8fe85f51daf11e1deae82a899e3d4faa7",
-  "transformation": "Reassociate only the two scratch tile-area products before the live program/pid multiply; rename all six JIT functions, their callers and the matmul wrapper class. Retain the full repaired host module."
-}
