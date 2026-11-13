@@ -1,4 +1,5 @@
 """Failure-injection regressions for the standalone audit gates."""
+from contextlib import ExitStack
 import importlib.util
 import os
 import shutil
@@ -174,6 +175,34 @@ class AuditGateTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertEqual(result.stdout.strip(), '')
 
+    def assert_audit_rejections(self, source_for, declarations, *expected):
+        with ExitStack() as stack:
+            fixtures = []
+            for declaration in declarations:
+                directory = Path(stack.enter_context(tempfile.TemporaryDirectory(
+                    prefix='_audit-regression-', dir=ROOT / 'bench/tritonbench_g')))
+                source = directory / 'Fixture.lean'
+                source.write_text(source_for(declaration))
+                fixtures.append((directory.name, source.relative_to(ROOT).as_posix(), declaration))
+
+            # All fixtures in one invocation share a frozen judge. Copying and
+            # removing the full Lake cache per fixture dominates on CI runners.
+            result = subprocess.run(
+                ['bash', 'scripts/bench/audit_trust.sh', *(name for name, _, _ in fixtures)],
+                cwd=ROOT, text=True, capture_output=True, timeout=240,
+                env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+            diagnostics = result.stderr.splitlines()
+            for _, relative, declaration in fixtures:
+                with self.subTest(declaration=declaration):
+                    prefix = f'[FAIL] {relative}: elaboration/inventory failed; logs: '
+                    logs = next((line.removeprefix(prefix) for line in diagnostics
+                                 if line.startswith(prefix)), None)
+                    self.assertIsNotNone(logs, result.stdout + result.stderr)
+                    build_log = (Path(logs) / 'build.log').read_text()
+                    for message in expected:
+                        self.assertIn(message, build_log)
+
     def test_real_runner_rejects_hidden_headline_axioms(self):
         declarations = ['specification\n  missedHeadline : False := injected',
                         'specification αβ : False := injected',
@@ -182,19 +211,10 @@ class AuditGateTests(unittest.TestCase):
                         'macro "headlineFixture" : command => `(specification generated : False := injected)\nheadlineFixture',
                         'macro "headlineFixture" : command => `(theorem generated_correct : False := injected)\nheadlineFixture',
                         'theorem\n  legacy_correct : False := injected']
-        for declaration in declarations:
-            with self.subTest(declaration=declaration), tempfile.TemporaryDirectory(
-                    prefix='_audit-regression-', dir=ROOT / 'bench/tritonbench_g') as temp:
-                directory = Path(temp)
-                (directory / 'Fixture.lean').write_text(
-                    'import VeriTile.Meta.StatementAudit\nnamespace Nested\n'
-                    'private axiom injected : False\n' + declaration + '\nend Nested\n')
-                result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', directory.name],
-                                        cwd=ROOT, text=True, capture_output=True, timeout=90,
-                                        env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
-                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
-                self.assertIn('DISALLOWED axioms', result.stderr)
-                self.assertIn('injected', result.stderr)
+        self.assert_audit_rejections(
+            lambda declaration: 'import VeriTile.Meta.StatementAudit\nnamespace Nested\n'
+            'private axiom injected : False\n' + declaration + '\nend Nested\n',
+            declarations, 'DISALLOWED axioms', 'injected')
 
     def test_unannotated_proof_is_not_promoted(self):
         self.assertEqual(coverage.classify('kernel_correctness', 'a checked theorem')[0], 'unreviewed')
@@ -204,19 +224,11 @@ class AuditGateTests(unittest.TestCase):
             'macro "specFixture" : command => `(def generatedSpec : ComputeKernel := kernel)\nspecFixture',
             'macro "specFixture" : command => `(@[kernel_spec] def generated : Nat := kernel.toAlgKernel.inputs.length)\nspecFixture',
         ]
-        for declaration in declarations:
-            with self.subTest(declaration=declaration), tempfile.TemporaryDirectory(
-                    prefix='_audit-regression-', dir=ROOT / 'bench/tritonbench_g') as temp:
-                directory = Path(temp)
-                (directory / 'Fixture.lean').write_text(
-                    'import VeriTile.Triton.Core\nimport VeriTile.Meta.StatementAudit\n'
-                    'open VeriTile.Triton\ndef kernel : ComputeKernel := .mk [] [] []\n'
-                    + declaration + '\n')
-                result = subprocess.run(['bash', 'scripts/bench/audit_trust.sh', directory.name],
-                                        cwd=ROOT, text=True, capture_output=True, timeout=90,
-                                        env={**os.environ, 'AUDIT_TRUST_JOBS': '1'})
-                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
-                self.assertIn('SELF-REFERENTIAL', result.stderr)
+        self.assert_audit_rejections(
+            lambda declaration: 'import VeriTile.Triton.Core\nimport VeriTile.Meta.StatementAudit\n'
+            'open VeriTile.Triton\ndef kernel : ComputeKernel := .mk [] [] []\n'
+            + declaration + '\n',
+            declarations, 'SELF-REFERENTIAL')
 
     def test_lean_rejects_specs_without_discovered_kernels(self):
         with tempfile.TemporaryDirectory() as temp:
