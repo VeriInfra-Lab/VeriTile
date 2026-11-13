@@ -1,5 +1,14 @@
 # VeriTile — Project Plan
 
+Status counts and completed tiers below preserve the dated development snapshot;
+they are not a current benchmark inventory or a versioned release guarantee.
+Use [README.md](README.md) for current CI/build scope, the
+[example ledger](documents/ExampleSpecificationMigration.md) for Real/FP
+entries, and [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench) for
+current tasks and acceptance records. Architecture and proposed follow-ups
+remain useful independently of those historical counts.
+
+
 VeriTile is a long-running project to bring real Triton kernel verification
 into Lean 4. Not toys, not a hand-picked theorem set tuned to a deadline — the
 goal is to let a Triton engineer take the production `.py` kernels they ship
@@ -106,7 +115,7 @@ Required compute gaps are and remain test-backed.
 The trusted bridge from Real-algorithm correctness to floating computation
 **is the external gap checker**, not a Lean theorem.
 
-## Status (2026-05-09)
+## Historical status (2026-05-09)
 
 ### Tier 1 — Loop-free kernel pairs ✅
 
@@ -275,7 +284,7 @@ bundled as `strippedBackward_tile_bridges_complete`,
 - `lake build` clean
 - `scripts/bench/check_ports.sh` 32/32 ok
 
-## In progress
+## Planned follow-ups from that snapshot
 
 ### Tier 3 ergonomic follow-ups
 

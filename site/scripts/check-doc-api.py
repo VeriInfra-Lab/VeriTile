@@ -14,9 +14,8 @@ PREFIXES = (
     'RoundingModel', 'BlockState', 'BlockPtr', 'BlockPtrSummary',
     'WriteFootprint', 'TensorView', 'ComparableDType', 'Tile', 'Offset',
 )
-# A schematic diagram and a theorem defined in a standalone bench file, which
-# cannot be imported through the library prelude.
-ILLUSTRATIONS = {'ComputeKernel.atomic_add', 'ComparableDType.real_gt_some_some_eq_true_iff'}
+# A schematic diagram, not a public declaration.
+ILLUSTRATIONS = {'ComputeKernel.atomic_add'}
 # Cover the entire IO family, including Unicode arities and shaped/masked/
 # streamed variants. Deliberately also match unknown variants so typos fail.
 PATTERN = re.compile(r'\b(?:' + '|'.join(PREFIXES) + r'|[A-Za-z_]*\w*KernelIO\w*|KernelIO\w*)\.[A-Za-z_][\w?\']*(?:\.[A-Za-z_][\w?\']*)*')

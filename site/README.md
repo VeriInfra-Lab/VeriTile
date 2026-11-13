@@ -84,7 +84,7 @@ The language comparison shows only the kernel bodies, with corresponding names
 matched for readability and the aligned, unmasked scope stated in the caption.
 The interactive demo retains the exact verified kernel text.
 The View proof links open the full Lean contracts and proofs in
-`bench/tritonbench_g/logsumexp_fwd/RealCorrect.lean` and
+`bench/tritonbench_g/logsumexp_fwd/RealCorrect.lean` in the locked benchmark checkout and
 `bench/examples/StableLogSumExp/FPEquiv.lean`.
 Both cards use log-sum-exp. The correctness formula is explicitly the unscaled,
 per-block active-lane case. The equivalence example compares direct LSE and the
@@ -103,7 +103,7 @@ identical intermediate operations.
 The featured FlashAttention link covers the forward causal/non-causal
 reference contracts with their boundary/D-tail conditions.
 The benchmark shows paired-port inventory and unique theorem statements from
-the current public Lean declarations, with links to each entry and its task scope.
+the public Lean declarations at the locked benchmark revision, with links to each entry and its task scope.
 
 The agent section uses two panels: reusable lemmas on the left, proof generation
 on the right. Four lemma groups link directly to the loop-invariant, matrix
@@ -132,8 +132,9 @@ python3 site/scripts/record-home-demo.py --check
 ```
 
 `src/lib/vector-add-record.json` stores these results. Its fingerprint covers
-the example, library Lean sources, toolchain, dependency manifest, lakefile,
-and recorder. The homepage build refuses a stale record. Failed variants are
+the example and its recursively imported local Lean dependencies, toolchain,
+dependency manifest, lakefile, and recorder. Unrelated library modules are not
+part of the fingerprint. The homepage build refuses a stale record. Failed variants are
 created in a temporary directory; the canonical example is never mutated.
 Regeneration requires Python 3 and the Lean dependencies; building the site
 from a current record does not require Lean.

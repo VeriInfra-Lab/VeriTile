@@ -96,8 +96,9 @@ makes proofs cheaper.
 - **`_pos` suffix** marks the positivity-asserting variant of a helper —
   returns the underlying value directly instead of `Option`.
 
-Bench headlines use the `specification` keyword and prefer a `KernelIO`
-`⊨` / `⊨[R]` contract. Naming suffixes are not how the audit discovers
+Bench headlines use `specification`: `Spec.Real (io ⊨ formula)` for
+mathematical correctness and `original ≡[R] candidate` for FP equivalence.
+Historical rounding-model IO notation retains its original meaning. Naming suffixes are not how the audit discovers
 headlines; follow the [main-theorem conventions](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/MAIN_THEOREM_CONVENTIONS.md).
 
 ## Antiquotes are paste-in-hostile — minimize them
@@ -106,19 +107,21 @@ headlines; follow the [main-theorem conventions](https://github.com/VeriInfra-La
 both VeriTile inventions that Triton's `.py` doesn't have. They're a
 friction point for the paste-in goal.
 
-When adding a new DSL construct: design without antiquotes if at all
-possible. If unavoidable, document the construct's antiquote requirement
-explicitly in `documents/TritonSubset.md` and prefer context-aware
-resolution over user-visible bridging.
+Bind input types, constexpr values and imported helpers outside the copied
+`triton { ... }` function body, as described in the
+[translation guide](/VeriTile/cookbook/translating/). The legacy antiquote forms
+remain useful when reading older library examples or writing AST proof fixtures.
+New source transcriptions retain Python spelling and do not insert them.
 
-Known paste-in conflicts that are already tracked:
+Known boundaries still need explicit checks:
 
-- `tl.toReal(_)` — a VeriTile invention; Triton uses implicit type
-  promotion.
-- Strict `ℝ` vs `Nat` channel separation — rejects mixed arithmetic that
-  Triton accepts.
-- "Error on unknown kwargs" — rejects Triton kernels with
-  `cache_modifier=` / `eviction_policy=`.
+- `tl.toReal(_)` is a VeriTile-specific lower-level conversion; it must not be
+  inserted into a copied Python body.
+- Integer channels use mathematical `Nat`/`Int`; fixed-width behavior requires
+  the relevant model or range conditions.
+- Memory kwargs have a whitelist. Literal `eviction_policy="evict_first"` and
+  `"evict_last"` are supported metadata; unknown kwargs such as an unsupported
+  `cache_modifier` still fail rather than silently changing the body.
 
 These are recorded tradeoffs, not surprises. New constructs should not
 add to the list.

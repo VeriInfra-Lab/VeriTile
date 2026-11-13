@@ -1,7 +1,9 @@
 # Example specification migration
 
-The reference is `TritonBenchVectorAddition/Correct.lean` and
-`TritonBenchVectorAddition/FPEquiv.lean`.
+This ledger covers the combined 19-group collection: 18 core groups and
+VeriTileBench's TritonBenchVectorAddition. The reference
+[TritonBenchVectorAddition](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/examples/TritonBenchVectorAddition)
+now lives in VeriTileBench, with separate `RealCorrect.lean` and `FPEquiv.lean`.
 
 Each completed case has a real correctness file and an independent FP equivalence file.
 The correctness statement is `Spec.Real (io ⊨ mathematical_formula)`.
@@ -13,8 +15,9 @@ and contract helpers live in the example's `Proofs/FP.lean` and never import the
 correctness counterpart. See the [example index](../bench/examples/README.md)
 for the shared implementations and precise observation scopes.
 
-All 19 examples keep IO definitions, necessary conditions and specifications in
-their reader entries. Auxiliary real lemmas live in `Proofs/Real.lean`; FP
+All 19 examples keep their shared IO definitions in `IO.lean`, input conditions
+and independent specifications in `Contract.lean`, and the public Real/FP
+statements in their reader entries. Auxiliary real lemmas live in `Proofs/Real.lean`; FP
 execution, recurrence and scalar composition lemmas live in `Proofs/FP.lean`
 when needed. Public FP contracts expose precision, operand domains, schedules
 and comparison requirements. The entry proofs compose the checked lemmas;
@@ -32,25 +35,25 @@ FP equivalence. Pending entries must not be advertised as proved.
 
 | Original case | Correctness file | FP transformation and status |
 |---|---|---|
-| TritonBench vector addition | `TritonBenchVectorAddition/Correct.lean` — checked for original and optimized sources | `TritonBenchVectorAddition/FPEquiv.lean` — checked; add commutation |
-| Aligned vector addition | `VectorAdd/Correct.lean` — checked for original and optimized sources | `VectorAdd/FPEquiv.lean` — checked; add commutation |
-| Masked vector addition | `FlatVectorAdd/Correct.lean` — checked for original and optimized sources | `FlatVectorAdd/FPEquiv.lean` — checked; add commutation |
-| Float dtype addition | `FloatDTypeAdd/Correct.lean` — checked for original and optimized sources, including empty tiles | `FloatDTypeAdd/FPEquiv.lean` — checked; add commutation; output cast retained |
-| Row-wise sum | `RowWiseSum/Correct.lean` — checked for original and optimized sources | `RowWiseSum/FPEquiv.lean` — strict fp32 ADD-COMMUTE with empirical ADD-ASSOC/ADD-ZERO; dimensions and reduction schedules remain symbolic |
-| Row-wise max | `RowWiseMax/Correct.lean` — checked for original and optimized sources | `RowWiseMax/FPEquiv.lean` — checked; inline the load and reduction into the store, preserving the same reduction and input order; no numerical assumptions |
-| Online softmax | `OnlineSoftmax/Correct.lean` — checked for batch and complete online output; bounded flat-memory stores/frame for both sources | `OnlineSoftmax/FPEquiv.lean` — checked for actual stored outputs on both sides; libdevice EXP-SUB and scalar arithmetic, symbolic positive row length and memory frames |
-| mHC depth | `HyperConnectionsDepth/Correct.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsDepth/FPEquiv.lean` — checked for symbolic dimensions and iteration count; final pointwise add commutation |
-| mHC width | `HyperConnectionsWidth/Correct.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsWidth/FPEquiv.lean` — strict scalar multiplication commutation; matrix logit division versus reciprocal multiplication uses empirical DIV-MUL-RCP, with symbolic dimensions, iteration count and unchanged matrix products |
-| Adam-named Lion update | `AdamUpdateGridLaunch/Correct.lean` — checked for both sources per program; original grid proofs retained | `AdamUpdateGridLaunch/FPEquiv.lean` — checked per program; momentum addition commutation, masked in-place stores retained |
-| Stable softmax | `SoftmaxStable/Correct.lean` — checked for both original kernels against the softmax formula | `SoftmaxStable/FPEquiv.lean` — checked for the libdevice.exp kernels, using admitted scalar arithmetic and EXP-SUB; symbolic row length, scheduled sums, bf16 stores and frames retained |
-| Log-exp elimination | `LogExp/Correct.lean` — checked for the fixed reference and guarded candidate against the identity formula | `LogExp/FPEquiv.lean` — checked using the admitted conditional `log_exp_cancel .libdevice` atom |
-| Stable logsumexp | `StableLogSumExp/Correct.lean` — checked for the direct reference and conditional candidate against logsumexp; the historical shift's real proof is in `Proofs/LegacyCorrect.lean` | `StableLogSumExp/FPEquiv.lean` — `logsumexp_equiv` checks the conditional tl.log candidate against the unchanged direct reference, using `log_mul_split .tl`, `log_exp_cancel .tl`, exp-sub and arithmetic. The older general FP target is refuted by a singleton logical countermodel in `Proofs/Unconditional.lean`. |
-| Softmax reciprocal | `SoftmaxReciprocal/Correct.lean` — checked for both original kernels against the softmax formula | `SoftmaxReciprocal/FPEquiv.lean` — ordinary fp32 division versus a shared reciprocal, with the original bf16 output cast and explicit finite/nonzero operand domain |
-| Float dtype softmax | `FloatDTypeSoftmax/Correct.lean` — checked for both original fp32-load/fp64-work kernels against the softmax formula | `FloatDTypeSoftmax/FPEquiv.lean` — fp32 load, fp64 work, fp32 output; only the casted division/reciprocal relation is assumed |
-| Fused SiLU | `FusedSiLU/Correct.lean` — checked for both original kernels against residual + silu(x · gate), including empty blocks and scratch framing | `FusedSiLU/FPEquiv.lean` — checked; original fused versus materialized pipeline, with no numerical assumptions |
-| Fused SwiGLU | `FusedSwiglu/Correct.lean` — checked for both original kernels against silu(x) · y, including empty blocks, tail masks and scratch framing | `FusedSwiglu/FPEquiv.lean` — checked; original fused versus materialized pipeline, with bf16 casts, tail masks and no numerical assumptions |
-| Welford | `Welford/Correct.lean` — checked for both original kernels against population mean and variance; both output windows and memory framing | `Welford/FPEquiv.lean` — checked under scalar arithmetic and two strict bounded-count certificates, for `0 < N <= 2^24`; both original bf16 outputs and memory frames retained |
-| Fused layernorm | `FusedLayerNorm/Correct.lean` — checked for both original kernels against population-variance normalization and affine transformation | `FusedLayerNorm/FPEquiv.lean` — checked for `N <= 2^24`, including empty output rows; original statistics, affine suffix, bf16 stores and frames retained |
+| TritonBench vector addition | `TritonBenchVectorAddition/RealCorrect.lean` — checked for original and optimized sources | `TritonBenchVectorAddition/FPEquiv.lean` — checked; add commutation |
+| Aligned vector addition | `VectorAdd/RealCorrect.lean` — checked for original and optimized sources | `VectorAdd/FPEquiv.lean` — checked; add commutation |
+| Masked vector addition | `FlatVectorAdd/RealCorrect.lean` — checked for original and optimized sources | `FlatVectorAdd/FPEquiv.lean` — checked; add commutation |
+| Float dtype addition | `FloatDTypeAdd/RealCorrect.lean` — checked for original and optimized sources, including empty tiles | `FloatDTypeAdd/FPEquiv.lean` — checked; add commutation; output cast retained |
+| Row-wise sum | `RowWiseSum/RealCorrect.lean` — checked for original and optimized sources | `RowWiseSum/FPEquiv.lean` — strict fp32 ADD-COMMUTE with empirical ADD-ASSOC/ADD-ZERO; dimensions and reduction schedules remain symbolic |
+| Row-wise max | `RowWiseMax/RealCorrect.lean` — checked for original and optimized sources | `RowWiseMax/FPEquiv.lean` — checked; inline the load and reduction into the store, preserving the same reduction and input order; no numerical assumptions |
+| Online softmax | `OnlineSoftmax/RealCorrect.lean` — checked for batch and complete online output; bounded flat-memory stores/frame for both sources | `OnlineSoftmax/FPEquiv.lean` — checked for actual stored outputs on both sides; libdevice EXP-SUB and scalar arithmetic, symbolic positive row length and memory frames |
+| mHC depth | `HyperConnectionsDepth/RealCorrect.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsDepth/FPEquiv.lean` — checked for symbolic dimensions and iteration count; final pointwise add commutation |
+| mHC width | `HyperConnectionsWidth/RealCorrect.lean` — checked for general matrix sources and finite Sinkhorn iterations, including bounded flat memory for both original and optimized versions | `HyperConnectionsWidth/FPEquiv.lean` — strict scalar multiplication commutation; matrix logit division versus reciprocal multiplication uses empirical DIV-MUL-RCP, with symbolic dimensions, iteration count and unchanged matrix products |
+| Adam-named Lion update | `AdamUpdateGridLaunch/RealCorrect.lean` — checked for both sources per program; original grid proofs retained | `AdamUpdateGridLaunch/FPEquiv.lean` — checked per program; momentum addition commutation, masked in-place stores retained |
+| Stable softmax | `SoftmaxStable/RealCorrect.lean` — checked for both original kernels against the softmax formula | `SoftmaxStable/FPEquiv.lean` — checked for the libdevice.exp kernels, using admitted scalar arithmetic and EXP-SUB; symbolic row length, scheduled sums, bf16 stores and frames retained |
+| Log-exp elimination | `LogExp/RealCorrect.lean` — checked for the fixed reference and guarded candidate against the identity formula | `LogExp/FPEquiv.lean` — checked using the admitted conditional `log_exp_cancel .libdevice` atom |
+| Stable logsumexp | `StableLogSumExp/RealCorrect.lean` — checked for the direct reference and conditional candidate against logsumexp; the historical shift's real proof is in `Proofs/LegacyCorrect.lean` | `StableLogSumExp/FPEquiv.lean` — `logsumexp_equiv` checks the conditional tl.log candidate against the unchanged direct reference, using `log_mul_split .tl`, `log_exp_cancel .tl`, exp-sub and arithmetic. The older general FP target is refuted by a singleton logical countermodel in `Proofs/Unconditional.lean`. |
+| Softmax reciprocal | `SoftmaxReciprocal/RealCorrect.lean` — checked for both original kernels against the softmax formula | `SoftmaxReciprocal/FPEquiv.lean` — ordinary fp32 division versus a shared reciprocal, with the original bf16 output cast and explicit finite/nonzero operand domain |
+| Float dtype softmax | `FloatDTypeSoftmax/RealCorrect.lean` — checked for both original fp32-load/fp64-work kernels against the softmax formula | `FloatDTypeSoftmax/FPEquiv.lean` — fp32 load, fp64 work, fp32 output; only the casted division/reciprocal relation is assumed |
+| Fused SiLU | `FusedSiLU/RealCorrect.lean` — checked for both original kernels against residual + silu(x · gate), including empty blocks and scratch framing | `FusedSiLU/FPEquiv.lean` — checked; original fused versus materialized pipeline, with no numerical assumptions |
+| Fused SwiGLU | `FusedSwiglu/RealCorrect.lean` — checked for both original kernels against silu(x) · y, including empty blocks, tail masks and scratch framing | `FusedSwiglu/FPEquiv.lean` — checked; original fused versus materialized pipeline, with bf16 casts, tail masks and no numerical assumptions |
+| Welford | `Welford/RealCorrect.lean` — checked for both original kernels against population mean and variance; both output windows and memory framing | `Welford/FPEquiv.lean` — checked under scalar arithmetic and two strict bounded-count certificates, for `0 < N <= 2^24`; both original bf16 outputs and memory frames retained |
+| Fused layernorm | `FusedLayerNorm/RealCorrect.lean` — checked for both original kernels against population-variance normalization and affine transformation | `FusedLayerNorm/FPEquiv.lean` — checked for `N <= 2^24`, including empty output rows; original statistics, affine suffix, bf16 stores and frames retained |
 
 There are 19 correctness modules and 19 modules with completed FP specifications.
 They expose 21 public FP specifications. The [current rule-usage guide](FPRemainingAdmissionGaps.md)
@@ -187,7 +190,7 @@ and memory framing on each side.
 The row-wise sum proof specializes the original mathematical kernel to fp32
 input and accumulation and reverses the lane addresses before `tl.sum`. The
 DSL preserves the input's fp32 compute annotation on the reduction and its
-result. The mathematical projection still equals `RowWiseSum/Correct.lean`'s kernel.
+result. The mathematical projection still equals `RowWiseSum/RealCorrect.lean`'s kernel.
 
 `Float/Equational` supplies expression congruence and substitution of the exact
 scalar ADD-COMMUTE and ADD-ASSOC templates. Its reduction-tree theorem derives
@@ -257,8 +260,9 @@ Proof builds, regression checks and independent replay validate the current
 source tree. Experimental rules retain the reports required by their admission.
 
 For code changes, run `lake build VeriTile TritonBenchSpecExamples` and the
-relevant existing regressions. The example target includes all `bench.examples`
-modules and the imported TritonBench vector-addition module. Check:
+relevant existing regressions. The core target includes the 18 local worked-example groups. VeriTileBench
+uses `lake build BenchmarkExamples` for its 19 groups, including its own
+TritonBenchVectorAddition; run that command in a VeriTileBench checkout. Check:
 
 - Shared source bindings and independent Real/FP imports.
 - Public formulas, precision, actual operand domains, masks and scratch windows.

@@ -47,7 +47,7 @@ Authoritative architecture references:
 
 ### Out of scope — do not argue about
 
-- IEEE / floating-point bit-level semantics — out of Lean proof scope unless the PR explicitly changes the compute-gap architecture. The compute-gap is handled externally.
+- Hardware conformance — software bf16/fp32 scalar models and strict certificates exist; check their actual precision and domain. They do not certify GPU instructions. Experimental numerical assumptions remain distinct from strict model proofs; do not dismiss existing bit-value proofs as out of scope.
 - PTX memory ordering (acquire/release/relaxed/seq_cst) — out of scope unless the PR explicitly introduces a memory-ordering model.
 - Iris-Lean adoption — explicitly not a path the project takes.
 

@@ -6,25 +6,23 @@ module responsibilities. This guide points to current tools and inventories.
 ## Repository map
 
 - `VeriTile/`: shared Lean semantics, DSL, numerical models and proof interfaces.
-- `bench/tritonbench_g/`: one current repaired implementation and its proof modules per task.
 - `bench/examples/`: self-contained worked examples with separate source,
   independent Real correctness, FP equivalence and required proof helpers.
 - `tests/lean/` and `tests/python/`: Lean and Python regressions.
-- `validation/`: current selections, source reviews and validation records.
-- `scripts/bench/`: benchmark inventory, audit and source-correspondence tools.
-- `bench/bug_detection/` and `bench/pretrain_kernels/`: 334 imported challenges
-  whose proof/backend obligations remain open.
+- `scripts/bench/`: source-correspondence and standalone trust-audit helpers.
+- `library/`: optional dependency view excluding the worked-example collection.
+- [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench): selected repaired
+  tasks, imported challenge interfaces, benchmark examples and validation records.
 - `documents/`: maintained references; `documents/archive/` holds past designs.
 - `scripts/`: shared development and verification commands.
 - `experiments/floating_point/`: numerical evidence and experiment tooling.
 - `site/`: documentation website; generated references come from `documents/`.
 - `verso/`: an independent presentation project with its own Lean toolchain.
 
-`validation/task_progress.json` selects the current public task entries.
-`validation/archive/contracts.json` preserves earlier reviewed specifications and conditions.
-Generate a current source snapshot with `python3 scripts/bench/final_inventory.py --write PATH`.
-Source correspondence, Lean proofs, numerical evidence and native execution
-remain distinct results; preserve pending classifications.
+VeriTileBench's `validation/task_progress.json` selects its public task entries;
+its historical contract review and current source inventories stay in that
+repository. Source correspondence, Lean proofs, numerical evidence and native
+execution remain distinct results; preserve pending classifications.
 
 ## Build and verification
 
@@ -33,22 +31,18 @@ Use the target list in [lakefile.toml](lakefile.toml). Common commands are:
 ```sh
 lake build                                      # shared lite library
 lake build VeriTile VeriTileMath VeriTileFull    # complete shared library
-bash scripts/bench/audit_tritonbench_g.sh --source-only  # source and review checks
-python3 -B -m unittest discover -s tests/python -p 'test_*.py'
+bash scripts/check-core-examples.sh             # three source/Real/FP pairs
+python3 -B -m unittest scripts.test_library_dependency_profile
 python3 scripts/check_docs.py                    # links and generated references
 ```
 
-`scripts/bench/audit_tritonbench_g.sh` runs the complete corpus build and trust/replay
-checks. `--global-only` checks sources and the library without corpus replay.
-Official comparator tools and their sandbox are required for proof acceptance;
-see [scripts/README.md](scripts/README.md). Judge commands by their exit codes,
-not by a successful-looking tail of their output.
-
-PR/main-push CI runs source/regression and library gates. The full retained
-corpus and all draft interfaces run daily at 04:00 Asia/Singapore (20:00 UTC),
-or on manual dispatch. Run the applicable complete proof checks locally before
-merging proof changes. Never run the corpus scanner concurrently with tests
-that create deliberately invalid temporary benchmark directories.
+The core workflow builds the library and the three worked-example pairs on
+PRs/main pushes; its nightly/manual job runs the full library artifact audit.
+Corpus builds, source snapshots and per-module comparator replay run in a
+VeriTileBench checkout. See [the benchmark validation guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
+for its daily scope and commands. Official comparator tools and isolation are
+required for independent proof acceptance; see [scripts/README.md](scripts/README.md).
+Judge commands by their exit codes, not a successful-looking output tail.
 
 ## Editing
 

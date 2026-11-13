@@ -112,14 +112,17 @@ and both Real and FP proof entries for VectorAdd, RowWiseSum, and LogExp.
 For corpus commands in this guide, use a checkout of
 [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench) with its locked Lake dependencies.
 
-`python3 scripts/check_docs.py` checks local file links in all tracked Markdown
-documents and verifies generated reference pages. It does not fetch external
+`python3 scripts/check_docs.py` checks local file links and same-repository
+current-main GitHub source/workflow URLs in all tracked Markdown documents,
+and verifies generated reference pages. Pinned historical references remain
+external so archived paths are not judged against a newer checkout. It does not fetch external
 URLs. Edit references under `documents/`, then run
 `python3 site/scripts/sync-docs.py` to regenerate the website copies.
 
-`python3 scripts/spec_sheet.py` exports the current selected public declarations to
-ignored `Logs/spec-sheets/`. Use `--out DIR` to change the output location or
-pass Lean files to print individual cards. Full source paths distinguish
+`python3 scripts/spec_sheet.py bench/examples/VectorAdd/RealCorrect.lean`
+prints a core example card. Use `--out DIR` to write cards to an ignored output
+directory. In VeriTileBench, invocation without files selects its current
+public declarations and writes to `Logs/spec-sheets/`. Full source paths distinguish
 nested/repaired revisions. Generated cards are presentation aids; their lexical
 flags do not establish specification independence or proof acceptance.
 
@@ -148,7 +151,8 @@ scripts/check-artifact.sh
 
 ## Shared comparator gate
 
-The artifact checker, `scripts/bench/check_ports.sh`, and `scripts/bench/audit_trust.sh` all
+The core artifact checker and standalone comparator, together with VeriTileBench's
+`scripts/bench/check_ports.sh` and `scripts/bench/audit_trust.sh`, all
 require the official comparator and the sandbox tools installed above. Missing
 tools, export failures, and comparator rejections fail the gate. CI installs
 the same pinned tools through `.github/actions/setup-comparator`.
@@ -158,8 +162,8 @@ pull requests and main pushes. Its nightly or manual library audit runs the
 full artifact checker. VeriTileBench runs its full corpus build and comparator
 replay daily at 04:00 Asia/Singapore (20:00 UTC) and on manual dispatch.
 
-Local `scripts/bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
-corpus by default. To reproduce the CI stages separately:
+In a **VeriTileBench checkout**, `scripts/bench/audit_tritonbench_g.sh` covers
+all gates and the whole corpus by default. To reproduce its CI stages separately:
 
 ```bash
 scripts/bench/audit_tritonbench_g.sh --global-only
@@ -176,6 +180,8 @@ audit. The existing sharded aggregate command also remains available: setting
 the two variables on `scripts/bench/audit_tritonbench_g.sh` runs the global gates and
 the selected shard together.
 
+Back in the **VeriTile checkout**, the core checks are:
+
 ```bash
 python3 scripts/check_comparator.py --library
 python3 scripts/check_comparator.py --file bench/examples/VectorAdd/RealCorrect.lean --trust
@@ -189,7 +195,9 @@ that statements stayed unchanged from a previous Git revision; specification
 changes still require review. `prove.sh` retains its separate comparison against
 the original task captured before the agent runs.
 
-The library gate selects `proven` library rows from the manifest. Standalone
+The library gate selects `proven` rows under `VeriTile/` from the manifest
+and recursively checks their theorem dependencies. It does not inventory every
+unreferenced library theorem. Standalone
 gates enumerate every theorem object retained in the file's Lean environment,
 including private and macro-generated names, and expose checked aliases to
 comparator. Definition-only fixtures report zero theorem targets and run a
@@ -203,89 +211,43 @@ trust pass. Batch workers share one independent snapshot, with separate output
 modules, and concurrency accounts for export/replay memory. Raw `lake build`
 remains the build step; use these gates for proof acceptance.
 
-The final aggregate checks `scripts/bench/final_inventory.py`, source correspondence
-and the imported benchmark review before the build and proof gates. Generic
-source-parser regressions remain in `scripts/test_source_*.py`; they test
-extraction and rejection behavior without supplying archived corpus evidence.
+VeriTileBench's aggregate audit additionally checks its final inventory, source
+correspondence and imported-challenge review before proof acceptance. Run its
+`test_audit_gates.py` sequentially with the corpus scanner: those regressions
+create deliberately invalid temporary task directories.
 
-The allocation regressions run the production zeros/full gate and check that
-dtype attributes resolve consistently while changed shapes, fill values,
-precisions and reassigned pointers still fail.
-The dtype regressions retain declared pointer types through self-advances and
-reject unknown rebindings and arithmetic expressions that are not direct loads.
-The helper regressions validate explicit same-file single-return arithmetic
-JIT expansion. The helper list is bound to the exact Lean selector and argument
-map; every macro argument must be fixed or explicitly listed as a symbolic
-dtype (branch selectors cannot be symbolic). The expanded expression must
-match its Lean assignment as an AST. Unknown
-calls, side effects, rebinding, namespace aliases and ambiguous assignments
-remain unresolved. This comparison neither exempts a port nor certifies its
-unselected source profiles or numerical semantics.
+### Source correspondence and compatibility fixtures
 
-`Source-audit materializations:` records a runtime integer binding followed by
-a symbolic arange-size identity adapter. It pins the complete original Python
-file, exact Lean selector and every macro argument, explicit region storage,
-the integer metadata, and reviewed adapter source bytes. It preserves the
-original parameter list and every original statement: the comparison Python
-body gains the same two identity assignments. Mandatory extraction then compares
-the complete straight-line statement/expression AST, including every `tl.rand`
-argument, strict comparison, eager division, mask and store. Computed seeds or
-sizes, unrecorded metadata, unsupported control flow, changed adapter sources,
-and implicit profile composition are rejected. Its adapter dependency is
-`VeriTile/Triton/DSL/RandomProfile.lean`; changed library bytes require renewed
-review. The tests retain the actual compiled source as text fixtures and use an
-explicit source-only harness, without fabricated correctness entries. All 24
-original storage/seed configurations are checked by production source gates.
-These comparisons do not certify native ABI admission, GPU execution or a port.
+Current examples use automatic discovery from the Python function and the
+shared `Kernels.lean` body:
 
-`Source-audit pointer-dtypes:` binds a direct Python pointer storage comparison
-to the exact Lean selector and complete macro arguments. The reviewed registry
-`bench/tritonbench_g/source_pointer_dtype_profiles.json` retains the original
-full-source hash, both persistent-matmul native compile records, and their TTIR.
-The profile verifies every native pointer against selected Lean region types,
-and checks the actual TTIR signature and hashes. It checks all original branches
-for rebinding, indirect uses and unsupported dtype guards before selecting only
-an exact `pointer.dtype.element_ty == tl.<dtype>` if arm. Runtime guards remain.
-No metadata means no dtype-branch selection. These profiles currently reject
-composition with other Python source rewrites; they do not create boolean
-constexprs, add exemptions, or certify native integer/IEEE semantics or launches.
+```bash
+python3 -m scripts.bench.generate_jit_correspondence bench/examples/VectorAdd
+```
 
-In the same checkout, run `test_audit_gates.py` and a full corpus audit
-sequentially. The regression suite creates deliberately invalid temporary ports
-under `bench/tritonbench_g/`, which a concurrent full scan would also select.
+It checks statements, casts, indexes, masks, source parameters and helper links;
+it does not execute Triton or prove mathematical correctness. Bind input types
+and constexpr parameters outside the pasted body. The authoring standard is in
+[AGENTS.md](../AGENTS.md) and the
+[translation guide](../site/src/content/docs/cookbook/translating.md).
+Collection-wide commands run in VeriTileBench, which owns the task inventory
+and validation receipts. A passing correspondence check is separate from
+Real/FP proof acceptance and GPU evidence.
+
+The retained `test_source_*.py` suites also exercise older explicit
+`Source-audit` adapters: constexpr branches, runtime scalar ABI bindings,
+materializations, pointer dtypes and extern/helper calls. Their frozen evidence
+is isolated under `scripts/fixtures/`; it is not a task-local JSON requirement
+or a current production registry under this core repository's `bench/`.
+See the [materialization fixtures](fixtures/source_materializations/README.md),
+[uniform fixtures](fixtures/source_uniform_materializations/README.md) and
+[control fixtures](fixtures/source_control_materializations/README.md).
+Each adapter checks its selected source view and exact metadata/evidence;
+unselected branches, other precisions, native ABI admission and hardware
+behavior remain outside that comparison. Changed casts, stale source hashes,
+unsupported rebinding or ambiguous helper links must fail rather than acquire
+an exemption. New authoring retains the complete original function body.
 
 Logs under `Logs/comparator-check-*` record source hashes, selected targets,
 generated source, comparator configuration, diagnostics, binary hash, and exit
 status. Temporary build-cache copies are removed when a batch finishes.
-
-Explicit boolean source profiles use a `Source-audit constexpr:` JSON object with
-`python` parameter values and the exact selected `lean.source`/`lean.args`. Every
-key must be an original `tl.constexpr` parameter used only as an `if`/`if not`
-guard. Metadata never derives a profile from defaults or dtype names. Unselected
-branches remain outside that comparison view; runtime parameters and precision
-differences remain checked. The profile regressions exercise production gates,
-malformed metadata, mutated branches and non-guard uses.
-
-The runtime scalar regressions cover explicit Python-float/fp32 ABI views.
-Each view pins the original Python source, selected Lean macro arguments, and
-reviewed Triton 3.7.1 sm90 compilation evidence in
-`bench/tritonbench_g/source_runtime_abi_profiles.json`. Only supported scalar
-Name loads receive the ABI conversion in the comparison view; tensor casts
-remain visible. Integer objects, stale evidence, rebindings, and unsupported
-uses fail extraction. The recorded offline compilations do not launch kernels
-or certify other values, shapes, runtime types, or Lean numeric contracts.
-
-The recorded extern regressions cover Pow's explicit rank-one order parameters
-and its same-file helper, separately from the pure arithmetic helper whitelist.
-The view binds the complete original Python source, conditional import chain,
-exact Lean macro arguments and reviewed native record in
-`bench/tritonbench_g/source_extern_profiles.json`. The two integer-zero order
-parameters must come from the original wrapper's `(0,)` launch arguments.
-Validation retains all twelve original parameters, checks both original
-branches and compares the complete selected body as an AST. The helper's
-existing fp32 cast remains explicit; no extra runtime ABI conversion is added.
-This profile records fp32 `__nv_powf` dispatch for Triton 3.7.1/sm90 with block
-size 32. It does not certify other imports, dtypes, native numerical results,
-or a complete Pow contract. Invalid metadata, changed casts, pointer fields,
-bindings or evidence fail the mandatory extraction gate, even for a port with
-an existing translation marker.

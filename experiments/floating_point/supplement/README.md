@@ -1,5 +1,13 @@
 # 补充基础原子实验
 
+This guide preserves the replicate-protocol experiments and their frozen
+reports. New paper measurements use the separate
+[fixed-batch protocol](../README.md#paper-fixed-batch-protocol); its bundles and
+decisions must not be substituted for these historical tables. Current strict
+certificates can supersede an experimental obligation without rewriting its
+old measured result; see [current proof use](../../../documents/FPRemainingAdmissionGaps.md).
+
+
 本目录验证补充的基础标量关系，与主实验共用局部 ULP 偏差和最大绝对误差比两个 gate。
 这里没有 softmax、Welford、LayerNorm 或整个 reduction 的准入原子。
 主目录与本目录使用相同的平均偏差预算和 U gate。通过项分别导出到

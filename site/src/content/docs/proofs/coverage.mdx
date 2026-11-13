@@ -35,8 +35,10 @@ promise termination or a frame. An explicit exec-existential adds termination;
 identity rounding on particular dtypes. Neither label promises bit-accurate
 IEEE behavior, fixed-width overflow, or a numerical error bound.
 
-The page reads current declarations from the selected Lean entries. For proof-check outcomes, use the
-[CI audit history](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml)
+The page reads declarations from the benchmark revision pinned in
+`site/src/lib/benchmark-source.json`. For proof-check outcomes at the relevant
+revision, use the
+[benchmark CI audit history](https://github.com/VeriInfra-Lab/VeriTileBench/actions/workflows/bench-audit.yml)
 and the
 [trust audit guide](/VeriTile/proofs/trust-audit/) to reproduce them.
 

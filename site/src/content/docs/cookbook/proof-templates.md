@@ -40,7 +40,7 @@ The injectivity-witness comes from one of the standard injection helpers:
 | Bare `fun idx => idx.1.val` | `tileIndex1d_offset_injective` |
 | 2D row-major: `+ idx.1.val * Nstride + idx.2.1.val` (needs `N ≤ Nstride`) | `tileIndex2d_base_row_major_injective` |
 | 2D fully strided: `+ idx.1.val * Mstride + idx.2.1.val * Nstride` | `tileIndex2d_base_strided_injective` |
-| 2D non-inner softmax-style | `nonInnerOffset_injective` (`softmax_flaggems/SoftmaxFlaggems.lean`) |
+| Task-specific multidimensional offsets | Prove injectivity for the actual layout in `Proofs/`; inspect [softmax_flaggems](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/tritonbench_g/softmax_flaggems/Proofs). |
 
 ### Explicit-trace variant
 
@@ -87,8 +87,8 @@ or its siblings.
 
 | DSL form | AST form | Helper |
 |---|---|---|
-| `tl.for i in $(n) { ... }` | `Stmt.forLoop idx n body` | `forLoop_inv` |
-| `for i in range($(s), $(t), $(step)) { ... }` | `Stmt.forRange idx s t step body` | `forRange_inv` |
+| Legacy `tl.for i in $(n) { ... }` | `Stmt.forLoop idx n body` | `forLoop_inv` |
+| `for i in range(start, stop, step): ...` | `Stmt.forRange idx s t step body` | `forRange_inv` |
 | `for i in range(expr)` / `range(e1, e2)` | `Stmt.forRangeDyn ...` | `evalOp`-reduce to static stop, then `forRange_inv` |
 
 ### Loop readout corollaries
@@ -166,8 +166,8 @@ by_cases hi : <mask cond>
 The `_`s let Lean infer `offsetFn` / `valueFn` / `P` / `l` / `s` / `off`
 from the outer foldl. The disjointness hypothesis `<h_ne>` (typically
 `R ≠ other_region` passed as `hRegions` in the theorem signature) is the
-key prerequisite. `adam_update_triton/AdamUpdateTriton.lean` is the
-worked reference.
+key prerequisite. [adam_update_triton/Proofs](https://github.com/VeriInfra-Lab/VeriTileBench/tree/main/bench/tritonbench_g/adam_update_triton/Proofs)
+contains the worked reference.
 
 ## Bridge lemmas: `tl.maximum`, `tl.where(>)`
 
@@ -175,13 +175,10 @@ worked reference.
 plumbing. Standard helpers in `Semantics/Scalar.lean`:
 
 - `ComparableDType.real_{gt,lt,ge,le,eq,ne}_eq_true` — Bool↔Prop bridge.
-- `ComparableDType.real_gt_some_some_eq_true_iff` (kldiv_ops) — keeps
-  Bool-form decode tractable when classical `Decidable` would otherwise
-  bake in.
+
+For optional inputs, first establish the `WithBot`/`Option` constructor cases,
+then apply the scalar comparison bridge. Do not assume a theorem from a retired
+standalone task module is exported by the shared library.
 
 The next page, [`forLoop_inv` pitfalls](/VeriTile/cookbook/forloop-pitfalls/),
 collects the tactical traps that recur when applying these templates.
-
-`ComparableDType.real_gt_some_some_eq_true_iff` is defined in the standalone
-`bench/tritonbench_g/kldiv_ops/KldivOps.lean` file; it is not exported by the
-library umbrella import.

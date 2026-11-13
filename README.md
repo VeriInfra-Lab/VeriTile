@@ -29,10 +29,11 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   Two-gates admits atomic rewrite assumptions; Lean checks their composition.
   `R` bundles the rule table and admissions; experiment bookkeeping stays there.
   `#print_fp_assumptions name` lists only the atomic assumption names referenced
-  by an FP proof, such as `add_commute`. The GPU runner and trusted-report
-  example are available, with separate [correctness](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
+  by an FP proof, separating strict model certificates from experimental
+  assumptions. The GPU runner and report exporters are available. The
+  TritonBench vector-add example has separate [correctness](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
   and [FP equivalence](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean) specifications.
-  See [specification meanings](documents/CorrectnessSurfaces.md#two-public-specification-meanings).
+  See [specification meanings](documents/CorrectnessSurfaces.md#public-specification-meanings).
 - **Narrow-float / rounding-model layer** (#1): an abstract `RoundingModel`
   (`round : FloatDType → ℝ → ℝ`, fields `round_real` (real-channel identity) and `round_idem` (idempotence)) threads a
   black-box rounding function through the semantics (`evalOpR` / `stepStmtR` /
@@ -44,23 +45,29 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
   [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
-- **Examples**: 183 current TritonBench-G task directories, with proof
-  contracts for their selected repaired implementations. The [historical contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json) preserves the earlier mathematical targets, implementation pairs, conditions and proof scope. See the
-  [current source inventory](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md) for checked
-  inputs and reproduction commands. Additional examples include FlashAttention-1
-  forward, online softmax, Welford, LayerNorm, log-sum-exp.
-- **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
-  source correspondence inventories, final contract/source checks, and library
-  comparator on PRs and main pushes. The complete retained corpus and all 334
-  benchmark interfaces are built and audited daily at 04:00 Asia/Singapore
-  (20:00 UTC), or on manual dispatch. The daily corpus audit uses 64 shards
-  through `scripts/bench/audit_trust.sh`, retaining elaboration, Lean trust/spec checks
-  and official comparator replay. Its final gate requires every shard to pass.
-  Run the complete applicable proof checks locally before merging proof changes.
-  `.github/workflows/artifact.yml` runs `lake build` +
-  `scripts/check-artifact.sh` (no `sorry`, axiom whitelist, manifest schema,
-  doc-drift checks). `.github/workflows/site.yml` builds and deploys the docs
-  site to GitHub Pages on every push touching `site/`.
+- **Worked examples and benchmarks**: this repository retains 18 worked-example
+  groups, including the small core regression set. [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench)
+  owns the 183 selected repaired TritonBench-G tasks, the 334 imported challenge
+  interfaces, and a 19-group example collection that also includes
+  TritonBenchVectorAddition. Its source inventories and proof receipts are
+  separate from the core library's checks. See the
+  [example index](bench/examples/README.md) and
+  [benchmark validation guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md).
+- **CI gates**: [core.yml](.github/workflows/core.yml) builds the library, parser/type
+  regressions, and the Real/FP entries for VectorAdd, RowWiseSum and LogExp on
+  pull requests and main pushes. The full library build and artifact audit run
+  nightly at 03:00 Asia/Singapore (19:00 UTC) and on manual dispatch. The artifact
+  gate independently replays the proven library-manifest targets and their
+  dependencies; it does not select every unreferenced theorem in the repository.
+  [Targeted comparator tests](.github/workflows/proof-comparator.yml) and
+  [guarded-program replay](.github/workflows/guarded-program-io.yml) have their own
+  path filters. [site.yml](.github/workflows/site.yml) checks documentation and
+  builds the website; main-branch push/manual runs can deploy it, while scheduled
+  runs only check it. VeriTileBench's
+  [separate workflow](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/.github/workflows/bench-audit.yml)
+  runs its complete retained-corpus audit daily at 04:00 Asia/Singapore
+  (20:00 UTC) and on manual full-audit dispatch. PRs run its source/smoke gates and public-entry audit.
+  See [verification setup and scope](scripts/README.md#shared-comparator-gate).
 
 Pending for complete kernel verification: concrete floating-point execution
 (the bf16/fp32 scalar foundation is implemented), PTX-level codegen,
@@ -127,7 +134,7 @@ see the [source-authoring standard](AGENTS.md#kernel-源码与文件职责).
 
 For new public headlines, express correctness against the mathematical formula
 in real semantics (`Spec.Real`); use `lhs ≡[R] rhs` in the `VeriTile.Spec` scope
-for implementation equivalence derived from two-gates-admitted atomic rules. Both keep the `specification` keyword.
+for implementation equivalence using strict model certificates or explicitly admitted experimental rules. Both keep the `specification` keyword.
 After importing `VeriTile.Meta.StatementAudit`, `#print_fp_assumptions name`
 reports the experimental assumptions and strict model certificates used by the proof.
 
@@ -175,9 +182,11 @@ see [the shared verification gate](scripts/README.md#shared-comparator-gate).
 
 ### 4. Register in the kernel manifest
 
-Add a row to [`scripts/kernel-manifest.tsv`](scripts/kernel-manifest.tsv)
-so `scripts/check-artifact.sh` recognizes the theorem in CI. Schema and
-naming conventions: [KernelManifest.md](documents/KernelManifest.md),
+For a shared-library theorem selected by the artifact gate, add a proven row
+under `VeriTile/` to [`scripts/kernel-manifest.tsv`](scripts/kernel-manifest.tsv).
+Standalone worked examples use `check_comparator.py --file ... --trust`;
+benchmark selections and receipts belong to VeriTileBench. A source match or a
+manifest row alone is not proof acceptance. Schema and naming conventions: [KernelManifest.md](documents/KernelManifest.md),
 [TheoremSurfaces.md](documents/TheoremSurfaces.md).
 
 See the [worked-example index](bench/examples/README.md) for the shared-source directory layout and proof scopes.
@@ -192,16 +201,24 @@ spec — see [`bench/examples/VectorAdd/RealCorrect.lean`](bench/examples/Vector
 Vector addition with swapped operands — see
 [`VectorAdd/FPEquiv.lean`](bench/examples/VectorAdd/FPEquiv.lean), alongside
 [`VectorAdd/RealCorrect.lean`](bench/examples/VectorAdd/RealCorrect.lean). The FP proof
-uses the experiment-selected `add_commute` atom; the real proof states the
-pointwise mathematical formula. `#print_fp_assumptions add_kernel_equiv`
-prints the atom used by the FP proof.
+uses `original blockSize ≡[[]] optimized blockSize` with the shared strict FP32
+addition-commutation certificate. It retains the fixed software theory, source
+precision and finite-operand domain at the rewrite site. The empty experimental
+rule list does not remove these conditions or assert a result for arbitrary
+numerical interpretations. The Real proof states the pointwise formula
+independently. `#print_fp_assumptions add_kernel_equiv` separates the strict
+certificate from experimental assumptions.
 
-The [floating-point experiment workflow](experiments/floating_point/README.md)
-provides configurable Triton/GPU candidate checks and CPU replay of two-gates
-results. The trusted GPU report supplies 30 accepted atomic instances for
-`lhs ≡[R] rhs`. Other worked examples are being migrated from their legacy
-models; the [coverage ledger](documents/ExampleSpecificationMigration.md)
-records completed cases and remaining proof requirements.
+Other examples, such as [LogExp](bench/examples/LogExp/FPEquiv.lean) and
+[SoftmaxReciprocal](bench/examples/SoftmaxReciprocal/FPEquiv.lean), use explicitly
+admitted experimental rules in `R`. The
+[current rule-usage guide](documents/FPRemainingAdmissionGaps.md) distinguishes
+strict certificates, the retained experimental catalogue and actual proof use.
+The [experiment guide](experiments/floating_point/README.md) describes GPU
+collection and CPU replay. Checked-in reports retain their measured protocol
+and source versions; they are not results from a fresh run of the current
+checker. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
+and [specification coverage](documents/ExampleSpecificationMigration.md).
 
 ## Documentation Map
 
@@ -226,7 +243,10 @@ Task-oriented:
 
 [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench) hosts TritonBench-G, the
 bug-detection and pretraining challenges, and their per-task validation records.
-It builds against a locked VeriTile revision.
+It builds against a locked VeriTile revision. Downstream checkouts that own
+copies of the worked examples use the optional [library-only dependency view](library/README.md)
+to avoid duplicate `bench.examples.*` module providers. The ordinary root
+package retains its examples and core CI.
 
 ```text
 VeriTile/
@@ -251,7 +271,7 @@ tests/lean/               Lean regressions
 documents/                 Design notes, subset spec, surface guide
 documents/archive/         Historical design and implementation plans
 scripts/                   CI gate, kernel manifest, LLM proof wrapper
-  bench/                   Benchmark inventories, source checks and audits
+  bench/                   Source parsers and standalone trust-audit helpers
 site/                      Documentation website and generated reference pages
 verso/                     Slide deck / overview
 ```
@@ -262,7 +282,9 @@ verso/                     Slide deck / overview
 - `lake build` — build the default `VeriTile` library target; standalone
   benchmarks/showcases and the GeLU/trust-report target are separate
 - `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
-- `lake build TritonBenchSpecExamples` — build all worked examples, including the independent real/FP pairs
+- `lake build TritonBenchSpecExamples` — build the 18 worked-example groups in this
+  repository, including their independent Real/FP pairs. In VeriTileBench,
+  `lake build BenchmarkExamples` builds all 19 groups.
 - `bash scripts/check-core-examples.sh` — check Python/Triton source correspondence and build
   `RealCorrect` and `FPEquiv` for `VectorAdd` (addition), `RowWiseSum` (reduction order),
   and `LogExp` (guarded numerical rewriting)

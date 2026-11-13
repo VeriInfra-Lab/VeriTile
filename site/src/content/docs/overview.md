@@ -14,13 +14,15 @@ Lean can check and readers can inspect in the repository.
   proves a pointwise sum, termination, and preservation of memory outside
   the output window under its stated preconditions.
 - **Equivalence:** do two implementations agree on observable outputs?
-  [Stable softmax](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/SoftmaxStable/Proofs/LegacyRealEquiv.lean)
-  and [fused SwiGLU](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean)
-  demonstrate this under their explicit rounding models and memory contracts.
+  [Stable softmax](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/SoftmaxStable/FPEquiv.lean)
+  uses explicit numerical assumptions and guarded reduction plans;
+  [fused SwiGLU](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FusedSwiglu/FPEquiv.lean)
+  uses structural composition while preserving its casts and memory contracts.
 
-The showcase contracts use `KernelIO` notation: `io ⊨ spec` for an
-implementation contract, and `io₁ ≡[R] io₂` for equivalence under a rounding
-model. Lower-level `ComputeCorrect` and `ComputeRefine` surfaces remain
+The public Real statements use `Spec.Real (io ⊨ formula)`. FP equivalence
+uses `original ≡[R] candidate` with strict model certificates or admitted
+experimental rules, retaining source precision and operand domains. Older
+`RoundingModel` contracts remain separate abstract cast/store results. Lower-level `ComputeCorrect` and `ComputeRefine` surfaces remain
 available. The source of each theorem records its full assumptions.
 
 ## From code to proof

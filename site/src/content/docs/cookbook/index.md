@@ -5,12 +5,13 @@ description: How to translate a Triton .py kernel into Lean and prove it correct
 
 The cookbook collects the working knowledge for translating a Triton `.py`
 kernel into a `triton { ... }` block, writing its spec, and closing its
-`ComputeCorrect.Realizes_without_Rounding` proof. It distills lessons learned while building
+independent Real correctness and FP equivalence proofs. It distills lessons learned while building
 out the bench corpus rather than the theoretical reference (for that see
 [Architecture & semantics](/VeriTile/architecture/) and [Proofs & surfaces](/VeriTile/proofs/)).
 
-Bench headlines prefer a `KernelIO` `⊨` / `⊨[R]` contract declared with
-`specification`. The output and loop templates below build its underlying
+Public Real headlines use `Spec.Real (io ⊨ formula)`; FP headlines compare
+actual implementations with `original ≡[R] candidate`, declared with
+`specification` and retaining their model and domain conditions. The output and loop templates below build its underlying
 proof. See [Correctness surfaces](/VeriTile/proofs/correctness-surfaces/).
 
 ## In this section
@@ -43,11 +44,12 @@ adopted as simplifications.
 ### 2. Triton users are first-class
 
 A developer with a working `triton.jit`-decorated `.py` kernel should be able
-to paste it into a `triton { ... }` block with minimal modification. The
+to paste its original function body into a `triton { ... }` block and bind the
+input/call interface outside the block. The
 parsed surface should mirror Triton's `tl.*` API as closely as Lean syntax
 permits — `tl.load(x_ptr + offsets, mask=m, other=0.0)`, `tl.program_id(axis=0)`,
-Python-style comparisons in masks, kwargs, etc. New DSL constructs should
-not add antiquote requirements (`$(...)`, `$ℝ(...)`) unless unavoidable.
+Python-style comparisons in masks, kwargs, etc. Keep parameter bindings outside the body rather than adding Lean antiquotes
+(`$(...)`, `$ℝ(...)`) to the copied source.
 
 ### 3. Outermost-first, fully ND
 
