@@ -2,9 +2,12 @@
 """Check built site navigation and links to files in this checkout."""
 from html.parser import HTMLParser
 from pathlib import Path
+import sys
 from urllib.parse import unquote, urljoin, urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from check_docs import repository_path
 DIST = ROOT / 'site/dist'
 BASE = '/VeriTile/'
 ORIGIN = 'https://veriinfra-lab.github.io'
@@ -33,10 +36,9 @@ def main():
         for href in page.links:
             url = urlsplit(urljoin(ORIGIN + route, href))
             if url.netloc == 'github.com' and url.path.startswith('/VeriInfra-Lab/VeriTile/'):
-                parts = url.path.split('/')
-                if len(parts) >= 6 and parts[3] in ('blob', 'tree') and parts[4] == 'main':
-                    target = ROOT / unquote('/'.join(parts[5:]))
-                    if not target.resolve().is_relative_to(ROOT) or not target.exists():
+                if (name := repository_path(url)) is not None:
+                    target = ROOT / name
+                    if not name or not target.resolve().is_relative_to(ROOT) or not target.exists():
                         errors.add(f'{relative}: missing repository file {href}')
                     checked += 1
                 continue

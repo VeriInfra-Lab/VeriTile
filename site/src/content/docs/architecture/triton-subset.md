@@ -25,6 +25,23 @@ values have shape `[]`; a matrix `[M, D]` has index shape
 
 ## Supported Surface Syntax
 
+### Source-body entry and control flow
+
+For current authoring, paste the original Python **function body** inside
+`triton { ... }`. Input storage types, runtime arguments, constexpr values,
+helper bindings and optional `fp32_constants` are declared outside that block.
+Reusable bodies have type `SourceProcedure`; standalone instances have type
+`ComputeKernel`. The body retains Python indentation, comments, casts, indexing
+and statement order. See [AGENTS.md](https://github.com/VeriInfra-Lab/VeriTile/blob/main/AGENTS.md#kernel-源码与文件职责) and the
+[translation guide](https://github.com/VeriInfra-Lab/VeriTile/blob/main/site/src/content/docs/cookbook/translating.md).
+
+The frontend supports Python-layout `if`/`elif`/`else`, `for ... in range(...)`
+and `while` suites. [PythonBodyParsing.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/main/tests/lean/PythonBodyParsing.lean)
+checks comment braces, branches, while suites and adjacent minus operators.
+The legacy brace/antiquote forms below remain accepted syntax, not required
+changes to copied Python. Parser support does not itself prove termination or
+operation/hardware fidelity.
+
 ### Control and Program IDs
 
 - `tl.program_id(axis)` and `tl.program_id(axis=axis)` where `axis` is a
@@ -47,9 +64,8 @@ values have shape `[]`; a matrix `[M, D]` has index shape
   - `tl.if cond { ... }` and `tl.if cond { ... } else { ... }` (explicit
     `tl.` prefix, also accepted).
 
-  The condition must be a scalar boolean (`Op .bool []`). There is no
-  `break` or `continue`; Triton block-skipping patterns should be written
-  by negating the skip condition and wrapping the useful body.
+  The condition must be a scalar boolean (`Op .bool []`). Unsupported `break` or `continue` is a source gap; do not silently
+  rewrite the original control flow to bypass it.
   Elementwise conditional selection remains `tl.where`.
 - Register assignment:
   - `x = expr` and `x := expr` (single binding)
@@ -378,7 +394,7 @@ affect theorem interpretation.
 
 ## Floating-Point Model
 
-Arithmetic is currently an `ℝ` abstraction:
+The exact algorithm layer uses an `ℝ` abstraction:
 
 - Real data is modeled as `WithBot ℝ`.
 - `-inf` is modeled exactly as `⊥`.
@@ -386,8 +402,11 @@ Arithmetic is currently an `ℝ` abstraction:
 - Memory stores demote `⊥` with a default value; well-formed kernels should not
   store `⊥`.
 
-What this means: theorems prove real-valued mathematical correctness, not
-bit-level IEEE-754 equivalence. Concrete IEEE rounding, NaNs, signed zeros,
+These algorithm-layer theorems prove real-valued mathematical correctness.
+Separate bf16/fp32 software bit-value models, strict certificates and guarded
+FP equivalence views are implemented; see [current FP rule use](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/FPRemainingAdmissionGaps.md).
+Those certificates retain their selected theory, precision and domain rather
+than certifying compiler or GPU conformance. Concrete IEEE rounding, NaNs, signed zeros,
 overflow, underflow, denormals, exception flags, hardware dot precision, and
 fast-math rewrites are not fully modeled. The separate `RoundingModel` layer
 applies abstract rounding at explicit float casts and stores, with real-channel
@@ -424,8 +443,9 @@ algorithm layer through `toAlgorithm?`, with an optional `GapPolicy` for
 recording externally checked compute-to-algorithm gap contracts. Existing
 float-facing theorems can still use erasure equations such as
 `k.eraseDType = realK` to reuse Real proofs for dtype-annotated algorithm
-kernels. Numeric compute correctness/refinement is represented separately by
-external gap contracts and differential tests rather than IEEE-754 proof. These
+kernels. FP program views and software scalar models supply separate strict
+or experimentally conditional numerical proofs. Connecting those models to
+compiler/GPU execution still requires backend contracts or external evidence. These
 definitions live in `VeriTile.Triton.Correctness` and `VeriTile.Triton.Float`; see `documents/EraseDType.md` for
 the compute/algorithm split and bitcast
 policy.
@@ -507,7 +527,7 @@ current semantic contract.
 | Indirection | Limited | Typed index loads can feed pointer arithmetic for gather/paged-KV style data-dependent addresses (#1); no alias/bounds/page-ownership proof layer yet |
 | Block pointers | Limited | `tl.make_block_ptr`, `tl.advance`, block-pointer load/store with checked-axis zero padding / store skip; no hardware/TMA behavior |
 | Atomics / async / barriers | Limited | `tl.atomic_add` has an AlgKernel `Stmt.atomicAdd` marker, sequential single-program semantics, trace payload vocabulary, and a Real grid-merge sum theorem. `tl.atomic_xchg` / `tl.atomic_cas` now project to return-valued `Stmt.atomicRMW` markers and have single-cell RMW fold semantics, executable statement semantics, stateful trace emission, and a single-cell grid launcher relation with an explicit linearization witness. Other `tl.atomic_*`, `tl.async_copy`, `tl.async_wait`, and `tl.debug_barrier` lower to compute-facing failure markers only; async/TMA discipline remains documented but not implemented; no full scheduler, executable barriers, executable async copy semantics, TMA AST, or IEEE atomic semantics (#1) |
-| Floating point fidelity | Limited | Mathematical values and abstract cast/store rounding models; no full IEEE-754 hardware semantics (#1) |
+| Floating point fidelity | Limited | Exact mathematical and abstract cast/store layers, plus separate software bf16/fp32 models and guarded FP proofs; no full compiler/GPU conformance theorem (#1) |
 
 ## Expressiveness Matrix
 
@@ -522,7 +542,7 @@ faithfully in the current Lean DSL?
 | FlashAttention-style dense tiled kernels | Supported for FA-1 forward and FA-1 backward core surfaces | Proof engineering + limited semantics | Dot, transpose, causal/boundary masks, D-tail, 4D views, Real backward math, atomic-`dQ` launcher composition, strided stripped backward, and a 4D full-sequence backward wrapper are covered; async/shared-memory/hardware dot fidelity remain out of scope. |
 | First-class pointer expressions | Limited | Surface + lightweight semantics | `ptrs := $(r) + offs`, pointer registers, pointer load/store, and pointer offset updates work for `RegionName × Nat`; no pointer casts/comparison/alias analysis. |
 | Block pointers / `boundary_check` | Limited | Surface + sequential semantics | `tl.make_block_ptr`, `tl.advance`, zero-padded checked loads, and checked store-skip work; no `order`, non-zero padding, TMA, or hardware behavior. |
-| Typed floating memory | Limited | Semantic abstraction | `dtype=tl.float32/fp16/bf16` creates typed floating nodes and erases to real for algorithm proofs; IEEE rounding is not modeled. |
+| Typed floating memory | Limited | Layer-dependent interpretation | Typed floating nodes erase to real for algorithm proofs; FP views retain source precision and casts under their selected numeric theory. This does not prove GPU memory/numeric conformance. |
 | Integer / bool tensor memory | Limited | Dtype coverage | Typed cells plus typed load/store support Nat/index and mathematical signed-Int HBM values; no complete Triton integer-width lattice yet. |
 | Indirect / gather addressing | Limited | Surface + view semantics (#1) | Typed index tensor loads can drive pointer arithmetic and ordinary masked loads; alias analysis, bounds proof, page ownership, and paged FA-1 equivalence are not modeled yet. |
 | Active-lane memory bounds | Limited | Lean proof predicate (#1) | `Kernel.MemorySafe` checks direct region offsets, dynamic pointer addresses, mask activeness, and `boundary_check` block-pointer lanes against `RegionBounds`; no race freedom, frame theorem, or permission accounting. |

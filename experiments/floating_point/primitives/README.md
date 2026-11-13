@@ -1,5 +1,13 @@
 # Primitive experiments
 
+This guide preserves the replicate-protocol experiments and their frozen
+reports. New paper measurements use the separate
+[fixed-batch protocol](../README.md#paper-fixed-batch-protocol); its bundles and
+decisions must not be substituted for these historical tables. Current strict
+certificates can supersede an experimental obligation without rewriting its
+old measured result; see [current proof use](../../../documents/FPRemainingAdmissionGaps.md).
+
+
 The [current table](report/summary.md) contains EXP-SUB-INTRINSIC, COUNT-ZERO
 and COUNT-SUCCESSOR, with z, B, U and acceptance. DLC job `dlc1qojvuygw2t0b`
 ran on H200 (runtime name L20X), using the task name

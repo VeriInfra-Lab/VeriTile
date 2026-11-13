@@ -4,7 +4,8 @@ title: "Examples Theorem Surface Style"
 
 Correctness against a formula uses real semantics (`Spec.Real claim`).
 Implementation equivalence uses `lhs ≡[R] rhs` (`open scoped VeriTile.Spec`):
-two-gates admits the atomic assumptions and Lean checks their formal composition.
+strict model certificates and two-gates-admitted experimental assumptions
+justify the numerical steps, and Lean checks their composition.
 The rule model `R` holds the experiment configuration and admission records;
 those records are not separate public theorem parameters.
 Both use `specification`; `#print_spec` exposes the implementations and atom
@@ -19,11 +20,14 @@ User-facing theorem surfaces in `VeriTile/Examples/` should start from the
 public compute-facing APIs. See
 [`CorrectnessSurfaces.md`](/VeriTile/proofs/correctness-surfaces/) for the full user guide.
 
-- **Bench-corpus headlines** (`bench/tritonbench_g/`, `bench/examples/`) are
-  stated on a `KernelIO` `⊨` / `⊨[R]` face, not on the surfaces below; that
-  triple bundles the addressing, the output values and the frame into one line.
-  See [`CorrectnessSurfaces.md`](/VeriTile/proofs/correctness-surfaces/) and
-  [`../documents/bench/MAIN_THEOREM_CONVENTIONS.md`](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/MAIN_THEOREM_CONVENTIONS.md) §4.
+- **Worked-example and benchmark headlines** use `Spec.Real (io ⊨ formula)`
+  for independent mathematical correctness and `original ≡[R] candidate` for
+  FP equivalence. IO judgments retain addressing, execution and frame conditions;
+  FP views retain precision, domains, strict certificates and experimental `R`.
+  Historical `⊨[R]` uses with `RoundingModel` retain their cast/store meaning.
+  TritonBench-G sources and acceptance records live in VeriTileBench. See
+  [CorrectnessSurfaces.md](/VeriTile/proofs/correctness-surfaces/) and its
+  [main theorem conventions](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/MAIN_THEOREM_CONVENTIONS.md).
 - Single-kernel correctness against a mathematical or algorithmic spec uses
   `ComputeCorrect.Realizes_without_Rounding` (*a kernel realizes a spec*), `ComputeCorrect.Post`,
   or `ComputeCorrect.General`.

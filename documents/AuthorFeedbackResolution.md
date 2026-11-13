@@ -1,5 +1,12 @@
 # Author feedback resolution — 2026-09-24
 
+Historical resolution record for the September review. Counts, CI descriptions
+and reproduction paths below refer to that review's source revisions. Current
+corpus tools live in [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench);
+current core CI and proof scope are described in [README.md](../README.md).
+The recorded result does not certify later revisions.
+
+
 This follows the eight findings and six product/documentation suggestions in
 `VeriTile-author-feedback-2026-09-23.zip`, which reviewed revision `bb54250b`.
 The fixes cover projection-failure preservation, elaborated-environment

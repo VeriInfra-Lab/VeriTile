@@ -11,18 +11,18 @@ Both retain the `specification` keyword.
 | Public relation | Meaning |
 |---|---|
 | `Spec.Real claim` | An implementation satisfies its mathematical formula in ideal real semantics |
-| `lhs ≡[R] rhs` | The two implementations are equivalent under the two-gates-admitted atomic rules supplied by `R` |
+| `lhs ≡[R] rhs` | The implementations are equivalent under the selected FP view, its strict software theory, domains and any experimental rules supplied by `R` |
 | Native IO judgment | Actual source execution matches the declared native observation, with its explicit primitive model; no transformation or native-to-Real equality is implied |
 
 Selected TritonBench-G entries use a genuine shared IO judgment with an
-independent logical formula. `IO.lean` may hold shared source, argument, channel,
-window, mask and schedule data; `Correct.lean` and `FPEquiv.lean` remain independent
+independent logical formula. `IO.lean` holds shared invocation, argument, channel,
+window, mask and schedule data; `RealCorrect.lean` and `FPEquiv.lean` remain independent
 short reader entries. Operational assembly and optional flat/Tensor corollaries
 belong in supporting files. The current format rollout is separately counted in
 the [task checklist](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/tritonbench_g.md).
 
 For the selected main readers, display the actual independent mathematical
-formula in `Correct.lean`: simple formulas directly in
+formula in `RealCorrect.lean`: simple formulas directly in
 `Spec.Real (io ⊨ fun inputs index => ...)`, and genuinely complex multi-output
 or staged formulas as pure definitions immediately beside their headline.
 An undisplayed `reference`/`target` name or an eta-expanded alias is insufficient.
@@ -203,48 +203,39 @@ projection. `real_projection` lives in this file; no numerical assumptions are n
 The [floating-point companion](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
 compares that actual kernel with a variant changing only `output = x + y` to
 `output = y + x`, with fp32 operations and symbolic element count and block size.
-Its headline is:
+Its headline retains a domain on the actual loaded operands:
 
 ```lean
 open scoped VeriTile.Spec
 
-specification vector_addition_equiv (nElements blockSize : Nat) (R : Rules blockSize) :
-    originalKernel nElements blockSize ≡[R] optimizedKernel nElements blockSize
+specification vector_addition_equiv (nElements blockSize : Nat) :
+    original nElements blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+      optimized nElements blockSize
 ```
 
-This reuses the existing equivalence notation. Here `R` is the rule model;
-its table stores the experiment configuration and results, and its `add_comm`
-field requires admission of the atom. Neither `experiment` nor `evidence` is
-a public theorem argument. `#print_fp_assumptions vector_addition_equiv` lists
-only the referenced atomic assumption names, such as `add_commute`. Under this scope, the notation
-elaborates to `Spec.FloatingPoint`; historical KernelIO scopes still use their
-original `RoundingModel` relation.
+`original` and `optimized` are program views of the shared `Kernels.lean`
+implementations. Their domain requires finite operands at the actual addition
+site, including evaluated masked lanes. The proof uses a strict FP32
+commutation certificate under the fixed software theory. The empty experimental
+rule list does not remove those model, precision or domain conditions and does
+not claim hardware conformance. The FP entry does not import the Real proof.
 
-The FP file writes both Triton kernels directly and does not import the
-correctness file. Its equivalence proof uses only its atomic assumptions.
+Other transformations use experimental rules. For example,
+[LogExp/FPEquiv.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/LogExp/FPEquiv.lean) states
+`originalIO xReg yReg blockSize ≡[R] optimizedIO xReg yReg blockSize`, with
+`R : FP.LogExp.Rules`. Its guarded `log_exp_cancel` relation is an explicit
+assumption; the proof connects it to both complete source executions and their
+memory frames. [Current rule use](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/FPRemainingAdmissionGaps.md) distinguishes
+strict certificates, experimental catalogue entries and actual proof dependencies.
 
-Experimental parameters select the available assumptions. The subsequent proof
-uses those assumptions without matching kernel sizes to experimental sizes or
-checking input distributions. `Rules blockSize` only instantiates typed syntax;
-it imposes no equality with the experiment's block size. The public theorem is
-parameterized, so it does not need fixed `rows`, `columns` or launch constants.
-
-The intended user workflow starts with a Python shape/input-sampling profile
-(plus the numerical configuration), checks the predefined candidate rules with
-two-gates on Triton/GPU, generates `R`, and automatically attempts a proof using
-the existing proof agent and comparator with those rules frozen beforehand.
-Changing the profile generates a new rule set and reruns dependent proofs;
-failure to find a derivation is reported rather than filled by a new assumption.
-The distribution defines the atom test environment. The theorem is conditional
-on `R`, not a claim that arbitrary intermediate operands follow that distribution
-or that the whole kernel passed the gates. This automation remains to be connected;
-see the workflow in [FloatingPointPrimitives.md, section 7.1](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/FloatingPointPrimitives.md#71-用户流程配置--检查原语--生成规则集--自动证明).
-
-The table contains one `ADD-COMMUTE` atom: the actual differing assignment
-fragments. Lean checks the syntax decomposition and lifts that atom through
-unchanged loads and store. It does not assume the whole kernel result. The
-original real correctness theorem remains separate and is not used to smuggle
-real `add_comm` into a floating-point equivalence proof.
+Experimental parameters select available assumptions. Lean checks the
+conditional derivation under the selected `R`; it does not automatically
+establish the distribution of intermediate operands or transfer the atom's
+two-gates result to the whole kernel. Kernel dimensions need not equal the
+experiment dimensions merely to instantiate a symbolic derivation. Precision,
+backend, operation identity and use-site domains still have to match the rule.
+An integrated configuration-to-agent workflow is described as a design goal in
+[FloatingPointPrimitives.md](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/FloatingPointPrimitives.md#71-用户流程配置--检查原语--生成规则集--自动证明).
 
 The implementation in [Spec.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Spec.lean) separates three things:
 
@@ -271,7 +262,8 @@ justification. The current context rule is syntactic sequence framing, not a
 proof of distribution transport.
 
 `#print_fp_assumptions name` walks the FP proof and instantiated helper proofs,
-printing only the referenced `Derivation.atom` names in lowercase snake case.
+separating strict model certificates from referenced experimental
+`Derivation.atom` names in lowercase snake case.
 Configuration and gate status remain in the rule records and are not printed.
 It does not enumerate unused entries in the rule table or print the specification.
 Repeated instances are deduplicated; distinct configurations stay separate.
@@ -282,17 +274,17 @@ Printing does not discharge a premise or perform an axiom audit. The example run
 the separate axiom audit silently on success. The older `#print_spec name full`
 remains available for the internal configuration/evidence and dependency audit.
 
-The calculus, reporting, example and rejection checks are implemented. The
-[GPU experiment runner](https://github.com/VeriInfra-Lab/VeriTile/blob/main/experiments/floating_point/README.md) now supplies
-14 fixed-size atomic expression pairs, Python configuration, gates and CPU result replay.
-Composite algorithms, reductions, scans, dot rewrites and memory/layout properties
-are excluded from admission; their equivalences require Lean derivations.
-The report exporter freezes the current GPU report’s accepted instances
-as Lean data, and the worked example binds fp32 ADD-COMMUTE to its concrete
-assignment fragments. The model premise `R.add_comm` explicitly trusts that
-external result and binding; Lean checks the derivation under it. Other atomic
-syntax bindings remain separate work. See the [worked example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/experiments/floating_point/EXAMPLE.md)
-for generation, build and inspection commands.
+The calculus, assumption reporting, rule bindings and rejection checks are
+implemented. The [experiment guide](https://github.com/VeriInfra-Lab/VeriTile/blob/main/experiments/floating_point/README.md)
+describes the current fixed-batch paper protocol and the older replicate
+protocol. Checked-in reports are frozen measurements with their own source
+hashes; they do not certify a new run of the current checker. The exporter can
+freeze accepted report rows as Lean data; actual proof use must additionally
+bind the right precision and guarded source operation. Composite algorithms,
+reductions, scans and memory/layout properties still require derivations,
+rather than admission of an entire algorithm as one numerical atom.
+See the [worked example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/experiments/floating_point/EXAMPLE.md) for current
+build and inspection commands.
 
 Historical unwrapped or abstract cast/store-rounding headlines keep their old
 meaning. They do not become atom-based FP equivalence merely by renaming them.

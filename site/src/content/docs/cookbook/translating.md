@@ -1,140 +1,88 @@
 ---
 title: Translating a kernel
-description: When a .py → .lean transcription is faithful, what gaps are tolerated, and which deviations must be fixed before merge.
+description: Paste the original Triton function body, bind its inputs outside the block, and keep source fidelity separate from proof scope.
 ---
 
-The gold standard is
-[`bench/tritonbench_g/add_example/RealCorrect.lean`](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/tritonbench_g/add_example/RealCorrect.lean):
-the `def kernel ... : ComputeKernel := triton { ... }` body is the `.py`
-kernel function body **line-for-line**, no extra statements, no merges, no
-silent fixups.
+The source entry is `Kernels.lean`, not the proof file. Compare
+[VectorAdd.py](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/VectorAdd.py)
+with [Kernels.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/Kernels.lean).
+The content of `triton { ... }` preserves the original Python function body:
+statements, comments, casts, indexes, masks, branches, helper calls and order.
+Input and invocation declarations belong outside the block.
 
-The reason for that strictness is the project's mental model: users come
-expecting to paste their `.py` kernel in and read the proof. Any implicit
-simplification or merge turns the proof into "VeriTile's algebraic
-rearrangement of this kernel" rather than "this kernel".
+## Bind the inputs, then paste the body
 
-Use the categories below when reviewing a new translation (or when writing
-one — they tell you what to push back against).
+A directly instantiated kernel can use the actual input signature:
 
-## ✓ Faithful
+```lean
+def addKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+  let x_ptr := xReg
+  let y_ptr := yReg
+  let out_ptr := outReg
+  let BLOCK_SIZE := blockSize
+  with_triton_signature callSignature in triton {
+    pid = tl.program_id(0)
+    offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+    x = tl.load(x_ptr + offsets)
+    y = tl.load(y_ptr + offsets)
+    output = x + y
+    tl.store(out_ptr + offsets, output)
+  }
+```
 
-Line-for-line correspondence between `kernel.py` and the `triton { ... }`
-body. No extra statements, no merges, no reordering. The matrix of `tl.*`
-calls is the same; only the lexical wrapping (Lean syntax) differs.
+`callSignature` in the linked file declares the actual fp32 pointer storage and
+constexpr parameter. A function body alone cannot determine the dtype of an
+unannotated Python pointer. This information comes from the input/call interface.
+Do not insert `tl.region`, extra casts or Lean parameter antiquotes into the body.
 
-## ⚠️ Minor (tolerated) gaps
+For a reusable function, use `def nameSource : SourceProcedure :=
+with_triton_params (...) constexpr_args [...] in triton { ... }` in the task's
+namespace. Declare parameters in Python order. Add external `fp32_constants`
+only when symbolic FP constexpr values need that binding. A standalone
+`nameKernel : ComputeKernel` uses `instantiate_source_procedure`; another Triton
+body binds the same source with external `source_procedures` and retains the
+Python call arguments. See the reusable
+[rms_matmul_rbe source](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/tritonbench_g/rms_matmul_rbe/Kernels.lean)
+and the full [authoring rules](https://github.com/VeriInfra-Lab/VeriTile/blob/main/AGENTS.md).
+Legacy brace-loop and antiquote syntax remains supported by parts of the DSL;
+it is not the standard for a new transcription.
 
-Two classes count as MINOR — they don't block merge but should be noted.
+## Keep the complete source
 
-### 1. Lean-syntax forced changes — whitelist only
+These changes break correspondence even if a real-arithmetic identity could
+justify their output:
 
-Only these are tolerated as Lean-syntax forced changes:
+- Adding or dropping a cast, `tl.where`, mask, load or store.
+- Folding a loop into `tl.sum`, unrolling it or reordering statements.
+- Changing pointer updates or index arithmetic.
+- Replacing a branch with `tl.where` or deleting unselected constexpr branches.
+- Replacing `tl.math.rsqrt(x)` with `1 / tl.sqrt(x)`.
 
-- **`$(x)` interpolation** to bridge Lean parameters or compile-time
-  constants (including `BLOCK_SIZE: tl.constexpr` modelled as a `Nat`
-  parameter used as `$(BLOCK_SIZE)`).
-- **`if HAS_X { ... }` DSL gate** in place of Python's `if HAS_X:` for
-  constexpr branching.
+If an operation is unsupported, record the DSL gap. A proof may have an explicit
+configuration, window or stage restriction, but that restriction does not permit
+editing the authoritative source body. A deliberately different implementation
+needs its own Python candidate and corresponding Lean body, with a separate
+comparison theorem. Never use a prose specialization note to excuse source drift.
 
-Everything else outside the whitelist is a **deviation**, including:
+## Check source and proofs separately
 
-- Adding an explicit `dtype=...` to a `tl.load` where the `.py` didn't.
-- `keep_dims=true` in place of `[:, None]`.
-- `1 / tl.sqrt(x)` in place of `tl.math.rsqrt(x)`.
-- `(0.0).to(tl.float32)` explicit casts.
-- Pointer mutation `X += offset` rewritten as `base + offset` at each use.
-- `x += rhs` rewritten as `x = x + rhs`.
-- "Real-first policy" silently erasing `.to(tl.float32)`.
+From the core root:
 
-If the DSL can't express what the `.py` wrote, that's a DSL gap — open an
-issue against the DSL, don't paper over it by rewriting the kernel body.
+```bash
+python3 -m scripts.bench.generate_jit_correspondence bench/examples/VectorAdd
+bash scripts/check-core-examples.sh
+```
 
-### 2. Documented specialization or slice
+In VeriTileBench, use the same discovery command with the selected task path.
+No handwritten task JSON is required. The tool checks source structure; it does
+not replace independent Real correctness, FP equivalence or comparator replay.
+A review should identify both sides of any mismatch, and separately report
+unproved obligations or restricted theorem scope.
 
-A documented partial specialization is tolerated, but the preamble doc
-comment must say so explicitly. Examples:
-
-- "proof-oriented one-block slice" / "single-tile" / "one-iteration" —
-  upstream is a loop, Lean only proves a single iteration.
-- Single-constexpr-branch specialization (`IS_RMS_NORM=true`,
-  `HAS_BIAS=false`, `LOG=false`, …).
-- Single-output-channel slice (e.g. `FifthOrderSphHarmonics` taking only
-  `Y00`).
-- Unused-parameter elision (`*_row_stride` in a 1D path).
-
-The preamble must say "this is a slice / specialization", not "this is the
-equivalent form of the full kernel".
-
-## ✗ Deviates — must be fixed
-
-The following are not gaps; they are bugs in the translation.
-
-### Added a statement the `.py` does not have
-
-Any extra `tl.where`, extra cast, extra mask handling beyond what the `.py`
-writes. Example (real): `RmsnormFused.lean` once introduced an extra
-`x_masked = tl.where(cols < N, x_for_var, 0.0)` while the `.py` handled the
-same padding via `tl.load(..., other=0.0)`. Both are equivalent on paper;
-the proof now talks about a *different* kernel.
-
-### Added arithmetic structure the `.py` does not have
-
-Stride coefficients, broadcast dims, or scale factors added to an address
-or value that the `.py` didn't write. Example: changing
-`tl.load(W + col_offsets, ...)` to `tl.load(W + col_offsets * W_row_stride, ...)`.
-When `W` has a non-trivial stride, results differ — even when the change
-"looks more correct".
-
-### Folded a reduction loop into a single `tl.sum`
-
-Upstream is `for off in range(0, N, BLOCK_N): var += xf*xf`; the Lean
-translation writes `var = tl.sum(x*x, axis=0)`. Even when mathematically
-equivalent, the body shape is different and the proof "proves something
-that isn't this kernel". Two acceptable fixes:
-
-- Put the `for` loop back (faithful — but the proof has to change).
-- Declare it in the preamble as a specialization: "the N-block accumulation
-  loop is folded to a single-tile `tl.sum`, requiring `BLOCK ≥ N`."
-
-### Reordered compute statements
-
-Even if data flow is equivalent, 1:1 line correspondence is lost.
-
-### Merged or omitted `tl.*` calls without documenting
-
-Chained cast where the `.py` did two — collapsed into one. Masked load
-quietly downgraded to a bare load. Same family as the above.
-
-### Changed control flow
-
-Python multi-branch `if/elif/else` collapsed into `tl.where`; `for`
-unrolled; `while` rewritten as `for`. All require explicit documentation
-if intentional.
-
-## Suggested audit format
-
-When auditing a translation (or self-reviewing), classify each file:
-
-| Verdict | Meaning |
-|---|---|
-| `✓ FAITHFUL` | Line-by-line 1:1. |
-| `⚠️ MINOR` | One of the tolerated gaps above (cite the preamble doc comment for category 2). |
-| `❌ DEVIATES` | One of the must-fix items. Give `.py` line + `.lean` line + a one-line description of the divergence. |
-
-The audit is parallelizable — batches of ~15 kernels per agent works well.
-
-## What surface to write
-
-Once translation is settled, pick a theorem surface. The chooser is in
-[Correctness surfaces](/VeriTile/proofs/correctness-surfaces/); a one-glance summary:
-
-| Goal | Surface |
-|---|---|
-| Bench / showcase headline | `KernelIO` `⊨` / `⊨[R]`, declared with `specification` |
-| Output spec for every rounding model | `ComputeRefine.Realizes` |
-| One kernel matches an output spec | `ComputeCorrect.Realizes_without_Rounding` |
-| Two kernels satisfy an output relation | `ComputeRefine.Refines_without_Rounding` |
-| Value + index output (e.g. `return_indices=True`) | `ComputeCorrect.OutputPairWhere` |
-| Custom final-state postcondition | `ComputeCorrect.Post` / `ComputeRefine.Post` |
-| Relation over arbitrary initial states | `ComputeCorrect.General` / `ComputeRefine.General` |
+The standard task contains one Python module, `Kernels.lean`, `IO.lean`,
+`Contract.lean`, `RealCorrect.lean`, `FPEquiv.lean` and `Proofs/`. Public Real
+headlines use `Spec.Real (io ⊨ formula)` with the original conditions. FP
+headlines compare the actual programs with `original ≡[R] candidate`, preserving
+precision, domains and strict or experimental rule dependencies. Lower-level
+`ComputeCorrect` and `ComputeRefine` lemmas support these public statements;
+see [Correctness surfaces](/VeriTile/proofs/correctness-surfaces/).

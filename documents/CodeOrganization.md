@@ -9,11 +9,11 @@ lemmas, and new kernel transcriptions.
 | Directory | Responsibility |
 | --- | --- |
 | `VeriTile/` | Shared Lean semantics, source DSL, model definitions and proof interfaces |
-| `bench/tritonbench_g/`, `bench/examples/` | Current repaired tasks and worked examples |
+| `bench/examples/` | The 18 core worked-example groups |
+| `library/` | Optional library-only dependency view for downstream packages with their own examples |
+| [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench) | Repaired tasks, imported challenges, benchmark examples and per-task validation records |
 | `tests/lean/`, `tests/python/` | Lean and Python regressions |
-| `scripts/bench/`, `validation/` | Benchmark tools and current validation records |
-| `validation/` | Current source inventory and reviewed public contract bindings |
-| `bench/bug_detection/`, `bench/pretrain_kernels/` | Imported challenges with separately recorded open proof/backend goals |
+| `scripts/bench/` | Generic source parsers and standalone proof-audit helpers; collection-wide tools live in VeriTileBench |
 | `scripts/` | Shared verification and development commands |
 | `experiments/floating_point/` | Numerical rule evidence and experiment tooling |
 | `documents/`, `site/` | Maintained references and their generated website presentation |
@@ -114,8 +114,10 @@ mechanism (e.g. masked reduction) is reused across operators. Mechanism-named
 files keep the deduplication right: `MaskedReduction.lean` holds bridges for
 softmax / log-sum-exp / L2 / max-with-mask alike.
 
-### `bench/tritonbench_g/<kernel>/`, `bench/examples/`
+### Task layout: core examples and VeriTileBench tasks
 
+Paths under `bench/tritonbench_g/` and `validation/` in this section belong to
+VeriTileBench; core retains only `bench/examples/`. Both use the same structure.
 Follow the [task layout](../AGENTS.md) and the
 [worked examples](../bench/examples/README.md).
 
@@ -177,7 +179,7 @@ need; keep source lowering and kernel-specific host composition local.
 | --- | --- |
 | Shared semantics, normative references and trusted-boundary explanations | An existing relevant document under `documents/`, indexed by `documents/README.md`; physical memory requirements belong in `GpuMemoryModel.md`. |
 | Meaning and assumptions of a particular definition | Its Lean module/definition documentation, with direct references or links to the shared explanation. |
-| Task contract, public theorem entry points and validation status | The task's `README.md`. |
+| Task contract and public theorem entry points | `Contract.lean`, `RealCorrect.lean` and `FPEquiv.lean`; helper notes may live in `Proofs/README.md`. Acceptance records live in VeriTileBench's `validation/`. |
 | A kernel's compiler observations and target details | `validation/tasks/<kernel>/`, with the source commit and original evidence scope retained. |
 | Benchmark check tools and regressions | `scripts/bench/`, `tests/python/` and `tests/lean/`. Retired validators remain with their original source snapshots in Git. |
 | Cross-task scope decisions and deferred work | `documents/bench/TODO.md`; it is not a semantic specification or an acceptance ledger. |

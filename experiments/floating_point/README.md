@@ -60,6 +60,16 @@ unfinished or errored rows. Keep bundles under `Logs/` or outside the repository
 The JSON report is for review of the new measurements. The existing Lean
 admission exporters consume the historical report formats described below.
 
+## Report versions and evidence scope
+
+The checked-in primary and supplemental reports preserve earlier measurements
+and their source/protocol identities. They are not results of a fresh run of
+`check_numerics_paper.py`. The fixed-batch `paper-two-gates-v1` output and the
+replicate-protocol bundles below are different evidence formats; do not pass
+one off as the other or reuse a PASS after changing its protocol. Current
+fixed-batch reports are for review; the existing Lean exporters consume the
+historical report formats. New GPU measurements remain a separate step.
+
 ## GPU run and result return for the replicate protocol
 
 Edit [config.py](config.py), check atomic expression pairs with Triton kernels on an NVIDIA GPU,
@@ -321,37 +331,33 @@ rejected instead of silently merging different experiments.
 
 ## Lean boundary and verification
 
-Correctness stays real-valued. Public equivalence stays `lhs ≡[R] rhs`;
-`#print_spec` exposes its atoms. The existing
-[TritonBench example](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
-proves conditional composition under one ADD-COMMUTE assumption.
+Correctness stays real-valued. Public equivalence stays `lhs ≡[R] rhs`.
+`#print_fp_assumptions` separates strict model certificates from experimental
+rules actually reached through the proof. An empty experimental `R` retains
+any fixed model, source precision and operand-domain conditions.
 
-The published report can now be frozen into Lean with
+The [TritonBench vector-add example](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
+now uses a strict FP32 addition-commutation certificate under finite operands
+at the actual source site, with no experimental ADD-COMMUTE assumption.
+The core [VectorAdd example](../../bench/examples/VectorAdd/FPEquiv.lean) uses
+the same approach. Neither result asserts conformance of arbitrary GPU instructions.
+
+Published reports can be frozen into Lean with
 `python3 scripts/export_numerical_rules.py --trust-report`. This explicit mode
-trusts the report, checks its source hashes/configuration and exports only its
-accepted rows. It does not pretend to replay missing raw observations.
+trusts the report and checks its source hashes, configuration and integrity;
+it exports accepted rows without replaying unavailable raw observations.
+Historical exported rows can include relations that have since acquired strict
+certificates. Those rows are provenance, not proof-use counts or a reason to
+reintroduce an experimental obligation for a certified use site.
 
-The current report admits fp32 ADD-ASSOC. The row-wise-sum example binds it
-alongside fp32 ADD-COMMUTE, retaining explicit evidence premises for both atoms.
-The resulting derivation does not claim a whole-reduction IEEE or statistical guarantee.
-
-The [worked example](EXAMPLE.md) has separate
-[real correctness](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean) and
-[FP equivalence](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean) files, each
-with sources shared through the sibling `Kernels.lean`. The FP file does not import the
-correctness example. It binds its fp32 ADD-COMMUTE row to the actual
-TritonBench vector_addition fragments with symbolic element count and block size.
-The experiment selects the fp32 assumption; the subsequent proof does not match
-kernel dimensions against experimental dimensions. `Rules blockSize` instantiates
-the typed atom syntax at the kernel's tile size, without a size restriction.
-`R.add_comm` is the explicit modeling assumption for that atom,
-not a global IEEE axiom. Lean checks the remaining whole-kernel derivation and
-`#print_fp_assumptions` shows only the referenced atom name, `add_commute`.
-Use `#print_spec ... full` for report identity, provenance and dependency auditing.
-Other accepted rows are exported as data; further use-site syntax bindings remain
-necessary. Existing `scripts/prove.sh` and the official comparator remain the
-proof/checking entry points. Atom admission does not establish whole-kernel gates
-or distributions of intermediates.
+[RowWiseSum](../../bench/examples/RowWiseSum/FPEquiv.lean) uses strict scalar
+commutation together with admitted association and zero rules for its guarded
+tree derivations. [LogExp](../../bench/examples/LogExp/FPEquiv.lean) uses
+`log_exp_cancel`. Each theorem retains its complete IO and numerical domain;
+atom admission does not establish whole-kernel gates, a distribution for
+intermediates or a general IEEE error guarantee. See [current rule use](../../documents/FPRemainingAdmissionGaps.md)
+and the [worked example](EXAMPLE.md). Rule bindings and exports must be fixed
+before running the proof agent and independent comparator.
 
 CPU statistics/configuration/replay checks:
 
