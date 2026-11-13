@@ -31,7 +31,7 @@
 
 对外正确性使用实数语义 `Spec.Real`，实现等价性沿用 `lhs ≡[R] rhs`（`VeriTile.Spec` scope）。`R` 记录实验准入规则；程序视图还可提供固定的严格软件理论。`#print_fp_assumptions` 分开显示实际使用的实验规则和严格证书，不把整个目录视为已用依赖。依赖 `R` 的形式组合不构成无条件 IEEE 位值相等或整 kernel 误差界。
 
-统计接受路径按 [two-gates 协议](TwoGatesAcceptance.md) 合并结果。待证明、待测试和证据不足分别记录，不能当作已证明错误；相反，某个输入上的数值不等也不能自动推导统计 FAIL。
+历史 replicate 统计接受路径按 [two-gates 设计](TwoGatesAcceptance.md) 合并结果；当前 fixed-batch 论文协议与其报告格式见 [实验指南](../experiments/floating_point/README.md#paper-fixed-batch-protocol)，两者不可混用。待证明、待测试和证据不足分别记录，不能当作已证明错误；相反，某个输入上的数值不等也不能自动推导统计 FAIL。
 
 ## 2. 候选规则目录
 

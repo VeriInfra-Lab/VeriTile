@@ -13,14 +13,15 @@ import VeriTile.Triton.Float.ScalarArithmetic
 open VeriTile Triton FP.ScalarArithmetic
 open scoped VeriTile.Spec
 
-theorem addition_atom (R : Rules) : [lhs .addCommute] ≡[R] [rhs .addCommute] := by
+theorem association_atom (R : Rules) : [lhs .addAssociate] ≡[R] [rhs .addAssociate] := by
   split_equiv
-  solve_fp [admitted R .addCommute (by decide)]
+  solve_fp [admitted R .addAssociate (by decide)]
 ```
 
 Both tactics construct proof terms checked by Lean. Lifting this scalar atom
-to a program additionally requires its finite conditions at the actual operand
-values. [VectorAdd/FPEquiv.lean](../bench/examples/VectorAdd/FPEquiv.lean) uses
+to a program additionally requires its conditions at the actual operand
+values. The association example uses an admitted experimental rule; commutation
+at matching FP32 sites can instead use a strict model certificate. [VectorAdd/FPEquiv.lean](../bench/examples/VectorAdd/FPEquiv.lean) uses
 the two tactics to apply the checked `GuardedRewrite.add_commute` bridge; a raw report row
 must not be rebound to an unguarded program fragment.
 
@@ -87,8 +88,8 @@ including failure; it does not independently prove successful execution.
 Import `VeriTile.Triton.Float.RewriteTactics` to use `split_equiv` followed
 by `all_goals solve_fp`. The semantic adapter retains the program-point domains
 and applies the checked bridge lemmas, including explicit fp32 compute tags.
-The scalar HyperConnectionsWidth example composes two sites and prints
-`mul_commute` once. It uses the same decomposition path as the matrix examples
+The scalar HyperConnectionsWidth example composes two sites and reports
+`mul_commute` as a strict model certificate, with no experimental atom. It uses the same decomposition path as the matrix examples
 below, with the source's explicit precision instead of a default fp32 profile.
 
 ## General matrix program rewrites
@@ -113,8 +114,9 @@ Different list lengths require an explicit execution lemma in this adapter.
 
 `solve_fp` selects checked contextual arithmetic lemmas and discharges their
 premises from the model and the retained site guards. It does not invent
-finite/nonzero facts, discard guards, or change a precision tag. Depth prints
-only `add_commute`; Width prints only `div_mul_rcp`. Both leave the matrix
+finite/nonzero facts, discard guards, or change a precision tag. Depth reports
+strict `add_commute` with no experimental atom; Width reports experimental
+`div_mul_rcp`. Both leave the matrix
 products and normalization loops unchanged.
 
 `Site.divScalar` supports a denominator computed by the kernel, such as a
@@ -125,7 +127,7 @@ strides; its sole numerical assumption is `div_mul_rcp`.
 
 `Site.addScalar` checks both a tile and a scalar after the actual prefix. Its
 contextual lemma swaps `tile + scalar` (scalar-right broadcast) to
-`scalar + tile` (scalar-left broadcast), using only `add_commute`. The scalar
+`scalar + tile` (scalar-left broadcast), using the matching strict FP32 `add_commute` certificate. The scalar
 may be a literal or a computed value. Both operands must be finite; positivity
 and nonzero are not required. The `add_value/FPEquiv.lean` benchmark uses this
 path with symbolic element count, block size and scalar value. A guard on the
@@ -234,11 +236,14 @@ checks every intermediate operand on both paths. Tree normalization justifies
 its zero steps using the existing `add_zero` atom. The statement covers symbolic
 row sizes, including zero, successful execution and both memory frames.
 
+Abridged report (the strict section also prints the model identity and certificate term):
+
 ```text
 FP assumptions used by rowwise_sum_equiv:
-  add_commute
   add_assoc
   add_zero
+Strict model certificates used by rowwise_sum_equiv:
+  add_commute
 ```
 
 Run `python3 -m unittest scripts.test_equiv_tactics` for the tactic regressions.

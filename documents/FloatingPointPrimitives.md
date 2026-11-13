@@ -1,5 +1,10 @@
 # 浮点运算原语：完整设计
 
+本文保留原语架构设计及早期实施计划；后面的未勾选验收项不是当前完成度清单。
+当前证明分类以 [CurrentAdmission.lean](../VeriTile/Triton/Float/CurrentAdmission.lean)
+和 [规则依赖说明](FPRemainingAdmissionGaps.md) 为准；运行协议与历史报告范围见
+[实验指南](../experiments/floating_point/README.md)。
+
 更新日期：2026-10-03。状态：**主目录报告覆盖 42 个实例，接受项以当前局部 ULP bias／绝对误差比结果表为准；可从受信报告生成 Lean 规则数据，TritonBench fp32 加法例子已绑定并证明；其他原子的语法绑定及通用自动化继续复用现有 agent/comparator**。
 
 用户要求交付完整的“配置 → 检查原语 → 生成规则集 → 自动证明”流程，不以标量演示代替完整流程。已确认的实现路线减少了对自研执行器的要求：实际浮点运算交给 Triton/GPU，two-gates 在 Python 中运行，Lean 检查规则假设下的推导。[TwoGatesAcceptance.md](TwoGatesAcceptance.md) 定义变换接受协议。
@@ -267,13 +272,18 @@ profile = {
 
 `Derivation` 支持自反、对称、传递及共同语句前后文；`FloatingPoint` 还检查程序签名保持一致。当前 ComputeKernel 视图保留输入／输出元数据和真实 ComputeStmt 序列。它实现的是假设生成的形式理论，不把统计检验结果解释成对称、传递的概率保证，也不把该关系转换成具体 IEEE 位值的 Lean `=`。
 
-`#print_fp_assumptions theorem_name` 只打印浮点证明引用的原子假设名称，使用 `add_commute` 这样的小写下划线形式；不打印配置、gate 状态或 specification。它沿证明和实例化后的辅助引理寻找 `Derivation.atom`，排除规则表中未引用的条目；同一实例去重，不同配置分开显示。不可展开的浮点证明前提显示为 unresolved。可达证明分支均计入，不声称是逻辑上的最小依赖集合。公理审计独立执行；旧 `#print_spec ... full` 保留为内部审计入口。严格浮点事实保留为内部辅助引理；不能向具体浮点函数注入与已知反例矛盾的结合律公理。
+`#print_fp_assumptions theorem_name` 分开显示严格模型证书和实际引用的实验规则，后者使用 `log_exp_cancel` 这样的小写下划线名称；不打印配置、gate 状态或 specification。它沿证明和实例化后的辅助引理寻找 `Derivation.atom`，排除规则表中未引用的条目；同一实例去重，不同配置分开显示。不可展开的浮点证明前提显示为 unresolved。可达证明分支均计入，不声称是逻辑上的最小依赖集合。公理审计独立执行；旧 `#print_spec ... full` 保留为内部审计入口。严格浮点事实保留为内部辅助引理；不能向具体浮点函数注入与已知反例矛盾的结合律公理。
 
-[TritonBench 浮点示例](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean) 复用原始 vector_addition，保留 fp32 操作，构造只交换 `x + y` 操作数的变体。`nElements`、`blockSize` 均为符号参数，没有固定的 4096×4096 或 block=1024，也没有实验尺寸匹配条件。`ScalarArithmetic` 候选目录从生成的表中选择 fp32 `addCommute` 报告，提供原子关系的准入来源；公开规格为 `(nElements blockSize : Nat) (R : Rules blockSize) : originalKernel nElements blockSize ≡[R] optimizedKernel nElements blockSize`。`Rules blockSize` 只实例化带形状的语法；`R.add_comm` 表示使用实验选出的原子假设，Lean 检查其下的组合推导。这里按用户要求直接信任已发布报告，不重新重放 GPU 数据。[实数正确性文件](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean) 从同目录 `Kernels.lean` 引入共享源码，包含 `real_projection` 和 `vector_addition_correct`，其数学公式是 `xs i + ys i`；FP 推导不依赖这些实数证明。[运行与原子假设输出](../experiments/floating_point/EXAMPLE.md)。
-
-数值执行层和 checker 仍负责真实浮点计算、配对采样、oracle、非有限值及统计协议。规则配置保留 dtype、累加精度、shape、执行顺序、后端及原子测试操作数分布。原始输入为高斯不保证中间值高斯；按第 7.1 节的默认流程，Lean 检查 `R` 下的形式推导，不证明分布传播。声称某个原子实验代表实际内部使用位置时，需要对应的操作数来源和联合采样依据。
-
-完整 kernel 的数值复查可以作为额外实验，但不再是定义形式等价性的必备步骤。对称和组合后的形式等价定理，也不自动成为新的整 kernel 两门实验记录。
+[TritonBench 浮点示例](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
+保留 fp32 源程序，只交换 `x + y` 的操作数。当前公开规格对符号化的
+`nElements`、`blockSize` 证明 `original nElements blockSize ≡[[]] optimized nElements blockSize`，
+复用严格 FP32 交换律证书，保留实际加法位置两个操作数的有限性和固定软件理论；
+不再需要旧的 `Rules.add_comm` 实验假设。
+[Real 入口](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/RealCorrect.lean)
+独立证明数学公式 `xs i + ys i`，不作为 FP 算术改写的依据。
+使用实验假设的当前例子见 [LogExp](../bench/examples/LogExp/FPEquiv.lean)；
+严格证书、实验目录与实际依赖分别见 [当前分类](FPRemainingAdmissionGaps.md)。
+[运行说明](../experiments/floating_point/EXAMPLE.md) 区分严格证明、条件推导和报告证据。
 
 ## 9. 与当前代码的连接
 

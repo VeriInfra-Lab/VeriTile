@@ -55,3 +55,51 @@ All 1,369 internal and repository links resolve. Generated pages use English
 and contain no Chinese text or language selector; Chinese routes and sitemap
 entries are absent. Repository design-note sources remain the authority for
 the English pages.
+
+## Current-code documentation audit — 2026-11-13
+
+This audit starts from core main `d0e0d8406d74e7f25c04a65d974dbdb147155ec5`.
+It covers all 91 tracked Markdown/MDX documents, their 13 generated website
+references, and the website components that publish proof/CI links. Current
+statements were checked against the workflows, Lake targets, public proof
+entries and source-authoring frontend. Historical plans, fixture evidence and
+measurement reports retain their original time and source scope.
+
+Corrections include:
+
+- Core versus VeriTileBench ownership: core has 18 worked-example groups;
+  the benchmark collection has 19, including TritonBenchVectorAddition.
+- Actual core PR/main and nightly CI scope, separate benchmark audits, and
+  the library comparator's manifest-target/dependency selection boundary.
+- Strict VectorAdd FP32 certificates and finite-operand domains, separate
+  experimental rule dependencies, and the two-section assumption report.
+- Original Python function bodies with external call/parameter bindings;
+  theorem specialization is not permission to modify the authoritative body.
+- Current example/helper paths and commands that build example imports before
+  re-elaboration; stale workflow links and section anchors were repaired.
+- Current fixed-batch paper two-gates protocol versus historical replicate
+  reports, preserving every checked-in measurement and admission table.
+
+Verification:
+
+- All 91 tracked documents pass local/current-repository source and workflow
+  link checks; all 13 generated references match their sources.
+- Lean resolves 122 documented public API references. Both README Lean blocks,
+  the tactic guide's association example, and the translation guide's source
+  block compile. The latter is also proved equal to the actual VectorAdd body.
+- The core example script passes source correspondence and Real/FP builds for
+  VectorAdd, RowWiseSum and LogExp. No kernel or theorem source was changed.
+- Twenty-nine targeted regression tests pass: documentation links, spec-sheet
+  extraction, API validation, example dependency layout, dependency-profile
+  consistency, coverage records and homepage-record freshness. New checks cover
+  missing same-repository workflow/source links while leaving pinned history
+  external. The built-site checker uses the same URL resolver.
+- Production site build succeeds with 28 pages; 2,038 internal/repository links
+  resolve. The existing VectorAdd recorded proof fingerprint remains current.
+
+Limits: this is not a full corpus comparator replay or a fresh GPU experiment.
+The core copy of the full `ExamplePairTests` class still refers to corpus-owned
+fixtures; its complete version belongs in VeriTileBench. The retained core
+layout check and the three-example CI script were run separately. Numerical
+reports and Lean admissions were not regenerated. No version tag or release
+was created.
