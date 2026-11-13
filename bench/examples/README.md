@@ -1,11 +1,14 @@
 # Worked examples
 
-All 19 groups have checked Python `@triton.jit` bodies in the
+This checkout contains **18 worked-example groups**. VeriTileBench carries
+those 18 groups plus its own TritonBenchVectorAddition. The combined 19-group
+collection has checked Python `@triton.jit` bodies in the
 [body-source inventory](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/BodySourceCorrespondence.md).
 [Source provenance](SOURCE_PROVENANCE.md) identifies examples whose Python
 reference was authored from an independent mathematical specification.
 
-There are **19 example groups and 21 public FP specifications**. Ten groups use
+The combined collection has **19 example groups and 21 public FP specifications**
+(18 groups and 20 FP specifications in core). Ten groups use
 empirical rules and nine use only strict-model or structural proofs; at
 specification level the split is 10 and 11. HyperConnectionsWidth contains a
 strict scalar specification and an empirical matrix specification.
@@ -136,7 +139,13 @@ The other completed FP examples connect their transformations
 to execution or observable outputs. A proof of one stated slice or observation
 does not certify a larger kernel or a different precision/intrinsic variant.
 
-Build all example modules with `lake build TritonBenchSpecExamples`.
-The Python regressions in `scripts/test_example_spec_pairs.py` and
-`scripts/test_fp_*.py` check the source bindings, independent proof imports,
-domain boundaries and printed assumptions.
+Build the 18 core groups with `lake build TritonBenchSpecExamples`.
+In a VeriTileBench checkout, `lake build BenchmarkExamples` builds its 19 groups.
+For core CI, run `bash scripts/check-core-examples.sh`; source discovery and
+both Real/FP entries are checked for VectorAdd, RowWiseSum and LogExp.
+`python3 -m unittest scripts.test_example_spec_pairs.ExampleLayoutTests` checks
+reader/helper independence across all local groups. The full
+`ExamplePairTests` class still assumes corpus-owned fixtures, including
+TritonBenchVectorAddition and `tests/lean/OptimizedRealExamples.lean`; run its
+complete version in VeriTileBench rather than treating it as a core CI command.
+Other `scripts/test_fp_*.py` modules have their own selected fixtures and scope.

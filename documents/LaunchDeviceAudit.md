@@ -87,7 +87,7 @@ wrappers, logical CUDA tensor metadata is unwrapped to the existing CPU storage
 only at the interpreter boundary. These are mocked CUDA context controls, not
 multi-GPU tests.
 
-Each changed host helper and public `Correct.lean` / `FPEquiv.lean` entry
+Each changed host helper and public `RealCorrect.lean` / `FPEquiv.lean` entry
 compiled. Formal edits clarify that device/stream observations refer to the
 effective owning context; they do not add a proof of the CUDA context primitive
 or a Python/runtime refinement theorem. Kernel ASTs and numerical graphs are

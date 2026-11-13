@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check tracked Markdown file links and synchronized reference documentation."""
+"""Check Markdown file/current-repository links and synchronized references."""
 import argparse
 from pathlib import Path
 import re
@@ -11,6 +11,21 @@ ROOT = Path(__file__).resolve().parents[1]
 INLINE = re.compile(r'''\]\(\s*(<[^>]+>|(?:\\.|[^\s()]+|\([^)]*\))+)(?:\s+["'][^"']*["'])?\s*\)''')
 REFERENCE = re.compile(r'^ {0,3}\[[^]]+\]:\s*(<[^>]+>|\S+)')
 FENCE = re.compile(r'^ {0,3}(`{3,}|~{3,})(.*)$')
+REPOSITORY = '/VeriInfra-Lab/VeriTile'
+
+
+def repository_path(url):
+    """Resolve current-main source/workflow URLs; leave pinned history external."""
+    if url.hostname != 'github.com':
+        return None
+    path = unquote(url.path)
+    for prefix in (f'{REPOSITORY}/blob/main/', f'{REPOSITORY}/tree/main/'):
+        if path.startswith(prefix):
+            return path[len(prefix):]
+    prefix = f'{REPOSITORY}/actions/workflows/'
+    if path.startswith(prefix):
+        return '.github/workflows/' + path[len(prefix):]
+    return None
 
 
 def links(text):
@@ -39,6 +54,11 @@ def check_links(root, documents):
     for document in documents:
         for number, href in links(document.read_text()):
             url = urlsplit(href)
+            if (name := repository_path(url)) is not None:
+                target = (root / name).resolve()
+                if not name or not target.is_relative_to(root) or not target.exists():
+                    errors.append(f'{document.relative_to(root)}:{number}: missing repository link {href}')
+                continue
             # Absolute web routes and fragments are checked on the built site.
             if url.scheme or url.netloc or not url.path or url.path.startswith('/'):
                 continue
@@ -61,7 +81,7 @@ def main():
     if errors:
         print('\n'.join(errors))
         return 1
-    print(f'{len(documents)} tracked Markdown documents: local file links checked.')
+    print(f'{len(documents)} tracked Markdown documents: local and current-repository links checked.')
     if not args.links_only:
         return subprocess.run([sys.executable, '-B', 'site/scripts/sync-docs.py', '--check'], cwd=ROOT).returncode
     return 0

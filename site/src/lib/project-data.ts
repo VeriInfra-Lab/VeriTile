@@ -52,5 +52,5 @@ export const vectorAddDemo = demoRecord;
 export const leanToolchain = readFileSync(resolve(repositoryRoot, 'lean-toolchain'), 'utf8').trim().split(':').at(-1);
 export const quickStart = `git clone https://github.com/VeriInfra-Lab/VeriTile.git
 cd VeriTile
-lake build
-lake env lean bench/examples/VectorAdd/RealCorrect.lean`;
+lake exe cache get
+lake build bench.examples.VectorAdd.RealCorrect bench.examples.VectorAdd.FPEquiv`;

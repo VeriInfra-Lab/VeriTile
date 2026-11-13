@@ -4,7 +4,8 @@ Planning snapshot: the metrics and dated evidence below describe the earlier
 source revisions linked in this note. Use the [current corpus guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
 for present selection and the [archived contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json) for the earlier proof scope.
 
-更新日期：2026-10-01。时间安排使用新加坡时间。
+计划快照日期：2026-10-01；实现链接与状态说明校正于 2026-11-13。时间安排使用新加坡时间。
+旧覆盖计数、比较计划和未勾选清单保留原时间范围，不作为当前完成度统计。
 
 已确定投稿目标为 **MLSys 2027**。本文保存当前差距评估、建议的论文主线和逐项处理清单，后续在同一文件更新状态与证据。案例选择、实验协议和排期仍是工作建议；待办的完成条件用于本项目的投稿准备，不是会议规定的录用条件。
 
@@ -18,7 +19,7 @@ for present selection and the [archived contract review](https://github.com/Veri
 
 > VeriTile 在实数语义下证明 kernel 与数学公式一致；在浮点优化理论中，用 two-gates 验证原子关系并将其登记为有配置和证据的假设，再由 Lean 推导实现等价性并列出依赖。Bias gate 检查方向性偏差，vars gate 检查相对高精度 oracle 的误差放大。
 
-这是正在实现的论文主线。既有实数算术与 cast/store 抽象舍入证明继续保留；新增 bf16/fp32 位值、逐操作舍入的基础标量语义、六个具体反例定理及规则登记接口。已写好 14 条局部 Triton 原子关系、Python two-gates 与结果导入；实际 GPU 测量和 Lean 规则表绑定尚未完成。完整原语架构及实施计划见 [FloatingPointPrimitives.md](FloatingPointPrimitives.md)，接受关系见 [TwoGatesAcceptance.md](TwoGatesAcceptance.md)。交付按完整目标验收，小例子只用于验证设计和实现。
+这是正在实现的论文主线。既有实数算术与 cast/store 抽象舍入证明继续保留；新增 bf16/fp32 位值、逐操作舍入的基础标量语义、六个具体反例定理及规则登记接口。已写好 14 条局部 Triton 原子关系、Python two-gates 与结果导入；此后已发布历史 GPU 报告并实现 Lean 规则绑定；当前 fixed-batch 协议的重测仍须独立执行，不能沿用旧报告的 PASS。完整原语架构及实施计划见 [FloatingPointPrimitives.md](FloatingPointPrimitives.md)，接受关系见 [TwoGatesAcceptance.md](TwoGatesAcceptance.md)。交付按完整目标验收，小例子只用于验证设计和实现。
 
 已确定的用户流程是：在 Python 中定义 shape 和输入分布，系统检查预定义原子规则、生成可用规则集 `R`，再自动尝试实现等价证明；改配置后重新生成规则集并重跑证明。dtype、累加精度和实际执行配置仍纳入检查。该流程是完整交付目标，尚不是已实现的全自动能力；规则集下的形式推导与整 kernel 的统计接受结果分开报告。具体接口及失败行为见原语设计第 7.1 节。
 
@@ -28,7 +29,7 @@ Typed DSL、操作语义、correctness/refinement 接口、内存条件和共享
 
 ## P0 差异化贡献：浮点语义与 two-gates
 
-状态：**进行中**。已实现条件等价推导、假设报告、GPU 实验配置／执行脚本和 CPU 结果重放；待用户 GPU 运行、参数化 Lean 规则绑定及现有证明 agent/comparator 的连接。未声称已完成任何 GPU 准入结果。
+状态：**进行中**。已实现条件等价推导、假设报告、GPU 实验配置／执行脚本和 CPU 结果重放；已有参数化规则绑定及历史准入报告；配置到 agent 的一体化自动流程和当前协议下的论文重测仍分别验收。历史证据范围见 [实验指南](../experiments/floating_point/README.md)。
 
 ### 已选定的扩展方向
 
@@ -160,13 +161,20 @@ structure RoundingModel where
 
 ### Online softmax
 
-当前 [OnlineSoftmaxCorrect.lean](../bench/examples/OnlineSoftmax/RealCorrect.lean) 的最终 `online_softmax_correctness` 声明针对 `batchSoftmaxIO`：batch kernel 实现由 online recurrence 定义的数学函数。文件中的 streaming kernel 证明主要描述寄存器递推结果，kernel body 没有最终输出 store。
-
-如果把它作为完整 streaming kernel 验证案例，需要补输出阶段并连接到对应 IO 定理；也可以保留当前结果并准确限定论文主张。文件名和递推恒等式本身不能替代完整 streaming 输出定理。
+[OnlineSoftmax/RealCorrect.lean](../bench/examples/OnlineSoftmax/RealCorrect.lean)
+现已包含 `online_softmax_output_correctness`，连接实际 two-pass 源程序的输出 store
+与完整 softmax 公式，并保留 `0 < N` 等公开条件；batch 和 flat 入口分别列出。
+[FP 入口](../bench/examples/OnlineSoftmax/FPEquiv.lean) 比较 batch 与 online 程序，
+保留输入域、共享归约计划及所用数值规则。早期“只有寄存器递推、没有输出 store”
+的缺口不再描述当前实现；论文仍应逐项引用实际声明，不能由文件名推断范围。
 
 ### LayerNorm 与 attention
 
 [FusedLayerNormEquiv.lean](../bench/examples/FusedLayerNorm/Proofs/LegacyRealEquiv.lean) 已有 two-pass 与 Welford 版本的等价性案例，值得直接复用。其归约和 affine 算术运行在实数模型中，舍入位于输出 cast/store；不能据此声称硬件中间浮点运算逐位等价。
+
+当前另有独立的 [FusedLayerNorm/FPEquiv.lean](../bench/examples/FusedLayerNorm/FPEquiv.lean)
+公开入口，保留 `N ≤ limit`、归约计划、输入域和 `R`；其数值改写依赖按严格证书与
+实验准入分别统计，不能用旧 LegacyRealEquiv 结论代替。见 [示例覆盖](ExampleSpecificationMigration.md)。
 
 Attention 案例应在 M2 中按完整计算范围、参数化程度和证明成本选择。现有 FlashAttention 相关证明包含不同布局、阶段和边界条件，不能将其中一个切片的结果概括为所有生产路径均已验证。
 
@@ -175,7 +183,7 @@ Attention 案例应在 M2 中按完整计算范围、参数化程度和证明成
 | 核心实验 | 要回答的问题 | 已有基础与新增工作 |
 |---|---|---|
 | 覆盖与范围 | 支持哪些 kernel 和参数，哪里需要特化或假设？ | 复用 173 对源码与 345 个定理的覆盖清单；另行给核心案例整理完整范围 |
-| 验证成本 | 检查证明需要多久、多少内存？ | 复用 comparator；当前 `check_comparator.py` 的结果记录缺少耗时与资源字段 |
+| 验证成本 | 检查证明需要多久、多少内存？ | 复用 comparator；VeriTileBench 的批量审计试点已记录耗时和峰值内存；全面比较仍须冻结任务、缓存与预算后重测 |
 | 参数泛化与复用 | 一个证明覆盖哪些配置，修改后需补多少证明？ | 复用参数化案例；从新变体开始记录过程与成本 |
 | 方法比较与消融 | 组合接口和共享引理带来了什么收益与代价？ | 固定共同任务、性质和预算，分别报告支持范围、成本和未完成情况 |
 | Two-gates 接受关系 | 两门如何区分可接受变换和数值缺陷，代价与统计限制是什么？ | 新增具体浮点执行、正负对照、单门/双门消融及不同 dtype/输入分布评估；报告数据待复现 |

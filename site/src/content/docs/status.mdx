@@ -23,21 +23,28 @@ audits or certify a new audit result.
 
 ## Reproduce the checks
 
-From the repository root:
+From the **VeriTile** root:
 
 ```bash
 lake build
-scripts/check-artifact.sh
-scripts/bench/audit_tritonbench_g.sh
+bash scripts/check-core-examples.sh
+bash scripts/check-artifact.sh
 ```
 
-The artifact gate checks proof placeholders, allowed axioms, the kernel
-manifest, and documentation consistency. The bench audit also checks port
-elaboration, registered proof gaps, Python/Lean translation patterns, and
-trust reports. See the
-[artifact workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/artifact.yml)
-and [bench workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/bench-audit.yml)
-for recorded CI runs.
+The core [workflow](https://github.com/VeriInfra-Lab/VeriTile/actions/workflows/core.yml)
+builds the library and three source/Real/FP example pairs on PRs and main
+pushes. Its nightly/manual artifact gate builds the full library, checks
+placeholders, allowed axioms and the manifest, resolves documented APIs, and
+independently replays proven library-manifest targets and their dependencies.
+It does not select every unused theorem in every library module.
+
+From a **VeriTileBench** checkout, run
+`bash scripts/bench/audit_tritonbench_g.sh` for the complete corpus checks.
+The separate [benchmark workflow](https://github.com/VeriInfra-Lab/VeriTileBench/actions/workflows/bench-audit.yml)
+has source/smoke and public-entry checks on PRs/main pushes; its daily/manual
+full audit selects all retained modules, including helper theorems.
+The site's coverage table reads the pinned benchmark revision in
+`site/src/lib/benchmark-source.json`; a website build is not a new proof audit.
 
 ## Upstream bug reports
 

@@ -1,10 +1,18 @@
 # 用 two-gates 定义浮点变换的可接受性
 
-更新日期：2026-10-03。
+协议设计快照：2026-10-03；协议范围说明校正于 2026-11-13。
+
+本页的 replicate 均值、尾部拟合、自适应停止和 WARN 规则描述**旧 replicate 协议**及其历史报告。
+当前论文入口是 [check_numerics_paper.py](../scripts/check_numerics_paper.py) 的
+`paper-two-gates-v1` 固定批协议：bias 按同一批有效 lane 的逐元素 ULP 差计算
+`abs(mean) + 5 * sample_std / sqrt(n) <= tau`；magnitude 要求
+`candidate_peak <= 10 * reference_peak`，不做尾部拟合或自适应停止。
+两协议的采样单元、判决与 bundle 格式不同，不能混用 PASS。
+当前命令与边界见 [实验指南](../experiments/floating_point/README.md#paper-fixed-batch-protocol)。
 
 状态：**已实现 specification、依赖报告、局部 Triton 原子关系、Python two-gates、GPU 实测与 CPU 重放，以及主目录和补充目录结果的 Lean 规则导出。** 两个目录共用局部 golden ULP 的平均偏差预算和最大绝对误差比；当前结果见各目录的 `report/summary.md`。
 
-当前局部 ULP bias 与绝对误差比协议使用固定种子 20261003，在 H200 上对独立 replicate 采样，并经独立 CPU 回放。已发布报告绑定其源代码哈希和聚合协议；回放与导出拒绝哈希不匹配的报告。
+已发布的旧 replicate 报告使用固定种子 20261003，在 H200 上对独立 replicate 采样，并经独立 CPU 回放。已发布报告绑定其源代码哈希和聚合协议；回放与导出拒绝哈希不匹配的报告。
 
 交付目标为完整浮点支持与接受流程，原语架构和统一完成条件见 [FloatingPointPrimitives.md](FloatingPointPrimitives.md)。加法重排等小例子用于核对语义，不构成缩减后的交付版本。
 
@@ -50,7 +58,7 @@ P \xrightarrow[C,E]{\mathrm{accept}} Q .
 
 报告的 bias 动机使用训练累积视界，而 vars 实验使用一个 optimizer step 内的调用视界。本设计分别记录 \(T_{\mathrm{bias}}\) 与 \(T_{\mathrm{tail}}\)，并记录单位与采样单元；不能因两者都写成 \(T\) 而直接互换。固定权重下的结果只覆盖该权重配置。
 
-当前 VeriTile 的普通浮点标签算术仍使用实数运算，抽象舍入主要位于 cast/store。本契约的实际浮点计算由 Python 调 Triton/GPU 完成，包括 bf16 输入配 fp32 累加等混合精度情况；不要求先实现完整 Lean IEEE 执行器。现有 `RoundingModel` 的幂等性等性质不足以唯一确定 bf16/fp32 的执行行为。
+VeriTile 的 exact 算法层使用实数运算，旧抽象舍入位于 cast/store；独立软件位值模型和受保护 FP 程序视图另行定义具体数值规则。本契约的实际浮点计算由 Python 调 Triton/GPU 完成，包括 bf16 输入配 fp32 累加等混合精度情况；不要求先实现完整 Lean IEEE 执行器。现有 `RoundingModel` 的幂等性等性质不足以唯一确定 bf16/fp32 的执行行为。
 
 ### 高斯探针与 shape 的处理
 
@@ -223,13 +231,15 @@ Q_d(a,b,c)=\operatorname{fl}_d(a+\operatorname{fl}_d(b+c)).
 5. **从局部误差到训练危害。** \(T\mu\) 与 \(\sqrt T\sigma\) 的比较需要相关性和传播假设。一般训练扰动还经过随时间变化的 Jacobian；存在负曲率不能单独推出整个乘积具有正 Lyapunov 指数。forward 门的通过不能直接推出 backward、训练轨迹或训练质量保证。
 6. **计量与复现。** ULP 在 binade 边界具有方向差异，例如 bf16 在 1 上方的相邻间隔为 \(2^{-7}\)，下方为 \(2^{-8}\)。必须固定 nextafter 方向及聚合规则。改变 bias 的逐元素尺度或 vars 的误差单位会改变所检验的量；只保存局部 ULP 峰值的观测无法恢复绝对误差峰值，必须重新采样，不能直接充当当前协议的结果。
 
-### 当前验收协议
+### 旧 replicate 验收协议
 
 双门验收采用自适应停止规则：默认最少 4096 次、每批 512 次、预算上限 50000 次（完整末批可到 50176）；每批检查幅度置信带，达到最小预算后稳定或回退则停止。PWM 保留原始 shape 供诊断，计算 return level 时截断到非正；1000 次固定种子 bootstrap，alpha=1.35e-3。尾部不可拟合时按经验最大 K 判 PASS/WARN/FAIL，明确标记 `empirical_fallback`，不能把它称为尾部置信保证。
 
 Bias 对每个 replicate 的全部同分布标量实例取一个均值，一维和二维布局使用相同聚合。默认 tau=0.05 local ULP，SE 倍数为 5；z 只作诊断，接受要求跨 replicate 均值的偏差上界不超过 tau。每个元素单独计算 ULP：取 golden 的绝对值，转到输出 dtype，再取向正无穷的 nextafter 间距；最大有限值取朝零间距，零和 subnormal 使用最小间距。golden 转换溢出产生无效尺度并使检查失败。仅 bias 先用该尺度归一化，再计算整次均值；vars 保存绝对 oracle 误差的峰值并计算 Ec/Er，不使用 ULP 或加性容差。不跨元素或 replicate 取最大 ULP 作为 bias 预算。CPU 回放检查 delta 的 `[R, 1]` 形状、实际采样数及所有自适应检查点。输入分布由 VeriTile 的 profile 指定，不引入新的正值或条件采样。具体参数与运行说明见实验目录，模型限制见第 7 节。
 
-## 8. 下一步
+## 8. 原设计的后续验收项
+
+以下清单保留原设计时间范围，不代表当前协议重测状态。
 
 - [x] 明确实数正确性与基于 two-gates 准入原子假设的浮点实现等价性。
 - [x] 区分两门的参照系、三档判决、证据不足和有向关系的使用范围。

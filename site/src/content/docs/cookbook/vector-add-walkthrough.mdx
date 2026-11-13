@@ -12,7 +12,7 @@ This walkthrough uses the complete, executable
 [VectorAdd showcase](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/VectorAdd/RealCorrect.lean).
 Every excerpt below is read from the example directory at website build time.
 `Kernels.lean` contains the programs, `Proofs/Real.lean` contains the execution
-and memory lemmas, and `Correct.lean` imports them for the public contract.
+and memory lemmas, and `RealCorrect.lean` imports them for the public contract.
 Use the complete repository when running the proof.
 
 ## 1. Choose the translation's scope
@@ -26,7 +26,7 @@ last tile. The Python decorator and host launch are outside the Lean theorem.
 For a masked tail, use the separate
 [FlatVectorAdd example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FlatVectorAdd/RealCorrect.lean).
 
-Floating values in this example are mathematical real numbers. The result
+The Real contract interprets floating values as mathematical real numbers. Its result
 does not establish concrete IEEE-754 addition, GPU compilation, or the
 correctness of a Python host wrapper.
 
@@ -36,9 +36,10 @@ correctness of a Python host wrapper.
 
 <Code code={tutorial.kernel} lang="lean" />
 
-`triton { ... }` is the embedded DSL. `$(blockSize)` and `$(xReg)` interpolate
-Lean parameters into it. The Python pointer names become named memory
-regions; `pid * B + arange(B)` is retained as the program's address calculation.
+`triton { ... }` is the embedded DSL. The actual call signature and external
+Lean bindings supply `BLOCK_SIZE` and pointer storage types without adding
+statements or antiquotes to the pasted body. The Python pointer names bind
+to named memory regions; `pid * B + arange(B)` is retained as the program's address calculation.
 Lean imports, the namespace, and the parameter types are part of this workflow.
 This is an explicit translation, not automatic verification of arbitrary
 Python source.
@@ -84,7 +85,7 @@ Install the pinned Lean toolchain using the [setup instructions](/VeriTile/refer
 then run from the repository root:
 
 ```bash
-lake build
+lake build bench.examples.VectorAdd.RealCorrect bench.examples.VectorAdd.FPEquiv
 lake env lean bench/examples/VectorAdd/RealCorrect.lean
 ```
 

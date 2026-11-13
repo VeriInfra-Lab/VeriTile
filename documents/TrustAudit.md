@@ -15,22 +15,32 @@ export PATH="/tmp/veritile-proof-tools/bin:$PATH"
 # comparator replay of all proven LIBRARY manifest targets
 python3 scripts/check_comparator.py --library
 
-# audit bench ports, showcases, and infrastructure tests
-bash scripts/bench/audit_trust.sh --final-inventory  # whole retained corpus
+# audit a core worked example, including retained helper theorem dependencies
 python3 scripts/check_comparator.py --file bench/examples/VectorAdd/RealCorrect.lean --trust
+```
 
-# both, plus the port-completion checks, in one local command
+Core PR/main CI builds the library and source/Real/FP pairs for VectorAdd,
+RowWiseSum and LogExp. Nightly at 03:00 Asia/Singapore (19:00 UTC), and on manual
+dispatch, it runs the full library artifact checker. The library comparator
+selects proven manifest rows under `VeriTile/` and their recursive theorem
+dependencies; it does not inventory every unused library theorem.
+
+In a **VeriTileBench checkout**, run:
+
+```bash
+# build and audit all retained corpus modules
+bash scripts/bench/audit_trust.sh --final-inventory
+# source inventories, imported interfaces, complete build and proof audits
 bash scripts/bench/audit_tritonbench_g.sh
 ```
 
-PR and main-push CI check the final inventory, source regressions and library
-proofs. Daily CI at 04:00 Asia/Singapore (20:00 UTC), and manual runs with
-`full_audit=true`, also build all 334 draft interfaces and build/replay every
-retained corpus module in 64 independent shards. Before merging proof changes,
-run the complete applicable proof checks locally. Each daily shard
-builds its selected modules and their complete dependencies before creating
-its isolated comparator workspace. The final gate requires every job to pass;
-a global-only result does not establish corpus acceptance. See the
+Its PR/main gates check source/smoke and public entries. Daily at 04:00
+Asia/Singapore (20:00 UTC), and on manual dispatch with `full_audit=true`, it
+also builds all 334 imported challenge interfaces and builds/replays every
+retained corpus module, including helper theorems, in 64 shards. The final
+gate requires every selected shard to pass; one shard or a global-only result
+does not establish full corpus acceptance. Before merging proof changes, run
+the complete applicable checks locally. See the
 [CI stage commands](../scripts/README.md#shared-comparator-gate).
 
 Independent mathematical reference modules can use `@[standalone_spec]` without a kernel in scope. The audit still rejects any reachable kernel dependency, including one outside the selected source modules. Core-only Lean `module` helpers retain their module headers and private imports; their complete theorem dependencies are checked against the standard axiom base and replayed by the official comparator.
@@ -42,7 +52,8 @@ an unapproved axiom reached the proof; an infrastructure failure is reported
 separately and does not establish a bad proof.
 
 All three entrypoints require the official comparator. Library targets come
-from the proven manifest rows; standalone files export all retained theorem
+from the proven `VeriTile/` manifest rows and their theorem dependencies;
+standalone files export all retained theorem
 declarations, including private and macro-generated ones. Comparator checks
 their axiom dependencies and replays the proofs in Lean's kernel. Routine
 audits use a frozen current-source snapshot, not an old Git specification;
@@ -113,7 +124,8 @@ any gate is violated:
 - Commands: [`VeriTile/Meta/StatementAudit.lean`](../VeriTile/Meta/StatementAudit.lean).
 - Library driver (generated): [`VeriTile/Meta/TrustReport.lean`](../VeriTile/Meta/TrustReport.lean)
   — regenerate from the manifest with `python3 scripts/gen_trust_report.py`.
-- Bench driver: [`scripts/bench/audit_trust.sh`](../scripts/bench/audit_trust.sh).
+- Standalone trust driver: [`scripts/bench/audit_trust.sh`](../scripts/bench/audit_trust.sh);
+  corpus selection and batch orchestration live in VeriTileBench.
 - Shared comparator driver: [`scripts/check_comparator.py`](../scripts/check_comparator.py).
 
 `TrustReport` lives in the `VeriTileFull` lakefile lib (it audits `ApproxGeLU`,

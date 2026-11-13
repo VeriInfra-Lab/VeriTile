@@ -10,8 +10,8 @@ honest.
 ## In this section
 
 - [Theorem surfaces](/VeriTile/proofs/theorem-surfaces/) — the top-level shapes
-  (`ComputeCorrect.Realizes_without_Rounding`, `ComputeRefine.Realizes`, and friends) that
-  kernels and specs are expressed against.
+  (`Spec.Real` and `original ≡[R] candidate`) and the lower-level
+  `ComputeCorrect` / `ComputeRefine` interfaces that support them.
 - [Correctness surfaces](/VeriTile/proofs/correctness-surfaces/) — surface-by-surface
   guide for picking the right one for a given kernel/spec relationship.
 - [Proof conventions](/VeriTile/proofs/proof-conventions/) — naming, structure,
