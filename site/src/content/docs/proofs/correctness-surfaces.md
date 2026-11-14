@@ -234,8 +234,8 @@ establish the distribution of intermediate operands or transfer the atom's
 two-gates result to the whole kernel. Kernel dimensions need not equal the
 experiment dimensions merely to instantiate a symbolic derivation. Precision,
 backend, operation identity and use-site domains still have to match the rule.
-An integrated configuration-to-agent workflow is described as a design goal in
-[FloatingPointPrimitives.md](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/FloatingPointPrimitives.md#71-用户流程配置--检查原语--生成规则集--自动证明).
+The numerical runner, evidence interface and explicit proof workflow are described in
+[FloatingPointPrimitives.md](https://github.com/VeriInfra-Lab/VeriTile/blob/main/documents/FloatingPointPrimitives.md#数值运行与证据接口).
 
 The implementation in [Spec.lean](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Spec.lean) separates three things:
 

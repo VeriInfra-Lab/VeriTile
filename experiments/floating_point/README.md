@@ -51,8 +51,8 @@ parameters, sampling design, independent RNG roles and exact mixture count are
 frozen before execution. No gate outcome changes the sample budget or seed.
 
 `--samples` explicitly changes the total target-input budget; it is recorded in
-the manifest. `--workers` controls process concurrency. The execution shape only
-partitions memory and work; it is not a count of statistical replicates. Changing
+the manifest. `--workers` controls process concurrency. The execution shape
+partitions memory and work independently of the total input budget. Changing
 any frozen setting, including the execution shape, requires a new output directory.
 
 ## One shared sample bank for both gates

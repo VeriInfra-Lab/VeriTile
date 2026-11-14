@@ -218,9 +218,8 @@ admitted experimental rules in `R`. The
 [current rule-usage guide](documents/FPRemainingAdmissionGaps.md) distinguishes
 strict certificates, the retained experimental catalogue and actual proof use.
 The [experiment guide](experiments/floating_point/README.md) describes GPU
-collection and CPU replay. Checked-in reports retain their measured protocol
-and source versions; they are not results from a fresh run of the current
-checker. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
+collection and CPU replay. Each report binds its measured sources, configuration
+and acceptance scope. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
 and [specification coverage](documents/ExampleSpecificationMigration.md).
 
 ## Documentation Map

@@ -224,7 +224,7 @@ correspondence and imported-challenge review before proof acceptance. Run its
 `test_audit_gates.py` sequentially with the corpus scanner: those regressions
 create deliberately invalid temporary task directories.
 
-### Source correspondence and compatibility fixtures
+### Source correspondence and fixtures
 
 Current examples use automatic discovery from the Python function and the
 shared `Kernels.lean` body:
