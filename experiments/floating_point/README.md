@@ -1,385 +1,155 @@
 # Floating-point rule experiments
 
-For additional basic relations, use the
-[supplemental experiment instructions](supplement/README.md).
-Both catalogues use local-ULP mean bias and a ratio of peak absolute oracle errors.
+The two-gates runner is [check_two_gates.py](../../scripts/check_two_gates.py).
+It checks atomic source-expression pairs on an NVIDIA CUDA GPU, then replays
+all saved statistics and required raw audits on CPU. The experiment does not
+change the Lean arithmetic model or automatically update its admission records.
 
-The published tables use replicate means in local ULPs and a peak-error ratio
-with tail fitting. Their recorded source hashes bind the sampling and
-aggregation semantics. Use the fixed-batch entry below for new paper runs.
+## Run the experiment
 
-## Paper fixed-batch protocol
+The shared settings are in [two_gates_config.py](two_gates_config.py):
 
-`scripts/check_numerics_paper.py` runs one fixed batch per rule and format on
-an NVIDIA CUDA GPU. The two gates share the in-domain lanes where reference,
-candidate and oracle are all finite. The bias gate requires
-`abs(mean) + 5 * sample_std / sqrt(n) <= tau` over individual signed ULP
-shifts, with sample variance using `n - 1`. The magnitude gate requires
-`candidate_peak <= 10 * reference_peak` in absolute output units. The peaks
-can come from different lanes. A zero candidate peak gives ratio zero, and
-a positive candidate peak against zero reference error gives infinity.
-Fewer than two retained samples give `INCONCLUSIVE`.
+| Setting | Default |
+|---|---:|
+| Original-distribution peak input groups per configuration | `2**32` |
+| Additional near-zero proposals for the three weighted FP32 rules | `2**25` |
+| Execution shape, for bounded memory | `[1024, 1024]` |
+| Runs per configuration | One, to the full fixed budget |
+| Bias tolerance / standard-error multiplier | `0.05 ULP` / `5` |
+| Candidate/reference peak-error limit | `10` |
+| Worker processes sharing the GPU | `3` |
 
-Install the CUDA experiment dependencies with
-`python3 -m pip install -r experiments/floating_point/requirements.txt`.
-Check the effective protocol, run a small smoke batch, and run the experiment
-with a fresh output directory.
-
-```bash
-python3 scripts/check_numerics_paper.py check
-python3 scripts/check_numerics_paper.py run --smoke --rules ADD-ASSOC --formats fp32 --output Logs/paper-smoke
-python3 scripts/check_numerics_paper.py run --output Logs/paper-primary
-python3 scripts/check_numerics_paper.py run --catalog supplement --output Logs/paper-supplement
-```
-
-Use `--profile` for a specific primary or supplemental profile, and
-`--rules` or `--formats` to select the experiment rows. The batch size is the
-product of the configured `shape` dimensions, by default `4096×4096`.
-The fixed-batch decision reads `gates.bias.tau` from the profile, by default
-`0.05 ULP`. Replicate and tail fields are carried in the profile for compatibility
-with existing configuration files. The effective settings are in the manifest's
-`protocol` section. For ULP lookup at a finite oracle outside the output range,
-use the inward spacing at the largest finite value in that format. Oracle errors
-still use the original value. The FP64-work division profile retains its
-compiled residual oracle.
-
-Copy the entire output directory to a checkout of the same source revision.
-Replay the gates on CPU with the NumPy version recorded in the manifest.
-
-```bash
-python3 scripts/check_numerics_paper.py import Logs/paper-primary --output Logs/paper-primary.json
-python3 scripts/check_numerics_paper.py import Logs/paper-supplement --output Logs/paper-supplement.json
-```
-
-The `paper-two-gates-v1` bundle stores signed per-lane ULP shifts, the two
-peak oracle errors, sample counts, PTX and source hashes. Replay recomputes
-the decision from those observations and reports domain exclusions, nonfinite
-exclusions, and both gate results per row. Smoke rows stay out of `accepted`.
-Repeat the same GPU command with `--resume` to retain verified rows and rerun
-unfinished or errored rows. Keep bundles under `Logs/` or outside the repository.
-The JSON report is for review of the new measurements. The existing Lean
-admission exporters consume the historical report formats described below.
-
-## Report versions and evidence scope
-
-The checked-in primary and supplemental reports preserve earlier measurements
-and their source/protocol identities. They are not results of a fresh run of
-`check_numerics_paper.py`. The fixed-batch `paper-two-gates-v1` output and the
-replicate-protocol bundles below are different evidence formats; do not pass
-one off as the other or reuse a PASS after changing its protocol. Current
-fixed-batch reports are for review; the existing Lean exporters consume the
-historical report formats. New GPU measurements remain a separate step.
-
-## GPU run and result return for the replicate protocol
-
-Edit [config.py](config.py), check atomic expression pairs with Triton kernels on an NVIDIA GPU,
-then import the result directory on the development machine (Python + NumPy).
-The importer recomputes both gates instead of trusting PASS labels.
-
-The runner saves paired kernel observations and compiled PTX. CPU replay checks
-the bundle and computes the numerical admission table. Lean integration is
-described in [FloatingPointPrimitives.md](../../documents/FloatingPointPrimitives.md).
-
-Check out the same experiment revision on both machines. Use Linux
-with an NVIDIA CUDA GPU. For a fresh Python 3.11–3.13 virtual environment:
+Install the pinned GPU environment, inspect the effective plan, then check a
+small smoke run before starting a fresh full output directory:
 
 ```bash
 python3 -m pip install -r experiments/floating_point/requirements.txt
-python3 scripts/check_numerics.py check
-python3 scripts/check_numerics.py run --smoke --output Logs/fp-smoke
+python3 scripts/check_two_gates.py check
+python3 scripts/check_two_gates.py run --smoke --output Logs/two-gates-smoke
+python3 scripts/check_two_gates.py run --output Logs/two-gates
 ```
 
-The smoke run uses a masked `32×33` shape and four replicates, always marked
-`SMOKE_ONLY` and never admitted. Inspect ERROR records before the formal run.
-SQRT-RSQRT skips nonpositive inputs; fp32 BF16-WIDEN-RETURN remains unsupported.
+The default inventory has 168 configurations across the primary, supplemental
+and typed-count profiles: 115 runnable and 53 explicitly unsupported precision
+combinations. A numerical `REJECT` is an outcome, not an execution error.
+`UNSUPPORTED`, `INCONCLUSIVE`, `ERROR` and `SMOKE_ONLY` remain distinct.
+Smoke results never enter the accepted list.
 
-Start with associativity under all three precision profiles:
+Select configurations or inspect the direct-sampling control with:
 
 ```bash
-python3 scripts/check_numerics.py run --rules ADD-ASSOC --output Logs/fp-add-assoc
+python3 scripts/check_two_gates.py check --catalog primary --rules CANCEL,ADD-ASSOC,MUL-DISTRIB --formats fp32
+python3 scripts/check_two_gates.py run --catalog primary --rules CANCEL --formats fp32 --output Logs/two-gates-cancel
+python3 scripts/check_two_gates.py run --catalog primary --rules CANCEL --formats fp32 --iid --output Logs/two-gates-cancel-iid
 ```
 
-Run the complete table, or select rules and formats:
+`--config` selects shared settings. `--profile` selects a relation/precision
+profile and requires an explicit catalogue. Primary, supplemental and typed-count
+profile files supply distributions, source precisions, rules and launch settings.
+The effective
+parameters, sampling design, independent RNG roles and exact mixture count are
+frozen before execution. No gate outcome changes the sample budget or seed.
+
+`--samples` explicitly changes the total target-input budget; it is recorded in
+the manifest. `--workers` controls process concurrency. The execution shape
+partitions memory and work independently of the total input budget. Changing
+any frozen setting, including the execution shape, requires a new output directory.
+
+## One shared sample bank for both gates
+
+For primary FP32 `CANCEL`, `ADD-ASSOC` and `MUL-DISTRIB` under independent
+`Normal(1,1)` operands, the bank contains `2**25` near-zero proposals and
+`2**32` rest-conditionals: 4,328,521,728 evaluated input groups in total,
+0.78125% more than the target peak count. Other configurations sample their
+declared target distribution with unit weights. The conditional design is not applied to
+other precisions or input distributions.
+
+Inputs are generated in FP64 and cast to the declared source precision. The
+source programs define the casts, operation order, P/Q kernels and input domains;
+the checker uses output-format ULP spacing and the FP64/residual oracle.
+The near interval has half-width `2**-12`. For CANCEL it partitions rounded FP32
+`a`; for ADD-ASSOC it partitions the latent pre-quantization three-operand sum;
+for MUL-DISTRIB it partitions the latent sum of the two addends.
+
+Let `p0,p1` be target stratum probabilities and `r=f_near/q_near` the near
+conditional target/proposal ratio. Using signed shifts
+`delta=(candidate-reference)/ULP(oracle)`, the mean uses **every bank
+sample**, without clipping, self-normalization or error-based selection:
+
+```text
+mean = p0 * average(r * delta_near) + p1 * average(delta_rest)
+SE^2 = p0^2 * sample_variance(r * delta_near) / n_near
+     + p1^2 * sample_variance(delta_rest) / n_rest
+bias passes when abs(mean) + 5 * SE <= 0.05 ULP
+```
+
+For the magnitude gate, draw `K ~ Binomial(2**32,p0)` from an independent CPU
+random stream before observing errors. Accept near proposals with probability
+`r/1.001`, retain the first K accepted points and the first `2**32-K` rest points.
+This selection never reads either program's output or error. It restores the
+**joint input multiset**, so both error maxima use the same selected inputs.
+A physical shuffle is unnecessary for maxima. Missing near supply yields
+`INCONCLUSIVE`; K is never truncated or resampled, and the peak budget is never
+silently shortened.
+
+Take the **unweighted** maximum absolute error of each source implementation
+against its oracle, and require `candidate_peak <= 10 * reference_peak`.
+The peaks may occur at different inputs. Full-bank peaks remain separate
+diagnostics and never replace the restored-subset peaks in the decision.
+A zero candidate peak has ratio zero; a positive candidate peak against a zero
+reference peak has infinite ratio.
+
+Valid inputs satisfy the rule's declared domain and finite-output selection.
+The budget counts raw input groups; excluded groups are reported without
+replacement. The three weighted designs have a fully finite valid domain, so
+their restored peak sets contain exactly `2**32` valid groups. For other rules,
+`peak_drawn` and `peak_valid` can differ. Integer-count probes use
+bounded integer/constant input distributions.
+
+The acceptance-rejection and mixture construction preserves the target multiset
+law in the ideal-density model, apart from a bounded finite-supply failure event.
+FP64 reconstruction and finite-state Gaussian RNG probabilities are not formally
+certified. Finite observed maxima are empirical checks, not universal tail
+bounds or unconditional IEEE equality.
+
+## CPU replay, evidence and resume
+
+Copy the complete output directory and use the exact experiment sources and
+recorded NumPy/mpmath versions. CPU replay does not require Torch or a GPU:
 
 ```bash
-python3 scripts/check_numerics.py run --output Logs/fp-all
-python3 scripts/check_numerics.py run --rules MUL-DISTRIB,FMA-CONTRACT --formats bf16,fp32 --output Logs/fp-mul-fma
+python3 -m pip install -r experiments/floating_point/requirements-cpu.txt
+python3 scripts/check_two_gates.py import Logs/two-gates --output Logs/two-gates-replayed.json
 ```
 
-Default settings: `4096×4096`, independent `Normal(1, 1²)` operands, at least 4096
-**whole-tensor** replicates, adaptively extended toward 50000 in batches of 512
-(the final full batch can reach 50176). Input/compute/output profiles are bf16/bf16/bf16,
-bf16/fp32/bf16 and fp32/fp32/fp32. `ACC-WIDEN` compares the two additions
-in `(a+b)+c` using input-format versus fp32 intermediates, with the same
-output cast. Its widened format is fp32.
-`std` is sigma, not variance. Edit it before running to choose another variance.
-These are editable example parameters, not calibrated paper results.
+The full-run [validation receipt](validation/two-gates.json) binds its
+measured source hashes and results.
 
-The full run has 42 rows: 14 atomic relations × 3 format profiles, including
-one unsupported fp32 BF16-WIDEN-RETURN row. Shape denotes a batch of local
-expressions. No run is silently replaced by a smaller shape. Each replicate
-generates a fresh tuple.
+The manifest binds resolved settings, profiles, seeds, mixture counts, source
+snapshots, device/software identity and compilation options. Each configuration
+retains all part moments, counts, both full-bank and selected peaks, input/output
+fingerprints, PTX and required raw audits. Audits include fixed positions, stratum
+boundaries, every active near rejection and every partial prefix selection.
+Each raw audit checks the GPU observer against NumPy; the weighted pairs also
+receive independent NumPy execution of their first source part in each stratum.
 
-To resume, repeat the same command with `--resume`:
+Replay checks identities, hashes, every part's contribution, exact fixed budgets,
+all mandatory audits, restoration masks and final decisions. It does not claim
+independent CPU execution of every one of the billions of source inputs.
+The bank streams through bounded GPU memory; storing the entire input population
+is unnecessary. Frozen sources and seeds permit regeneration.
 
-```bash
-python3 scripts/check_numerics.py run --rules ADD-ASSOC --output Logs/fp-add-assoc --resume
-```
+Use the same GPU command with `--resume` to retain independently verified
+complete/unsupported rows. Unfinished or errored rows restart from their frozen
+seeds. Resume requires matching configuration, source and environment identities.
+An execution error produces a nonzero exit; a completed numerical rejection does
+not. Logs and raw measurements stay outside Git; the scripts and configuration
+needed to reproduce them are tracked source files.
 
-Completed records are replay-checked and kept. Interrupted/error instances
-restart with the same seed. Domain/unsupported records are kept. Configuration,
-source, device or software changes require a new output directory. A compiler
-or CUDA ERROR gives a nonzero process exit and a saved error record; a numerical
-REJECT/INCONCLUSIVE is an experimental outcome.
+The lightweight CPU regression suite runs in core CI; full GPU experiments are
+manual. Reports identify the measured source, precision, distribution and
+acceptance scope. Lean admission records require evidence for the exact rule
+instance used by the proof.
 
-Return the **entire output directory**, including observations and PTX:
-
-```bash
-tar -czf fp-add-assoc.tar.gz -C Logs fp-add-assoc
-```
-
-After copying and unpacking it at the same development revision:
-
-```bash
-python3 scripts/check_numerics.py import Logs/fp-add-assoc --output Logs/fp-accepted.json
-```
-
-The output contains every row's status and an `accepted` list. FAIL, WARN under
-`pass_only`, incomplete/error/domain/unsupported rows and smoke results never
-populate that list. The importer verifies configuration identity, source hashes,
-PTX digests, observation shapes and file hashes, and recomputes the statistics.
-Existing output files are never overwritten. Returned Python source is **not
-executed**, and NPZ is loaded with `allow_pickle=False`.
-
-Per-instance `observations.npz` stores one bias mean in local ULPs per nonempty
-replicate and two peak oracle errors in absolute output units. It also stores
-an int64 `valid_samples` count for every attempted replicate, including empty
-ones. `record.json` and reports expose valid/skipped totals. It supports CPU statistical replay, not raw-output replay;
-frozen seeds and sources support a separate GPU rerun. The manifest includes
-profile, implementation hashes, device/capability, driver, software and launch
-settings. Keep bundles outside Git (`Logs/` and `results/` are ignored).
-Hashes/replay detect mismatches and accidental corruption, not forged execution.
-The GPU runner, compiler, hardware and fp64 oracle remain trusted components.
-
-## Concrete coverage
-
-All 14 atomic catalogue IDs have template pairs in [kernels.py](kernels.py).
-Evidence covers that exact pair/configuration, not all implementations with the
-same rule name.
-
-| Family | Implementation choices |
-|---|---|
-| Commute/associate/distribute/cancel | Explicit per-node bf16 conversions or fp32 arithmetic; ordinary FP fusion disabled |
-| FMA | Separate multiply/add versus explicit fp32 `tl.fma`, then compute/output conversion; not native bf16 FMA |
-| DIV-RCP; SQRT-RSQRT | `tl.div_rn` versus rounded reciprocal multiplication; reciprocal of `tl.sqrt` versus `tl.rsqrt` |
-| ROUND-IDEM; BF16-WIDEN-RETURN | Repeated output-format cast; bf16→fp32→bf16 (requires bf16 input/output) |
-| Cast movement/removal | Explicit bf16 quantization around addition; remove intermediate bf16 rounding in `(a+b)*c` |
-| ACC-WIDEN | Three-term sum with input-format versus fp32 intermediates, same output format |
-
-Each atom has a fixed number of scalar operations and casts. `CAST-REMOVE`
-is specifically `(a+b)*c` with one bf16 intermediate cast removed; it does not
-stand for arbitrary F/G. No whole-kernel algorithm is admitted as an atom.
-
-Softmax (including online softmax), Welford, SwiGLU fusion, reduction/scan
-reordering and dot/split-K transformations belong to Lean derivations. Layout
-and store/load properties require structural and memory proofs. The catalogue,
-templates and runner admit only local atomic relations. Explicitly selecting a
-composite ID is rejected before GPU execution; importing such a row is rejected
-regardless of its PASS labels. Additional scalar identities, such as an explicit
-exponential relation, must be specified and checked separately when needed.
-
-Only the selected distribution is sampled. After input quantization, skip scalar
-tuples outside the relation's declared domain: SQRT-RSQRT requires `a > 0`,
-DIV-RCP requires `b != 0`, and active operands must be finite. Both sides and
-the oracle use the same input-only mask for statistics. Kernels retain the full
-configured shape and original operands; there are no absolute-value transforms,
-replacement draws or extra probes. Thus statistics describe the selected
-distribution restricted to the declared domain. Nonfinite results on valid
-inputs still fail the gates; they are never filtered by output quality.
-
-Each nonempty replicate averages only its valid tuples and takes error maxima
-over those same tuples. Empty replicates are skipped, not recorded as zero
-error. R counts nonempty replicates; the rounded-up `replicates_max` also caps
-attempted draws. Insufficient nonempty replicates within that budget yield
-INCONCLUSIVE. Associativity's symmetric operands can cancel mean delta; this
-does not add a new rejection criterion.
-
-The new sampler uses bundle version 7. Start a fresh output directory; old
-bundles cannot be resumed or replayed by this revision. The already trusted
-PR #11 report and its Lean admission table retain their original source identity
-and results; the exporter recognizes that exact historical source snapshot.
-
-Triton operation contracts: [fma](https://triton-lang.org/main/python-api/generated/triton.language.fma.html),
-[div_rn](https://triton-lang.org/main/python-api/generated/triton.language.div_rn.html).
-
-## Statistical protocol
-
-[numerical_gates.py](../../scripts/numerical_gates.py) implements the directional-bias
-and error-amplification checks. Statistics and bundle replay use NumPy on CPU.
-
-- Same quantized inputs feed reference, candidate and the fp64 oracle. The default
-  probe draws independent `Normal(1, 1²)` operands; parameters live in `config.py`.
-- For each element, set `s = ULP(abs(golden))` in the output dtype. Round the golden
-  value to that dtype before `nextafter`; use the inward spacing at maximum finite
-  and minimum subnormal spacing at zero. Both sides share this golden-based scale;
-  output outliers cannot enlarge another element's allowance.
-- For bias, normalize **before** aggregation: `d = (candidate-reference)/s`.
-  Each nonempty replicate averages `d` over its in-domain IID scalar instances, storing one mean
-  (`delta` has shape `[R, 1]`). Array columns have no separate channel semantics.
-  Mean and sample std (ddof=1) are computed across these R replicate means, not
-  across R times the number of elements. `z = sqrt(R)*abs(mean)/std` is dimensionless.
-  With `SE = std/sqrt(R)`, the mean must satisfy `abs(mean) + 5*SE <= 0.05`
-  local ULP. A band entirely outside the tolerance FAILs; a boundary-crossing
-  band is INCONCLUSIVE. z is diagnostic only. These are engineering SE bands,
-  not calibrated simultaneous or optional-stopping confidence guarantees.
-  Pooling is scoped to these identical scalar expressions and IID probes; distinct
-  channels/heads or probe distributions require their own explicit grouping.
-- The magnitude gate uses `Er = max(abs(reference-golden))` and
-  `Ec = max(abs(candidate-golden))` within each replicate, followed by `K = Ec/Er`.
-  There is no ULP normalization or additive allowance for this gate. Both errors
-  zero gives K=0; `Er == 0` with `Ec > 0` gives infinity. These are separate
-  absolute-error peaks, which may occur at different positions in the tensor.
-  This is the [FlashAttention maximum-error comparison](https://github.com/Dao-AILab/flash-attention/blob/main/tests/test_flash_attn.py):
-  FA tests use `Ec <= 2*Er`; this project uses a magnitude PASS threshold of 10.
-  The local-ULP bias budget and tail extrapolation below are extra criteria,
-  so the full two-gate decision is not identical to FA's sample test.
-  Nonfinite reference/candidate/golden observations produce K=+inf and FAIL.
-- POT targets max(40, round(10% of positive K)) tail samples, using an
-  order-statistic threshold and strict exceedances. Fewer than 12 positive K or fewer
-  than two strict exceedances return the empirical maximum with `valid=False` and
-  `empirical_fallback=True`. This may PASS/WARN/FAIL, but is not a confidence bound.
-- PWM retains raw xi for diagnostics and clips xi to <=0 when computing return levels.
-  The bootstrap uses seed 0, 1000 resamples and population std (ddof=0); finite bootstrap
-  return levels are retained. U = level + NormalDist().inv_cdf(1-alpha)*SE,
-  with alpha=1.35e-3, horizon=625000, warn/fail thresholds=10/100:
-  U <= 10 is PASS, 10 < U <= 100 is WARN, and U > 100 is FAIL.
-- Check after every full batch. Stop immediately for a nonfinite magnitude bound;
-  otherwise after the minimum budget, stop for empirical fallback or when the band
-  [2*level-U, U] crosses neither threshold. Stop at the full-batch maximum otherwise.
-  Replay recomputes **every checkpoint** and rejects a truncated or overrun stream.
-- Default admission is `pass_only`; `allow_warn` explicitly admits magnitude warnings,
-  but never bias INCONCLUSIVE. The selected tau is a mean-bias budget, not a per-element error bound.
-  Smoke is always `SMOKE_ONLY` and never admitted.
-
-Configuration, replay and sampling regression checks:
-
-```bash
-python3 -m unittest scripts.test_numerical_gates scripts.test_numerical_sampling scripts.test_numerical_registry scripts.test_numerical_kernels scripts.test_numerical_reporting -v
-```
-
-Regression cases cover zero/constant/sparse, exponential/heavy/bounded,
-quantized ties and nonfinite errors, plus adaptive stopping and replay integrity.
-
-## Current results table
-
-The checked-in [current table](report/summary.md) contains all 42 instances,
-with full-precision [CSV](report/summary.csv) and [JSON](report/summary.json).
-The current H200 run (reported as NVIDIA L20X) uses seed 20261003, tau=0.05
-local ULP and a five-SE bias band across replicate means. Replicates use independent input tuples at the fixed seed.
-Current totals are in the table.
-The DLC task is named `traces_kernel_equivalence_testing` (`dlchk3ifersdpxho`).
-
-[Experiment settings](report/experiment.json) record the input distribution,
-precision profiles, gates, device/compiler details and checked source hashes.
-The [nonacceptance audit](report/warning_audit.json) records all warnings and
-rejections from the replayed observations, with bias means in local-ULP units.
-[Exact counterexamples](report/exact_counterexamples.json) show why four
-transformations are not unconditional floating-point identities; those examples
-are independent of the statistical classifications. Lower oracle error does not
-cancel a failed or inconclusive bias-budget check.
-Statistical acceptance applies only to the tested contract; it is not proof of
-strict floating-point equivalence. Raw observations and compiled PTX remain in
-the local result bundle and are required to independently replay the table.
-
-Maintain a complete rule/format table while formal bundles are written under one
-run directory:
-
-```bash
-python3 scripts/report_numerics.py Logs/replicate-mean-verification/original
-python3 scripts/report_numerics.py Logs/replicate-mean-verification/original --watch --job-id <dlc-job-id>
-```
-
-After both runs complete, publish their independently replayed tables, settings
-and audits together. The run directory must contain `original/atomic`,
-`original/report`, `supplement/atomic`, `supplement/report`, a DLC `status.json`
-with `Status: Succeeded`, and an `exit_code` file containing `0`:
-
-```bash
-python3 scripts/publish_numerical_results.py Logs/replicate-mean-verification --hardware-model H200
-python3 scripts/export_numerical_rules.py --trust-report
-python3 scripts/export_supplemental_rules.py --trust-report
-```
-
-The publisher checks both catalogs and compares the CPU tables against the GPU
-environment's reports before replacing current files. Raw observation bundles
-remain outside Git.
-
-The table includes every rule and precision in `config.py`, even if its run has
-not started. Smoke bundles are excluded. `z` is the absolute z across replicate means;
-`B` is the bias upper bound in local ULPs, `tau` its budget;
-`U` is the magnitude-gate value, with `empirical_max` explicitly distinguished
-from a fitted upper estimate. Missing values remain empty rather than becoming
-zero. `accept` stays pending until CPU replay verifies the bundle.
-
-`summary.md`, `summary.csv` and `summary.json` are overwritten atomically with the
-current table. CSV/JSON retain full numerical precision. The watcher refreshes
-every 30 seconds, replays a stage when its `<stage>-report.json` is published,
-and performs a final replay when the DLC job ends. Job failure or unfinished
-rules remain visible in the table. Without `--watch`, all available bundles are
-replayed once. Duplicate rule/format results or incompatible configurations are
-rejected instead of silently merging different experiments.
-
-## Lean boundary and verification
-
-Correctness stays real-valued. Public equivalence stays `lhs ≡[R] rhs`.
-`#print_fp_assumptions` separates strict model certificates from experimental
-rules actually reached through the proof. An empty experimental `R` retains
-any fixed model, source precision and operand-domain conditions.
-
-The [TritonBench vector-add example](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
-now uses a strict FP32 addition-commutation certificate under finite operands
-at the actual source site, with no experimental ADD-COMMUTE assumption.
-The core [VectorAdd example](../../bench/examples/VectorAdd/FPEquiv.lean) uses
-the same approach. Neither result asserts conformance of arbitrary GPU instructions.
-
-Published reports can be frozen into Lean with
-`python3 scripts/export_numerical_rules.py --trust-report`. This explicit mode
-trusts the report and checks its source hashes, configuration and integrity;
-it exports accepted rows without replaying unavailable raw observations.
-Historical exported rows can include relations that have since acquired strict
-certificates. Those rows are provenance, not proof-use counts or a reason to
-reintroduce an experimental obligation for a certified use site.
-
-[RowWiseSum](../../bench/examples/RowWiseSum/FPEquiv.lean) uses strict scalar
-commutation together with admitted association and zero rules for its guarded
-tree derivations. [LogExp](../../bench/examples/LogExp/FPEquiv.lean) uses
-`log_exp_cancel`. Each theorem retains its complete IO and numerical domain;
-atom admission does not establish whole-kernel gates, a distribution for
-intermediates or a general IEEE error guarantee. See [current rule use](../../documents/FPRemainingAdmissionGaps.md)
-and the [worked example](EXAMPLE.md). Rule bindings and exports must be fixed
-before running the proof agent and independent comparator.
-
-CPU statistics/configuration/replay checks:
-
-```bash
-python3 -m unittest scripts.test_numerical_gates scripts.test_numerical_registry -v
-python3 -m unittest scripts.test_fp_scalar scripts.test_specification_surface -v
-```
-
-With Triton installed, compile without a GPU:
-
-```bash
-python3 scripts/check_numerical_kernels.py
-python3 scripts/check_numerical_kernels.py --rows 4096 --columns 4096
-```
-
-The compiler check covers 82 supported atomic specializations per shape. Optional
-CPU indexing/formula/oracle checks use PyTorch and Triton's interpreter:
-
-```bash
-TRITON_INTERPRET=1 python3 -m unittest scripts.test_numerical_kernels -v
-```
-
-These checks never create GPU gate records. Existing Lean bit-value modules,
-scalar differential tests and six kernel-checked counterexamples remain
-software references, not certificates of GPU instruction behavior.
+See [TwoGatesAcceptance.md](../../documents/TwoGatesAcceptance.md) for the contract
+and [the supplemental guide](supplement/README.md) for source-relation details.

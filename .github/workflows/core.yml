@@ -17,6 +17,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  two-gates:
+    name: Two-gates CPU regressions
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: experiments/floating_point/requirements-cpu.txt
+      - run: python -m pip install -r experiments/floating_point/requirements-cpu.txt
+      - run: python -B -m unittest scripts.test_two_gates scripts.test_numerics_paper
+
   core:
     name: Library and worked examples
     runs-on: ubuntu-24.04

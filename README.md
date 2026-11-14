@@ -27,6 +27,9 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
 - **Public specifications**: correctness uses real semantics (`Spec.Real claim`);
   implementation equivalence uses `lhs ≡[R] rhs` (`open scoped VeriTile.Spec`).
   Two-gates admits atomic rewrite assumptions; Lean checks their composition.
+  The [current experiment guide](experiments/floating_point/README.md) uses fixed
+  total sample budgets, a shared sample bank and independent CPU replay:
+  `python3 scripts/check_two_gates.py check` shows the effective plan.
   `R` bundles the rule table and admissions; experiment bookkeeping stays there.
   `#print_fp_assumptions name` lists only the atomic assumption names referenced
   by an FP proof, separating strict model certificates from experimental
@@ -44,7 +47,7 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   bridge `Realizes.toRealizes_without_Rounding` degenerates out to (as
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
-  [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
+  [SwiGLU real-equivalence proof](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Worked examples and benchmarks**: this repository retains 18 worked-example
   groups, including the small core regression set. [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench)
   owns the 183 selected repaired TritonBench-G tasks, the 334 imported challenge
@@ -215,9 +218,8 @@ admitted experimental rules in `R`. The
 [current rule-usage guide](documents/FPRemainingAdmissionGaps.md) distinguishes
 strict certificates, the retained experimental catalogue and actual proof use.
 The [experiment guide](experiments/floating_point/README.md) describes GPU
-collection and CPU replay. Checked-in reports retain their measured protocol
-and source versions; they are not results from a fresh run of the current
-checker. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
+collection and CPU replay. Each report binds its measured sources, configuration
+and acceptance scope. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
 and [specification coverage](documents/ExampleSpecificationMigration.md).
 
 ## Documentation Map
@@ -269,7 +271,7 @@ VeriTile/
 bench/examples/            Worked examples with source, Real and FP entry points
 tests/lean/               Lean regressions
 documents/                 Design notes, subset spec, surface guide
-documents/archive/         Historical design and implementation plans
+documents/archive/         Design notes and implementation plans
 scripts/                   CI gate, kernel manifest, LLM proof wrapper
   bench/                   Source parsers and standalone trust-audit helpers
 site/                      Documentation website and generated reference pages

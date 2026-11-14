@@ -1,6 +1,10 @@
 # 浮点变换规则与接受结果表
 
-更新日期：2026-10-21。当前目录有 **42 个严格模型实例和 36 个保留实验实例**；183 个任务主声明与 21 个示例 FP 主规格合计实际使用其中 **12 个实验实例**。完整主用清单与条件见[当前规则使用指南](FPRemainingAdmissionGaps.md)。原始 14 条候选关系的 42 个格式检查仍保存在[历史实测结果表](../experiments/floating_point/report/summary.md)。第 3 节保留六个经 Lean 内核检查的严格不等反例；它们否定通用严格相等，不等于 two-gates 拒绝。
+本文登记局部变换的公式、精度、条件和证据接口。当前严格证书与实验条目的分类见
+[CurrentAdmission](../VeriTile/Triton/Float/CurrentAdmission.lean)，实际证明用量和公开条件见
+[规则依赖指南](FPRemainingAdmissionGaps.md)。数值测量结果及其源码身份见
+[验证回执](../experiments/floating_point/validation/README.md)。第 3 节的六个严格不等见证
+由 Lean 内核检查；它们否定通用严格相等，本身不是 two-gates 判决。
 
 这里的“等价性原语”对应可复用的变换规则，只包括固定规模的局部关系，例如结合律、分配律、FMA 与具体 cast 关系。归约重排和完整算法变换是待推导结论，不是准入原子。它与 [浮点执行原语](FloatingPointPrimitives.md) 分开：执行原语定义程序怎样计算，本表记录参考计算如何变成候选计算，以及允许该变换的证据。
 
@@ -24,14 +28,20 @@
 | 代数证明 | theorem + 前提 / 待证明 / 反例 | 理想算法层的性质 |
 | 严格浮点关系 | theorem + 前提 / 未证明 / 数值反例 | 选定浮点语义下的严格关系 |
 | Bias gate | NOT_RUN / PASS / FAIL / INCONCLUSIVE | 局部 ULP 单位的平均偏差预算 |
-| Vars gate | NOT_RUN / PASS / WARN / FAIL / INCONCLUSIVE | 当前配置的误差放大与尾部检查 |
-| 接受决定 | NOT_EVALUATED / ACCEPT / ACCEPT_WITH_WARNING / REJECT / INCONCLUSIVE | 按契约合并证据与两门判决 |
+| Magnitude gate | NOT_RUN / PASS / FAIL / INCONCLUSIVE | 同一原分布选择集上，两侧未加权最大绝对 oracle 误差的比较 |
+| 正式运行判决 | ACCEPT / REJECT / INCONCLUSIVE | 固定预算完成后的双门结果或样本不足状态 |
+| 其他运行状态 | UNSUPPORTED / ERROR / SMOKE_ONLY | 不支持的配置、执行/证据错误和小型检查分别记录 |
 
-匹配源码精度、转换、存储、模型和输入域的严格证书可直接用于证明，并移除对应的当前实验义务。其余实验准入条目须有配置匹配的两门证据；未运行的 gate 保持 NOT_RUN。历史报告保留，严格证书不伪装成实验结果。纯语法相同可用自反规则。
+匹配源码精度、转换、存储、模型和输入域的严格证书可直接用于证明。实验准入条目须有配置匹配的两门证据；未运行的 gate 保持 NOT_RUN。严格证书与实验结果分别登记。纯语法相同可用自反规则。
 
 对外正确性使用实数语义 `Spec.Real`，实现等价性沿用 `lhs ≡[R] rhs`（`VeriTile.Spec` scope）。`R` 记录实验准入规则；程序视图还可提供固定的严格软件理论。`#print_fp_assumptions` 分开显示实际使用的实验规则和严格证书，不把整个目录视为已用依赖。依赖 `R` 的形式组合不构成无条件 IEEE 位值相等或整 kernel 误差界。
 
-历史 replicate 统计接受路径按 [two-gates 设计](TwoGatesAcceptance.md) 合并结果；当前 fixed-batch 论文协议与其报告格式见 [实验指南](../experiments/floating_point/README.md#paper-fixed-batch-protocol)，两者不可混用。待证明、待测试和证据不足分别记录，不能当作已证明错误；相反，某个输入上的数值不等也不能自动推导统计 FAIL。
+[接受契约](TwoGatesAcceptance.md) 定义固定预算、均值门和峰值门，
+[实验指南](../experiments/floating_point/README.md) 给出运行、CPU 重放与报告格式。
+均值门要求 `abs(mean)+5*SE <= 0.05 ULP`；峰值门要求
+`candidate_peak <= 10*reference_peak`。两门均通过才接受；有效样本或近零供给不足时
+为 `INCONCLUSIVE`。未运行、证据不足与数值拒绝分别记录。一个输入上的数值不等
+本身也不推出统计门失败。
 
 ## 2. 候选规则目录
 
@@ -75,7 +85,7 @@ example (R : Rules) :
 刷新实验结果后，已定义候选的可用性随准入表更新，无须重写候选表达式。
 `log_exp_cancel .libdevice` 对应 `LOG-EXP-GUARDED`，原始表达式始终是
 `libdevice.log(libdevice.exp(a))`。候选只在 `0.5 < abs(a) <= 80` 时返回 `a`，
-其余输入保留原计算；未选中的 fallback 参数先置零。两轮种子的 fp32 实验均通过。
+其余输入保留原计算；未选中的 fallback 参数先置零。准入条目绑定对应的精度、实现与证据。
 分支属于候选程序，输入条件仍是 finite，不要求输入落在消去区间。
 该关系不能用于无条件消去 log-exp。完整例子的公开规格是
 [`log_exp_equiv`](../bench/examples/LogExp/FPEquiv.lean)。
@@ -95,7 +105,7 @@ example (R : Rules) :
 `apply_log_mul_split` 将该原子用于具体的正有限操作数，并保留比较器支持和
 乘积分支；它不提供无条件拆分。`log_mul .tl` 和 `log_mul .libdevice` 仍未准入。
 尚未准入的 FMA/log1p 实验仍只保留实验定义，接入它需要显式融合运算语义。
-数值结果和独立种子复核见[补充实验](../experiments/floating_point/supplement/README.md)。
+关系实现、运行与证据要求见[补充实验](../experiments/floating_point/supplement/README.md)。
 
 其他原语库同样显式列出 `Atom`、`ruleID`、公式、intrinsic、精度与定义域，
 定义左右片段，再分别连接严格证书或实验准入证据。
@@ -132,7 +142,7 @@ SoftmaxStable、OnlineSoftmax、StableLogSumExp 的 exp-sub，以及 LogExp 的�
 
 ### 2.1 已有严格证书的规则
 
-下列原目录实例已有匹配的模型证明；适用范围包含其 typed load/rnd/store 路径。
+下列目录实例有匹配的模型证明；适用范围包含其 typed load/rnd/store 路径。
 这不是所有硬件实现的一致性声明。全部 42 个严格实例及模型边界见[当前规则分类](../VeriTile/Triton/Float/CurrentAdmission.lean)。
 
 | ID | 规则 | 模式 | 关键前提与当前证据 |
@@ -144,7 +154,9 @@ SoftmaxStable、OnlineSoftmax、StableLogSumExp 的 exp-sub，以及 LogExp 的�
 
 ### 2.2 需要按配置判定的数值变换
 
-本节记录候选公式。匹配严格证书的实例使用定理；其他实例必须保留匹配的实验准入。历史 gate 判决见[结果表](../experiments/floating_point/report/summary.md)，当前分类以 `CurrentAdmission` 为准。
+本节记录候选公式。匹配严格证书的实例使用定理；其他实例必须保留匹配的实验准入。
+测量结果见[验证回执](../experiments/floating_point/validation/README.md)，
+证明可用条目的分类以 `CurrentAdmission` 为准；数值运行不自动修改准入表。
 
 | ID | 规则 | 参考 → 候选 | 要绑定的条件或主要差异 |
 |---|---|---|---|
@@ -163,7 +175,7 @@ DIV-RCP、SQRT-RSQRT 等具有定义域前提的规则，需要明确从探针�
 
 ### 2.3 不进入原子假设表的内容
 
-以下旧条目已从目录、GPU 执行入口和结果导入允许列表删除：
+以下内容属于组合程序或结构证明的目标，不作为数值准入原子：
 
 - 完整算法：`SOFTMAX-SHIFT`、`SOFTMAX-ONLINE`、`LAYERNORM-WELFORD`、`SWIGLU-FUSE`。
 - 组合计算：`REDUCE-REORDER`、`REDUCE-SPLIT`、`SCAN-REORDER`、`DOT-LOWER`、`DOT-ACC-FUSE`、`GEMM-SPLIT-K`。
@@ -171,9 +183,11 @@ DIV-RCP、SQRT-RSQRT 等具有定义域前提的规则，需要明确从探针�
 
 前两组由 Lean 根据局部严格定理、已准入关系和结构性推导证明；后一组需要索引、别名与内存条件的证明。整 kernel 数值实验即使通过，也不能将这些结论直接加入 `R`。
 
-19 组示例已完成各自声明的 FP 证明；其[实际规则用量与适用边界](FPRemainingAdmissionGaps.md)分别记录严格证书、实验依赖和未准入替换。旧主表的反模型不能据此记作当前组合理论的缺口。仍须保留非零分母、具体 intrinsic、精度和 guarded fallback 等条件。
+示例的[实际规则用量与适用边界](FPRemainingAdmissionGaps.md)分别记录严格证书、实验依赖和未准入替换。
+证明须保留非零分母、具体 intrinsic、精度和 guarded fallback 等条件。
 
-`shape = [4096, 4096]` 表示对原子表达式进行逐元素批量测试，不把该表达式升级为整张量归约假设。
+逐元素原子的执行形状默认 `[1024,1024]`，只控制内存和工作划分。
+每个配置的原分布峰值输入预算为 `2**32` 组；执行形状不把局部关系升级为整张量归约假设。
 
 已有证明只作为对应语义层的基础：
 
@@ -197,30 +211,34 @@ DIV-RCP、SQRT-RSQRT 等具有定义域前提的规则，需要明确从探针�
 
 计算方法：使用 Python Fraction 保存精确有理数，对每个普通操作结果按格式舍入；bf16 的有效精度 \(p=8\)，fp32 为 \(p=24\)。对非零 normal 数，令 \(e=\lfloor\log_2|x|\rfloor\)，步长 \(h=2^{e-p+1}\)，将 \(|x|/h\) 舍入为最近整数、平局取偶数，再乘回 \(h\) 并恢复符号。FMA 在精确乘加后应用一次该过程。计算同时检查了输入可表示性及使用的 normal 范围。
 
-这些结果最初由 Python Fraction 计算，现在也已由 [Counterexamples.lean](../VeriTile/Triton/Float/Counterexamples.lean) 中的六条定理复现：`bf16_add_assoc_witness`、`fp32_add_assoc_witness`、`bf16_distrib_witness`、`fp32_distrib_witness`、`bf16_fma_witness`、`fp32_fma_witness`（命名空间 `VeriTile.Triton.FP`）。证明使用 `decide +kernel`，检查的是具体软件 profile 下两侧各自的精确数值输出；没有引入外部数值计算公理。这不是 GPU 符合性实验。
+这些精确计算由 Python Fraction 与 [Counterexamples.lean](../VeriTile/Triton/Float/Counterexamples.lean) 中的六条定理分别核对：`bf16_add_assoc_witness`、`fp32_add_assoc_witness`、`bf16_distrib_witness`、`fp32_distrib_witness`、`bf16_fma_witness`、`fp32_fma_witness`（命名空间 `VeriTile.Triton.FP`）。证明使用 `decide +kernel`，检查的是具体软件 profile 下两侧各自的精确数值输出；没有引入外部数值计算公理。这不是 GPU 符合性实验。
 
 **六条固定输入见证不属于随机采样的 two-gates 结果。** 标量实现的随机差分回归仅用于检查执行语义，不作为 gate 实验。
 
 ## 4. 按配置生成接受结果
 
-正式结果表应保存下列字段，空结果使用 null/NOT_RUN，不填零：
-
-机器可读目录位于 [rules.json](../experiments/floating_point/rules.json)。登记工具初始化的记录为 NOT_EVALUATED。[check_numerics.py](../scripts/check_numerics.py) 提供 Python 配置、14 条局部 Triton 实现对、GPU 配对采样和结果导入；导入端核对完整身份、PTX 与统计文件摘要并重新运行两门，生成逐配置数值准入表。哈希与统计重放不认证远端执行真实性，也不关闭 Lean 的外部验证义务。命令、精度支持矩阵和具体变换范围见 [实验目录说明](../experiments/floating_point/README.md)。
+[check_two_gates.py](../scripts/check_two_gates.py) 提供配置检查、GPU 配对执行、
+固定预算采样和独立 CPU 导入。[共享配置](../experiments/floating_point/two_gates_config.py)
+控制预算与两门阈值；主目录、补充目录和计数目录提供具体表达式、输入分布、精度和 launch。
+未运行的结果保持空值/NOT_RUN，不能以零代替缺失测量。
 
 | 字段组 | 内容 |
 |---|---|
-| 规则与适用域 | rule ID、方向、数学前提、参考/候选图、证明引用 |
-| 执行实例 | shape/stride、各步 dtype、累加计划、函数实现、编译/启动/设备身份 |
-| 输入协议 | probe ID、每个角色的均值/尺度/联合关系、权重、量化/特殊值处理 |
-| Bias 结果 | replicate 数、跨 replicate 均值的 local-ULP 均差/标准差/标准误、诊断 z、B、tau、失败或区间不确定的桶、门判决 |
-| Vars 结果 | 逐 replicate 最大绝对 oracle 误差和无量纲 K=Ec/Er、return level/U、拟合诊断、门判决 |
-| 审计证据 | checker/protocol 版本、原始结果位置、停止原因、时间与最终决定 |
+| 规则与适用域 | rule ID、参考/候选图、操作数条件、精度与 intrinsic |
+| 执行实例 | 执行形状、各步 dtype、实际源码、PTX、编译/启动/设备身份 |
+| 输入协议 | 分布、量化、独立随机流、固定预算、分层概率、密度比和恢复计数 |
+| Bias 结果 | 各层有效数、加权差均值、中心二阶矩、合并均值/标准误、`abs(mean)+5*SE` 与门判决 |
+| Magnitude 结果 | 原分布选择集的 drawn/valid 数、双方未加权最大绝对 oracle 误差、比值与门判决 |
+| 审计证据 | 所有分块统计、输入输出指纹、必需原始审计、源码/PTX 散列、CPU 重放和最终决定 |
 
-原始主实验由 [report_numerics.py](../scripts/report_numerics.py) 写入运行目录的
-`summary.md`、`summary.csv` 和 `summary.json`，覆盖当时的 14 条原子规则 × 3 种精度，
-逐行报告最大绝对 z、U、U 的估计类型、两门状态和是否接受。缺失的统计量留空，
-接受决定须经过 CPU 回放。每次刷新覆盖当前表，不追加历史表。
+三条加权 FP32 规则用全库分层统计估计均值，用恢复原分布的共同选择集检查峰值。
+全库峰值单独保存为诊断，不用于替换选择集上的验收峰值。其余配置使用单位权重。
+每个配置的统计量和输入排除数独立保存，不能混合不同分布、精度或规则的样本。
 
-每个 probe 配置实际生成独立记录，不能把不同均值或尺度的样本混起来求偏差。规则汇总只覆盖明确列出的配置；未检查的 dtype、shape、计算树、探针或后端均保持未验证。
+完整 bundle 位于运行输出目录；`import` 核对全部分块、固定预算、原始审计、
+源码与 PTX 身份，并重算两道门。紧凑的[验证回执](../experiments/floating_point/validation/README.md)
+记录对应测量的来源与判决。哈希和统计重放不认证远端执行真实性，也不关闭 Lean 的外部证据义务。
 
-该表构成原子假设登记与证据查询接口。使用规则时须匹配配置与上下文前提；最终实现等价性由 Lean 在这些假设下推导。整 kernel 的数值复查可以另做，但不充当形式等价性的定义。
+报告适用于所绑定的源码、精度、输入域、配置和判决统计量。未检查的实例保持未验证。
+数值测量不自动写入 Lean 准入表。使用实验规则时还须匹配具体片段与操作数条件，
+最终程序等价由 Lean 在所列假设下推导；整 kernel 的数值复查不代替该推导。

@@ -12,20 +12,21 @@ The [task ledger](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/valid
 numerical evidence**. Of those 183 pairs, 178 use strict-model/structural proofs,
 4 use the existing FP32 DIV-MUL-RCP admission (`apply_penalty`,
 `softmax_triton1`, `softmax_triton2`, `softmax_triton3`), and `matmul_leakyrelu`
-depends on one deferred local dot/add-to-dotAcc rule. The deferred rule is `MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`, instance
-`matmul_leakyrelu.fp32.tf32.k32.live_acc.all_words.v1`. Both gates are `NOT_RUN`,
+depends on one deferred local dot/add-to-dotAcc rule. The deferred rule is `MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`,
+with FP32/TF32, K=32 and live accumulator operands. Both gates are `NOT_RUN`,
 with no evidence artifact; the complete program proof explicitly depends on
 future local evidence/admission. See its
 [precision, applicability domain and experiment plan](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
-reclassified as numerical deferrals. The earlier review of per-task formulas, domains, actual program pairs and proof scope is preserved in
-the [historical contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json). Current build
-and replay results are checked independently by CI.
+reclassified as numerical deferrals. The
+[source acceptance guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
+describes the selected source pairs and their validation. Build and replay
+results are checked independently by CI.
 
 ## Available catalogue and actual use
 
 [CurrentAdmission](../VeriTile/Triton/Float/CurrentAdmission.lean) classifies the
-78 distinct historical instances as 42 strict-model proofs and 36 retained
+78 distinct instances as 42 strict-model proofs and 36 admitted
 experimental instances. The 36 are a catalogue pool, not a count of relations
 used by every proof or enabled by every rule API.
 
@@ -61,7 +62,7 @@ load before widening to the FP64 operands of its local relation.
 
 ## Conditions retained by the proofs
 
-- `Correct` proves independent Real formulas using Mathlib. `FPEquiv` preserves
+- `RealCorrect` proves independent Real formulas using Mathlib. `FPEquiv` preserves
   typed FP operations, casts, FMA distinctions, order, masks and stores.
 - Strict certificates apply in their named model and configuration. Empty
   experimental `R` can still use the fixed strict software theory; it does not
@@ -71,9 +72,9 @@ load before widening to the FP64 operands of its local relation.
   operand guards. Their conditional `≡[R]` conclusions are not unconditional
   IEEE bit equalities or whole-kernel error bounds. Finite input leaves alone
   do not establish finite intermediate sums, reciprocals or rewrite operands.
-- ADD-ZERO remains experimental on the original finite domain: nearest-even
-  addition gives `(-0) + (+0) = +0`. The domain has not silently excluded -0.
-- COUNT-ZERO and bounded COUNT-SUCCESSOR now have strict certificates. Welford
+- ADD-ZERO is experimental on the finite domain, including -0: nearest-even
+  addition gives `(-0) + (+0) = +0`.
+- COUNT-ZERO and bounded COUNT-SUCCESSOR have strict certificates. Welford
   retains `0 < N <= 2^24`; LayerNorm retains `N <= 2^24` and covers empty output
   rows. An unrestricted successor-conversion identity is not available.
 - Guarded log-exp returns its input only when `0.5 < abs(a) <= 80`; otherwise it
@@ -85,20 +86,19 @@ load before widening to the FP64 operands of its local relation.
   and memory frames. Whole softmax, Welford, LayerNorm and reduction equalities
   are derived conclusions, never added as atomic numerical assumptions.
 
-## Unsupported substitutions and historical evidence
+## Unsupported substitutions and evidence scope
 
 The selected LogExp API does not admit its unconditional log-product or log-exp
-candidates. Its guarded variants retain their fallbacks. A historical catalogue
-row cannot enable a different backend, domain or candidate graph. The measured
+candidates. Its guarded variants retain their fallbacks. A catalogue
+row applies to its recorded backend, domain and candidate graph. The measured
 `tl.exp` EXP-SUB and guarded log-exp variants failed the configured bias gate;
 the accepted shift/cancellation variants use `libdevice.exp`. Ordinary division
 and `div_rn` also remain distinct.
 
-StableLogSumExp proves the fallback-preserving candidate against its unchanged
-direct reference. Its [older unconditional target](../bench/examples/StableLogSumExp/Proofs/Unconditional.lean)
+StableLogSumExp proves the fallback-preserving candidate against its
+direct reference. The [unconditional target](../bench/examples/StableLogSumExp/Proofs/Unconditional.lean)
 has a checked logical countermodel satisfying the selected rules and domain;
-this is not a GPU failure. Older main-table-only algebraic countermodels do not
-establish a missing rule in today's combined strict and experimental theory.
+this is a logical obstruction, independently of numerical gate outcomes.
 
 Use the [rewrite-rule guide](FloatingPointRewriteRules.md) for relation definitions
 and the [special-value guide](FloatingPointSpecialValues.md) for model boundaries.
