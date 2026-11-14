@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-11-14T06:48:29.784150+00:00",
+  "checked_at_utc": "2026-11-14T09:46:13.757666+00:00",
   "runner": "scripts/check_two_gates.py",
   "config": "experiments/floating_point/two_gates_config.py",
   "settings": {
@@ -43,27 +43,21 @@
     "REJECT": 22
   },
   "execution_errors": 0,
-  "full_run_wall_seconds": 617.1683043041267,
+  "full_run_wall_seconds": 635.8345672329888,
   "source_input_groups": 494021902336,
   "part_statistics_cpu_verified": 471136,
   "raw_audits_cpu_verified": 1846,
   "independent_weighted_source_cpu_groups": 6291456,
-  "unchanged_configuration_count": 112,
-  "unchanged_part_count": 458752,
-  "all_unchanged_moments_counts_peaks_bitwise_identical": true,
-  "unsupported_reasons_preserved": 53,
-  "sampler_proposals_weights_rng_states_bitwise_equal_to_validated_pilot": true,
-  "restored_masks_equal_to_validated_pilot_and_independent_cpu": true,
   "smoke": {
     "completed": 115,
     "unsupported": 53,
     "accepted": 0
   },
-  "cpu_regressions": {
-    "current_entry_tests_passed": 23,
-    "existing_numerical_tests_run": 156,
-    "existing_numerical_tests_skipped_optional_backends": 23,
-    "existing_admission_export_tests_passed": 21
+  "cpu_tests": {
+    "runner_and_observer": 23,
+    "numerical_suite_cases": 156,
+    "numerical_suite_optional_backend_skips": 23,
+    "admission_export": 21
   },
   "weighted_results": [
     {
@@ -98,28 +92,26 @@
     }
   ],
   "source_sha256": {
-    "experiments/floating_point/config.py": "1db1a3026450c4563489a6e43cf853efaaca00534c204e273acebd3e178ff3a8",
+    "experiments/floating_point/config.py": "e8a29668ae3035de2d9c37ffc9c7a4c43a94335aa7e220e24acd8a3e58574460",
     "experiments/floating_point/kernels.py": "f239cb37af1eab11170c912303a82fa4201c681caa1273db7acb0e0e746aa98e",
-    "experiments/floating_point/primitives/count_config.py": "e7ed19f3634c5745709daff4beee174e012279f39a350fed32e8fd1559c42e88",
+    "experiments/floating_point/primitives/count_config.py": "258cb14141780304980cd9a69031aee3a4d400c4eac2f9f7402bcae023095220",
     "experiments/floating_point/rules.json": "bb43a240b2fa0a7599b527c320701b863329b344a14397aeedc1d1db45a7c2e7",
-    "experiments/floating_point/supplement/config.py": "d2a5760ba68d0fa7508d7c0fc086105682df337dd60c39f0268feaf7f2b71d76",
+    "experiments/floating_point/supplement/config.py": "900e0d0e40fd9ed40c2d72fdb09e96487e9c82745c2849ac1541bdac8884f4fa",
     "experiments/floating_point/supplement/kernels.py": "4b2646ef86ace235e7d1c27aca653bf56db538e81c10a6919a5075080482ad85",
     "experiments/floating_point/supplement/rules.json": "86f622cc38acd5db6a3cda407c7b3c7bc7ce3f3343b9980272b03cca419b6c4e",
     "experiments/floating_point/two_gates_config.py": "d3e13513cb6329c22542217addeddf9241158845ecb0b073fda791bbf1893e66",
     "scripts/check_numerics.py": "89b70451ec2d0f6d26fbaad25d169a7c6167b9134262a85bc64e883efd0f3155",
-    "scripts/check_numerics_paper.py": "af7a916aa919613e9dfe92efea120637f623d9976cfc53dd606129868c637ff5",
-    "scripts/check_two_gates.py": "96e528d86ddf9ae16c47ceea40f4f26d35562ea18e9c5ade5d71abf80bc8c16c",
+    "scripts/check_numerics_paper.py": "241dedb2d73b7f8c1fd8c93bcc2bc1808f1288a376150fe2026f0e9a6004fe50",
+    "scripts/check_two_gates.py": "533fc71d25e094da28c040cc85f428a27526a36759be2aa47ba7d9ab9d76b985",
     "scripts/numerical_domains.py": "ab978695945069788f1f218a1c4f9189111ca3308789c086b46c9dd1526ec2e3",
     "scripts/numerical_gates.py": "b280bb606d5b92510b1f8a3fbda01661cf74093d49dd35b4c4ba0a5c344bceb9",
     "scripts/numerical_registry.py": "ad746a9603067218b288aca2d1c1119f92ea7cdc0589e2c44b78742ab01d9e54",
     "scripts/supplement_numerics.py": "ad8792b4d231e133f03aa3b4eb649cf0554bc585bf5a604a336bb72bd5a79632",
     "scripts/two_gates_sampling.py": "90e41cf5eceab0971ce65b92edd0e3b0243b6890bdfa7f1b5dc2d31e55fd0992",
-    "scripts/two_gates_statistics.py": "fdc31d57c4f2134101f7e78bb35ef48d36fd50d6024edaae60482b7bed7fdd94"
+    "scripts/two_gates_statistics.py": "4a9c5e603aee60fcf77d2fac452325d7f5fd0626fa04c66c65d028fb9b42a0f8"
   },
-  "bundle_manifest_sha256": "f8bddb0f80748e5d7461bd8bb9c7a704b45bdf438e259890b6be5108174f2a54",
-  "local_cpu_replay_sha256": "224c36d126d81612ad4ac99d6169a5861fdecbc343462c554a20fb1c45fb7250",
-  "unchanged_comparison_sha256": "db65ddcf33d702c014c24d3461325f288a5d1c29f9efa7a513ecec1434f5ecfe",
-  "sampler_comparison_sha256": "87a49081e7bf7d88b68861e8683f810b0ab3da5ada9fdf520042032653461b2a",
-  "scope": "All selected configurations ran their full fixed source budgets. CPU replay checks all part statistics and required raw audits; it is not CPU execution of every source lane. Finite empirical acceptance does not prove universal tail bounds or IEEE equality.",
-  "lean_admissions_changed": false
+  "bundle_manifest_sha256": "4085a1fa6d27fb9c6bbd252b8ca776f588d32c9db5534c27269f866ae903a803",
+  "cpu_replay_sha256": "2ece43159105d1e2cf06c4c9e7f99c07e7b43f5c328be516c7ca06291f0ffaae",
+  "smoke_manifest_sha256": "c39f8400bed01a7937b1c8c8d0f339267bd673e7c8a556b24d27299a55c63337",
+  "scope": "Fixed-budget GPU execution, CPU replay of all part statistics and required raw audits, and independent NumPy execution of weighted source pairs. Finite empirical acceptance does not prove universal tail bounds or IEEE equality."
 }

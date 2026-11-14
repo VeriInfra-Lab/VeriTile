@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compatibility entry for the current two-gates runner."""
+"""Two-gates command line entry."""
 if __package__:
     from .check_two_gates import *  # noqa: F403
     from .check_two_gates import main

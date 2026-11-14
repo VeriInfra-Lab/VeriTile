@@ -1,6 +1,6 @@
 # Floating-point rule experiments
 
-The current two-gates runner is [check_two_gates.py](../../scripts/check_two_gates.py).
+The two-gates runner is [check_two_gates.py](../../scripts/check_two_gates.py).
 It checks atomic source-expression pairs on an NVIDIA CUDA GPU, then replays
 all saved statistics and required raw audits on CPU. The experiment does not
 change the Lean arithmetic model or automatically update its admission records.
@@ -45,8 +45,8 @@ python3 scripts/check_two_gates.py run --catalog primary --rules CANCEL --format
 
 `--config` selects shared settings. `--profile` selects a relation/precision
 profile and requires an explicit catalogue. Primary, supplemental and typed-count
-profile files supply distributions, source precisions, rules and launch settings;
-their historical replicate/tail fields do not control this runner. The effective
+profile files supply distributions, source precisions, rules and launch settings.
+The effective
 parameters, sampling design, independent RNG roles and exact mixture count are
 frozen before execution. No gate outcome changes the sample budget or seed.
 
@@ -60,19 +60,20 @@ any frozen setting, including the execution shape, requires a new output directo
 For primary FP32 `CANCEL`, `ADD-ASSOC` and `MUL-DISTRIB` under independent
 `Normal(1,1)` operands, the bank contains `2**25` near-zero proposals and
 `2**32` rest-conditionals: 4,328,521,728 evaluated input groups in total,
-0.78125% more than the target peak count. Other configurations retain their
-original sampler with unit weights. The conditional design is not applied to
+0.78125% more than the target peak count. Other configurations sample their
+declared target distribution with unit weights. The conditional design is not applied to
 other precisions or input distributions.
 
-The original FP64 input generation, source casts, operation order, P/Q kernels,
-input domains, output-format ULP lookup and FP64/residual oracle are retained.
+Inputs are generated in FP64 and cast to the declared source precision. The
+source programs define the casts, operation order, P/Q kernels and input domains;
+the checker uses output-format ULP spacing and the FP64/residual oracle.
 The near interval has half-width `2**-12`. For CANCEL it partitions rounded FP32
 `a`; for ADD-ASSOC it partitions the latent pre-quantization three-operand sum;
 for MUL-DISTRIB it partitions the latent sum of the two addends.
 
 Let `p0,p1` be target stratum probabilities and `r=f_near/q_near` the near
 conditional target/proposal ratio. Using signed shifts
-`delta=(candidate-reference)/ULP(original oracle)`, the mean uses **every bank
+`delta=(candidate-reference)/ULP(oracle)`, the mean uses **every bank
 sample**, without clipping, self-normalization or error-based selection:
 
 ```text
@@ -98,11 +99,11 @@ diagnostics and never replace the restored-subset peaks in the decision.
 A zero candidate peak has ratio zero; a positive candidate peak against a zero
 reference peak has infinite ratio.
 
-All configurations retain their original domain and finite-output selection.
+Valid inputs satisfy the rule's declared domain and finite-output selection.
 The budget counts raw input groups; excluded groups are reported without
 replacement. The three weighted designs have a fully finite valid domain, so
 their restored peak sets contain exactly `2**32` valid groups. For other rules,
-`peak_drawn` and `peak_valid` can differ. Integer-count probes retain their
+`peak_drawn` and `peak_valid` can differ. Integer-count probes use
 bounded integer/constant input distributions.
 
 The acceptance-rejection and mixture construction preserves the target multiset
@@ -121,7 +122,7 @@ python3 -m pip install -r experiments/floating_point/requirements-cpu.txt
 python3 scripts/check_two_gates.py import Logs/two-gates --output Logs/two-gates-replayed.json
 ```
 
-The latest full-run [validation receipt](validation/two-gates.json) binds its
+The full-run [validation receipt](validation/two-gates.json) binds its
 measured source hashes and results.
 
 The manifest binds resolved settings, profiles, seeds, mixture counts, source
@@ -138,22 +139,17 @@ independent CPU execution of every one of the billions of source inputs.
 The bank streams through bounded GPU memory; storing the entire input population
 is unnecessary. Frozen sources and seeds permit regeneration.
 
-Repeat the original GPU command with `--resume` to retain independently verified
+Use the same GPU command with `--resume` to retain independently verified
 complete/unsupported rows. Unfinished or errored rows restart from their frozen
-seeds. Configuration, source or environment changes cannot resume the old bundle.
+seeds. Resume requires matching configuration, source and environment identities.
 An execution error produces a nonzero exit; a completed numerical rejection does
 not. Logs and raw measurements stay outside Git; the scripts and configuration
 needed to reproduce them are tracked source files.
 
-[check_numerics_paper.py](../../scripts/check_numerics_paper.py) forwards to the
-same current implementation for existing callers. The lightweight CPU regression
-suite runs in core CI; full GPU experiments are manual.
-
-Checked-in reports preserve their original source identities and admission
-scope. They are not fresh results of this runner. To reproduce those measurements,
-use their recorded sources and [archived tooling instructions](HistoricalRuns.md).
-The existing Lean exporters consume their recorded evidence formats; a current
-report is not silently relabeled as a historical admission record.
+The lightweight CPU regression suite runs in core CI; full GPU experiments are
+manual. Reports identify the measured source, precision, distribution and
+acceptance scope. Lean admission records require evidence for the exact rule
+instance used by the proof.
 
 See [TwoGatesAcceptance.md](../../documents/TwoGatesAcceptance.md) for the contract
 and [the supplemental guide](supplement/README.md) for source-relation details.

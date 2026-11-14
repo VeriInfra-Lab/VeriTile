@@ -1,4 +1,4 @@
-"""Compatibility CPU observer regressions for the current two-gates entry."""
+"""CPU observation and gate regressions."""
 import unittest
 
 import numpy as np

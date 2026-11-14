@@ -206,18 +206,18 @@ def observe(reference, candidate, oracle, ulps, in_domain, errors=None):
 
 def evaluate(observations, shape, tolerance, smoke=False):
     if set(observations) != {"delta", "peaks", "in_domain"}:
-        raise ValueError("unexpected fixed-batch observation fields")
+        raise ValueError("unexpected observation fields")
     delta, peaks, in_domain = (observations[k] for k in ("delta", "peaks", "in_domain"))
     if (delta.dtype != np.float64 or delta.ndim != 1 or not np.isfinite(delta).all()
             or peaks.dtype != np.float64 or peaks.shape != (2,)
             or not np.isfinite(peaks).all() or (peaks < 0).any()
             or in_domain.dtype != np.int64 or in_domain.shape != ()):
-        raise ValueError("invalid fixed-batch observation shape, dtype or values")
+        raise ValueError("invalid observation shape, dtype or values")
     drawn = math.prod(shape)
     count = len(delta)
     in_domain = int(in_domain)
     if not count <= in_domain <= drawn or (count == 0 and peaks.any()):
-        raise ValueError("sample counts or empty-batch peaks do not match the fixed batch")
+        raise ValueError("sample counts or empty-observation peaks do not match the observation size")
 
     sampling = {"drawn": drawn, "in_domain": in_domain, "valid": count,
                 "excluded_domain": drawn - in_domain, "excluded_nonfinite": in_domain - count}

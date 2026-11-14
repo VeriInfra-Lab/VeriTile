@@ -34,7 +34,7 @@ Single-program, full-grid and real multi-stage scopes remain distinct.
 Ordinary matrix/row interfaces should expose `xs row col` rather than a flat
 channel number, address arithmetic and its bounds proof. A logical view keeps
 bijective input/output coordinates and the actual schedule in `IO.lean`, with
-a proved equivalence to the full previous judgment in `Proofs/`. The shared
+a proved equivalence to the complete IO judgment in `Proofs/`. The shared
 `LogicalScheduledKernelIO` carries such scheduled regional Real contracts:
 ordinary `⊨` retains their safety, successful execution, outputs and frame.
 Schedule coverage/order conditions remain explicit in the main theorem.
@@ -271,14 +271,14 @@ Opaque FP proof premises are marked unresolved rather than assumed to use no ato
 Reachable proof branches are included, so this is not a minimal logical dependency set.
 The command accepts ordinary FP theorems as well as `specification` headlines.
 Printing does not discharge a premise or perform an axiom audit. The example runs
-the separate axiom audit silently on success. The older `#print_spec name full`
-remains available for the internal configuration/evidence and dependency audit.
+the separate axiom audit silently on success. `#print_spec name full` reports
+configuration, evidence and dependency details.
 
 The calculus, assumption reporting, rule bindings and rejection checks are
 implemented. The [experiment guide](https://github.com/VeriInfra-Lab/VeriTile/blob/main/experiments/floating_point/README.md)
 describes the current fixed-budget shared-sample protocol and CPU replay.
-Checked-in reports are frozen measurements with their own source
-hashes; they do not certify a new run of the current checker. The exporter can
+Reports bind their source hashes, measured configuration and acceptance scope.
+The exporter can
 freeze accepted report rows as Lean data; actual proof use must additionally
 bind the right precision and guarded source operation. Composite algorithms,
 reductions, scans and memory/layout properties still require derivations,
@@ -286,8 +286,8 @@ rather than admission of an entire algorithm as one numerical atom.
 See the [worked example](https://github.com/VeriInfra-Lab/VeriTile/blob/main/experiments/floating_point/EXAMPLE.md) for current
 build and inspection commands.
 
-Historical unwrapped or abstract cast/store-rounding headlines keep their old
-meaning. They do not become atom-based FP equivalence merely by renaming them.
+Unwrapped or abstract cast/store-rounding headlines express their stated
+semantic judgments. Atom-based FP equivalence requires a derivation under `R`.
 Exact FP facts remain internal helper lemmas, not a third public specification.
 
 ## Underlying library surfaces
@@ -324,9 +324,8 @@ The surfaces below (`Realizes`, `Refines`, …) are the *library* vocabulary. Th
 surface that the bench corpus actually states its headlines on is the **KernelIO
 `⊨` triple**, defined in
 [`VeriTile/Triton/Memory/KernelSpec.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/VeriTile/Triton/Memory/KernelSpec.lean). The signature variants cover different input/output arities, masks,
-indices, and streaming windows. Consult the
-[historical contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json) for
-per-port coverage.
+indices, and streaming windows. The task IO and contract specify per-port
+coverage.
 
 ### What a `KernelIO` is
 
@@ -462,8 +461,8 @@ expected i`.
 
 Whole-grid public theorems use shared IO over the complete source schedule and
 global logical output windows. Final-state execution and frame assembly stay in
-supporting proofs. A per-program theorem does not replace a previously proved
-complete grid.
+supporting proofs. A per-program theorem covers one program instance; a
+whole-grid theorem covers the complete grid.
 
 ### Grid launches today
 
@@ -474,7 +473,7 @@ states and require successful execution and source-access safety. They do not
 model arbitrary concurrent or per-address atomic orders; retain the existing
 execution model when a task needs those orders.
 
-The older `Kernel.ForAllProgramsSome` remains a per-program-local result: each
+`Kernel.ForAllProgramsSome` is a per-program-local result: each
 typed grid index runs from `s.withGridIndex idx`. It can serve as a supporting
 lemma, but by itself it does not establish one complete sequential grid result.
 
@@ -569,7 +568,7 @@ or the `zReg`/`siluReg` temporaries in `FusedSiLU`). Pass `[]` when the two
 kernels must agree on all of memory. This is the surface every
 `*_refinement_view` theorem in `bench/examples/` lands on; the exact-ℝ variant
 `ComputeRefine.Refines_without_Rounding` (no `R`, running under `exec`) is the
-idealization used by `bench/examples/FusedSiLU/Proofs/LegacyRealEquiv.lean`.
+idealization used by the [FusedSiLU real-equivalence proof](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FusedSiLU/Proofs/LegacyRealEquiv.lean).
 
 ### Pointwise: `ComputeRefine.RefinesAt`
 
@@ -615,7 +614,7 @@ ordinary `ComputeCorrect.Realizes_without_Rounding` for `expected .triv`.
 Degeneration lemmas `refines_triv_iff` / `refinesAt_triv_iff` recover
 `Refines_without_Rounding` / `RefinesAt_without_Rounding` the same way. The
 gold-standard walkthrough for the ∀R compositional pattern is
-[`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean); the
+[FusedSwiglu real-equivalence proof](https://github.com/VeriInfra-Lab/VeriTile/blob/main/bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean); the
 boundary-rounding showcases (LogSumExp, softmax, Welford, LayerNorm, FusedSiLU)
 land on `Refines R` for a fixed `R`.
 

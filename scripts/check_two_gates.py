@@ -30,7 +30,7 @@ DEFAULT_CONFIG = ROOT / "experiments/floating_point/two_gates_config.py"
 PROFILES = {"primary": primary.DEFAULT_PROFILE, "supplement": supplement.DEFAULT_PROFILE,
             "counts": ROOT / "experiments/floating_point/primitives/count_config.py"}
 BUNDLE_FORMAT = "veritile-two-gates"
-# CPU utilities remain importable by existing observer checks.
+# CPU observation and gate utilities.
 observe, evaluate = statistics.observe, statistics.evaluate
 
 
@@ -272,7 +272,7 @@ def run_instance(torch, triton, kernels, manifest, digest, item, output):
 def read_manifest(bundle):
     manifest = primary.read_json(bundle/"manifest.json")
     if manifest.get("format") != BUNDLE_FORMAT or manifest.get("schema") != 1 or type(manifest.get("smoke")) is not bool:
-        raise ValueError("expected a current two-gates bundle; replay historical evidence with its recorded source")
+        raise ValueError("expected a two-gates bundle with matching format and source identity")
     validate_settings(manifest["settings"])
     if np.__version__ != manifest["backend"]["numpy"] or mpmath.__version__ != manifest["backend"]["mpmath"]:
         raise ValueError("replay requires the recorded NumPy and mpmath versions")

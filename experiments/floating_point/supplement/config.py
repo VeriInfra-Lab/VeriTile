@@ -1,7 +1,7 @@
 """Supplemental scalar experiments. std is sigma, not variance.
 
-Current budgets and gates are in ../two_gates_config.py. Replicate/tail fields
-remain for historical report tools and do not control the current runner.
+Run budgets and gates are in ../two_gates_config.py. PROFILE supplies the
+distribution, source precisions, atomic relations and launch parameters.
 The fp64-work profile applies only to DIV-MUL-RCP, including its output cast.
 """
 
