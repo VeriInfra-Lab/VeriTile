@@ -8,15 +8,19 @@ has one strict scalar specification and one experimental matrix specification.
 See the [example index](../bench/examples/README.md) for the individual entries.
 
 The [task ledger](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/task_progress.json) tracks 183 tasks:
-**183 accepted actual kernel pairs: 182 completed and 1 completed with deferred
-numerical evidence**. Of those 183 pairs, 178 use strict-model/structural proofs,
+**182 completed actual kernel pairs and 1 conditional pair with an unadmitted
+numerical premise**. Of those 183 pairs, 178 use strict-model/structural proofs,
 4 use the existing FP32 DIV-MUL-RCP admission (`apply_penalty`,
 `softmax_triton1`, `softmax_triton2`, `softmax_triton3`), and `matmul_leakyrelu`
-depends on one deferred local dot/add-to-dotAcc rule. The deferred rule is `MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`,
-with FP32/TF32, K=32 and live accumulator operands. Both gates are `NOT_RUN`,
-with no evidence artifact; the complete program proof explicitly depends on
-future local evidence/admission. See its
-[precision, applicability domain and experiment plan](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
+depends on the shared `DOT-ADD-TO-DOTACC` rule, with FP32/TF32, K=32 and live
+accumulator operands. Its [SM89/Triton 3.5.1 receipt](../experiments/floating_point/dot/report/receipt.json)
+records 2^32 independent whole input groups: bias **FAIL** (0.151105 ULP upper
+bound against 0.05), magnitude **PASS** (peak ratio 1). The outcome is **REJECT**;
+the rule is retained as a candidate and `DotAdmission.all` is empty. The complete
+program proof retains its explicit numerical premise and has no admission from
+this report. SM89 evidence does not validate an SM90 compiler profile. See the
+[shared experiment guide](../experiments/floating_point/dot/README.md) and its
+[precision, applicability domain and recorded result](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
 reclassified as numerical deferrals. The
 [source acceptance guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
@@ -27,11 +31,13 @@ results are checked independently by CI.
 
 [CurrentAdmission](../VeriTile/Triton/Float/CurrentAdmission.lean) classifies the
 78 distinct instances as 42 strict-model proofs and 36 admitted
-experimental instances. The 36 are a catalogue pool, not a count of relations
+experimental instances. The separate rejected matrix candidate is exposed by
+[DotAdmission](../VeriTile/Triton/Float/DotAdmission.lean) and is not added to
+those 36 admissions. The 36 are a catalogue pool, not a count of relations
 used by every proof or enabled by every rule API.
 
 The 183 accepted task-pair statements and the 21 example specifications together use
-**12 of those 36 admitted experimental instances**, plus the separate deferred
+**12 of those 36 admitted experimental instances**, plus the separate unadmitted
 local rule above. The four admitted-rule task consumers use the same FP32
 DIV-MUL-RCP instance already used by the examples. The other 24 are unused
 by these main statements; that does not make them unused throughout the library.
@@ -39,7 +45,7 @@ For example, the libdevice LOG-MUL-GUARDED variant has public API and test uses.
 Imports, unused `R` fields and complete `Rules.assumptions` lists do not count as
 actual proof use. This inventory is not a proof that the used assumptions are minimal.
 
-The following is the complete admitted main-statement relation list; the pending
+The following is the complete admitted main-statement relation list; the rejected
 dot/add-to-dotAcc relation is listed separately above. P32 means
 input/compute/accumulator/output = FP32/FP32/FP32/FP32. These are the local
 relation's precision fields; FloatDTypeSoftmax still performs its actual FP32

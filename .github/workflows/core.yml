@@ -28,7 +28,8 @@ jobs:
           cache: pip
           cache-dependency-path: experiments/floating_point/requirements-cpu.txt
       - run: python -m pip install -r experiments/floating_point/requirements-cpu.txt
-      - run: python -B -m unittest scripts.test_two_gates scripts.test_numerics_paper
+      - run: python -B -m unittest scripts.test_two_gates scripts.test_two_gates_dot scripts.test_numerics_paper
+      - run: python -B scripts/export_dot_rules.py --check
 
   core:
     name: Library and worked examples

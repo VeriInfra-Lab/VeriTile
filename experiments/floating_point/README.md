@@ -35,6 +35,10 @@ combinations. A numerical `REJECT` is an outcome, not an execution error.
 `UNSUPPORTED`, `INCONCLUSIVE`, `ERROR` and `SMOKE_ONLY` remain distinct.
 Smoke results never enter the accepted list.
 
+The fixed matrix-dot relation has a separate [dot/add profile](dot/README.md),
+available through `python scripts/check_two_gates.py dot`. It shares the fixed
+sample budget and gates; its independent observations are whole matrix tiles.
+
 Select configurations or inspect the direct-sampling control with:
 
 ```bash

@@ -439,6 +439,8 @@ def run(args, plan):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__); sub = parser.add_subparsers(dest="command", required=True)
+    dot_parser = sub.add_parser('dot', help='fixed local matrix-dot contraction profile')
+    dot_parser.add_argument('arguments', nargs=argparse.REMAINDER)
     for name in ["check", "run"]:
         p = sub.add_parser(name); p.add_argument("--catalog", choices=["all", *PROFILES], default="all")
         p.add_argument("--config", type=Path); p.add_argument("--profile", type=Path)
@@ -452,6 +454,12 @@ def main(argv=None):
     p = sub.add_parser("worker", help=argparse.SUPPRESS); p.add_argument("bundle", type=Path); p.add_argument("number", type=int)
     args = parser.parse_args(argv)
     try:
+        if args.command == 'dot':
+            if __package__:
+                from . import two_gates_dot
+            else:
+                import two_gates_dot
+            return two_gates_dot.main(args.arguments)
         if args.command == "worker":
             return worker(args.bundle, args.number)
         if args.command == "import":
