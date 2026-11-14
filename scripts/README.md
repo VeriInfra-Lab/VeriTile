@@ -4,6 +4,17 @@
 command, then uses [Lean's official comparator](https://github.com/leanprover/comparator)
 to decide whether the requested theorems were proved.
 
+## Numerical experiments
+
+`python3 scripts/check_two_gates.py check` prints the current two-gates plan.
+`run --output Logs/two-gates` executes the fixed budgets on CUDA;
+`import BUNDLE --output REPORT.json` independently replays the evidence on CPU.
+The [experiment guide](../experiments/floating_point/README.md) defines the shared
+sample bank, weighted mean, restored unweighted peak set, dependencies and resume.
+Settings live in [two_gates_config.py](../experiments/floating_point/two_gates_config.py).
+`check_numerics_paper.py` forwards to the same implementation. Historical report
+and Lean-admission tools retain their recorded evidence formats.
+
 ## Setup
 
 Use Linux with Landlock ABI v4 or newer and a working systemd user service. Install

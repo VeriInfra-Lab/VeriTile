@@ -27,6 +27,9 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
 - **Public specifications**: correctness uses real semantics (`Spec.Real claim`);
   implementation equivalence uses `lhs ≡[R] rhs` (`open scoped VeriTile.Spec`).
   Two-gates admits atomic rewrite assumptions; Lean checks their composition.
+  The [current experiment guide](experiments/floating_point/README.md) uses fixed
+  total sample budgets, a shared sample bank and independent CPU replay:
+  `python3 scripts/check_two_gates.py check` shows the effective plan.
   `R` bundles the rule table and admissions; experiment bookkeeping stays there.
   `#print_fp_assumptions name` lists only the atomic assumption names referenced
   by an FP proof, separating strict model certificates from experimental

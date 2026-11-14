@@ -1,12 +1,15 @@
 # Primitive experiments
 
-This guide preserves the replicate-protocol experiments and their frozen
-reports. New paper measurements use the separate
-[fixed-batch protocol](../README.md#paper-fixed-batch-protocol); its bundles and
-decisions must not be substituted for these historical tables. Current strict
-certificates can supersede an experimental obligation without rewriting its
-old measured result; see [current proof use](../../../documents/FPRemainingAdmissionGaps.md).
+New experiments use the [current two-gates guide](../README.md). Typed counts
+are included in the default inventory, or can be selected directly:
 
+```bash
+python3 scripts/check_two_gates.py run --catalog counts --output Logs/two-gates-counts
+```
+
+The numerical values below describe archived runs with their recorded sources.
+Current strict certificates can supersede experimental obligations while the
+old measured results retain their identities; see [proof use](../../../documents/FPRemainingAdmissionGaps.md).
 
 The [current table](report/summary.md) contains EXP-SUB-INTRINSIC, COUNT-ZERO
 and COUNT-SUCCESSOR, with z, B, U and acceptance. DLC job `dlc1qojvuygw2t0b`
@@ -48,7 +51,7 @@ python3 scripts/export_count_rules.py --trust-report --check
 python3 -m unittest scripts.test_count_admission scripts.test_fp_counts -v
 ```
 
-## Reproduce
+## Reproduce archived measurements
 
 Use a fresh output directory for each run. The supplemental runner shares
 the main bias/magnitude implementation and binds input types, sampling range,

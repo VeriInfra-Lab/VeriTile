@@ -274,8 +274,8 @@ remains available for the internal configuration/evidence and dependency audit.
 
 The calculus, assumption reporting, rule bindings and rejection checks are
 implemented. The [experiment guide](../experiments/floating_point/README.md)
-describes the current fixed-batch paper protocol and the older replicate
-protocol. Checked-in reports are frozen measurements with their own source
+describes the current fixed-budget shared-sample protocol and CPU replay.
+Checked-in reports are frozen measurements with their own source
 hashes; they do not certify a new run of the current checker. The exporter can
 freeze accepted report rows as Lean data; actual proof use must additionally
 bind the right precision and guarded source operation. Composite algorithms,

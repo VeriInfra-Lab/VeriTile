@@ -1,7 +1,7 @@
 """Supplemental scalar experiments. std is sigma, not variance.
 
-Same sampling and two-gates parameters as the original run. Change these
-explicitly before starting a new bundle; never edit a profile to resume it.
+Current budgets and gates are in ../two_gates_config.py. Replicate/tail fields
+remain for historical report tools and do not control the current runner.
 The fp64-work profile applies only to DIV-MUL-RCP, including its output cast.
 """
 

@@ -1,7 +1,8 @@
-"""Edit this file, then run scripts/check_numerics.py run --output <new-directory>.
+"""Primary scalar relations and source-precision profiles.
 
-std is sigma, NOT sigma squared. Each replicate is a fresh entire input tuple.
-These are example parameters, not measured or calibrated acceptance results.
+Current run budgets and gates are in two_gates_config.py. The replicate/tail
+fields below support historical report tools; the current runner reads only
+the distribution, formats, rules and launch parameters. std is sigma.
 """
 
 PROFILE = {

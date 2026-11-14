@@ -1,7 +1,8 @@
 """Bounded count conversion probes; the interval is half-open, in integers.
 
 Only row lengths N <= 2**24 are covered by the successor experiment.
-The floating arithmetic, output, and gate budgets remain fp32.
+The floating arithmetic and output remain fp32. Current run budgets and gates
+come from ../two_gates_config.py; replicate/tail fields support historical tools.
 """
 
 PROFILE = {
