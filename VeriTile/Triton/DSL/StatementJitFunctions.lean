@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.PythonBitcastBooleans
 import VeriTile.Triton.DSL.SourceSyntax
 import VeriTile.Triton.DSL.PythonFullConstructors
 
@@ -53,7 +54,7 @@ private def parse (source : String) : TermElabM (Array (TSyntax `tritonStmt)) :=
     | .ok body => pure body
     | .error message => throwError "{message}"
   let `(triton { $stmts:tritonStmt* }) := raw | throwError "expected a complete JIT body"
-  return stmts.map fun stmt=>⟨firstChoice stmt.raw⟩
+  return ← stmts.mapM fun stmt=>return ⟨← liftMacroM (PythonBitcastBooleans.lowerBitcasts (firstChoice stmt.raw))⟩
 
 private def assignment? (stmt : TSyntax `tritonStmt) : Option (Ident × TSyntax `tritonExpr × Bool) :=
   match stmt with
@@ -268,6 +269,9 @@ private partial def immutableArguments (constants : List Name) (raw : Syntax) : 
         pure (some (#[a,b]++more,callee,args.getElems))
       | `(tritonStmt| $destination:ident = $callee:ident($args:statementJitArgument,*)) =>
         pure (some (#[destination],callee,args.getElems))
+      | `(tritonStmt| $destination:ident = $callee:ident($value:tritonExpr)) => do
+        let arg ← liftMacroM `(statementJitArgument| $value:tritonExpr)
+        pure (some (#[destination],callee,#[arg]))
       | `(tritonStmt| $a:ident, $b:ident = $callee:ident($args:tritonExpr,*)) => do
         let args ← args.getElems.mapM fun value=>liftMacroM `(statementJitArgument| $value:tritonExpr)
         pure (some (#[a,b],callee,args))

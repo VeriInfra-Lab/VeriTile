@@ -33,7 +33,7 @@ private def parse (source : String) : TermElabM (Array (TSyntax `tritonStmt)) :=
   let parsed ← match Parser.runParserCategory (← getEnv) `term ("triton {\n"++text++"\n}") with
     | .ok body=>pure body | .error message=>throwError "{message}"
   let `(triton { $body:tritonStmt* }) := parsed | throwError "complete JIT body required"
-  return body.map fun stmt=>⟨firstChoice stmt.raw⟩
+  return ← body.mapM fun stmt=>return ⟨← liftMacroM (PythonBitcastBooleans.lowerBitcasts (firstChoice stmt.raw))⟩
 
 private def calls (name : Name) (parameters : List Name) (body : Array (TSyntax `tritonStmt)) :
     TermElabM (List (List (Name × TSyntax `tritonExpr))) := do
@@ -90,6 +90,7 @@ private partial def naturalShape (constants : List Name) (value : TSyntax `trito
   | `(tritonExpr| $left:tritonExpr // $right:tritonExpr)=>
     let left ← naturalShape constants left;let right ← naturalShape constants right
     `($left / $right)
+  | `(tritonExpr| $($value:term))=>pure value
   | _=>Macro.throwError "unsupported natural constexpr shape expression"
 
 private partial def closedShape (values : List (Name × Nat)) (value : TSyntax `tritonExpr) : Option Nat :=
@@ -102,6 +103,34 @@ private partial def closedShape (values : List (Name × Nat)) (value : TSyntax `
   | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => (· / ·) <$> closedShape values a <*> closedShape values b
   | _ => none
 
+/-- Canonicalize exact natural shape identities before broadcast inference.
+This touches shape metadata only; arithmetic statements retain their source AST. -/
+private partial def normalizedShape (values : List (Name × Nat))
+    (dim : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
+  if let some value:=closedShape values dim then
+    let n:TSyntax `num:=⟨Syntax.mkNumLit (toString value)⟩
+    return ← `(tritonExpr| $n:num)
+  match dim with
+  | `(tritonExpr| ($e:tritonExpr))=>normalizedShape values e
+  | `(tritonExpr| $a:tritonExpr // $b:tritonExpr)=>
+    let a ← normalizedShape values a
+    let b ← normalizedShape values b
+    if closedShape values b==some 1 then return a
+    if let `(tritonExpr| $x:tritonExpr * $c:tritonExpr):=a then
+      if let (some c,some d):=(closedShape values c,closedShape values b) then
+        if c>0 && d>0 && d%c==0 then
+          let n:TSyntax `num:=⟨Syntax.mkNumLit (toString (d/c))⟩
+          let divisor ← `(tritonExpr| $n:num)
+          return ← `(tritonExpr| $x:tritonExpr // $divisor:tritonExpr)
+    `(tritonExpr| $a:tritonExpr // $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr)=>
+    let a ← normalizedShape values a;let b ← normalizedShape values b
+    `(tritonExpr| $a:tritonExpr * $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr)=>
+    let a ← normalizedShape values a;let b ← normalizedShape values b
+    `(tritonExpr| $a:tritonExpr + $b:tritonExpr)
+  | _=>return dim
+
 private partial def rejectZeroDivisor (values : List (Name × Nat)) (raw : Syntax) : MacroM Unit := do
   if let `(tritonExpr| $_a:tritonExpr // $b:tritonExpr) := raw then
     if closedShape values b == some 0 then
@@ -113,6 +142,7 @@ private def shapeDimension (constants : List Name) (values : List (Name × Nat))
   rejectZeroDivisor values dim.raw
   if let some value := closedShape values dim then
     return ⟨Syntax.mkNumLit (toString value)⟩
+  let dim ← normalizedShape values dim
   let value ← naturalShape constants dim
   `(tritonExpr| $($value:term))
 
@@ -150,7 +180,8 @@ private partial def callerBitcasts (raw : Syntax) : MacroM Syntax := do
     let spelling:=callee.getId.eraseMacroScopes.toString
     if spelling.endsWith ".to" && args.getElems.size==2 then
       let `(statementJitArgument| $target:tritonExpr):=args.getElems[0]! | Macro.throwError "bitcast dtype required"
-      if let `(statementJitArgument| bitcast = true):=args.getElems[1]! then
+      if let `(statementJitArgument| $key:ident = true):=args.getElems[1]! then
+        unless key.getId.eraseMacroScopes == `bitcast do Macro.throwError "bitcast keyword required"
         let dtype ← match (PythonFullConstructors.render target.raw).trimAscii.toString with
           | "tl.float32"=>`(tritonDType| tl.float32)
           | "tl.int32"=>`(tritonDType| tl.int32)
@@ -170,7 +201,8 @@ private partial def foldIntegers (values : List (Name × Nat)) (used : List Name
     let spelling:=callee.getId.eraseMacroScopes.toString
     if spelling.endsWith ".to" && args.getElems.size==2 then
       let `(statementJitArgument| $target:tritonExpr):=args.getElems[0]! | Macro.throwError "bitcast dtype required"
-      if let `(statementJitArgument| bitcast = true):=args.getElems[1]! then
+      if let `(statementJitArgument| $key:ident = true):=args.getElems[1]! then
+        unless key.getId.eraseMacroScopes == `bitcast do Macro.throwError "bitcast keyword required"
         let dtype ← match (PythonFullConstructors.render target.raw).trimAscii.toString with
           | "tl.float32"=>`(tritonDType| tl.float32)
           | "tl.int32"=>`(tritonDType| tl.int32)
