@@ -29,7 +29,7 @@ class FPStructuralTests(unittest.TestCase):
         source = (ROOT / "bench/examples/FusedSiLU/FPEquiv.lean").read_text() + '''
 open Lean Elab Command in
 run_cmd do
-  if (← getEnv).contains `VeriTile.Bench.Examples.FusedSiLUCorrect.fusedIO then
+  if (← getEnv).contains `VeriTile.Bench.Examples.FusedSiLUCorrect.fused_silu_correct then
     throwError "FP proof imported its real correctness counterpart"
 '''
         result = self.lean(source)
@@ -52,7 +52,7 @@ open VeriTile.Bench.Examples
 open scoped VeriTile.Spec
 example (B : Nat) :
     (FusedSiLUFPEquiv.fusedIO B).kernel =
-      FusedSiLU.Kernels.fusedSiLUKernel "x" "gate" "residual" "out" B := rfl
+      FusedSiLU.Kernels.fused_siluKernel "x" "gate" "residual" "out" B := rfl
 example (B : Nat) :
     (FusedSiLUFPEquiv.unfusedIO B).kernel =
       FusedSiLU.Kernels.unfusedSiLUKernel "x" "gate" "residual" "z" "silu" "out" B := rfl
@@ -66,7 +66,7 @@ example (B : Nat) :
         source = (ROOT / "bench/examples/FusedSwiglu/FPEquiv.lean").read_text() + '''
 open Lean Elab Command in
 run_cmd do
-  if (← getEnv).contains `VeriTile.Bench.Examples.FusedSwigluCorrect.fusedIO then
+  if (← getEnv).contains `VeriTile.Bench.Examples.FusedSwigluCorrect.fused_swiglu_correct then
     throwError "FP proof imported its real correctness counterpart"
 '''
         result = self.lean(source)
@@ -82,7 +82,7 @@ open VeriTile.Bench.Examples
 open scoped VeriTile.Spec
 example (n B : Nat) :
     (FusedSwigluFPEquiv.fusedIO n B).kernel =
-      FusedSwiglu.Kernels.swiglu_fused "X" "Y" "OUT" n B := rfl
+      FusedSwiglu.Kernels.swiglu_fusedKernel "X" "Y" "OUT" n B := rfl
 example (n B : Nat) :
     (FusedSwigluFPEquiv.unfusedIO n B).kernel =
       FusedSwiglu.Kernels.swiglu_unfused "X" "Y" "S" "OUT" n B := rfl
@@ -96,7 +96,7 @@ example (n B : Nat) :
         source = (ROOT / "bench/examples/RowWiseMax/FPEquiv.lean").read_text() + '''
 open Lean Elab Command in
 run_cmd do
-  if (← getEnv).contains `VeriTile.Bench.Examples.RowWiseMax.rowWiseMaxIO then
+  if (← getEnv).contains `VeriTile.Bench.Examples.RowWiseMax.rowWiseMax_correctness then
     throwError "FP proof imported its real correctness counterpart"
 '''
         result = self.lean(source)
@@ -112,7 +112,7 @@ open VeriTile.Bench.Examples
 open scoped VeriTile.Spec
 example (nCol B : Nat) :
     (RowWiseMaxFPEquiv.originalIO nCol B).kernel =
-      RowWiseMax.Kernels.rowWiseMaxKernel "x" "y" nCol B := rfl
+      RowWiseMax.Kernels.row_wise_maxKernel "x" "y" nCol B := rfl
 example (nCol B : Nat) (hB : 0 < B) :
     RowWiseMaxFPEquiv.originalIO nCol B ≡[RowWiseMaxFPEquiv.R]
       RowWiseMaxFPEquiv.inlinedIO nCol B := RowWiseMaxFPEquiv.rowwise_max_equiv nCol B hB

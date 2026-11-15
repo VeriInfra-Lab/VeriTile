@@ -64,7 +64,7 @@ def main():
     lake = os.environ.get('VERITILE_LAKE', 'lake')
     lean = os.environ.get('VERITILE_LEAN', 'lean')
     # Re-elaborate the complete source/proof chain together. Importing the
-    # existing helpers while shadowing only addKernel would keep their proofs
+    # existing helpers while shadowing only add_kernel would keep their proofs
     # attached to the unmodified kernel, invalidating the mutation check.
     imports, bodies = [], []
     for path in PROOF_SOURCES:
@@ -79,7 +79,7 @@ def main():
     text = '\n'.join(imports + bodies) + '\n'
     original_line = '    output = x + y'
     assert text.count(original_line) == 1
-    kernel = re.search(r'def addKernel [\s\S]*?\b(triton \{[\s\S]*?\n  \})', text)[1]
+    kernel = re.search(r'def add_kernel [\s\S]*?\b(triton \{[\s\S]*?\n  \})', text)[1]
     x, y = [1, 2, 3, 4], [4, 5, 6, 7]
     records = []
 
@@ -119,7 +119,7 @@ theorem displayed_values (s : BlockState)
     (hx : InputLoadedAt s ⟨"x"⟩ 4 (fun i => ({vector(x)} : Fin 4 → ℝ) i))
     (hy : InputLoadedAt s ⟨"y"⟩ 4 (fun i => ({vector(y)} : Fin 4 → ℝ) i)) :
     ∀ i : Fin 4,
-      observeAt (exec (addKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ 4) s) ⟨"out"⟩ 4 s.pid i
+      observeAt (exec (add_kernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ 4) s) ⟨"out"⟩ 4 s.pid i
         = some (({vector(actual)} : Fin 4 → ℝ) i) := by
   intro i
   rw [add_kernel_correct ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ 4 (by decide) s _ _ hx hy]

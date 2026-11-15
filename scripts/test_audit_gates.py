@@ -24,6 +24,15 @@ sheets = load('spec_sheets', 'scripts/spec_sheet.py')
 
 
 class AuditGateTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Negative runner fixtures use no real benchmark task. Core checkouts
+        # create their temporary parent and remove it after the tests.
+        parent = ROOT / 'bench/tritonbench_g'
+        if not parent.exists():
+            parent.mkdir()
+            cls.addClassCleanup(parent.rmdir)
+
     def test_default_port_entry_forwards_scope_concurrency_and_exit_status(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -237,13 +246,13 @@ class AuditGateTests(unittest.TestCase):
                   'def localKernel : ComputeKernel := .mk [] [] []\n')
         cases = [
             ('Correct.lean', 'def expectedSpec : Nat := 42\n', True, 'localKernel'),
-            ('Correct.lean', 'def sourceAliasForAudit := addKernel "x" "y" "out" 1\n'
+            ('Correct.lean', 'def sourceAliasForAudit := add_kernel "x" "y" "out" 1\n'
              'def expectedSpec := sourceAliasForAudit.toAlgKernel.inputs.length\n', False,
              'SELF-REFERENTIAL'),
             ('Correct.lean', 'def expectedSpec := localKernel.toAlgKernel.inputs.length\n', False,
              'SELF-REFERENTIAL'),
             ('Proofs/Real.lean', 'def expectedSpec : Nat := 42\n', True, 'localKernel'),
-            ('Proofs/Real.lean', 'def sourceAliasForAudit := addKernel "x" "y" "out" 1\n'
+            ('Proofs/Real.lean', 'def sourceAliasForAudit := add_kernel "x" "y" "out" 1\n'
              'def expectedSpec := sourceAliasForAudit.toAlgKernel.inputs.length\n', False,
              'SELF-REFERENTIAL'),
         ]
@@ -258,7 +267,7 @@ class AuditGateTests(unittest.TestCase):
                 self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
                 self.assertIn(marker, result.stdout)
                 if accepted or 'sourceAliasForAudit' in declaration:
-                    self.assertIn('VectorAdd.Kernels.addKernel', result.stdout)
+                    self.assertIn('VectorAdd.Kernels.add_kernel', result.stdout)
 
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / 'UnknownSource.lean'
@@ -273,7 +282,7 @@ class AuditGateTests(unittest.TestCase):
         cases = [
             ('@[standalone_spec] def expectedSpec (n : Nat) : Prop := n = n\n', True, 'independentSpecs=1'),
             ('@[standalone_spec] def expectedSpec := '
-             '(VeriTile.Bench.Examples.VectorAdd.Kernels.addKernel "x" "y" "out" 1).toAlgKernel.inputs.length\n',
+             '(VeriTile.Bench.Examples.VectorAdd.Kernels.add_kernel "x" "y" "out" 1).toAlgKernel.inputs.length\n',
              False, 'SELF-REFERENTIAL'),
             ('@[standalone_spec, kernel_spec] def expectedSpec (n : Nat) : Prop := n = n\n',
              False, 'cannot also be a kernel specification'),
@@ -289,6 +298,8 @@ class AuditGateTests(unittest.TestCase):
                 self.assertEqual(result.returncode == 0, accepted, result.stdout + result.stderr)
                 self.assertIn(marker, result.stdout)
 
+    @unittest.skipUnless((ROOT / 'bench/tritonbench_g/softmax_triton1/Kernels.lean').is_file(),
+                         'The real benchmark-source regression runs in VeriTileBench.')
     def test_split_benchmark_audit_checks_actual_imported_source(self):
         prep = load('split_benchmark_audit_prep', 'scripts/bench/audit_trust_prep.py')
         prefix = ('import bench.tritonbench_g.softmax_triton1.Kernels\n'
