@@ -117,7 +117,7 @@ def callSignature : CallSignature where
   readPorts := ["x_ptr", "y_ptr"]
   writePorts := ["out_ptr"]
 
-def addKernel (x_ptr y_ptr out_ptr : RegionName) (BLOCK_SIZE : Nat) : ComputeKernel :=
+def add_kernel (x_ptr y_ptr out_ptr : RegionName) (BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call callSignature call_args [] in triton {
     pid = tl.program_id(0)
     offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)

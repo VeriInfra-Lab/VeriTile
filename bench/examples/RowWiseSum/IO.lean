@@ -32,7 +32,7 @@ open VeriTile.Examples
 
 /-- Read B elements from row offset pid * nCol and write one sum at pid. -/
 def rowWiseSumIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseSumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B
+  kernel := row_wise_sumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B
   inp := ⟨"x"⟩
   out := ⟨"y"⟩
   Bin := B
@@ -45,7 +45,7 @@ section Optimized
 set_option maxHeartbeats 1600000
 
 def reversedIO (nCol B : Nat) : KernelIO₁ :=
-  { rowWiseSumIO nCol B with kernel := reversedKernel "x" "y" nCol B, projection := by rfl }
+  { rowWiseSumIO nCol B with kernel := row_wise_sum_reversedKernel "x" "y" nCol B, projection := by rfl }
 
 end Optimized
 
@@ -64,7 +64,7 @@ open FP.Guarded FP.ReductionSchedule FP.ScalarReduction
 set_option maxHeartbeats 1600000
 
 def originalIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseSumKernel "x" "y" nCol B
+  kernel := row_wise_sumKernel "x" "y" nCol B
   inp := "x"
   out := "y"
   Bin := B
@@ -73,7 +73,7 @@ def originalIO (nCol B : Nat) : KernelIO₁ where
   write := id
 
 def reversedIO (nCol B : Nat) : KernelIO₁ :=
-  (originalIO nCol B).withKernel (reversedKernel "x" "y" nCol B)
+  (originalIO nCol B).withKernel (row_wise_sum_reversedKernel "x" "y" nCol B)
 
 open scoped VeriTile.Spec
 

@@ -23,7 +23,7 @@ open VeriTile.Examples
 
 /-- Input/output windows for one aligned tile; allocation bounds remain quantified by the specification. -/
 def addIO (B : Nat) : KernelIO₂ where
-  kernel := addKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B
+  kernel := add_kernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B
   in1 := ⟨"x"⟩
   in2 := ⟨"y"⟩
   out := ⟨"out"⟩

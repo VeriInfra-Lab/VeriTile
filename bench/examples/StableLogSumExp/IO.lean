@@ -14,7 +14,7 @@ open VeriTile Triton
 open scoped VeriTile.Triton.KernelIO₁
 
 def directIO (B : Nat) : KernelIO₁ where
-  kernel := (directLSEKernel "x" "y" B).eraseDType
+  kernel := (direct_log_sum_expKernel "x" "y" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   inp := "x"
   out := "y"
@@ -25,7 +25,7 @@ def directIO (B : Nat) : KernelIO₁ where
 
 /-- Mathematical interpretation of the exact candidate source. -/
 def optimizedIO (B : Nat) : KernelIO₁ where
-  kernel := (optimizedLSEKernel "x" "y" B).eraseDType
+  kernel := (guarded_log_sum_expKernel "x" "y" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   inp := "x"
   out := "y"
@@ -51,7 +51,7 @@ open _root_.VeriTile.Triton.FP.Equational (Schedules)
 open FP.GuardExpression
 
 def directIO (x y : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := directLSEKernel x y B
+  kernel := direct_log_sum_expKernel x y B
   inp := x
   out := y
   Bin := B
@@ -60,6 +60,6 @@ def directIO (x y : RegionName) (B : Nat) : KernelIO₁ where
   write := fun pid => pid
 
 def optimizedIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  (directIO x y B).withKernel (optimizedLSEKernel x y B)
+  (directIO x y B).withKernel (guarded_log_sum_expKernel x y B)
 
 end VeriTile.Bench.Examples.StableLogSumExpFPEquiv

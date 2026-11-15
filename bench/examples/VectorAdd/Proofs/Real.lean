@@ -27,7 +27,7 @@ theorem add_kernel_correct
     (_h_x : InputLoadedAt s xReg blockSize xs)
     (_h_y : InputLoadedAt s yReg blockSize ys) :
     ∀ i : Fin blockSize,
-      observeAt (exec (addKernel xReg yReg outReg blockSize) s) outReg blockSize s.pid i
+      observeAt (exec (add_kernel xReg yReg outReg blockSize) s) outReg blockSize s.pid i
         = some (xs i + ys i) := by
   intro i
   have h_inj : Function.Injective
@@ -35,7 +35,7 @@ theorem add_kernel_correct
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [observeAt, exec, addKernel, stepStmts, stepStmt, Tile.bop,
+  simp [observeAt, exec, add_kernel, stepStmts, stepStmt, Tile.bop,
         NumericDType.add, NumericDType.mul]
   unfold InputLoadedAt at _h_x _h_y
   rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
@@ -63,11 +63,11 @@ private theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
 by the run. -/
 private theorem addKernel_frame (xReg yReg outReg : RegionName)
     (B : Nat) (s s1 : BlockState)
-    (hExec : exec ((addKernel xReg yReg outReg B).toAlgKernel) s = some s1)
+    (hExec : exec ((add_kernel xReg yReg outReg B).toAlgKernel) s = some s1)
     (r : RegionName) (o : Nat)
     (hmiss : ∀ i : Fin B, ¬(outReg = r ∧ s.pid * B + i.val = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, addKernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
+  simp [exec, add_kernel, ComputeKernel.toAlgKernel, stepStmts, stepStmt,
     Tile.bop, NumericDType.add, NumericDType.mul] at hExec
   subst hExec
   refine Eq.trans (foldl_store_preserve_cell _ _ r o _ _ ?_) rfl
@@ -81,17 +81,17 @@ theorem addKernel_region_run (B : Nat) (hB : 0 < B)
     (s₀ : BlockState) (xs ys : Fin B → ℝ)
     (hx : ∀ j : Fin B, s₀.readMem ⟨"x"⟩ (s₀.pid * B + j.val) = xs j)
     (hy : ∀ j : Fin B, s₀.readMem ⟨"y"⟩ (s₀.pid * B + j.val) = ys j) :
-    ∃ s1, exec ((addKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B).toAlgKernel) s₀ = some s1
+    ∃ s1, exec ((add_kernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B).toAlgKernel) s₀ = some s1
       ∧ (∀ j : Fin B,
           s1.readMem ⟨"out"⟩ (s₀.pid * B + j.val) = xs j + ys j)
       ∧ (∀ r o,
           (r ≠ ⟨"out"⟩ ∨ ∀ j : Fin B, o ≠ s₀.pid * B + j.val) →
           s1.mem r o = s₀.mem r o) := by
   have hobs := add_kernel_correct ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B hB s₀ xs ys hx hy
-  rw [show exec (addKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B) s₀
-      = exec ((addKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B).toAlgKernel) s₀ from rfl]
+  rw [show exec (add_kernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B) s₀
+      = exec ((add_kernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B).toAlgKernel) s₀ from rfl]
     at hobs
-  cases hsrc : exec ((addKernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B).toAlgKernel) s₀ with
+  cases hsrc : exec ((add_kernel ⟨"x"⟩ ⟨"y"⟩ ⟨"out"⟩ B).toAlgKernel) s₀ with
   | none =>
       have := hobs ⟨0, hB⟩
       rw [hsrc] at this
@@ -130,7 +130,7 @@ theorem addKernel_traceSafe (xReg yReg outReg : RegionName)
     (hx : s.pid * B + B ≤ bounds xReg) (hy : s.pid * B + B ≤ bounds yReg)
     (hout : s.pid * B + B ≤ bounds outReg) :
     Kernel.TraceSafe bounds
-      ((addKernel xReg yReg outReg B).toAlgKernel)
+      ((add_kernel xReg yReg outReg B).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
   -- statement 1: pid := program_id(0)
@@ -198,9 +198,9 @@ theorem addKernel_traceSafe (xReg yReg outReg : RegionName)
 
 /-- The aligned kernel sits inside the bridge's covered fragment. -/
 theorem addKernel_flattenOk (xReg yReg outReg : RegionName) (B : Nat) :
-    ((addKernel xReg yReg outReg B).toAlgKernel).FlattenOk := by
+    ((add_kernel xReg yReg outReg B).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [addKernel, ComputeKernel.toAlgKernel,
+  simp [add_kernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
 
 section Optimized
@@ -211,8 +211,8 @@ attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm? ComputeDT
 
 theorem optimized_exec (B : Nat) (s : BlockState) :
     exec (optimizedKernel B).toAlgKernel s =
-      exec (addKernel "x" "y" "out" B).toAlgKernel s := by
-  simp [optimizedKernel,commutedKernel, addKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+      exec (add_kernel "x" "y" "out" B).toAlgKernel s := by
+  simp [optimizedKernel,add_commuted_kernel, add_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, NumericDType.add, NumericDType.mul, add_comm]
 
 end Optimized

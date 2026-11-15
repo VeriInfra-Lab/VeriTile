@@ -12,7 +12,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def floatStableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def stable_softmax_fp64Kernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)
@@ -25,7 +25,7 @@ def floatStableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : Comput
     tl.store(yReg + offs, y.to(tl.float32))
   }
 
-def floatSoftmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def reciprocal_softmax_fp64Kernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)
@@ -41,13 +41,13 @@ def floatSoftmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : Compute
 
 /-- The actual original prefix, preserving x32 and its separate fp64 cast. -/
 def commonPrefix (xReg : RegionName) (B : Nat) : ComputeKernel :=
-  let selected := floatStableSoftmaxKernel xReg "__unused_output" B
+  let selected := stable_softmax_fp64Kernel xReg "__unused_output" B
   .mk [xReg] [] (Source.prefixBefore selected.surfaceBody "y")
 
 def originalKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
-  floatStableSoftmaxKernel xReg yReg B
+  stable_softmax_fp64Kernel xReg yReg B
 
 def reciprocalKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
-  floatSoftmaxRecipKernel xReg yReg B
+  reciprocal_softmax_fp64Kernel xReg yReg B
 
 end VeriTile.Bench.Examples.FloatDTypeSoftmax.Kernels

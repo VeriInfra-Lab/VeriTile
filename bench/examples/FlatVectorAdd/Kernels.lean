@@ -11,7 +11,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize","nElements"]
 
-def addMaskedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) : ComputeKernel :=
+def flat_vector_addKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offsets = pid * blockSize + tl.arange(0, blockSize)
@@ -22,7 +22,7 @@ def addMaskedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) 
     tl.store(outReg + offsets, output, mask=mask)
   }
 
-def commutedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) : ComputeKernel :=
+def flat_vector_add_commutedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(axis=0)
     offsets = pid * blockSize + tl.arange(0, blockSize)
@@ -34,9 +34,9 @@ def commutedKernel (xReg yReg outReg : RegionName) (blockSize nElements : Nat) :
   }
 
 def originalKernel (nElements blockSize : Nat) : ComputeKernel :=
-  addMaskedKernel "x" "y" "out" blockSize nElements
+  flat_vector_addKernel "x" "y" "out" blockSize nElements
 
 def optimizedKernel (nElements blockSize : Nat) : ComputeKernel :=
-  commutedKernel "x" "y" "out" blockSize nElements
+  flat_vector_add_commutedKernel "x" "y" "out" blockSize nElements
 
 end VeriTile.Bench.Examples.FlatVectorAdd.Kernels

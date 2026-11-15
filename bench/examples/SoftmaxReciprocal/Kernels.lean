@@ -12,7 +12,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def stableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def stable_softmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)
@@ -24,7 +24,7 @@ def stableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKern
     tl.store(yReg + offs, y.to(tl.bfloat16))
   }
 
-def softmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def reciprocal_softmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)
@@ -39,13 +39,13 @@ def softmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKerne
 
 /-- Domain prefix derived from the actual original program, before y. -/
 def commonPrefix (xReg : RegionName) (B : Nat) : ComputeKernel :=
-  let selected := stableSoftmaxKernel xReg "__unused_output" B
+  let selected := stable_softmaxKernel xReg "__unused_output" B
   .mk [xReg] [] (Source.prefixBefore selected.surfaceBody "y")
 
 def originalKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
-  stableSoftmaxKernel xReg yReg B
+  stable_softmaxKernel xReg yReg B
 
 def reciprocalKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
-  softmaxRecipKernel xReg yReg B
+  reciprocal_softmaxKernel xReg yReg B
 
 end VeriTile.Bench.Examples.SoftmaxReciprocal.Kernels

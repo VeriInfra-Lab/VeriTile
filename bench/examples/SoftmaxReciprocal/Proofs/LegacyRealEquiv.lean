@@ -113,19 +113,19 @@ specification's region-model obligation repackages (its `y`-window agreement
 leg is exactly this whole-memory agreement read at the output window). -/
 theorem softmax_reciprocal_refinement_view :
     ComputeRefine.Refines R
-      (stableSoftmaxKernel xReg yReg N)
-      (softmaxRecipKernel xReg yReg N) s [] := by
+      (stable_softmaxKernel xReg yReg N)
+      (reciprocal_softmaxKernel xReg yReg N) s [] := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   apply ComputeKernel.computeRefineR_of_toAlgKernel rfl rfl
   intro s0 lhs' rhs' hL hR hs0
   subst s0
   intro r hr o
-  simp [execR, stableSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, stable_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?] at hL
   simp [Tile.reduceSumDrop, Tile.reduceMaxDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex] at hL
-  simp [execR, softmaxRecipKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, reciprocal_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?] at hR
   simp [Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -157,10 +157,10 @@ variable (R : RoundingModel)
 
 /-- The divide kernel terminates under `execR R` from every state. -/
 private theorem softmaxDiv_execR_isSome (hN : 0 < N) :
-    ∃ s', execR R ((stableSoftmaxKernel xReg yReg N).toAlgKernel) s
+    ∃ s', execR R ((stable_softmaxKernel xReg yReg N).toAlgKernel) s
       = some s' := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [execR, stableSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, stable_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?,
         Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -168,10 +168,10 @@ private theorem softmaxDiv_execR_isSome (hN : 0 < N) :
 
 /-- The reciprocal kernel terminates under `execR R` from every state. -/
 private theorem softmaxRecip_execR_isSome (hN : 0 < N) :
-    ∃ s', execR R ((softmaxRecipKernel xReg yReg N).toAlgKernel) s
+    ∃ s', execR R ((reciprocal_softmaxKernel xReg yReg N).toAlgKernel) s
       = some s' := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [execR, softmaxRecipKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, reciprocal_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?,
         Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -180,14 +180,14 @@ private theorem softmaxRecip_execR_isSome (hN : 0 < N) :
 /-- Frame lemma for the divide kernel: every cell outside the program's `y`
 window `[pid·N, pid·N + N)` is untouched. -/
 private theorem softmaxDiv_preservesR (hN : 0 < N) (s' : BlockState)
-    (hExec : execR R ((stableSoftmaxKernel xReg yReg N).toAlgKernel) s
+    (hExec : execR R ((stable_softmaxKernel xReg yReg N).toAlgKernel) s
       = some s')
     (r : RegionName) (o : Nat)
     (hcond : r ≠ yReg ∨ ∀ j : Fin N, o ≠ s.pid * N + j.val) :
     s'.mem r o = s.mem r o := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   simp only [BlockState.pid_eq] at hcond
-  simp [execR, stableSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, stable_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?] at hExec
   simp [Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -203,14 +203,14 @@ private theorem softmaxDiv_preservesR (hN : 0 < N) (s' : BlockState)
 /-- Frame lemma for the reciprocal kernel: every cell outside the program's
 `y` window is untouched. -/
 private theorem softmaxRecip_preservesR (hN : 0 < N) (s' : BlockState)
-    (hExec : execR R ((softmaxRecipKernel xReg yReg N).toAlgKernel) s
+    (hExec : execR R ((reciprocal_softmaxKernel xReg yReg N).toAlgKernel) s
       = some s')
     (r : RegionName) (o : Nat)
     (hcond : r ≠ yReg ∨ ∀ j : Fin N, o ≠ s.pid * N + j.val) :
     s'.mem r o = s.mem r o := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   simp only [BlockState.pid_eq] at hcond
-  simp [execR, softmaxRecipKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, reciprocal_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?] at hExec
   simp [Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -243,16 +243,16 @@ variable (R : RoundingModel)
 
 /-- The divide kernel sits inside the bridge's covered fragment. -/
 theorem softmaxDiv_flattenOk :
-    ((stableSoftmaxKernel xReg yReg N).toAlgKernel).FlattenOk := by
+    ((stable_softmaxKernel xReg yReg N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [stableSoftmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [stable_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- The reciprocal kernel sits inside the bridge's covered fragment. -/
 theorem softmaxRecip_flattenOk :
-    ((softmaxRecipKernel xReg yReg N).toAlgKernel).FlattenOk := by
+    ((reciprocal_softmaxKernel xReg yReg N).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [softmaxRecipKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [reciprocal_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -264,11 +264,11 @@ theorem softmaxDiv_traceSafeR (hN : 0 < N) (bounds : RegionBounds)
     (hx : s.pid * N + N ≤ bounds xReg)
     (hy : s.pid * N + N ≤ bounds yReg) :
     Kernel.TraceSafeR R bounds
-      ((stableSoftmaxKernel xReg yReg N).toAlgKernel) s := by
+      ((stable_softmaxKernel xReg yReg N).toAlgKernel) s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy
-  simp [stableSoftmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [stable_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,
     MemAccess.ActiveAddressSafeR, memAccessActiveAddressSafeR,
@@ -288,11 +288,11 @@ theorem softmaxRecip_traceSafeR (hN : 0 < N) (bounds : RegionBounds)
     (hx : s.pid * N + N ≤ bounds xReg)
     (hy : s.pid * N + N ≤ bounds yReg) :
     Kernel.TraceSafeR R bounds
-      ((softmaxRecipKernel xReg yReg N).toAlgKernel) s := by
+      ((reciprocal_softmaxKernel xReg yReg N).toAlgKernel) s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy
-  simp [softmaxRecipKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [reciprocal_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,
     MemAccess.ActiveAddressSafeR, memAccessActiveAddressSafeR,
@@ -318,7 +318,7 @@ staged through memory). The windows are declared, not parsed from the
 kernel: the headline **proves** the kernel's actual addressing matches
 them. -/
 def softmaxDivIO (B : Nat) : KernelIO₁ where
-  kernel := stableSoftmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
+  kernel := stable_softmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
   inp := ⟨"x"⟩
   out := ⟨"y"⟩
   Bin := B
@@ -331,7 +331,7 @@ construction** (structure update of `softmaxDivIO` — buffers and windows
 shared verbatim), with the reciprocal-multiply kernel plugged in. -/
 def softmaxRecipIO (B : Nat) : KernelIO₁ :=
   { softmaxDivIO B with
-    kernel := softmaxRecipKernel ⟨"x"⟩ ⟨"y"⟩ B
+    kernel := reciprocal_softmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
     projection := by rfl }
 
 /-- **The headline**: the per-element-divide softmax is equivalent to the

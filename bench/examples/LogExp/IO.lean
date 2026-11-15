@@ -19,7 +19,7 @@ set_option maxHeartbeats 1600000
 
 /-- The original source, under the real interpretation of KernelIO₁. -/
 def originalIO (xReg yReg : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := originalKernel xReg yReg B
+  kernel := log_expKernel xReg yReg B
   inp := xReg
   out := yReg
   Bin := B
@@ -29,7 +29,7 @@ def originalIO (xReg yReg : RegionName) (B : Nat) : KernelIO₁ where
 
 /-- The piecewise candidate shares its source with the FP proof. -/
 def optimizedIO (xReg yReg : RegionName) (B : Nat) : KernelIO₁ :=
-  { originalIO xReg yReg B with kernel := optimizedKernel xReg yReg B, projection := by rfl }
+  { originalIO xReg yReg B with kernel := log_exp_guardedKernel xReg yReg B, projection := by rfl }
 
 end VeriTile.Bench.Examples.LogExp.Correct
 
@@ -44,7 +44,7 @@ open scoped VeriTile.Spec
 set_option maxHeartbeats 1600000
 
 def typedIO (xReg yReg : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := originalKernel xReg yReg B
+  kernel := log_expKernel xReg yReg B
   inp := xReg
   out := yReg
   Bin := B

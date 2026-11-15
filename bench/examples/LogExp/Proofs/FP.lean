@@ -32,27 +32,27 @@ private theorem zero_eq : (0.0 : ℝ) = 0 := by norm_num
 theorem domain_values {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (xReg : RegionName) (B : Nat) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem xReg (s.pids 0 * B + i.val)).read .real = xs i)
-    (h : ({ code := Source.prefixBefore (optimizedKernel xReg "y" B).surfaceBody "fallback_a"
+    (h : ({ code := Source.prefixBefore (log_exp_guardedKernel xReg "y" B).surfaceBody "fallback_a"
             guards := [⟨"a", [B], .finite⟩] } : Precondition).Holds (engine M) D s) :
     ∃ lt le, M.compareLt (some .fp32) .real = some lt ∧
       M.compareLe (some .fp32) .real = some le ∧
       ∀ i, D .finite (loaded M (xs i)) := by
   cases hlt : M.compareLt (some .fp32) .real with
   | none =>
-    simp [Source.prefixBefore, Precondition.Holds, optimizedKernel, ComputeKernel.surfaceBody,
+    simp [Source.prefixBefore, Precondition.Holds, log_exp_guardedKernel, ComputeKernel.surfaceBody,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
       engine, Algebra.withDefaultPrecision, resolvePrecision, numericLt, numericLe,
       numeric, hlt] at h
   | some lt =>
     cases hle : M.compareLe (some .fp32) .real with
     | none =>
-      simp [Source.prefixBefore, Precondition.Holds, optimizedKernel, ComputeKernel.surfaceBody,
+      simp [Source.prefixBefore, Precondition.Holds, log_exp_guardedKernel, ComputeKernel.surfaceBody,
         run, step, evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
         engine, Algebra.withDefaultPrecision, resolvePrecision, numericLt, numericLe,
         numeric, hlt, hle] at h
     | some le =>
       refine ⟨lt, le, rfl, rfl, ?_⟩
-      simp [Source.prefixBefore, Precondition.Holds, optimizedKernel, ComputeKernel.surfaceBody,
+      simp [Source.prefixBefore, Precondition.Holds, log_exp_guardedKernel, ComputeKernel.surfaceBody,
         run, step, evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
         engine, Algebra.withDefaultPrecision, resolvePrecision, numericLt, numericLe,
         numeric, bop, hlt, hle, hx, TileIndex] at h
@@ -61,7 +61,7 @@ theorem domain_values {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α
 theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg yReg : RegionName) (B : Nat) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem xReg (s.pids 0 * B + i.val)).read .real = xs i) :
-    ∃ t, Structural.exec (engine M) (originalKernel xReg yReg B) s = some t ∧
+    ∃ t, Structural.exec (engine M) (log_expKernel xReg yReg B) s = some t ∧
       (∀ i : Fin B, t.mem yReg (s.pids 0 * B + i.val) =
         Cell.mk .real (output M (referenceValue .libdevice M (loaded M (xs i))))) ∧
       (∀ (r : RegionName) o, (r ≠ yReg ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →
@@ -70,7 +70,7 @@ theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [originalKernel, Structural.exec, run, step, evalExpr, evalComputeOp,
+  simp [log_expKernel, Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, engine, Algebra.withDefaultPrecision,
     resolvePrecision, numeric, bop, store, toFloat, ofFloat]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -87,7 +87,7 @@ theorem optimized_run {α : Type} [Inhabited α] (M : Algebra α)
     (hle : M.compareLe (some .fp32) .real = some le)
     (xReg yReg : RegionName) (B : Nat) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem xReg (s.pids 0 * B + i.val)).read .real = xs i) :
-    ∃ t, Structural.exec (engine M) (optimizedKernel xReg yReg B) s = some t ∧
+    ∃ t, Structural.exec (engine M) (log_exp_guardedKernel xReg yReg B) s = some t ∧
       (∀ i : Fin B, t.mem yReg (s.pids 0 * B + i.val) = Cell.mk .real
         (output M (value .libdevice M lt le (loaded M (xs i))))) ∧
       (∀ (r : RegionName) o, (r ≠ yReg ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →
@@ -96,7 +96,7 @@ theorem optimized_run {α : Type} [Inhabited α] (M : Algebra α)
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [optimizedKernel, Structural.exec, run, step, evalExpr, evalComputeOp,
+  simp [log_exp_guardedKernel, Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, engine, Algebra.withDefaultPrecision,
     resolvePrecision, numeric, numericLt, numericLe, bop, hlt, hle,
     store, toFloat, ofFloat]
@@ -113,13 +113,13 @@ The entry's final theorem checks their definitional equality. -/
 namespace Execution
 
 def domain (xReg : RegionName) (B : Nat) : Precondition where
-  code := Source.prefixBefore (optimizedKernel xReg "y" B).surfaceBody "fallback_a"
+  code := Source.prefixBefore (log_exp_guardedKernel xReg "y" B).surfaceBody "fallback_a"
   guards := [⟨"a", [B], .finite⟩]
 
 /-- The original kernel's input/output windows, domain and fp32 profile. -/
 def originalIO (xReg yReg : RegionName) (B : Nat) : FP.PrefixKernel₁ where
   io := {
-    kernel := originalKernel xReg yReg B
+    kernel := log_expKernel xReg yReg B
     inp := xReg, out := yReg, Bin := B, Bout := B
     read := fun pid => pid * B
     write := fun pid => pid * B }
@@ -129,7 +129,7 @@ def originalIO (xReg yReg : RegionName) (B : Nat) : FP.PrefixKernel₁ where
 /-- Same interface and domain; the implementation is `optimizedKernel`. -/
 def optimizedIO (xReg yReg : RegionName) (B : Nat) : FP.PrefixKernel₁ :=
   { originalIO xReg yReg B with
-    io := (originalIO xReg yReg B).io.withKernel (optimizedKernel xReg yReg B) }
+    io := (originalIO xReg yReg B).io.withKernel (log_exp_guardedKernel xReg yReg B) }
 
 /-- Compose execution, numerical laws and the memory frames. -/
 theorem equivalent (R : Rules) (xReg yReg : RegionName) (blockSize : Nat) :

@@ -71,7 +71,7 @@ private def initial : State ℚ where
 bf16 cast and scalar output address, including when input and output alias. -/
 theorem negative_center_in_place :
     ∃ t, exec (FP.Scheduled.fp32.algebra model FP.Equational.seededSchedules)
-        (StableLogSumExp.Kernels.optimizedLSEKernel "x" "x" 4) initial = some t ∧
+        (StableLogSumExp.Kernels.guarded_log_sum_expKernel "x" "x" 4) initial = some t ∧
       t.mem "x" 1 = .mk .bf16 (413 / 4) ∧
       ∀ (r : RegionName) o, (r ≠ "x" ∨ o ≠ 1) → t.mem r o = initial.mem r o := by
   obtain ⟨t, ht, hv, hf⟩ := candidate_run model FP.Equational.seededSchedules lt le
@@ -98,16 +98,16 @@ example (B : Nat) : (StableLogSumExpCorrect.optimizedIO B).kernel =
 
 theorem empty_row_fails :
     exec (FP.Scheduled.fp32.algebra model FP.Equational.seededSchedules)
-      (StableLogSumExp.Kernels.optimizedLSEKernel "x" "y" 0) initial = none := by
-  simp [StableLogSumExp.Kernels.optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr,
+      (StableLogSumExp.Kernels.guarded_log_sum_expKernel "x" "y" 0) initial = none := by
+  simp [StableLogSumExp.Kernels.guarded_log_sum_expKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, numeric, TileShape.axisDim, Option.bind]
 
 /-- A numerical law does not silently supply a missing comparison operation. -/
 theorem missing_comparison_fails :
     exec (FP.Scheduled.fp32.algebra { model with compareLe := fun _ _ => none }
         FP.Equational.seededSchedules)
-      (StableLogSumExp.Kernels.optimizedLSEKernel "x" "y" 1) initial = none := by
-  simp [StableLogSumExp.Kernels.optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr,
+      (StableLogSumExp.Kernels.guarded_log_sum_expKernel "x" "y" 1) initial = none := by
+  simp [StableLogSumExp.Kernels.guarded_log_sum_expKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, numeric, numericLe, TileShape.axisDim,
     FP.Scheduled.Profile.algebra, FP.Scheduled.fp32, FP.ScalarReduction.algebra,
     Algebra.withDefaultPrecision]
@@ -156,10 +156,10 @@ theorem comparison_support_is_part_of_signature (B : Nat) :
   cases bad
 
 example (B : Nat) : (StableLogSumExpFPContract.original "x" "y" B).io.kernel =
-    StableLogSumExp.Kernels.directLSEKernel "x" "y" B := rfl
+    StableLogSumExp.Kernels.direct_log_sum_expKernel "x" "y" B := rfl
 
 example (B : Nat) : (StableLogSumExpFPContract.optimized "x" "y" B).io.kernel =
-    StableLogSumExp.Kernels.optimizedLSEKernel "x" "y" B := rfl
+    StableLogSumExp.Kernels.guarded_log_sum_expKernel "x" "y" B := rfl
 
 #guard_msgs (drop info) in
 #axiomsClean StableLogSumExpFPEquiv.logsumexp_equiv

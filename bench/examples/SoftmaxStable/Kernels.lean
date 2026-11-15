@@ -10,7 +10,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["B"]
 
-def naiveSoftmaxKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
+def naive_softmaxKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * B + tl.arange(0, B)
@@ -21,7 +21,7 @@ def naiveSoftmaxKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
     tl.store(yReg + offs, (y).to(tl.bfloat16))
   }
 
-def stableSoftmaxKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
+def stable_softmaxKernel (xReg yReg : RegionName) (B : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * B + tl.arange(0, B)

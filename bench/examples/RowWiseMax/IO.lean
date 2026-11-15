@@ -30,7 +30,7 @@ open VeriTile.Examples
 
 /-- Read B elements from row offset pid * nCol and write one maximum at pid. -/
 def rowWiseMaxIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseMaxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B
+  kernel := row_wise_maxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B
   inp := ⟨"x"⟩
   out := ⟨"y"⟩
   Bin := B
@@ -43,7 +43,7 @@ section Optimized
 set_option maxHeartbeats 1600000
 
 def inlinedIO (nCol B : Nat) : KernelIO₁ :=
-  { rowWiseMaxIO nCol B with kernel := inlinedKernel "x" "y" nCol B, projection := by rfl }
+  { rowWiseMaxIO nCol B with kernel := row_wise_max_inlinedKernel "x" "y" nCol B, projection := by rfl }
 
 end Optimized
 
@@ -60,7 +60,7 @@ open FP.Structural
 set_option maxHeartbeats 1200000
 
 def originalIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseMaxKernel "x" "y" nCol B
+  kernel := row_wise_maxKernel "x" "y" nCol B
   inp := "x"
   out := "y"
   Bin := B
@@ -69,7 +69,7 @@ def originalIO (nCol B : Nat) : KernelIO₁ where
   write := id
 
 def inlinedIO (nCol B : Nat) : KernelIO₁ :=
-  (originalIO nCol B).withKernel (inlinedKernel "x" "y" nCol B)
+  (originalIO nCol B).withKernel (row_wise_max_inlinedKernel "x" "y" nCol B)
 
 open scoped VeriTile.Spec
 

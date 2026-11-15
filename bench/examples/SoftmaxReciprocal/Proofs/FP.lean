@@ -36,7 +36,7 @@ theorem domain_values {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α
               ⟨"s", [], .nonzero⟩] } : Precondition).Holds M D s) :
     (∀ i, D .finite (exponentials M B xs i)) ∧
       D .finite (denominator M B xs) ∧ D .nonzero (denominator M B xs) := by
-  simp [Precondition.Holds, commonPrefix, stableSoftmaxKernel, Source.prefixBefore, ComputeKernel.surfaceBody,
+  simp [Precondition.Holds, commonPrefix, stable_softmaxKernel, Source.prefixBefore, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
     numeric, bop, TileShape.axisDim, TileShape.eraseAxis,
     hB, hx, Function.comp_def, TileIndex] at h
@@ -55,7 +55,7 @@ theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [originalKernel, stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  simp [originalKernel, stable_softmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, numeric, bop, store,
     TileShape.axisDim, TileShape.eraseAxis, hB, toFloat, ofFloat]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -80,7 +80,7 @@ theorem reciprocal_run {α : Type} [Inhabited α] (M : Algebra α)
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [reciprocalKernel, softmaxRecipKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  simp [reciprocalKernel, reciprocal_softmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, ComputeDType.eraseDType, numeric, bop, store,
     TileShape.axisDim, TileShape.eraseAxis, hB, toFloat, ofFloat]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
