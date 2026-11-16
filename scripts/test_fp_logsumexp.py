@@ -40,12 +40,12 @@ example (B : Nat) :
     (StableLogSumExpCorrect.directIO B).kernel =
       (StableLogSumExpFPExecution.directIO "x" "y" B).kernel.eraseDType := rfl
 example (x y : RegionName) (B : Nat) :
-    (StableLogSumExpFPExecution.directIO x y B).kernel = StableLogSumExp.Kernels.directLSEKernel x y B := rfl
+    (StableLogSumExpFPExecution.directIO x y B).kernel = StableLogSumExp.Kernels.direct_log_sum_expKernel x y B := rfl
 example (B : Nat) :
     (StableLogSumExpCorrect.optimizedIO B).kernel =
       (StableLogSumExpFPExecution.optimizedIO "x" "y" B).kernel.eraseDType := rfl
 example (x y : RegionName) (B : Nat) :
-    (StableLogSumExpFPExecution.optimizedIO x y B).kernel = StableLogSumExp.Kernels.optimizedLSEKernel x y B := rfl
+    (StableLogSumExpFPExecution.optimizedIO x y B).kernel = StableLogSumExp.Kernels.guarded_log_sum_expKernel x y B := rfl
 ''')
         self.assertEqual(output, '')
         self.check_lean('''
@@ -167,12 +167,12 @@ example (x y : RegionName) (B : Nat) :
 ''')
         for module, forbidden in [
             ('Kernels', ['Correct.originalIO', 'FPEquiv.originalIO']),
-            ('Correct', ['FPEquiv.originalIO']),
-            ('FPEquiv', ['Correct.originalIO']),
+            ('RealCorrect', ['FPEquiv.log_exp_equiv']),
+            ('FPEquiv', ['Correct.original_correct']),
         ]:
             with self.subTest(module=module):
                 names = ', '.join(f'`VeriTile.Bench.Examples.LogExp.{n}' for n in forbidden)
-                if module != 'FPEquiv':
+                if module == 'Kernels':
                     names += ', `VeriTile.Triton.FP.LogExp.Rules'
                 self.check_lean(f'''
 import bench.examples.LogExp.{module}

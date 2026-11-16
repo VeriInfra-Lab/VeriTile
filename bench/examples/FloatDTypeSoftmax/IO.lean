@@ -19,7 +19,7 @@ open VeriTile Triton Triton.TiledSoftmax
 open scoped VeriTile.Triton.KernelIO₁
 
 def divIO (B : Nat) : KernelIO₁ where
-  kernel := (floatStableSoftmaxKernel "x" "y" B).eraseDType
+  kernel := (stable_softmax_fp64Kernel "x" "y" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   inp := "x"
   out := "y"
@@ -29,7 +29,7 @@ def divIO (B : Nat) : KernelIO₁ where
   write := fun pid => pid * B
 
 def recipIO (B : Nat) : KernelIO₁ where
-  kernel := (floatSoftmaxRecipKernel "x" "y" B).eraseDType
+  kernel := (reciprocal_softmax_fp64Kernel "x" "y" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   inp := "x"
   out := "y"

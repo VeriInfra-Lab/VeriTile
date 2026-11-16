@@ -15,7 +15,7 @@ function excerpt(pattern: RegExp): string {
 export const tutorial = {
   python: readFileSync(resolve(process.cwd(), '../bench/examples/VectorAdd/VectorAdd.py'), 'utf8').trim(),
   setup: excerpt(/(^import bench\.examples\.VectorAdd\.IO\n[\s\S]*?open VeriTile\.Examples\n)/),
-  kernel: excerpt(/(def addKernel [\s\S]*?\n  \})/),
+  kernel: excerpt(/(def add_kernel [\s\S]*?\n  \})/),
   io: excerpt(/(def addIO [\s\S]*?write := fun pid => pid \* B)/),
   proof: excerpt(/(specification add_kernel_correctness[\s\S]*?)(?=\n\nsection Optimized)/),
   gates: excerpt(/(#axiomsClean add_kernel_correctness[\s\S]*?)(?=\n\nend VeriTile\.Bench)/),

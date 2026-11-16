@@ -1,0 +1,117 @@
+{
+  "checked_at_utc": "2026-11-14T09:46:13.757666+00:00",
+  "runner": "scripts/check_two_gates.py",
+  "config": "experiments/floating_point/two_gates_config.py",
+  "settings": {
+    "audit_parts": 16,
+    "bias_se_multiplier": 5.0,
+    "bias_tolerance_ulp": 0.05,
+    "execution_shape": [
+      1024,
+      1024
+    ],
+    "near_half_width": 0.000244140625,
+    "near_samples": 33554432,
+    "peak_ratio_limit": 10.0,
+    "rejection_envelope": 1.001,
+    "samples": 4294967296,
+    "seed": 20261114,
+    "workers": 3
+  },
+  "backend": {
+    "capability": [
+      8,
+      9
+    ],
+    "cuda": "12.8",
+    "device": "NVIDIA GeForce RTX 4090",
+    "drivers": [
+      "580.142"
+    ],
+    "enable_fp_fusion": false,
+    "mpmath": "1.3.0",
+    "numpy": "2.2.6",
+    "torch": "2.9.1+cu128",
+    "triton": "3.5.1"
+  },
+  "inventory": 168,
+  "runnable_configurations_completed": 115,
+  "unsupported_configurations": 53,
+  "decisions": {
+    "ACCEPT": 93,
+    "UNSUPPORTED": 53,
+    "REJECT": 22
+  },
+  "execution_errors": 0,
+  "full_run_wall_seconds": 635.8345672329888,
+  "source_input_groups": 494021902336,
+  "part_statistics_cpu_verified": 471136,
+  "raw_audits_cpu_verified": 1846,
+  "independent_weighted_source_cpu_groups": 6291456,
+  "smoke": {
+    "completed": 115,
+    "unsupported": 53,
+    "accepted": 0
+  },
+  "cpu_tests": {
+    "runner_and_observer": 23,
+    "numerical_suite_cases": 156,
+    "numerical_suite_optional_backend_skips": 23,
+    "admission_export": 21
+  },
+  "weighted_results": [
+    {
+      "id": "primary__fp32__ADD-ASSOC",
+      "mean_ulp": 0.00026035993881056514,
+      "se_ulp": 0.000590977698934891,
+      "bias_bound_ulp": 0.0032152484334850204,
+      "peak_ratio": 1.0,
+      "peak_valid": 4294967296,
+      "source_count": 4328521728,
+      "decision": "ACCEPT"
+    },
+    {
+      "id": "primary__fp32__MUL-DISTRIB",
+      "mean_ulp": 9.843520363989771e-05,
+      "se_ulp": 0.0008004674190676175,
+      "bias_bound_ulp": 0.0041007722989779855,
+      "peak_ratio": 0.913818424313152,
+      "peak_valid": 4294967296,
+      "source_count": 4328521728,
+      "decision": "ACCEPT"
+    },
+    {
+      "id": "primary__fp32__CANCEL",
+      "mean_ulp": 0.001060833841845571,
+      "se_ulp": 0.00427529264024618,
+      "bias_bound_ulp": 0.022437297043076468,
+      "peak_ratio": 0.0,
+      "peak_valid": 4294967296,
+      "source_count": 4328521728,
+      "decision": "ACCEPT"
+    }
+  ],
+  "source_sha256": {
+    "experiments/floating_point/config.py": "e8a29668ae3035de2d9c37ffc9c7a4c43a94335aa7e220e24acd8a3e58574460",
+    "experiments/floating_point/kernels.py": "f239cb37af1eab11170c912303a82fa4201c681caa1273db7acb0e0e746aa98e",
+    "experiments/floating_point/primitives/count_config.py": "258cb14141780304980cd9a69031aee3a4d400c4eac2f9f7402bcae023095220",
+    "experiments/floating_point/rules.json": "bb43a240b2fa0a7599b527c320701b863329b344a14397aeedc1d1db45a7c2e7",
+    "experiments/floating_point/supplement/config.py": "900e0d0e40fd9ed40c2d72fdb09e96487e9c82745c2849ac1541bdac8884f4fa",
+    "experiments/floating_point/supplement/kernels.py": "4b2646ef86ace235e7d1c27aca653bf56db538e81c10a6919a5075080482ad85",
+    "experiments/floating_point/supplement/rules.json": "86f622cc38acd5db6a3cda407c7b3c7bc7ce3f3343b9980272b03cca419b6c4e",
+    "experiments/floating_point/two_gates_config.py": "d3e13513cb6329c22542217addeddf9241158845ecb0b073fda791bbf1893e66",
+    "scripts/check_numerics.py": "89b70451ec2d0f6d26fbaad25d169a7c6167b9134262a85bc64e883efd0f3155",
+    "scripts/check_numerics_paper.py": "241dedb2d73b7f8c1fd8c93bcc2bc1808f1288a376150fe2026f0e9a6004fe50",
+    "scripts/check_two_gates.py": "533fc71d25e094da28c040cc85f428a27526a36759be2aa47ba7d9ab9d76b985",
+    "scripts/numerical_domains.py": "ab978695945069788f1f218a1c4f9189111ca3308789c086b46c9dd1526ec2e3",
+    "scripts/numerical_gates.py": "b280bb606d5b92510b1f8a3fbda01661cf74093d49dd35b4c4ba0a5c344bceb9",
+    "scripts/numerical_registry.py": "ad746a9603067218b288aca2d1c1119f92ea7cdc0589e2c44b78742ab01d9e54",
+    "scripts/supplement_numerics.py": "ad8792b4d231e133f03aa3b4eb649cf0554bc585bf5a604a336bb72bd5a79632",
+    "scripts/two_gates_sampling.py": "90e41cf5eceab0971ce65b92edd0e3b0243b6890bdfa7f1b5dc2d31e55fd0992",
+    "scripts/two_gates_statistics.py": "4a9c5e603aee60fcf77d2fac452325d7f5fd0626fa04c66c65d028fb9b42a0f8"
+  },
+  "bundle_manifest_sha256": "4085a1fa6d27fb9c6bbd252b8ca776f588d32c9db5534c27269f866ae903a803",
+  "cpu_replay_sha256": "2ece43159105d1e2cf06c4c9e7f99c07e7b43f5c328be516c7ca06291f0ffaae",
+  "smoke_manifest_sha256": "c39f8400bed01a7937b1c8c8d0f339267bd673e7c8a556b24d27299a55c63337",
+  "scope": "Fixed-budget GPU execution, CPU replay of all part statistics and required raw audits, and independent NumPy execution of weighted source pairs. Finite empirical acceptance does not prove universal tail bounds or IEEE equality."
+}

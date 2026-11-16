@@ -27,6 +27,9 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
 - **Public specifications**: correctness uses real semantics (`Spec.Real claim`);
   implementation equivalence uses `lhs ≡[R] rhs` (`open scoped VeriTile.Spec`).
   Two-gates admits atomic rewrite assumptions; Lean checks their composition.
+  The [current experiment guide](experiments/floating_point/README.md) uses fixed
+  total sample budgets, a shared sample bank and independent CPU replay:
+  `python3 scripts/check_two_gates.py check` shows the effective plan.
   `R` bundles the rule table and admissions; experiment bookkeeping stays there.
   `#print_fp_assumptions name` lists only the atomic assumption names referenced
   by an FP proof, separating strict model certificates from experimental
@@ -44,10 +47,10 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   bridge `Realizes.toRealizes_without_Rounding` degenerates out to (as
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
-  [`bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean`](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
+  [SwiGLU real-equivalence proof](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Worked examples and benchmarks**: this repository retains 18 worked-example
   groups, including the small core regression set. [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench)
-  owns the 183 selected repaired TritonBench-G tasks, the 334 imported challenge
+  owns the 184 selected repaired TritonBench-G tasks, the 334 imported challenge
   interfaces, and a 19-group example collection that also includes
   TritonBenchVectorAddition. Its source inventories and proof receipts are
   separate from the core library's checks. See the
@@ -66,7 +69,8 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   runs only check it. VeriTileBench's
   [separate workflow](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/.github/workflows/bench-audit.yml)
   runs its complete retained-corpus audit daily at 04:00 Asia/Singapore
-  (20:00 UTC) and on manual full-audit dispatch. PRs run its source/smoke gates and public-entry audit.
+  (20:00 UTC) and on manual full-audit dispatch. PRs check changed cases and affected proof dependencies; the 334 pending
+  challenge interfaces have a separate workflow.
   See [verification setup and scope](scripts/README.md#shared-comparator-gate).
 
 Pending for complete kernel verification: concrete floating-point execution
@@ -114,7 +118,7 @@ def callSignature : CallSignature where
   readPorts := ["x_ptr", "y_ptr"]
   writePorts := ["out_ptr"]
 
-def addKernel (x_ptr y_ptr out_ptr : RegionName) (BLOCK_SIZE : Nat) : ComputeKernel :=
+def add_kernel (x_ptr y_ptr out_ptr : RegionName) (BLOCK_SIZE : Nat) : ComputeKernel :=
   with_triton_call callSignature call_args [] in triton {
     pid = tl.program_id(0)
     offsets = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
@@ -215,9 +219,8 @@ admitted experimental rules in `R`. The
 [current rule-usage guide](documents/FPRemainingAdmissionGaps.md) distinguishes
 strict certificates, the retained experimental catalogue and actual proof use.
 The [experiment guide](experiments/floating_point/README.md) describes GPU
-collection and CPU replay. Checked-in reports retain their measured protocol
-and source versions; they are not results from a fresh run of the current
-checker. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
+collection and CPU replay. Each report binds its measured sources, configuration
+and acceptance scope. See the [worked proof/evidence example](experiments/floating_point/EXAMPLE.md)
 and [specification coverage](documents/ExampleSpecificationMigration.md).
 
 ## Documentation Map
@@ -269,7 +272,7 @@ VeriTile/
 bench/examples/            Worked examples with source, Real and FP entry points
 tests/lean/               Lean regressions
 documents/                 Design notes, subset spec, surface guide
-documents/archive/         Historical design and implementation plans
+documents/archive/         Design notes and implementation plans
 scripts/                   CI gate, kernel manifest, LLM proof wrapper
   bench/                   Source parsers and standalone trust-audit helpers
 site/                      Documentation website and generated reference pages

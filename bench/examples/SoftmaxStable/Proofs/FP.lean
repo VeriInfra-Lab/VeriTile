@@ -40,7 +40,7 @@ def normalizedValue {α : Type} (M : Algebra α) (xs : Fin B → α) (i : Fin B)
 theorem naive_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (B : Nat) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, M.fp32Load ((s.mem x (s.pids 0 * B + i.val)).read .real) = xs i) :
-    ∃ t, FP.Structural.exec M (naiveSoftmaxKernel x y B) s = some t ∧
+    ∃ t, FP.Structural.exec M (naive_softmaxKernel x y B) s = some t ∧
       (∀ i : Fin B, t.mem y (s.pids 0 * B + i.val) = .mk .bf16
         (normalizedValue M (exponentials M xs) i)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) → t.mem r o = s.mem r o) := by
@@ -48,7 +48,7 @@ theorem naive_run {α : Type} [Inhabited α] (M : Algebra α)
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [naiveSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [naive_softmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     ComputeDType.eraseDType, numeric, FP.Structural.bop, store, TileShape.eraseAxis, Region.cast, ofFloat, toFloat,
     hx, normalizedValue, exponentials, rowSum]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -64,7 +64,7 @@ for this execution theorem, and input/output aliasing is allowed. -/
 theorem stable_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (B : Nat) (hB : 0 < B) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, M.fp32Load ((s.mem x (s.pids 0 * B + i.val)).read .real) = xs i) :
-    ∃ t, FP.Structural.exec M (stableSoftmaxKernel x y B) s = some t ∧
+    ∃ t, FP.Structural.exec M (stable_softmaxKernel x y B) s = some t ∧
       (∀ i : Fin B, t.mem y (s.pids 0 * B + i.val) = .mk .bf16
         (normalizedValue M (shifted M xs) i)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) → t.mem r o = s.mem r o) := by
@@ -72,7 +72,7 @@ theorem stable_run {α : Type} [Inhabited α] (M : Algebra α)
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [stable_softmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     ComputeDType.eraseDType, numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.eraseAxis, hB,
     Region.cast, ofFloat, toFloat, hx, normalizedValue, shifted, maximum, rowSum]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -84,7 +84,7 @@ theorem stable_run {α : Type} [Inhabited α] (M : Algebra α)
     · exact Or.inr fun k _ => ho k.1
 
 def naiveIO (x y : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := naiveSoftmaxKernel x y B
+  kernel := naive_softmaxKernel x y B
   projection := by rfl
   inp := x
   out := y
@@ -94,7 +94,7 @@ def naiveIO (x y : RegionName) (B : Nat) : KernelIO₁ where
   write := fun pid => pid * B
 
 def stableIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  { naiveIO x y B with kernel := stableSoftmaxKernel x y B, projection := by rfl }
+  { naiveIO x y B with kernel := stable_softmaxKernel x y B, projection := by rfl }
 
 theorem same_signature (x y : RegionName) (B : Nat) :
     io₁Signature (naiveIO x y B) = io₁Signature (stableIO x y B) := rfl

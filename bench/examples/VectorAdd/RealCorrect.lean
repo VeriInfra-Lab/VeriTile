@@ -42,10 +42,10 @@ specification add_kernel_optimized_correctness (B : Nat) :
     Spec.Real (optimizedIO B ⊨ fun xs ys i => xs i + ys i) := by
   refine KernelIO₂.Implements.intro _
     ?_ ?_ ?_
-  · simp [optimizedIO, optimizedKernel,commutedKernel, Kernel.FlattenOk,
+  · simp [optimizedIO, optimizedKernel,add_commuted_kernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s h1 h2 h3
-    simpa [optimizedIO, addIO, Kernel.TraceSafe, optimizedKernel,commutedKernel, addKernel,
+    simpa [optimizedIO, addIO, Kernel.TraceSafe, optimizedKernel,add_commuted_kernel, add_kernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, stepStmt, evalOp.eq_def,
       Region.cast, Tile.bop, NumericDType.add, NumericDType.mul, add_comm]
@@ -54,7 +54,7 @@ specification add_kernel_optimized_correctness (B : Nat) :
     change ∃ s1, exec (optimizedKernel B).toAlgKernel s = some s1 ∧ _
     rw [optimized_exec]
     rcases Nat.eq_zero_or_pos B with rfl | hB
-    · simp [optimizedIO, addIO, addKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+    · simp [optimizedIO, addIO, add_kernel, exec, stepStmts, stepStmt, evalOp.eq_def,
         Tile.bop, NumericDType.add, NumericDType.mul, TileShape.allIndices]
     · exact addKernel_region_run B hB s xs ys hx hy
 

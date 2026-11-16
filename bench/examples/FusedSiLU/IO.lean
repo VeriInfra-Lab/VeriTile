@@ -18,7 +18,7 @@ open VeriTile Triton
 open scoped VeriTile.Triton.KernelIO₃
 
 def fusedIO (B : Nat) : KernelIO₃ where
-  kernel := (fusedSiLUKernel "x" "gate" "residual" "out" B).eraseDType
+  kernel := (fused_siluKernel "x" "gate" "residual" "out" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   in1 := "x"
   in2 := "gate"
@@ -80,7 +80,7 @@ def unfusedIO (B : Nat) : KernelIO₃ where
     { buf := "silu", win := fun pid => pid * B, len := B }]
 
 def fusedIO (B : Nat) : KernelIO₃ :=
-  { (unfusedIO B).withKernel (fusedSiLUKernel "x" "gate" "residual" "out" B) with
+  { (unfusedIO B).withKernel (fused_siluKernel "x" "gate" "residual" "out" B) with
     scratch := [] }
 
 open scoped VeriTile.Spec

@@ -7,30 +7,49 @@ the split is 10 with experimental rules and 11 without them; HyperConnectionsWid
 has one strict scalar specification and one experimental matrix specification.
 See the [example index](../bench/examples/README.md) for the individual entries.
 
-The [task ledger](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/task_progress.json) tracks 183 tasks:
-**183 accepted actual kernel pairs: 182 completed and 1 completed with deferred
-numerical evidence**. Of those 183 pairs, 178 use strict-model/structural proofs,
+The [task ledger](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/task_progress.json) tracks 184 tasks:
+**182 proved actual kernel equivalences and 1 source-model disproof under the
+current admission table**. Of those 184 pairs, 179 use strict-model/structural proofs,
 4 use the existing FP32 DIV-MUL-RCP admission (`apply_penalty`,
 `softmax_triton1`, `softmax_triton2`, `softmax_triton3`), and `matmul_leakyrelu`
-depends on one deferred local dot/add-to-dotAcc rule. The deferred rule is `MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`, instance
-`matmul_leakyrelu.fp32.tf32.k32.live_acc.all_words.v1`. Both gates are `NOT_RUN`,
-with no evidence artifact; the complete program proof explicitly depends on
-future local evidence/admission. See its
-[precision, applicability domain and experiment plan](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
+depends on the shared `DOT-ADD-TO-DOTACC` rule, with FP32/TF32, K=32 and live
+accumulator operands. Its [SM89/Triton 3.5.1 receipt](../experiments/floating_point/dot/report/receipt.json)
+records 2^32 independent whole input groups: bias **FAIL** (0.151105 ULP upper
+bound against 0.05), magnitude **PASS** (peak ratio 1). The outcome is **REJECT**;
+the rule is retained as a candidate and `DotAdmission.all` is empty. The complete
+conditional program proof retains its explicit numerical premise and has no
+admission from this report. A separate constructive FP32 countermodel now
+refutes universal equivalence under the current empty dot admission table.
+It connects the unchanged source kernels to legal 1×96 and 96×1 inputs, safe
+complete schedules and unequal normal FP16 results (1/32 and 1/64). The
+interpreter explicitly truncates inputs to TF32, uses round-toward-zero FP32
+fused accumulation and nearest-even scalar addition/output conversion. This
+is a result in the public source-model calculus; GPU conformance is outside
+its scope. The Real theorem and original conditional FP theorem are retained.
+The independent [FP64 control](../experiments/floating_point/dot/fp64/report/receipt.json)
+ran 2^32 groups: both Normal statistical gates pass (upper 0.01105494445 ULP,
+peak ratio 1). A +0/-0 diagnostic mismatch keeps all-word admission disabled;
+this control supplies no FP32 rule. SM89 evidence does not validate an SM90
+compiler profile. See the
+[shared experiment guide](../experiments/floating_point/dot/README.md) and its
+[precision, applicability domain and recorded result](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
-reclassified as numerical deferrals. The earlier review of per-task formulas, domains, actual program pairs and proof scope is preserved in
-the [historical contract review](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/archive/contracts.json). Current build
-and replay results are checked independently by CI.
+reclassified as numerical deferrals. The
+[source acceptance guide](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/documents/bench/current_source_acceptance.md)
+describes the selected source pairs and their validation. Build and replay
+results are checked independently by CI.
 
 ## Available catalogue and actual use
 
 [CurrentAdmission](../VeriTile/Triton/Float/CurrentAdmission.lean) classifies the
-78 distinct historical instances as 42 strict-model proofs and 36 retained
-experimental instances. The 36 are a catalogue pool, not a count of relations
+78 distinct instances as 42 strict-model proofs and 36 admitted
+experimental instances. The separate rejected matrix candidate is exposed by
+[DotAdmission](../VeriTile/Triton/Float/DotAdmission.lean) and is not added to
+those 36 admissions. The 36 are a catalogue pool, not a count of relations
 used by every proof or enabled by every rule API.
 
-The 183 accepted task-pair statements and the 21 example specifications together use
-**12 of those 36 admitted experimental instances**, plus the separate deferred
+The retained task-pair statements and the 21 example specifications together use
+**12 of those 36 admitted experimental instances**, plus the separate unadmitted
 local rule above. The four admitted-rule task consumers use the same FP32
 DIV-MUL-RCP instance already used by the examples. The other 24 are unused
 by these main statements; that does not make them unused throughout the library.
@@ -38,7 +57,7 @@ For example, the libdevice LOG-MUL-GUARDED variant has public API and test uses.
 Imports, unused `R` fields and complete `Rules.assumptions` lists do not count as
 actual proof use. This inventory is not a proof that the used assumptions are minimal.
 
-The following is the complete admitted main-statement relation list; the pending
+The following is the complete admitted main-statement relation list; the rejected
 dot/add-to-dotAcc relation is listed separately above. P32 means
 input/compute/accumulator/output = FP32/FP32/FP32/FP32. These are the local
 relation's precision fields; FloatDTypeSoftmax still performs its actual FP32
@@ -61,7 +80,7 @@ load before widening to the FP64 operands of its local relation.
 
 ## Conditions retained by the proofs
 
-- `Correct` proves independent Real formulas using Mathlib. `FPEquiv` preserves
+- `RealCorrect` proves independent Real formulas using Mathlib. `FPEquiv` preserves
   typed FP operations, casts, FMA distinctions, order, masks and stores.
 - Strict certificates apply in their named model and configuration. Empty
   experimental `R` can still use the fixed strict software theory; it does not
@@ -71,9 +90,9 @@ load before widening to the FP64 operands of its local relation.
   operand guards. Their conditional `≡[R]` conclusions are not unconditional
   IEEE bit equalities or whole-kernel error bounds. Finite input leaves alone
   do not establish finite intermediate sums, reciprocals or rewrite operands.
-- ADD-ZERO remains experimental on the original finite domain: nearest-even
-  addition gives `(-0) + (+0) = +0`. The domain has not silently excluded -0.
-- COUNT-ZERO and bounded COUNT-SUCCESSOR now have strict certificates. Welford
+- ADD-ZERO is experimental on the finite domain, including -0: nearest-even
+  addition gives `(-0) + (+0) = +0`.
+- COUNT-ZERO and bounded COUNT-SUCCESSOR have strict certificates. Welford
   retains `0 < N <= 2^24`; LayerNorm retains `N <= 2^24` and covers empty output
   rows. An unrestricted successor-conversion identity is not available.
 - Guarded log-exp returns its input only when `0.5 < abs(a) <= 80`; otherwise it
@@ -85,20 +104,19 @@ load before widening to the FP64 operands of its local relation.
   and memory frames. Whole softmax, Welford, LayerNorm and reduction equalities
   are derived conclusions, never added as atomic numerical assumptions.
 
-## Unsupported substitutions and historical evidence
+## Unsupported substitutions and evidence scope
 
 The selected LogExp API does not admit its unconditional log-product or log-exp
-candidates. Its guarded variants retain their fallbacks. A historical catalogue
-row cannot enable a different backend, domain or candidate graph. The measured
+candidates. Its guarded variants retain their fallbacks. A catalogue
+row applies to its recorded backend, domain and candidate graph. The measured
 `tl.exp` EXP-SUB and guarded log-exp variants failed the configured bias gate;
 the accepted shift/cancellation variants use `libdevice.exp`. Ordinary division
 and `div_rn` also remain distinct.
 
-StableLogSumExp proves the fallback-preserving candidate against its unchanged
-direct reference. Its [older unconditional target](../bench/examples/StableLogSumExp/Proofs/Unconditional.lean)
+StableLogSumExp proves the fallback-preserving candidate against its
+direct reference. The [unconditional target](../bench/examples/StableLogSumExp/Proofs/Unconditional.lean)
 has a checked logical countermodel satisfying the selected rules and domain;
-this is not a GPU failure. Older main-table-only algebraic countermodels do not
-establish a missing rule in today's combined strict and experimental theory.
+this is a logical obstruction, independently of numerical gate outcomes.
 
 Use the [rewrite-rule guide](FloatingPointRewriteRules.md) for relation definitions
 and the [special-value guide](FloatingPointSpecialValues.md) for model boundaries.

@@ -36,12 +36,12 @@ example (B : Nat) :
     (SoftmaxStableCorrect.naiveIO B).kernel =
       (SoftmaxStableFPExecution.naiveIO "x" "y" B).kernel.eraseDType := rfl
 example (x y : RegionName) (B : Nat) :
-    (SoftmaxStableFPExecution.naiveIO x y B).kernel = SoftmaxStable.Kernels.naiveSoftmaxKernel x y B := rfl
+    (SoftmaxStableFPExecution.naiveIO x y B).kernel = SoftmaxStable.Kernels.naive_softmaxKernel x y B := rfl
 example (B : Nat) :
     (SoftmaxStableCorrect.stableIO B).kernel =
       (SoftmaxStableFPExecution.stableIO "x" "y" B).kernel.eraseDType := rfl
 example (x y : RegionName) (B : Nat) :
-    (SoftmaxStableFPExecution.stableIO x y B).kernel = SoftmaxStable.Kernels.stableSoftmaxKernel x y B := rfl
+    (SoftmaxStableFPExecution.stableIO x y B).kernel = SoftmaxStable.Kernels.stable_softmaxKernel x y B := rfl
 ''')
         self.assertEqual(output, '')
         self.check_lean('''

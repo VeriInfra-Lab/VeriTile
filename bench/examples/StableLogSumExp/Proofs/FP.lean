@@ -34,10 +34,10 @@ def stableValue {α : Type} (M : Algebra α) (xs : Fin B → α) : α :=
 theorem direct_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (B : Nat) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, M.fp32Load ((s.mem x (s.pids 0 * B + i.val)).read .real) = xs i) :
-    ∃ t, FP.Structural.exec M (directLSEKernel x y B) s = some t ∧
+    ∃ t, FP.Structural.exec M (direct_log_sum_expKernel x y B) s = some t ∧
       t.mem y (s.pids 0) = .mk .bf16 (directValue M xs) ∧
       (∀ r o, (r ≠ y ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [directLSEKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [direct_log_sum_expKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     ComputeDType.eraseDType, numeric, FP.Structural.bop, store, State.write, TileShape.allIndices,
     TileShape.eraseAxis, Region.cast, ofFloat, toFloat, hx, directValue, exponentials, rowSum]
   refine ⟨rfl, ?_⟩
@@ -45,7 +45,7 @@ theorem direct_run {α : Type} [Inhabited α] (M : Algebra α)
   exact (hmiss.elim (fun h => h hr) (fun h => h ho)).elim
 
 def directIO (x y : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := directLSEKernel x y B
+  kernel := direct_log_sum_expKernel x y B
   projection := by rfl
   inp := x
   out := y
@@ -79,14 +79,14 @@ theorem candidate_run {α : Type} [Inhabited α] (M : Algebra α)
     (hle : M.compareLe (some .fp32) .real = some le)
     (x y : RegionName) (B : Nat) (hB : 0 < B) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, M.fp32Load ((s.mem x (s.pids 0 * B + i.val)).read .real) = xs i) :
-    ∃ t, FP.Structural.exec (FP.Scheduled.fp32.algebra M plans) (optimizedLSEKernel x y B) s = some t ∧
+    ∃ t, FP.Structural.exec (FP.Scheduled.fp32.algebra M plans) (guarded_log_sum_expKernel x y B) s = some t ∧
       t.mem y (s.pids 0) = .mk .bf16 (candidateValue M plans lt le xs) ∧
       (∀ r o, (r ≠ y ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
   let E := FP.Scheduled.fp32.algebra M plans
   have hlt' : E.compareLt none .real = some lt := hlt
   have hle' : E.compareLe none .real = some le := hle
-  change ∃ t, FP.Structural.exec E (optimizedLSEKernel x y B) s = some t ∧ _
-  simp [optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  change ∃ t, FP.Structural.exec E (guarded_log_sum_expKernel x y B) s = some t ∧ _
+  simp [guarded_log_sum_expKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     ComputeDType.eraseDType, numeric, numericLt, numericLe, FP.Structural.bop, store, State.write, TileShape.allIndices,
     TileShape.axisDim, TileShape.eraseAxis, hB, Region.cast, ofFloat, toFloat,
     hx, hlt, hle, hlt', hle']
@@ -100,7 +100,7 @@ theorem candidate_run {α : Type} [Inhabited α] (M : Algebra α)
     exact (hmiss.elim (fun h => h hr) (fun h => h ho)).elim
 
 def optimizedIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  { directIO x y B with kernel := optimizedLSEKernel x y B, projection := by rfl }
+  { directIO x y B with kernel := guarded_log_sum_expKernel x y B, projection := by rfl }
 
 end Candidate
 
@@ -207,8 +207,8 @@ theorem candidate_runs {α : Type} [Inhabited α] (R : FP.LogSumExp.Rules)
     (x y : RegionName) (B : Nat) (hB : 0 < B)
     (hd : (requirements x B plans).Holds M D s) :
     ∃ a b,
-      FP.Structural.exec (engine M plans) (optimizedLSEKernel x y B) s = some a ∧
-      FP.Structural.exec (engine M plans) (directLSEKernel x y B) s = some b ∧
+      FP.Structural.exec (engine M plans) (guarded_log_sum_expKernel x y B) s = some a ∧
+      FP.Structural.exec (engine M plans) (direct_log_sum_expKernel x y B) s = some b ∧
       a.mem y (s.pids 0) = b.mem y (s.pids 0) ∧
       IO₁Frame (optimizedIO x y B) s a ∧ IO₁Frame (directIO x y B) s b := by
   let xs := rowValues M s x B

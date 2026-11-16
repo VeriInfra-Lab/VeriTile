@@ -35,6 +35,17 @@
 - `Reference.lean` 等辅助模块也按实际职责检查：通道拼装与坐标适配归 `IO.lean`，主证明必需的有序公式与连接助手归 `Proofs/`，可选 native 结果及其专属适配归 `Proofs/Misc/`。根据声明的实际使用区分必要与可选，不能仅因名字含 `native` 就移出主 FP 证明链。已有单一职责的独立数学模块可明确复用；兼容导入文件须保持为薄转发，不重新混装定义或增加验收任务。
 - 源码组织检查与整题证明完成分别记录。可读性问题不自动撤回已有严格证明；已有完整机器索引投影或精度绑定不能仅因采用抽象表示就记作新正确性缺陷。结构未整理完也不能宣称所有题已符合可读性标准。
 
+## Python 与 Lean 的函数命名对应
+
+新建或整理带 Python 来源的题目时，源码定义与 Python 函数名使用以下固定对应：
+
+- Python 函数名逐字保留，包括前导下划线、snake_case 和已有的 `_kernel` 后缀。以源码描述类型或 JIT helper 类型保存完整函数体的 Lean 定义统一命名为 `<python_name>Source`，即在完整原名后仅追加固定的 `Source` 后缀。有返回值的 helper 同样使用这个命名规则；其类型按语义保留为 `StatementJitFunction` 等，不强制改成 `SourceProcedure`。
+- `ComputeKernel` 入口（包括直接包含 `triton { ... }` 的入口）：Python 原名已以 `_kernel` 或 `Kernel` 结尾时直接使用该原名；否则使用 `<python_name>Kernel`。例如 `triton_f4_to_scaled_bf16_kernelSource` 生成 `triton_f4_to_scaled_bf16_kernel`，`rms_matmul_rbeSource` 生成 `rms_matmul_rbeKernel`。
+- 同一函数已有多个 dtype、标量/指针或 constexpr ABI 视图时，使用明确的外层命名空间区分（如 `FP16`、`BF16`、`ScalarOffsets`、`Policy8`）；叶子名称仍保留完整 Python 函数名及上述固定后缀。保持各视图既有的类型、常量绑定及证明范围。
+- `jit_functions`、`source_procedures` 等调用绑定，左边保留 Python 中实际调用的名字，右边绑定相应的 `<python_name>Source`，如 `jit_functions [_fp4_packed_to_bf16 := _fp4_packed_to_bf16Source]`。被调用函数的源码来自其他 Python 模块、使用 import alias 时，左边保留调用方的实际别名，右边指向被导入函数原名对应的 Source，并由源码对照工具检查导入关系。
+- 原程序、已有候选和 helper 均遵守相同规则，每个 Python 函数只维护一份权威函数体；实例化与证明复用该定义。纯 Lean 规格、证明助手和 ABI 元数据不受 Python 函数名后缀规则约束。
+- 改名须同步实际调用绑定、证明引用、测试、文档及自动生成的源码对照/验收记录。保留 Python 与 `triton { ... }` 内的函数体、公开定理条件及数值假设，并重新验证当前源码与受影响证明。不能仅因改名或编译通过就更新为完成。
+
 ## Real 与 FP 的证明路线
 
 ### 主入口的公式、前提与范围（2026-10-22）

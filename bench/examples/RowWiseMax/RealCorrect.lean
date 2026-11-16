@@ -46,11 +46,11 @@ set_option maxHeartbeats 1600000
 specification rowWiseMax_inlined_correctness (nCol B : Nat) (hB : 0 < B) :
     Spec.Real (inlinedIO nCol B ⊨ fun xs _ => Triton.TiledReduction.tileMax hB xs) := by
   refine KernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · simp [inlinedIO, inlinedKernel, Kernel.FlattenOk,
+  · simp [inlinedIO, row_wise_max_inlinedKernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s hx hy _
     obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-    simpa [inlinedIO, rowWiseMaxIO, Kernel.TraceSafe, inlinedKernel, rowWiseMaxKernel,
+    simpa [inlinedIO, rowWiseMaxIO, Kernel.TraceSafe, row_wise_max_inlinedKernel, row_wise_maxKernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
       MaskOpt.Active, BlockState.setReg, stepStmt, evalOp.eq_def,

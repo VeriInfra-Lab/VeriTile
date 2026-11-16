@@ -29,17 +29,17 @@ REAL_THEOREMS = {
 # expose the mathematical formula independently of its FP equivalence proof.
 REDUCTIONS = (
     ("SoftmaxStable", "SoftmaxStableCorrect", "Softmax",
-     (("naiveSoftmaxKernel", "naiveIO", "naive_softmax_correct"),
-      ("stableSoftmaxKernel", "stableIO", "stable_softmax_correct"))),
+     (("naive_softmaxKernel", "naiveIO", "naive_softmax_correct"),
+      ("stable_softmaxKernel", "stableIO", "stable_softmax_correct"))),
     ("StableLogSumExp", "StableLogSumExpCorrect", "LogSumExp",
-     (("directLSEKernel", "directIO", "direct_logsumexp_correct"),
-      ("optimizedLSEKernel", "optimizedIO", "optimized_logsumexp_correct"))),
+     (("direct_log_sum_expKernel", "directIO", "direct_logsumexp_correct"),
+      ("guarded_log_sum_expKernel", "optimizedIO", "optimized_logsumexp_correct"))),
     ("SoftmaxReciprocal", "SoftmaxReciprocalCorrect", "SoftmaxReciprocal",
-     (("stableSoftmaxKernel", "divIO", "softmax_div_correct"),
-      ("softmaxRecipKernel", "recipIO", "softmax_reciprocal_correct"))),
+     (("stable_softmaxKernel", "divIO", "softmax_div_correct"),
+      ("reciprocal_softmaxKernel", "recipIO", "softmax_reciprocal_correct"))),
     ("FloatDTypeSoftmax", "FloatDTypeSoftmaxCorrect", "FloatDTypeEquiv",
-     (("floatStableSoftmaxKernel", "divIO", "float_softmax_div_correct"),
-      ("floatSoftmaxRecipKernel", "recipIO", "float_softmax_recip_correct"))),
+     (("stable_softmax_fp64Kernel", "divIO", "float_softmax_div_correct"),
+      ("reciprocal_softmax_fp64Kernel", "recipIO", "float_softmax_recip_correct"))),
 )
 
 
@@ -93,7 +93,7 @@ class ExamplePairTests(unittest.TestCase):
                     for name in ("FusedSiLU", "FusedSwiglu", "Welford", "FusedLayerNorm")
                     for suffix in ("RealCorrect", "Proofs.LegacyRealEquiv")]
         targets += [f"bench.examples.{family}.RealCorrect"
-                    for family in ("TritonBenchVectorAddition", "RowWiseSum", "RowWiseMax")]
+                    for family in ("RowWiseSum", "RowWiseMax")]
         build = subprocess.run(["lake", "build", *targets], cwd=ROOT,
                                text=True, capture_output=True, timeout=300)
         if build.returncode:
@@ -110,7 +110,7 @@ class ExamplePairTests(unittest.TestCase):
 
     def test_optimized_real_specs_bind_sources_formulas_and_full_scope(self):
         self.assertEqual(self.lean(
-            (ROOT / "tests/lean/OptimizedRealExamples.lean").read_text()), "")
+            (ROOT / "tests/lean/OptimizedCoreRealExamples.lean").read_text()), "")
 
     def test_public_scheduled_contracts_match_proved_execution_contracts(self):
         families = ("SoftmaxStable", "StableLogSumExp", "OnlineSoftmax", "Welford", "FusedLayerNorm")
@@ -211,7 +211,7 @@ example {params} : {namespace}.{contract} {args} =
         source += '''
 example (x : RegionName) (B : Nat) :
     LogExp.FPEquiv.domain x B =
-      ({ code := (LogExp.optimizedKernel x "y" B).surfaceBody.take 4,
+      ({ code := (LogExp.log_exp_guardedKernel x "y" B).surfaceBody.take 4,
          guards := [⟨"a", [B], .finite⟩] } : FP.Guarded.Precondition) := rfl
 '''
         self.assertEqual(self.lean(source), "")
@@ -270,8 +270,8 @@ example (lr wd beta1 beta2 : Real) (n B : Nat) :
         source = imports + "\nopen VeriTile.Bench.Examples\n"
         for family in ("SoftmaxReciprocal", "FloatDTypeSoftmax"):
             div_source, recip_source = (
-                ("stableSoftmaxKernel", "softmaxRecipKernel") if family == "SoftmaxReciprocal"
-                else ("floatStableSoftmaxKernel", "floatSoftmaxRecipKernel"))
+                ("stable_softmaxKernel", "reciprocal_softmaxKernel") if family == "SoftmaxReciprocal"
+                else ("stable_softmax_fp64Kernel", "reciprocal_softmax_fp64Kernel"))
             source += f'''
 example (x y : VeriTile.Triton.RegionName) (B : Nat) :
     {family}.Kernels.originalKernel x y B = {family}.Kernels.{div_source} x y B := rfl
@@ -459,13 +459,13 @@ open VeriTile.Bench.Examples
 
 example (B : Nat) :
     (FusedSiLUCorrect.fusedIO B).kernel =
-      (FusedSiLU.Kernels.fusedSiLUKernel "x" "gate" "residual" "out" B).eraseDType := rfl
+      (FusedSiLU.Kernels.fused_siluKernel "x" "gate" "residual" "out" B).eraseDType := rfl
 example (B : Nat) :
     (FusedSiLUCorrect.unfusedIO B).kernel =
       (FusedSiLU.Kernels.unfusedSiLUKernel "x" "gate" "residual" "z" "silu" "out" B).eraseDType := rfl
 example (n B : Nat) :
     (FusedSwigluCorrect.fusedIO n B).kernel =
-      (FusedSwiglu.Kernels.swiglu_fused "x" "y" "out" n B).eraseDType := rfl
+      (FusedSwiglu.Kernels.swiglu_fusedKernel "x" "y" "out" n B).eraseDType := rfl
 example (n B : Nat) :
     (FusedSwigluCorrect.unfusedIO n B).kernel =
       (FusedSwiglu.Kernels.swiglu_unfused "x" "y" "s" "out" n B).eraseDType := rfl

@@ -18,7 +18,7 @@ specification add_kernel_equiv (blockSize : Nat) :
 ```
 
 `original`、`optimized` 连接同一份源码的两个实例，唯一变化是 `x + y` 与 `y + x`。
-这里复用共享库严格 FP32 交换律证书，**不再使用实验 ADD-COMMUTE 假设**。
+这里复用共享库严格 FP32 交换律证书，实验规则集为空。
 `additionSite` 的输入域保留实际源前缀执行后两个操作数的有限性；固定软件理论、
 精度、load/store、mask 和执行语义也保留。空实验规则集不表示对任意数值解释成立，
 也不表示已证明 GPU 指令与软件模型一致。尺寸保持符号化。
@@ -33,8 +33,8 @@ python3 scripts/check_comparator.py --file bench/examples/VectorAdd/FPEquiv.lean
 源码对照、Lean 编译与独立 comparator 重放分别检查不同义务。
 comparator 的安装和隔离要求见 [工具说明](../../scripts/README.md#shared-comparator-gate)。
 VeriTileBench 的 [TritonBenchVectorAddition](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/bench/examples/TritonBenchVectorAddition/FPEquiv.lean)
-也已采用严格模型证明；其带 mask 的源程序额外保留实际求值 lane 的有限性条件。
-该题在 VeriTileBench 中构建，不再通过核心仓库的旧路径运行。
+使用严格模型证明；其带 mask 的源程序额外保留实际求值 lane 的有限性条件。
+该题的源码、构建和验证入口位于 VeriTileBench。
 
 ## 实验准入的证明：LogExp
 
@@ -63,6 +63,7 @@ unresolved。该遍历涵盖可达辅助证明，不声称计算了逻辑上最�
 公理审计、statement 检查和 comparator 仍需独立运行；打印命令不关闭这些义务。
 
 当前分类和用量见 [FPRemainingAdmissionGaps.md](../../documents/FPRemainingAdmissionGaps.md)。
-历史报告、导出表与原始 GPU bundle 是不同证据层。`--trust-report` 明确信任已发布报告，
-并检查完整性和来源；它不会补造缺失观测或产生一次新的 CPU/GPU 重放。
-当前 fixed-batch 与旧 replicate 协议的运行、导入和证据格式见 [实验指南](README.md)。
+测量报告、Lean 准入表与原始 GPU bundle 分别记录实验结果、可引用的规则和可重放证据。
+报告适用于其中绑定的源码、精度、输入域和配置。数值测量不自动更新 Lean 准入表。
+导出工具的 `--trust-report` 明确信任报告，并检查完整性和来源；该操作本身不执行
+CPU/GPU 重放。运行、独立 CPU 重放和证据格式见 [实验指南](README.md)。

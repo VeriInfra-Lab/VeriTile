@@ -12,7 +12,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def originalKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def log_expKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)
@@ -21,7 +21,7 @@ def originalKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
     tl.store(yReg + offs, out.to(tl.float32))
   }
 
-def optimizedKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def log_exp_guardedKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)

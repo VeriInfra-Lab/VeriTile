@@ -48,10 +48,10 @@ set_option maxHeartbeats 1600000
 specification rowWiseSum_reversed_correctness (nCol B : Nat) :
     Spec.Real (reversedIO nCol B ⊨ fun xs _ => ∑ k, xs k) := by
   refine KernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · simp [reversedIO, reversedKernel, Kernel.FlattenOk,
+  · simp [reversedIO, row_wise_sum_reversedKernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s hx hy _
-    simp [reversedIO, Kernel.TraceSafe, reversedKernel,
+    simp [reversedIO, Kernel.TraceSafe, row_wise_sum_reversedKernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, MemAccess.ActiveAddressSafe, memAccessActiveAddressSafe,
       MaskOpt.Active, BlockState.setReg, stepStmt, evalOp.eq_def,

@@ -15,15 +15,15 @@ open scoped VeriTile.Triton.KernelIO₂
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
 theorem real_projection (xReg yReg outReg : RegionName) (B : Nat) :
-    (floatAddKernel xReg yReg outReg B).eraseDType.toAlgorithm? =
-      Except.ok (VectorAdd.Kernels.addKernel xReg yReg outReg B).toAlgKernel := by
+    (float_addKernel xReg yReg outReg B).eraseDType.toAlgorithm? =
+      Except.ok (VectorAdd.Kernels.add_kernel xReg yReg outReg B).toAlgKernel := by
   have hcast : (Op.castFloat .real .real (Op.ref .real [B] "output")).eraseDType =
       Op.ref .real [B] "output" := by
     rw [Op.eraseDType_castFloat .real .real (Op.ref .real [B] "output")]
     change (Op.ref .real [B] "output").eraseDType = Op.ref .real [B] "output"
     rw [Op.eraseDType_ref]
     rfl
-  simp [floatAddKernel, VectorAdd.Kernels.addKernel, ComputeKernel.eraseDType,
+  simp [float_addKernel, VectorAdd.Kernels.add_kernel, ComputeKernel.eraseDType,
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
@@ -40,7 +40,7 @@ theorem optimized_projection (B : Nat) :
     change (Op.ref .real [B] "output").eraseDType = Op.ref .real [B] "output"
     rw [Op.eraseDType_ref]
     rfl
-  simp [optimizedKernel,commutedKernel, VectorAdd.Kernels.optimizedKernel,VectorAdd.Kernels.commutedKernel, ComputeKernel.eraseDType,
+  simp [optimizedKernel,float_add_commutedKernel, VectorAdd.Kernels.optimizedKernel,VectorAdd.Kernels.add_commuted_kernel, ComputeKernel.eraseDType,
     ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,

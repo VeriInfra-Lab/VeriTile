@@ -31,9 +31,9 @@ theorem rowWiseSum_correct
     (xReg yReg : RegionName) (nCol blockSize : Nat)
     (s : BlockState) (xs : Fin blockSize → ℝ)
     (h_x : InputRowLoadedAt s xReg nCol blockSize xs) :
-    observeRowAt (exec (rowWiseSumKernel xReg yReg nCol blockSize) s) yReg s.pid
+    observeRowAt (exec (row_wise_sumKernel xReg yReg nCol blockSize) s) yReg s.pid
       = some (∑ k, xs k) := by
-  simp [observeRowAt, exec, rowWiseSumKernel, stepStmts, stepStmt,
+  simp [observeRowAt, exec, row_wise_sumKernel, stepStmts, stepStmt,
         Tile.bop, TileShape.eraseAxis, NumericDType.mul, NumericDType.add]
   unfold InputRowLoadedAt at h_x
   simp_rw [h_x]
@@ -50,11 +50,11 @@ theorem rowWiseSum_correct
 cell unchanged. -/
 private theorem rowWiseSum_frame (xReg yReg : RegionName)
     (nCol B : Nat) (s s1 : BlockState)
-    (hExec : exec ((rowWiseSumKernel xReg yReg nCol B).toAlgKernel) s
+    (hExec : exec ((row_wise_sumKernel xReg yReg nCol B).toAlgKernel) s
       = some s1)
     (r : RegionName) (o : Nat) (hmiss : ¬(yReg = r ∧ s.pid = o)) :
     s1.mem r o = s.mem r o := by
-  simp [exec, rowWiseSumKernel, ComputeKernel.toAlgKernel, stepStmts,
+  simp [exec, row_wise_sumKernel, ComputeKernel.toAlgKernel, stepStmts,
     stepStmt, Tile.bop, NumericDType.add, NumericDType.mul] at hExec
   repeat unfold evalOp at hExec
   simp [Tile.reduceSum, Tile.reduceSumDrop, TileShape.axisDim,
@@ -69,17 +69,17 @@ what the `⊨` headline transports to flat memory. -/
 theorem rowWiseSum_region_run (nCol B : Nat)
     (s₀ : BlockState) (xs : Fin B → ℝ)
     (hx : ∀ j : Fin B, s₀.readMem ⟨"x"⟩ (s₀.pid * nCol + j.val) = xs j) :
-    ∃ s1, exec ((rowWiseSumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀
+    ∃ s1, exec ((row_wise_sumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀
         = some s1
       ∧ (∀ j : Fin 1, s1.readMem ⟨"y"⟩ (s₀.pid + j.val) = ∑ k, xs k)
       ∧ (∀ r o,
           (r ≠ ⟨"y"⟩ ∨ ∀ j : Fin 1, o ≠ s₀.pid + j.val) →
           s1.mem r o = s₀.mem r o) := by
   have hobs := rowWiseSum_correct ⟨"x"⟩ ⟨"y"⟩ nCol B s₀ xs hx
-  rw [show exec (rowWiseSumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B) s₀
-      = exec ((rowWiseSumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ from rfl]
+  rw [show exec (row_wise_sumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B) s₀
+      = exec ((row_wise_sumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ from rfl]
     at hobs
-  cases hsrc : exec ((rowWiseSumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ with
+  cases hsrc : exec ((row_wise_sumKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ with
   | none =>
       rw [hsrc] at hobs
       simp [observeRowAt] at hobs
@@ -157,7 +157,7 @@ theorem rowWiseSum_traceSafe (xReg yReg : RegionName)
     (nCol B : Nat) (bounds : RegionBounds) (s : BlockState)
     (hx : s.pid * nCol + B ≤ bounds xReg) (hy : s.pid + 1 ≤ bounds yReg) :
     Kernel.TraceSafe bounds
-      ((rowWiseSumKernel xReg yReg nCol B).toAlgKernel)
+      ((row_wise_sumKernel xReg yReg nCol B).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
   -- statement 1: row := program_id(0)
@@ -197,9 +197,9 @@ theorem rowWiseSum_traceSafe (xReg yReg : RegionName)
 
 /-- The kernel sits inside the bridge's covered fragment. -/
 theorem rowWiseSum_flattenOk (xReg yReg : RegionName) (nCol B : Nat) :
-    ((rowWiseSumKernel xReg yReg nCol B).toAlgKernel).FlattenOk := by
+    ((row_wise_sumKernel xReg yReg nCol B).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [rowWiseSumKernel, ComputeKernel.toAlgKernel,
+  simp [row_wise_sumKernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 section Optimized
@@ -208,13 +208,13 @@ set_option maxHeartbeats 1600000
 
 theorem reversed_region_run (nCol B : Nat) (s : BlockState) (xs : Fin B → ℝ)
     (hx : ∀ i : Fin B, s.readMem "x" (s.pid * nCol + i.val) = xs i) :
-    ∃ t, exec (reversedKernel "x" "y" nCol B).toAlgKernel s = some t ∧
+    ∃ t, exec (row_wise_sum_reversedKernel "x" "y" nCol B).toAlgKernel s = some t ∧
       (∀ i : Fin 1, t.readMem "y" (s.pid + i.val) = ∑ k, xs k) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin 1, o ≠ s.pid + i.val) →
         t.mem r o = s.mem r o) := by
   have hrev (i : Fin B) : s.readMem "x" (s.pid * nCol + (B - 1 - i.val)) = xs i.rev := by
     simpa only [Fin.val_rev, Nat.sub_sub, Nat.add_comm] using hx i.rev
-  simp [reversedKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [row_wise_sum_reversedKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Region.cast, Tile.bop, NumericDType.add, NumericDType.mul, NumericDType.sub,
     Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
     TileShape.insertAxisIndex]

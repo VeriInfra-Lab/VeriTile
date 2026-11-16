@@ -4,6 +4,17 @@
 command, then uses [Lean's official comparator](https://github.com/leanprover/comparator)
 to decide whether the requested theorems were proved.
 
+## Numerical experiments
+
+`python3 scripts/check_two_gates.py check` prints the current two-gates plan.
+`run --output Logs/two-gates` executes the fixed budgets on CUDA;
+`import BUNDLE --output REPORT.json` independently replays the evidence on CPU.
+The [experiment guide](../experiments/floating_point/README.md) defines the shared
+sample bank, weighted mean, restored unweighted peak set, dependencies and resume.
+Settings live in [two_gates_config.py](../experiments/floating_point/two_gates_config.py).
+Report import and Lean-admission export require matching source, configuration
+and evidence identities.
+
 ## Setup
 
 Use Linux with Landlock ABI v4 or newer and a working systemd user service. Install
@@ -101,9 +112,8 @@ These tests use the real comparator and a deterministic fake agent (no API
 calls). They cover a valid proof, changed statements and definitions, extra
 axioms, remaining `sorry`, deleted targets, and multiple requested theorems.
 
-Proof search still depends on the installed `lean4` plugin version; record it
-when reporting benchmark results. The previous benchmark setup used version
-4.4.9 of the plugin.
+Proof search depends on the installed `lean4` plugin; record its revision
+when reporting benchmark results.
 
 ## Source and documentation tools
 
@@ -114,9 +124,8 @@ For corpus commands in this guide, use a checkout of
 
 `python3 scripts/check_docs.py` checks local file links and same-repository
 current-main GitHub source/workflow URLs in all tracked Markdown documents,
-and verifies generated reference pages. Pinned historical references remain
-external so archived paths are not judged against a newer checkout. It does not fetch external
-URLs. Edit references under `documents/`, then run
+and verifies generated reference pages. Commit-pinned references are external
+links. The checker does not fetch external URLs. Edit references under `documents/`, then run
 `python3 site/scripts/sync-docs.py` to regenerate the website copies.
 
 `python3 scripts/spec_sheet.py bench/examples/VectorAdd/RealCorrect.lean`
@@ -190,9 +199,8 @@ python3 scripts/test_check_comparator.py
 
 Routine checks freeze the current trusted project sources and build cache in
 an independent temporary workspace. Comparator exports and replays the current
-proofs against that source snapshot (`source-replay` mode). This is not a check
-that statements stayed unchanged from a previous Git revision; specification
-changes still require review. `prove.sh` retains its separate comparison against
+proofs against that source snapshot (`source-replay` mode). Specification
+changes require review. `prove.sh` retains its separate comparison against
 the original task captured before the agent runs.
 
 The library gate selects `proven` rows under `VeriTile/` from the manifest
@@ -216,7 +224,7 @@ correspondence and imported-challenge review before proof acceptance. Run its
 `test_audit_gates.py` sequentially with the corpus scanner: those regressions
 create deliberately invalid temporary task directories.
 
-### Source correspondence and compatibility fixtures
+### Source correspondence and fixtures
 
 Current examples use automatic discovery from the Python function and the
 shared `Kernels.lean` body:
@@ -234,8 +242,7 @@ Collection-wide commands run in VeriTileBench, which owns the task inventory
 and validation receipts. A passing correspondence check is separate from
 Real/FP proof acceptance and GPU evidence.
 
-The retained `test_source_*.py` suites also exercise older explicit
-`Source-audit` adapters: constexpr branches, runtime scalar ABI bindings,
+The `test_source_*.py` suites exercise explicit `Source-audit` adapters: constexpr branches, runtime scalar ABI bindings,
 materializations, pointer dtypes and extern/helper calls. Their frozen evidence
 is isolated under `scripts/fixtures/`; it is not a task-local JSON requirement
 or a current production registry under this core repository's `bench/`.

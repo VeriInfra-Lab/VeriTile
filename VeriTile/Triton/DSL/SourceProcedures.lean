@@ -1,6 +1,7 @@
 import VeriTile.Triton.DSL.ProcedureJitFunctions
 import VeriTile.Triton.DSL.SymbolicFloatConstants
 import VeriTile.Triton.DSL.SourceSyntax
+import VeriTile.Triton.DSL.StatementJitCallConstants
 
 /-! Storage-polymorphic pasted source procedures. Each call is elaborated in
 its own parameter scope with storage inferred from the caller ABI. Only the
@@ -13,12 +14,16 @@ structure SourceProcedure where
   constexpr : List String
   materialized : List String
   source : String
+  jitFunctions : List (String × StatementJitFunction) := []
 
 namespace DSL.SourceProcedures
 open Lean Elab Term Meta
 syntax (name := sourceProcedure) "triton_source_procedure " "(" ident,* ")"
   " constexpr_args " "[" ident,* "]" " fp32_constants " "[" ident,* "]"
   RawSourceText.body : term
+syntax (name := helperSourceParams) "with_triton_params " "(" ident,* ")"
+  " constexpr_args " "[" ident,* "]" " jit_functions " "[" tritonCallBinding,* "]"
+  " in " "triton " RawSourceText.body : term
 syntax (name := sourceInstance) "instantiate_source_procedure " term:max
   &"signature" term:max " procedure_args " "[" tritonCallBinding,* "]" : term
 syntax (name := sourceCalls) "with_triton_call " term " call_args "
@@ -163,6 +168,7 @@ private structure Function where
   constants : List Name
   materialized : List Name
   source : String
+  helpers : List (Name × Expr) := []
 
 private def validate (f : Function) : TermElabM Unit := do
   unless !f.parameters.isEmpty && f.parameters.all simple &&
@@ -171,26 +177,36 @@ private def validate (f : Function) : TermElabM Unit := do
       f.materialized.all f.constants.contains do
     throwError "distinct source parameters and constexpr subsets required"
   let body ← prepare f.source
-  discard <| validateStatements body f.parameters f.constants
+  let helpers:=f.helpers.map Prod.fst
+  unless helpers.all simple && helpers.eraseDups==helpers && !(helpers.any f.parameters.contains) do
+    throwError "JIT helper bindings must be distinct from source parameters"
+  discard <| validateStatements body (f.parameters++helpers) (f.constants++helpers)
 
 private def function (value : Expr) : TermElabM Function := do
   unless (← inferType value).isConstOf ``SourceProcedure do throwError "pasted source procedure required"
   let f : Function := ⟨← names (← mkAppM ``SourceProcedure.parameters #[value]),
     ← names (← mkAppM ``SourceProcedure.constexpr #[value]),
     ← names (← mkAppM ``SourceProcedure.materialized #[value]),
-    ← textValue (← mkAppM ``SourceProcedure.source #[value])⟩
+    ← textValue (← mkAppM ``SourceProcedure.source #[value]),
+    ← (← listValues (← mkAppM ``SourceProcedure.jitFunctions #[value])).mapM (fun entry=>do
+      let name ← textValue (← mkAppM ``Prod.fst #[entry])
+      return (name.toName,← mkAppM ``Prod.snd #[entry]))⟩
   validate f
   return f
 
-private def elaborateProcedure (stx materialized : Syntax) (expected : Option Expr) :
+private def elaborateProcedure (stx materialized : Syntax) (expected : Option Expr)
+    (helpers : List (Name × Expr) := []) :
     TermElabM Expr := do
   let f : Function := ⟨stx[2].getSepArgs.toList.map (·.getId.eraseMacroScopes),
     stx[6].getSepArgs.toList.map (·.getId.eraseMacroScopes),
-    materialized.getSepArgs.toList.map (·.getId.eraseMacroScopes),stx.getArgs.back!.getAtomVal⟩
+    materialized.getSepArgs.toList.map (·.getId.eraseMacroScopes),stx.getArgs.back!.getAtomVal,helpers⟩
   validate f
   let strings (values : List Name):=mkListLit (mkConst ``String) (values.map (mkStrLit ∘ Name.toString))
-  ensureHasType expected (mkApp4 (mkConst ``SourceProcedure.mk)
-    (← strings f.parameters) (← strings f.constants) (← strings f.materialized) (mkStrLit f.source))
+  let helperValues ← helpers.mapM fun (name,value)=>mkAppM ``Prod.mk #[mkStrLit name.toString,value]
+  let helperType:=mkApp2 (mkConst ``Prod [levelZero,levelZero]) (mkConst ``String) (mkConst ``StatementJitFunction)
+  ensureHasType expected (mkApp5 (mkConst ``SourceProcedure.mk)
+    (← strings f.parameters) (← strings f.constants) (← strings f.materialized) (mkStrLit f.source)
+    (← mkListLit helperType helperValues))
 
 @[term_elab sourceProcedure]
 def elaborateSource : TermElab := fun stx expected =>
@@ -203,6 +219,18 @@ def elaborateParams : TermElab := fun stx expected => do
     unless type.hasExprMVar || type.isConstOf ``SourceProcedure do
       throwUnsupportedSyntax
   elaborateProcedure stx stx[8][2] expected
+
+@[term_elab helperSourceParams]
+def elaborateHelperParams : TermElab := fun stx expected=>do
+  if let some type:=expected then
+    let type ← whnf type
+    unless type.hasExprMVar || type.isConstOf ``SourceProcedure do throwUnsupportedSyntax
+  let mut helpers : List (Name × Expr):=[]
+  for binding in stx[10].getSepArgs do
+    let `(tritonCallBinding| $name:ident := $value:term):=binding | throwError "named JIT helper required"
+    helpers:=helpers++[(name.getId.eraseMacroScopes,← elabTermEnsuringType value (mkConst ``StatementJitFunction))]
+  let empty := Syntax.node .none `null #[]
+  elaborateProcedure stx empty expected helpers
 
 private def instantiate (f : Function) (profile : Expr) (values : List (Name × Expr))
     (expected : Option Expr) (literalBooleans : List Name := []) : TermElabM Expr := do
@@ -236,7 +264,17 @@ private def instantiate (f : Function) (profile : Expr) (values : List (Name × 
         args:=args.push (← `(tritonCallBinding| $name:ident := $name:ident))
       let constants:=f.materialized.toArray.map mkIdent
       let body:=Syntax.atom .none f.source
-      if constants.isEmpty then
+      if !f.helpers.isEmpty then
+        unless constants.isEmpty do throwError "JIT source helpers do not support materialized FP constants"
+        let helpers ← f.helpers.toArray.mapM fun (name,value)=>do
+          let name:=mkIdent name
+          let value ← exprToSyntax value
+          `(tritonCallBinding| $name:ident := $value:term)
+        let base ← `(with_triton_call $signatureSyntax:term call_args [$args,*]
+          jit_functions [$helpers,*] in triton {})
+        StatementJitCallConstants.elaborateInvocation
+          (base.raw.setArgs (base.raw.getArgs.set! (base.raw.getArgs.size-1) body)) expected
+      else if constants.isEmpty then
         let base ← `(with_triton_call $signatureSyntax:term call_args [$args,*] in triton {})
         PythonTensorTuples.elaborateInvocation
           (base.raw.setArgs (base.raw.getArgs.set! (base.raw.getArgs.size-1) body)) expected

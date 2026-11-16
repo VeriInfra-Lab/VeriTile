@@ -29,10 +29,10 @@ theorem rowWiseMax_correct
     (xReg yReg : RegionName) (nCol blockSize : Nat) (hN : 0 < blockSize)
     (s : BlockState) (xs : Fin blockSize → ℝ)
     (h_x : InputRowLoadedAt s xReg nCol blockSize xs) :
-    observeRowAt (exec (rowWiseMaxKernel xReg yReg nCol blockSize) s) yReg s.pid
+    observeRowAt (exec (row_wise_maxKernel xReg yReg nCol blockSize) s) yReg s.pid
       = some (Triton.TiledReduction.tileMax hN xs) := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [observeRowAt, exec, rowWiseMaxKernel, stepStmts, stepStmt,
+  simp [observeRowAt, exec, row_wise_maxKernel, stepStmts, stepStmt,
         Tile.bop, NumericDType.mul, NumericDType.add,
         Triton.TiledReduction.tileMax]
   unfold InputRowLoadedAt at h_x
@@ -51,12 +51,12 @@ cell unchanged. Non-emptiness is needed here because `Tile.reduceMax`
 (hence the kernel's termination) is only defined on positive-length axes. -/
 private theorem rowWiseMax_frame (xReg yReg : RegionName)
     (nCol B : Nat) (hB : 0 < B) (s s1 : BlockState)
-    (hExec : exec ((rowWiseMaxKernel xReg yReg nCol B).toAlgKernel) s
+    (hExec : exec ((row_wise_maxKernel xReg yReg nCol B).toAlgKernel) s
       = some s1)
     (r : RegionName) (o : Nat) (hmiss : ¬(yReg = r ∧ s.pid = o)) :
     s1.mem r o = s.mem r o := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  simp [exec, rowWiseMaxKernel, ComputeKernel.toAlgKernel, stepStmts,
+  simp [exec, row_wise_maxKernel, ComputeKernel.toAlgKernel, stepStmts,
     stepStmt, Tile.bop, NumericDType.add, NumericDType.mul] at hExec
   repeat unfold evalOp at hExec
   simp [Tile.reduceMax, Tile.reduceMaxDrop, TileShape.axisDim,
@@ -71,7 +71,7 @@ what the `⊨` headline transports to flat memory. -/
 theorem rowWiseMax_region_run (nCol B : Nat) (hB : 0 < B)
     (s₀ : BlockState) (xs : Fin B → ℝ)
     (hx : ∀ j : Fin B, s₀.readMem ⟨"x"⟩ (s₀.pid * nCol + j.val) = xs j) :
-    ∃ s1, exec ((rowWiseMaxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀
+    ∃ s1, exec ((row_wise_maxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀
         = some s1
       ∧ (∀ j : Fin 1, s1.readMem ⟨"y"⟩ (s₀.pid + j.val)
           = Triton.TiledReduction.tileMax hB xs)
@@ -79,10 +79,10 @@ theorem rowWiseMax_region_run (nCol B : Nat) (hB : 0 < B)
           (r ≠ ⟨"y"⟩ ∨ ∀ j : Fin 1, o ≠ s₀.pid + j.val) →
           s1.mem r o = s₀.mem r o) := by
   have hobs := rowWiseMax_correct ⟨"x"⟩ ⟨"y"⟩ nCol B hB s₀ xs hx
-  rw [show exec (rowWiseMaxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B) s₀
-      = exec ((rowWiseMaxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ from rfl]
+  rw [show exec (row_wise_maxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B) s₀
+      = exec ((row_wise_maxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ from rfl]
     at hobs
-  cases hsrc : exec ((rowWiseMaxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ with
+  cases hsrc : exec ((row_wise_maxKernel ⟨"x"⟩ ⟨"y"⟩ nCol B).toAlgKernel) s₀ with
   | none =>
       rw [hsrc] at hobs
       simp [observeRowAt] at hobs
@@ -160,7 +160,7 @@ theorem rowWiseMax_traceSafe (xReg yReg : RegionName)
     (nCol B : Nat) (bounds : RegionBounds) (s : BlockState)
     (hx : s.pid * nCol + B ≤ bounds xReg) (hy : s.pid + 1 ≤ bounds yReg) :
     Kernel.TraceSafe bounds
-      ((rowWiseMaxKernel xReg yReg nCol B).toAlgKernel)
+      ((row_wise_maxKernel xReg yReg nCol B).toAlgKernel)
       s := by
   unfold Kernel.TraceSafe
   -- statement 1: row := program_id(0)
@@ -200,9 +200,9 @@ theorem rowWiseMax_traceSafe (xReg yReg : RegionName)
 
 /-- The kernel sits inside the bridge's covered fragment. -/
 theorem rowWiseMax_flattenOk (xReg yReg : RegionName) (nCol B : Nat) :
-    ((rowWiseMaxKernel xReg yReg nCol B).toAlgKernel).FlattenOk := by
+    ((row_wise_maxKernel xReg yReg nCol B).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [rowWiseMaxKernel, ComputeKernel.toAlgKernel,
+  simp [row_wise_maxKernel, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 section Optimized
@@ -212,12 +212,12 @@ set_option maxHeartbeats 1600000
 theorem inlined_region_run (nCol B : Nat) (hB : 0 < B)
     (s : BlockState) (xs : Fin B → ℝ)
     (hx : ∀ i : Fin B, s.readMem "x" (s.pid * nCol + i.val) = xs i) :
-    ∃ t, exec (inlinedKernel "x" "y" nCol B).toAlgKernel s = some t ∧
+    ∃ t, exec (row_wise_max_inlinedKernel "x" "y" nCol B).toAlgKernel s = some t ∧
       (∀ i : Fin 1, t.readMem "y" (s.pid + i.val) = TiledReduction.tileMax hB xs) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin 1, o ≠ s.pid + i.val) →
         t.mem r o = s.mem r o) := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
-  simp [inlinedKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
+  simp [row_wise_max_inlinedKernel, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, NumericDType.add, NumericDType.mul,
     Tile.reduceMaxDrop, TileShape.axisDim, TileShape.eraseAxis,
     TileShape.insertAxisIndex]

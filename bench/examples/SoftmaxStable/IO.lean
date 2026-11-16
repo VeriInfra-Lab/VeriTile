@@ -15,7 +15,7 @@ open VeriTile Triton
 open scoped VeriTile.Triton.KernelIO₁
 
 def naiveIO (B : Nat) : KernelIO₁ where
-  kernel := (naiveSoftmaxKernel "x" "y" B).eraseDType
+  kernel := (naive_softmaxKernel "x" "y" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   inp := "x"
   out := "y"
@@ -25,7 +25,7 @@ def naiveIO (B : Nat) : KernelIO₁ where
   write := fun pid => pid * B
 
 def stableIO (B : Nat) : KernelIO₁ where
-  kernel := (stableSoftmaxKernel "x" "y" B).eraseDType
+  kernel := (stable_softmaxKernel "x" "y" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   inp := "x"
   out := "y"
@@ -49,7 +49,7 @@ open _root_.VeriTile.Triton.FP.Equational (Schedules)
 open FP.GuardExpression
 
 def naiveIO (x y : RegionName) (B : Nat) : KernelIO₁ where
-  kernel := naiveSoftmaxKernel x y B
+  kernel := naive_softmaxKernel x y B
   inp := x
   out := y
   Bin := B
@@ -58,6 +58,6 @@ def naiveIO (x y : RegionName) (B : Nat) : KernelIO₁ where
   write := fun pid => pid * B
 
 def stableIO (x y : RegionName) (B : Nat) : KernelIO₁ :=
-  (naiveIO x y B).withKernel (stableSoftmaxKernel x y B)
+  (naiveIO x y B).withKernel (stable_softmaxKernel x y B)
 
 end VeriTile.Bench.Examples.SoftmaxStableFPEquiv

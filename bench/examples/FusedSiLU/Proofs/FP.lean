@@ -25,7 +25,7 @@ theorem gate_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : Stat
     (xs gs : Fin B → α)
     (hxs : ∀ i : Fin B, (s.mem "x" (s.pids 0 * B + i.val)).read .real = xs i)
     (hgs : ∀ i : Fin B, (s.mem "gate" (s.pids 0 * B + i.val)).read .real = gs i)
-    : ∃ t, FP.Structural.exec M (siluStepGateKernel "x" "gate" "z" B) s = some t ∧
+    : ∃ t, FP.Structural.exec M (silu_gateKernel "x" "gate" "z" B) s = some t ∧
       (∀ i : Fin B, t.mem "z" (s.pids 0 * B + i.val) = Cell.mk .real (M.binary (some .fp64) .real .mul (xs i) (gs i))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o, (r ≠ "z" ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →
@@ -34,7 +34,7 @@ theorem gate_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : Stat
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [siluStepGateKernel, FP.Structural.exec, run, step, evalExpr,
+  simp [silu_gateKernel, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, numeric, bop, store]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [State.scatter_readback _ _ _ _ (i, PUnit.unit) hinj]
@@ -47,7 +47,7 @@ theorem gate_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : Stat
 theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : State α)
     (zs : Fin B → α)
     (hzs : ∀ i : Fin B, (s.mem "z" (s.pids 0 * B + i.val)).read .real = zs i)
-    : ∃ t, FP.Structural.exec M (siluStepSiluKernel "z" "silu" B) s = some t ∧
+    : ∃ t, FP.Structural.exec M (silu_activationKernel "z" "silu" B) s = some t ∧
       (∀ i : Fin B, t.mem "silu" (s.pids 0 * B + i.val) = Cell.mk .real (siluValue M (zs i))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o, (r ≠ "silu" ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →
@@ -56,7 +56,7 @@ theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : Stat
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [siluStepSiluKernel, FP.Structural.exec, run, step, evalExpr,
+  simp [silu_activationKernel, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, numeric, bop, store,
     Function.comp_def]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -71,7 +71,7 @@ theorem residual_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : 
     (ys rs : Fin B → α)
     (hys : ∀ i : Fin B, (s.mem "silu" (s.pids 0 * B + i.val)).read .real = ys i)
     (hrs : ∀ i : Fin B, (s.mem "residual" (s.pids 0 * B + i.val)).read .real = rs i)
-    : ∃ t, FP.Structural.exec M (siluStepResidualKernel "silu" "residual" "out" B) s = some t ∧
+    : ∃ t, FP.Structural.exec M (silu_residualKernel "silu" "residual" "out" B) s = some t ∧
       (∀ i : Fin B, t.mem "out" (s.pids 0 * B + i.val) = Cell.mk .bf16 (M.cast none .real .bf16 (M.binary (some .fp64) .real .add (rs i) (ys i)))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o, (r ≠ "out" ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →
@@ -80,7 +80,7 @@ theorem residual_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : 
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [siluStepResidualKernel, FP.Structural.exec, run, step, evalExpr,
+  simp [silu_residualKernel, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, numeric, bop, store, ofFloat, toFloat]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [State.scatter_readback _ _ _ _ (i, PUnit.unit) hinj]
@@ -95,7 +95,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : Sta
     (hxs : ∀ i : Fin B, (s.mem "x" (s.pids 0 * B + i.val)).read .real = xs i)
     (hgs : ∀ i : Fin B, (s.mem "gate" (s.pids 0 * B + i.val)).read .real = gs i)
     (hrs : ∀ i : Fin B, (s.mem "residual" (s.pids 0 * B + i.val)).read .real = rs i)
-    : ∃ t, FP.Structural.exec M (fusedSiLUKernel "x" "gate" "residual" "out" B) s = some t ∧
+    : ∃ t, FP.Structural.exec M (fused_siluKernel "x" "gate" "residual" "out" B) s = some t ∧
       (∀ i : Fin B, t.mem "out" (s.pids 0 * B + i.val) = Cell.mk .bf16 (resultValue M (xs i) (gs i) (rs i))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o, (r ≠ "out" ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →
@@ -104,7 +104,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (s : Sta
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [fusedSiLUKernel, FP.Structural.exec, run, step, evalExpr,
+  simp [fused_siluKernel, FP.Structural.exec, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, numeric, bop, store, ofFloat, toFloat,
     Function.comp_def]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -171,7 +171,7 @@ def unfusedIO (B : Nat) : KernelIO₃ where
     { buf := "silu", win := fun pid => pid * B, len := B }]
 
 def fusedIO (B : Nat) : KernelIO₃ :=
-  { (unfusedIO B).withKernel (fusedSiLUKernel "x" "gate" "residual" "out" B) with
+  { (unfusedIO B).withKernel (fused_siluKernel "x" "gate" "residual" "out" B) with
     scratch := [] }
 
 open scoped VeriTile.Spec

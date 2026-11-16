@@ -1,0 +1,348 @@
+{
+  "kind": "dot_contraction_fp64_receipt",
+  "checked_at_utc": "2026-11-14T18:27:33.366321+00:00",
+  "manifest": {
+    "backend": {
+      "capability": [
+        8,
+        9
+      ],
+      "cuda": "12.8",
+      "device": "NVIDIA GeForce RTX 4090",
+      "drivers": [
+        "580.142"
+      ],
+      "numpy": "2.2.6",
+      "torch": "2.9.1+cu128",
+      "triton": "3.5.1"
+    },
+    "diagnostic": false,
+    "formal_domain": "all FP64 payloads; padded zero lanes; arbitrary live accumulator",
+    "format": "veritile-two-gates-dot-fp64",
+    "oracle_order": "double-double products and K sum; add live accumulator last; exact rational CPU audit",
+    "probe_domain": "independent FP64 Normal(1,1) entries; one whole tile is one group",
+    "profile": {
+      "accumulator": "fp64",
+      "distribution": {
+        "family": "normal",
+        "mean": 1.0,
+        "std": 1.0
+      },
+      "dot_input_precision": "ieee",
+      "groups_per_part": 8192,
+      "input": "fp64",
+      "launch": {
+        "enable_fp_fusion": false,
+        "num_stages": 3,
+        "num_warps": 4
+      },
+      "observation": "one independent whole tile; mean signed output ULP shift; maximum absolute oracle error",
+      "oracle": "double-double products and K sum, followed by the live accumulator; exact rational CPU audit",
+      "output": "fp64",
+      "rule": "DOT-ADD-TO-DOTACC",
+      "tile": [
+        32,
+        32,
+        32
+      ]
+    },
+    "reference_execution": "standalone FP64 dot stored to FP64, then separate FP64 add",
+    "seeds": {
+      "a": 617541887485102950,
+      "acc": 631853105126695768,
+      "b": 480743885726569568
+    },
+    "settings": {
+      "audit_parts": 16,
+      "bias_se_multiplier": 5.0,
+      "bias_tolerance_ulp": 0.05,
+      "execution_shape": [
+        1024,
+        1024
+      ],
+      "near_half_width": 0.000244140625,
+      "near_samples": 33554432,
+      "peak_ratio_limit": 10.0,
+      "rejection_envelope": 1.001,
+      "samples": 4294967296,
+      "seed": 20261114,
+      "workers": 1
+    },
+    "smoke": false,
+    "sources": {
+      "experiments/floating_point/dot/config.py": "fc509f052ed88cde2d81704efd6532c497c23060d73fd68c21c4a109a3572fe6",
+      "experiments/floating_point/dot/fp64/config.py": "550d74eefd17424eacc814fd9797517064fa711f2355f17326070530b6ca0f6b",
+      "experiments/floating_point/dot/fp64/kernels.py": "1db20346bc8e493edf0cfb8156aeca3a527e66063dc03e5e35fa3d9f9b2d8aff",
+      "experiments/floating_point/dot/kernels.py": "e9469a9e594101772546df553535934000ac91faa576aa00ddffb35c582f7461",
+      "experiments/floating_point/dot/rules.json": "891c38313e6a43a9ba0db28d776171a0e4706b4e3ec82806785316b030532ac7",
+      "experiments/floating_point/kernels.py": "f239cb37af1eab11170c912303a82fa4201c681caa1273db7acb0e0e746aa98e",
+      "experiments/floating_point/requirements-cpu.txt": "ba0c7bb96b070e12d33614fd81acaf5e7ed41f510691ab5c85a1d8b5b9c1e0c3",
+      "experiments/floating_point/requirements.txt": "c36f5cee80c9efc0e17a56c3f9d860decc2eda17b0ba465c01138cd883046254",
+      "experiments/floating_point/rules.json": "bb43a240b2fa0a7599b527c320701b863329b344a14397aeedc1d1db45a7c2e7",
+      "experiments/floating_point/two_gates_config.py": "d3e13513cb6329c22542217addeddf9241158845ecb0b073fda791bbf1893e66",
+      "scripts/check_numerics.py": "89b70451ec2d0f6d26fbaad25d169a7c6167b9134262a85bc64e883efd0f3155",
+      "scripts/check_two_gates.py": "3516e90c734fa6692df5a0f850ea6bdf050f60ebb934a64a62b11b8c585b6184",
+      "scripts/numerical_domains.py": "ab978695945069788f1f218a1c4f9189111ca3308789c086b46c9dd1526ec2e3",
+      "scripts/numerical_gates.py": "b280bb606d5b92510b1f8a3fbda01661cf74093d49dd35b4c4ba0a5c344bceb9",
+      "scripts/numerical_registry.py": "ad746a9603067218b288aca2d1c1119f92ea7cdc0589e2c44b78742ab01d9e54",
+      "scripts/two_gates_dot.py": "793f48b0dd82392a381f73c28a50b378b3761e0a11cd50f3e6db3b3440e41be9",
+      "scripts/two_gates_dot_fp64.py": "4841352229ead971a231a11d8aa53e58dda0333e608d2fec44deaabac2952aba",
+      "scripts/two_gates_statistics.py": "4a9c5e603aee60fcf77d2fac452325d7f5fd0626fa04c66c65d028fb9b42a0f8"
+    }
+  },
+  "report": {
+    "complete": true,
+    "precision": "fp64",
+    "rule": "DOT-ADD-TO-DOTACC",
+    "manifest_sha256": "477bdb15ca5b0c3d6952f1dcf7e76c1da0eb217d53105869cf111a19fb00d972",
+    "result": {
+      "decision": "ACCEPT",
+      "sampling": {
+        "drawn": 4294967296,
+        "valid": 4294967296,
+        "in_domain": 4294967296,
+        "excluded_domain": 0,
+        "excluded_nonfinite": 0,
+        "peak_drawn": 4294967296,
+        "peak_valid": 4294967296
+      },
+      "bias": {
+        "status": "PASS",
+        "mean": 0.0018087388154981454,
+        "standard_error": 0.0018492411269843512,
+        "upper": 0.011054944450419902,
+        "tolerance": 0.05,
+        "strata": [
+          {
+            "probability": 1.0,
+            "n": 4294967296,
+            "mean": 0.0018087388154981454,
+            "m2": 63082196876521.47
+          }
+        ]
+      },
+      "magnitude": {
+        "status": "PASS",
+        "reference_peak": 8.962103648805304e-14,
+        "candidate_peak": 8.962103648805304e-14,
+        "ratio": 1.0,
+        "limit": 10.0
+      },
+      "bank_peaks": {
+        "reference_peak": 8.962103648805304e-14,
+        "candidate_peak": 8.962103648805304e-14
+      }
+    },
+    "special": {
+      "cases": [
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "0.0"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "-0.0"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "inf"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "-inf"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "nan"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "1.7976931348623157e+308"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "-1.7976931348623157e+308"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "a",
+          "value": "5e-324"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "0.0"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "-0.0"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "inf"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "-inf"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "nan"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "1.7976931348623157e+308"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "-1.7976931348623157e+308"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "b",
+          "value": "5e-324"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "0.0"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "-0.0"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "inf"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "-inf"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "nan"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "1.7976931348623157e+308"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "-1.7976931348623157e+308"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "acc",
+          "value": "5e-324"
+        },
+        {
+          "classification_mismatches": 0,
+          "nan_payload_differences": 0,
+          "operand": "zero-padding",
+          "value": "0.0"
+        },
+        {
+          "classification_mismatches": 1024,
+          "nan_payload_differences": 0,
+          "operand": "zero-padding",
+          "value": "-0.0"
+        }
+      ],
+      "classification_mismatches": 1024,
+      "groups": 26,
+      "nan_payload_differences": 0,
+      "scope": "Special-value observations are diagnostic, not an exhaustive all-word proof."
+    },
+    "backend": {
+      "capability": [
+        8,
+        9
+      ],
+      "cuda": "12.8",
+      "device": "NVIDIA GeForce RTX 4090",
+      "drivers": [
+        "580.142"
+      ],
+      "numpy": "2.2.6",
+      "torch": "2.9.1+cu128",
+      "triton": "3.5.1"
+    },
+    "all_words_admission_eligible": false,
+    "raw_audits_verified": 16,
+    "part_statistics_verified": 524288,
+    "exact_rational_output_audits": 524288,
+    "max_audited_reference_error_ulp": 2.1316282072803006e-14,
+    "source_hashes": {
+      "experiments/floating_point/dot/config.py": "fc509f052ed88cde2d81704efd6532c497c23060d73fd68c21c4a109a3572fe6",
+      "experiments/floating_point/dot/fp64/config.py": "550d74eefd17424eacc814fd9797517064fa711f2355f17326070530b6ca0f6b",
+      "experiments/floating_point/dot/fp64/kernels.py": "1db20346bc8e493edf0cfb8156aeca3a527e66063dc03e5e35fa3d9f9b2d8aff",
+      "experiments/floating_point/dot/kernels.py": "e9469a9e594101772546df553535934000ac91faa576aa00ddffb35c582f7461",
+      "experiments/floating_point/dot/rules.json": "891c38313e6a43a9ba0db28d776171a0e4706b4e3ec82806785316b030532ac7",
+      "experiments/floating_point/kernels.py": "f239cb37af1eab11170c912303a82fa4201c681caa1273db7acb0e0e746aa98e",
+      "experiments/floating_point/requirements-cpu.txt": "ba0c7bb96b070e12d33614fd81acaf5e7ed41f510691ab5c85a1d8b5b9c1e0c3",
+      "experiments/floating_point/requirements.txt": "c36f5cee80c9efc0e17a56c3f9d860decc2eda17b0ba465c01138cd883046254",
+      "experiments/floating_point/rules.json": "bb43a240b2fa0a7599b527c320701b863329b344a14397aeedc1d1db45a7c2e7",
+      "experiments/floating_point/two_gates_config.py": "d3e13513cb6329c22542217addeddf9241158845ecb0b073fda791bbf1893e66",
+      "scripts/check_numerics.py": "89b70451ec2d0f6d26fbaad25d169a7c6167b9134262a85bc64e883efd0f3155",
+      "scripts/check_two_gates.py": "3516e90c734fa6692df5a0f850ea6bdf050f60ebb934a64a62b11b8c585b6184",
+      "scripts/numerical_domains.py": "ab978695945069788f1f218a1c4f9189111ca3308789c086b46c9dd1526ec2e3",
+      "scripts/numerical_gates.py": "b280bb606d5b92510b1f8a3fbda01661cf74093d49dd35b4c4ba0a5c344bceb9",
+      "scripts/numerical_registry.py": "ad746a9603067218b288aca2d1c1119f92ea7cdc0589e2c44b78742ab01d9e54",
+      "scripts/two_gates_dot.py": "793f48b0dd82392a381f73c28a50b378b3761e0a11cd50f3e6db3b3440e41be9",
+      "scripts/two_gates_dot_fp64.py": "4841352229ead971a231a11d8aa53e58dda0333e608d2fec44deaabac2952aba",
+      "scripts/two_gates_statistics.py": "4a9c5e603aee60fcf77d2fac452325d7f5fd0626fa04c66c65d028fb9b42a0f8"
+    },
+    "limitations": "FP64 numerical acceptance supplies no FP32 rule and does not disprove a whole kernel."
+  },
+  "record_sha256": "510bc0362ce657c290db3fc8830463bee8d7ad90412b52a50f8c0df7a03f4fe3",
+  "measurement": {
+    "elapsed_seconds": 8031.028221381828,
+    "peak_cuda_allocated_bytes": 738723328,
+    "peak_cuda_reserved_bytes": 740294656
+  },
+  "trust": "Exact rational CPU raw audits and complete statistics replay; remote GPU execution remains trusted."
+}

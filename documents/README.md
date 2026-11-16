@@ -43,21 +43,19 @@ The end-to-end project plan and roadmap live in the repo root:
 ## Paper Preparation
 
 - [MLSys 2027 submission plan](MLSys2027Plan.md) — paper positioning,
-  evidence gaps, ordered tasks, evaluation design, and proposed schedule
+  method claims, proof evidence, evaluation requirements and reproducibility
   (in Chinese). This planning document is separate from the semantic contracts
   and the long-term project roadmap.
-- [Two-gates floating-point acceptance design](TwoGatesAcceptance.md) —
-  proposed bias/error-amplification gates, acceptance conditions, evidence
-  boundaries, and integration tasks (in Chinese; Python checker implemented,
-  historical measurements are published; current-protocol reruns are separate).
-- [Floating-point primitives: complete design](FloatingPointPrimitives.md) —
-  Triton/GPU atomic relations, mixed precision, derived algorithm proofs, backend
-  contracts, completion criteria, and dependency-ordered implementation plan
-  (in Chinese; runner, replay and Lean admission bindings implemented; its early checklist is historical).
+- [Two-gates floating-point acceptance contract](TwoGatesAcceptance.md) —
+  fixed input budgets, weighted means, restored-distribution peaks, decisions
+  and evidence boundaries (in Chinese).
+- [Floating-point execution primitives and proof interfaces](FloatingPointPrimitives.md) —
+  typed source execution, strict software certificates, experimental atoms,
+  Lean rule dependencies and the numerical evidence workflow (in Chinese).
 - [Floating-point rewrite rules and acceptance table](FloatingPointRewriteRules.md) —
   candidate transformations, kernel-checked scalar witnesses, and per-configuration
-  gate result fields (in Chinese; historical reports and current strict/experimental classifications are separate).
-- [Run and return floating-point experiments](../experiments/floating_point/README.md) —
+  gate result fields, with strict certificates and experimental evidence classified separately (in Chinese).
+- [Run floating-point experiments](../experiments/floating_point/README.md) —
   Python configuration, GPU commands, resume, result packaging and CPU replay.
 - [Example specification migration](ExampleSpecificationMigration.md) —
   case-by-case real-correctness and FP-equivalence coverage, checked pairs,
