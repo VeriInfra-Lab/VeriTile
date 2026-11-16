@@ -25,10 +25,10 @@ def reducedValue {α : Type} (M : Algebra α) (B : Nat) (xs : Fin B → α) : α
 theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     (nCol B : Nat) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * nCol + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (rowWiseSumKernel "x" "y" nCol B) s = some t ∧
+    ∃ t, FP.Structural.exec M (row_wise_sumKernel "x" "y" nCol B) s = some t ∧
       t.mem "y" (s.pids 0) = Cell.mk .real (reducedValue M B xs) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [rowWiseSumKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  simp [row_wise_sumKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, numeric, FP.Structural.bop, store, TileShape.allIndices,
     TileShape.eraseAxis, Region.cast, ComputeDType.eraseDType, hx, reducedValue]
   intro r o hmiss
@@ -37,12 +37,12 @@ theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
 theorem reversed_run {α : Type} [Inhabited α] (M : Algebra α)
     (nCol B : Nat) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * nCol + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (reversedKernel "x" "y" nCol B) s = some t ∧
+    ∃ t, FP.Structural.exec M (row_wise_sum_reversedKernel "x" "y" nCol B) s = some t ∧
       t.mem "y" (s.pids 0) = Cell.mk .real (reducedValue M B (fun i => xs i.rev)) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
   have hrev (i : Fin B) : (s.mem "x" (s.pids 0 * nCol + (B - 1 - i.val))).read .real = xs i.rev := by
     simpa only [Fin.val_rev, Nat.sub_sub, Nat.add_comm] using hx i.rev
-  simp [reversedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
+  simp [row_wise_sum_reversedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp,
     evalOp_unfold, numeric, FP.Structural.bop, store, TileShape.allIndices,
     TileShape.eraseAxis, Region.cast, ComputeDType.eraseDType, hrev, reducedValue]
   intro r o hmiss
@@ -98,7 +98,7 @@ The entry's final theorem checks their definitional equality. -/
 namespace Execution
 
 def originalIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseSumKernel "x" "y" nCol B
+  kernel := row_wise_sumKernel "x" "y" nCol B
   inp := "x"
   out := "y"
   Bin := B
@@ -107,7 +107,7 @@ def originalIO (nCol B : Nat) : KernelIO₁ where
   write := id
 
 def reversedIO (nCol B : Nat) : KernelIO₁ :=
-  (originalIO nCol B).withKernel (reversedKernel "x" "y" nCol B)
+  (originalIO nCol B).withKernel (row_wise_sum_reversedKernel "x" "y" nCol B)
 
 /-- Explicit paths check the intermediate operands used in both tree
 normalizations, including padding. They impose no experiment-size restriction. -/

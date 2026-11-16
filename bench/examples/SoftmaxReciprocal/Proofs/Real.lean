@@ -21,7 +21,7 @@ attribute [local simp] ComputeKernel.eraseDType ComputeKernel.toAlgorithm?
   MemAccess.eraseDType.eq_def MaskOpt.eraseDType.eq_def
   VeriTile.Triton.eraseDType NumericDType.eraseDType ComparableDType.eraseDType
   IntegralDType.eraseDType ComputeDType.eraseDType
-attribute [local simp] stableSoftmaxKernel softmaxRecipKernel commonPrefix originalKernel reciprocalKernel
+attribute [local simp] stable_softmaxKernel reciprocal_softmaxKernel commonPrefix originalKernel reciprocalKernel
 
 @[simp] private theorem except_ok_bind {α β ε : Type _} (a : α)
     (f : α → Except ε β) :
@@ -29,19 +29,19 @@ attribute [local simp] stableSoftmaxKernel softmaxRecipKernel commonPrefix origi
 
 /-- Executable real projection of per-lane division. -/
 def divMathKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
-  (stableSoftmaxKernel xReg yReg blockSize).eraseDType
+  (stable_softmaxKernel xReg yReg blockSize).eraseDType
 
 /-- Executable real projection of reciprocal multiplication. -/
 def recipMathKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
-  (softmaxRecipKernel xReg yReg blockSize).eraseDType
+  (reciprocal_softmaxKernel xReg yReg blockSize).eraseDType
 
 theorem div_projection (xReg yReg : RegionName) (B : Nat) :
-    (stableSoftmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
+    (stable_softmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (divMathKernel xReg yReg B).toAlgKernel := by
   simp [divMathKernel, recipMathKernel]
 
 theorem recip_projection (xReg yReg : RegionName) (B : Nat) :
-    (softmaxRecipKernel xReg yReg B).eraseDType.toAlgorithm? =
+    (reciprocal_softmaxKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (recipMathKernel xReg yReg B).toAlgKernel := by
   simp [divMathKernel, recipMathKernel]
 
@@ -57,7 +57,7 @@ theorem div_traceSafe (xReg yReg : RegionName) (B : Nat) (hB : 0 < B)
     Kernel.TraceSafe bounds (divMathKernel xReg yReg B).toAlgKernel s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
-  try simp only [divMathKernel, recipMathKernel, stableSoftmaxKernel, softmaxRecipKernel, commonPrefix, originalKernel, reciprocalKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
+  try simp only [divMathKernel, recipMathKernel, stable_softmaxKernel, reciprocal_softmaxKernel, commonPrefix, originalKernel, reciprocalKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at hx hy
   simp [divMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,
@@ -110,7 +110,7 @@ theorem recip_traceSafe (xReg yReg : RegionName) (B : Nat) (hB : 0 < B)
     Kernel.TraceSafe bounds (recipMathKernel xReg yReg B).toAlgKernel s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   unfold Kernel.TraceSafe
-  try simp only [divMathKernel, recipMathKernel, stableSoftmaxKernel, softmaxRecipKernel, commonPrefix, originalKernel, reciprocalKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
+  try simp only [divMathKernel, recipMathKernel, stable_softmaxKernel, reciprocal_softmaxKernel, commonPrefix, originalKernel, reciprocalKernel, ComputeKernel.seq, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, ComputeDType.eraseDType, Except.bind, bind]
   simp only [BlockState.pid_eq] at hx hy
   simp [recipMathKernel, Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def,
     MaskOpt.SafeAt, MemAccess.SafeAt, stepStmt, evalOp.eq_def,

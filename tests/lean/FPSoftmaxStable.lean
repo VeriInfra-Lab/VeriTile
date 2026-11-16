@@ -14,8 +14,8 @@ open scoped VeriTile.Spec
 -- The original max operation rejects an empty row. Equality of failures
 -- must not be mistaken for a successful FP equivalence.
 theorem stable_empty_fails {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
-    FP.Structural.exec M (stableSoftmaxKernel "x" "y" 0) s = none := by
-  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+    FP.Structural.exec M (stable_softmaxKernel "x" "y" 0) s = none := by
+  simp [stable_softmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, TileShape.axisDim, TileShape.eraseAxis, Region.cast]
 
 -- Source reads precede the store, so output aliasing does not invalidate
@@ -23,7 +23,7 @@ theorem stable_empty_fails {α : Type} [Inhabited α] (M : Algebra α) (s : Stat
 example {α : Type} [Inhabited α] (M : Algebra α) (B : Nat) (hB : 0 < B)
     (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, M.fp32Load ((s.mem "x" (s.pids 0 * B + i.val)).read .real) = xs i) :
-    ∃ t, FP.Structural.exec M (stableSoftmaxKernel "x" "x" B) s = some t ∧
+    ∃ t, FP.Structural.exec M (stable_softmaxKernel "x" "x" B) s = some t ∧
       (∀ i : Fin B, t.mem "x" (s.pids 0 * B + i.val) = .mk .bf16
         (normalizedValue M (shifted M xs) i)) ∧
       (∀ (r : RegionName) o, (r ≠ "x" ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) →

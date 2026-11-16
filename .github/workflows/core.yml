@@ -17,8 +17,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  two-gates:
+    name: Two-gates CPU regressions
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: experiments/floating_point/requirements-cpu.txt
+      - run: python -m pip install -r experiments/floating_point/requirements-cpu.txt
+      - run: python -B -m unittest scripts.test_two_gates scripts.test_two_gates_dot scripts.test_two_gates_dot_fp64 scripts.test_numerics_paper
+      - run: python -B scripts/export_dot_rules.py --check
+      - run: python -B scripts/export_dot_fp64_report.py --check
+
   core:
-    name: Library and worked examples
+    name: Library and three Real/FP examples
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +44,7 @@ jobs:
           build-args: >-
             VeriTile tests.lean.PythonBodyParsing tests.lean.DTypeResolution
             tests.lean.ConditionalCast tests.lean.RegisterDTypeWhere tests.lean.StatementAudit
-      - name: Check Triton sources and build Real and FP proofs
+      - name: Check sources and Real/FP proofs for VectorAdd, RowWiseSum and LogExp
         run: bash scripts/check-core-examples.sh
 
   audit:

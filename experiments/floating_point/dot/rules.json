@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "rules": [
+    {
+      "id": "DOT-ADD-TO-DOTACC",
+      "category": "two_gates_candidate",
+      "source": "experiments/floating_point/dot/README.md"
+    }
+  ]
+}

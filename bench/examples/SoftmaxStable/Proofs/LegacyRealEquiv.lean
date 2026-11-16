@@ -124,19 +124,19 @@ agreement leg is exactly this whole-memory agreement read at the output
 lanes). -/
 theorem softmax_kernels_refinement_view :
     ComputeRefine.Refines R
-      (naiveSoftmaxKernel xReg yReg blockSize)
-      (stableSoftmaxKernel xReg yReg blockSize) s [] := by
+      (naive_softmaxKernel xReg yReg blockSize)
+      (stable_softmaxKernel xReg yReg blockSize) s [] := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   apply ComputeKernel.computeRefineR_of_toAlgKernel rfl rfl
   intro s0 lhs' rhs' hL hR hs0
   subst s0
   intro r hr o
-  simp [execR, naiveSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, naive_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.div,
         ComputeExpr.toAlgorithm?] at hL
   simp [Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex] at hL
-  simp [execR, stableSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, stable_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?] at hR
   simp [Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -172,10 +172,10 @@ variable (s : BlockState) (R : RoundingModel)
 include hN in
 /-- The naive kernel terminates under `execR R` from every state. -/
 private theorem softmax_naive_execR_isSome :
-    ∃ s', execR R ((naiveSoftmaxKernel xReg yReg blockSize).toAlgKernel) s
+    ∃ s', execR R ((naive_softmaxKernel xReg yReg blockSize).toAlgKernel) s
       = some s' := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [execR, naiveSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, naive_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.div,
         ComputeExpr.toAlgorithm?, Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex]
@@ -184,10 +184,10 @@ include hN in
 /-- The stable kernel terminates under `execR R` from every state; the `max`
 reduce needs the non-empty tile. -/
 private theorem softmax_stable_execR_isSome :
-    ∃ s', execR R ((stableSoftmaxKernel xReg yReg blockSize).toAlgKernel) s
+    ∃ s', execR R ((stable_softmaxKernel xReg yReg blockSize).toAlgKernel) s
       = some s' := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [execR, stableSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, stable_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?,
         Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -198,11 +198,11 @@ include hN in
 (`yReg` at `[pid * B, pid * B + B)`) is untouched. -/
 private theorem softmax_naive_frameR (s' : BlockState) (r : RegionName) (o : Nat)
     (hcond : r ≠ yReg ∨ ∀ j : Fin blockSize, o ≠ s.pid * blockSize + j.val)
-    (hExec : execR R ((naiveSoftmaxKernel xReg yReg blockSize).toAlgKernel) s
+    (hExec : execR R ((naive_softmaxKernel xReg yReg blockSize).toAlgKernel) s
       = some s') :
     s'.mem r o = s.mem r o := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [execR, naiveSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, naive_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.div,
         ComputeExpr.toAlgorithm?, Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex] at hExec
@@ -219,11 +219,11 @@ include hN in
 is untouched. -/
 private theorem softmax_stable_frameR (s' : BlockState) (r : RegionName) (o : Nat)
     (hcond : r ≠ yReg ∨ ∀ j : Fin blockSize, o ≠ s.pid * blockSize + j.val)
-    (hExec : execR R ((stableSoftmaxKernel xReg yReg blockSize).toAlgKernel) s
+    (hExec : execR R ((stable_softmaxKernel xReg yReg blockSize).toAlgKernel) s
       = some s') :
     s'.mem r o = s.mem r o := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  simp [execR, stableSoftmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
+  simp [execR, stable_softmaxKernel, stepStmtsR, stepStmtR, evalOpR.eq_def,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul, NumericDType.sub,
         NumericDType.div, ComputeExpr.toAlgorithm?,
         Tile.reduceSumDrop, Tile.reduceMaxDrop,
@@ -255,16 +255,16 @@ variable (s : BlockState) (R : RoundingModel)
 
 /-- The naive kernel sits inside the bridge's covered fragment. -/
 theorem softmax_naive_flattenOk :
-    ((naiveSoftmaxKernel xReg yReg blockSize).toAlgKernel).FlattenOk := by
+    ((naive_softmaxKernel xReg yReg blockSize).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [naiveSoftmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [naive_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 /-- The stable kernel sits inside the bridge's covered fragment. -/
 theorem softmax_stable_flattenOk :
-    ((stableSoftmaxKernel xReg yReg blockSize).toAlgKernel).FlattenOk := by
+    ((stable_softmaxKernel xReg yReg blockSize).toAlgKernel).FlattenOk := by
   unfold Kernel.FlattenOk
-  simp [stableSoftmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [stable_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 set_option maxHeartbeats 1600000 in
@@ -277,11 +277,11 @@ theorem softmax_naive_traceSafeR (bounds : RegionBounds)
     (hx : s.pid * blockSize + blockSize ≤ bounds xReg)
     (hy : s.pid * blockSize + blockSize ≤ bounds yReg) :
     Kernel.TraceSafeR R bounds
-      ((naiveSoftmaxKernel xReg yReg blockSize).toAlgKernel) s := by
+      ((naive_softmaxKernel xReg yReg blockSize).toAlgKernel) s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy
-  simp [naiveSoftmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [naive_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,
     MemAccess.ActiveAddressSafeR, memAccessActiveAddressSafeR,
@@ -301,11 +301,11 @@ theorem softmax_stable_traceSafeR (bounds : RegionBounds)
     (hx : s.pid * blockSize + blockSize ≤ bounds xReg)
     (hy : s.pid * blockSize + blockSize ≤ bounds yReg) :
     Kernel.TraceSafeR R bounds
-      ((stableSoftmaxKernel xReg yReg blockSize).toAlgKernel) s := by
+      ((stable_softmaxKernel xReg yReg blockSize).toAlgKernel) s := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   unfold Kernel.TraceSafeR
   simp only [BlockState.pid_eq] at hx hy
-  simp [stableSoftmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
+  simp [stable_softmaxKernel, ComputeKernel.toAlgKernel, ComputeExpr.toAlgorithm?,
     Stmt.TraceSafeListR, Stmt.TraceSafeR, Op.SafeAtR.eq_def,
     MaskOpt.SafeAtR, MemAccess.SafeAtR, stepStmtR, evalOpR.eq_def,
     MemAccess.ActiveAddressSafeR, memAccessActiveAddressSafeR,
@@ -328,7 +328,7 @@ on both buffers, no scratch (nothing is staged through memory). The windows
 are declared, not parsed from the kernel: the headline **proves** the
 kernel's actual addressing matches them. -/
 def softmaxStableIO (B : Nat) : KernelIO₁ where
-  kernel := stableSoftmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
+  kernel := stable_softmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
   inp := ⟨"x"⟩
   out := ⟨"y"⟩
   Bin := B
@@ -341,7 +341,7 @@ def softmaxStableIO (B : Nat) : KernelIO₁ where
 verbatim), with the naive kernel plugged in. -/
 def softmaxNaiveIO (B : Nat) : KernelIO₁ :=
   { softmaxStableIO B with
-    kernel := naiveSoftmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
+    kernel := naive_softmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
     projection := by rfl }
 
 /-- **The headline**: naive softmax is equivalent to stable softmax on their
@@ -381,8 +381,8 @@ specification softmax_stable_equiv (R : RoundingModel) (B : Nat) (hB : 0 < B) :
         ∀ o, s1.mem r o = s2.mem r o :=
       ComputeRefine.Refines.out
         (softmax_kernels_refinement_view ⟨"x"⟩ ⟨"y"⟩ B hB s₀ R)
-        (by simp [naiveSoftmaxKernel, ComputeExpr.toAlgorithm?])
-        (by simp [stableSoftmaxKernel, ComputeExpr.toAlgorithm?])
+        (by simp [naive_softmaxKernel, ComputeExpr.toAlgorithm?])
+        (by simp [stable_softmaxKernel, ComputeExpr.toAlgorithm?])
         hexec1 hexec2
     refine ⟨s1, s2, hexec1, hexec2, ?_, ?_, ?_⟩
     · -- output windows agree (a fortiori: the whole memories agree)

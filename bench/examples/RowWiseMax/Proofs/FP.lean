@@ -21,10 +21,10 @@ def reducedValue {α : Type} (M : Algebra α) (B : Nat) (xs : Fin B → α) : α
 theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
     (nCol B : Nat) (hB : 0 < B) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * nCol + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (rowWiseMaxKernel "x" "y" nCol B) s = some t ∧
+    ∃ t, FP.Structural.exec M (row_wise_maxKernel "x" "y" nCol B) s = some t ∧
       t.mem "y" (s.pids 0) = Cell.mk .real (reducedValue M B xs) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [rowWiseMaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [row_wise_maxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.allIndices,
     TileShape.eraseAxis,
     hB, hx, reducedValue,ComputeDType.eraseDType]
@@ -34,10 +34,10 @@ theorem original_run {α : Type} [Inhabited α] (M : Algebra α)
 theorem inlined_run {α : Type} [Inhabited α] (M : Algebra α)
     (nCol B : Nat) (hB : 0 < B) (s : State α) (xs : Fin B → α)
     (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * nCol + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (inlinedKernel "x" "y" nCol B) s = some t ∧
+    ∃ t, FP.Structural.exec M (row_wise_max_inlinedKernel "x" "y" nCol B) s = some t ∧
       t.mem "y" (s.pids 0) = Cell.mk .real (reducedValue M B xs) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [inlinedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
+  simp [row_wise_max_inlinedKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.allIndices,
     TileShape.eraseAxis,
     hB, hx, reducedValue,ComputeDType.eraseDType]
@@ -51,7 +51,7 @@ The entry's final theorem checks their definitional equality. -/
 namespace Execution
 
 def originalIO (nCol B : Nat) : KernelIO₁ where
-  kernel := rowWiseMaxKernel "x" "y" nCol B
+  kernel := row_wise_maxKernel "x" "y" nCol B
   inp := "x"
   out := "y"
   Bin := B
@@ -60,7 +60,7 @@ def originalIO (nCol B : Nat) : KernelIO₁ where
   write := id
 
 def inlinedIO (nCol B : Nat) : KernelIO₁ :=
-  (originalIO nCol B).withKernel (inlinedKernel "x" "y" nCol B)
+  (originalIO nCol B).withKernel (row_wise_max_inlinedKernel "x" "y" nCol B)
 
 
 open scoped VeriTile.Spec

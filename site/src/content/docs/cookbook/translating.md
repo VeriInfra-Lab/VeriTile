@@ -10,12 +10,16 @@ The content of `triton { ... }` preserves the original Python function body:
 statements, comments, casts, indexes, masks, branches, helper calls and order.
 Input and invocation declarations belong outside the block.
 
+Keep the complete Python function name, including leading underscores. A source
+object appends `Source`; a `ComputeKernel` keeps a name ending in `_kernel` or
+`Kernel`, and otherwise appends `Kernel`.
+
 ## Bind the inputs, then paste the body
 
 A directly instantiated kernel can use the actual input signature:
 
 ```lean
-def addKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def add_kernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   let x_ptr := xReg
   let y_ptr := yReg
   let out_ptr := outReg

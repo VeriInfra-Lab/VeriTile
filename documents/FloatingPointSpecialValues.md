@@ -9,7 +9,7 @@ conforms to the specification.
 
 ## Sources and binding
 
-The original exponential registry uses FP32 inputs, compute, accumulators and
+The exponential specification profile uses FP32 inputs, compute, accumulators and
 outputs, Triton 3.7.1 and CUDA 13.0. The formal model preserves that scope.
 
 | Primitive | Source and relevant statement |
@@ -24,9 +24,9 @@ for that lowering. It does not replace `tl.exp` with Real exponentiation or with
 `libdevice.exp`. The source precision and the multiplication before `ex2` remain
 part of the definition.
 
-The original `Exponential` entries are all FP32. Supplemental BF16 or mixed
+The `Exponential` entries are all FP32. Supplemental BF16 or mixed
 BF16/FP32 records require their own cast and primitive-profile connection;
-`ExponentialProbeExact.lean` supplies that connection for the original probe
+`ExponentialProbeExact.lean` supplies that connection for the probe
 expressions, as described below. The FTZ variant has the same listed special
 values, but its finite/subnormal behavior is a separate profile.
 
@@ -55,18 +55,17 @@ These are exact facts of the selected specification model. Connecting a source
 intrinsic to that model is an explicit ABI/profile binding, not a theorem that
 all hardware implementations have identical output bits. `EXP-SUB` is not a
 consequence of this model and continues to require the project's numerical
-admission. Existing experiment artifacts remain historical evidence; no new
-experiment was run for these exact special-value facts.
+admission. The exact special-value facts use their model certificates.
 
-## Original probe profiles and actual fragments
+## Probe profiles and actual fragments
 
 `Exponential.lean` connects the four FP32 special-value atoms to actual
 `run`/scalar-output observations in the fixed `Software.strictFP32` backend.
-Their `Atom.entry?` is `none`, so their historical reports do not enter `R`.
+Their `Atom.entry?` is `none`; these facts use strict certificates and do not enter `R`.
 The public rewrite API still preserves the two intrinsic identities.
-`EXP-SUB` is selected through empirical evidence as before.
+`EXP-SUB` is selected through empirical evidence.
 
-`ExponentialProbeExact.lean` separately models the original supplemental
+`ExponentialProbeExact.lean` separately models the supplemental
 Python probe expressions with a small syntax indexed by the backend:
 
 | Rule | Reference | Candidate |
@@ -93,12 +92,12 @@ The current catalogue uses eight distinct cases: both tl rules at the three
 existing profiles, and both libdevice rules at FP32. The generic composition
 theorem does not expand that catalogue or admit new experiments. These eight
 cases carry typed execution certificates, not a theorem-name string or the
-presence of a historical passing report.
+presence of a passing report.
 
 ## Reproducibility
 
-Documentation and compiler source were read on 2026-10-21. Downloaded copies are
-under `.veritile-cache/strict-fp-laws-20261021/exp-sources/`. SHA-256 digests:
+The specification profile is bound to the linked CUDA and Triton sources.
+SHA-256 digests of the source material used for the model:
 
 | File | SHA-256 |
 | --- | --- |
@@ -110,7 +109,5 @@ under `.veritile-cache/strict-fp-laws-20261021/exp-sources/`. SHA-256 digests:
 Build command:
 
 ```text
-python .veritile-cache/strict-fp-laws-20261021/build.py VeriTile.Triton.Float.ExponentialExact
-python .veritile-cache/strict-fp-laws-20261021/build.py VeriTile.Triton.Float.Exponential
-python .veritile-cache/strict-fp-laws-20261021/build.py VeriTile.Triton.Float.ExponentialProbeExact
+lake build VeriTile.Triton.Float.ExponentialExact VeriTile.Triton.Float.Exponential VeriTile.Triton.Float.ExponentialProbeExact
 ```

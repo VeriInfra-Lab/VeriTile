@@ -12,15 +12,15 @@ open VeriTile.Bench.Examples StableLogSumExpFPExecution
 open scoped VeriTile.Spec
 
 theorem candidate_empty_fails {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
-    FP.Structural.exec M (optimizedLSEKernel "x" "y" 0) s = none := by
-  simp [optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+    FP.Structural.exec M (guarded_log_sum_expKernel "x" "y" 0) s = none := by
+  simp [guarded_log_sum_expKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, TileShape.axisDim, TileShape.eraseAxis, Region.cast]
 
 -- Scalar output can alias input: the complete row was read before the store.
 example {α : Type} [Inhabited α] (M : Algebra α) (B : Nat)
     (xs : Fin B → α) (s : State α)
-    (hx : ∀ i : Fin B, (s.mem "x" (s.pids 0 * B + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (directLSEKernel "x" "x" B) s = some t ∧
+    (hx : ∀ i : Fin B, M.fp32Load ((s.mem "x" (s.pids 0 * B + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec M (direct_log_sum_expKernel "x" "x" B) s = some t ∧
       t.mem "x" (s.pids 0) = .mk .bf16 (directValue M xs) ∧
       (∀ (r : RegionName) o, (r ≠ "x" ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) :=
   direct_run M "x" "x" B xs s hx

@@ -198,6 +198,51 @@ def unsupportedMixedWidth (X : RegionName) (y : Int) : ComputeKernel :=
     result = convert(x=x, y=y)
   }
 
+/-- Callers and helpers share the same ordinary `.to(..., bitcast=True)` syntax. -/
+def callerBitcast : ComputeKernel :=
+  let empty : CallSignature := {}
+  with_triton_call empty call_args [] jit_functions [] in triton {
+    bits = tl.cast(0x21, tl.int32)
+    value = bits.to(tl.float32, bitcast=True)
+  }
+
+theorem caller_bitcast_bits {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    ∃ t, exec M callerBitcast s=some t ∧
+      t.regs .real [] "value"=some (fun _=>M.fp32Bits ⟨0x21⟩) := by
+  simp [callerBitcast,exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    Option.bind,State.setReg,ComputeDType.eraseDType,ofFloat,toFloat,
+    numeric,numericLt,numericEq,natLt,integralMod,integralFloorDiv,IntegerExpr.same_left,IntegerExpr.same_right,bop,Broadcast.leftIndex,Broadcast.rightIndex,Region.cast]
+  try rfl
+
+def dividedShape : ComputeKernel :=
+  let N : Nat := 128
+  with_triton_call shapeSignature call_args [] jit_functions [] in triton {
+    ROWS: tl.constexpr = N // 16
+    values = tl.arange(0, ROWS)
+    matrix = tl.reshape(values, [N // 16, 1])
+  }
+
+/-- Derived constexpr shapes preserve actual row-major values. -/
+theorem divided_shape_values {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    ∃ t, exec M dividedShape s=some t ∧
+      t.regs .nat [8,1] "matrix"=some (fun j=>j.1.val) := by
+  simp [dividedShape,exec,run,step,evalExpr,evalComputeOp,evalOp_unfold,
+    Option.bind,State.setReg,ComputeDType.eraseDType]
+  funext j
+  rcases j with ⟨row,col,unit⟩
+  fin_cases row <;> fin_cases col <;> cases unit <;> rfl
+
+/-- error: constexpr shape division requires a nonzero divisor -/
+#guard_msgs in
+def zeroDivisionShape : ComputeKernel :=
+  let N : Nat := 128
+  with_triton_call shapeSignature call_args [] jit_functions [] in triton {
+    values = tl.arange(0, N // 0)
+  }
+
+#axiomsClean caller_bitcast_bits
+#axiomsClean divided_shape_values
+
 #axiomsClean output_shape
 #axiomsClean metadata_hygiene
 #axiomsClean two_byte_operations

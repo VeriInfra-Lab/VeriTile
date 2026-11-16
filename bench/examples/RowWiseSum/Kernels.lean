@@ -10,7 +10,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["nCol","blockSize"]
 
-def rowWiseSumKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKernel :=
+def row_wise_sumKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     row = tl.program_id(0)
     cols = tl.arange(0, blockSize)
@@ -19,7 +19,7 @@ def rowWiseSumKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKe
     tl.store(yReg + row, result)
   }
 
-def reversedKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKernel :=
+def row_wise_sum_reversedKernel (xReg yReg : RegionName) (nCol blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     row = tl.program_id(0)
     cols = blockSize - 1 - tl.arange(0, blockSize)

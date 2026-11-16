@@ -12,7 +12,8 @@ syntax:max (name := normalizedBitcast) tritonExpr:max noWs "." "to" "("
 syntax:max (name := normalizedDottedBitcast) ident noWs "("
   tritonDType "," "bitcast" "=" "true" ")" : tritonExpr
 
-private partial def lowerBitcasts (raw : Syntax) : MacroM Syntax := do
+/-- Normalize Python bitcast syntax for callers and returned JIT helpers. -/
+partial def lowerBitcasts (raw : Syntax) : MacroM Syntax := do
   if raw.isOfKind choiceKind then return ← lowerBitcasts raw[0]!
   let raw := raw.setArgs (← raw.getArgs.mapM lowerBitcasts)
   if raw.isOfKind ``normalizedBitcast then

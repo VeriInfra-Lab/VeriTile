@@ -15,7 +15,7 @@ open scoped VeriTile.Triton.KernelIO₂
 
 /-- Correctness uses the mathematical projection of the original kernel. -/
 def floatAddIO (B : Nat) : KernelIO₂ where
-  kernel := (floatAddKernel "x" "y" "out" B).eraseDType
+  kernel := (float_addKernel "x" "y" "out" B).eraseDType
   projection := ComputeKernel.eraseDType_projectable _ (by rfl)
   in1 := "x"
   in2 := "y"

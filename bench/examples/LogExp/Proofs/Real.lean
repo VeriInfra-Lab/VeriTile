@@ -18,15 +18,15 @@ set_option maxHeartbeats 1600000
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
 theorem original_flattenOk (xReg yReg : RegionName) (B : Nat) :
-    (originalKernel xReg yReg B).toAlgKernel.FlattenOk := by
-  simp [originalKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
+    (log_expKernel xReg yReg B).toAlgKernel.FlattenOk := by
+  simp [log_expKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.FlattenOk, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
 
 theorem optimized_flattenOk (xReg yReg : RegionName) (B : Nat) :
-    (optimizedKernel xReg yReg B).toAlgKernel.FlattenOk := by
-  simp [optimizedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
+    (log_exp_guardedKernel xReg yReg B).toAlgKernel.FlattenOk := by
+  simp [log_exp_guardedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, Kernel.FlattenOk, StmtList.FlattenOk, Stmt.FlattenOk,
     Op.FlattenOk.eq_def]
@@ -34,9 +34,9 @@ theorem optimized_flattenOk (xReg yReg : RegionName) (B : Nat) :
 theorem original_traceSafe (xReg yReg : RegionName) (B : Nat)
     (bounds : RegionBounds) (s : BlockState)
     (hx : s.pid * B + B ≤ bounds xReg) (hy : s.pid * B + B ≤ bounds yReg) :
-    Kernel.TraceSafe bounds (originalKernel xReg yReg B).toAlgKernel s := by
+    Kernel.TraceSafe bounds (log_expKernel xReg yReg B).toAlgKernel s := by
   simp only [BlockState.pid_eq] at hx hy
-  simp [Kernel.TraceSafe, originalKernel, ComputeKernel.toAlgKernel,
+  simp [Kernel.TraceSafe, log_expKernel, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
@@ -49,9 +49,9 @@ theorem original_traceSafe (xReg yReg : RegionName) (B : Nat)
 theorem optimized_traceSafe (xReg yReg : RegionName) (B : Nat)
     (bounds : RegionBounds) (s : BlockState)
     (hx : s.pid * B + B ≤ bounds xReg) (hy : s.pid * B + B ≤ bounds yReg) :
-    Kernel.TraceSafe bounds (optimizedKernel xReg yReg B).toAlgKernel s := by
+    Kernel.TraceSafe bounds (log_exp_guardedKernel xReg yReg B).toAlgKernel s := by
   simp only [BlockState.pid_eq] at hx hy
-  simp [Kernel.TraceSafe, optimizedKernel, ComputeKernel.toAlgKernel,
+  simp [Kernel.TraceSafe, log_exp_guardedKernel, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
@@ -64,7 +64,7 @@ theorem optimized_traceSafe (xReg yReg : RegionName) (B : Nat)
 theorem original_run (xReg yReg : RegionName) (B : Nat)
     (s : BlockState) (xs : Fin B → ℝ)
     (hx : ∀ i : Fin B, s.readMem xReg (s.pid * B + i.val) = xs i) :
-    ∃ t, exec (originalKernel xReg yReg B).toAlgKernel s = some t ∧
+    ∃ t, exec (log_expKernel xReg yReg B).toAlgKernel s = some t ∧
       (∀ i : Fin B, t.readMem yReg (s.pid * B + i.val) = xs i) ∧
       (∀ (r : RegionName) o, (r ≠ yReg ∨ ∀ i : Fin B, o ≠ s.pid * B + i.val) →
         t.mem r o = s.mem r o) := by
@@ -73,7 +73,7 @@ theorem original_run (xReg yReg : RegionName) (B : Nat)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hx ⊢
-  simp [originalKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
+  simp [log_expKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul]
@@ -91,7 +91,7 @@ theorem original_run (xReg yReg : RegionName) (B : Nat)
 theorem optimized_run (xReg yReg : RegionName) (B : Nat)
     (s : BlockState) (xs : Fin B → ℝ)
     (hx : ∀ i : Fin B, s.readMem xReg (s.pid * B + i.val) = xs i) :
-    ∃ t, exec (optimizedKernel xReg yReg B).toAlgKernel s = some t ∧
+    ∃ t, exec (log_exp_guardedKernel xReg yReg B).toAlgKernel s = some t ∧
       (∀ i : Fin B, t.readMem yReg (s.pid * B + i.val) = xs i) ∧
       (∀ (r : RegionName) o, (r ≠ yReg ∨ ∀ i : Fin B, o ≠ s.pid * B + i.val) →
         t.mem r o = s.mem r o) := by
@@ -100,7 +100,7 @@ theorem optimized_run (xReg yReg : RegionName) (B : Nat)
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
   simp only [BlockState.pid_eq] at hx ⊢
-  simp [optimizedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
+  simp [log_exp_guardedKernel, ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?, ComputeDType.eraseDType, exec, stepStmts, stepStmt, evalOp.eq_def,
     Tile.bop, Tile.uop, Tile.cop, NumericDType.add, NumericDType.mul]

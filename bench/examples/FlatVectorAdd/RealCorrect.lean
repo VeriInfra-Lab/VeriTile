@@ -45,10 +45,10 @@ specification add_kernel_masked_optimized_correctness (B n : Nat) (hB : 0 < B) :
     Spec.Real (optimizedIO B n ⊨ fun xs ys i => xs i + ys i) := by
   refine MaskedKernelIO₂.Implements.intro _
     ?_ ?_ ?_
-  · simp [optimizedIO, optimizedKernel,commutedKernel, Kernel.FlattenOk,
+  · simp [optimizedIO, optimizedKernel,flat_vector_add_commutedKernel, Kernel.FlattenOk,
       StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
   · intro bounds s h1 h2 h3 _
-    simpa [optimizedIO, addMaskedIO, Kernel.TraceSafe, optimizedKernel,commutedKernel, addMaskedKernel,
+    simpa [optimizedIO, addMaskedIO, Kernel.TraceSafe, optimizedKernel,flat_vector_add_commutedKernel, flat_vector_addKernel,
       Stmt.TraceSafeList, Stmt.TraceSafe, Op.SafeAt.eq_def, MaskOpt.SafeAt,
       MemAccess.SafeAt, stepStmt, evalOp.eq_def,
       Region.cast, Tile.bop, Tile.cop, NumericDType.add, NumericDType.mul,

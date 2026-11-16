@@ -19,7 +19,7 @@ export const corpus = {
 
 const vectorAddSource = readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/RealCorrect.lean'), 'utf8')
   + '\n' + readFileSync(resolve(repositoryRoot, 'bench/examples/VectorAdd/Kernels.lean'), 'utf8');
-const kernelMatch = vectorAddSource.match(/def addKernel [\s\S]*?\b(triton \{[\s\S]*?\n  \})/);
+const kernelMatch = vectorAddSource.match(/def add_kernel [\s\S]*?\b(triton \{[\s\S]*?\n  \})/);
 const contractMatch = vectorAddSource.match(/specification add_kernel_correctness[^\n]*\n\s*(.+) := by/);
 const proofMatch = vectorAddSource.match(/(specification add_kernel_correctness[^\n]*\n[\s\S]*?)(?=\n\nsection Optimized)/);
 if (!kernelMatch || !contractMatch || !proofMatch) {

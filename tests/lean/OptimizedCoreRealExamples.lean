@@ -33,9 +33,9 @@ example (tau : ℝ) :
     (HyperConnectionsWidth.optimizedIO tau).kernel =
       HyperConnectionsWidth.Kernels.optimizedKernel tau := rfl
 example (nCol B : Nat) :
-    (RowWiseSum.reversedIO nCol B).kernel = RowWiseSum.Kernels.reversedKernel "x" "y" nCol B := rfl
+    (RowWiseSum.reversedIO nCol B).kernel = RowWiseSum.Kernels.row_wise_sum_reversedKernel "x" "y" nCol B := rfl
 example (nCol B : Nat) :
-    (RowWiseMax.inlinedIO nCol B).kernel = RowWiseMax.Kernels.inlinedKernel "x" "y" nCol B := rfl
+    (RowWiseMax.inlinedIO nCol B).kernel = RowWiseMax.Kernels.row_wise_max_inlinedKernel "x" "y" nCol B := rfl
 
 -- The formulas and hypotheses are part of the public API. In particular, the
 -- symbolic dimensions here cannot acquire an experimental shape restriction.

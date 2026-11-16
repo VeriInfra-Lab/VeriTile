@@ -114,7 +114,7 @@ set_option maxHeartbeats 1600000 in
 theorem finite_input_domain (a : ℚ) (B : Nat) :
     (LogExp.FPEquiv.domain "x" B).Holds (LogExp.FPEquiv.engine model)
       (fun _ _ => True) (withInput a) := by
-  simp [FP.Guarded.Precondition.Holds, LogExp.FPEquiv.domain, Source.prefixBefore, LogExp.optimizedKernel,
+  simp [FP.Guarded.Precondition.Holds, LogExp.FPEquiv.domain, Source.prefixBefore, LogExp.log_exp_guardedKernel,
     ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     ComputeDType.eraseDType, LogExp.FPEquiv.engine, Algebra.withDefaultPrecision,
     resolvePrecision, numericLt, numericLe, numeric, bop, model]
@@ -122,7 +122,7 @@ theorem finite_input_domain (a : ℚ) (B : Nat) :
 -- The actual source executes the negative identity branch and supports in-place
 -- writes. Memory outside this tile is preserved, even when input and output alias.
 theorem negative_in_place_kernel :
-    ∃ t, exec (LogExp.FPEquiv.engine model) (LogExp.optimizedKernel "x" "x" 4)
+    ∃ t, exec (LogExp.FPEquiv.engine model) (LogExp.log_exp_guardedKernel "x" "x" 4)
         (withInput (-1)) = some t ∧
       (∀ i : Fin 4, t.mem "x" i.val = .mk .real (-1)) ∧
       t.mem "x" 4 = .mk .real (-1) := by
@@ -143,7 +143,7 @@ theorem negative_in_place_kernel :
 -- The fixed reference retains its fp32 output conversion.
 theorem reference_retains_output_cast (a : ℚ) :
     ∃ t, exec (LogExp.FPEquiv.engine { model with cast := fun _ _ _ x => x + 7 })
-        (LogExp.originalKernel "x" "y" 1) (withInput a) = some t ∧
+        (LogExp.log_expKernel "x" "y" 1) (withInput a) = some t ∧
       t.mem "y" 0 = .mk .real ((a + 11000) + 7) := by
   obtain ⟨t, ht, hv, _⟩ := LogExp.FPEquiv.original_run
     { model with cast := fun _ _ _ x => x + 7 }
@@ -158,7 +158,7 @@ theorem reference_retains_output_cast (a : ℚ) :
 -- identity path eliminates the log and exp calls.
 theorem candidate_retains_output_cast (a : ℚ) :
     ∃ t, exec (LogExp.FPEquiv.engine { model with cast := fun _ _ _ x => x + 7 })
-        (LogExp.optimizedKernel "x" "y" 1) (withInput a) = some t ∧
+        (LogExp.log_exp_guardedKernel "x" "y" 1) (withInput a) = some t ∧
       t.mem "y" 0 = .mk .real
         (FP.LogExp.value .libdevice model (fun a b => decide (a < b))
           (fun a b => decide (a ≤ b)) a + 7) := by

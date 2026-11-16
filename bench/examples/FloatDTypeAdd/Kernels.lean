@@ -11,7 +11,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["BLOCK_SIZE"]
 
-def floatAddKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def float_addKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   let x_ptr := xReg
   let y_ptr := yReg
   let out_ptr := outReg
@@ -25,7 +25,7 @@ def floatAddKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKe
     tl.store(out_ptr + offsets, output.to(tl.float32))
   }
 
-def commutedKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def float_add_commutedKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   let x_ptr := xReg
   let y_ptr := yReg
   let out_ptr := outReg
@@ -40,9 +40,9 @@ def commutedKernel (xReg yReg outReg : RegionName) (blockSize : Nat) : ComputeKe
   }
 
 def originalKernel (blockSize : Nat) : ComputeKernel :=
-  floatAddKernel "x" "y" "out" blockSize
+  float_addKernel "x" "y" "out" blockSize
 
 def optimizedKernel (blockSize : Nat) : ComputeKernel :=
-  commutedKernel "x" "y" "out" blockSize
+  float_add_commutedKernel "x" "y" "out" blockSize
 
 end VeriTile.Bench.Examples.FloatDTypeAdd.Kernels

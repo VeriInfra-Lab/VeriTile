@@ -21,7 +21,7 @@ set_option maxHeartbeats 1600000
 execution requires comparison support, for either branch outcome. The only
 numerical input restriction is that each loaded `a` is finite. -/
 def domain (xReg : RegionName) (B : Nat) : Precondition where
-  code := Source.prefixBefore (optimizedKernel xReg "y" B).surfaceBody "fallback_a"
+  code := Source.prefixBefore (log_exp_guardedKernel xReg "y" B).surfaceBody "fallback_a"
   guards := [⟨"a", [B], .finite⟩]
 
 end VeriTile.Bench.Examples.LogExp.FPEquiv

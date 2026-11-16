@@ -16,7 +16,7 @@ open scoped VeriTile.Triton.KernelIO₂
 specification float_add_correctness (B : Nat) :
     Spec.Real (floatAddIO B ⊨ fun xs ys i => xs i + ys i) := by
   have halg : (floatAddIO B).kernel.toAlgKernel =
-      (VectorAdd.Kernels.addKernel "x" "y" "out" B).toAlgKernel := by
+      (VectorAdd.Kernels.add_kernel "x" "y" "out" B).toAlgKernel := by
     simp [floatAddIO, ComputeKernel.toAlgKernel, real_projection]
   refine KernelIO₂.Implements.intro _ ?_ ?_ ?_
   · rw [halg]
@@ -27,7 +27,7 @@ specification float_add_correctness (B : Nat) :
   · intro s xs ys hx hy
     rw [halg]
     rcases Nat.eq_zero_or_pos B with rfl | hB
-    · simp [floatAddIO, VectorAdd.Kernels.addKernel, exec, stepStmts, stepStmt,
+    · simp [floatAddIO, VectorAdd.Kernels.add_kernel, exec, stepStmts, stepStmt,
         evalOp.eq_def, Tile.bop, NumericDType.add, NumericDType.mul,
         TileShape.allIndices, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
         ComputeDType.eraseDType]

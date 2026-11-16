@@ -10,7 +10,7 @@ def callSignature : CallSignature where
   scalars := []
   constexpr := ["blockSize"]
 
-def directLSEKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def direct_log_sum_expKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid  = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)
@@ -21,7 +21,7 @@ def directLSEKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :
     tl.store(yReg + pid, (y).to(tl.bfloat16))
   }
 
-def optimizedLSEKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
+def guarded_log_sum_expKernel (xReg yReg : RegionName) (blockSize : Nat) : ComputeKernel :=
   with_triton_signature callSignature in triton {
     pid = tl.program_id(0)
     offs = pid * blockSize + tl.arange(0, blockSize)

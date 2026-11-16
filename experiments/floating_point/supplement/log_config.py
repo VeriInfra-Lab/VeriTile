@@ -1,8 +1,8 @@
 """The two unadmitted fp32 log relations needed by StableLogSumExp.
 
 LOG-MUL skips nonpositive input tuples without resampling. LOG-EXP-LIBDEVICE
-has its own identity: the older LOG-EXP probe used tl.exp. All other sampling
-and two-gates parameters match the existing supplemental profile.
+uses libdevice.exp; LOG-EXP uses tl.exp and has a separate rule identity.
+The shared two_gates_config.py supplies execution budgets and gate thresholds.
 """
 
 PROFILE = {

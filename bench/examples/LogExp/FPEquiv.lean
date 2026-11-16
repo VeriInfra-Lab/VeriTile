@@ -28,7 +28,7 @@ def originalIO (xReg yReg : RegionName) (B : Nat) : FP.PrefixKernel₁ where
 /-- Same interface and domain; the implementation is `optimizedKernel`. -/
 def optimizedIO (xReg yReg : RegionName) (B : Nat) : FP.PrefixKernel₁ :=
   { originalIO xReg yReg B with
-    io := (originalIO xReg yReg B).io.withKernel (optimizedKernel xReg yReg B) }
+    io := (originalIO xReg yReg B).io.withKernel (log_exp_guardedKernel xReg yReg B) }
 
 /-- Under the admitted guarded relation, both kernels succeed, write equivalent
 fp32 outputs and preserve all other memory. Dimensions remain symbolic. -/

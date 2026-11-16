@@ -33,7 +33,7 @@ private def parse (source : String) : TermElabM (Array (TSyntax `tritonStmt)) :=
   let parsed ← match Parser.runParserCategory (← getEnv) `term ("triton {\n"++text++"\n}") with
     | .ok body=>pure body | .error message=>throwError "{message}"
   let `(triton { $body:tritonStmt* }) := parsed | throwError "complete JIT body required"
-  return body.map fun stmt=>⟨firstChoice stmt.raw⟩
+  return ← body.mapM fun stmt=>return ⟨← liftMacroM (PythonBitcastBooleans.lowerBitcasts (firstChoice stmt.raw))⟩
 
 private def calls (name : Name) (parameters : List Name) (body : Array (TSyntax `tritonStmt)) :
     TermElabM (List (List (Name × TSyntax `tritonExpr))) := do
@@ -87,18 +87,78 @@ private partial def naturalShape (constants : List Name) (value : TSyntax `trito
   | `(tritonExpr| $left:tritonExpr + $right:tritonExpr)=>
     let left ← naturalShape constants left;let right ← naturalShape constants right
     `($left + $right)
+  | `(tritonExpr| $left:tritonExpr // $right:tritonExpr)=>
+    let left ← naturalShape constants left;let right ← naturalShape constants right
+    `($left / $right)
+  | `(tritonExpr| $($value:term))=>pure value
   | _=>Macro.throwError "unsupported natural constexpr shape expression"
 
-private partial def shapeRanges (constants : List Name) (raw : Syntax) : MacroM Syntax := do
+private partial def closedShape (values : List (Name × Nat)) (value : TSyntax `tritonExpr) : Option Nat :=
+  match value with
+  | `(tritonExpr| $n:num) => some n.getNat
+  | `(tritonExpr| $id:ident) => (values.find? (·.1==id.getId.eraseMacroScopes)).map Prod.snd
+  | `(tritonExpr| ($e:tritonExpr)) => closedShape values e
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr) => (· * ·) <$> closedShape values a <*> closedShape values b
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) => (· + ·) <$> closedShape values a <*> closedShape values b
+  | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => (· / ·) <$> closedShape values a <*> closedShape values b
+  | _ => none
+
+/-- Canonicalize exact natural shape identities before broadcast inference.
+This touches shape metadata only; arithmetic statements retain their source AST. -/
+private partial def normalizedShape (values : List (Name × Nat))
+    (dim : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
+  if let some value:=closedShape values dim then
+    let n:TSyntax `num:=⟨Syntax.mkNumLit (toString value)⟩
+    return ← `(tritonExpr| $n:num)
+  match dim with
+  | `(tritonExpr| ($e:tritonExpr))=>normalizedShape values e
+  | `(tritonExpr| $a:tritonExpr // $b:tritonExpr)=>
+    let a ← normalizedShape values a
+    let b ← normalizedShape values b
+    if closedShape values b==some 1 then return a
+    if let `(tritonExpr| $x:tritonExpr * $c:tritonExpr):=a then
+      if let (some c,some d):=(closedShape values c,closedShape values b) then
+        if c>0 && d>0 && d%c==0 then
+          let n:TSyntax `num:=⟨Syntax.mkNumLit (toString (d/c))⟩
+          let divisor ← `(tritonExpr| $n:num)
+          return ← `(tritonExpr| $x:tritonExpr // $divisor:tritonExpr)
+    `(tritonExpr| $a:tritonExpr // $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr * $b:tritonExpr)=>
+    let a ← normalizedShape values a;let b ← normalizedShape values b
+    `(tritonExpr| $a:tritonExpr * $b:tritonExpr)
+  | `(tritonExpr| $a:tritonExpr + $b:tritonExpr)=>
+    let a ← normalizedShape values a;let b ← normalizedShape values b
+    `(tritonExpr| $a:tritonExpr + $b:tritonExpr)
+  | _=>return dim
+
+private partial def rejectZeroDivisor (values : List (Name × Nat)) (raw : Syntax) : MacroM Unit := do
+  if let `(tritonExpr| $_a:tritonExpr // $b:tritonExpr) := raw then
+    if closedShape values b == some 0 then
+      Macro.throwError "constexpr shape division requires a nonzero divisor"
+  for arg in raw.getArgs do rejectZeroDivisor values arg
+
+private def shapeDimension (constants : List Name) (values : List (Name × Nat))
+    (dim : TSyntax `tritonExpr) : MacroM (TSyntax `tritonExpr) := do
+  rejectZeroDivisor values dim.raw
+  if let some value := closedShape values dim then
+    return ⟨Syntax.mkNumLit (toString value)⟩
+  let dim ← normalizedShape values dim
+  let value ← naturalShape constants dim
+  `(tritonExpr| $($value:term))
+
+private partial def shapeRanges (constants : List Name) (values : List (Name × Nat)) (raw : Syntax) : MacroM Syntax := do
+  if let `(tritonExpr| tl.reshape($value:tritonExpr, [$dims:tritonExpr,*])):=raw then
+    let dims ← dims.getElems.mapM (shapeDimension constants values)
+    return (← `(tritonExpr| tl.reshape($value:tritonExpr, [$dims,*]))).raw
   if let `(tritonExpr| tl.arange(0, $stop:tritonExpr)):=raw then
     match stop with
     | `(tritonExpr| $_:ident) | `(tritonExpr| $_:num)=>return raw
     | _=>
-      let value ← naturalShape constants stop
-      return (← `(tritonExpr| tl.arange(0, $($value:term)))).raw
-  return raw.setArgs (← raw.getArgs.mapM (shapeRanges constants))
+      let value ← shapeDimension constants values stop
+      return (← `(tritonExpr| tl.arange(0, $value:tritonExpr))).raw
+  return raw.setArgs (← raw.getArgs.mapM (shapeRanges constants values))
 
-private def inlineAliases (constants : List Name) (body : Array (TSyntax `tritonStmt)) :
+private def inlineAliases (constants : List Name) (integers : List (Name × Nat)) (body : Array (TSyntax `tritonStmt)) :
     TermElabM (Array (TSyntax `tritonStmt)) := do
   -- Validate the original scope/writes before propagating any alias.
   let _ ← liftMacroM (RawBodyConstants.prepare constants [] body.toList)
@@ -106,10 +166,30 @@ private def inlineAliases (constants : List Name) (body : Array (TSyntax `triton
   let mut out:=#[]
   for stmt in body do
     let normalized:TSyntax `tritonStmt:=⟨← liftMacroM (substituteAliases values stmt.raw)⟩
-    out:=out.push ⟨← liftMacroM (shapeRanges constants normalized.raw)⟩
+    out:=out.push ⟨← liftMacroM (shapeRanges constants integers normalized.raw)⟩
     if let `(tritonStmt| $name:ident : tl.constexpr = $value:tritonExpr):=normalized then
       values:=values++[(name.getId.eraseMacroScopes,value.raw)]
   return out
+
+/-- Preserve caller-side method bitcasts when the helper-call grammar also
+accepts the dotted receiver as a function name. This changes syntax only. -/
+private partial def callerBitcasts (raw : Syntax) : MacroM Syntax := do
+  if let some (value,dtype):=methodBitcast? ⟨raw⟩ then
+    return (← `(tritonExpr| tl.bitcast($value:tritonExpr, $dtype:tritonDType))).raw
+  if let `(tritonExpr| $callee:ident($args:statementJitArgument,*)):=raw then
+    let spelling:=callee.getId.eraseMacroScopes.toString
+    if spelling.endsWith ".to" && args.getElems.size==2 then
+      let `(statementJitArgument| $target:tritonExpr):=args.getElems[0]! | Macro.throwError "bitcast dtype required"
+      if let `(statementJitArgument| $key:ident = true):=args.getElems[1]! then
+        unless key.getId.eraseMacroScopes == `bitcast do Macro.throwError "bitcast keyword required"
+        let dtype ← match (PythonFullConstructors.render target.raw).trimAscii.toString with
+          | "tl.float32"=>`(tritonDType| tl.float32)
+          | "tl.int32"=>`(tritonDType| tl.int32)
+          | "tl.uint32"=>`(tritonDType| tl.uint32)
+          | _=>Macro.throwError "unsupported caller bitcast target"
+        let receiver:=mkIdent (spelling.dropEnd 3).toString.toName
+        return (← `(tritonExpr| tl.bitcast($receiver:ident, $dtype:tritonDType))).raw
+  return raw.setArgs (← raw.getArgs.mapM callerBitcasts)
 
 /-- Closed Python integers retain weak-literal promotion. Shift counts use
 checked constexpr aliases because the signed-shift IR expects a Nat count. -/
@@ -121,7 +201,8 @@ private partial def foldIntegers (values : List (Name × Nat)) (used : List Name
     let spelling:=callee.getId.eraseMacroScopes.toString
     if spelling.endsWith ".to" && args.getElems.size==2 then
       let `(statementJitArgument| $target:tritonExpr):=args.getElems[0]! | Macro.throwError "bitcast dtype required"
-      if let `(statementJitArgument| bitcast = true):=args.getElems[1]! then
+      if let `(statementJitArgument| $key:ident = true):=args.getElems[1]! then
+        unless key.getId.eraseMacroScopes == `bitcast do Macro.throwError "bitcast keyword required"
         let dtype ← match (PythonFullConstructors.render target.raw).trimAscii.toString with
           | "tl.float32"=>`(tritonDType| tl.float32)
           | "tl.int32"=>`(tritonDType| tl.int32)
@@ -174,7 +255,8 @@ def elaborateInvocation : TermElab := fun stx expected => do
       if let .lit (.natVal n) ← whnf value then integers:=integers++[(name,n)]
   let source ← match RawSourceText.normalize stx.getArgs.back!.getAtomVal with
     | .ok text=>pure text | .error message=>throwError "{message}"
-  let body ← inlineAliases constants (← parse source)
+  let body ← inlineAliases constants integers (← parse source)
+  let body ← body.mapM fun stmt=>return ⟨← liftMacroM (callerBitcasts stmt.raw)⟩
   let mut bindings:List (Ident × Expr):=[]
   for binding in stx[8].getSepArgs do
     let `(tritonCallBinding| $id:ident := $value:term) := binding | throwError "named JIT helper required"
