@@ -44,6 +44,7 @@ jobs:
           build-args: >-
             VeriTile tests.lean.PythonBodyParsing tests.lean.DTypeResolution
             tests.lean.ConditionalCast tests.lean.RegisterDTypeWhere tests.lean.StatementAudit
+            tests.lean.FPStructural
       - name: Check sources and Real/FP proofs for VectorAdd, RowWiseSum and LogExp
         run: bash scripts/check-core-examples.sh
 
