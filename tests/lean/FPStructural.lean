@@ -1,6 +1,8 @@
 /- Boundary regressions for structural FP steps. These are deliberately
 non-numerical countermodels: no algebraic law may enter through the evaluator. -/
 import VeriTile.Triton.Float.StructuralIO
+import VeriTile.Triton.Float.MaskedScatter
+import VeriTile.Triton.Float.ScatterProjection
 import VeriTile.Meta.StatementAudit
 
 namespace FPStructuralTests
@@ -252,5 +254,33 @@ theorem numerical_cell_dtype_cannot_change (R : Spec.Assumptions ComputeStmt) :
   rintro ⟨d, va, vb, ha, hb, _⟩
   cases ha
   cases hb
+
+/-- Inactive lanes may alias the active lane, including at zero stride. -/
+theorem masked_readback_with_inactive_aliases
+    (r : RegionName) (s : State Nat) (i : TileIndex [2])
+    (val : TileIndex [2] → Cell Nat) :
+    ((TileShape.allIndices [2]).foldl
+      (fun t k => if k = i then t.write r 0 (val k) else t) s).mem r 0 = val i := by
+  exact State.masked_readback_active r (fun _ => 0) val (fun k => k = i) s i rfl
+    (fun _ _ ha hb _ => ha.trans hb.symm)
+
+private def laneRegion (lane : Bool) : RegionName := if lane then "r1" else "r0"
+
+private def laneValue (first last : Cell Nat) (lane : Bool) : Cell Nat :=
+  if lane then last else first
+
+/-- Equal offsets in different regions retain both writes. -/
+theorem per_lane_regions_with_equal_offsets (s : State Nat) (first last : Cell Nat) :
+    let final := [Bool.false, Bool.true].foldl (fun t i =>
+      if True then t.write (laneRegion i) 0 (laneValue first last i) else t) s
+    final.mem "r0" 0 = first ∧ final.mem "r1" 0 = last := by
+  constructor
+  all_goals
+    rw [State.fold_writes_mem [Bool.false, Bool.true] (fun _ => True) laneRegion
+      (fun _ => 0) (laneValue first last) s]
+    rfl
+
+#axiomsClean masked_readback_with_inactive_aliases
+#axiomsClean per_lane_regions_with_equal_offsets
 
 end FPStructuralTests
