@@ -7,9 +7,9 @@ the split is 10 with experimental rules and 11 without them; HyperConnectionsWid
 has one strict scalar specification and one experimental matrix specification.
 See the [example index](../bench/examples/README.md) for the individual entries.
 
-The [task ledger](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/task_progress.json) tracks 183 tasks:
-**182 completed actual kernel pairs and 1 conditional pair with an unadmitted
-numerical premise**. Of those 183 pairs, 178 use strict-model/structural proofs,
+The [task ledger](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/task_progress.json) tracks 184 tasks:
+**182 proved actual kernel equivalences and 1 source-model disproof under the
+current admission table**. Of those 184 pairs, 179 use strict-model/structural proofs,
 4 use the existing FP32 DIV-MUL-RCP admission (`apply_penalty`,
 `softmax_triton1`, `softmax_triton2`, `softmax_triton3`), and `matmul_leakyrelu`
 depends on the shared `DOT-ADD-TO-DOTACC` rule, with FP32/TF32, K=32 and live
@@ -17,8 +17,20 @@ accumulator operands. Its [SM89/Triton 3.5.1 receipt](../experiments/floating_po
 records 2^32 independent whole input groups: bias **FAIL** (0.151105 ULP upper
 bound against 0.05), magnitude **PASS** (peak ratio 1). The outcome is **REJECT**;
 the rule is retained as a candidate and `DotAdmission.all` is empty. The complete
-program proof retains its explicit numerical premise and has no admission from
-this report. SM89 evidence does not validate an SM90 compiler profile. See the
+conditional program proof retains its explicit numerical premise and has no
+admission from this report. A separate constructive FP32 countermodel now
+refutes universal equivalence under the current empty dot admission table.
+It connects the unchanged source kernels to legal 1×96 and 96×1 inputs, safe
+complete schedules and unequal normal FP16 results (1/32 and 1/64). The
+interpreter explicitly truncates inputs to TF32, uses round-toward-zero FP32
+fused accumulation and nearest-even scalar addition/output conversion. This
+is a result in the public source-model calculus; GPU conformance is outside
+its scope. The Real theorem and original conditional FP theorem are retained.
+The independent [FP64 control](../experiments/floating_point/dot/fp64/report/receipt.json)
+ran 2^32 groups: both Normal statistical gates pass (upper 0.01105494445 ULP,
+peak ratio 1). A +0/-0 diagnostic mismatch keeps all-word admission disabled;
+this control supplies no FP32 rule. SM89 evidence does not validate an SM90
+compiler profile. See the
 [shared experiment guide](../experiments/floating_point/dot/README.md) and its
 [precision, applicability domain and recorded result](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/validation/tasks/matmul_leakyrelu/NUMERICAL_VALIDATION.md).
 The current auxiliary experiment queue is empty. Program-proof gaps cannot be
@@ -36,7 +48,7 @@ experimental instances. The separate rejected matrix candidate is exposed by
 those 36 admissions. The 36 are a catalogue pool, not a count of relations
 used by every proof or enabled by every rule API.
 
-The 183 accepted task-pair statements and the 21 example specifications together use
+The retained task-pair statements and the 21 example specifications together use
 **12 of those 36 admitted experimental instances**, plus the separate unadmitted
 local rule above. The four admitted-rule task consumers use the same FP32
 DIV-MUL-RCP instance already used by the examples. The other 24 are unused

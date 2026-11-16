@@ -50,7 +50,7 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   [SwiGLU real-equivalence proof](bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean).
 - **Worked examples and benchmarks**: this repository retains 18 worked-example
   groups, including the small core regression set. [VeriTileBench](https://github.com/VeriInfra-Lab/VeriTileBench)
-  owns the 183 selected repaired TritonBench-G tasks, the 334 imported challenge
+  owns the 184 selected repaired TritonBench-G tasks, the 334 imported challenge
   interfaces, and a 19-group example collection that also includes
   TritonBenchVectorAddition. Its source inventories and proof receipts are
   separate from the core library's checks. See the
@@ -69,7 +69,8 @@ externally checked. See [Triton subset and gaps](documents/TritonSubset.md).
   runs only check it. VeriTileBench's
   [separate workflow](https://github.com/VeriInfra-Lab/VeriTileBench/blob/main/.github/workflows/bench-audit.yml)
   runs its complete retained-corpus audit daily at 04:00 Asia/Singapore
-  (20:00 UTC) and on manual full-audit dispatch. PRs run its source/smoke gates and public-entry audit.
+  (20:00 UTC) and on manual full-audit dispatch. PRs check changed cases and affected proof dependencies; the 334 pending
+  challenge interfaces have a separate workflow.
   See [verification setup and scope](scripts/README.md#shared-comparator-gate).
 
 Pending for complete kernel verification: concrete floating-point execution

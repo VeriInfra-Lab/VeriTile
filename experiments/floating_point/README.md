@@ -38,6 +38,10 @@ Smoke results never enter the accepted list.
 The fixed matrix-dot relation has a separate [dot/add profile](dot/README.md),
 available through `python scripts/check_two_gates.py dot`. It shares the fixed
 sample budget and gates; its independent observations are whole matrix tiles.
+The independent FP64 profile is available through
+`python scripts/check_two_gates.py dot-fp64`; its higher-precision reference is
+checked by exact rational CPU audits. The retained receipt distinguishes Normal
+statistical acceptance from special-value admission scope.
 
 Select configurations or inspect the direct-sampling control with:
 

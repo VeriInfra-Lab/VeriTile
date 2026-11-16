@@ -66,3 +66,54 @@ magnitude ratio is 1, so that gate passes. No groups were excluded.
 `DotAdmission.all` is empty; the candidate and its rejected evidence remain
 available for inspection. This local numerical rejection is not a whole-kernel
 refutation.
+
+## FP64 profile
+
+The [FP64 profile](fp64/config.py) uses FP64 operands, live accumulator and
+result, K=32 and a 32×32 tile. It retains independent Normal(1,1) entries,
+unit weights, the same role seeds and the same two thresholds. Statistical
+independence is still per whole tile. The FP32/TF32 result above stays attached
+to its own profile and is never replaced by FP64 evidence.
+
+```bash
+python scripts/check_two_gates.py dot-fp64 check
+python scripts/check_two_gates.py dot-fp64 run --smoke --output Logs/dot-fp64-smoke
+python scripts/check_two_gates.py dot-fp64 run --output Logs/dot-fp64
+python scripts/check_two_gates.py dot-fp64 import Logs/dot-fp64 --output Logs/dot-fp64-cpu.json
+python scripts/export_dot_fp64_report.py --bundle Logs/dot-fp64
+python scripts/export_dot_fp64_report.py --check
+```
+
+The FP64 observer uses double-double products and accumulation so that its
+reference retains more precision than either tested implementation. Every
+mandatory raw output audit independently reconstructs the dot plus live
+accumulator with exact integer products and rational arithmetic, checks FP64
+ULPs and bounds the reference error below 2^-35 output ULP. The same audited
+lanes are then connected to the per-tile observations and complete gate
+statistics. Both peak maxima cover the full 2^32 whole input groups.
+The raw bundle includes frozen sources, implementation digests, fixed audit
+locations, every part's statistics and observation fingerprint, special-value
+diagnostics, elapsed time and peak memory.
+
+Only a complete 2^32-group run can yield formal statistical acceptance;
+`--smoke` and a different `--samples` budget remain diagnostic. FP64 acceptance
+supplies no FP32 assumption, strict IEEE equality or whole-kernel refutation.
+
+
+## Selected FP64 evidence
+
+The [FP64 receipt](fp64/report/receipt.json) retains a complete 2^32-group
+SM89/Triton 3.5.1 run, server replay and independent local replay. The Normal
+statistical outcome is **ACCEPT**: mean 0.0018087388155 ULP,
+SE 0.00184924112698, upper 0.0110549444504 against 0.05,
+and peak ratio 1 against 10. No groups were excluded.
+Exact rational checks cover all 524,288 mandatory raw output lanes.
+The double-double reference's largest audited error is
+2.13162820728e-14 output ULP.
+
+The zero-padding diagnostic A=-0, B=+0, accumulator=-0 returns +0 in the
+reference and -0 in the candidate, across 1024 output lanes of one diagnostic
+group. **All-word admission is disabled.** This classification result remains
+separate from the passing Normal statistics. FP32/TF32 rejection and its empty
+admission table remain unchanged. FP64 control is not a dependency of the FP32
+source-model disproof in VeriTileBench.

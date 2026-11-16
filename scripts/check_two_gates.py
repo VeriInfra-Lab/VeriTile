@@ -441,6 +441,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__); sub = parser.add_subparsers(dest="command", required=True)
     dot_parser = sub.add_parser('dot', help='fixed local matrix-dot contraction profile')
     dot_parser.add_argument('arguments', nargs=argparse.REMAINDER)
+    fp64_parser = sub.add_parser('dot-fp64', help='FP64 matrix-dot contraction with exact rational audits')
+    fp64_parser.add_argument('arguments', nargs=argparse.REMAINDER)
     for name in ["check", "run"]:
         p = sub.add_parser(name); p.add_argument("--catalog", choices=["all", *PROFILES], default="all")
         p.add_argument("--config", type=Path); p.add_argument("--profile", type=Path)
@@ -454,6 +456,12 @@ def main(argv=None):
     p = sub.add_parser("worker", help=argparse.SUPPRESS); p.add_argument("bundle", type=Path); p.add_argument("number", type=int)
     args = parser.parse_args(argv)
     try:
+        if args.command == 'dot-fp64':
+            if __package__:
+                from . import two_gates_dot_fp64
+            else:
+                import two_gates_dot_fp64
+            return two_gates_dot_fp64.main(args.arguments)
         if args.command == 'dot':
             if __package__:
                 from . import two_gates_dot
