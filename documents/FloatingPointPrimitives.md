@@ -57,6 +57,27 @@ add/sub/mul/div、一次舍入的 FMA，以及数值相等与有序比较。混�
 它们说明这些关系不能一般地作为严格浮点恒等式，具体输入和结果见
 [规则指南](FloatingPointRewriteRules.md#3-已计算的严格不等见证)。
 
+### 混合精度后端的寄存器
+
+严格 FP32 理论的证书在 `Software.strictFP32` 上给出，那里每个寄存器值都是一个 FP32 字。
+`Guarded.Models R M D` 要求后端 `M` 在自己 carrier 的全部状态上验证这些证书，所以 carrier
+里不能有非 FP32 字的元素。`Value .bf16 × Value .fp32` 这样的成对 carrier 含有两个分量互不
+一致的元素。Triton 张量不会持有这种值，而 FP32 原语作用其上会返回一致的对，于是
+`max x x` 与 `x` 不相等，该后端对任何操作数域都不满足 `Models`。
+
+[WordBackend.lean](../VeriTile/Triton/Float/WordBackend.lean) 提供
+`Software.mixedFP32 rest := strictFP32 (bf16Words rest)`。每个 BF16 值都恰好是一个 FP32 值，
+BF16 张量以 `CastExact.widenBits` 的结果存入同一个字，NaN payload 保留；值是 BF16 还是 FP32
+由程序里的 dtype 记录。BF16 层只定义两个方向的转换、逐结果舍入的 add/sub/mul/div 和字面量
+0、1，其余操作留在 `rest`。非 BF16 像的字出现在 BF16 位置时按 `narrowWord` 舍入，这是
+良类型 kernel 可达状态之外的全定义选择，严格 FP32 定理不依赖它。混合 BF16/FP32 kernel 的
+反例和 `≡[R]` 的非空真见证都使用这个后端或其上的叠加层。
+
+[WordBackendRules.lean](../VeriTile/Triton/Float/WordBackendRules.lean) 证明
+`UnitOperands.strict_models`：有限操作数取 `+0`、`+1`，非零和正操作数取 `+1` 时，任何
+`strictFP32 rest`（包括 `mixedFP32`）都满足全部十一个标量算术候选。它只说明 `Models` 前提
+可由真实舍入满足，不表示这些规则在更大的域上成立。
+
 ## 实验原子及证明依赖
 
 原子库分别定义算术、倒数、指数、log、maximum 和整数转换关系：
