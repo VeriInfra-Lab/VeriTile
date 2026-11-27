@@ -31,11 +31,11 @@ theorem include_derivation {A B : Spec.Assumptions GuardedFragment}
 theorem exponential_models {α : Type} [Inhabited α] (R : Rules)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) :
     Models R.exponential.assumptions M D :=
-  fun lhs rhs h => hM lhs rhs (include_derivation (fun _ he => List.mem_append_left _ he) h)
+  ⟨hM.1, fun lhs rhs h => hM.2 lhs rhs (include_derivation (fun _ he => List.mem_append_left _ he) h)⟩
 
 theorem logarithm_models {α : Type} [Inhabited α] (R : Rules)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) :
     Models R.logarithm.assumptions M D :=
-  fun lhs rhs h => hM lhs rhs (include_derivation (fun _ he => List.mem_append_right _ he) h)
+  ⟨hM.1, fun lhs rhs h => hM.2 lhs rhs (include_derivation (fun _ he => List.mem_append_right _ he) h)⟩
 
 end VeriTile.Triton.FP.LogSumExp

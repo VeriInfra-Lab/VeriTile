@@ -108,9 +108,12 @@ def reciprocal {α : Type} (f : Format) (M : Algebra α) (a b : α) : α :=
 set_option maxHeartbeats 1200000 in
 theorem apply_rule {α : Type} [Inhabited α] {f : Format} (R : Rules f) (selected : f.Available)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
-    (s : State α) (a b : α) (ha : D .finite a) (hb : D .finite b) (hn : D .nonzero b) :
+    (_s : State α) (a b : α) (ha : D .finite a) (hb : D .finite b) (hn : D .nonzero b) :
     quotient f M a b = reciprocal f M a b := by
-  let t := (s.setReg "a" .real [] (fun _ => a)).setReg "b" .real [] (fun _ => b)
+  let t := ((wordBase M).setReg "a" .real [] (fun _ => a)).setReg "b" .real [] (fun _ => b)
+  have ht : WordState M t :=
+    wordBase_two M "a" "b" .real .real a b (wordValue_real (hM.word ha))
+      (wordValue_real (hM.word hb))
   have hg : ScalarDomain D guards t := by
     intro g hg
     simp [guards] at hg
@@ -118,7 +121,7 @@ theorem apply_rule {α : Type} [Inhabited α] {f : Format} (R : Rules f) (select
     · exact ⟨fun _ => a, by simp [t], ha⟩
     · exact ⟨fun _ => b, by simp [t], hb⟩
     · exact ⟨fun _ => b, by simp [t], hn⟩
-  have h := hM (lhs f) (rhs f) (admitted R selected) t
+  have h := hM.2 (lhs f) (rhs f) (admitted R selected) t ht
   cases f <;> simp only [lhs, rhs] at h
   all_goals
     specialize h hg hg

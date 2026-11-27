@@ -244,17 +244,18 @@ and both masked branches. Unsupported comparisons cannot discharge this law. -/
 theorem apply_log_exp_cancel (backend : Backend) {α : Type} [Inhabited α] (R : Rules)
     (selected : (Atom.log_exp_cancel backend).Available)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
-    (s : State α) (lt le : α → α → Bool)
+    (_s : State α) (lt le : α → α → Bool)
     (hlt : M.compareLt (some .fp32) .real = some lt)
     (hle : M.compareLe (some .fp32) .real = some le)
     (a : α) (ha : D .finite a) : referenceValue backend M a = value backend M lt le a := by
-  let t := s.setReg "a" .real [] (fun _ => a)
+  let t := (wordBase M).setReg "a" .real [] (fun _ => a)
+  have ht : WordState M t := wordBase_one M "a" .real a (wordValue_real (hM.word ha))
   have hg : ScalarDomain D guards t := by
     intro g hg
     simp only [guards, List.mem_singleton] at hg
     subst g
     exact ⟨fun _ => a, by simp [t], ha⟩
-  have h := hM _ _ (derive R (.log_exp_cancel backend) selected) t hg hg
+  have h := hM.2 _ _ (derive R (.log_exp_cancel backend) selected) t ht hg hg
   cases backend <;> simp only [Atom.lhs, Atom.rhs, assignOutput, run, step, evalExpr,
     evalComputeOp, expression, Backend.log, Backend.exp, evalOp_unfold, useIdentity, absolute, input,
     ComputeDType.eraseDType, fragmentAlgebra, numeric, numericLt, numericLe, hlt, hle,
@@ -283,13 +284,16 @@ does not follow. Successful fp32 comparisons are required explicitly. -/
 theorem apply_log_mul_split (backend : Backend) {α : Type} [Inhabited α] (R : Rules)
     (selected : (Atom.log_mul_split backend).Available)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
-    (s : State α) (le : α → α → Bool)
+    (_s : State α) (le : α → α → Bool)
     (hle : M.compareLe (some .fp32) .real = some le)
     (a b : α) (ha : D .finite a) (hb : D .finite b)
     (hpa : D .positive a) (hpb : D .positive b) :
     M.unary (some .fp32) backend.logOp (M.binary (some .fp32) .real .mul a b) =
       splitProductValue backend M le a b := by
-  let t := (s.setReg "a" .real [] (fun _ => a)).setReg "b" .real [] (fun _ => b)
+  let t := ((wordBase M).setReg "a" .real [] (fun _ => a)).setReg "b" .real [] (fun _ => b)
+  have ht : WordState M t :=
+    wordBase_two M "a" "b" .real .real a b (wordValue_real (hM.word ha))
+      (wordValue_real (hM.word hb))
   have hg : ScalarDomain D productGuards t := by
     intro g hg
     simp [productGuards] at hg
@@ -298,7 +302,7 @@ theorem apply_log_mul_split (backend : Backend) {α : Type} [Inhabited α] (R : 
     · exact ⟨fun _ => b, by simp [t, State.setReg], hb⟩
     · exact ⟨fun _ => a, by simp [t, State.setReg], hpa⟩
     · exact ⟨fun _ => b, by simp [t, State.setReg], hpb⟩
-  have h := hM _ _ (derive R (.log_mul_split backend) selected) t hg hg
+  have h := hM.2 _ _ (derive R (.log_mul_split backend) selected) t ht hg hg
   cases backend <;> simp only [Atom.lhs, Atom.rhs, assignOutput, run, step, evalExpr,
     evalComputeOp, splitProduct, Backend.log, evalOp_unfold, keepProduct, input, secondInput,
     ComputeDType.eraseDType, fragmentAlgebra, numeric, numericLe, hle, t] at h

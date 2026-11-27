@@ -19,7 +19,8 @@ def model : Algebra ℝ where
   cast := fun _ _ _ x => x
   fromNat := fun _ n => n
   fromInt := fun _ n => n
-  fp32Bits := fun _ => 0
+  -- A finite FP32 word is encoded as its rational value; other words as 0.
+  fp32Bits := fun b => ((FP.Value.mk (f := .fp32) b.bits).toRat?.map (fun q : ℚ => (q : ℝ))).getD 0
   fp32Load := id
   reduceMax := fun _ {_} _ _ _ _ => 0
   reduceSum := fun _ {_} _ _ _ _ => 1
@@ -61,7 +62,7 @@ private theorem arithmetic_atom (atom : FP.ScalarArithmetic.Atom) :
     FP.FragmentSound model domain (FP.ScalarArithmetic.lhs atom)
       (FP.ScalarArithmetic.rhs atom) := by
   open FP.ScalarArithmetic in
-    refine ⟨rfl, fun s hd => ?_⟩
+    refine ⟨rfl, fun s _ hd => ?_⟩
     change FP.Guarded.ScalarDomain domain (guards atom) s at hd
     cases atom
     all_goals
@@ -116,6 +117,35 @@ def empty : State ℝ where
 
 def inputs : State ℝ :=
   (empty.setReg "a" .fp32 [] (fun _ => 1)).setReg "b" .fp32 [] (fun _ => 2)
+
+/-- A finite FP32 word's rational value is one of this model's encoded words. -/
+private theorem word_of_rat (w : FP.Value .fp32) (q : ℚ) (h : w.toRat? = some q) :
+    FP.Guarded.Word model (q : ℝ) := by
+  refine ⟨w, ?_⟩
+  change ((FP.Value.mk (f := .fp32) w.bits).toRat?.map (fun q : ℚ => (q : ℝ))).getD 0 = _
+  rw [show FP.Value.mk (f := .fp32) w.bits = w from rfl, h]
+  rfl
+
+private theorem word_zero : FP.Guarded.Word model (0 : ℝ) := by
+  simpa using word_of_rat (FP.Value.zero .fp32) 0 (by decide +kernel)
+
+private theorem word_one : FP.Guarded.Word model (1 : ℝ) := by
+  simpa using word_of_rat (FP.Value.ofBits .fp32 0x3f800000) 1 (by decide +kernel)
+
+private theorem word_two : FP.Guarded.Word model (2 : ℝ) := by
+  simpa using word_of_rat (FP.Value.ofBits .fp32 0x40000000) 2 (by decide +kernel)
+
+/-- The inputs are the encodings of the FP32 words one and two. -/
+theorem inputs_words : FP.Guarded.WordState model inputs := by
+  have base : FP.Guarded.WordState model empty :=
+    { regs := fun _ _ _ _ h => by cases h
+      mem := fun _ _ => ⟨.real, 0, rfl, FP.Guarded.wordValue_real word_zero⟩
+      undef := fun dtype _ _ => by
+        cases dtype <;> first
+          | exact fun _ hy => List.mem_singleton.mp hy ▸ word_zero
+          | exact fun _ hy => nomatch hy }
+  exact (base.setReg_scalar "a" .fp32 1 (FP.Guarded.wordValue_fp32 word_one)).setReg_scalar
+    "b" .fp32 2 (FP.Guarded.wordValue_fp32 word_two)
 
 theorem typed_domain_inhabited :
     FP.Guarded.TypedScalarDomain domain .fp32 FP.TypedScalarArithmetic.guards inputs := by
@@ -185,8 +215,8 @@ though it satisfies the empirical real-channel atoms. -/
 theorem noncommutative_model_rejected (R : Spec.Assumptions FP.GuardedFragment) :
     ¬ FP.Guarded.Models R model domain := by
   intro h
-  have obs := h _ _ (FP.TypedScalarArithmetic.strict_admitted R)
-    inputs typed_domain_inhabited typed_domain_inhabited
+  have obs := h.2 _ _ (FP.TypedScalarArithmetic.strict_admitted R)
+    inputs inputs_words typed_domain_inhabited typed_domain_inhabited
   simp [FP.TypedScalarArithmetic.lhs, FP.TypedScalarArithmetic.rhs,
     FP.Guarded.fragmentAlgebra, FP.Guarded.scalarOutput, Algebra.withDefaultPrecision,
     run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric,

@@ -176,7 +176,7 @@ theorem arithmetic_derivation (R : Rules) {lhs rhs : List GuardedFragment}
 theorem arithmetic_models {α : Type} [Inhabited α] (R : Rules)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) :
     Models R.arithmetic.assumptions M D :=
-  fun lhs rhs h => hM lhs rhs (arithmetic_derivation R h)
+  ⟨hM.1, fun lhs rhs h => hM.2 lhs rhs (arithmetic_derivation R h)⟩
 
 /-- The stable-softmax derivation specifically requires libdevice.exp. -/
 def lhs : GuardedFragment := Atom.lhs (.exp_sub .libdevice)

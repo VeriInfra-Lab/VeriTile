@@ -32,7 +32,7 @@ theorem fragmentSound_of_values {α : Type} [Inhabited α]
     (law : ∀ a b c, Inputs D a b c atom →
       leftValue M a b c atom = rightValue M a b c atom) :
     FragmentSound M D (lhs atom) (rhs atom) := by
-  refine ⟨rfl, fun s hd => ?_⟩
+  refine ⟨rfl, fun s _ hd => ?_⟩
   change ScalarDomain D (guards atom) s at hd
   cases atom
   all_goals

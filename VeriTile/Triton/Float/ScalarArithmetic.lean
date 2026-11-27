@@ -242,24 +242,80 @@ def Inputs {α : Type} (D : Domain α) (a b c : α) : Atom → Prop
   | .divMulRcp => D .finite a ∧ D .finite b ∧ D .nonzero b
   | .mulRcpCancel => D .finite a ∧ D .nonzero a
 
+/-- The second operand an atom reads; an atom that does not read `b` gets `a`. -/
+private def secondOperand {α : Type} (a b : α) : Atom → α
+  | .addCommute | .mulCommute | .cancel | .addAssociate | .mulAssociate | .mulDistribute
+  | .divMulRcp => b
+  | .addZero | .mulOne | .divOne | .mulRcpCancel => a
+
+/-- The third operand an atom reads; an atom that does not read `c` gets `a`. -/
+private def thirdOperand {α : Type} (a c : α) : Atom → α
+  | .addAssociate | .mulAssociate | .mulDistribute => c
+  | .addCommute | .mulCommute | .cancel | .addZero | .mulOne | .divOne | .divMulRcp
+  | .mulRcpCancel => a
+
+/-! The selections below are facts about the guards and the operand values
+alone. They are stated separately so that no case analysis on the atom sits
+inside a proof that mentions the numerical model. -/
+
+private theorem inputs_first {α : Type} (D : Domain α) (a b c : α) (atom : Atom)
+    (h : Inputs D a b c atom) : D .finite a := by
+  cases atom <;> first | exact h.1 | exact h
+
+private theorem inputs_second {α : Type} (D : Domain α) (a b c : α) (atom : Atom)
+    (h : Inputs D a b c atom) : D .finite (secondOperand a b atom) := by
+  cases atom <;> first | exact h.2.1 | exact h.2 | exact h.1 | exact h
+
+private theorem inputs_third {α : Type} (D : Domain α) (a b c : α) (atom : Atom)
+    (h : Inputs D a b c atom) : D .finite (thirdOperand a c atom) := by
+  cases atom <;> first | exact h.2.2 | exact h.1 | exact h
+
+private theorem inputs_selected {α : Type} (D : Domain α) (a b c : α) (atom : Atom)
+    (h : Inputs D a b c atom) :
+    Inputs D a (secondOperand a b atom) (thirdOperand a c atom) atom := by
+  cases atom <;> exact h
+
+private theorem leftValue_selected {α : Type} (M : Algebra α) (a b c : α) (atom : Atom) :
+    leftValue M a (secondOperand a b atom) (thirdOperand a c atom) atom =
+      leftValue M a b c atom := by cases atom <;> rfl
+
+private theorem rightValue_selected {α : Type} (M : Algebra α) (a b c : α) (atom : Atom) :
+    rightValue M a (secondOperand a b atom) (thirdOperand a c atom) atom =
+      rightValue M a b c atom := by cases atom <;> rfl
+
 set_option maxHeartbeats 1600000 in
 /-- Execute the actual scalar fragments before interpreting their admitted law.
-The arbitrary surrounding state contributes no numerical premise. -/
+The fragments run in a well-typed state whose operand registers hold the
+guarded operands; the surrounding program state contributes nothing. An
+operand the atom does not read is replaced by the guarded first operand, so
+every register holds an encoded FP32 word. -/
 theorem apply_derivation {α : Type} [Inhabited α] {R : Spec.Assumptions GuardedFragment}
     (M : Algebra α) (D : Domain α) (hM : Models R M D)
-    (s : State α) (atom : Atom) (derivation : Spec.Derivation R [lhs atom] [rhs atom])
+    (_s : State α) (atom : Atom) (derivation : Spec.Derivation R [lhs atom] [rhs atom])
     (a b c : α) (hg : Inputs D a b c atom) :
     leftValue M a b c atom = rightValue M a b c atom := by
-  let t := ((s.setReg "a" .real [] (fun _ => a)).setReg "b" .real []
+  have wa : Word M a := hM.word (inputs_first D a b c atom hg)
+  have wb : Word M (secondOperand a b atom) := hM.word (inputs_second D a b c atom hg)
+  have wc : Word M (thirdOperand a c atom) := hM.word (inputs_third D a b c atom hg)
+  have hi : Inputs D a (secondOperand a b atom) (thirdOperand a c atom) atom :=
+    inputs_selected D a b c atom hg
+  have hl := leftValue_selected M a b c atom
+  have hr := rightValue_selected M a b c atom
+  rw [← hl, ← hr]
+  generalize secondOperand a b atom = b at wb hi ⊢
+  generalize thirdOperand a c atom = c at wc hi ⊢
+  let t := (((wordBase M).setReg "a" .real [] (fun _ => a)).setReg "b" .real []
     (fun _ => b)).setReg "c" .real [] (fun _ => c)
+  have ht : WordState M t := wordBase_three M "a" "b" "c" .real .real .real a b c
+    (wordValue_real wa) (wordValue_real wb) (wordValue_real wc)
   have hd : ScalarDomain D (guards atom) t := by
     intro g hg'
     cases atom <;> simp [guards] at hg'
     all_goals
-      simp only [Inputs] at hg
+      simp only [Inputs] at hi
       rcases hg' with rfl | rfl | rfl
       all_goals simp only [t, State.setReg]; simp_all
-  have h := hM (lhs atom) (rhs atom) derivation t hd hd
+  have h := hM.2 (lhs atom) (rhs atom) derivation t ht hd hd
   cases atom <;>
     simp only [lhs, rhs, lhsCode, rhsCode, fragment, Reciprocal.lhs, Reciprocal.rhs,
       run, step, evalExpr, evalComputeOp, evalOp_unfold, ref, plus, minus, times, divide,

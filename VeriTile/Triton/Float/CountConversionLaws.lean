@@ -9,9 +9,10 @@ open Structural Guarded ScalarArithmetic
 
 set_option maxHeartbeats 1600000 in
 theorem zero {α : Type} [Inhabited α] (R : Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) (s : State α) :
+    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) (_s : State α) :
     M.fromNat (some .fp32) 0 = ScalarArithmetic.zero M := by
-  have h := hM (lhs .zero) (rhs .zero) (admitted R .zero (by decide)) s
+  have h := hM.2 (lhs .zero) (rhs .zero) (admitted R .zero (by decide)) (wordBase M)
+    (wordBase_state M)
     (by simp [ScalarDomain, lhs]) (by simp [ScalarDomain, rhs])
   simp only [lhs, rhs, lhsCode, rhsCode, fragment, run, step, evalExpr,
     evalComputeOp, evalOp_unfold, ComputeDType.eraseDType] at h
@@ -20,11 +21,12 @@ theorem zero {α : Type} [Inhabited α] (R : Rules)
 
 set_option maxHeartbeats 1600000 in
 theorem successor {α : Type} [Inhabited α] (R : Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
+    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) (_s : State α)
     (i : Nat) (hi : i < limit) :
     M.fromNat (some .fp32) (i + 1) = ScalarArithmetic.add M (M.fromNat (some .fp32) i) (one M) := by
-  let t := s.setReg "i" .nat [] (fun _ => i)
-  have h := hM (lhs .successor) (rhs .successor) (admitted R .successor (by decide)) t
+  let t := (wordBase M).setReg "i" .nat [] (fun _ => i)
+  have ht : WordState M t := wordBase_one M "i" .nat i (wordValue_nat M i)
+  have h := hM.2 (lhs .successor) (rhs .successor) (admitted R .successor (by decide)) t ht
     (by simp [ScalarDomain, lhs]) (by simp [ScalarDomain, rhs])
   simp only [lhs, rhs, lhsCode, rhsCode, fragment, bounded, index, plus, run, step,
     evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType, t, State.setReg_same] at h

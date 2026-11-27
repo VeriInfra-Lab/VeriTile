@@ -69,17 +69,20 @@ theorem admitted (R : Rules) : Spec.Derivation R.assumptions [lhs] [rhs] :=
 law, or desired whole-program equality is a premise. -/
 theorem mul_comm_strict {α : Type} [Inhabited α] {R : Spec.Assumptions GuardedFragment}
     (M : Algebra α) (D : Domain α) (hM : Models R M D)
-    (s : State α) (a b : α) (ha : D .finite a) (hb : D .finite b) :
+    (_s : State α) (a b : α) (ha : D .finite a) (hb : D .finite b) :
     M.binary (some .fp32) .fp32 .mul a b =
       M.binary (some .fp32) .fp32 .mul b a := by
-  let t := (s.setReg "a" .fp32 [] (fun _ => a)).setReg "b" .fp32 [] (fun _ => b)
+  let t := ((wordBase M).setReg "a" .fp32 [] (fun _ => a)).setReg "b" .fp32 [] (fun _ => b)
+  have ht : WordState M t :=
+    wordBase_two M "a" "b" .fp32 .fp32 a b (wordValue_fp32 (hM.word ha))
+      (wordValue_fp32 (hM.word hb))
   have hd : TypedScalarDomain D .fp32 guards t := by
     intro g hg
     simp only [guards, List.mem_cons, List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl
     · exact ⟨fun _ => a, by simp [t, State.setReg], ha⟩
     · exact ⟨fun _ => b, by simp [t, State.setReg], hb⟩
-  have h := hM lhs rhs (strict_admitted R) t hd hd
+  have h := hM.2 lhs rhs (strict_admitted R) t ht hd hd
   simp only [lhs, rhs, run, step, evalExpr, evalOp_unfold,
     numeric, State.setReg_same, t] at h
   simp [scalarOutput, State.setReg, toFloat] at h
