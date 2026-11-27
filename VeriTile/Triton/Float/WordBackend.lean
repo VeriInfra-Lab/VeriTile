@@ -7,11 +7,15 @@ A software backend for mixed BF16/FP32 kernels whose carrier is one FP32 word.
 
 The strict FP32 theory (`Guarded.fp32Theory`) is certified on `strictFP32`,
 where every carrier element is an FP32 word. `Guarded.Models` asks a backend
-to validate those certificates on every state of its own carrier. A carrier
-with elements that are not FP32 words cannot do that. A pair
-`Value .bf16 × Value .fp32`, for example, contains pairs whose components
-disagree; no Triton tensor holds such a value, and an FP32 primitive applied
-to one returns a consistent pair, so `max x x` and `x` differ.
+to validate those certificates on the states of its own carrier that hold
+encoded FP32 words (`WordState`). A backend whose carrier is larger, such as
+the pair `Value .bf16 × Value .fp32`, is not refuted merely by its
+inconsistent pairs, but it still has to show that it runs every fragment as
+some `strictFP32 rest` does on those states. The library has no such general
+transfer theorem yet.
+
+This backend avoids the question: its carrier is the FP32 word itself, so
+every state is a `WordState` and the strict certificates apply directly.
 
 Every BF16 value is exactly an FP32 value (`CastExact.widenBits` appends
 sixteen zero fraction bits and keeps NaN payloads). A BF16 tile therefore
