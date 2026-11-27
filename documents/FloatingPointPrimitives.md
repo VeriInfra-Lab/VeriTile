@@ -57,26 +57,39 @@ add/sub/mul/div、一次舍入的 FMA，以及数值相等与有序比较。混�
 它们说明这些关系不能一般地作为严格浮点恒等式，具体输入和结果见
 [规则指南](FloatingPointRewriteRules.md#3-已计算的严格不等见证)。
 
-### 混合精度后端的寄存器
+### 严格理论的适用状态与混合精度后端
 
 严格 FP32 理论的证书在 `Software.strictFP32` 上给出，那里每个寄存器值都是一个 FP32 字。
-`Guarded.Models R M D` 要求后端 `M` 在自己 carrier 的全部状态上验证这些证书，所以 carrier
-里不能有非 FP32 字的元素。`Value .bf16 × Value .fp32` 这样的成对 carrier 含有两个分量互不
-一致的元素。Triton 张量不会持有这种值，而 FP32 原语作用其上会返回一致的对，于是
-`max x x` 与 `x` 不相等，该后端对任何操作数域都不满足 `Models`。
+后端的 carrier 可以更大。`Value .bf16 × Value .fp32` 这样的成对 carrier 含有两个分量互不
+一致的元素；Triton 张量不会持有这种值，关于 FP32 值的定理对它们也无话可说。
+
+[GuardedSemantics.lean](../VeriTile/Triton/Float/GuardedSemantics.lean) 因此定义
+`Word M x`（`x` 是某个 FP32 字经 `M.fp32Bits` 的编码）和 `WordState M s`（状态 `s` 的浮点
+寄存器、内存单元与未定义读取都是这样的值）。`Guarded.Models R M D` 只在 `WordState` 上要求
+严格证书和实验原子成立，并要求操作数域 `D` 中只有编码后的 FP32 字。应用一条规则时，操作数的
+合法性来自它的 guard；标量规则库在 `wordBase M` 上绑定操作数寄存器后执行片段，周围程序状态
+不参与。
+
+哪些值算 FP32 字由后端的 `fp32Bits` 决定。把它写成常数会让 `Word` 只剩一个值，`Models` 几乎
+不再约束该后端；作非空真见证的后端须满足 `FaithfulWords M`（`fp32Bits` 在 FP32 字上单射），
+`strictFP32` 与 `mixedFP32` 都满足。
+
+`Word` 只约束一个值是否为 FP32 字的编码，不记录它在程序里的 dtype。BF16 位置上放着非 BF16
+的 FP32 字仍是 `WordState`；严格理论只有 FP32 一套，所以这不影响任何证书。
 
 [WordBackend.lean](../VeriTile/Triton/Float/WordBackend.lean) 提供
-`Software.mixedFP32 rest := strictFP32 (bf16Words rest)`。每个 BF16 值都恰好是一个 FP32 值，
-BF16 张量以 `CastExact.widenBits` 的结果存入同一个字，NaN payload 保留；值是 BF16 还是 FP32
-由程序里的 dtype 记录。BF16 层只定义两个方向的转换、逐结果舍入的 add/sub/mul/div 和字面量
-0、1，其余操作留在 `rest`。非 BF16 像的字出现在 BF16 位置时按 `narrowWord` 舍入，这是
-良类型 kernel 可达状态之外的全定义选择，严格 FP32 定理不依赖它。混合 BF16/FP32 kernel 的
-反例和 `≡[R]` 的非空真见证都使用这个后端或其上的叠加层。
+`Software.mixedFP32 rest := strictFP32 (bf16Words rest)`：carrier 就是 FP32 字，每个值都是
+`Word`。BF16 张量以 `CastExact.widenBits` 的结果存入同一个字，NaN payload 保留。BF16 层只定义
+两个方向的转换、逐结果舍入的 add/sub/mul/div 和字面量 0、1，其余操作留在 `rest`。
 
 [WordBackendRules.lean](../VeriTile/Triton/Float/WordBackendRules.lean) 证明
 `UnitOperands.strict_models`：有限操作数取 `+0`、`+1`，非零和正操作数取 `+1` 时，任何
 `strictFP32 rest`（包括 `mixedFP32`）都满足全部十一个标量算术候选。它只说明 `Models` 前提
 可由真实舍入满足，不表示这些规则在更大的域上成立。
+
+carrier 更大的后端要证明自己满足 `Models`，需要说明它在 `WordState` 上与某个
+`strictFP32 rest` 的执行一致。库目前没有这条对任意片段成立的迁移定理；在它给出之前，
+非空真见证使用 `mixedFP32` 或其上的叠加层。
 
 ## 实验原子及证明依赖
 

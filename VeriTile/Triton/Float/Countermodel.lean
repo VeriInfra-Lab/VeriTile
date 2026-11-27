@@ -7,10 +7,11 @@ admitted rule, and the observation must respect every specification constructor.
 namespace VeriTile.Triton.FP
 open Structural Guarded
 
-/-- Equal guards and equal scalar output observations on their domain. -/
+/-- Equal guards and equal scalar output observations on their domain, in
+states whose floating values are encoded FP32 words. -/
 def FragmentSound {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (lhs rhs : GuardedFragment) : Prop :=
-  (lhs.dtype, lhs.guards) = (rhs.dtype, rhs.guards) ∧ ∀ s,
+  (lhs.dtype, lhs.guards) = (rhs.dtype, rhs.guards) ∧ ∀ s, WordState M s →
     TypedScalarDomain D lhs.dtype lhs.guards s →
     (run (fragmentAlgebra lhs M) lhs.code s).map (fun t => scalarOutput lhs.dtype t) =
       (run (fragmentAlgebra rhs M) rhs.code s).map (fun t => scalarOutput rhs.dtype t)
@@ -24,7 +25,7 @@ theorem strict_software_interpretation (rest : Algebra (FP.Value .fp32))
     List.Forall₂ (FragmentSound (Software.strictFP32 rest) D) lhs rhs := by
   apply certificate.imp
   intro left right sound
-  refine ⟨?_, fun s hd => sound.2 rest s ?_⟩
+  refine ⟨?_, fun s _ hd => sound.2 rest s ?_⟩
   · exact congrArg (fun metadata => (metadata.1, metadata.2.1)) sound.1
   · intro guard member
     obtain ⟨value, read, holds⟩ := hd guard member
@@ -35,6 +36,7 @@ fixed strict theory. The second premise is a model obligation, not a new
 numerical admission or a replacement for the concrete strict certificates. -/
 theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (R : Spec.Assumptions GuardedFragment)
+    (words : ∀ kind x, D kind x → Word M x)
     (atoms : ∀ e ∈ R, List.Forall₂ (FragmentSound M D) e.rule.lhs e.rule.rhs)
     (strict : ∀ lhs rhs, fp32Theory.Certified lhs rhs →
       List.Forall₂ (FragmentSound M D) lhs rhs) :
@@ -42,7 +44,7 @@ theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
   have reflexive (xs : List GuardedFragment) : List.Forall₂ (FragmentSound M D) xs xs := by
     induction xs with
     | nil => exact .nil
-    | cons x xs ih => exact .cons ⟨rfl, fun _ _ => rfl⟩ ih
+    | cons x xs ih => exact .cons ⟨rfl, fun _ _ _ => rfl⟩ ih
   have chain {xs ys zs : List GuardedFragment}
       (h₁ : List.Forall₂ (FragmentSound M D) xs ys)
       (h₂ : List.Forall₂ (FragmentSound M D) ys zs) :
@@ -52,8 +54,8 @@ theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
     | cons h₁ _ ih =>
         cases h₂ with
         | cons h₂ tail =>
-            exact .cons ⟨h₁.1.trans h₂.1, fun s hd =>
-              (h₁.2 s hd).trans (h₂.2 s (by have he := Prod.mk.inj h₁.1; simpa only [he.1, he.2] using hd))⟩ (ih tail)
+            exact .cons ⟨h₁.1.trans h₂.1, fun s hw hd =>
+              (h₁.2 s hw hd).trans (h₂.2 s hw (by have he := Prod.mk.inj h₁.1; simpa only [he.1, he.2] using hd))⟩ (ih tail)
   have sound {xs ys} (h : Spec.Derivation R xs ys) :
       List.Forall₂ (FragmentSound M D) xs ys := by
     induction h with
@@ -61,13 +63,14 @@ theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
     | atom e he _ => exact atoms e he
     | strict certificate => exact strict _ _ certificate
     | symm _ ih =>
-        exact ih.flip.imp (fun _ _ h => ⟨h.1.symm, fun s hd =>
-          (h.2 s (by have he := Prod.mk.inj h.1; simpa only [he.1, he.2] using hd)).symm⟩)
+        exact ih.flip.imp (fun _ _ h => ⟨h.1.symm, fun s hw hd =>
+          (h.2 s hw (by have he := Prod.mk.inj h.1; simpa only [he.1, he.2] using hd)).symm⟩)
     | trans _ _ ih₁ ih₂ => exact chain ih₁ ih₂
     | frame pre post _ ih => exact List.rel_append (List.rel_append (reflexive pre) ih) (reflexive post)
-  intro lhs rhs h s hl _ a b ha hb
+  refine ⟨words, ?_⟩
+  intro lhs rhs h s hw hl _ a b ha hb
   have hs := (List.forall₂_cons.mp (sound h)).1
-  simpa only [ha, hb, Option.map_some, Option.some.injEq] using hs.2 s hl
+  simpa only [ha, hb, Option.map_some, Option.some.injEq] using hs.2 s hw hl
 
 namespace Scheduled
 

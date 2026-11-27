@@ -188,6 +188,10 @@ theorem mixedFP32_sub (rest : Algebra (FP.Value .fp32))
     (mixedFP32 rest).binary p d .sub a b = FP.sub .ieeeValue a b :=
   strictFP32_sub _ p d a b h
 
+/-- Distinct FP32 words stay distinct in the mixed backend. -/
+theorem mixedFP32_faithful (rest : Algebra (FP.Value .fp32)) : FaithfulWords (mixedFP32 rest) :=
+  strict_faithful _
+
 /-- The mixed backend interprets the strict theory with no experimental rule. -/
 theorem mixedFP32_models_empty (rest : Algebra (FP.Value .fp32)) :
     Models [] (mixedFP32 rest) strictDomain :=
@@ -202,7 +206,7 @@ theorem mixedFP32_models (rest : Algebra (FP.Value .fp32))
     (R : Spec.Assumptions GuardedFragment)
     (atoms : ∀ e ∈ R, List.Forall₂ (FragmentSound (mixedFP32 rest) D) e.rule.lhs e.rule.rhs) :
     Models R (mixedFP32 rest) D :=
-  models_of_atoms _ D R atoms
+  models_of_atoms _ D R (fun _ x _ => strict_word _ x) atoms
     (fun lhs rhs certificate => strict_software_interpretation _ D domain lhs rhs certificate)
 
 #axiomsClean narrowWord_widenBits
@@ -223,6 +227,7 @@ theorem mixedFP32_models (rest : Algebra (FP.Value .fp32))
 #axiomsClean mixedFP32_add
 #axiomsClean mixedFP32_mul
 #axiomsClean mixedFP32_sub
+#axiomsClean mixedFP32_faithful
 #axiomsClean mixedFP32_models_empty
 #axiomsClean mixedFP32_models
 end VeriTile.Triton.FP.Software

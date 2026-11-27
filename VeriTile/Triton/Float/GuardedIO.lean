@@ -10,20 +10,42 @@ open Structural
 experimental assumptions, observed at scalar `out`. The strict theory's
 software identity is fixed in this type; this does not assert that its software
 model satisfies the additional experimental equalities. Both executions
-must exist, and both operand domains must hold, before a law can be used. -/
+must exist, and both operand domains must hold, before a law can be used.
+
+The theory is about FP32 values. Its laws are therefore required only on
+states whose floating values are encoded FP32 words (`WordState`), and the
+operand domain may contain only such words. A carrier can hold other
+elements, such as a BF16/FP32 pair with disagreeing components; no kernel
+reaches them, and a law about FP32 values says nothing about them. -/
 def Models {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
     (M : Algebra α) (D : Domain α) : Prop :=
+  (∀ kind x, D kind x → Word M x) ∧
   ∀ lhs rhs, @Spec.Derivation GuardedFragment fp32Theory R [lhs] [rhs] →
-    ∀ s, TypedScalarDomain D lhs.dtype lhs.guards s → TypedScalarDomain D rhs.dtype rhs.guards s →
+    ∀ s, WordState M s →
+      TypedScalarDomain D lhs.dtype lhs.guards s → TypedScalarDomain D rhs.dtype rhs.guards s →
       ∀ a b, run (fragmentAlgebra lhs M) lhs.code s = some a →
         run (fragmentAlgebra rhs M) rhs.code s = some b →
         scalarOutput lhs.dtype a = scalarOutput rhs.dtype b
+
+/-- Every guarded operand of a model is an encoded FP32 word. -/
+theorem Models.word {α : Type} [Inhabited α] {R : Spec.Assumptions GuardedFragment}
+    {M : Algebra α} {D : Domain α} (h : Models R M D) {kind : GuardKind} {x : α}
+    (hx : D kind x) : Word M x := h.1 kind x hx
+
+/-- The strict backend encodes each FP32 word as itself. -/
+theorem strict_faithful (rest : Algebra (FP.Value .fp32)) :
+    FaithfulWords (Software.strictFP32 rest) := fun _ _ h => h
+
+/-- Each strict FP32 word is its own encoding in the strict backend. -/
+theorem strict_word (rest : Algebra (FP.Value .fp32)) (x : FP.Value .fp32) :
+    Word (Software.strictFP32 rest) x := ⟨x, rfl⟩
 
 /-- A concrete witness for the strict theory with no experimental rules.
 This does not assert that the same implementation models any relaxed atom. -/
 theorem strict_models_empty (rest : Algebra (FP.Value .fp32)) :
     Models [] (Software.strictFP32 rest) strictDomain := by
-  intro lhs rhs proof s hl _ a b ha hb
+  refine ⟨fun _ x _ => strict_word rest x, ?_⟩
+  intro lhs rhs proof s _ hl _ a b ha hb
   have certificate := (List.forall₂_cons.mp (certified_of_empty proof)).1
   simpa only [ha, hb, Option.map_some, Option.some.injEq] using certificate.2 rest s hl
 

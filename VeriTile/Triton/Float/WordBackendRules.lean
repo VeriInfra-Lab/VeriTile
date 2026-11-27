@@ -102,7 +102,7 @@ domain. The premise of an arithmetic `≡[R]` conclusion is therefore
 satisfiable by rounded IEEE arithmetic. -/
 theorem strict_models (rest : Algebra (FP.Value .fp32)) (R : Rules) :
     Models R.assumptions (strictFP32 rest) domain :=
-  models_of_atoms _ domain R.assumptions (admitted_entries rest R)
+  models_of_atoms _ domain R.assumptions (fun _ x _ => strict_word _ x) (admitted_entries rest R)
     (fun lhs rhs certificate =>
       strict_software_interpretation rest domain domain_strict lhs rhs certificate)
 

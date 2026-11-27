@@ -150,7 +150,7 @@ theorem arithmetic_atom (atom : ScalarArithmetic.Atom) :
 set_option maxHeartbeats 1600000 in
 theorem exponential_atom (atom : Exponential.Atom) :
     FragmentSound algebra domain atom.lhs atom.rhs := by
-  refine ⟨rfl, fun s hd => ?_⟩
+  refine ⟨rfl, fun s _ hd => ?_⟩
   change ScalarDomain domain atom.guards s at hd
   rcases atom with ⟨_ | _⟩ | ⟨_ | _⟩ | ⟨_ | _⟩
   all_goals
@@ -180,7 +180,7 @@ set_option maxHeartbeats 1600000 in
 private theorem log_split (backend : LogExp.Backend) :
     FragmentSound algebra domain (LogExp.Atom.log_mul_split backend).lhs
       (LogExp.Atom.log_mul_split backend).rhs := by
-  refine ⟨rfl, fun s hd => ?_⟩
+  refine ⟨rfl, fun s _ hd => ?_⟩
   obtain ⟨a, ha⟩ := finite_register s _ hd "a"
     (by simp [LogExp.Atom.lhs, LogExp.Atom.guards, LogExp.productGuards])
   obtain ⟨b, hb⟩ := finite_register s _ hd "b"
@@ -196,7 +196,7 @@ set_option maxHeartbeats 1600000 in
 private theorem log_cancel (log exp : LogExp.Backend) :
     FragmentSound algebra domain (LogExp.Atom.log_exp_cancel log exp).lhs
       (LogExp.Atom.log_exp_cancel log exp).rhs := by
-  refine ⟨rfl, fun s hd => ?_⟩
+  refine ⟨rfl, fun s _ hd => ?_⟩
   obtain ⟨a, ha⟩ := finite_register s _ hd "a"
     (by simp [LogExp.Atom.lhs, LogExp.Atom.guards, LogExp.guards])
   cases log <;> cases exp <;>
@@ -240,12 +240,14 @@ private theorem exponential_entries (R : Exponential.Rules) (entry)
         exact .cons (exponential_atom atom) .nil
 
 theorem exponential_models (R : Exponential.Rules) : Models R.assumptions algebra domain :=
-  models_of_atoms algebra domain R.assumptions (exponential_entries R) strict_certificates
+  models_of_atoms algebra domain R.assumptions (fun _ x _ => strict_word rest x)
+    (exponential_entries R) strict_certificates
 
 /-- Every selected arithmetic, exp and log entry holds with its actual guards.
 The resulting model covers the complete derivation closure. -/
 theorem models (R : LogSumExp.Rules) : Models R.assumptions algebra domain := by
-  apply models_of_atoms algebra domain R.assumptions ?_ strict_certificates
+  apply models_of_atoms algebra domain R.assumptions (fun _ x _ => strict_word rest x) ?_
+    strict_certificates
   intro entry member
   rcases List.mem_append.mp member with exponential | logarithmic
   · exact exponential_entries R.exponential entry exponential

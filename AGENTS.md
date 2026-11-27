@@ -79,8 +79,9 @@
 ### `≡[R]` 的量词形状与后端 carrier（2026-11-27）
 
 - 数值判断对 carrier、模型和规则域都全称量化：`∀ (α) (M : Algebra α) (D : Domain α), Models R M D → 操作数合同 M D … → 结论`。不把 carrier 固定成题目专用类型，不把域固定为完整 FP32，不在判断里合取模型存在性。
-- 具体后端（反例、非空真见证）的 carrier 使用 FP32 字。混合 BF16/FP32 使用 `Software.mixedFP32` 或其上的叠加层，BF16 值以 `CastExact.widenBits` 存入同一个字。不新增 `Value .bf16 × Value .fp32` 这类成对或和类型 carrier：其中分量不一致的元素不对应任何 Triton 值，并使后端对任何域都不满足 `Models`。
-- 每个公开 `≡[R]` 定理配一条非空真见证：满足 `Models R M D` 的真实舍入后端，加上满足操作数合同的合法输入。算术规则表的 `Models` 部分直接使用 `Software.UnitOperands.strict_models`。没有见证的定理不记为完成。
+- `Models` 只在 `WordState`（浮点值都是 FP32 字的编码）上要求规则成立，操作数域里也只有这样的值。应用规则的引理在 `wordBase M` 上绑定操作数后执行片段，操作数的合法性由 guard 经 `Models.word` 提供；不把规则直接应用到任意程序状态。
+- 非空真见证使用 `Software.mixedFP32` 或其上的叠加层，BF16 值以 `CastExact.widenBits` 存入同一个 FP32 字。carrier 更大的后端（如 `Value .bf16 × Value .fp32`）要作见证，须先证明它在 `WordState` 上与某个 `strictFP32 rest` 执行一致；库尚无这条通用迁移定理。
+- 每个公开 `≡[R]` 定理配一条非空真见证：满足 `Models R M D` 的真实舍入后端，加上满足操作数合同的合法输入。见证后端须满足 `Guarded.FaithfulWords M`（`fp32Bits` 在 FP32 字上单射）：`fp32Bits` 决定哪些值算 FP32 字，把它写成常数会让 `Word` 只剩一个值，`Models` 几乎不再约束该后端。算术规则表的 `Models` 部分直接使用 `Software.UnitOperands.strict_models`。没有见证的定理不记为完成。
 - 验收时做替换测试：把候选换成必定执行失败的 kernel 后目标仍可证，即为空真。
 - 状态分两句记录：“规则 R 下可改写”与“完整 IEEE FP32 上逐位相等”。已有逐位反例不影响前者。
 
